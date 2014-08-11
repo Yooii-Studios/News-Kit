@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "com.yooiistudios.news"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "0.0.1"
+    }
+
+    buildTypes {
+        release {
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("/Development/Android/keystore/news-l.jks")
+            keyAlias "new_l_key"
+
+            // These two lines make gradle believe that the signingConfigs
+            // section is complete. Without them, tasks like installRelease
+            // will not be available!
+            storePassword "tempPassword"
+            keyPassword "tempPassword"
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    packagingOptions { // gralde 0.7.1 + Studio 0.4.0 에서 생긴 duplicate 버그를 해결하기 위함
+        pickFirst 'META-INF/services/javax.annotation.processing.Processor'
+        pickFirst 'META-INF/DEPENDENCIES.txt'
+        pickFirst 'META-INF/DEPENDENCIES'
+        pickFirst 'META-INF/LICENSE.txt'
+        pickFirst 'META-INF/LICENSE'
+        pickFirst 'META-INF/NOTICE.txt'
+        pickFirst 'META-INF/NOTICE'
+        pickFirst 'META-INF/LGPL2.1'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // 안드로이드 기본
+//    compile 'com.android.support:support-v4:21.+' // 21.+ 버전부터 안드로이드 L 이라서 막아둠
+//    compile 'com.android.support:appcompat-v7:21.+'
+
+    // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
+//    compile "com.android.support:cardview-v7:21.0.0-rc1"
+//    compile "com.android.support:recyclerview-v7:21.0.0-rc1"
+//    compile "com.android.support:palette-v7:21.0.0-rc1"
+
+    // 위치 서비스 관련
+    compile 'com.google.android.gms:play-services:5.+' // 4.0.+ 에서 버전업
+
+    // 필요한 오픈소스 라이브러리들
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.squareup:otto:1.3.5'
+    compile 'com.jakewharton:butterknife:4.0.1'
+
+    // Getter & Setter를 annotation으로 해결
+    // (Android Studio용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
+    compile 'org.projectlombok:lombok:1.12.2'
+}
+
+// release시 비밀번호를 직접 입력하기 위한 코드
+task askForPasswords << {
+    // Must create String because System.readPassword() returns char[]
+    // (and assigning that below fails silently)
+    if (System.console() != null) {
+        def storePw = new String(System.console().readPassword("Keystore password: "))
+        def keyPw = new String(System.console().readPassword("Key password: "))
+
+        android.signingConfigs.release.storePassword = storePw
+        android.signingConfigs.release.keyPassword = keyPw
+    }
+}
+
+tasks.whenTaskAdded { theTask ->
+    if (theTask.name.equals("packageRelease")) {
+        // 커맨드에서 직접 빌드를 만들 경우에만 사용하자
+        theTask.dependsOn "askForPasswords"
+    }
+}
