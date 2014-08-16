@@ -9,8 +9,8 @@ import lombok.Getter;
 /**
  * Created by StevenKim in MorningKit from Yooii Studios Co., LTD. on 2013. 12. 4.
  *
- * MNLanguageType
- *  모닝키트의 언어를 enum으로 표현
+ * NLLanguageType
+ *  뉴스 L의 언어를 enum 으로 표현
  *  index = 설정 창에서 순서를 표현
  *  uniqueId = 이 테마의 고유 id를 표시
  */

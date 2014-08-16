@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 15.
  *
- * MNLanguage
+ * NLLanguage
  *  언어 설정을 관리
  */
 public class NLLanguage {

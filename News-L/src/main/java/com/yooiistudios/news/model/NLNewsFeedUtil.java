@@ -8,16 +8,14 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.yooiistudios.morningkit.setting.theme.language.MNLanguage;
-import com.yooiistudios.morningkit.setting.theme.language.MNLanguageType;
+import com.yooiistudios.news.setting.language.NLLanguage;
+import com.yooiistudios.news.setting.language.NLLanguageType;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import nl.matshofman.saxrssreader.RssFeed;
 import nl.matshofman.saxrssreader.RssItem;
-
-import static com.yooiistudios.morningkit.panel.newsfeed.MNNewsFeedPanelLayout.PREF_NEWS_FEED;
 
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 3.
@@ -26,16 +24,16 @@ import static com.yooiistudios.morningkit.panel.newsfeed.MNNewsFeedPanelLayout.P
  *  뉴스 모델에 관한 전반적인 유틸 클래스
  */
 public class NLNewsFeedUtil {
-    private static final String KEY_HISTORY = "url hisotry";
+    private static final String KEY_HISTORY = "KEY_HISTORY";
     private static final int MAX_HISTORY_SIZE = 10;
+    public static final String PREF_NEWS_FEED = "PREF_NEWS_FEED";
 
-    private static final String HISTORY_DELIM = "|";
     private static final String NEWS_PROVIDER_YAHOO_JAPAN = "Yahoo!ニュース";
 
     private NLNewsFeedUtil() { throw new AssertionError("You MUST not create this class!"); }
 
     public static NLNewsFeedUrl getDefaultFeedUrl(Context context) {
-        MNLanguageType type = MNLanguage.getCurrentLanguageType(context);
+        NLLanguageType type = NLLanguage.getCurrentLanguageType(context);
 
         String feedUrl;
         NLNewsFeedUrlType urlType;
@@ -72,7 +70,6 @@ public class NLNewsFeedUtil {
         }
 //        feedUrl = "http://sweetpjy.tistory.com/rss";
 //        feedUrl = "http://www.cnet.com/rss/iphone-update/";
-
 
         return new NLNewsFeedUrl(feedUrl, urlType);
     }
@@ -144,8 +141,8 @@ public class NLNewsFeedUtil {
 
     /**
      *
-     * @param news
-     * @param type
+     * @param news RssItem
+     * @param type NLNewsFeedUrlType
      * @return retval
      * retval[0] : title.
      * retval[1] : publisher or null if there's no publisher info.
@@ -194,11 +191,11 @@ public class NLNewsFeedUtil {
     }
 
     public static String getFeedTitle(Context context) {
-        MNLanguageType currentLanguage = MNLanguage.getCurrentLanguageType(context);
+        NLLanguageType currentLanguageType = NLLanguage.getCurrentLanguageType(context);
 
         String provider;
 
-        if (currentLanguage.equals(MNLanguageType.JAPANESE)) {
+        if (currentLanguageType.equals(NLLanguageType.JAPANESE)) {
             provider = NEWS_PROVIDER_YAHOO_JAPAN;
         }
         else {

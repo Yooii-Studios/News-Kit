@@ -4,17 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.Html;
 
-import com.flurry.android.FlurryAgent;
-import com.yooiistudios.morningkit.common.log.MNFlurry;
-
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 import nl.matshofman.saxrssreader.RssFeed;
 import nl.matshofman.saxrssreader.RssItem;
@@ -107,11 +102,11 @@ public class NLNewsRssFetchTask extends AsyncTask<NLNewsFeedUrl, Void, RssFeed> 
             }
 
             // flurry
-            Map<String, String> params = new HashMap<String, String>();
-            params.put(MNFlurry.NEWS,
-                    mFeedUrl.getType().equals(NLNewsFeedUrlType.CUSTOM) ?
-                    "Custom RSS" : "Default News");
-            FlurryAgent.logEvent(MNFlurry.PANEL, params);
+//            Map<String, String> params = new HashMap<String, String>();
+//            params.put(MNFlurry.NEWS,
+//                    mFeedUrl.getType().equals(NLNewsFeedUrlType.CUSTOM) ?
+//                    "Custom RSS" : "Default News");
+//            FlurryAgent.logEvent(MNFlurry.PANEL, params);
 
 //            ArrayList<RssItem> rssItems = rssFeed.getRssItems();
 //            for (RssItem rssItem : rssItems) {
