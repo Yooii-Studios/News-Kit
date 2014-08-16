@@ -57,6 +57,8 @@ dependencies {
 
     // 뉴스 모델 관련
     compile project(':libraries:sAXRSSReader')
+    // Volley
+    compile project(':libraries:Volley')
 
     // 안드로이드 기본
 //    compile 'com.android.support:support-v4:21.+' // 21.+ 버전부터 안드로이드 L 이라서 막아둠
