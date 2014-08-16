@@ -1,7 +1,7 @@
 package com.yooiistudios.news.store.iab;
 
-import com.yooiistudios.news.store.util.IabResult;
-import com.yooiistudios.news.store.util.Inventory;
+import com.yooiistudios.news.store.iab.util.IabResult;
+import com.yooiistudios.news.store.iab.util.Inventory;
 
 /**
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 9.

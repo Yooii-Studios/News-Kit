@@ -9,8 +9,8 @@ import java.security.NoSuchAlgorithmException;
  * MNMd5Utils
  *  스트링을 md5 해시값으로 반환해주는 유틸리티 클래스
  */
-public class MNMd5Utils {
-    private MNMd5Utils() { throw new AssertionError("You MUST not create this class!"); }
+public class SKMd5Utils {
+    private SKMd5Utils() { throw new AssertionError("You MUST not create this class!"); }
 
     public static String getMd5String(String string) {
         String md5String;
