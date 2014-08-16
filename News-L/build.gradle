@@ -7,8 +7,8 @@ android {
 
     defaultConfig {
         applicationId "com.yooiistudios.news"
-        minSdkVersion 14
-        targetSdkVersion 'android-L'
+        minSdkVersion 'L'
+        targetSdkVersion 'L'
         versionCode 1
         versionName "0.0.1"
     }

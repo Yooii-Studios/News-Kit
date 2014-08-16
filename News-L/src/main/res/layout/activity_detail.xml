@@ -2,24 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context="com.yooiistudios.news.detail.NLDetailActivity"
     android:background="#aa00aa">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/topNewsImageView"
+            android:id="@+id/newsImage"
             android:viewName="topImage"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@color/theme_default_accent"/>
+            android:layout_height="400dp"
+            android:src="@color/theme_default_primary"/>
         <TextView
-            android:id="@+id/topNewsTitle"
+            android:id="@+id/newsTitle"
             android:viewName="topTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/topNewsImageView"
+            android:layout_alignBottom="@id/newsImage"
             android:textColor="#ffffff"
             android:text="Blah...News Title"/>
     </RelativeLayout>
