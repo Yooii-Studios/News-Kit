@@ -23,6 +23,7 @@
         <item name="android:statusBarColor">?android:colorPrimaryDark</item>
         <item name="actionBarIconColor">#fff</item>
         <item name="android:windowBackground">@color/theme_background</item>
+        <!-- activity transition 하기 위해 true로 해야 함. -->
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowExitTransitionOverlap">true</item>
@@ -33,10 +34,14 @@
         <item name="android:actionBarStyle">@style/MainActionBar</item>
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:windowContentOverlay">@null</item>
+
+        <!-- 액션바, 상태바 투명하게 만듦 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="MainActionBar" parent="android:Widget.Material.Light.ActionBar">
-        <item name="android:background">?android:colorPrimaryDark</item>
+        <item name="android:background">@null</item>
         <item name="android:displayOptions">showTitle</item><!-- |homeAsUp -->
         <!--<item name="android:homeAsUpIndicator">@drawable/ic_ab_drawer</item>-->
         <item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>
