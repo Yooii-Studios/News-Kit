@@ -55,6 +55,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    // 뉴스 모델 관련
+    compile project(':libraries:sAXRSSReader')
+
     // 안드로이드 기본
 //    compile 'com.android.support:support-v4:21.+' // 21.+ 버전부터 안드로이드 L 이라서 막아둠
 //    compile 'com.android.support:appcompat-v7:21.0.0-rc1'
@@ -64,25 +67,24 @@ dependencies {
     compile "com.android.support:recyclerview-v7:21.0.0-rc1"
     compile "com.android.support:palette-v7:21.0.0-rc1"
 
-    // 위치 서비스 관련
+    // 위치 서비스, 구글 플레이, 애드몹
     compile 'com.google.android.gms:play-services:5.2.08' // 4.0.+ 에서 버전업
 
     // 필요한 오픈소스 라이브러리들
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.squareup:otto:1.3.5'
-    compile 'com.jakewharton:butterknife:4.0.1'
+    compile 'com.google.code.gson:gson:2.2.4'       // json 관련
+    compile 'com.squareup:otto:1.3.5'               // otto message bus
+    compile 'com.jakewharton:butterknife:4.0.1'     // @InjectView(id)를 통해 findViewId 작업을 줄여줌
 
-    // Getter & Setter를 annotation으로 해결
     // (Android Studio용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
-    compile 'org.projectlombok:lombok:1.12.2'
+    compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근
 }
 
-// release시 비밀번호를 직접 입력하기 위한 코드
+// release 시 비밀번호를 직접 입력하기 위한 코드
 task askForPasswords << {
     // Must create String because System.readPassword() returns char[]
     // (and assigning that below fails silently)
     if (System.console() != null) {
-        def storePw = new String(System.console().readPassword("Keystore password: "))
+        def storePw = new String(System.console().readPassword("Key store password: "))
         def keyPw = new String(System.console().readPassword("Key password: "))
 
         android.signingConfigs.release.storePassword = storePw
