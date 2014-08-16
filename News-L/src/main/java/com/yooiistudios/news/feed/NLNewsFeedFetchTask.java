@@ -1,4 +1,4 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.feed;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -19,9 +19,9 @@ import nl.matshofman.saxrssreader.RssReader;
  * Created by Dongheyon Jeong on in RSSTest from Yooii Studios Co., LTD. on 2014. 6. 27.
  *
  * MNRssFetchTask
- *  특정 url 에서 뉴스 데이터를 가져오는 클래스
+ *  특정 url 에서 뉴스피드 데이터를 가져오는 클래스
  */
-public class NLNewsRssFetchTask extends AsyncTask<NLNewsFeedUrl, Void, RssFeed> {
+public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void, RssFeed> {
 //    private String mRssUrl;
     private Context mContext;
     private NLNewsFeedUrl mFeedUrl;
@@ -30,8 +30,8 @@ public class NLNewsRssFetchTask extends AsyncTask<NLNewsFeedUrl, Void, RssFeed> 
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final String ILLEGAL_CHARACTER_OBJ = Character.toString((char) 65532);
 
-    public NLNewsRssFetchTask(Context context, NLNewsFeedUrl feedUrl,
-                              OnFetchListener onFetchListener) {
+    public NLNewsFeedFetchTask(Context context, NLNewsFeedUrl feedUrl,
+                               OnFetchListener onFetchListener) {
 //        mRssUrl = rssUrl;
         mFeedUrl = feedUrl;
         mOnFetchListener = onFetchListener;

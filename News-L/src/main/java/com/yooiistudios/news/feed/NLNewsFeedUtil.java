@@ -1,4 +1,4 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.feed;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,7 +21,7 @@ import nl.matshofman.saxrssreader.RssItem;
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 3.
  *
  * MNNewsFeedUtil
- *  뉴스 모델에 관한 전반적인 유틸 클래스
+ *  뉴스피드에 관한 전반적인 유틸 클래스
  */
 public class NLNewsFeedUtil {
     private static final String KEY_HISTORY = "KEY_HISTORY";

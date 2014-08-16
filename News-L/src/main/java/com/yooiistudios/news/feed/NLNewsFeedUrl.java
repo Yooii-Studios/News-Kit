@@ -1,4 +1,4 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.feed;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 21.
  *
  * MNNewsFeedUrl
- *  Url 을 통해
+ *  뉴스피드 url 을 가지고 있는 자료구조
  */
 public class NLNewsFeedUrl implements Serializable {
     private String mUrl;
