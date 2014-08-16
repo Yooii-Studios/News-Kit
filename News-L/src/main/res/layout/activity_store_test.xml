@@ -33,14 +33,15 @@
         android:onClick="onNoAdButtonClicked"
         android:text="Buy"/>
 
+
     <TextView
         android:id="@+id/store_no_ad_text_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
+        android:layout_toStartOf="@id/store_no_ad_button"
         android:layout_below="@id/store_full_version_text_view"
         android:text="No Ad"/>
-
 
     <Button
         android:id="@+id/store_more_news_button"

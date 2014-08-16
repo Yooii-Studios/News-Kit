@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
+import com.yooiistudios.news.store.NLStoreActivity;
 
 import java.io.IOException;
 
@@ -86,6 +87,9 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_store) {
+            startActivity(new Intent(MainActivity.this, NLStoreActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
