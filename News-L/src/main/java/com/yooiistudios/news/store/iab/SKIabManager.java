@@ -1,12 +1,14 @@
 package com.yooiistudios.news.store.iab;
 
-import android.support.v7.app.ActionBarActivity;
+//import android.support.v7.app.ActionBarActivity;
 
-import com.yooiistudios.morningkit.common.encryption.MNMd5Utils;
-import com.yooiistudios.morningkit.common.log.MNLog;
-import com.yooiistudios.morningkit.setting.store.util.IabHelper;
-import com.yooiistudios.morningkit.setting.store.util.IabResult;
-import com.yooiistudios.morningkit.setting.store.util.Inventory;
+import android.app.Activity;
+
+import com.yooiistudios.news.common.encryption.MNMd5Utils;
+import com.yooiistudios.news.common.log.NLLog;
+import com.yooiistudios.news.store.util.IabHelper;
+import com.yooiistudios.news.store.util.IabResult;
+import com.yooiistudios.news.store.util.Inventory;
 
 import java.util.List;
 
@@ -23,11 +25,11 @@ public class SKIabManager {
     private static final String TAG = "SKIabManager";
     private SKIabManagerListener iapManagerListener;
     @Getter private IabHelper helper;
-    private ActionBarActivity activity;
+    private Activity activity;
     private String base64EncodedPublicKey;
 
     private SKIabManager() {}
-    public SKIabManager(ActionBarActivity activity, SKIabManagerListener iapManagerListener) {
+    public SKIabManager(Activity activity, SKIabManagerListener iapManagerListener) {
         this.activity = activity;
         this.iapManagerListener = iapManagerListener;
         this.base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh2yCTQXMk/33q3PzCmCwlpmZ+0gh3Ya09dQdw01T6izPnTpbx/Ab66Wgt+ilCuqMik2LWd7go9pCGnYtB8h8pBxE/7r++cF7krgATB52u4jsqXd91WntfPjvEe8wxCGRoOf76h2CV+hCPfnj+qJ1ugMRJTn9IwmAvrV9i2qni2vCHSDYjVBOc35u0vl8/vUMip4QUmppmSmJL53qMKx9j/1pBM2pumI7sqC2+85smYTXbgbCjW3BZLH2RQhTl0WkXEP6hIHt+8AHNZyb7e0UgcITqs8d3lgoiZjMXo0HgHnEn9PeoTn1aMQYq3dFjgvDiwyq/cSgXfVel4nQAWV/swIDAQAB";
@@ -50,7 +52,8 @@ public class SKIabManager {
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {
                     // Oh noes, there was a problem.
-                    MNLog.e(TAG, "Problem setting up In-app Billing: " + result);
+                    NLLog.e(TAG, "Problem setting up In-app Billing: " +
+                            result);
                     iapManagerListener.onIabSetupFailed(result);
                     return;
                 }
