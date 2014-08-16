@@ -57,12 +57,12 @@ dependencies {
 
     // 안드로이드 기본
 //    compile 'com.android.support:support-v4:21.+' // 21.+ 버전부터 안드로이드 L 이라서 막아둠
-//    compile 'com.android.support:appcompat-v7:21.+'
+//    compile 'com.android.support:appcompat-v7:21.0.0-rc1'
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
-//    compile "com.android.support:cardview-v7:21.0.0-rc1"
-//    compile "com.android.support:recyclerview-v7:21.0.0-rc1"
-//    compile "com.android.support:palette-v7:21.0.0-rc1"
+    compile "com.android.support:cardview-v7:21.0.0-rc1"
+    compile "com.android.support:recyclerview-v7:21.0.0-rc1"
+    compile "com.android.support:palette-v7:21.0.0-rc1"
 
     // 위치 서비스 관련
     compile 'com.google.android.gms:play-services:5.0.77' // 4.0.+ 에서 버전업
