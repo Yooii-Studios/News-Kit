@@ -18,6 +18,7 @@ import lombok.Getter;
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 9.
  *
  * SKIabManager
+ *  In-App-Billing과 관련된 로직을 래핑한 클래스
  */
 public class SKIabManager {
     public static final int IAB_REQUEST_CODE = 10002;
