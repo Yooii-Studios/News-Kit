@@ -27,7 +27,7 @@ import com.yooiistudios.news.store.NLStoreActivity;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+public class NLMainActivity extends Activity {
     private NetworkImageView mTopNewsImageView;
     private TextView mTopNewsTitle;
 
@@ -53,26 +53,26 @@ public class MainActivity extends Activity {
                 //TODO Top News가 unavailable할 경우 예외처리
 
 //                ActivityOptions options2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(MainActivity.this,
+//                        makeSceneTransitionAnimation(NLMainActivity.this,
 //                                Pair.create(mTopNewsImageView, "topImage"),
 //                                Pair.create(mTopNewsTitle, "topTitle"));
 //                ActivityOptions options2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(MainActivity.this,
+//                        makeSceneTransitionAnimation(NLMainActivity.this,
 //                                mTopNewsImageView, "");
 
                 ActivityOptions activityOptions =
                         ActivityOptions.makeSceneTransitionAnimation(
-                                MainActivity.this,
+                                NLMainActivity.this,
                                 new Pair<View, String>(mTopNewsImageView,
                                         "topImage"),
                                 new Pair<View, String>(mTopNewsTitle,
                                         "topTitle")
                         );
                 ActivityOptions activityOptions2 = ActivityOptions.
-                        makeSceneTransitionAnimation(MainActivity.this,
+                        makeSceneTransitionAnimation(NLMainActivity.this,
                                 mTopNewsTitle, "topTitle");
 
-                Intent intent = new Intent(MainActivity.this,
+                Intent intent = new Intent(NLMainActivity.this,
                         NLDetailActivity.class);
 //                intent.putExtra(NLNewsFeed.NEWS_FEED, mTopNewsFeed);
                 startActivity(intent, activityOptions.toBundle());
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_store) {
-            startActivity(new Intent(MainActivity.this, NLStoreActivity.class));
+            startActivity(new Intent(NLMainActivity.this, NLStoreActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

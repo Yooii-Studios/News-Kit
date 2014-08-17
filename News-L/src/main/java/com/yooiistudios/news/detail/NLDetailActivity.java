@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.common.ImageMemoryCache;
-import com.yooiistudios.news.main.MainActivity;
+import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 
@@ -30,7 +30,7 @@ public class NLDetailActivity extends Activity {
 
         // retrieve feed from intent
 //        mNewsFeed = getIntent().getParcelableExtra(NLNewsFeed.NEWS_FEED);
-        mNewsFeed = MainActivity.mTopNewsFeed;
+        mNewsFeed = NLMainActivity.mTopNewsFeed;
 
         mTopImageView = (ImageView)findViewById(R.id.newsImage);
         mTopTitleTextView = (TextView)findViewById(R.id.newsTitle);
