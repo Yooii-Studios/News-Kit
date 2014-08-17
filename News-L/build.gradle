@@ -79,6 +79,9 @@ dependencies {
 
     // (Android Studio용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
     compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근
+
+    // html dom parsing을 위한 라이브러리(BeautifulSoup Java version)
+    compile 'org.jsoup:jsoup:1.7.3'
 }
 
 // release 시 비밀번호를 직접 입력하기 위한 코드

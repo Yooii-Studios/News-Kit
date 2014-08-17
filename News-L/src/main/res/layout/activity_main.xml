@@ -2,18 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="#aa00aa">
+    tools:context=".MainActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/topNewsImageView"
             android:viewName="topImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@color/theme_default_accent"/>
+            android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/topNewsTitle"
             android:viewName="topTitle"
