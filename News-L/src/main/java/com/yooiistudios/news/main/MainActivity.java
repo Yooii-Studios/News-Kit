@@ -26,7 +26,7 @@ import com.yooiistudios.news.model.NLNewsFeedUtil;
 import java.util.ArrayList;
 
 
-public class NLMainActivity extends Activity {
+public class MainActivity extends Activity {
     private NetworkImageView mTopNewsImageView;
     private TextView mTopNewsTitle;
 
@@ -52,26 +52,26 @@ public class NLMainActivity extends Activity {
                 //TODO Top News가 unavailable할 경우 예외처리
 
 //                ActivityOptions options2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(NLMainActivity.this,
+//                        makeSceneTransitionAnimation(MainActivity.this,
 //                                Pair.create(mTopNewsImageView, "topImage"),
 //                                Pair.create(mTopNewsTitle, "topTitle"));
 //                ActivityOptions options2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(NLMainActivity.this,
+//                        makeSceneTransitionAnimation(MainActivity.this,
 //                                mTopNewsImageView, "");
 
                 ActivityOptions activityOptions =
                         ActivityOptions.makeSceneTransitionAnimation(
-                                NLMainActivity.this,
+                                MainActivity.this,
                                 new Pair<View, String>(mTopNewsImageView,
                                         "topImage"),
                                 new Pair<View, String>(mTopNewsTitle,
                                         "topTitle")
                         );
                 ActivityOptions activityOptions2 = ActivityOptions.
-                        makeSceneTransitionAnimation(NLMainActivity.this,
+                        makeSceneTransitionAnimation(MainActivity.this,
                                 mTopNewsTitle, "topTitle");
 
-                Intent intent = new Intent(NLMainActivity.this,
+                Intent intent = new Intent(MainActivity.this,
                         NLDetailActivity.class);
 //                intent.putExtra(NLNewsFeed.NEWS_FEED, mTopNewsFeed);
                 startActivity(intent, activityOptions.toBundle());
