@@ -1,4 +1,4 @@
-package com.yooiistudios.news.feed;
+package com.yooiistudios.news.model;
 
 import java.io.Serializable;
 

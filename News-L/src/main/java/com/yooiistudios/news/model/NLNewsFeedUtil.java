@@ -1,4 +1,4 @@
-package com.yooiistudios.news.feed;
+package com.yooiistudios.news.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,8 +11,18 @@ import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.setting.language.NLLanguage;
 import com.yooiistudios.news.setting.language.NLLanguageType;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nl.matshofman.saxrssreader.RssFeed;
 import nl.matshofman.saxrssreader.RssItem;
@@ -203,5 +213,89 @@ public class NLNewsFeedUtil {
         }
 
         return provider;
+    }
+
+
+    public static ArrayList<String> getImgSrcList(String str) {
+//        Pattern nonValidPattern = Pattern
+//                .compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>");
+        Pattern nonValidPattern = Pattern
+                .compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
+
+
+        ArrayList<String> result = new ArrayList<String>();
+        Matcher matcher = nonValidPattern.matcher(str);
+        while (matcher.find()) {
+            result.add(matcher.group(1));
+        }
+        return result;
+    }
+
+
+    /**
+     * Html 페이지를 대표하는 이미지를 추출한다.
+     * @param source Html in plain String.
+     * @return One image url which represents the page. May be null if no
+     * appropriate image url.
+     */
+    public static String getImageUrl(String source) {
+        Document doc = Jsoup.parse(source);
+
+        // og:image
+        Elements ogImgElems = doc.getElementsByTag("head")
+                .select("meta[property=og:image]");
+
+        String imgUrl = null;
+
+        if (ogImgElems.size() > 0) {
+            imgUrl = ogImgElems.get(0).attr("content");
+        }
+        else {
+            // 워드프레스처럼 entry-content 클래스를 쓰는 경우의 예외처리
+            Elements elms = doc.getElementsByClass("entry-content");
+
+            if (elms.size() > 0) {
+                Elements imgElms = elms.get(0).getElementsByTag("img");
+
+                if (imgElms.size() > 0) {
+                    imgUrl = imgElms.get(0).attr("src");
+                }
+
+            }
+
+            // TODO 기타 예외처리가 더 들어가야 할듯..
+        }
+
+        return imgUrl;
+    }
+
+    /**
+     * 일반적인 Get Method를 이용한 Http request를 날린다.
+     * @param url Url to send request
+     * @return Html in plain String.
+     * @throws Exception
+     */
+    public static String requestHttpGet(String url) throws Exception {
+        HttpURLConnection con =
+                (HttpURLConnection)new URL(url).openConnection();
+        con.setRequestMethod("GET");
+
+        int responseCode = con.getResponseCode();
+
+        if (responseCode != 200) {
+            return null;
+        }
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder responseBuilder = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null) {
+            responseBuilder.append(inputLine);
+        }
+        in.close();
+
+        return responseBuilder.toString();
     }
 }

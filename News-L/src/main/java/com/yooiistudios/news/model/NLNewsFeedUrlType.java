@@ -1,4 +1,4 @@
-package com.yooiistudios.news.feed;
+package com.yooiistudios.news.model;
 
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 21.

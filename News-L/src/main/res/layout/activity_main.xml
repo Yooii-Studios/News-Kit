@@ -3,25 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#aa00aa">
+    android:background="@color/theme_background">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/topNewsImageView"
             android:viewName="topImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@color/theme_default_accent"/>
+            android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/topNewsTitle"
             android:viewName="topTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/topNewsImageView"
-            android:textColor="#ffffff"
-            android:text="Blah...News Title"/>
+            android:textColor="#ffffff"/>
     </RelativeLayout>
 
 </RelativeLayout>
