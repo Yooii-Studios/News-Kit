@@ -46,14 +46,6 @@ public class NLMainActivity extends Activity {
                 .topNewsImageView);
         mTopNewsTitle = (TextView)findViewById(R.id.topNewsTitle);
 
-//        try {
-//            sBitmap = BitmapFactory.decodeStream(getResources().getAssets()
-//                    .open("lone_pine_sunset.jpg"));
-//            mTopNewsImageView.setImageBitmap(sBitmap);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         mTopNewsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,10 +93,12 @@ public class NLMainActivity extends Activity {
                         ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
 
                         if (items.size() > 0) {
-                            String imgUrl = items.get(0).getMainImageUrl();
+                            NLNews news = items.get(0);
+                            String imgUrl = news.getMainImageUrl();
                             if (imgUrl != null) {
                                 mTopNewsImageView.setImageUrl(imgUrl, mImageLoader);
                             }
+                            mTopNewsTitle.setText(news.getTitle());
                         }
                         else {
                             //TODO 이미지가 없을 경우 예외처리
