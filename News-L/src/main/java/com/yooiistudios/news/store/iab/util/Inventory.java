@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.yooiistudios.news.store.util;
+package com.yooiistudios.news.store.iab.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

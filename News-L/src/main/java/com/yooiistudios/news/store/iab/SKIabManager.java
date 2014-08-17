@@ -4,11 +4,11 @@ package com.yooiistudios.news.store.iab;
 
 import android.app.Activity;
 
-import com.yooiistudios.news.common.encryption.MNMd5Utils;
+import com.yooiistudios.news.common.encryption.SKMd5Utils;
 import com.yooiistudios.news.common.log.NLLog;
-import com.yooiistudios.news.store.util.IabHelper;
-import com.yooiistudios.news.store.util.IabResult;
-import com.yooiistudios.news.store.util.Inventory;
+import com.yooiistudios.news.store.iab.util.IabHelper;
+import com.yooiistudios.news.store.iab.util.IabResult;
+import com.yooiistudios.news.store.iab.util.Inventory;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import lombok.Getter;
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 9.
  *
  * SKIabManager
+ *  In-App-Billing과 관련된 로직을 래핑한 클래스
  */
 public class SKIabManager {
     public static final int IAB_REQUEST_CODE = 10002;
@@ -119,7 +120,7 @@ public class SKIabManager {
     public void processPurchase(String sku, IabHelper.OnIabPurchaseFinishedListener onIabPurchaseFinishedListener) {
         try {
             // 페이로드를 특정 스트링으로 했었는데, 창하님의 조언으로는 sku의 md5 값과 맞추는 것이 그나마 해킹 확률이 줄어 들 것이라고 말하심
-            helper.launchPurchaseFlow(activity, sku, IabHelper.ITEM_TYPE_INAPP, IAB_REQUEST_CODE, onIabPurchaseFinishedListener, MNMd5Utils.getMd5String(sku));
+            helper.launchPurchaseFlow(activity, sku, IabHelper.ITEM_TYPE_INAPP, IAB_REQUEST_CODE, onIabPurchaseFinishedListener, SKMd5Utils.getMd5String(sku));
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }

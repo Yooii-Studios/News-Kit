@@ -22,6 +22,7 @@ import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.NLNewsFeedFetchTask;
 import com.yooiistudios.news.model.NLNewsFeedUtil;
+import com.yooiistudios.news.store.NLStoreActivity;
 
 import java.util.ArrayList;
 
@@ -133,6 +134,9 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_store) {
+            startActivity(new Intent(MainActivity.this, NLStoreActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
