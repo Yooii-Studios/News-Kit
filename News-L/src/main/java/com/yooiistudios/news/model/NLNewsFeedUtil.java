@@ -82,7 +82,7 @@ public class NLNewsFeedUtil {
         */
 
         // 일단 CNN 주요 뉴스로 고정
-        feedUrl = "http://rss.cnn.com/rss/edition.rss";
+        feedUrl = "http://feeds2.feedburner.com/time/topstories";
         urlType = NLNewsFeedUrlType.GENERAL;
 
 //        feedUrl = "http://sweetpjy.tistory.com/rss";

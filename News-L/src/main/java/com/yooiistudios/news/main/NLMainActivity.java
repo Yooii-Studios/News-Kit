@@ -17,6 +17,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.common.ImageMemoryCache;
+import com.yooiistudios.news.common.log.NLLog;
 import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
@@ -28,12 +29,10 @@ import java.util.ArrayList;
 
 
 public class NLMainActivity extends Activity {
+    private static final String TAG = NLMainActivity.class.getName();
     private NetworkImageView mTopNewsImageView;
     private TextView mTopNewsTitle;
-
-    // 저장 생각하기 귀찮아서 우선 public static으로 선언.
-    public static NLNewsFeed sTopNewsFeed;
-
+    public static NLNewsFeed sTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
     private ImageLoader mImageLoader;
 
     @Override
@@ -87,7 +86,8 @@ public class NLMainActivity extends Activity {
                 NLNewsFeedUtil.getDefaultFeedUrl(context),
                 new NLNewsFeedFetchTask.OnFetchListener() {
                     @Override
-                    public void onFetch(NLNewsFeed rssFeed) {
+                    public void onSuccess(NLNewsFeed rssFeed) {
+                        NLLog.i(TAG, "fetch success");
                         dialog.dismiss();
                         sTopNewsFeed = rssFeed;
 //                        ArrayList<NLNews> items = rssFeed.getNewsList();
@@ -107,11 +107,13 @@ public class NLMainActivity extends Activity {
 
                     @Override
                     public void onCancel() {
+                        NLLog.i(TAG, "fetch canceled");
                         dialog.dismiss();
                     }
 
                     @Override
                     public void onError() {
+                        NLLog.i(TAG, "fetch error");
                         dialog.dismiss();
                     }
                 });

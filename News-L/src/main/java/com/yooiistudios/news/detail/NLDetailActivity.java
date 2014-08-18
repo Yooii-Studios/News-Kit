@@ -41,12 +41,10 @@ public class NLDetailActivity extends Activity {
             loadTopItem();
             if (mTopImageBitmap != null) {
                 colorize(mTopImageBitmap);
-            }
-            else {
+            } else {
                 // TODO 이미지가 없을 경우 색상 처리
             }
-        }
-        else {
+        } else {
             //TODO when NLNewsFeed is invalid.
         }
     }

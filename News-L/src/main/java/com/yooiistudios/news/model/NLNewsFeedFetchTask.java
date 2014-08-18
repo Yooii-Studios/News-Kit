@@ -137,7 +137,7 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
         if (rssFeed != null && rssFeed.getRssItems() != null) {
             // success
             if (mOnFetchListener != null) {
-                mOnFetchListener.onFetch(rssFeed);
+                mOnFetchListener.onSuccess(rssFeed);
             }
         }
         else {
@@ -149,7 +149,7 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
     }
 
     public interface OnFetchListener {
-        public void onFetch(NLNewsFeed rssFeed);
+        public void onSuccess(NLNewsFeed rssFeed);
         public void onCancel();
         public void onError();
     }
