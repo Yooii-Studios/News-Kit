@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -81,18 +79,22 @@ public class NLStoreActivity extends Activity implements SKIabManagerListener, I
                 inventory.hasPurchase(SKIabProducts.SKU_FULL_VERSION)) {
             fullVersionButton.setText("Purchased");
             fullVersionButton.setClickable(false);
+            fullVersionButton.setEnabled(false);
         } else if (inventory.hasDetails(SKIabProducts.SKU_MORE_NEWS) &&
                 inventory.hasPurchase(SKIabProducts.SKU_MORE_NEWS)) {
             moreNewsButton.setText("Purchased");
             moreNewsButton.setClickable(false);
+            moreNewsButton.setEnabled(false);
         } else if (inventory.hasDetails(SKIabProducts.SKU_NO_ADS) &&
                 inventory.hasPurchase(SKIabProducts.SKU_NO_ADS)) {
             noAdButton.setText("Purchased");
             noAdButton.setClickable(false);
+            noAdButton.setEnabled(false);
         } else if (inventory.hasDetails(SKIabProducts.SKU_TEMP_FEATURE) &&
                 inventory.hasPurchase(SKIabProducts.SKU_TEMP_FEATURE)) {
             feature1Button.setText("Purchased");
             feature1Button.setClickable(false);
+            feature1Button.setEnabled(false);
         }
     }
 
@@ -124,15 +126,19 @@ public class NLStoreActivity extends Activity implements SKIabManagerListener, I
         if (info.getSku().equals(SKIabProducts.SKU_FULL_VERSION)) {
             fullVersionButton.setText("Purchased");
             fullVersionButton.setClickable(false);
+            fullVersionButton.setEnabled(false);
         } else if (info.getSku().equals(SKIabProducts.SKU_MORE_NEWS)) {
             moreNewsButton.setText("Purchased");
             moreNewsButton.setClickable(false);
+            moreNewsButton.setEnabled(false);
         } else if (info.getSku().equals(SKIabProducts.SKU_NO_ADS)) {
             noAdButton.setText("Purchased");
             noAdButton.setClickable(false);
+            noAdButton.setEnabled(false);
         } else if (info.getSku().equals(SKIabProducts.SKU_TEMP_FEATURE)) {
             feature1Button.setText("Purchased");
             feature1Button.setClickable(false);
+            feature1Button.setEnabled(false);
         }
     }
 
