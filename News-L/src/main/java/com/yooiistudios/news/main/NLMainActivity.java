@@ -10,10 +10,11 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.common.ImageMemoryCache;
@@ -23,17 +24,24 @@ import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.NLNewsFeedFetchTask;
 import com.yooiistudios.news.model.NLNewsFeedUtil;
+import com.yooiistudios.news.model.NLNewsImageUrlFetchTask;
 import com.yooiistudios.news.store.NLStoreActivity;
 
 import java.util.ArrayList;
 
 
-public class NLMainActivity extends Activity {
+public class NLMainActivity extends Activity
+        implements NLNewsFeedFetchTask.OnFetchListener,
+        NLNewsImageUrlFetchTask.OnImageUrlFetchListener {
     private static final String TAG = NLMainActivity.class.getName();
-    private NetworkImageView mTopNewsImageView;
+    private ImageView mTopNewsImageView;
     private TextView mTopNewsTitle;
     public static NLNewsFeed sTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
     private ImageLoader mImageLoader;
+    private ProgressDialog mDialog;
+
+    private NLNewsFeedFetchTask mTopFeedFetchTask;
+    private NLNewsImageUrlFetchTask mTopImageUrlFetchTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,7 @@ public class NLMainActivity extends Activity {
 
         mImageLoader = new ImageLoader(Volley.newRequestQueue(this), ImageMemoryCache.INSTANCE);
 
-        mTopNewsImageView = (NetworkImageView)findViewById(R.id
+        mTopNewsImageView = (ImageView)findViewById(R.id
                 .topNewsImageView);
         mTopNewsTitle = (TextView)findViewById(R.id.topNewsTitle);
 
@@ -80,44 +88,11 @@ public class NLMainActivity extends Activity {
 
         //load news feed
         Context context = getApplicationContext();
-        final ProgressDialog dialog = ProgressDialog.show(this,
+        mDialog = ProgressDialog.show(this,
                 "blah..loading", "blah..message");
-        NLNewsFeedFetchTask fetchTask = new NLNewsFeedFetchTask(context,
-                NLNewsFeedUtil.getDefaultFeedUrl(context),
-                new NLNewsFeedFetchTask.OnFetchListener() {
-                    @Override
-                    public void onSuccess(NLNewsFeed rssFeed) {
-                        NLLog.i(TAG, "fetch success");
-                        dialog.dismiss();
-                        sTopNewsFeed = rssFeed;
-//                        ArrayList<NLNews> items = rssFeed.getNewsList();
-                        ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
-
-                        if (items.size() > 0) {
-                            NLNews news = items.get(0);
-                            String imgUrl = news.getMainImageUrl();
-                            if (imgUrl != null) {
-                                mTopNewsImageView.setImageUrl(imgUrl, mImageLoader);
-                            }
-                            mTopNewsTitle.setText(news.getTitle());
-                        } else {
-                            //TODO 이미지가 없을 경우 예외처리
-                        }
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        NLLog.i(TAG, "fetch canceled");
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onError() {
-                        NLLog.i(TAG, "fetch error");
-                        dialog.dismiss();
-                    }
-                });
-        fetchTask.execute();
+        mTopFeedFetchTask = new NLNewsFeedFetchTask(context,
+                NLNewsFeedUtil.getDefaultFeedUrl(context), 10, this);
+        mTopFeedFetchTask.execute();
     }
 
 
@@ -141,5 +116,75 @@ public class NLMainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onSuccess(NLNewsFeed rssFeed) {
+        NLLog.i(TAG, "fetch success");
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+        sTopNewsFeed = rssFeed;
+        ArrayList<NLNews> items = rssFeed.getNewsList();
+//        ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
+
+        if (items.size() > 0) {
+            NLNews news = items.get(0);
+            mTopNewsTitle.setText(news.getTitle());
+
+            mTopImageUrlFetchTask = new NLNewsImageUrlFetchTask(news, this);
+            mTopImageUrlFetchTask.execute();
+        } else {
+            //TODO 이미지가 없을 경우 예외처리
+        }
+    }
+
+    @Override
+    public void onCancel() {
+        NLLog.i(TAG, "fetch canceled");
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onError() {
+        NLLog.i(TAG, "fetch error");
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onImageUrlFetchSuccess(NLNews news, String url) {
+        NLLog.i(TAG, "fetch image url success.");
+        String imgUrl = news.getMainImageUrl();
+        if (imgUrl != null) {
+            final long startMilli;
+
+            startMilli = System.currentTimeMillis();
+//            mTopNewsImageView.setImageUrl(imgUrl, mImageLoader);
+            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    long endMilli;
+                    endMilli = System.currentTimeMillis();
+                    NLLog.i("performance", "mImageLoader.get : " +
+                            (endMilli - startMilli));
+                    mTopNewsImageView.setImageBitmap(response.getBitmap());
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onImageUrlFetchFail() {
+        NLLog.i(TAG, "fetch image url failed.");
     }
 }

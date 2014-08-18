@@ -82,6 +82,11 @@ dependencies {
 
     // html dom parsing을 위한 라이브러리(BeautifulSoup Java version)
     compile 'org.jsoup:jsoup:1.7.3'
+
+    // 이미지 url을 추출하는 과정에서 http Get의 퍼포먼스 향상을 위해
+//    compile 'org.apache.httpcomponents:httpclient:4.3.5'
+    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5'
+
 }
 
 // release 시 비밀번호를 직접 입력하기 위한 코드

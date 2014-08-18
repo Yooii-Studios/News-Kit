@@ -8,14 +8,22 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.yooiistudios.news.common.log.NLLog;
 import com.yooiistudios.news.setting.language.NLLanguage;
 import com.yooiistudios.news.setting.language.NLLanguageType;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
@@ -150,8 +158,7 @@ public class NLNewsFeedUtil {
         if (historyJsonStr != null) {
             Type type = new TypeToken<ArrayList<String>>(){}.getType();
             return new Gson().fromJson(historyJsonStr, type);
-        }
-        else {
+        } else {
             return new ArrayList<String>();
         }
     }
@@ -185,8 +192,7 @@ public class NLNewsFeedUtil {
                 // title.length() >= delim.length()
                     newTitle = title.substring(titleStartIdx, idx);
                     publisher = "- " + title.substring(pubStartIdx, pubEndIdx);
-                }
-                else {
+                } else {
                     newTitle = title;
                     publisher = null;
                 }
@@ -246,18 +252,27 @@ public class NLNewsFeedUtil {
      * appropriate image url.
      */
     public static String getImageUrl(String source) {
+        long startMilli;
+        long endMilli;
+
+        startMilli = System.currentTimeMillis();
         Document doc = Jsoup.parse(source);
+        endMilli = System.currentTimeMillis();
+        NLLog.i("getImageUrl", "Jsoup.parse(source) : " +
+                (endMilli - startMilli));
 
         // og:image
-        Elements ogImgElems = doc.getElementsByTag("head")
-                .select("meta[property=og:image]");
+        startMilli = System.currentTimeMillis();
+        Elements ogImgElems = doc.select("meta[property=og:image]");
+        endMilli = System.currentTimeMillis();
+        NLLog.i("getImageUrl", "doc.select(\"meta[property=og:image]\") : " +
+                (endMilli - startMilli));
 
         String imgUrl = null;
 
         if (ogImgElems.size() > 0) {
             imgUrl = ogImgElems.get(0).attr("content");
-        }
-        else {
+        } else {
             // 워드프레스처럼 entry-content 클래스를 쓰는 경우의 예외처리
             Elements elms = doc.getElementsByClass("entry-content");
 
@@ -276,6 +291,53 @@ public class NLNewsFeedUtil {
         return imgUrl;
     }
 
+    public static String requestHttpGet_(String url) throws Exception {
+        // HttpClient 생성
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            // HttpGet생성
+            HttpGet httpget = new HttpGet(url);
+
+            System.out.println("executing request " + httpget.getURI());
+            HttpResponse response = httpclient.execute(httpget);
+            HttpEntity entity = response.getEntity();
+
+//            System.out.println("----------------------------------------");
+            // 응답 결과
+//            System.out.println(response.getStatusLine());
+//            StringBuilder responseBuilder = new StringBuilder();
+            if (entity != null) {
+//                System.out.println("Response content length: "
+//                        + entity.getContentLength());
+                BufferedReader rd = new BufferedReader(new InputStreamReader(
+                        response.getEntity().getContent()));
+
+                String line = "";
+                while ((line = rd.readLine()) != null) {
+//                    System.out.println(line);
+//                    responseBuilder.append(line);
+                    if (line.contains("og:image")) {
+                        return line;
+                    } else if (line.contains("</head>")) {
+                        return null;
+                    }
+                }
+            }
+            httpget.abort();
+//            System.out.println("----------------------------------------");
+            httpclient.getConnectionManager().shutdown();
+
+            return null;
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            httpclient.getConnectionManager().shutdown();
+        }
+        return null;
+    }
+
     /**
      * 일반적인 Get Method를 이용한 Http request를 날린다.
      * @param url Url to send request
@@ -283,26 +345,51 @@ public class NLNewsFeedUtil {
      * @throws Exception
      */
     public static String requestHttpGet(String url) throws Exception {
+        long startMilli;
+        long endMilli;
+
+        startMilli = System.currentTimeMillis();
         HttpURLConnection con =
                 (HttpURLConnection)new URL(url).openConnection();
+        endMilli = System.currentTimeMillis();
+        NLLog.i("performance", "open connection : " +
+                (endMilli - startMilli));
         con.setRequestMethod("GET");
 
+        startMilli = System.currentTimeMillis();
         int responseCode = con.getResponseCode();
+        endMilli = System.currentTimeMillis();
+        NLLog.i("performance", "getting response code : " +
+                (endMilli - startMilli));
 
         if (responseCode != 200) {
             return null;
         }
 
+        startMilli = System.currentTimeMillis();
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuilder responseBuilder = new StringBuilder();
+        endMilli = System.currentTimeMillis();
+        NLLog.i("performance", "make buffered reader with input stream: " +
+                (endMilli - startMilli));
 
+        startMilli = System.currentTimeMillis();
         while ((inputLine = in.readLine()) != null) {
             responseBuilder.append(inputLine);
         }
         in.close();
+        endMilli = System.currentTimeMillis();
+        NLLog.i("performance", "read with while loop : " +
+                (endMilli - startMilli));
 
-        return responseBuilder.toString();
+        startMilli = System.currentTimeMillis();
+        String responseStr = responseBuilder.toString();
+        endMilli = System.currentTimeMillis();
+        NLLog.i("performance", "reponseBuilder to responseStr : " +
+                (endMilli - startMilli));
+
+        return responseStr;
     }
 }

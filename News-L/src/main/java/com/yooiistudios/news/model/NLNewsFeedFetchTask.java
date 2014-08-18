@@ -4,12 +4,17 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.Html;
 
+import com.yooiistudios.news.common.log.NLLog;
+
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 /**
  * Created by Dongheyon Jeong on in RSSTest from Yooii Studios Co., LTD. on 2014. 6. 27.
@@ -19,19 +24,31 @@ import java.net.URLConnection;
  */
 public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
         NLNewsFeed> {
+    private static final String TAG = NLNewsFeedFetchTask.class.getName();
 //    private String mRssUrl;
     private Context mContext;
     private NLNewsFeedUrl mFeedUrl;
     private OnFetchListener mOnFetchListener;
+    private int mFetchLimit;
 
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final String ILLEGAL_CHARACTER_OBJ = Character.toString((char) 65532);
 
+    /**
+     *
+     * @param context
+     * @param feedUrl
+     * @param fetchLimit Number of news to fetch. Should be > 0 and
+     *                   < list.size()
+     * @param onFetchListener
+     */
     public NLNewsFeedFetchTask(Context context, NLNewsFeedUrl feedUrl,
+                               int fetchLimit,
                                OnFetchListener onFetchListener) {
 //        mRssUrl = rssUrl;
         mContext = context;
         mFeedUrl = feedUrl;
+        mFetchLimit = fetchLimit;
         mOnFetchListener = onFetchListener;
     }
 
@@ -44,8 +61,6 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
         }
 
         // 테스트용 Rss url 세팅
-//        String urlStr = "http://news.google" +
-//                ".com/news/url?sa=t&fd=R&ct2=us&usg=AFQjCNFZ1vtEWwtLC8sp3-aAk78i4WmMDA&clid=c3a7d30bb8a4878e06b80cf16b898331&cid=52778582001131&ei=OFXvU_i6CYKfkAWG1gE&url=http://www.usatoday.com/story/news/world/2014/08/16/huge-crowds-greet-pope-at-martyr-beatification/14154907/";
 //        urlStr = "http://kwang82.hankyung.com/2014/08/100_5.html";
 //        urlStr = "http://deepseadk.egloos.com/1828225";
 //        urlStr = "http://www.usatoday.com/story/news/world/2014/08/16/huge-crowds-greet-pope-at-martyr-beatification/14154907/";
@@ -59,13 +74,30 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
             URLConnection conn = url.openConnection();
 
             // RSS 파싱
+
+            long startMilli;
+            long endMilli;
+
+            startMilli = System.currentTimeMillis();
             feed = NLNewsFeedParser.read(conn.getInputStream());
+            endMilli = System.currentTimeMillis();
+            NLLog.i("performance", "NLNewsFeedParser.read" +
+                    (endMilli - startMilli));
+            // 퍼포먼스 개선 여지 있음.
             // 로컬 테스트를 위한 코드
 //            feed = NLNewsFeedParser.read(mContext.getResources().getAssets().open("feeds.xml"));
 
+            // shuffle and trim size
+            Collections.shuffle(feed.getNewsList(), new Random(System.nanoTime()));
+            if (mFetchLimit > 0 && mFetchLimit < feed.getNewsList().size()) {
+                ArrayList<NLNews> trimmedNewsList =
+                        new ArrayList<NLNews>(feed.getNewsList().subList(0,
+                                mFetchLimit));
+                feed.setNewsList(trimmedNewsList);
+            }
+
             // 피드의 각 뉴스에 대해
             for (NLNews item : feed.getNewsList()) {
-                addImageUrl(item);
 
                 // 피드의 본문에서 텍스트만 걸러내는 작업
                 String desc = item.getDescription();
@@ -93,37 +125,6 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
         return feed;
     }
 
-    /**
-     * 뉴스의 링크를 사용, 해당 링크 내에서 뉴스를 대표할 만한 이미지의 url을 추출한다.
-     * 사용할 수 있는 이미지가 있는 경우 파라미터로 받은 news 인스턴스에 추가하고 아니면 아무것도
-     * 하지 않는다.
-     * 네트워크를 사용하므로 UI Thread에서는 부르지 말자.
-     * @param news NLNews to set ImageUrl.
-     */
-    // Future use의 가능성이 있기 때문에 메서드로 빼놓음.
-    private void addImageUrl(NLNews news) {
-        // 뉴스의 링크를 읽음
-        String originalLinkSource = null;
-        try {
-            originalLinkSource = NLNewsFeedUtil.requestHttpGet(
-                    news.getLink());
-
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        if (originalLinkSource != null) {
-            // 링크를 읽었다면 거기서 이미지를 추출.
-            // 이미지는 두 장 이상 필요하지 않을것 같아서 우선 한장만 뽑도록 해둠.
-            // future use를 생각해 구조는 리스트로 만들어 놓음.
-            String imgUrl = NLNewsFeedUtil.getImageUrl(
-                    originalLinkSource);
-            if (imgUrl != null) {
-                news.addImageUrl(imgUrl);
-            }
-        }
-    }
-
     @Override
     protected void onPostExecute(NLNewsFeed rssFeed) {
         super.onPostExecute(rssFeed);
@@ -134,7 +135,8 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
             return;
         }
 
-        if (rssFeed != null && rssFeed.getRssItems() != null) {
+        if (rssFeed != null && rssFeed.getNewsList() != null) {
+            NLLog.i(TAG, "Fetched news count : " + rssFeed.getNewsList().size());
             // success
             if (mOnFetchListener != null) {
                 mOnFetchListener.onSuccess(rssFeed);
