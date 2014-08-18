@@ -37,7 +37,7 @@ public class NLNewsFeedFetchTask extends AsyncTask<NLNewsFeedUrl, Void,
 
     @Override
     protected NLNewsFeed doInBackground(NLNewsFeedUrl... args) {
-        if (!mFeedUrl.getType().equals(NLNewsFeedUrlType.CUSTOM)) {
+        if (!mFeedUrl.getType().equals(NLNewsFeedUrlType.GENERAL)) {
             // 디폴트 세팅을 사용할 경우 패널단에서 언어설정을 감지 못하므로 무조건 현재 언어의
             // 디폴트 url을 가져온다.
             mFeedUrl = NLNewsFeedUtil.getDefaultFeedUrl(mContext);

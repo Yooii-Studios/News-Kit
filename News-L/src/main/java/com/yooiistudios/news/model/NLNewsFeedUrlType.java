@@ -7,7 +7,7 @@ package com.yooiistudios.news.model;
  *  뉴스피드의 출처를 Type 으로 정리
  */
 public enum NLNewsFeedUrlType {
+    GENERAL,
     GOOGLE,
     YAHOO,
-    CUSTOM
 }

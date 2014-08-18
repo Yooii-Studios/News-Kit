@@ -20,7 +20,7 @@ public class NLDetailActivity extends Activity {
     private ImageView mTopImageView;
     private TextView mTopTitleTextView;
     private NLNewsFeed mNewsFeed;
-    private NLNews topNews;
+    private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
 
     @Override
@@ -30,12 +30,12 @@ public class NLDetailActivity extends Activity {
 
         // retrieve feed from intent
 //        mNewsFeed = getIntent().getParcelableExtra(NLNewsFeed.NEWS_FEED);
-        mNewsFeed = NLMainActivity.mTopNewsFeed;
+        mNewsFeed = NLMainActivity.sTopNewsFeed;
 
         mTopImageView = (ImageView)findViewById(R.id.newsImage);
         mTopTitleTextView = (TextView)findViewById(R.id.newsTitle);
 
-        topNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
+        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
 
         if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
             loadTopItem();
@@ -75,10 +75,10 @@ public class NLDetailActivity extends Activity {
         final ImageMemoryCache cache = ImageMemoryCache.INSTANCE;
 
         // set title
-        mTopTitleTextView.setText(topNews.getTitle());
+        mTopTitleTextView.setText(mTopNews.getTitle());
 
         // set image
-        String imgUrl = topNews.getMainImageUrl();
+        String imgUrl = mTopNews.getMainImageUrl();
         if (imgUrl != null) {
             mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
 

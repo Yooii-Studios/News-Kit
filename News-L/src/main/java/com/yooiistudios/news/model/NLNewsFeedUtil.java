@@ -43,11 +43,12 @@ public class NLNewsFeedUtil {
     private NLNewsFeedUtil() { throw new AssertionError("You MUST not create this class!"); }
 
     public static NLNewsFeedUrl getDefaultFeedUrl(Context context) {
-        NLLanguageType type = NLLanguage.getCurrentLanguageType(context);
 
         String feedUrl;
         NLNewsFeedUrlType urlType;
 
+        /*
+        NLLanguageType type = NLLanguage.getCurrentLanguageType(context);
         switch(type) {
             case ENGLISH:
                 feedUrl = "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss";
@@ -78,6 +79,12 @@ public class NLNewsFeedUtil {
                 urlType = NLNewsFeedUrlType.GOOGLE;
                 break;
         }
+        */
+
+        // 일단 CNN 주요 뉴스로 고정
+        feedUrl = "http://rss.cnn.com/rss/edition.rss";
+        urlType = NLNewsFeedUrlType.GENERAL;
+
 //        feedUrl = "http://sweetpjy.tistory.com/rss";
 //        feedUrl = "http://www.cnet.com/rss/iphone-update/";
 
@@ -169,28 +176,28 @@ public class NLNewsFeedUtil {
                 int idx = title.lastIndexOf(delim);
 
                 int titleStartIdx = 0;
-                int titleEndIdx = idx;
-                int pubStartIdx = idx+delim.length();
+                int pubStartIdx = idx + delim.length();
                 int pubEndIdx = title.length();
 
                 if (idx >= 0 &&
-                        titleEndIdx >= titleStartIdx &&
+                        idx >= titleStartIdx &&
                         pubEndIdx >= pubStartIdx) {
                 // title.length() >= delim.length()
-                    newTitle = title.substring(titleStartIdx, titleEndIdx);
+                    newTitle = title.substring(titleStartIdx, idx);
                     publisher = "- " + title.substring(pubStartIdx, pubEndIdx);
                 }
                 else {
                     newTitle = title;
                     publisher = null;
                 }
-
                 break;
+
             case YAHOO:
                 newTitle = title;
                 publisher = NEWS_PROVIDER_YAHOO_JAPAN;
                 break;
-            case CUSTOM:
+
+            case GENERAL:
             default:
                 newTitle = title;
                 publisher = null;

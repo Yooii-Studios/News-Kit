@@ -32,7 +32,7 @@ public class NLMainActivity extends Activity {
     private TextView mTopNewsTitle;
 
     // 저장 생각하기 귀찮아서 우선 public static으로 선언.
-    public static NLNewsFeed mTopNewsFeed;
+    public static NLNewsFeed sTopNewsFeed;
 
     private ImageLoader mImageLoader;
 
@@ -74,7 +74,7 @@ public class NLMainActivity extends Activity {
 
                 Intent intent = new Intent(NLMainActivity.this,
                         NLDetailActivity.class);
-//                intent.putExtra(NLNewsFeed.NEWS_FEED, mTopNewsFeed);
+//                intent.putExtra(NLNewsFeed.NEWS_FEED, sTopNewsFeed);
                 startActivity(intent, activityOptions.toBundle());
             }
         });
@@ -89,7 +89,7 @@ public class NLMainActivity extends Activity {
                     @Override
                     public void onFetch(NLNewsFeed rssFeed) {
                         dialog.dismiss();
-                        mTopNewsFeed = rssFeed;
+                        sTopNewsFeed = rssFeed;
 //                        ArrayList<NLNews> items = rssFeed.getNewsList();
                         ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
 
@@ -100,8 +100,7 @@ public class NLMainActivity extends Activity {
                                 mTopNewsImageView.setImageUrl(imgUrl, mImageLoader);
                             }
                             mTopNewsTitle.setText(news.getTitle());
-                        }
-                        else {
+                        } else {
                             //TODO 이미지가 없을 경우 예외처리
                         }
                     }

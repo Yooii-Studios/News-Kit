@@ -12,22 +12,22 @@ import nl.matshofman.saxrssreader.RssFeed;
 public class NLNewsFeed extends RssFeed {
     public static final String NEWS_FEED = "NEWS_FEED";
 
-    private ArrayList<NLNews> mNewsItems;
+    private ArrayList<NLNews> mNewsList;
 
     public NLNewsFeed() {
-        mNewsItems = new ArrayList<NLNews>();
+        mNewsList = new ArrayList<NLNews>();
     }
 
     public void addNews(NLNews news) {
-        mNewsItems.add(news);
+        mNewsList.add(news);
     }
 
     public void setNewsList(ArrayList<NLNews> newsList) {
-        mNewsItems = newsList;
+        mNewsList = newsList;
     }
 
     public ArrayList<NLNews> getNewsList() {
-        return mNewsItems;
+        return mNewsList;
     }
 
     /**
@@ -37,7 +37,7 @@ public class NLNewsFeed extends RssFeed {
     public ArrayList<NLNews> getNewsListContainsImageUrl() {
         ArrayList<NLNews> containingList = new ArrayList<NLNews>();
 
-        for (NLNews news : mNewsItems) {
+        for (NLNews news : mNewsList) {
             if (news.getImageUrlList().size() > 0) {
                 containingList.add(news);
             }
