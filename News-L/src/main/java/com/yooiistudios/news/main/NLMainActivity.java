@@ -3,7 +3,6 @@ package com.yooiistudios.news.main;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
@@ -23,19 +22,26 @@ import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.NLNewsFeedFetchTask;
-import com.yooiistudios.news.model.NLNewsFeedUtil;
+import com.yooiistudios.news.model.NLNewsFeedUrl;
+import com.yooiistudios.news.model.NLNewsFeedUrlType;
 import com.yooiistudios.news.model.NLNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.NLTopNewsFeedFetchTask;
 import com.yooiistudios.news.store.NLStoreActivity;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class NLMainActivity extends Activity
-        implements NLNewsFeedFetchTask.OnFetchListener,
-        NLNewsImageUrlFetchTask.OnImageUrlFetchListener {
+        implements NLNewsImageUrlFetchTask.OnImageUrlFetchListener,
+        NLTopNewsFeedFetchTask.OnFetchListener {
+
+    @InjectView(R.id.topNewsImageView) ImageView mTopNewsImageView;
+    @InjectView(R.id.topNewsTitle) TextView mTopNewsTitle;
+
     private static final String TAG = NLMainActivity.class.getName();
-    private ImageView mTopNewsImageView;
-    private TextView mTopNewsTitle;
     public static NLNewsFeed sTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
     private ImageLoader mImageLoader;
     private ProgressDialog mDialog;
@@ -43,17 +49,40 @@ public class NLMainActivity extends Activity
     private NLNewsFeedFetchTask mTopFeedFetchTask;
     private NLNewsImageUrlFetchTask mTopImageUrlFetchTask;
 
+    private NLTopNewsFeedFetchTask mTopNewsFeedFetchTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
         mImageLoader = new ImageLoader(Volley.newRequestQueue(this), ImageMemoryCache.INSTANCE);
 
-        mTopNewsImageView = (ImageView)findViewById(R.id
-                .topNewsImageView);
-        mTopNewsTitle = (TextView)findViewById(R.id.topNewsTitle);
+        initTopNewsImageView();
+        initTopNewsFeed();
 
+        //load news feed
+//        Context context = getApplicationContext();
+//        mTopFeedFetchTask = new NLNewsFeedFetchTask(context,
+//                NLNewsFeedUtils.getDefaultFeedUrl(context), 10, this);
+//        mTopFeedFetchTask.execute();
+    }
+
+    private void initTopNewsFeed() {
+        // Dialog
+        mDialog = ProgressDialog.show(this, "blah..loading", "blah..message");
+
+        // Fetch
+        mTopNewsFeedFetchTask =
+                new NLTopNewsFeedFetchTask(this, new NLNewsFeedUrl(
+                        "http://feeds2.feedburner.com/time/topstories",
+                        NLNewsFeedUrlType.GENERAL), this);
+        mTopNewsFeedFetchTask.execute();
+
+    }
+
+    private void initTopNewsImageView() {
         mTopNewsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,16 +114,7 @@ public class NLMainActivity extends Activity
                 startActivity(intent, activityOptions.toBundle());
             }
         });
-
-        //load news feed
-        Context context = getApplicationContext();
-        mDialog = ProgressDialog.show(this,
-                "blah..loading", "blah..message");
-        mTopFeedFetchTask = new NLNewsFeedFetchTask(context,
-                NLNewsFeedUtil.getDefaultFeedUrl(context), 10, this);
-        mTopFeedFetchTask.execute();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,44 +136,6 @@ public class NLMainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onSuccess(NLNewsFeed rssFeed) {
-        NLLog.i(TAG, "fetch success");
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
-        sTopNewsFeed = rssFeed;
-        ArrayList<NLNews> items = rssFeed.getNewsList();
-//        ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
-
-        if (items.size() > 0) {
-            NLNews news = items.get(0);
-            mTopNewsTitle.setText(news.getTitle());
-
-            mTopImageUrlFetchTask = new NLNewsImageUrlFetchTask(news, this);
-            mTopImageUrlFetchTask.execute();
-        } else {
-            //TODO 이미지가 없을 경우 예외처리
-        }
-    }
-
-    @Override
-    public void onCancel() {
-        NLLog.i(TAG, "fetch canceled");
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onError() {
-        NLLog.i(TAG, "fetch error");
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
     }
 
     @Override
@@ -186,5 +168,37 @@ public class NLMainActivity extends Activity
     @Override
     public void onImageUrlFetchFail() {
         NLLog.i(TAG, "fetch image url failed.");
+    }
+
+    /**
+     * TopNewsFeedFetch Listener
+     */
+    @Override
+    public void onTopNewsFeedFetchSuccess(NLNewsFeed newsFeed) {
+        NLLog.i(TAG, "onTopNewsFeedFetchSuccess");
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+        sTopNewsFeed = newsFeed;
+        ArrayList<NLNews> items = newsFeed.getNewsList();
+//        ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
+
+        if (items.size() > 0) {
+            NLNews news = items.get(0);
+            mTopNewsTitle.setText(news.getTitle());
+
+            mTopImageUrlFetchTask = new NLNewsImageUrlFetchTask(news, this);
+            mTopImageUrlFetchTask.execute();
+        } else {
+            //TODO 이미지가 없을 경우 예외처리
+        }
+    }
+
+    @Override
+    public void onTopNewsFeedFetchFail() {
+        NLLog.i(TAG, "onTopNewsFeedFetchFail");
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
     }
 }

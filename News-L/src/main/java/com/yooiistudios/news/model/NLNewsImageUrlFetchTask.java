@@ -55,7 +55,7 @@ public class NLNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
             long endMilli;
 
             startMilli = System.currentTimeMillis();
-            originalLinkSource = NLNewsFeedUtil.requestHttpGet_(
+            originalLinkSource = NLNewsFeedUtils.requestHttpGet_(
                     news.getLink());
             endMilli = System.currentTimeMillis();
             NLLog.i("performance", "NLNewsFeedUtil.requestHttpGet : " +
@@ -70,7 +70,7 @@ public class NLNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
             // 링크를 읽었다면 거기서 이미지를 추출.
             // 이미지는 두 장 이상 필요하지 않을것 같아서 우선 한장만 뽑도록 해둠.
             // future use를 생각해 구조는 리스트로 만들어 놓음.
-            imgUrl = NLNewsFeedUtil.getImageUrl(
+            imgUrl = NLNewsFeedUtils.getImageUrl(
                     originalLinkSource);
             if (imgUrl != null) {
                 news.addImageUrl(imgUrl);

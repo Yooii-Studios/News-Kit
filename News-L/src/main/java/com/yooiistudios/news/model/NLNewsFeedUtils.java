@@ -41,14 +41,14 @@ import nl.matshofman.saxrssreader.RssItem;
  * MNNewsFeedUtil
  *  뉴스피드에 관한 전반적인 유틸 클래스
  */
-public class NLNewsFeedUtil {
+public class NLNewsFeedUtils {
     private static final String KEY_HISTORY = "KEY_HISTORY";
     private static final int MAX_HISTORY_SIZE = 10;
     public static final String PREF_NEWS_FEED = "PREF_NEWS_FEED";
 
     private static final String NEWS_PROVIDER_YAHOO_JAPAN = "Yahoo!ニュース";
 
-    private NLNewsFeedUtil() { throw new AssertionError("You MUST not create this class!"); }
+    private NLNewsFeedUtils() { throw new AssertionError("You MUST not create this class!"); }
 
     public static NLNewsFeedUrl getDefaultFeedUrl(Context context) {
 
