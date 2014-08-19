@@ -3,7 +3,7 @@ package com.yooiistudios.news.model;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.yooiistudios.news.common.log.NLLog;
+import com.yooiistudios.news.util.log.NLLog;
 
 /**
  * Created by Dongheyon Jeong on in RSSTest from Yooii Studios Co., LTD. on 2014. 6. 27.

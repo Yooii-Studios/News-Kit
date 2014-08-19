@@ -2,7 +2,7 @@ package com.yooiistudios.news.model;
 
 import android.os.AsyncTask;
 
-import com.yooiistudios.news.common.log.NLLog;
+import com.yooiistudios.news.util.log.NLLog;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.

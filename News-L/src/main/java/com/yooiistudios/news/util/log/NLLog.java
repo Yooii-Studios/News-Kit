@@ -1,4 +1,4 @@
-package com.yooiistudios.news.common.log;
+package com.yooiistudios.news.util.log;
 
 import android.util.Log;
 

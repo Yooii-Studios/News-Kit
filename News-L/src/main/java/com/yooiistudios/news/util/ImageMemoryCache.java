@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.yooiistudios.news.common;
+package com.yooiistudios.news.util;
 
 import android.graphics.Bitmap;
 import android.util.LruCache;

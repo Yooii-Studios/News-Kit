@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.common.encryption.SKMd5Utils;
-import com.yooiistudios.news.common.log.NLLog;
+import com.yooiistudios.news.util.encryption.SKMd5Utils;
+import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.store.iab.SKIabManager;
 import com.yooiistudios.news.store.iab.SKIabManagerListener;
 import com.yooiistudios.news.store.iab.SKIabProducts;

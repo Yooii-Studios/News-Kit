@@ -1,3 +1,4 @@
 include ':News-L'
 include ':libraries:sAXRSSReader'
 include ':libraries:Volley'
+include ':libraries:GridLayoutManager'

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.common.ImageMemoryCache;
+import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;

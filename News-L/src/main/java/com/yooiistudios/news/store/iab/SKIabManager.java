@@ -4,8 +4,8 @@ package com.yooiistudios.news.store.iab;
 
 import android.app.Activity;
 
-import com.yooiistudios.news.common.encryption.SKMd5Utils;
-import com.yooiistudios.news.common.log.NLLog;
+import com.yooiistudios.news.util.encryption.SKMd5Utils;
+import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.store.iab.util.IabHelper;
 import com.yooiistudios.news.store.iab.util.IabResult;
 import com.yooiistudios.news.store.iab.util.Inventory;

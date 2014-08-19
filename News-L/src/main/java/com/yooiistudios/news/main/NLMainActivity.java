@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,10 +18,10 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.common.ImageMemoryCache;
-import com.yooiistudios.news.common.log.NLLog;
 import com.yooiistudios.news.detail.NLDetailActivity;
+import com.yooiistudios.news.model.NLBottomNewsFeedAdapter;
 import com.yooiistudios.news.model.NLBottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
@@ -29,9 +31,10 @@ import com.yooiistudios.news.model.NLNewsFeedUrlType;
 import com.yooiistudios.news.model.NLNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.NLTopNewsFeedFetchTask;
 import com.yooiistudios.news.store.NLStoreActivity;
+import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.log.NLLog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -44,6 +47,8 @@ public class NLMainActivity extends Activity
 
     @InjectView(R.id.topNewsImageView) ImageView mTopNewsImageView;
     @InjectView(R.id.topNewsTitle) TextView mTopNewsTitle;
+    @InjectView(R.id.bottomNewsFeedRecyclerView)
+    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = NLMainActivity.class.getName();
     public static NLNewsFeed sTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
@@ -54,9 +59,10 @@ public class NLMainActivity extends Activity
     private NLNewsImageUrlFetchTask mTopImageUrlFetchTask;
     private NLTopNewsFeedFetchTask mTopNewsFeedFetchTask;
     private ArrayList<NLNewsFeedUrl> mBottomNewsFeedUrlList;
-    private HashMap<NLNewsFeedUrl, NLBottomNewsFeedFetchTask>
-            mBottomNewsFeedUrlToTaskMap;
+    private SparseArray<NLBottomNewsFeedFetchTask>
+            mBottomNewsFeedIndexToTaskMap;
     private ArrayList<NLNewsFeed> mBottomNewsFeedList;
+    private NLBottomNewsFeedAdapter mBottomNewsFeedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,14 @@ public class NLMainActivity extends Activity
 
     }
     private void initBottomNewsFeed() {
+        //init ui
+        mBottomNewsFeedRecyclerView.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(
+                getApplicationContext());
+        layoutManager.setColumns(2);
+//        mBottomNewsFeedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
+
         mBottomNewsFeedList = new ArrayList<NLNewsFeed>();
         mBottomNewsFeedUrlList = new ArrayList<NLNewsFeedUrl>();
 
@@ -99,17 +113,17 @@ public class NLMainActivity extends Activity
             mBottomNewsFeedUrlList.add(new NLNewsFeedUrl(
                     "http://feeds2.feedburner.com/time/topstories",
                     NLNewsFeedUrlType.GENERAL));
+            mBottomNewsFeedList.add(null);
         }
 
-        mBottomNewsFeedUrlToTaskMap = new HashMap<NLNewsFeedUrl,
-                NLBottomNewsFeedFetchTask>();
+        mBottomNewsFeedIndexToTaskMap = new SparseArray<NLBottomNewsFeedFetchTask>();
         for (int i = 0; i < bottomNewsCount; i++) {
             NLNewsFeedUrl url = mBottomNewsFeedUrlList.get(i);
             NLBottomNewsFeedFetchTask task = new NLBottomNewsFeedFetchTask(
-                    getApplicationContext(), url, this
+                    getApplicationContext(), url, i, this
             );
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mBottomNewsFeedUrlToTaskMap.put(url, task);
+            mBottomNewsFeedIndexToTaskMap.put(i, task);
         }
 
     }
@@ -149,13 +163,15 @@ public class NLMainActivity extends Activity
     }
 
     private void cancelBottomNewsFetchTasks() {
-        for (NLNewsFeedUrl urlInList : mBottomNewsFeedUrlList) {
-            NLBottomNewsFeedFetchTask task = mBottomNewsFeedUrlToTaskMap.remove
-                    (urlInList);
+        int taskCount = mBottomNewsFeedIndexToTaskMap.size();
+        for (int i = 0; i < taskCount; i++) {
+            NLBottomNewsFeedFetchTask task = mBottomNewsFeedIndexToTaskMap
+                    .get(i, null);
             if (task != null) {
                 task.cancel(true);
             }
         }
+        mBottomNewsFeedIndexToTaskMap.clear();
     }
 
     @Override
@@ -245,18 +261,21 @@ public class NLMainActivity extends Activity
     }
 
     @Override
-    public void onBottomNewsFeedFetchSuccess(NLNewsFeedUrl url,
+    public void onBottomNewsFeedFetchSuccess(int position,
                                              NLNewsFeed newsFeed) {
         NLLog.i(TAG, "onBottomNewsFeedFetchSuccess");
-        mBottomNewsFeedUrlToTaskMap.remove(url);
-        mBottomNewsFeedList.add(newsFeed);
+        mBottomNewsFeedIndexToTaskMap.remove(position);
+        mBottomNewsFeedList.set(position, newsFeed);
 
-        int remainingTaskCount = mBottomNewsFeedUrlToTaskMap.size();
+        int remainingTaskCount = mBottomNewsFeedIndexToTaskMap.size();
         if (remainingTaskCount == 0) {
             NLLog.i(TAG, "All task done. Loaded news feed list size : " +
                     mBottomNewsFeedList.size());
-        }
-        else {
+
+            mBottomNewsFeedAdapter = new NLBottomNewsFeedAdapter(
+                    mBottomNewsFeedList);
+            mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
+        } else {
             NLLog.i(TAG, remainingTaskCount + " remaining tasks.");
         }
     }

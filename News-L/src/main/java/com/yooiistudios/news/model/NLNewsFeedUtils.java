@@ -8,7 +8,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.yooiistudios.news.common.log.NLLog;
+import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.setting.language.NLLanguage;
 import com.yooiistudios.news.setting.language.NLLanguageType;
 

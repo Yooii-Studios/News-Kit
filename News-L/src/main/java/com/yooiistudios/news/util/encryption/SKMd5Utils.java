@@ -1,4 +1,4 @@
-package com.yooiistudios.news.common.encryption;
+package com.yooiistudios.news.util.encryption;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

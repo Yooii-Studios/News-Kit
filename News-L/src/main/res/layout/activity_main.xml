@@ -5,6 +5,7 @@
     tools:context=".MainActivity"
     android:background="@color/theme_background">
     <RelativeLayout
+        android:id="@+id/topNewsFeedWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -20,5 +21,11 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/topNewsImageView"/>
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bottomNewsFeedRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topNewsFeedWrapper"/>
 
 </RelativeLayout>

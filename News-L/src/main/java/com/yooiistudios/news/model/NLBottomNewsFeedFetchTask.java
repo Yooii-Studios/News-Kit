@@ -12,17 +12,19 @@ public class NLBottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     private Context mContext;
     private NLNewsFeedUrl mNewsFeedUrl;
     private OnFetchListener mListener;
+    private int mPosition;
 
     public interface OnFetchListener {
-        public void onBottomNewsFeedFetchSuccess(NLNewsFeedUrl url,
+        public void onBottomNewsFeedFetchSuccess(int position,
                                                  NLNewsFeed newsFeed);
         public void onBottomNewsFeedFetchFail();
     }
 
     public NLBottomNewsFeedFetchTask(Context context, NLNewsFeedUrl newsFeedUrl,
-                                     OnFetchListener listener) {
+                                     int position, OnFetchListener listener) {
         mContext = context;
         mNewsFeedUrl = newsFeedUrl;
+        mPosition = position;
         mListener = listener;
     }
 
@@ -37,7 +39,7 @@ public class NLBottomNewsFeedFetchTask extends AsyncTask<Void, Void,
         super.onPostExecute(newsFeed);
         if (mListener != null) {
             if (newsFeed != null) {
-                mListener.onBottomNewsFeedFetchSuccess(mNewsFeedUrl, newsFeed);
+                mListener.onBottomNewsFeedFetchSuccess(mPosition, newsFeed);
             } else {
                 mListener.onBottomNewsFeedFetchFail();
             }
