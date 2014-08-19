@@ -5,23 +5,22 @@ import android.os.AsyncTask;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
- *
- * NLTopNewsFeedFetchTask
- *  메인 액티비티의 탑 뉴스를 가져오는 클래스
  */
-public class NLTopNewsFeedFetchTask extends AsyncTask<Void, Void, NLNewsFeed> {
+public class NLBottomNewsFeedFetchTask extends AsyncTask<Void, Void,
+        NLNewsFeed> {
 
     private Context mContext;
     private NLNewsFeedUrl mNewsFeedUrl;
     private OnFetchListener mListener;
 
     public interface OnFetchListener {
-        public void onTopNewsFeedFetchSuccess(NLNewsFeed newsFeed);
-        public void onTopNewsFeedFetchFail();
+        public void onBottomNewsFeedFetchSuccess(NLNewsFeedUrl url,
+                                                 NLNewsFeed newsFeed);
+        public void onBottomNewsFeedFetchFail();
     }
 
-    public NLTopNewsFeedFetchTask(Context context, NLNewsFeedUrl newsFeedUrl,
-                                  OnFetchListener listener) {
+    public NLBottomNewsFeedFetchTask(Context context, NLNewsFeedUrl newsFeedUrl,
+                                     OnFetchListener listener) {
         mContext = context;
         mNewsFeedUrl = newsFeedUrl;
         mListener = listener;
@@ -38,9 +37,9 @@ public class NLTopNewsFeedFetchTask extends AsyncTask<Void, Void, NLNewsFeed> {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
             if (newsFeed != null) {
-                mListener.onTopNewsFeedFetchSuccess(newsFeed);
+                mListener.onBottomNewsFeedFetchSuccess(mNewsFeedUrl, newsFeed);
             } else {
-                mListener.onTopNewsFeedFetchFail();
+                mListener.onBottomNewsFeedFetchFail();
             }
         }
     }
