@@ -31,6 +31,7 @@ import com.yooiistudios.news.model.NLNewsFeedUrlType;
 import com.yooiistudios.news.model.NLNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.NLTopNewsFeedFetchTask;
 import com.yooiistudios.news.store.NLStoreActivity;
+import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.log.NLLog;
 
@@ -98,10 +99,11 @@ public class NLMainActivity extends Activity
     private void initBottomNewsFeed() {
         //init ui
         mBottomNewsFeedRecyclerView.setHasFixedSize(true);
+        mBottomNewsFeedRecyclerView.setItemAnimator(
+                new SlideInFromBottomItemAnimator(mBottomNewsFeedRecyclerView));
         GridLayoutManager layoutManager = new GridLayoutManager(
                 getApplicationContext());
         layoutManager.setColumns(2);
-//        mBottomNewsFeedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         mBottomNewsFeedList = new ArrayList<NLNewsFeed>();
@@ -172,6 +174,21 @@ public class NLMainActivity extends Activity
             }
         }
         mBottomNewsFeedIndexToTaskMap.clear();
+    }
+    private void loadNewBottomNewsFeedList(ArrayList<NLNewsFeed>
+                                                 newNewsFeedList) {
+        mBottomNewsFeedAdapter = new NLBottomNewsFeedAdapter();
+        mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
+
+        for (int i = 0; i < newNewsFeedList.size(); i++) {
+            final NLNewsFeed newsFeed = newNewsFeedList.get(i);
+            mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
+                }
+            }, 100*i + 1);
+        }
     }
 
     @Override
@@ -272,9 +289,7 @@ public class NLMainActivity extends Activity
             NLLog.i(TAG, "All task done. Loaded news feed list size : " +
                     mBottomNewsFeedList.size());
 
-            mBottomNewsFeedAdapter = new NLBottomNewsFeedAdapter(
-                    mBottomNewsFeedList);
-            mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
+            loadNewBottomNewsFeedList(mBottomNewsFeedList);
         } else {
             NLLog.i(TAG, remainingTaskCount + " remaining tasks.");
         }

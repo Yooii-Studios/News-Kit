@@ -6,10 +6,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
-public class SlideInFromLeftItemAnimator extends BaseItemAnimator {
+public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
     private View parent;
 
-    public SlideInFromLeftItemAnimator(View parent) {
+    public SlideInFromBottomItemAnimator(View parent) {
         this.parent = parent;
     }
 

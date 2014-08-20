@@ -17,6 +17,10 @@ public class NLBottomNewsFeedAdapter extends RecyclerView.Adapter<NLBottomNewsFe
 
     private ArrayList<NLNewsFeed> mNewsFeed;
 
+    public NLBottomNewsFeedAdapter() {
+        mNewsFeed = new ArrayList<NLNewsFeed>();
+    }
+
     public NLBottomNewsFeedAdapter(ArrayList<NLNewsFeed> newsFeed) {
         mNewsFeed = newsFeed;
     }
@@ -40,6 +44,11 @@ public class NLBottomNewsFeedAdapter extends RecyclerView.Adapter<NLBottomNewsFe
     @Override
     public int getItemCount() {
         return mNewsFeed.size();
+    }
+
+    public void addNewsFeed(NLNewsFeed newsFeed) {
+        mNewsFeed.add(newsFeed);
+        notifyItemInserted(mNewsFeed.size() - 1);
     }
 
     protected static class NLBottomNewsFeedViewHolder extends RecyclerView
