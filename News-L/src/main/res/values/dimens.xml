@@ -8,8 +8,8 @@
     <dimen name="main_top_imageView_height">300dp</dimen>
 
     <!-- Main Bottom -->
-    <dimen name="main_bottom_cardView_elevation">2dp</dimen>
-    <dimen name="main_bottom_cardView_margin">5dp</dimen>
-    <dimen name="main_bottom_cardView_title_size">32sp</dimen>
+    <dimen name="main_bottom_margin_small">3dp</dimen>
+    <dimen name="main_bottom_cardView_elevation">1dp</dimen>
+    <dimen name="main_bottom_cardView_title_size">20sp</dimen>
 
 </resources>

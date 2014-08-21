@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-    android:layout_margin="@dimen/main_bottom_cardView_margin">
+    android:layout_margin="@dimen/main_bottom_margin_small">
     <TextView
         android:id="@+id/feedName"
         android:layout_width="match_parent"
