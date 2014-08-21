@@ -5,16 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
+import android.support.v7.graphics.PaletteItem;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
+import com.yooiistudios.news.util.ImageMemoryCache;
 
 public class NLDetailActivity extends Activity {
     private ImageView mTopImageView;
@@ -102,8 +103,16 @@ public class NLDetailActivity extends Activity {
     }
 
     private void applyPalette(Palette palette) {
-        getWindow().setBackgroundDrawable(new ColorDrawable(palette.getDarkMutedColor().getRgb()));
+        // TODO 공식 문서가 release된 후 palette.get~ 메서드가 null을 반환할 가능성이 있는지 체크
+        PaletteItem darkMutedColor =  palette.getDarkMutedColor();
+        PaletteItem vibrantColor = palette.getVibrantColor();
 
-        mTopTitleTextView.setTextColor(palette.getVibrantColor().getRgb());
+        if (darkMutedColor != null) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(darkMutedColor.getRgb()));
+        }
+
+        if (vibrantColor != null) {
+            mTopTitleTextView.setTextColor(vibrantColor.getRgb());
+        }
     }
 }

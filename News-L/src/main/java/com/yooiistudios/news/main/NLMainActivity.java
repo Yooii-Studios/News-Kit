@@ -73,6 +73,7 @@ public class NLMainActivity extends Activity
 
         mImageLoader = new ImageLoader(Volley.newRequestQueue(this), ImageMemoryCache.INSTANCE);
 
+        // TODO off-line configuration
         initTopNewsImageView();
         initTopNewsFeed();
         initBottomNewsFeed();
@@ -187,7 +188,7 @@ public class NLMainActivity extends Activity
                 public void run() {
                     mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
                 }
-            }, 100*i + 1);
+            }, 60*i + 1);
         }
     }
 

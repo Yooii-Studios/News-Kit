@@ -21,7 +21,7 @@ public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
         return new PendingAnimator.Add(viewHolder) {
             @Override
             void animate(OnAnimatorEnd callback) {
-                v.animate().setDuration(getAddDuration()*10).translationY(0)
+                v.animate().setDuration(getAddDuration()*4).translationY(0)
                         .setInterpolator(new DecelerateInterpolator())
                         .setListener(callback);
             }
