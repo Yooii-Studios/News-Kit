@@ -6,10 +6,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
-public class SlideInFromLeftItemAnimator extends BaseItemAnimator {
+public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
     private View parent;
 
-    public SlideInFromLeftItemAnimator(View parent) {
+    public SlideInFromBottomItemAnimator(View parent) {
         this.parent = parent;
     }
 
@@ -21,7 +21,7 @@ public class SlideInFromLeftItemAnimator extends BaseItemAnimator {
         return new PendingAnimator.Add(viewHolder) {
             @Override
             void animate(OnAnimatorEnd callback) {
-                v.animate().setDuration(getAddDuration()*10).translationY(0)
+                v.animate().setDuration(getAddDuration()*4).translationY(0)
                         .setInterpolator(new DecelerateInterpolator())
                         .setListener(callback);
             }
