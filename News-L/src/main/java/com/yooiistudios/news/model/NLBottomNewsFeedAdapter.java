@@ -17,6 +17,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.dp.DipToPixel;
+import com.yooiistudios.news.util.log.NLLog;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 public class NLBottomNewsFeedAdapter extends
         RecyclerView.Adapter<NLBottomNewsFeedAdapter
                 .NLBottomNewsFeedViewHolder> {
+    private static final String TAG = NLBottomNewsFeedAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
     private Context mContext;
@@ -95,7 +97,9 @@ public class NLBottomNewsFeedAdapter extends
             imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    viewHolder.imageView.setImageBitmap(response.getBitmap());
+                    NLLog.i(TAG, "onResponse\nposition : " + position);
+//                    viewHolder.imageView.setImageBitmap(response.getBitmap());
+                    viewHolder.imageView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
 
                 @Override
