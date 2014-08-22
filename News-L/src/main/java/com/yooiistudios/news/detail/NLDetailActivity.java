@@ -30,11 +30,17 @@ public class NLDetailActivity extends Activity {
         setContentView(R.layout.activity_detail);
 
         // retrieve feed from intent
-//        mNewsFeed = getIntent().getParcelableExtra(NLNewsFeed.NEWS_FEED);
-        mNewsFeed = NLMainActivity.sTopNewsFeed;
+        mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.NEWS_FEED);
+        String imageViewName = getIntent().getExtras().getString(NLMainActivity
+                .INTENT_KEY_VIEW_NAME_IMAGE, null);
+        String titleViewName = getIntent().getExtras().getString(NLMainActivity
+                .INTENT_KEY_VIEW_NAME_TITLE, null);
 
         mTopImageView = (ImageView)findViewById(R.id.newsImage);
         mTopTitleTextView = (TextView)findViewById(R.id.newsTitle);
+
+        mTopImageView.setViewName(imageViewName);
+        mTopTitleTextView.setViewName(titleViewName);
 
         mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
 
@@ -77,7 +83,7 @@ public class NLDetailActivity extends Activity {
         mTopTitleTextView.setText(mTopNews.getTitle());
 
         // set image
-        String imgUrl = mTopNews.getMainImageUrl();
+        String imgUrl = mTopNews.getImageUrl();
         if (imgUrl != null) {
             mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
 

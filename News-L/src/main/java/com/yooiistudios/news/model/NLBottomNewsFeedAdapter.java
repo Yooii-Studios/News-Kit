@@ -1,13 +1,21 @@
 package com.yooiistudios.news.model;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.main.NLMainActivity;
+import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.dp.DipToPixel;
 
 import java.util.ArrayList;
@@ -18,16 +26,26 @@ import java.util.ArrayList;
  * NLBottomNewsFeedAdapter
  *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
  */
-public class NLBottomNewsFeedAdapter extends RecyclerView.Adapter<NLBottomNewsFeedAdapter.NLBottomNewsFeedViewHolder> {
+public class NLBottomNewsFeedAdapter extends
+        RecyclerView.Adapter<NLBottomNewsFeedAdapter
+                .NLBottomNewsFeedViewHolder> {
+    private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
+    private Context mContext;
     private ArrayList<NLNewsFeed> mNewsFeed;
+    private OnItemClickListener mOnItemClickListener;
 
-    public NLBottomNewsFeedAdapter() {
-        mNewsFeed = new ArrayList<NLNewsFeed>();
+    public interface OnItemClickListener {
+        public void onItemClick(
+                NLBottomNewsFeedAdapter.NLBottomNewsFeedViewHolder
+                        viewHolder, NLNewsFeed newsFeed);
     }
 
-    public NLBottomNewsFeedAdapter(ArrayList<NLNewsFeed> newsFeed) {
-        mNewsFeed = newsFeed;
+    public NLBottomNewsFeedAdapter(Context context, OnItemClickListener
+                                   listener) {
+        mContext = context;
+        mNewsFeed = new ArrayList<NLNewsFeed>();
+        mOnItemClickListener = listener;
     }
 
     @Override
@@ -38,7 +56,9 @@ public class NLBottomNewsFeedAdapter extends RecyclerView.Adapter<NLBottomNewsFe
                 R.layout.main_bottom_item, parent, false);
         v.setElevation(DipToPixel.dpToPixel(context,
                 context.getResources().getDimension(
-                        R.dimen.main_bottom_cardView_elevation)));
+                        R.dimen.main_bottom_cardView_elevation)
+        ));
+//        ((ViewGroup)v).setTransitionGroup(false);
 
         NLBottomNewsFeedViewHolder viewHolder =
                 new NLBottomNewsFeedViewHolder(v);
@@ -50,10 +70,53 @@ public class NLBottomNewsFeedAdapter extends RecyclerView.Adapter<NLBottomNewsFe
     }
 
     @Override
-    public void onBindViewHolder(
-            NLBottomNewsFeedViewHolder bottomNewsFeedViewHolder, int position) {
-        bottomNewsFeedViewHolder.feedName.setText(
-                mNewsFeed.get(position).getTitle());
+    public void onBindViewHolder(final NLBottomNewsFeedViewHolder viewHolder,
+            final int position) {
+        TextView titleView = viewHolder.feedName;
+        ImageView imageView = viewHolder.imageView;
+
+        titleView.setText(mNewsFeed.get(position).getTitle());
+        titleView.setViewName(NLMainActivity.VIEW_NAME_TITLE_PREFIX +
+                VIEW_NAME_POSTFIX + position);
+
+        imageView.setBackground(
+                new ColorDrawable(Color.TRANSPARENT));
+        imageView.setViewName(NLMainActivity.VIEW_NAME_IMAGE_PREFIX +
+                VIEW_NAME_POSTFIX + position);
+
+        ArrayList<NLNews> newsList = mNewsFeed.get(position).getNewsList();
+        String imageUrl;
+        if (newsList.size() > 0 &&
+                (imageUrl = newsList.get(0).getImageUrl()) != null) {
+
+            ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
+                    (mContext), ImageMemoryCache.INSTANCE);
+
+            imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    viewHolder.imageView.setImageBitmap(response.getBitmap());
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
+
+        viewHolder.itemView.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NLNewsFeed newsFeed = mNewsFeed.get(position);
+
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(viewHolder, newsFeed);
+                    }
+                }
+            }
+        );
     }
 
     @Override
@@ -65,15 +128,31 @@ public class NLBottomNewsFeedAdapter extends RecyclerView.Adapter<NLBottomNewsFe
         mNewsFeed.add(newsFeed);
         notifyItemInserted(mNewsFeed.size() - 1);
     }
+    public void setImageUrlAt(String imageUrl, int position) {
+    }
 
-    protected static class NLBottomNewsFeedViewHolder extends RecyclerView
+//    @Override
+//    public void onClick(View view) {
+//        int position = ((Integer)view.getTag(KEY_INDEX));
+//        NLBottomNewsFeedViewHolder viewHolder = (NLBottomNewsFeedViewHolder)
+//                view.getTag(KEY_VIEW_HOLDER);
+//        NLNewsFeed newsFeed = mNewsFeed.get(position);
+//
+//        if (mOnItemClickListener != null) {
+//            mOnItemClickListener.onItemClick(viewHolder, newsFeed);
+//        }
+//    }
+
+    public static class NLBottomNewsFeedViewHolder extends RecyclerView
             .ViewHolder {
 
-        TextView feedName;
+        public TextView feedName;
+        public ImageView imageView;
 
         public NLBottomNewsFeedViewHolder(View itemView) {
             super(itemView);
             feedName = (TextView)itemView.findViewById(R.id.feedName);
+            imageView = (ImageView)itemView.findViewById(R.id.image);
         }
 
     }
