@@ -3,14 +3,11 @@ package com.yooiistudios.news.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.setting.language.NLLanguage;
 import com.yooiistudios.news.setting.language.NLLanguageType;
+import com.yooiistudios.news.util.log.NLLog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,9 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import nl.matshofman.saxrssreader.RssFeed;
-import nl.matshofman.saxrssreader.RssItem;
 
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 3.
@@ -99,35 +93,35 @@ public class NLNewsFeedUtils {
         return new NLNewsFeedUrl(feedUrl, urlType);
     }
 
-    public static String getRssFeedJsonString(RssFeed feed) {
-        return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy
-                () {
-                    @Override
-                    public boolean shouldSkipField(FieldAttributes f) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean shouldSkipClass(Class<?> clazz) {
-                        return (clazz == RssItem.class);
-                    }
-                }).serializeNulls().create().toJson(feed);
-    }
-    public static String getRssItemArrayListString(ArrayList<RssItem>
-                                                           itemList) {
-        return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy
-                () {
-            @Override
-            public boolean shouldSkipField(FieldAttributes f) {
-                return false;
-            }
-
-            @Override
-            public boolean shouldSkipClass(Class<?> clazz) {
-                return (clazz == RssFeed.class);
-            }
-        }).serializeNulls().create().toJson(itemList);
-    }
+//    public static String getRssFeedJsonString(RssFeed feed) {
+//        return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy
+//                () {
+//                    @Override
+//                    public boolean shouldSkipField(FieldAttributes f) {
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean shouldSkipClass(Class<?> clazz) {
+//                        return (clazz == RssItem.class);
+//                    }
+//                }).serializeNulls().create().toJson(feed);
+//    }
+//    public static String getRssItemArrayListString(ArrayList<RssItem>
+//                                                           itemList) {
+//        return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy
+//                () {
+//            @Override
+//            public boolean shouldSkipField(FieldAttributes f) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean shouldSkipClass(Class<?> clazz) {
+//                return (clazz == RssFeed.class);
+//            }
+//        }).serializeNulls().create().toJson(itemList);
+//    }
 
     public static void addUrlToHistory(Context context, String url) {
         ArrayList<String> urlList = getUrlHistory(context);
@@ -172,7 +166,7 @@ public class NLNewsFeedUtils {
      * retval[1] : publisher or null if there's no publisher info.
      *
      */
-    public static String[] getTitleAndPublisherName(RssItem news,
+    public static String[] getTitleAndPublisherName(NLNews news,
                                           NLNewsFeedUrlType type) {
         String title = news.getTitle();
         String newTitle;

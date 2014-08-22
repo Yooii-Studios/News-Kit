@@ -37,7 +37,6 @@ public class NLNewsFeedParseHandler extends DefaultHandler {
 
         if (qName.equals("item") && rssFeed != null) {
             rssItem = new NLNews();
-            rssItem.setFeed(rssFeed);
             rssFeed.addNews(rssItem);
         }
     }

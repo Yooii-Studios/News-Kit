@@ -56,7 +56,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // 뉴스 모델 관련
-    compile project(':libraries:sAXRSSReader')
+//    compile project(':libraries:sAXRSSReader')
     // Volley
     compile project(':libraries:Volley')
     // 메인 하단의 그리드형 RecyclerView를 위한 LayoutManager
@@ -89,6 +89,7 @@ dependencies {
 //    compile 'org.apache.httpcomponents:httpclient:4.3.5'
     compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5'
 
+    compile 'com.jakewharton:disklrucache:2.0.2'
 }
 
 // release 시 비밀번호를 직접 입력하기 위한 코드
