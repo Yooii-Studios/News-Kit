@@ -31,10 +31,10 @@ import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
         implements NLDetailNewsAdapter.OnItemClickListener {
-    @InjectView(R.id.detail_top_news_image_view) ImageView mTopImageView;
-    @InjectView(R.id.detail_top_news_title_text_view) TextView mTopTitleTextView;
-    @InjectView(R.id.detail_bottom_news_recycler_view)
-    RecyclerView mBottomNewsListRecyclerView;
+    @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
+    @InjectView(R.id.detail_top_news_title_text_view)       TextView mTopTitleTextView;
+    @InjectView(R.id.detail_top_news_description_text_view) TextView mTopDescriptionTextView;
+    @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
 
@@ -132,6 +132,9 @@ public class NLDetailActivity extends Activity
                 NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
+
+        // set description
+        mTopDescriptionTextView.setText(mTopNews.getDescription());
 
         // set image
         String imgUrl = mTopNews.getImageUrl();
