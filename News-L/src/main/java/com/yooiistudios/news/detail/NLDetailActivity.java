@@ -9,8 +9,10 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,9 +72,17 @@ public class NLDetailActivity extends Activity
         mTopImageView.setViewName(imageViewName);
 //        mTopTitleTextView.setViewName(titleViewName);
 
+        applySystemWindowsBottomInset(R.id.detail_scrollView);
+        initActionBar();
         initCustomScrollView();
         initTopNews();
         initBottomNewsList();
+    }
+
+    private void initActionBar() {
+        if (getActionBar() != null && mNewsFeed != null) {
+            getActionBar().setTitle(mNewsFeed.getTitle());
+        }
     }
 
     private void initCustomScrollView() {
@@ -234,7 +244,26 @@ public class NLDetailActivity extends Activity
         NLWebUtils.openLink(this, news.getLink());
     }
 
-    // Custom Scrolling
+    private void applySystemWindowsBottomInset(int container) {
+        View containerView = findViewById(container);
+        containerView.setFitsSystemWindows(true);
+        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                } else {
+                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
+    }
+
+    /**
+     * Custom Scrolling
+     */
     private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
             = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
