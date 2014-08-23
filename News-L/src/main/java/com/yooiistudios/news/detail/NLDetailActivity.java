@@ -18,7 +18,7 @@ import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.detail.NLDetailNewsAdapter;
-import com.yooiistudios.news.ui.itemanimator.NLDetailBottomNewsItemAnimator;
+import com.yooiistudios.news.ui.itemanimator.NLDetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.log.NLLog;
@@ -87,7 +87,7 @@ public class NLDetailActivity extends Activity
 
         mBottomNewsListRecyclerView.setHasFixedSize(true);
         mBottomNewsListRecyclerView.setItemAnimator(
-                new NLDetailBottomNewsItemAnimator(mBottomNewsListRecyclerView));
+                new NLDetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager
                 (getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
