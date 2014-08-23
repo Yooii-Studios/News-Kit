@@ -10,6 +10,7 @@ import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
@@ -142,6 +143,12 @@ public class NLDetailActivity extends Activity
         }
 
         adjustBottomRecyclerViewHeight();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finishAfterTransition();
+        return super.onOptionsItemSelected(item);
     }
 
     private void adjustBottomRecyclerViewHeight() {
