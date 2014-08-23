@@ -20,7 +20,7 @@ public class NLDetailNewsItemAnimator extends BaseItemAnimator {
     @Override
     public PendingAnimator.Add onAdd(RecyclerView.ViewHolder viewHolder) {
         final View v = viewHolder.itemView;
-        v.setTranslationY(parent.getHeight() / 3);
+        v.setTranslationY(parent.getHeight() / 2);
         v.setAlpha(0f);
 
         return new PendingAnimator.Add(viewHolder) {

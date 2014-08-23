@@ -2,6 +2,7 @@ package com.yooiistudios.news.detail;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -149,7 +151,12 @@ public class NLDetailActivity extends Activity
         });
 
         // set description
-        mTopDescriptionTextView.setText(mTopNews.getDescription());
+        if (mTopNews.getDescription() == null) {
+            NLLog.now("mTopNews.getDescription() == null");
+            mTopDescriptionTextView.setVisibility(View.GONE);
+        } else {
+            mTopDescriptionTextView.setText(mTopNews.getDescription());
+        }
 
         // set image
         String imgUrl = mTopNews.getImageUrl();
@@ -174,6 +181,24 @@ public class NLDetailActivity extends Activity
                 NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
+
+        animateTopItems();
+    }
+
+    private void animateTopItems() {
+        mTopTitleTextView.setAlpha(0);
+        mTopDescriptionTextView.setAlpha(0);
+
+        mTopTitleTextView.animate()
+                .setStartDelay(300)
+                .setDuration(500)
+                .alpha(1f)
+                .setInterpolator(new DecelerateInterpolator());
+        mTopDescriptionTextView.animate()
+                .setStartDelay(300)
+                .setDuration(500)
+                .alpha(1f)
+                .setInterpolator(new DecelerateInterpolator());
     }
 
     private void colorize(Bitmap photo) {
@@ -183,16 +208,20 @@ public class NLDetailActivity extends Activity
 
     private void applyPalette() {
         // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
-        PaletteItem darkMutedColor =  mPalette.getDarkMutedColor();
+        PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
+
+        PaletteItem mutedColor = mPalette.getMutedColor();
         PaletteItem vibrantColor = mPalette.getVibrantColor();
 
-        if (darkMutedColor != null) {
-            getWindow().setBackgroundDrawable(new ColorDrawable(darkMutedColor.getRgb()));
-            mTopContentLayout.setBackground(new ColorDrawable(darkMutedColor.getRgb()));
+        mTopTitleTextView.setTextColor(Color.WHITE);
+
+        if (lightVibrantColor != null) {
+            mTopDescriptionTextView.setTextColor(lightVibrantColor.getRgb());
         }
 
         if (vibrantColor != null) {
-            mTopTitleTextView.setTextColor(vibrantColor.getRgb());
+            mTopTitleTextView.setBackground(new ColorDrawable(vibrantColor.getRgb()));
+            mTopDescriptionTextView.setBackground(new ColorDrawable(vibrantColor.getRgb()));
         }
     }
 
