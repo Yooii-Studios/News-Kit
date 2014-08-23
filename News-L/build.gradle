@@ -60,6 +60,12 @@ dependencies {
     // Volley
     compile project(':libraries:Volley')
     // 메인 하단의 그리드형 RecyclerView를 위한 LayoutManager
+//    compile (project(':libraries:GridLayoutManager')) {
+////        exclude module: 'support-v4'
+//        exclude group:'com.android.support', module: 'support-v4'
+////        exclude('com.android.support:support-v4')
+////        transitive = false
+//    }
     compile project(':libraries:GridLayoutManager')
 
     // 안드로이드 기본
@@ -70,6 +76,10 @@ dependencies {
     compile "com.android.support:cardview-v7:21.0.0-rc1"
     compile "com.android.support:recyclerview-v7:21.0.0-rc1"
     compile "com.android.support:palette-v7:21.0.0-rc1"
+
+    // view pager에 쓰임
+    compile "com.android.support:support-v13:20.0.0"
+    compile project(':libraries:view-pager-indicator-library')
 
     // 위치 서비스, 구글 플레이, 애드몹
     compile 'com.google.android.gms:play-services:5.2.08' // 4.0.+ 에서 버전업

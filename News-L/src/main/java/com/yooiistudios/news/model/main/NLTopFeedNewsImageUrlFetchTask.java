@@ -11,14 +11,16 @@ import com.yooiistudios.news.model.NLNewsFeedImageUrlFetchUtil;
  * NLNewsImageUrlFetchTask
  *  뉴스의 이미지 url을 뽑아내는 태스크
  */
-public class NLTopNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
+public class NLTopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
 
     private NLNews mNews;
-    private OnTopImageUrlFetchListener mListener;
+    private int mPosition;
+    private OnTopFeedImageUrlFetchListener mListener;
 
-    public NLTopNewsImageUrlFetchTask(NLNews news, OnTopImageUrlFetchListener
-            listener) {
+    public NLTopFeedNewsImageUrlFetchTask(NLNews news, int position,
+                                      OnTopFeedImageUrlFetchListener listener) {
         mNews = news;
+        mPosition = position;
         mListener = listener;
     }
 
@@ -33,17 +35,19 @@ public class NLTopNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
 
         if (mListener != null) {
             if (imageUrl != null) {
-                mListener.onTopImageUrlFetchSuccess(mNews, imageUrl);
+                mListener.onTopFeedImageUrlFetchSuccess(mNews, imageUrl,
+                        mPosition);
             } else {
-                mListener.onTopImageUrlFetchFail();
+                mListener.onTopFeedImageUrlFetchFail();
             }
         }
     }
 
 
 
-    public interface OnTopImageUrlFetchListener {
-        public void onTopImageUrlFetchSuccess(NLNews news, String url);
-        public void onTopImageUrlFetchFail();
+    public interface OnTopFeedImageUrlFetchListener {
+        public void onTopFeedImageUrlFetchSuccess(NLNews news, String url,
+                                                  int position);
+        public void onTopFeedImageUrlFetchFail();
     }
 }

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -19,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.model.NLNews;
@@ -29,8 +31,9 @@ import com.yooiistudios.news.model.NLNewsFeedUrlType;
 import com.yooiistudios.news.model.main.NLBottomNewsFeedAdapter;
 import com.yooiistudios.news.model.main.NLBottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.main.NLBottomNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.main.NLTopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.main.NLTopNewsFeedFetchTask;
-import com.yooiistudios.news.model.main.NLTopNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.main.NLTopNewsFeedPagerAdapter;
 import com.yooiistudios.news.store.NLStoreActivity;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.util.ImageMemoryCache;
@@ -45,38 +48,74 @@ import butterknife.InjectView;
 
 
 public class NLMainActivity extends Activity
-        implements NLTopNewsImageUrlFetchTask.OnTopImageUrlFetchListener,
+        implements NLTopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         NLTopNewsFeedFetchTask.OnFetchListener,
         NLBottomNewsFeedFetchTask.OnFetchListener,
         NLBottomNewsFeedAdapter.OnItemClickListener,
         NLBottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
 
-    @InjectView(R.id.topFeedImage) ImageView mTopNewsImageView;
-    @InjectView(R.id.topFeedTitle) TextView mTopNewsTitle;
+    @InjectView(R.id.main_top_view_pager)
+    ViewPager mTopNewsFeedViewPager;
+    @InjectView(R.id.main_top_page_indicator)
+    CirclePageIndicator mTopViewPagerIndicator;
     @InjectView(R.id.bottomNewsFeedRecyclerView)
     RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = NLMainActivity.class.getName();
-    public static final String VIEW_NAME_IMAGE_PREFIX = "topImage";
-    public static final String VIEW_NAME_TITLE_PREFIX = "topTitle";
+    public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
+    public static final String VIEW_NAME_TITLE_PREFIX = "topTitle_";
     public static final String INTENT_KEY_VIEW_NAME_IMAGE = "INTENT_KEY_VIEW_NAME_IMAGE";
     public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
 
-    public NLNewsFeed mTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
+    private NLNewsFeed mTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
     private ImageLoader mImageLoader;
     private ProgressDialog mDialog;
 
     private NLNewsFeedFetchTask mTopFeedFetchTask;
-    private NLTopNewsImageUrlFetchTask mTopImageUrlFetchTask;
+    private NLTopFeedNewsImageUrlFetchTask mTopImageUrlFetchTask;
     private NLTopNewsFeedFetchTask mTopNewsFeedFetchTask;
     private ArrayList<NLNewsFeedUrl> mBottomNewsFeedUrlList;
     private SparseArray<NLBottomNewsFeedFetchTask>
             mBottomNewsFeedIndexToNewsFetchTaskMap;
     private HashMap<NLNews, NLBottomNewsImageUrlFetchTask>
             mBottomNewsFeedNewsToImageTaskMap;
+    private HashMap<NLNews, NLTopFeedNewsImageUrlFetchTask>
+            mTopNewsFeedNewsToImageTaskMap;
     private ArrayList<NLNewsFeed> mBottomNewsFeedList;
     private NLBottomNewsFeedAdapter mBottomNewsFeedAdapter;
+    private NLTopNewsFeedPagerAdapter mTopNewsFeedPagerAdapter;
+
+    // Mock url list
+    private static final ArrayList<NLNewsFeedUrl> sMockUrlList;
+
+    static {
+        sMockUrlList = new ArrayList<NLNewsFeedUrl>();
+        sMockUrlList.add(
+                new NLNewsFeedUrl(
+                        "http://rss.cnn.com/rss/edition.rss",
+                        NLNewsFeedUrlType.GENERAL));
+        sMockUrlList.add(
+                new NLNewsFeedUrl(
+                        "http://www.cnet.com/rss/news/",
+                        NLNewsFeedUrlType.GENERAL));
+        sMockUrlList.add(
+                new NLNewsFeedUrl(
+                        "http://feeds.bbci.co.uk/news/rss.xml?edition=int",
+                        NLNewsFeedUrlType.GENERAL));
+        sMockUrlList.add(
+                new NLNewsFeedUrl(
+                        "http://www.newyorker.com/feed/news",
+                        NLNewsFeedUrlType.GENERAL));
+        sMockUrlList.add(
+                new NLNewsFeedUrl(
+                        "http://estaticos.elmundo.es/elmundo/rss/portada.xml",
+                        NLNewsFeedUrlType.GENERAL));
+        sMockUrlList.add(
+                new NLNewsFeedUrl(
+                        "http://rss.lemonde.fr/c/205/f/3050/index.rss",
+                        NLNewsFeedUrlType.GENERAL));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +132,6 @@ public class NLMainActivity extends Activity
     }
 
     private void initTopNewsFeed() {
-        initTopNewsImageView();
-        mTopNewsTitle.setViewName(VIEW_NAME_TITLE_PREFIX);
-
         // Dialog
         mDialog = ProgressDialog.show(this, getString(R.string.splash_loading_title),
                 getString(R.string.splash_loading_description));
@@ -124,12 +160,10 @@ public class NLMainActivity extends Activity
         mBottomNewsFeedList = new ArrayList<NLNewsFeed>();
         mBottomNewsFeedUrlList = new ArrayList<NLNewsFeedUrl>();
 
-        final int bottomNewsCount = 6;
+        final int bottomNewsCount = sMockUrlList.size();
 
         for (int i = 0; i < bottomNewsCount; i++) {
-            mBottomNewsFeedUrlList.add(new NLNewsFeedUrl(
-                    "http://feeds2.feedburner.com/time/topstories",
-                    NLNewsFeedUrlType.GENERAL));
+            mBottomNewsFeedUrlList.add(sMockUrlList.get(i));
             mBottomNewsFeedList.add(null);
         }
 
@@ -145,43 +179,42 @@ public class NLMainActivity extends Activity
 
     }
 
-    private void initTopNewsImageView() {
-        mTopNewsImageView.setViewName(VIEW_NAME_IMAGE_PREFIX);
-        mTopNewsImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO Top News가 unavailable할 경우 예외처리
-
-//                ActivityOptions options2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(NLMainActivity.this,
-//                                Pair.create(mTopNewsImageView, "topImage"),
-//                                Pair.create(mTopNewsTitle, "topTitle"));
-//                ActivityOptions options2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(NLMainActivity.this,
-//                                mTopNewsImageView, "");
-
-                ActivityOptions activityOptions =
-                        ActivityOptions.makeSceneTransitionAnimation(
-                                NLMainActivity.this,
-                                new Pair<View, String>(mTopNewsImageView,
-                                        mTopNewsImageView.getViewName()),
-                                new Pair<View, String>(mTopNewsTitle,
-                                        mTopNewsTitle.getViewName())
-                        );
-//                ActivityOptions activityOptions2 = ActivityOptions.
-//                        makeSceneTransitionAnimation(NLMainActivity.this,
-//                                mTopNewsImageView, mTopNewsImageView.getViewName());
-
-                Intent intent = new Intent(NLMainActivity.this,
-                        NLDetailActivity.class);
-                intent.putExtra(NLNewsFeed.NEWS_FEED, mTopNewsFeed);
-                intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, mTopNewsImageView.getViewName());
-                intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, mTopNewsTitle.getViewName());
-
-                startActivity(intent, activityOptions.toBundle());
-            }
-        });
-    }
+//    private void initTopNewsImageView() {
+//        mTopNewsImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO Top News가 unavailable할 경우 예외처리
+//
+////                ActivityOptions options2 = ActivityOptions.
+////                        makeSceneTransitionAnimation(NLMainActivity.this,
+////                                Pair.create(mTopNewsImageView, "topImage"),
+////                                Pair.create(mTopNewsTitle, "topTitle"));
+////                ActivityOptions options2 = ActivityOptions.
+////                        makeSceneTransitionAnimation(NLMainActivity.this,
+////                                mTopNewsImageView, "");
+//
+//                ActivityOptions activityOptions =
+//                        ActivityOptions.makeSceneTransitionAnimation(
+//                                NLMainActivity.this,
+//                                new Pair<View, String>(mTopNewsImageView,
+//                                        mTopNewsImageView.getViewName()),
+//                                new Pair<View, String>(mTopNewsTitle,
+//                                        mTopNewsTitle.getViewName())
+//                        );
+////                ActivityOptions activityOptions2 = ActivityOptions.
+////                        makeSceneTransitionAnimation(NLMainActivity.this,
+////                                mTopNewsImageView, mTopNewsImageView.getViewName());
+//
+//                Intent intent = new Intent(NLMainActivity.this,
+//                        NLDetailActivity.class);
+//                intent.putExtra(NLNewsFeed.NEWS_FEED, mTopNewsFeed);
+//                intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, mTopNewsImageView.getViewName());
+//                intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, mTopNewsTitle.getViewName());
+//
+//                startActivity(intent, activityOptions.toBundle());
+//            }
+//        });
+//    }
 
     private void fetchBottomNewsFeedListImage() {
         mBottomNewsFeedNewsToImageTaskMap = new
@@ -198,6 +231,33 @@ public class NLMainActivity extends Activity
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             }
         }
+    }
+
+
+    private void fetchTopNewsFeedImageExceptFirstNews() {
+        mTopNewsFeedNewsToImageTaskMap = new
+                HashMap<NLNews, NLTopFeedNewsImageUrlFetchTask>();
+
+        ArrayList<NLNews> newsList = mTopNewsFeed.getNewsList();
+
+        for (int i = 1; i < newsList.size(); i++) {
+            NLNews news = newsList.get(i);
+
+            NLTopFeedNewsImageUrlFetchTask task = new
+                    NLTopFeedNewsImageUrlFetchTask(news, i, this);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mTopNewsFeedNewsToImageTaskMap.put(news, task);
+        }
+    }
+    private void cancelTopNewsFeedImageFetchTasks() {
+        for (Map.Entry<NLNews, NLTopFeedNewsImageUrlFetchTask> entry :
+                mTopNewsFeedNewsToImageTaskMap.entrySet()) {
+            NLTopFeedNewsImageUrlFetchTask task = entry.getValue();
+            if (task != null) {
+                task.cancel(true);
+            }
+        }
+        mTopNewsFeedNewsToImageTaskMap.clear();
     }
 
     private void cancelBottomNewsFetchTasks() {
@@ -260,7 +320,8 @@ public class NLMainActivity extends Activity
     }
 
     @Override
-    public void onTopImageUrlFetchSuccess(NLNews news, String url) {
+    public void onTopFeedImageUrlFetchSuccess(NLNews news, String url,
+                                              final int position) {
         NLLog.i(TAG, "fetch image url success.");
         if (url != null) {
             news.setImageUrl(url);
@@ -275,7 +336,20 @@ public class NLMainActivity extends Activity
                     endMilli = System.currentTimeMillis();
                     NLLog.i("performance", "mImageLoader.get : " +
                             (endMilli - startMilli));
-                    mTopNewsImageView.setImageBitmap(response.getBitmap());
+                    NLLog.i(TAG, "onResponse\nposition : " + position);
+
+                    mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
+
+//                    ArrayList<NLNews> items = mTopNewsFeed.getNewsList();
+//                    if (items.size() > 0) {
+//                        NLNews news = items.get(0);
+//                        news
+//                    }
+
+                    if (position == 0) {
+                        fetchTopNewsFeedImageExceptFirstNews();
+                    }
+//                    mTopNewsImageView.setImageBitmap(response.getBitmap());
                 }
 
                 @Override
@@ -287,7 +361,7 @@ public class NLMainActivity extends Activity
     }
 
     @Override
-    public void onTopImageUrlFetchFail() {
+    public void onTopFeedImageUrlFetchFail() {
         NLLog.i(TAG, "fetch image url failed.");
     }
 
@@ -303,21 +377,29 @@ public class NLMainActivity extends Activity
         mTopNewsFeed = newsFeed;
         ArrayList<NLNews> items = newsFeed.getNewsList();
 //        ArrayList<NLNews> items = rssFeed.getNewsListContainsImageUrl();
+        mTopNewsFeedPagerAdapter = new NLTopNewsFeedPagerAdapter(
+                getFragmentManager(), mTopNewsFeed);
+
+        mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
+        mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
 
         if (items.size() > 0) {
             NLNews news = items.get(0);
-            mTopNewsTitle.setText(news.getTitle());
 
-            mTopImageUrlFetchTask = new NLTopNewsImageUrlFetchTask(news, this);
+            mTopImageUrlFetchTask = new NLTopFeedNewsImageUrlFetchTask(news, 0,
+                    this);
             mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            //TODO 이미지가 없을 경우 예외처리
+            //TODO 해당 피드의 뉴스가 없을 경우 예외처리. Use dummy image.
+
+            fetchTopNewsFeedImageExceptFirstNews();
         }
     }
 
     @Override
     public void onTopNewsFeedFetchFail() {
         NLLog.i(TAG, "onTopNewsFeedFetchFail");
+        // TODO Handle when top news fetch failed.
         if (mDialog != null) {
             mDialog.dismiss();
         }
@@ -380,7 +462,7 @@ public class NLMainActivity extends Activity
     @Override
     public void onBottomImageUrlFetchSuccess(NLNews news, String url,
                                              int position) {
-        NLLog.i(TAG, "onTopImageUrlFetchSuccess");
+        NLLog.i(TAG, "onBottomImageUrlFetchSuccess");
         if (url != null) {
             news.setImageUrl(url);
             mBottomNewsFeedAdapter.notifyItemChanged(position);
@@ -394,6 +476,6 @@ public class NLMainActivity extends Activity
 
     @Override
     public void onBottomImageUrlFetchFail() {
-        NLLog.i(TAG, "onTopImageUrlFetchFail");
+        NLLog.i(TAG, "onBottomImageUrlFetchFail");
     }
 }
