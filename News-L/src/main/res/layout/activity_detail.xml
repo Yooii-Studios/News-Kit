@@ -36,7 +36,7 @@
                     android:textColor="#ffffff"
                     android:background="?android:attr/colorPrimary"
                     android:theme="@android:style/Theme.Material"
-                    android:textAppearance="@android:style/TextAppearance.Material.Title"
+                    android:textAppearance="@android:style/TextAppearance.Material.Headline"
                     android:maxLines="2"
                     android:padding="16dp"/>
 

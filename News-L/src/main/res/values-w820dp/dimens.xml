@@ -13,5 +13,5 @@
     <dimen name="main_bottom_card_view_title_size">28sp</dimen>
 
     <!-- Detail Top -->
-    <dimen name="detail_top_image_view_height">510dp</dimen>
+    <dimen name="detail_top_image_view_height">512dp</dimen> <!-- 64 * 8 -->
 </resources>

@@ -17,7 +17,8 @@ import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.detail.NLDetailBottomNewsAdapter;
-import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
+import com.yooiistudios.news.ui.itemanimator.NLDetailBottomNewsItemAnimator;
+import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import java.util.ArrayList;
@@ -77,14 +78,17 @@ public class NLDetailActivity extends Activity
     }
     private void initBottomNewsList() {
         //init ui
+        mBottomNewsListRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
+
         mBottomNewsListRecyclerView.setHasFixedSize(true);
         mBottomNewsListRecyclerView.setItemAnimator(
-                new SlideInFromBottomItemAnimator(mBottomNewsListRecyclerView));
+                new NLDetailBottomNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager
                 (getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new NLDetailBottomNewsAdapter(getApplicationContext(), this);
+        mAdapter = new NLDetailBottomNewsAdapter(this, this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
 
@@ -143,7 +147,7 @@ public class NLDetailActivity extends Activity
     }
 
     private void applyPalette(Palette palette) {
-        // TODO 공식 문서가 release된 후 palette.get~ 메서드가 null을 반환할 가능성이 있는지 체크
+        // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
         PaletteItem darkMutedColor =  palette.getDarkMutedColor();
         PaletteItem vibrantColor = palette.getVibrantColor();
 
