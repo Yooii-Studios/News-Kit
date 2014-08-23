@@ -9,8 +9,10 @@ import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
@@ -19,6 +21,7 @@ import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.detail.NLDetailNewsAdapter;
 import com.yooiistudios.news.ui.itemanimator.NLDetailNewsItemAnimator;
+import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.log.NLLog;
@@ -30,7 +33,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
-        implements NLDetailNewsAdapter.OnItemClickListener {
+        implements NLDetailNewsAdapter.OnItemClickListener, ObservableScrollView.Callbacks {
+    @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
+    @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
     @InjectView(R.id.detail_top_news_title_text_view)       TextView mTopTitleTextView;
     @InjectView(R.id.detail_top_news_description_text_view) TextView mTopDescriptionTextView;
@@ -61,8 +66,17 @@ public class NLDetailActivity extends Activity
         mTopImageView.setViewName(imageViewName);
         mTopTitleTextView.setViewName(titleViewName);
 
+        initCustomScrollView();
         initTopNews();
         initBottomNewsList();
+    }
+
+    private void initCustomScrollView() {
+        mScrollView.addCallbacks(this);
+        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
+        if (vto.isAlive()) {
+            vto.addOnGlobalLayoutListener(mGlobalLayoutListener);
+        }
     }
 
     private void initTopNews() {
@@ -184,5 +198,29 @@ public class NLDetailActivity extends Activity
     public void onItemClick(NLDetailNewsAdapter.ViewHolder viewHolder, NLNews news) {
         NLLog.now("detail bottom onItemClick");
         NLWebUtils.openLink(this, news.getLink());
+    }
+
+    // Custom Scrolling
+    private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
+            = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+//            mAddScheduleButtonHeightPixels = mAddScheduleButton.getHeight();
+//            recomputePhotoAndScrollingMetrics();
+        }
+    };
+
+    @Override
+    public void onScrollChanged(int deltaX, int deltaY) {
+        // Reposition the header bar -- it's normally anchored to the top of the content,
+        // but locks to the top of the screen on scroll
+        int scrollY = mScrollView.getScrollY();
+
+        // Move background photo (parallax effect)
+        if (scrollY >= 0) {
+            mTopImageView.setTranslationY(scrollY * 0.5f);
+        } else {
+            mTopImageView.setTranslationY(0);
+        }
     }
 }
