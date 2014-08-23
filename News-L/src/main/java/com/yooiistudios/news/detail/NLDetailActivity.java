@@ -2,6 +2,7 @@ package com.yooiistudios.news.detail;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -43,6 +45,8 @@ public class NLDetailActivity extends Activity
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
 
+    private Palette mPalette;
+
     private NLNewsFeed mNewsFeed;
     private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
@@ -59,12 +63,12 @@ public class NLDetailActivity extends Activity
         mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.NEWS_FEED);
         String imageViewName = getIntent().getExtras().getString(NLMainActivity
                 .INTENT_KEY_VIEW_NAME_IMAGE, null);
-        String titleViewName = getIntent().getExtras().getString(NLMainActivity
-                .INTENT_KEY_VIEW_NAME_TITLE, null);
+//        String titleViewName = getIntent().getExtras().getString(NLMainActivity
+//                .INTENT_KEY_VIEW_NAME_TITLE, null);
 
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
-        mTopTitleTextView.setViewName(titleViewName);
+//        mTopTitleTextView.setViewName(titleViewName);
 
         initCustomScrollView();
         initTopNews();
@@ -139,7 +143,6 @@ public class NLDetailActivity extends Activity
 
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
-
         mTopTitleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +151,12 @@ public class NLDetailActivity extends Activity
         });
 
         // set description
-        mTopDescriptionTextView.setText(mTopNews.getDescription());
+        if (mTopNews.getDescription() == null) {
+            NLLog.now("mTopNews.getDescription() == null");
+            mTopDescriptionTextView.setVisibility(View.GONE);
+        } else {
+            mTopDescriptionTextView.setText(mTopNews.getDescription());
+        }
 
         // set image
         String imgUrl = mTopNews.getImageUrl();
@@ -173,24 +181,47 @@ public class NLDetailActivity extends Activity
                 NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
+
+        animateTopItems();
+    }
+
+    private void animateTopItems() {
+        mTopTitleTextView.setAlpha(0);
+        mTopDescriptionTextView.setAlpha(0);
+
+        mTopTitleTextView.animate()
+                .setStartDelay(300)
+                .setDuration(500)
+                .alpha(1f)
+                .setInterpolator(new DecelerateInterpolator());
+        mTopDescriptionTextView.animate()
+                .setStartDelay(300)
+                .setDuration(500)
+                .alpha(1f)
+                .setInterpolator(new DecelerateInterpolator());
     }
 
     private void colorize(Bitmap photo) {
-        Palette palette = Palette.generate(photo);
-        applyPalette(palette);
+        mPalette = Palette.generate(photo);
+        applyPalette();
     }
 
-    private void applyPalette(Palette palette) {
+    private void applyPalette() {
         // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
-        PaletteItem darkMutedColor =  palette.getDarkMutedColor();
-        PaletteItem vibrantColor = palette.getVibrantColor();
+        PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
 
-        if (darkMutedColor != null) {
-            getWindow().setBackgroundDrawable(new ColorDrawable(darkMutedColor.getRgb()));
+        PaletteItem mutedColor = mPalette.getMutedColor();
+        PaletteItem vibrantColor = mPalette.getVibrantColor();
+
+        mTopTitleTextView.setTextColor(Color.WHITE);
+
+        if (lightVibrantColor != null) {
+            mTopDescriptionTextView.setTextColor(lightVibrantColor.getRgb());
         }
 
         if (vibrantColor != null) {
-            mTopTitleTextView.setTextColor(vibrantColor.getRgb());
+            mTopTitleTextView.setBackground(new ColorDrawable(vibrantColor.getRgb()));
+            mTopDescriptionTextView.setBackground(new ColorDrawable(vibrantColor.getRgb()));
         }
     }
 

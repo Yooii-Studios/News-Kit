@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@android:style/Theme.Material"
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
         android:maxLines="2"
         android:layout_gravity="start"
         android:paddingLeft="16dp"
