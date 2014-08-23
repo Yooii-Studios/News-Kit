@@ -14,7 +14,7 @@ public class NLLog {
 
     public static void now(String message) {
         if (isDebug) {
-            Log.i("MNLog", message);
+            Log.i("NLLog", message);
         }
     }
     public static void i(String TAG, String message) {
