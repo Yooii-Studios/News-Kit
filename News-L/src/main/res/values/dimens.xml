@@ -14,6 +14,11 @@
     <dimen name="main_bottom_card_view_elevation">1dp</dimen>
     <dimen name="main_bottom_card_view_title_size">20sp</dimen>
 
+    <!-- Detail -->
+    <dimen name="detail_text_padding">16dp</dimen>
+    <dimen name="detail_text_inner_padding">4dp</dimen>
+    <dimen name="detail_text_wide_padding">20dp</dimen>
+
     <!-- Detail Top -->
     <dimen name="detail_top_image_view_height">280dp</dimen>    <!-- 56 * 5 -->
 

@@ -84,6 +84,9 @@ public class NLDetailActivity extends Activity
     }
 
     private void initTopNews() {
+        mTopTitleTextView.setAlpha(0);
+        mTopDescriptionTextView.setAlpha(0);
+
         mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
 
         if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
@@ -152,10 +155,13 @@ public class NLDetailActivity extends Activity
 
         // set description
         if (mTopNews.getDescription() == null) {
-            NLLog.now("mTopNews.getDescription() == null");
             mTopDescriptionTextView.setVisibility(View.GONE);
         } else {
             mTopDescriptionTextView.setText(mTopNews.getDescription());
+
+            // 타이틀 아래 패딩 조절
+            mTopTitleTextView.setPadding(mTopTitleTextView.getPaddingLeft(),
+                    mTopTitleTextView.getPaddingTop(), mTopTitleTextView.getPaddingRight(), 0);
         }
 
         // set image
@@ -186,17 +192,14 @@ public class NLDetailActivity extends Activity
     }
 
     private void animateTopItems() {
-        mTopTitleTextView.setAlpha(0);
-        mTopDescriptionTextView.setAlpha(0);
-
         mTopTitleTextView.animate()
-                .setStartDelay(300)
-                .setDuration(500)
+                .setStartDelay(450)
+                .setDuration(650)
                 .alpha(1f)
                 .setInterpolator(new DecelerateInterpolator());
         mTopDescriptionTextView.animate()
-                .setStartDelay(300)
-                .setDuration(500)
+                .setStartDelay(450)
+                .setDuration(650)
                 .alpha(1f)
                 .setInterpolator(new DecelerateInterpolator());
     }
@@ -209,9 +212,7 @@ public class NLDetailActivity extends Activity
     private void applyPalette() {
         // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
         PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
-
-        PaletteItem mutedColor = mPalette.getMutedColor();
-        PaletteItem vibrantColor = mPalette.getVibrantColor();
+        PaletteItem darkVibrantColor = mPalette.getDarkVibrantColor();
 
         mTopTitleTextView.setTextColor(Color.WHITE);
 
@@ -219,9 +220,11 @@ public class NLDetailActivity extends Activity
             mTopDescriptionTextView.setTextColor(lightVibrantColor.getRgb());
         }
 
-        if (vibrantColor != null) {
-            mTopTitleTextView.setBackground(new ColorDrawable(vibrantColor.getRgb()));
-            mTopDescriptionTextView.setBackground(new ColorDrawable(vibrantColor.getRgb()));
+        if (darkVibrantColor != null) {
+//            getWindow().setBackgroundDrawable(new ColorDrawable(vibrantColor.getRgb()));
+            mTopContentLayout.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
+            mTopTitleTextView.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
+            mTopDescriptionTextView.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
         }
     }
 

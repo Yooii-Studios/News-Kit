@@ -56,16 +56,27 @@ public class NLDetailNewsAdapter extends
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder,
             final int position) {
-        TextView titleView = viewHolder.newsTitle;
-        if (titleView != null) {
-            titleView.setText(mNewsList.get(position).getTitle());
-            titleView.setTextColor(Color.BLACK);
+        TextView titleTextView = viewHolder.newsTitle;
+        if (titleTextView != null) {
+            titleTextView.setText(mNewsList.get(position).getTitle());
+            titleTextView.setTextColor(Color.BLACK);
+
+            // 아래 패딩 조절
+            if (mNewsList.get(position).getDescription() != null) {
+                titleTextView.setPadding(titleTextView.getPaddingLeft(),
+                        titleTextView.getPaddingTop(), titleTextView.getPaddingRight(), 0);
+            }
         }
 
-        TextView descriptionView = viewHolder.newsDescription;
-        if (descriptionView != null) {
-            descriptionView.setText(mNewsList.get(position).getDescription());
-            descriptionView.setTextColor(Color.GRAY);
+        TextView descriptionTextView = viewHolder.newsDescription;
+        if (descriptionTextView != null && mNewsList.get(position).getDescription() != null) {
+            String description = mNewsList.get(position).getDescription();
+            if (description != null) {
+                descriptionTextView.setText(mNewsList.get(position).getDescription());
+                descriptionTextView.setTextColor(Color.GRAY);
+            } else {
+                descriptionTextView.setVisibility(View.GONE);
+            }
         }
 
         viewHolder.itemView.setOnClickListener(

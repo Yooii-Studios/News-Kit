@@ -38,10 +38,8 @@
                     android:theme="@android:style/Theme.Material"
                     android:textAppearance="@android:style/TextAppearance.Material.Headline"
                     android:maxLines="2"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="4dp"/>
+                    android:padding="@dimen/detail_text_padding"
+                    android:ellipsize="end"/>
 
                 <TextView
                     android:id="@+id/detail_top_news_description_text_view"
@@ -52,17 +50,18 @@
                     android:theme="@android:style/Theme.Material"
                     android:textAppearance="@android:style/TextAppearance.Material.Body1"
                     android:maxLines="2"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="16dp"/>
+                    android:paddingStart="@dimen/detail_text_wide_padding"
+                    android:paddingTop="@dimen/detail_text_inner_padding"
+                    android:paddingEnd="@dimen/detail_text_wide_padding"
+                    android:paddingBottom="@dimen/detail_text_wide_padding"
+                    android:ellipsize="end"/>
 
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detail_bottom_news_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/main_bottom_margin_small"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </com.yooiistudios.news.ui.widget.ObservableScrollView>
