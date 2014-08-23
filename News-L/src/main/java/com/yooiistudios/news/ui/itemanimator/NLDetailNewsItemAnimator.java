@@ -29,6 +29,7 @@ public class NLDetailNewsItemAnimator extends BaseItemAnimator {
                 v.animate().setDuration(getAddDuration() * 7)
                         .translationY(0)
                         .alpha(1f)
+//                        .setInterpolator(new PathInterpolator(0.4f, 0, 1, 1))
                         .setInterpolator(new DecelerateInterpolator())
                         .setListener(callback);
             }
