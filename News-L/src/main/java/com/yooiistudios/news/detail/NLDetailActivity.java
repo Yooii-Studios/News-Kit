@@ -9,6 +9,7 @@ import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
@@ -100,6 +101,15 @@ public class NLDetailActivity extends Activity
                 }
             }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
         }
+
+        adjustBottomRecyclerViewHeight();
+    }
+
+    private void adjustBottomRecyclerViewHeight() {
+        LinearLayout.LayoutParams layoutParams =
+                (LinearLayout.LayoutParams) mBottomNewsListRecyclerView.getLayoutParams();
+        layoutParams.height = (int) (getResources().getDimension(R.dimen.detail_bottom_news_item_height) *
+                        mNewsFeed.getNewsList().size() - 1);
     }
 
     private void loadTopItem() {

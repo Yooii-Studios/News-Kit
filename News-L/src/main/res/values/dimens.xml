@@ -15,4 +15,7 @@
     <!-- Detail Top -->
     <dimen name="detail_top_image_view_height">300dp</dimen>
 
+    <!-- Detail Bottom -->
+    <dimen name="detail_bottom_news_item_height">100dp</dimen>
+
 </resources>
