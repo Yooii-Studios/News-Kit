@@ -1,6 +1,7 @@
 package com.yooiistudios.news.model.detail;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,7 @@ public class NLDetailBottomNewsAdapter extends
                 R.layout.detail_bottom_item, parent, false);
         v.setElevation(DipToPixel.dpToPixel(context,
                 context.getResources().getDimension(
-                        R.dimen.main_bottom_cardView_elevation)
+                        R.dimen.main_bottom_card_view_elevation)
         ));
 
         NLDetailBottomNewsViewHolder viewHolder =
@@ -61,6 +62,7 @@ public class NLDetailBottomNewsAdapter extends
         TextView titleView = viewHolder.newsTitle;
 
         titleView.setText(mNewsList.get(position).getTitle());
+        titleView.setTextColor(Color.BLACK);
 
         viewHolder.itemView.setOnClickListener(
             new View.OnClickListener() {

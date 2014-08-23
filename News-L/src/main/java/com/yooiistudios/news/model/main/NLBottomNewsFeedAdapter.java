@@ -60,7 +60,7 @@ public class NLBottomNewsFeedAdapter extends
                 R.layout.main_bottom_item, parent, false);
         v.setElevation(DipToPixel.dpToPixel(context,
                 context.getResources().getDimension(
-                        R.dimen.main_bottom_cardView_elevation)
+                        R.dimen.main_bottom_card_view_elevation)
         ));
 //        ((ViewGroup)v).setTransitionGroup(false);
 

@@ -8,8 +8,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,9 +26,9 @@ import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
         implements NLDetailBottomNewsAdapter.OnItemClickListener {
-    @InjectView(R.id.topNewsImage) ImageView mTopImageView;
-    @InjectView(R.id.topNewsTitle) TextView mTopTitleTextView;
-    @InjectView(R.id.bottomNewsListRecyclerView)
+    @InjectView(R.id.detail_top_news_image_view) ImageView mTopImageView;
+    @InjectView(R.id.detail_top_news_title_text_view) TextView mTopTitleTextView;
+    @InjectView(R.id.detail_bottom_news_recycler_view)
     RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
@@ -100,28 +98,8 @@ public class NLDetailActivity extends Activity
                 public void run() {
                     mAdapter.addNews(news);
                 }
-            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI*i + 1);
+            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.detail, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void loadTopItem() {
@@ -137,15 +115,13 @@ public class NLDetailActivity extends Activity
 
             if (mTopImageBitmap != null) {
                 mTopImageView.setImageBitmap(mTopImageBitmap);
-            }
-            else {
+            } else {
                 //TODO 아직 이미지 못 가져온 경우 처리
 
                 // mTopImageBitmap
 //                mHeaderImageView.setImageUrl(item.getPhotoUrl(), mImageLoader);
             }
-        }
-        else {
+        } else {
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
         }

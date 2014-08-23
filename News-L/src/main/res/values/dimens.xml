@@ -5,11 +5,14 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Main Top -->
-    <dimen name="main_top_imageView_height">300dp</dimen>
+    <dimen name="main_top_image_view_height">300dp</dimen>
 
     <!-- Main Bottom -->
     <dimen name="main_bottom_margin_small">3dp</dimen>
-    <dimen name="main_bottom_cardView_elevation">1dp</dimen>
-    <dimen name="main_bottom_cardView_title_size">20sp</dimen>
+    <dimen name="main_bottom_card_view_elevation">1dp</dimen>
+    <dimen name="main_bottom_card_view_title_size">20sp</dimen>
+
+    <!-- Detail Top -->
+    <dimen name="detail_top_image_view_height">300dp</dimen>
 
 </resources>
