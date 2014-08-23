@@ -1,4 +1,4 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.model.main;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +15,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
+import com.yooiistudios.news.model.NLNews;
+import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.dp.DipToPixel;
 import com.yooiistudios.news.util.log.NLLog;
@@ -65,8 +67,6 @@ public class NLBottomNewsFeedAdapter extends
         NLBottomNewsFeedViewHolder viewHolder =
                 new NLBottomNewsFeedViewHolder(v);
 
-//        viewHolder.feedName.setBackgroundColor(context.getResources().getColor(
-//                R.color.theme_default_accent));
 
         return viewHolder;
     }
@@ -98,8 +98,8 @@ public class NLBottomNewsFeedAdapter extends
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     NLLog.i(TAG, "onResponse\nposition : " + position);
-//                    viewHolder.imageView.setImageBitmap(response.getBitmap());
-                    viewHolder.imageView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    viewHolder.imageView.setImageBitmap(response.getBitmap());
+//                    viewHolder.imageView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
 
                 @Override
@@ -155,7 +155,7 @@ public class NLBottomNewsFeedAdapter extends
 
         public NLBottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            feedName = (TextView)itemView.findViewById(R.id.feedName);
+            feedName = (TextView)itemView.findViewById(R.id.title);
             imageView = (ImageView)itemView.findViewById(R.id.image);
         }
 

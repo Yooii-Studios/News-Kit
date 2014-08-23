@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.yooiistudios.news.ui.widget.NLSquareCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
     android:layout_margin="@dimen/main_bottom_margin_small">
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorPrimary"
         android:theme="@android:style/Theme.Material"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         android:maxLines="1"
         android:layout_gravity="bottom|start"
         android:padding="16dp"/>
 
-</com.yooiistudios.news.ui.widget.NLSquareCardView>
+</FrameLayout>

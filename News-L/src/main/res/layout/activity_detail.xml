@@ -1,23 +1,36 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yooiistudios.news.detail.NLDetailActivity"
-    android:background="@color/theme_background">
+    android:background="@color/theme_background"
+    android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/newsImage"
+            android:id="@+id/topNewsImage"
             android:layout_width="match_parent"
             android:layout_height="550dp"
             android:scaleType="centerCrop"/>
         <TextView
-            android:id="@+id/newsTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/topNewsTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/newsImage"
-            android:textColor="#ffffff"/>
+            android:layout_alignBottom="@id/topNewsImage"
+            android:textColor="#ffffff"
+            android:background="?android:attr/colorPrimary"
+            android:theme="@android:style/Theme.Material"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:maxLines="2"
+            android:padding="16dp"/>
     </RelativeLayout>
 
-</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bottomNewsListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/main_bottom_margin_small"/>
+
+
+</LinearLayout>

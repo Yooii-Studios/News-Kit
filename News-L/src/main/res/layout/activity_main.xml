@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/topNewsImageView"
+            android:id="@+id/topFeedImage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_top_imageView_height"
             android:scaleType="centerCrop"/>
         <TextView
-            android:id="@+id/topNewsTitle"
+            android:id="@+id/topFeedTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/topNewsImageView"/>
+            android:layout_alignBottom="@id/topFeedImage"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,16 +21,16 @@ import com.android.volley.toolbox.Volley;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
-import com.yooiistudios.news.model.NLBottomNewsFeedAdapter;
-import com.yooiistudios.news.model.NLBottomNewsFeedFetchTask;
-import com.yooiistudios.news.model.NLBottomNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.NLNewsFeedFetchTask;
 import com.yooiistudios.news.model.NLNewsFeedUrl;
 import com.yooiistudios.news.model.NLNewsFeedUrlType;
-import com.yooiistudios.news.model.NLTopNewsFeedFetchTask;
-import com.yooiistudios.news.model.NLTopNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.main.NLBottomNewsFeedAdapter;
+import com.yooiistudios.news.model.main.NLBottomNewsFeedFetchTask;
+import com.yooiistudios.news.model.main.NLBottomNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.main.NLTopNewsFeedFetchTask;
+import com.yooiistudios.news.model.main.NLTopNewsImageUrlFetchTask;
 import com.yooiistudios.news.store.NLStoreActivity;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.util.ImageMemoryCache;
@@ -50,8 +51,8 @@ public class NLMainActivity extends Activity
         NLBottomNewsFeedAdapter.OnItemClickListener,
         NLBottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
 
-    @InjectView(R.id.topNewsImageView) ImageView mTopNewsImageView;
-    @InjectView(R.id.topNewsTitle) TextView mTopNewsTitle;
+    @InjectView(R.id.topFeedImage) ImageView mTopNewsImageView;
+    @InjectView(R.id.topFeedTitle) TextView mTopNewsTitle;
     @InjectView(R.id.bottomNewsFeedRecyclerView)
     RecyclerView mBottomNewsFeedRecyclerView;
 
@@ -60,6 +61,7 @@ public class NLMainActivity extends Activity
     public static final String VIEW_NAME_TITLE_PREFIX = "topTitle";
     public static final String INTENT_KEY_VIEW_NAME_IMAGE = "INTENT_KEY_VIEW_NAME_IMAGE";
     public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
+    private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
 
     public NLNewsFeed mTopNewsFeed; // 저장 생각하기 귀찮아서 우선 public static으로 선언.
     private ImageLoader mImageLoader;
@@ -88,11 +90,6 @@ public class NLMainActivity extends Activity
         initTopNewsFeed();
         initBottomNewsFeed();
 
-        //load news feed
-//        Context context = getApplicationContext();
-//        mTopFeedFetchTask = new NLNewsFeedFetchTask(context,
-//                NLNewsFeedUtils.getDefaultFeedUrl(context), 10, this);
-//        mTopFeedFetchTask.execute();
     }
 
     private void initTopNewsFeed() {
@@ -162,17 +159,17 @@ public class NLMainActivity extends Activity
 //                        makeSceneTransitionAnimation(NLMainActivity.this,
 //                                mTopNewsImageView, "");
 
-//                ActivityOptions activityOptions =
-//                        ActivityOptions.makeSceneTransitionAnimation(
-//                                NLMainActivity.this,
-//                                new Pair<View, String>(mTopNewsImageView,
-//                                        mTopNewsImageView.getViewName()),
-//                                new Pair<View, String>(mTopNewsTitle,
-//                                        mTopNewsTitle.getViewName())
-//                        );
-                ActivityOptions activityOptions2 = ActivityOptions.
-                        makeSceneTransitionAnimation(NLMainActivity.this,
-                                mTopNewsImageView, mTopNewsImageView.getViewName());
+                ActivityOptions activityOptions =
+                        ActivityOptions.makeSceneTransitionAnimation(
+                                NLMainActivity.this,
+                                new Pair<View, String>(mTopNewsImageView,
+                                        mTopNewsImageView.getViewName()),
+                                new Pair<View, String>(mTopNewsTitle,
+                                        mTopNewsTitle.getViewName())
+                        );
+//                ActivityOptions activityOptions2 = ActivityOptions.
+//                        makeSceneTransitionAnimation(NLMainActivity.this,
+//                                mTopNewsImageView, mTopNewsImageView.getViewName());
 
                 Intent intent = new Intent(NLMainActivity.this,
                         NLDetailActivity.class);
@@ -180,7 +177,7 @@ public class NLMainActivity extends Activity
                 intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, mTopNewsImageView.getViewName());
                 intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, mTopNewsTitle.getViewName());
 
-                startActivity(intent, activityOptions2.toBundle());
+                startActivity(intent, activityOptions.toBundle());
             }
         });
     }
@@ -235,7 +232,7 @@ public class NLMainActivity extends Activity
                 public void run() {
                     mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
                 }
-            }, 60*i + 1);
+            }, BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI*i + 1);
         }
     }
 
@@ -361,22 +358,22 @@ public class NLMainActivity extends Activity
         TextView titleView = viewHolder.feedName;
 
 
-//        ActivityOptions activityOptions =
-//                ActivityOptions.makeSceneTransitionAnimation(
-//                        NLMainActivity.this,
-//                        new Pair<View, String>(imageView, imageView.getViewName()),
-//                        new Pair<View, String>(titleView, titleView.getViewName())
-//                );
-        ActivityOptions activityOptions2 = ActivityOptions.
-                makeSceneTransitionAnimation(NLMainActivity.this,
-                        imageView, imageView.getViewName());
+        ActivityOptions activityOptions =
+                ActivityOptions.makeSceneTransitionAnimation(
+                        NLMainActivity.this,
+                        new Pair<View, String>(imageView, imageView.getViewName()),
+                        new Pair<View, String>(titleView, titleView.getViewName())
+                );
+//        ActivityOptions activityOptions2 = ActivityOptions.
+//                makeSceneTransitionAnimation(NLMainActivity.this,
+//                        imageView, imageView.getViewName());
 
         Intent intent = new Intent(NLMainActivity.this,
                 NLDetailActivity.class);
         intent.putExtra(NLNewsFeed.NEWS_FEED, newsFeed);
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
-        startActivity(intent, activityOptions2.toBundle());
+        startActivity(intent, activityOptions.toBundle());
     }
 
     @Override

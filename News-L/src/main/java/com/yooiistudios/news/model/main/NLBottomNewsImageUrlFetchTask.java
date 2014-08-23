@@ -1,6 +1,9 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.model.main;
 
 import android.os.AsyncTask;
+
+import com.yooiistudios.news.model.NLNews;
+import com.yooiistudios.news.model.NLNewsFeedImageUrlFetchUtil;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.

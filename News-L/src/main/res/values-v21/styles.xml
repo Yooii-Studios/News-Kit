@@ -57,4 +57,25 @@
         <item name="android:textColor">#fff</item>
     </style>
 
+
+    <style name="MainActivityTheme" parent="MainTheme">
+        <!-- Set the transitions which are used for the entrance and exit of shared elements -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/detail_transition
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/detail_transition
+        </item>
+    </style>
+
+    <style name="DetailActivityTheme" parent="MainTheme">
+        <!-- Set the transitions which are used for the entrance and exit of shared elements -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/detail_transition
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/detail_transition
+        </item>
+    </style>
+
 </resources>

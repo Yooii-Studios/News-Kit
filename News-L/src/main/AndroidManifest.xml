@@ -20,7 +20,8 @@
         android:theme="@style/MainTheme" >
         <activity
             android:name=".main.NLMainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/MainActivityTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         </activity>
         <activity
             android:name=".detail.NLDetailActivity"
-            android:label="@string/title_activity_nldetail" >
+            android:label="@string/title_activity_nldetail"
+            android:theme="@style/DetailActivityTheme" >
         </activity>
         <activity
             android:name=".store.NLStoreActivity"

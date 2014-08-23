@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -15,19 +17,35 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
+import com.yooiistudios.news.model.detail.NLDetailBottomNewsAdapter;
+import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
-public class NLDetailActivity extends Activity {
-    private ImageView mTopImageView;
-    private TextView mTopTitleTextView;
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class NLDetailActivity extends Activity
+        implements NLDetailBottomNewsAdapter.OnItemClickListener {
+    @InjectView(R.id.topNewsImage) ImageView mTopImageView;
+    @InjectView(R.id.topNewsTitle) TextView mTopTitleTextView;
+    @InjectView(R.id.bottomNewsListRecyclerView)
+    RecyclerView mBottomNewsListRecyclerView;
+
+    private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
+
     private NLNewsFeed mNewsFeed;
     private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
+    private NLDetailBottomNewsAdapter mAdapter;
+    private ArrayList<NLNews> mBottomNewsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.inject(this);
 
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.NEWS_FEED);
@@ -36,12 +54,15 @@ public class NLDetailActivity extends Activity {
         String titleViewName = getIntent().getExtras().getString(NLMainActivity
                 .INTENT_KEY_VIEW_NAME_TITLE, null);
 
-        mTopImageView = (ImageView)findViewById(R.id.newsImage);
-        mTopTitleTextView = (TextView)findViewById(R.id.newsTitle);
-
+        // set view name to animate
         mTopImageView.setViewName(imageViewName);
         mTopTitleTextView.setViewName(titleViewName);
 
+        initTopNews();
+        initBottomNewsList();
+    }
+
+    private void initTopNews() {
         mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
 
         if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
@@ -53,6 +74,33 @@ public class NLDetailActivity extends Activity {
             }
         } else {
             //TODO when NLNewsFeed is invalid.
+        }
+    }
+    private void initBottomNewsList() {
+        //init ui
+        mBottomNewsListRecyclerView.setHasFixedSize(true);
+        mBottomNewsListRecyclerView.setItemAnimator(
+                new SlideInFromBottomItemAnimator(mBottomNewsListRecyclerView));
+        LinearLayoutManager layoutManager = new LinearLayoutManager
+                (getApplicationContext());
+        mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new NLDetailBottomNewsAdapter(getApplicationContext(), this);
+
+        mBottomNewsListRecyclerView.setAdapter(mAdapter);
+
+        // make bottom news array list. EXCLUDE top news.
+        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
+        mBottomNewsList.remove(mTopNews);
+
+        for (int i = 0; i < mBottomNewsList.size(); i++) {
+            final NLNews news = mBottomNewsList.get(i);
+            mBottomNewsListRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addNews(news);
+                }
+            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI*i + 1);
         }
     }
 
@@ -120,5 +168,10 @@ public class NLDetailActivity extends Activity {
         if (vibrantColor != null) {
             mTopTitleTextView.setTextColor(vibrantColor.getRgb());
         }
+    }
+
+    @Override
+    public void onItemClick(NLDetailBottomNewsAdapter.NLDetailBottomNewsViewHolder viewHolder, NLNews news) {
+
     }
 }
