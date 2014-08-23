@@ -20,19 +20,19 @@ import java.util.ArrayList;
  * NLBottomNewsFeedAdapter
  *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
  */
-public class NLDetailBottomNewsAdapter extends
-        RecyclerView.Adapter<NLDetailBottomNewsAdapter.NLDetailBottomNewsViewHolder> {
-    private static final String TAG = NLDetailBottomNewsAdapter.class.getName();
+public class NLDetailNewsAdapter extends
+        RecyclerView.Adapter<NLDetailNewsAdapter.ViewHolder> {
+    private static final String TAG = NLDetailNewsAdapter.class.getName();
 
     private Context mContext;
     private ArrayList<NLNews> mNewsList;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        public void onItemClick(NLDetailBottomNewsViewHolder viewHolder, NLNews news);
+        public void onItemClick(ViewHolder viewHolder, NLNews news);
     }
 
-    public NLDetailBottomNewsAdapter(Context context
+    public NLDetailNewsAdapter(Context context
             , OnItemClickListener listener) {
         mContext = context;
         mNewsList = new ArrayList<NLNews>();
@@ -40,7 +40,7 @@ public class NLDetailBottomNewsAdapter extends
     }
 
     @Override
-    public NLDetailBottomNewsViewHolder onCreateViewHolder(ViewGroup parent,
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int i) {
         Context context = parent.getContext();
         View v = LayoutInflater.from(context).inflate(
@@ -50,11 +50,11 @@ public class NLDetailBottomNewsAdapter extends
                         R.dimen.main_bottom_card_view_elevation)
         ));
 
-        return new NLDetailBottomNewsViewHolder(v);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final NLDetailBottomNewsViewHolder viewHolder,
+    public void onBindViewHolder(final ViewHolder viewHolder,
             final int position) {
         TextView titleView = viewHolder.newsTitle;
         if (titleView != null) {
@@ -92,13 +92,13 @@ public class NLDetailBottomNewsAdapter extends
         notifyItemInserted(mNewsList.size() - 1);
     }
 
-    public static class NLDetailBottomNewsViewHolder extends RecyclerView
+    public static class ViewHolder extends RecyclerView
             .ViewHolder {
 
         protected TextView newsTitle;
         protected TextView newsDescription;
 
-        public NLDetailBottomNewsViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             newsTitle = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
             newsDescription = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_description);

@@ -8,6 +8,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,10 +17,12 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
-import com.yooiistudios.news.model.detail.NLDetailBottomNewsAdapter;
+import com.yooiistudios.news.model.detail.NLDetailNewsAdapter;
 import com.yooiistudios.news.ui.itemanimator.NLDetailBottomNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.web.NLWebUtils;
 
 import java.util.ArrayList;
 
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
-        implements NLDetailBottomNewsAdapter.OnItemClickListener {
+        implements NLDetailNewsAdapter.OnItemClickListener {
     @InjectView(R.id.detail_top_news_image_view) ImageView mTopImageView;
     @InjectView(R.id.detail_top_news_title_text_view) TextView mTopTitleTextView;
     @InjectView(R.id.detail_bottom_news_recycler_view)
@@ -38,7 +41,7 @@ public class NLDetailActivity extends Activity
     private NLNewsFeed mNewsFeed;
     private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
-    private NLDetailBottomNewsAdapter mAdapter;
+    private NLDetailNewsAdapter mAdapter;
     private ArrayList<NLNews> mBottomNewsList;
 
     @Override
@@ -76,6 +79,7 @@ public class NLDetailActivity extends Activity
             //TODO when NLNewsFeed is invalid.
         }
     }
+
     private void initBottomNewsList() {
         //init ui
         mBottomNewsListRecyclerView.addItemDecoration(new DividerItemDecoration(this,
@@ -88,7 +92,7 @@ public class NLDetailActivity extends Activity
                 (getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new NLDetailBottomNewsAdapter(this, this);
+        mAdapter = new NLDetailNewsAdapter(this, this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
 
@@ -122,6 +126,13 @@ public class NLDetailActivity extends Activity
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
 
+        mTopTitleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
+            }
+        });
+
         // set image
         String imgUrl = mTopNews.getImageUrl();
         if (imgUrl != null) {
@@ -139,6 +150,12 @@ public class NLDetailActivity extends Activity
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
         }
+        mTopImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
+            }
+        });
     }
 
     private void colorize(Bitmap photo) {
@@ -161,7 +178,8 @@ public class NLDetailActivity extends Activity
     }
 
     @Override
-    public void onItemClick(NLDetailBottomNewsAdapter.NLDetailBottomNewsViewHolder viewHolder, NLNews news) {
-
+    public void onItemClick(NLDetailNewsAdapter.ViewHolder viewHolder, NLNews news) {
+        NLLog.now("detail bottom onItemClick");
+        NLWebUtils.openLink(this, news.getLink());
     }
 }
