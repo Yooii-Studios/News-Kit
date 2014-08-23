@@ -9,7 +9,10 @@ import com.yooiistudios.news.model.NLNewsFeedUrl;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
- */
+ *
+ * NLBottomNewsFeedFetchTask
+ *  메인 화면 하단 뉴스피드 로딩을 담당
+ **/
 public class NLBottomNewsFeedFetchTask extends AsyncTask<Void, Void,
         NLNewsFeed> {
 
@@ -35,7 +38,7 @@ public class NLBottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     @Override
     protected NLNewsFeed doInBackground(Void... voids) {
 
-        return NLNewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, 10);
+        return NLNewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, 15);
     }
 
     @Override
