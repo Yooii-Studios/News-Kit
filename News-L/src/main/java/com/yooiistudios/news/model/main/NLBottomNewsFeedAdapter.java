@@ -76,8 +76,10 @@ public class NLBottomNewsFeedAdapter extends
             final int position) {
         TextView titleView = viewHolder.feedName;
         ImageView imageView = viewHolder.imageView;
+        ArrayList<NLNews> newsList = mNewsFeed.get(position).getNewsList();
+        NLNews displayingNews = newsList.get(0);
 
-        titleView.setText(mNewsFeed.get(position).getTitle());
+        titleView.setText(displayingNews.getTitle());
         titleView.setViewName(NLMainActivity.VIEW_NAME_TITLE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
@@ -86,10 +88,9 @@ public class NLBottomNewsFeedAdapter extends
         imageView.setViewName(NLMainActivity.VIEW_NAME_IMAGE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
-        ArrayList<NLNews> newsList = mNewsFeed.get(position).getNewsList();
         String imageUrl;
         if (newsList.size() > 0 &&
-                (imageUrl = newsList.get(0).getImageUrl()) != null) {
+                (imageUrl = displayingNews.getImageUrl()) != null) {
 
             ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
                     (mContext), ImageMemoryCache.INSTANCE);

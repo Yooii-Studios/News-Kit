@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.model.NLNews;
@@ -55,6 +56,8 @@ public class NLMainActivity extends Activity
 
     @InjectView(R.id.main_top_view_pager)
     ViewPager mTopNewsFeedViewPager;
+    @InjectView(R.id.main_top_page_indicator)
+    CirclePageIndicator mTopViewPagerIndicator;
     @InjectView(R.id.bottomNewsFeedRecyclerView)
     RecyclerView mBottomNewsFeedRecyclerView;
 
@@ -236,7 +239,7 @@ public class NLMainActivity extends Activity
 
         ArrayList<NLNews> newsList = mTopNewsFeed.getNewsList();
 
-        for (int i = 0; i < newsList.size(); i++) {
+        for (int i = 1; i < newsList.size(); i++) {
             NLNews news = newsList.get(i);
 
             NLTopFeedNewsImageUrlFetchTask task = new
@@ -336,6 +339,12 @@ public class NLMainActivity extends Activity
 
                     mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
 
+//                    ArrayList<NLNews> items = mTopNewsFeed.getNewsList();
+//                    if (items.size() > 0) {
+//                        NLNews news = items.get(0);
+//                        news
+//                    }
+
                     if (position == 0) {
                         fetchTopNewsFeedImageExceptFirstNews();
                     }
@@ -371,6 +380,7 @@ public class NLMainActivity extends Activity
                 getFragmentManager(), mTopNewsFeed);
 
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
+        mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
 
         if (items.size() > 0) {
             NLNews news = items.get(0);
