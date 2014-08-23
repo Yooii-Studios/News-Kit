@@ -4,27 +4,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@color/theme_background">
-    <RelativeLayout
-        android:id="@+id/topNewsFeedWrapper"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_top_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/topFeedImage"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_top_imageView_height"
-            android:scaleType="centerCrop"/>
-        <TextView
-            android:id="@+id/topFeedTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/topFeedImage"/>
-    </RelativeLayout>
+        android:layout_height="420dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bottomNewsFeedRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/topNewsFeedWrapper"
+        android:layout_below="@id/main_top_view_pager"
         android:layout_margin="@dimen/main_bottom_margin_small"/>
 
 </RelativeLayout>
