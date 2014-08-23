@@ -43,6 +43,8 @@ public class NLDetailActivity extends Activity
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
 
+    private Palette mPalette;
+
     private NLNewsFeed mNewsFeed;
     private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
@@ -59,12 +61,12 @@ public class NLDetailActivity extends Activity
         mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.NEWS_FEED);
         String imageViewName = getIntent().getExtras().getString(NLMainActivity
                 .INTENT_KEY_VIEW_NAME_IMAGE, null);
-        String titleViewName = getIntent().getExtras().getString(NLMainActivity
-                .INTENT_KEY_VIEW_NAME_TITLE, null);
+//        String titleViewName = getIntent().getExtras().getString(NLMainActivity
+//                .INTENT_KEY_VIEW_NAME_TITLE, null);
 
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
-        mTopTitleTextView.setViewName(titleViewName);
+//        mTopTitleTextView.setViewName(titleViewName);
 
         initCustomScrollView();
         initTopNews();
@@ -139,7 +141,6 @@ public class NLDetailActivity extends Activity
 
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
-
         mTopTitleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,17 +177,18 @@ public class NLDetailActivity extends Activity
     }
 
     private void colorize(Bitmap photo) {
-        Palette palette = Palette.generate(photo);
-        applyPalette(palette);
+        mPalette = Palette.generate(photo);
+        applyPalette();
     }
 
-    private void applyPalette(Palette palette) {
+    private void applyPalette() {
         // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
-        PaletteItem darkMutedColor =  palette.getDarkMutedColor();
-        PaletteItem vibrantColor = palette.getVibrantColor();
+        PaletteItem darkMutedColor =  mPalette.getDarkMutedColor();
+        PaletteItem vibrantColor = mPalette.getVibrantColor();
 
         if (darkMutedColor != null) {
             getWindow().setBackgroundDrawable(new ColorDrawable(darkMutedColor.getRgb()));
+            mTopContentLayout.setBackground(new ColorDrawable(darkMutedColor.getRgb()));
         }
 
         if (vibrantColor != null) {
