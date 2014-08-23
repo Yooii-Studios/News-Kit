@@ -5,32 +5,49 @@
     tools:context="com.yooiistudios.news.detail.NLDetailActivity"
     android:background="@color/theme_background"
     android:orientation="vertical">
-    <RelativeLayout
+
+    <ScrollView
+        android:id="@+id/detail_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/topNewsImage"
-            android:layout_width="match_parent"
-            android:layout_height="550dp"
-            android:scaleType="centerCrop"/>
-        <TextView
-            android:id="@+id/topNewsTitle"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/detail_scroll_content_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/topNewsImage"
-            android:textColor="#ffffff"
-            android:background="?android:attr/colorPrimary"
-            android:theme="@android:style/Theme.Material"
-            android:textAppearance="@android:style/TextAppearance.Material.Title"
-            android:maxLines="2"
-            android:padding="16dp"/>
-    </RelativeLayout>
+            android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/bottomNewsListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/main_bottom_margin_small"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/detail_top_news_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detail_top_image_view_height"
+                    android:scaleType="centerCrop"/>
 
+                <TextView
+                    android:id="@+id/detail_top_news_title_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/detail_top_news_image_view"
+                    android:textColor="#ffffff"
+                    android:background="?android:attr/colorPrimary"
+                    android:theme="@android:style/Theme.Material"
+                    android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                    android:maxLines="2"
+                    android:padding="16dp"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/detail_bottom_news_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/main_bottom_margin_small"/>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

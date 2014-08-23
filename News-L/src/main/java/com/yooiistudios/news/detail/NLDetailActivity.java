@@ -8,9 +8,8 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
@@ -18,7 +17,8 @@ import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.detail.NLDetailBottomNewsAdapter;
-import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
+import com.yooiistudios.news.ui.itemanimator.NLDetailBottomNewsItemAnimator;
+import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
         implements NLDetailBottomNewsAdapter.OnItemClickListener {
-    @InjectView(R.id.topNewsImage) ImageView mTopImageView;
-    @InjectView(R.id.topNewsTitle) TextView mTopTitleTextView;
-    @InjectView(R.id.bottomNewsListRecyclerView)
+    @InjectView(R.id.detail_top_news_image_view) ImageView mTopImageView;
+    @InjectView(R.id.detail_top_news_title_text_view) TextView mTopTitleTextView;
+    @InjectView(R.id.detail_bottom_news_recycler_view)
     RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
@@ -78,14 +78,17 @@ public class NLDetailActivity extends Activity
     }
     private void initBottomNewsList() {
         //init ui
+        mBottomNewsListRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
+
         mBottomNewsListRecyclerView.setHasFixedSize(true);
         mBottomNewsListRecyclerView.setItemAnimator(
-                new SlideInFromBottomItemAnimator(mBottomNewsListRecyclerView));
+                new NLDetailBottomNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager
                 (getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new NLDetailBottomNewsAdapter(getApplicationContext(), this);
+        mAdapter = new NLDetailBottomNewsAdapter(this, this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
 
@@ -100,28 +103,17 @@ public class NLDetailActivity extends Activity
                 public void run() {
                     mAdapter.addNews(news);
                 }
-            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI*i + 1);
+            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
         }
+
+        adjustBottomRecyclerViewHeight();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.detail, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private void adjustBottomRecyclerViewHeight() {
+        LinearLayout.LayoutParams layoutParams =
+                (LinearLayout.LayoutParams) mBottomNewsListRecyclerView.getLayoutParams();
+        layoutParams.height = (int) (getResources().getDimension(R.dimen.detail_bottom_news_item_height) *
+                        mNewsFeed.getNewsList().size() - 1);
     }
 
     private void loadTopItem() {
@@ -137,15 +129,13 @@ public class NLDetailActivity extends Activity
 
             if (mTopImageBitmap != null) {
                 mTopImageView.setImageBitmap(mTopImageBitmap);
-            }
-            else {
+            } else {
                 //TODO 아직 이미지 못 가져온 경우 처리
 
                 // mTopImageBitmap
 //                mHeaderImageView.setImageUrl(item.getPhotoUrl(), mImageLoader);
             }
-        }
-        else {
+        } else {
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
         }
@@ -157,7 +147,7 @@ public class NLDetailActivity extends Activity
     }
 
     private void applyPalette(Palette palette) {
-        // TODO 공식 문서가 release된 후 palette.get~ 메서드가 null을 반환할 가능성이 있는지 체크
+        // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
         PaletteItem darkMutedColor =  palette.getDarkMutedColor();
         PaletteItem vibrantColor = palette.getVibrantColor();
 

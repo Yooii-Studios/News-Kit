@@ -1,6 +1,7 @@
 package com.yooiistudios.news.model.detail;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,21 +47,26 @@ public class NLDetailBottomNewsAdapter extends
                 R.layout.detail_bottom_item, parent, false);
         v.setElevation(DipToPixel.dpToPixel(context,
                 context.getResources().getDimension(
-                        R.dimen.main_bottom_cardView_elevation)
+                        R.dimen.main_bottom_card_view_elevation)
         ));
 
-        NLDetailBottomNewsViewHolder viewHolder =
-                new NLDetailBottomNewsViewHolder(v);
-
-        return viewHolder;
+        return new NLDetailBottomNewsViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final NLDetailBottomNewsViewHolder viewHolder,
             final int position) {
         TextView titleView = viewHolder.newsTitle;
+        if (titleView != null) {
+            titleView.setText(mNewsList.get(position).getTitle());
+            titleView.setTextColor(Color.BLACK);
+        }
 
-        titleView.setText(mNewsList.get(position).getTitle());
+        TextView descriptionView = viewHolder.newsDescription;
+        if (descriptionView != null) {
+            descriptionView.setText(mNewsList.get(position).getDescription());
+            descriptionView.setTextColor(Color.GRAY);
+        }
 
         viewHolder.itemView.setOnClickListener(
             new View.OnClickListener() {
@@ -89,11 +95,13 @@ public class NLDetailBottomNewsAdapter extends
     public static class NLDetailBottomNewsViewHolder extends RecyclerView
             .ViewHolder {
 
-        public TextView newsTitle;
+        protected TextView newsTitle;
+        protected TextView newsDescription;
 
         public NLDetailBottomNewsViewHolder(View itemView) {
             super(itemView);
-            newsTitle = (TextView)itemView.findViewById(R.id.title);
+            newsTitle = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
+            newsDescription = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_description);
         }
 
     }

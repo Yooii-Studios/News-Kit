@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/detail_bottom_news_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/colorPrimary"

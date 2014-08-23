@@ -60,7 +60,7 @@ public class NLBottomNewsFeedAdapter extends
                 R.layout.main_bottom_item, parent, false);
         v.setElevation(DipToPixel.dpToPixel(context,
                 context.getResources().getDimension(
-                        R.dimen.main_bottom_cardView_elevation)
+                        R.dimen.main_bottom_card_view_elevation)
         ));
 //        ((ViewGroup)v).setTransitionGroup(false);
 
@@ -155,7 +155,7 @@ public class NLBottomNewsFeedAdapter extends
 
         public NLBottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            feedName = (TextView)itemView.findViewById(R.id.title);
+            feedName = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
             imageView = (ImageView)itemView.findViewById(R.id.image);
         }
 

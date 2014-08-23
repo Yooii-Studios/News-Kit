@@ -97,7 +97,8 @@ public class NLMainActivity extends Activity
         mTopNewsTitle.setViewName(VIEW_NAME_TITLE_PREFIX);
 
         // Dialog
-        mDialog = ProgressDialog.show(this, "blah..loading", "blah..message");
+        mDialog = ProgressDialog.show(this, getString(R.string.splash_loading_title),
+                getString(R.string.splash_loading_description));
 
         // Fetch
         mTopNewsFeedFetchTask =

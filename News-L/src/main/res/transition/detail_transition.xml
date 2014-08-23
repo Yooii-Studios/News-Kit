@@ -28,7 +28,7 @@
         -->
         <targets>
             <target android:targetId="@id/topFeedTitle" />
-            <target android:targetId="@id/topNewsTitle" />
+            <target android:targetId="@id/detail_top_news_title_text_view" />
         </targets>
     </changeBounds>
 
@@ -40,7 +40,7 @@
         -->
         <targets>
             <target android:targetId="@id/topFeedImage" />
-            <target android:targetId="@id/topNewsImage" />
+            <target android:targetId="@id/detail_top_news_image_view" />
         </targets>
     </moveImage>
 

@@ -7,6 +7,10 @@
     <string name="action_store">Store</string>
     <string name="title_activity_nldetail">NLDetailActivity</string>
 
+    <!-- Main -->
+    <string name="splash_loading_title">News L</string>
+    <string name="splash_loading_description">Loading News...</string>
+
     <!-- Setting (Language) -->
     <string name="setting_language_korean">한국어</string>
     <string name="setting_language_english">English</string>
