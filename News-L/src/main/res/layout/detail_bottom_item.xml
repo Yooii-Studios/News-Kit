@@ -10,28 +10,30 @@
         android:layout_height="wrap_content"
         android:theme="@android:style/Theme.Material"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        android:maxLines="1"
+        android:maxLines="2"
         android:layout_gravity="start"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:text="U.S. Weighs Military Action Against ISIS in Syria"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:ellipsize="end"/>
     
     <TextView
         android:id="@+id/detail_bottom_news_item_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@android:style/Theme.Material"
-        android:textAppearance="@android:style/TextAppearance.Material.Body1"
-        android:maxLines="3"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+        android:maxLines="2"
         android:layout_gravity="start"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
         android:layout_below="@id/detail_bottom_news_item_title"
         android:text="The United States is open to the possibility of military action against Islamist militants in Syria, a top Obama Administration official said Friday, warning that the U.S. will do what is necessary to protect Americans"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/darker_gray"
+        android:ellipsize="end"/>
 
 </RelativeLayout>

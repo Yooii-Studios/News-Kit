@@ -2,7 +2,6 @@ package com.yooiistudios.news.ui.itemanimator;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 /**
@@ -11,23 +10,27 @@ import android.view.animation.DecelerateInterpolator;
  * NLDetailBottomNewsItemAnimator
  *  디테일 뉴스의 애니메이션을 커스터마이징
  */
-public class NLDetailBottomNewsItemAnimator extends BaseItemAnimator {
+public class NLDetailNewsItemAnimator extends BaseItemAnimator {
     private View parent;
 
-    public NLDetailBottomNewsItemAnimator(View parent) {
+    public NLDetailNewsItemAnimator(View parent) {
         this.parent = parent;
     }
 
     @Override
     public PendingAnimator.Add onAdd(RecyclerView.ViewHolder viewHolder) {
         final View v = viewHolder.itemView;
-        v.setTranslationY(parent.getHeight());
+        v.setTranslationY(parent.getHeight() / 3);
+        v.setAlpha(0f);
 
         return new PendingAnimator.Add(viewHolder) {
             @Override
             void animate(OnAnimatorEnd callback) {
-                v.animate().setDuration(getAddDuration() * 4).translationY(0)
-                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                v.animate().setDuration(getAddDuration() * 7)
+                        .translationY(0)
+                        .alpha(1f)
+//                        .setInterpolator(new PathInterpolator(0.4f, 0, 1, 1))
+                        .setInterpolator(new DecelerateInterpolator())
                         .setListener(callback);
             }
 

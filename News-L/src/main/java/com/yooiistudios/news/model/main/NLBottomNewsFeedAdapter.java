@@ -58,15 +58,14 @@ public class NLBottomNewsFeedAdapter extends
         Context context = parent.getContext();
         View v = LayoutInflater.from(context).inflate(
                 R.layout.main_bottom_item, parent, false);
-        v.setElevation(DipToPixel.dpToPixel(context,
-                context.getResources().getDimension(
-                        R.dimen.main_bottom_card_view_elevation)
-        ));
+//        v.setElevation(DipToPixel.dpToPixel(context,
+//                context.getResources().getDimension(
+//                        R.dimen.main_bottom_card_view_elevation)
+//        ));
 //        ((ViewGroup)v).setTransitionGroup(false);
 
         NLBottomNewsFeedViewHolder viewHolder =
                 new NLBottomNewsFeedViewHolder(v);
-
 
         return viewHolder;
     }
