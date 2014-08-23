@@ -16,7 +16,6 @@ import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -152,10 +151,10 @@ public class NLDetailActivity extends Activity
     }
 
     private void adjustBottomRecyclerViewHeight() {
-        LinearLayout.LayoutParams layoutParams =
-                (LinearLayout.LayoutParams) mBottomNewsListRecyclerView.getLayoutParams();
-        layoutParams.height = (int) (getResources().getDimension(R.dimen.detail_bottom_news_item_height) *
-                        mNewsFeed.getNewsList().size() - 1);
+//        LinearLayout.LayoutParams layoutParams =
+//                (LinearLayout.LayoutParams) mBottomNewsListRecyclerView.getLayoutParams();
+//        layoutParams.height = (int) (getResources().getDimension(R.dimen.detail_bottom_news_item_height) *
+//                        mNewsFeed.getNewsList().size() - 1);
     }
 
     private void loadTopItem() {

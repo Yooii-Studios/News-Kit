@@ -21,8 +21,4 @@
 
     <!-- Detail Top -->
     <dimen name="detail_top_image_view_height">280dp</dimen>    <!-- 56 * 5 -->
-
-    <!-- Detail Bottom -->
-    <dimen name="detail_bottom_news_item_height">100dp</dimen>
-
 </resources>
