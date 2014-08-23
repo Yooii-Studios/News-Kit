@@ -4,27 +4,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@color/theme_background">
-    <RelativeLayout
-        android:id="@+id/topNewsFeedWrapper"
+    <FrameLayout
+        android:id="@+id/main_top_view_pager_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/topFeedImage"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_top_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/main_top_image_view_height"
-            android:scaleType="centerCrop"/>
-        <TextView
-            android:id="@+id/topFeedTitle"
-            android:layout_width="wrap_content"
+            android:layout_height="@dimen/main_top_view_pager_height"/>
+        <com.viewpagerindicator.CirclePageIndicator
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_top_page_indicator"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/topFeedImage"/>
-    </RelativeLayout>
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
+            app:fillColor="@color/theme_default_accent"
+            app:strokeWidth="0dp"
+            app:strokeColor="#00000000"
+            app:centered="true"
+            app:snap="true"
+            app:radius="@dimen/main_top_view_pager_indicator_radius"/>
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bottomNewsFeedRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/topNewsFeedWrapper"
+        android:layout_below="@id/main_top_view_pager_container"
         android:layout_margin="@dimen/main_bottom_margin_small"/>
 
 </RelativeLayout>
