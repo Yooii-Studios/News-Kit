@@ -2,8 +2,11 @@ package com.yooiistudios.news.model.main;
 
 import android.app.ActivityOptions;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Pair;
@@ -72,7 +75,7 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
 
         holder.imageView.setViewName(NLMainActivity.VIEW_NAME_IMAGE_PREFIX +
                 mPosition);
-        applyImage(holder);
+        applyImage(getActivity().getApplicationContext(), holder);
 
         holder.titleTextView.setViewName(NLMainActivity.VIEW_NAME_TITLE_PREFIX +
                 mPosition);
@@ -84,18 +87,18 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
         return root;
     }
 
-    public void applyImage() {
+    public void applyImage(Context context) {
         View root;
         ItemViewHolder viewHolder;
         if ((root = getView()) != null &&
                 (viewHolder = (ItemViewHolder)root.getTag()) != null) {
-            applyImage(viewHolder);
+            applyImage(context, viewHolder);
         }
 
     }
 
-    private void applyImage(ItemViewHolder viewHolder) {
-        final ImageMemoryCache cache = ImageMemoryCache.INSTANCE;
+    private void applyImage(Context context, ItemViewHolder viewHolder) {
+        final ImageMemoryCache cache = ImageMemoryCache.getInstance(context);
 
         // set image
         String imgUrl = mNews.getImageUrl();
@@ -127,11 +130,17 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
 
         Intent intent = new Intent(getActivity(),
                 NLDetailActivity.class);
-        intent.putExtra(NLNewsFeed.NEWS_FEED, mNewsFeed);
+        intent.putExtra(NLNewsFeed.KEY_NEWS_FEED, mNewsFeed);
+        intent.putExtra(NLNews.KEY_NEWS, mNews);
         intent.putExtra(NLMainActivity.INTENT_KEY_VIEW_NAME_IMAGE,
                 viewHolder.imageView.getViewName());
         intent.putExtra(NLMainActivity.INTENT_KEY_VIEW_NAME_TITLE,
                 viewHolder.titleTextView.getViewName());
+
+        Drawable drawable = viewHolder.imageView.getDrawable();
+        if (drawable != null) {
+            intent.putExtra("bitmap", ((BitmapDrawable) drawable).getBitmap());
+        }
 
         getActivity().startActivity(intent, activityOptions.toBundle());
     }

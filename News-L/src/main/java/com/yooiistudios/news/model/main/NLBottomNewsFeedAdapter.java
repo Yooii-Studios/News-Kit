@@ -92,7 +92,7 @@ public class NLBottomNewsFeedAdapter extends
                 (imageUrl = displayingNews.getImageUrl()) != null) {
 
             ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
-                    (mContext), ImageMemoryCache.INSTANCE);
+                    (mContext), ImageMemoryCache.getInstance(mContext));
 
             imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
                 @Override
