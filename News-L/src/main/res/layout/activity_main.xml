@@ -1,37 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:orientation="vertical"
     android:background="@color/theme_background">
-    <FrameLayout
-        android:id="@+id/main_top_view_pager_container"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_top_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/main_top_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_top_view_pager_height"/>
-        <com.viewpagerindicator.CirclePageIndicator
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/main_top_page_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
-            app:fillColor="@color/theme_default_accent"
-            app:strokeWidth="0dp"
-            app:strokeColor="#00000000"
-            app:centered="true"
-            app:snap="true"
-            app:radius="@dimen/main_top_view_pager_indicator_radius"/>
-    </FrameLayout>
+        android:layout_height="@dimen/main_top_view_pager_height"
+        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+    <com.viewpagerindicator.CirclePageIndicator
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_top_page_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/main_top_view_pager_indicator_margin"
+        android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
+        app:fillColor="@color/theme_default_accent"
+        app:strokeWidth="0dp"
+        app:strokeColor="#00000000"
+        app:pageColor="@color/theme_default_accent_light"
+        app:centered="true"
+        app:snap="true"
+        app:radius="@dimen/main_top_view_pager_indicator_radius"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bottomNewsFeedRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_top_view_pager_container"
         android:layout_margin="@dimen/main_bottom_margin_small"/>
 
-</RelativeLayout>
+</LinearLayout>

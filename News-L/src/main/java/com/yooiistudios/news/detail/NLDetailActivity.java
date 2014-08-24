@@ -112,7 +112,7 @@ public class NLDetailActivity extends Activity
                 ObjectAnimator color = ObjectAnimator.ofArgb(
                         mTopImageView.getColorFilter(), "color", 0);
                 color.addUpdateListener(new ColorFilterListener(mTopImageView));
-                color.start();
+                color.setDuration(1000).start();
 
                 getWindow().getEnterTransition().removeListener(this);
             }
@@ -368,10 +368,12 @@ public class NLDetailActivity extends Activity
     @Override
     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
 //                    mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
-        mTopImageBitmap = response.getBitmap();
+        if (mTopImageBitmap == null) {
+            mTopImageBitmap = response.getBitmap();
 
-        mTopImageView.setImageBitmap(mTopImageBitmap);
-        colorize(mTopImageBitmap);
+            mTopImageView.setImageBitmap(mTopImageBitmap);
+            colorize(mTopImageBitmap);
+        }
     }
 
     @Override
