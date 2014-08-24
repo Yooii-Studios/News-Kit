@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.viewpagerindicator.CirclePageIndicator;
+import com.yooiistudios.news.NLNewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.model.NLNews;
@@ -172,7 +172,7 @@ public class NLMainActivity extends Activity
         ButterKnife.inject(this);
 
 //        mImageLoader = new ImageLoader(Volley.newRequestQueue(this), ImageMemoryCache.INSTANCE);
-        mImageLoader = new ImageLoader(Volley.newRequestQueue(this),
+        mImageLoader = new ImageLoader(((NLNewsApplication)getApplication()).getRequestQueue(),
                 ImageMemoryCache.getInstance(getApplicationContext()));
 
         // TODO off-line configuration
@@ -396,16 +396,9 @@ public class NLMainActivity extends Activity
                     mTopNewsFeedPagerAdapter.notifyImageLoaded(
                             getApplicationContext(), position);
 
-//                    ArrayList<NLNews> items = mTopNewsFeed.getNewsList();
-//                    if (items.size() > 0) {
-//                        NLNews news = items.get(0);
-//                        news
-//                    }
-
                     if (position == 0) {
                         fetchTopNewsFeedImageExceptFirstNews();
                     }
-//                    mTopNewsImageView.setImageBitmap(response.getBitmap());
                 }
 
                 @Override
@@ -487,10 +480,10 @@ public class NLMainActivity extends Activity
     }
 
     @Override
-    public void onItemClick(
+    public void onBottomItemClick(
             NLBottomNewsFeedAdapter.NLBottomNewsFeedViewHolder
                     viewHolder, NLNewsFeed newsFeed) {
-        NLLog.i(TAG, "onItemClick");
+        NLLog.i(TAG, "onBottomItemClick");
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
         ImageView imageView = viewHolder.imageView;

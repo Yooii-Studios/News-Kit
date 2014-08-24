@@ -18,7 +18,6 @@ import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.util.ImageMemoryCache;
-import com.yooiistudios.news.util.dp.DipToPixel;
 import com.yooiistudios.news.util.log.NLLog;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class NLBottomNewsFeedAdapter extends
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        public void onItemClick(
+        public void onBottomItemClick(
                 NLBottomNewsFeedAdapter.NLBottomNewsFeedViewHolder
                         viewHolder, NLNewsFeed newsFeed);
     }
@@ -116,7 +115,7 @@ public class NLBottomNewsFeedAdapter extends
                     NLNewsFeed newsFeed = mNewsFeed.get(position);
 
                     if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(viewHolder, newsFeed);
+                        mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed);
                     }
                 }
             }

@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.yooiistudios.news.NLNewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
@@ -54,6 +57,8 @@ public class NLDetailActivity extends Activity
 
     private Palette mPalette;
 
+    private ImageLoader mImageLoader;
+
     private NLNewsFeed mNewsFeed;
     private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
@@ -67,11 +72,14 @@ public class NLDetailActivity extends Activity
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
 
+        mImageLoader = new ImageLoader(((NLNewsApplication)getApplication()).getRequestQueue(),
+                ImageMemoryCache.getInstance(getApplicationContext()));
+
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.KEY_NEWS_FEED);
         mTopNews = getIntent().getExtras().getParcelable(NLNews.KEY_NEWS);
-        Bitmap bitmap = getIntent().getExtras().getParcelable("bitmap");
-        NLLog.i(TAG, "bitmap : " + (bitmap != null ? "exists" : "null"));
+//        Bitmap bitmap = getIntent().getExtras().getParcelable("bitmap");
+//        NLLog.i(TAG, "bitmap : " + (bitmap != null ? "exists" : "null"));
         String imageViewName = getIntent().getExtras().getString(NLMainActivity
                 .INTENT_KEY_VIEW_NAME_IMAGE, null);
 //        String titleViewName = getIntent().getExtras().getString(NLMainActivity
@@ -119,18 +127,9 @@ public class NLDetailActivity extends Activity
         mTopTitleTextView.setAlpha(0);
         mTopDescriptionTextView.setAlpha(0);
 
-        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
+//        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
 
-        if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
-            loadTopItem();
-            if (mTopImageBitmap != null) {
-                colorize(mTopImageBitmap);
-            } else {
-                // TODO 이미지가 없을 경우 색상 처리
-            }
-        } else {
-            //TODO when NLNewsFeed is invalid.
-        }
+        loadTopItem();
     }
 
     private void initBottomNewsList() {
@@ -206,16 +205,26 @@ public class NLDetailActivity extends Activity
         // set image
         String imgUrl = mTopNews.getImageUrl();
         if (imgUrl != null) {
-            mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
+            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
 
-            if (mTopImageBitmap != null) {
-                mTopImageView.setImageBitmap(mTopImageBitmap);
-            } else {
-                //TODO 아직 이미지 못 가져온 경우 처리
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+//                    mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
+                    mTopImageBitmap = response.getBitmap();
 
-                // mTopImageBitmap
-//                mHeaderImageView.setImageUrl(item.getPhotoUrl(), mImageLoader);
-            }
+                    if (mTopImageBitmap != null) {
+                        mTopImageView.setImageBitmap(mTopImageBitmap);
+                        colorize(mTopImageBitmap);
+                    } else {
+                        //TODO 아직 이미지 못 가져온 경우 처리
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
         } else {
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
