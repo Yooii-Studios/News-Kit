@@ -1,8 +1,11 @@
 package com.yooiistudios.news.model.main;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.graphics.Palette;
+import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,8 +84,8 @@ public class NLBottomNewsFeedAdapter extends
         titleView.setViewName(NLMainActivity.VIEW_NAME_TITLE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
-        imageView.setBackground(
-                new ColorDrawable(Color.TRANSPARENT));
+        imageView.setBackgroundColor(Color.argb(200, 16, 16, 16));
+        imageView.setImageDrawable(new ColorDrawable(Color.argb(200, 16, 16, 16)));
         imageView.setViewName(NLMainActivity.VIEW_NAME_IMAGE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
@@ -97,7 +100,24 @@ public class NLBottomNewsFeedAdapter extends
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     NLLog.i(TAG, "onResponse\nposition : " + position);
-                    viewHolder.imageView.setImageBitmap(response.getBitmap());
+
+                    Bitmap bitmap = response.getBitmap();
+
+                    if (bitmap != null) {
+                        viewHolder.imageView.setImageBitmap(bitmap);
+                        Palette palette = Palette.generate(bitmap);
+                        PaletteItem paletteItem = palette.getDarkVibrantColor();
+                        if (paletteItem != null) {
+                            int darkVibrantColor = paletteItem.getRgb();
+                            int red = Color.red(darkVibrantColor);
+                            int green = Color.green(darkVibrantColor);
+                            int blue = Color.blue(darkVibrantColor);
+                            int alpha = mContext.getResources().getInteger(
+                                    R.integer.vibrant_color_tint_alpha);
+                            viewHolder.imageView.setColorFilter(Color.argb(
+                                    alpha, red, green, blue));
+                        }
+                    }
 //                    viewHolder.imageView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
 

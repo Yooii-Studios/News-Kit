@@ -1,5 +1,7 @@
 package com.yooiistudios.news.detail;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +11,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Transition;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
@@ -25,6 +28,7 @@ import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
 import com.yooiistudios.news.model.NLNewsFeed;
 import com.yooiistudios.news.model.detail.NLDetailNewsAdapter;
+import com.yooiistudios.news.model.detail.TransitionAdapter;
 import com.yooiistudios.news.ui.itemanimator.NLDetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
@@ -38,7 +42,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
-        implements NLDetailNewsAdapter.OnItemClickListener, ObservableScrollView.Callbacks {
+        implements NLDetailNewsAdapter.OnItemClickListener,
+        ObservableScrollView.Callbacks, ImageLoader.ImageListener {
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
     @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
@@ -85,6 +90,19 @@ public class NLDetailActivity extends Activity
         initCustomScrollView();
         initTopNews();
         initBottomNewsList();
+
+
+        getWindow().getEnterTransition().addListener(new TransitionAdapter() {
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                ObjectAnimator color = ObjectAnimator.ofArgb(
+                        mTopImageView.getColorFilter(), "color", 0);
+                color.addUpdateListener(new ColorFilterListener(mTopImageView));
+                color.start();
+
+                getWindow().getEnterTransition().removeListener(this);
+            }
+        });
     }
 
     private void initCustomScrollView() {
@@ -172,26 +190,13 @@ public class NLDetailActivity extends Activity
         // set image
         String imgUrl = mTopNews.getImageUrl();
         if (imgUrl != null) {
-            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
-
-                @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-//                    mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
-                    mTopImageBitmap = response.getBitmap();
-
-                    if (mTopImageBitmap != null) {
-                        mTopImageView.setImageBitmap(mTopImageBitmap);
-                        colorize(mTopImageBitmap);
-                    } else {
-                        //TODO 아직 이미지 못 가져온 경우 처리
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
+            ImageLoader.ImageContainer imageContainer =
+                    mImageLoader.get(imgUrl, this);
+            Bitmap bitmap;
+            if ((bitmap = imageContainer.getBitmap()) != null) {
+                mTopImageView.setImageBitmap(mTopImageBitmap);
+                colorize(mTopImageBitmap);
+            }
         } else {
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
@@ -237,9 +242,29 @@ public class NLDetailActivity extends Activity
 
         if (darkVibrantColor != null) {
 //            getWindow().setBackgroundDrawable(new ColorDrawable(vibrantColor.getRgb()));
-            mTopContentLayout.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
-            mTopTitleTextView.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
-            mTopDescriptionTextView.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
+
+            int color = darkVibrantColor.getRgb();
+
+            mTopContentLayout.setBackground(new ColorDrawable(color));
+            mTopTitleTextView.setBackground(new ColorDrawable(color));
+            mTopDescriptionTextView.setBackground(new ColorDrawable(color));
+
+            int red = Color.red(color);
+            int green = Color.green(color);
+            int blue = Color.blue(color);
+            int alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+            mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
+        }
+
+        PaletteItem paletteItem = mPalette.getVibrantColor();
+        if (paletteItem != null) {
+            int vibrantColor = paletteItem.getRgb();
+            int red = Color.red(vibrantColor);
+            int green = Color.green(vibrantColor);
+            int blue = Color.blue(vibrantColor);
+            int alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+            mTopImageView.setColorFilter(Color.argb(
+                    alpha, red, green, blue));
         }
     }
 
@@ -270,6 +295,33 @@ public class NLDetailActivity extends Activity
             mTopImageView.setTranslationY(scrollY * 0.5f);
         } else {
             mTopImageView.setTranslationY(0);
+        }
+    }
+
+    @Override
+    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+//                    mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
+        mTopImageBitmap = response.getBitmap();
+
+        mTopImageView.setImageBitmap(mTopImageBitmap);
+        colorize(mTopImageBitmap);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
+        private final ImageView mHero;
+
+        public ColorFilterListener(ImageView hero) {
+            mHero = hero;
+        }
+
+        @Override
+        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+            mHero.getDrawable().setColorFilter(mHero.getColorFilter());
         }
     }
 }
