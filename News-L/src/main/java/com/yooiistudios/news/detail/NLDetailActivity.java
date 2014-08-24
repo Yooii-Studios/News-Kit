@@ -11,9 +11,9 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Transition;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
-import android.transition.Transition;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
@@ -242,16 +242,18 @@ public class NLDetailActivity extends Activity
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
         }
 
-        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
+        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                NLLog.now("mTopNewsImageRippleView onClink");
                 NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
 
-        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
+        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                NLLog.now("mTopNewsTextRippleLayout onClink");
                 NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
@@ -293,8 +295,7 @@ public class NLDetailActivity extends Activity
             int color = darkVibrantColor.getRgb();
 
             mTopContentLayout.setBackground(new ColorDrawable(color));
-            mTopTitleTextView.setBackground(new ColorDrawable(color));
-            mTopDescriptionTextView.setBackground(new ColorDrawable(color));
+            mTopNewsTextLayout.setBackground(new ColorDrawable(color));
 
             int red = Color.red(color);
             int green = Color.green(color);
