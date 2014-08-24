@@ -14,5 +14,9 @@
         android:id="@+id/topFeedTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/topFeedImage"/>
+        android:layout_alignBottom="@id/topFeedImage"
+        android:layout_margin="30dp"
+        android:theme="@android:style/Theme.Material"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:maxLines="2"/>
 </RelativeLayout>
