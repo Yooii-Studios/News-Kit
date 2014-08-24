@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_store">Store</string>
     <string name="title_activity_nldetail">NLDetailActivity</string>
+    <string name="image_view_content_description">Loading…</string>
 
     <!-- Main -->
     <string name="splash_loading_title">News L</string>

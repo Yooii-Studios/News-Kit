@@ -28,35 +28,53 @@
                     android:id="@+id/detail_top_news_image_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_top_image_view_height"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/image_view_content_description"/>
 
-                <TextView
-                    android:id="@+id/detail_top_news_title_text_view"
+                <LinearLayout
+                    android:id="@+id/detail_top_news_text_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/detail_top_news_image_view"
-                    android:textColor="#ffffff"
-                    android:theme="@android:style/Theme.Material"
-                    android:textAppearance="@android:style/TextAppearance.Material.Headline"
-                    android:maxLines="2"
-                    android:padding="@dimen/detail_text_padding"
-                    android:ellipsize="end"/>
+                    android:layout_below="@id/detail_top_news_image_view">
 
-                <TextView
-                    android:id="@+id/detail_top_news_description_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/detail_top_news_title_text_view"
-                    android:textColor="@android:color/darker_gray"
-                    android:theme="@android:style/Theme.Material"
-                    android:textAppearance="@android:style/TextAppearance.Material.Body1"
-                    android:maxLines="2"
-                    android:paddingStart="@dimen/detail_text_wide_padding"
-                    android:paddingTop="@dimen/detail_text_inner_padding"
-                    android:paddingEnd="@dimen/detail_text_wide_padding"
-                    android:paddingBottom="@dimen/detail_text_wide_padding"
-                    android:ellipsize="end"/>
+                    <LinearLayout
+                        android:id="@+id/detail_top_news_text_ripple_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:background="?android:selectableItemBackground"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/detail_top_news_title_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@android:style/Theme.Material"
+                            android:textColor="@android:color/black"
+                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                            android:padding="@dimen/detail_text_padding"
+                            android:ellipsize="end"
+                            android:maxLines="2"/>
+
+                        <TextView
+                            android:id="@+id/detail_top_news_description_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/detail_text_wide_padding"
+                            android:paddingTop="@dimen/detail_text_inner_padding"
+                            android:paddingEnd="@dimen/detail_text_wide_padding"
+                            android:paddingBottom="@dimen/detail_text_wide_padding"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                            android:theme="@android:style/Theme.Material"
+                            android:ellipsize="end"
+                            android:maxLines="2"/>
+
+                    </LinearLayout>
+                </LinearLayout>
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -67,7 +85,7 @@
         </LinearLayout>
     </com.yooiistudios.news.ui.widget.ObservableScrollView>
 
-    <!-- 액션바 Overlay 용 뷰 -->
+    <!-- Top 부분 Overlay 용 뷰 -->
     <View
         android:id="@+id/detail_top_overlay_view"
         android:layout_width="match_parent"
@@ -75,7 +93,7 @@
         android:background="@drawable/detail_actionbar_gradient"
         android:layout_gravity="top" />
 
-    <!-- 액션바 Overlay 용 뷰 -->
+    <!-- 스크롤에 따라 액션바의 색을 변환 -->
     <View
         android:id="@+id/detail_actionbar_overlay_view"
         android:layout_width="match_parent"
