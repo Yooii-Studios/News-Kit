@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Rss Feed의 Feed를 표현하는 클래스
  */
 public class NLNewsFeed implements Parcelable {
-    public static final String NEWS_FEED = "NEWS_FEED";
+    public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
 
     private String title;
     private String link;

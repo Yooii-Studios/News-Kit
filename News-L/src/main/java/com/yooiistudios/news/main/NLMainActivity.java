@@ -115,6 +115,54 @@ public class NLMainActivity extends Activity
                 new NLNewsFeedUrl(
                         "http://rss.lemonde.fr/c/205/f/3050/index.rss",
                         NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://rss.cnn.com/rss/edition.rss",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://www.cnet.com/rss/news/",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://feeds.bbci.co.uk/news/rss.xml?edition=int",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://www.newyorker.com/feed/news",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://estaticos.elmundo.es/elmundo/rss/portada.xml",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://rss.lemonde.fr/c/205/f/3050/index.rss",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://rss.cnn.com/rss/edition.rss",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://www.cnet.com/rss/news/",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://feeds.bbci.co.uk/news/rss.xml?edition=int",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://www.newyorker.com/feed/news",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://estaticos.elmundo.es/elmundo/rss/portada.xml",
+//                        NLNewsFeedUrlType.GENERAL));
+//        sMockUrlList.add(
+//                new NLNewsFeedUrl(
+//                        "http://rss.lemonde.fr/c/205/f/3050/index.rss",
+//                        NLNewsFeedUrlType.GENERAL));
     }
 
     @Override
@@ -123,7 +171,9 @@ public class NLMainActivity extends Activity
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        mImageLoader = new ImageLoader(Volley.newRequestQueue(this), ImageMemoryCache.INSTANCE);
+//        mImageLoader = new ImageLoader(Volley.newRequestQueue(this), ImageMemoryCache.INSTANCE);
+        mImageLoader = new ImageLoader(Volley.newRequestQueue(this),
+                ImageMemoryCache.getInstance(getApplicationContext()));
 
         // TODO off-line configuration
         initTopNewsFeed();
@@ -207,7 +257,7 @@ public class NLMainActivity extends Activity
 //
 //                Intent intent = new Intent(NLMainActivity.this,
 //                        NLDetailActivity.class);
-//                intent.putExtra(NLNewsFeed.NEWS_FEED, mTopNewsFeed);
+//                intent.putExtra(NLNewsFeed.KEY_NEWS_FEED, mTopNewsFeed);
 //                intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, mTopNewsImageView.getViewName());
 //                intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, mTopNewsTitle.getViewName());
 //
@@ -323,7 +373,12 @@ public class NLMainActivity extends Activity
     public void onTopFeedImageUrlFetchSuccess(NLNews news, String url,
                                               final int position) {
         NLLog.i(TAG, "fetch image url success.");
-        if (url != null) {
+        NLLog.i(TAG, "news link : " + news.getLink());
+        NLLog.i(TAG, "image url : " + url);
+        if (url == null) {
+            fetchTopNewsFeedImageExceptFirstNews();
+        }
+        else {
             news.setImageUrl(url);
 
             final long startMilli;
@@ -338,7 +393,8 @@ public class NLMainActivity extends Activity
                             (endMilli - startMilli));
                     NLLog.i(TAG, "onResponse\nposition : " + position);
 
-                    mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
+                    mTopNewsFeedPagerAdapter.notifyImageLoaded(
+                            getApplicationContext(), position);
 
 //                    ArrayList<NLNews> items = mTopNewsFeed.getNewsList();
 //                    if (items.size() > 0) {
@@ -453,7 +509,8 @@ public class NLMainActivity extends Activity
 
         Intent intent = new Intent(NLMainActivity.this,
                 NLDetailActivity.class);
-        intent.putExtra(NLNewsFeed.NEWS_FEED, newsFeed);
+        intent.putExtra(NLNewsFeed.KEY_NEWS_FEED, newsFeed);
+        intent.putExtra(NLNews.KEY_NEWS, newsFeed.getNewsList().get(0));
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
         startActivity(intent, activityOptions.toBundle());

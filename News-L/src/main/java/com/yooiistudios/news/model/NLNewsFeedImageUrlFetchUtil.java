@@ -4,6 +4,9 @@ import com.yooiistudios.news.util.log.NLLog;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 21.
+ *
+ * NLNewsFeedImageUrlFetchUtil
+ *  뉴스에서 이미지를 가져옴
  */
 public class NLNewsFeedImageUrlFetchUtil {
     /**

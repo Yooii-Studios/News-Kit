@@ -15,6 +15,7 @@ import java.util.Locale;
  * Rss Feed의 <item> 하나를 표현하는 클래스
  */
 public class NLNews implements Comparable<NLNews>, Parcelable {
+    public static final String KEY_NEWS = "KEY_NEWS";
 
     private String title;
     private String link;

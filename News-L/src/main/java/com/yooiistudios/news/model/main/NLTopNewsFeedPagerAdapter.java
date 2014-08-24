@@ -2,6 +2,7 @@ package com.yooiistudios.news.model.main;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -45,10 +46,10 @@ public class NLTopNewsFeedPagerAdapter extends FragmentStatePagerAdapter {
         mFragmentSparseArray.remove(position);
     }
 
-    public void notifyImageLoaded(int position) {
+    public void notifyImageLoaded(Context context, int position) {
         NLTopNewsFeedViewPagerItem item = mFragmentSparseArray.get(position);
         if (item != null) {
-            item.applyImage();
+            item.applyImage(context);
         }
     }
 

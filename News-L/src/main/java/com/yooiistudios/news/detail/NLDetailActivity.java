@@ -37,6 +37,7 @@ public class NLDetailActivity extends Activity
     RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
+    private static final String TAG = NLDetailActivity.class.getName();
 
     private NLNewsFeed mNewsFeed;
     private NLNews mTopNews;
@@ -51,7 +52,10 @@ public class NLDetailActivity extends Activity
         ButterKnife.inject(this);
 
         // retrieve feed from intent
-        mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.NEWS_FEED);
+        mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.KEY_NEWS_FEED);
+        mTopNews = getIntent().getExtras().getParcelable(NLNews.KEY_NEWS);
+        Bitmap bitmap = getIntent().getExtras().getParcelable("bitmap");
+        NLLog.i(TAG, "bitmap : " + (bitmap != null ? "exists" : "null"));
         String imageViewName = getIntent().getExtras().getString(NLMainActivity
                 .INTENT_KEY_VIEW_NAME_IMAGE, null);
         String titleViewName = getIntent().getExtras().getString(NLMainActivity
@@ -66,8 +70,6 @@ public class NLDetailActivity extends Activity
     }
 
     private void initTopNews() {
-        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
-
         if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
             loadTopItem();
             if (mTopImageBitmap != null) {
@@ -121,7 +123,9 @@ public class NLDetailActivity extends Activity
     }
 
     private void loadTopItem() {
-        final ImageMemoryCache cache = ImageMemoryCache.INSTANCE;
+//        final ImageMemoryCache cache = ImageMemoryCache.INSTANCE;
+        final ImageMemoryCache cache = ImageMemoryCache.getInstance
+                (getApplicationContext());
 
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());

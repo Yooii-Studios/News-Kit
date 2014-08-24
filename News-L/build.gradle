@@ -55,22 +55,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // 뉴스 모델 관련
-//    compile project(':libraries:sAXRSSReader')
     // Volley
     compile project(':libraries:Volley')
-    // 메인 하단의 그리드형 RecyclerView를 위한 LayoutManager
-//    compile (project(':libraries:GridLayoutManager')) {
-////        exclude module: 'support-v4'
-//        exclude group:'com.android.support', module: 'support-v4'
-////        exclude('com.android.support:support-v4')
-////        transitive = false
-//    }
     compile project(':libraries:GridLayoutManager')
-
-    // 안드로이드 기본
-//    compile 'com.android.support:support-v4:21.+' // 21.+ 버전부터 안드로이드 L 이라서 막아둠
-//    compile 'com.android.support:appcompat-v7:21.0.0-rc1'
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     compile "com.android.support:cardview-v7:21.0.0-rc1"
@@ -96,9 +83,9 @@ dependencies {
     compile 'org.jsoup:jsoup:1.7.3'
 
     // 이미지 url을 추출하는 과정에서 http Get의 퍼포먼스 향상을 위해
-//    compile 'org.apache.httpcomponents:httpclient:4.3.5'
-    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5'
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
 
+    // 이미지 디스크 캐시를 사용하기 위해 추가
     compile 'com.jakewharton:disklrucache:2.0.2'
 }
 
