@@ -100,6 +100,9 @@ dependencies {
     compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5'
 
     compile 'com.jakewharton:disklrucache:2.0.2'
+
+    // Detail 화면에서 사용될 Fading Action Bar
+    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
 }
 
 // release 시 비밀번호를 직접 입력하기 위한 코드

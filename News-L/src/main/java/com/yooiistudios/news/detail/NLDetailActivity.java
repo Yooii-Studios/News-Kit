@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
 import com.yooiistudios.news.model.NLNews;
@@ -58,7 +59,8 @@ public class NLDetailActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+
+        initFadingActionBar();
         ButterKnife.inject(this);
 
         // retrieve feed from intent
@@ -79,10 +81,21 @@ public class NLDetailActivity extends Activity
         initBottomNewsList();
     }
 
+    private void initFadingActionBar() {
+        // FadingActionBar
+        FadingActionBarHelper helper = new FadingActionBarHelper()
+                .actionBarBackground(R.drawable.ab_background)
+                .headerLayout(R.layout.detail_header_overlay)
+                .contentLayout(R.layout.activity_detail);
+        setContentView(helper.createView(this));
+        helper.initActionBar(this);
+
+//        setContentView(R.layout.activity_detail);
+    }
     private void initActionBar() {
-        if (getActionBar() != null && mNewsFeed != null) {
-            getActionBar().setTitle(mNewsFeed.getTitle());
-        }
+//        if (getActionBar() != null && mNewsFeed != null) {
+//            getActionBar().setTitle(mNewsFeed.getTitle());
+//        }
     }
 
     private void initCustomScrollView() {
