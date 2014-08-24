@@ -9,8 +9,10 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +28,9 @@ import com.yooiistudios.news.ui.itemanimator.NLDetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.dp.DipToPixel;
 import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.screen.NLScreenUtils;
 import com.yooiistudios.news.util.web.NLWebUtils;
 
 import java.util.ArrayList;
@@ -36,6 +40,8 @@ import butterknife.InjectView;
 
 public class NLDetailActivity extends Activity
         implements NLDetailNewsAdapter.OnItemClickListener, ObservableScrollView.Callbacks {
+    @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
+    @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
     @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
@@ -57,6 +63,7 @@ public class NLDetailActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
 
@@ -74,17 +81,38 @@ public class NLDetailActivity extends Activity
         mTopImageView.setViewName(imageViewName);
 //        mTopTitleTextView.setViewName(titleViewName);
 
+        applySystemWindowsBottomInset(R.id.detail_scrollView);
+        initActionBar();
         initCustomScrollView();
         initTopNews();
         initBottomNewsList();
     }
 
+    private void initActionBar() {
+        initActionBarGradientView();
+
+        if (getActionBar() != null && mNewsFeed != null) {
+            getActionBar().setTitle(mNewsFeed.getTitle());
+        }
+    }
+
+    private void initActionBarGradientView() {
+        int actionBarSize = NLScreenUtils.calculateActionBarSize(this);
+        int statusBarSize = 0;
+
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarSize = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        if (actionBarSize != 0) {
+            mTopOverlayView.getLayoutParams().height = (actionBarSize + statusBarSize) * 2;
+            mActionBarOverlayView.getLayoutParams().height = actionBarSize + statusBarSize;
+        }
+    }
+
     private void initCustomScrollView() {
         mScrollView.addCallbacks(this);
-        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
-        if (vto.isAlive()) {
-            vto.addOnGlobalLayoutListener(mGlobalLayoutListener);
-        }
     }
 
     private void initTopNews() {
@@ -138,11 +166,16 @@ public class NLDetailActivity extends Activity
         adjustBottomRecyclerViewHeight();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finishAfterTransition();
+        return super.onOptionsItemSelected(item);
+    }
+
     private void adjustBottomRecyclerViewHeight() {
         LinearLayout.LayoutParams layoutParams =
                 (LinearLayout.LayoutParams) mBottomNewsListRecyclerView.getLayoutParams();
-        layoutParams.height = (int) (getResources().getDimension(R.dimen.detail_bottom_news_item_height) *
-                        mNewsFeed.getNewsList().size() - 1);
+        layoutParams.height = DipToPixel.dpToPixel(this, 100) * (mNewsFeed.getNewsList().size() - 1);
     }
 
     private void loadTopItem() {
@@ -240,15 +273,26 @@ public class NLDetailActivity extends Activity
         NLWebUtils.openLink(this, news.getLink());
     }
 
-    // Custom Scrolling
-    private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
-            = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-//            mAddScheduleButtonHeightPixels = mAddScheduleButton.getHeight();
-//            recomputePhotoAndScrollingMetrics();
-        }
-    };
+    private void applySystemWindowsBottomInset(int container) {
+        View containerView = findViewById(container);
+        containerView.setFitsSystemWindows(true);
+        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                } else {
+                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
+    }
+
+    /**
+     * Custom Scrolling
+     */
 
     @Override
     public void onScrollChanged(int deltaX, int deltaY) {
@@ -259,8 +303,16 @@ public class NLDetailActivity extends Activity
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
             mTopImageView.setTranslationY(scrollY * 0.5f);
+
+            mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
+            if (mActionBarOverlayView.getAlpha() >= 0.6f) {
+                mActionBarOverlayView.setAlpha(0.6f);
+            }
         } else {
             mTopImageView.setTranslationY(0);
+            if (mActionBarOverlayView.getAlpha() != 0) {
+                mActionBarOverlayView.setAlpha(0);
+            }
         }
     }
 }

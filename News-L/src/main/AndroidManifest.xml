@@ -30,12 +30,11 @@
         </activity>
         <activity
             android:name=".detail.NLDetailActivity"
-            android:label="@string/title_activity_nldetail"
             android:theme="@style/DetailActivityTheme" >
         </activity>
         <activity
             android:name=".store.NLStoreActivity"
-            android:label="@string/title_activity_nlstore"
+            android:label="@string/action_store"
             android:theme="@style/BaseAppTheme">
         </activity>
     </application>
