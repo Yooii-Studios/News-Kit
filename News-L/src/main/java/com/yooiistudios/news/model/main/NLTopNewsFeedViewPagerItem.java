@@ -5,8 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Pair;
@@ -16,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.yooiistudios.news.NLNewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.main.NLMainActivity;
@@ -35,9 +37,11 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
     private static final String KEY_NEWS = "KEY_NEWS";
     private static final String KEY_POSITION = "KEY_POSITION";
 
+    private ImageLoader mImageLoader;
     private NLNewsFeed mNewsFeed;
     private NLNews mNews;
     private int mPosition;
+    private boolean mRecycled;
 
     static NLTopNewsFeedViewPagerItem newInstance(NLNewsFeed newsFeed,
                                                   NLNews news, int position) {
@@ -64,6 +68,14 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
             mNews = null;
             mPosition = -1;
         }
+        mRecycled = false;
+
+        RequestQueue requestQueue =
+                ((NLNewsApplication) getActivity().getApplication()).getRequestQueue();
+        Context context = getActivity().getApplicationContext();
+        mImageLoader = new ImageLoader(requestQueue,
+                ImageMemoryCache.getInstance(context));
+
     }
 
     @Override
@@ -97,19 +109,29 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
 
     }
 
-    private void applyImage(Context context, ItemViewHolder viewHolder) {
-        final ImageMemoryCache cache = ImageMemoryCache.getInstance(context);
+    private void applyImage(Context context, final ItemViewHolder viewHolder) {
 
         // set image
         String imgUrl = mNews.getImageUrl();
         if (imgUrl != null) {
-            Bitmap bitmap = cache.getBitmapFromUrl(imgUrl);
+            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    Bitmap bitmap;
 
-            if (bitmap != null) {
-                viewHolder.imageView.setImageBitmap(bitmap);
-            } else {
-                // TODO cache에 비트맵이 없는 경우. 기본적으로 없어야 할 상황.
-            }
+                    if (!mRecycled && (bitmap = response.getBitmap()) != null
+                            && viewHolder.imageView != null) {
+                        viewHolder.imageView.setImageBitmap(bitmap);
+                    } else {
+                        // TODO cache에 비트맵이 없는 경우. 기본적으로 없어야 할 상황.
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
         } else {
             // TODO image url 없을 경우
         }
@@ -137,12 +159,15 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
         intent.putExtra(NLMainActivity.INTENT_KEY_VIEW_NAME_TITLE,
                 viewHolder.titleTextView.getViewName());
 
-        Drawable drawable = viewHolder.imageView.getDrawable();
-        if (drawable != null) {
-            intent.putExtra("bitmap", ((BitmapDrawable) drawable).getBitmap());
-        }
+//        Drawable drawable = viewHolder.imageView.getDrawable();
+//        if (drawable != null) {
+//            intent.putExtra("bitmap", ((BitmapDrawable) drawable).getBitmap());
+//        }
 
         getActivity().startActivity(intent, activityOptions.toBundle());
+    }
+    public void setRecycled(boolean recycled) {
+        mRecycled = recycled;
     }
 
     private static class ItemViewHolder {
