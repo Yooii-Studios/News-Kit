@@ -37,6 +37,7 @@
                     android:layout_below="@id/detail_top_news_image_view"
                     android:textColor="#ffffff"
                     android:theme="@android:style/Theme.Material"
+                    android:textAppearance="@android:style/TextAppearance.Material.Headline"
                     android:maxLines="2"
                     android:padding="@dimen/detail_text_padding"
                     android:ellipsize="end"/>
