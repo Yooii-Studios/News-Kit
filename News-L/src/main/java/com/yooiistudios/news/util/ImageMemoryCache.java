@@ -21,7 +21,6 @@ import android.graphics.Bitmap;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.yooiistudios.news.model.image.DiskLruImageCache;
 import com.yooiistudios.news.util.log.NLLog;
 
 import java.util.Map;
@@ -31,8 +30,6 @@ import java.util.Map;
  * Volley internally inserts items with a key which is a combination of a the size of the image,
  * and the url.
  *
- * This class provide the method {@link #getBitmapFromUrl(String)} which allows the retrieval of
- * a bitmap solely on the URL.
  */
 public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {
     private static final String TAG = ImageMemoryCache.class.getName();
@@ -43,7 +40,7 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
     private static ImageMemoryCache instance;
     private static final int DISK_CACHE_SIZE_MB = 50 * 1024 * 1024;
 
-    private DiskLruImageCache mDiskLruImageCache;
+//    private DiskLruImageCache mDiskLruImageCache;
     private Map<String, Bitmap> mLastSnapshot;// Cache the last created snapshot
 
     public static ImageMemoryCache getInstance(Context context) {
@@ -58,33 +55,33 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
     private ImageMemoryCache(Context context, int diskCacheSize,
                              int memoryCacheSize) {
         super(memoryCacheSize);
-        mDiskLruImageCache = new DiskLruImageCache(context,
-                context.getPackageCodePath(), diskCacheSize,
-                Bitmap.CompressFormat.PNG, 100);
+//        mDiskLruImageCache = new DiskLruImageCache(context,
+//                context.getPackageCodePath(), diskCacheSize,
+//                Bitmap.CompressFormat.PNG, 100);
     }
 
-    public Bitmap getBitmapFromUrl(String url) {
-        // If we do not have a snapshot to use, generate one
-        if (mLastSnapshot == null) {
-            mLastSnapshot = snapshot();
-        }
-
-        Bitmap bitmap = null;
-        // Iterate through the snapshot to find any entries which match our url
-        for (Map.Entry<String, Bitmap> entry : mLastSnapshot.entrySet()) {
-            if (url.equals(extractUrl(entry.getKey()))) {
-                // We've found an entry with the same url, return the bitmap
-                bitmap = entry.getValue();
-            }
-        }
-        if (bitmap != null) {
-            return bitmap;
-        } else {
-            bitmap = getBitmapFromDiskCache(url);
-        }
-
-        return bitmap;
-    }
+//    public Bitmap getBitmapFromUrl(String url) {
+//        // If we do not have a snapshot to use, generate one
+//        if (mLastSnapshot == null) {
+//            mLastSnapshot = snapshot();
+//        }
+//
+//        Bitmap bitmap = null;
+//        // Iterate through the snapshot to find any entries which match our url
+//        for (Map.Entry<String, Bitmap> entry : mLastSnapshot.entrySet()) {
+//            if (url.equals(extractUrl(entry.getKey()))) {
+//                // We've found an entry with the same url, return the bitmap
+//                bitmap = entry.getValue();
+//            }
+//        }
+//        if (bitmap != null) {
+//            return bitmap;
+//        } else {
+////            bitmap = getBitmapFromDiskCache(url);
+//        }
+//
+//        return bitmap;
+//    }
 
     @Override
     public Bitmap getBitmap(String key) {
@@ -99,36 +96,38 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
 
         return bitmap;
     }
-    private Bitmap getBitmapFromDiskCache(String key) {
-        Bitmap bitmap = null;
-        String diskKey = getDiskCacheKey(key);
-        try {
-            bitmap = mDiskLruImageCache.getBitmap(diskKey);
-        } catch (IllegalArgumentException e) {
-            NLLog.i(TAG, "Disk get failed. exception : " + diskKey);
 
-            return null;
-        }
-        if (bitmap != null) {
-            NLLog.i(TAG, "Disk get succeed. url : " + diskKey);
-        } else {
-            NLLog.i(TAG, "Disk get failed. url : " + diskKey);
-        }
-
-        return bitmap;
-    }
+//    public synchronized Bitmap getBitmapFromDiskCache(String key) {
+//        Bitmap bitmap = null;
+//        String diskKey = getDiskCacheKey(key);
+//        try {
+//            bitmap = mDiskLruImageCache.getBitmap(diskKey);
+//        } catch (IllegalArgumentException e) {
+//            NLLog.i(TAG, "Disk get failed. exception : " + diskKey);
+//
+//            return null;
+//        }
+//        if (bitmap != null) {
+//            NLLog.i(TAG, "Disk get succeed. url : " + diskKey);
+//        } else {
+//            NLLog.i(TAG, "Disk get failed. url : " + diskKey);
+//        }
+//
+//        return bitmap;
+//    }
 
     @Override
     public void putBitmap(String key, Bitmap bitmap) {
         put(key, bitmap);
         NLLog.i(TAG, "Memory put succeed. url : " + key);
-        putBitmapIntoDiskCache(key, bitmap);
+//        new NLImageDiskCacheSaveTask(this, key, bitmap).executeOnExecutor(
+//                AsyncTask.THREAD_POOL_EXECUTOR);
 
         // An entry has been added, so invalidate the snapshot
         mLastSnapshot = null;
     }
-    private void putBitmapIntoDiskCache(String key, Bitmap bitmap) {
-        String diskKey = getDiskCacheKey(key);
+//    public synchronized void putBitmapIntoDiskCache(String key, Bitmap bitmap) {
+//        String diskKey = getDiskCacheKey(key);
 //        try {
 //            mDiskLruImageCache.putBitmap(diskKey, bitmap);
 //            NLLog.i(TAG, "Disk put succeed. url : " + diskKey);
@@ -136,7 +135,7 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
 //            NLLog.i(TAG, "Disk put failed. url : " + diskKey);
 ////            e.printStackTrace();
 //        }
-    }
+//    }
 
     @Override
     protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {

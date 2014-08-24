@@ -43,6 +43,10 @@ public class NLTopNewsFeedPagerAdapter extends FragmentStatePagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
 
+        NLTopNewsFeedViewPagerItem frag = mFragmentSparseArray.get(position);
+        if (frag != null) {
+            frag.setRecycled(true);
+        }
         mFragmentSparseArray.remove(position);
     }
 
