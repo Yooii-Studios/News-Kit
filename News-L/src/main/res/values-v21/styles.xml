@@ -9,21 +9,25 @@
 
     <color name="theme_background">#f2f2f2</color>
 
+    <color name="theme_detail_selected_background">#339e9e9e</color>
+
     <declare-styleable name="BaseAppTheme">
         <attr name="actionBarIconColor" format="color" />
     </declare-styleable>
 
     <style name="BaseAppTheme" parent="android:Theme.Material.Light">
-        <item name="android:colorPrimary">@color/theme_default_primary</item>
-        <item name="android:colorPrimaryDark">@color/theme_default_primary_dark</item>
-        <item name="android:colorBackground">@color/theme_background</item>
-        <item name="android:colorAccent">@color/theme_default_accent</item>
-        <item name="android:colorControlHighlight">@color/theme_default_accent_light</item>
-        <item name="android:navigationBarColor">?android:colorPrimaryDark</item>
-        <item name="android:statusBarColor">?android:colorPrimaryDark</item>
-        <item name="actionBarIconColor">#fff</item>
-        <item name="android:windowBackground">@color/theme_background</item>
-        <!-- activity transition 하기 위해 true로 해야 함. -->
+        <!--<item name="android:colorPrimary">@color/theme_default_primary</item>-->
+        <!--<item name="android:colorPrimaryDark">@color/theme_default_primary_dark</item>-->
+
+        <!--<item name="android:colorBackground">@color/theme_background</item>-->
+        <!--<item name="android:colorAccent">@color/theme_default_accent</item>-->
+        <!--<item name="android:colorControlHighlight">@color/theme_default_accent_light</item>-->
+        <!--<item name="android:navigationBarColor">?android:colorPrimaryDark</item>-->
+        <!--<item name="android:statusBarColor">?android:colorPrimaryDark</item>-->
+        <!--<item name="actionBarIconColor">#fff</item>-->
+        <!--<item name="android:windowBackground">@color/theme_background</item>-->
+
+        <!-- activity transition 하기 위해 true 로 해야 함. -->
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowExitTransitionOverlap">true</item>
@@ -57,7 +61,6 @@
         <item name="android:textColor">#fff</item>
     </style>
 
-
     <style name="MainActivityTheme" parent="MainTheme">
         <!-- Set the transitions which are used for the entrance and exit of shared elements -->
         <item name="android:windowSharedElementEnterTransition">
@@ -68,8 +71,11 @@
         </item>
     </style>
 
+    <!-- Detail -->
     <style name="DetailActivityTheme" parent="MainTheme">
         <item name="android:actionBarStyle">@style/DetailActionBar</item>
+        <!--<item name="android:colorAccent">@color/theme_default_accent</item>-->
+        <item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>
 
         <!-- Set the transitions which are used for the entrance and exit of shared elements -->
         <item name="android:windowSharedElementEnterTransition">
@@ -81,14 +87,10 @@
     </style>
 
     <style name="DetailActionBar" parent="android:Widget.Material.Light.ActionBar">
-        <item name="android:titleTextStyle">@style/DetailActionBar.TitleTextStyle</item>
+        <item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>
         <item name="android:background">@null</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_white</item>
         <item name="android:displayOptions">homeAsUp|showTitle</item>
-    </style>
-
-    <style name="DetailActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Material.Title">
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

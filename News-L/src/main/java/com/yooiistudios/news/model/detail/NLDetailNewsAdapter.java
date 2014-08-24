@@ -79,6 +79,8 @@ public class NLDetailNewsAdapter extends
             }
         }
 
+        viewHolder.itemView.setClickable(true);
+        viewHolder.itemView.setFocusable(true);
         viewHolder.itemView.setOnClickListener(
             new View.OnClickListener() {
                 @Override

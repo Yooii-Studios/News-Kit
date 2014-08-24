@@ -34,7 +34,6 @@ import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.dp.DipToPixel;
 import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.util.screen.NLScreenUtils;
-import com.yooiistudios.news.util.web.NLWebUtils;
 
 import java.util.ArrayList;
 
@@ -46,10 +45,14 @@ public class NLDetailActivity extends Activity
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
+    // Top
     @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
+    @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
+    @InjectView(R.id.detail_top_news_text_ripple_layout)    LinearLayout mTopNewsTextRippleLayout;
     @InjectView(R.id.detail_top_news_title_text_view)       TextView mTopTitleTextView;
     @InjectView(R.id.detail_top_news_description_text_view) TextView mTopDescriptionTextView;
+    // Bottom
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
@@ -128,8 +131,16 @@ public class NLDetailActivity extends Activity
         mTopDescriptionTextView.setAlpha(0);
 
 //        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
-
-        loadTopItem();
+        if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
+            loadTopNews();
+            if (mTopImageBitmap != null) {
+                colorize(mTopImageBitmap);
+            } else {
+                // TODO 이미지가 없을 경우 색상 처리
+            }
+        } else {
+            //TODO when NLNewsFeed is invalid.
+        }
     }
 
     private void initBottomNewsList() {
@@ -177,19 +188,13 @@ public class NLDetailActivity extends Activity
         layoutParams.height = DipToPixel.dpToPixel(this, 100) * (mNewsFeed.getNewsList().size() - 1);
     }
 
-    private void loadTopItem() {
+    private void loadTopNews() {
 //        final ImageMemoryCache cache = ImageMemoryCache.INSTANCE;
         final ImageMemoryCache cache = ImageMemoryCache.getInstance
                 (getApplicationContext());
 
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
-        mTopTitleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
-            }
-        });
 
         // set description
         if (mTopNews.getDescription() == null) {
@@ -228,11 +233,21 @@ public class NLDetailActivity extends Activity
         } else {
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
-        }
+        }//        mTopImageView.setOutline(new Outline(mTopImageView.getout));
+
+        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NLLog.now("mTopNewsTextRippleLayout onClick");
+//                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
+            }
+        });
+
         mTopImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
+                NLLog.now("mTopImageView onClick");
+//                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
 
@@ -271,15 +286,14 @@ public class NLDetailActivity extends Activity
         if (darkVibrantColor != null) {
 //            getWindow().setBackgroundDrawable(new ColorDrawable(vibrantColor.getRgb()));
             mTopContentLayout.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
-            mTopTitleTextView.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
-            mTopDescriptionTextView.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
+            mTopNewsTextLayout.setBackground(new ColorDrawable(darkVibrantColor.getRgb()));
         }
     }
 
     @Override
     public void onItemClick(NLDetailNewsAdapter.ViewHolder viewHolder, NLNews news) {
         NLLog.now("detail bottom onItemClick");
-        NLWebUtils.openLink(this, news.getLink());
+//        NLWebUtils.openLink(this, news.getLink());
     }
 
     private void applySystemWindowsBottomInset(int container) {
@@ -311,7 +325,7 @@ public class NLDetailActivity extends Activity
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
-            mTopImageView.setTranslationY(scrollY * 0.5f);
+            mTopImageView.setTranslationY(scrollY * 0.4f);
 
             mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
             if (mActionBarOverlayView.getAlpha() >= 0.6f) {
