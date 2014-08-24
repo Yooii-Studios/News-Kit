@@ -34,6 +34,7 @@ import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.dp.DipToPixel;
 import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.util.screen.NLScreenUtils;
+import com.yooiistudios.news.util.web.NLWebUtils;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class NLDetailActivity extends Activity
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
     // Top
     @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
+    @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
     @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
     @InjectView(R.id.detail_top_news_text_ripple_layout)    LinearLayout mTopNewsTextRippleLayout;
@@ -233,21 +235,19 @@ public class NLDetailActivity extends Activity
         } else {
             // mTopImageBitmap
             //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
-        }//        mTopImageView.setOutline(new Outline(mTopImageView.getout));
+        }
 
         mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NLLog.now("mTopNewsTextRippleLayout onClick");
-//                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
+                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
 
-        mTopImageView.setOnClickListener(new View.OnClickListener() {
+        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NLLog.now("mTopImageView onClick");
-//                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
+                NLWebUtils.openLink(NLDetailActivity.this, mTopNews.getLink());
             }
         });
 

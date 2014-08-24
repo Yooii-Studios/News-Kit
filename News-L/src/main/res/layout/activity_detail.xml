@@ -31,11 +31,20 @@
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/image_view_content_description"/>
 
+                <View
+                    android:id="@+id/detail_top_news_image_ripple_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detail_top_image_view_height"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="?android:selectableItemBackground">
+                </View>
+
                 <LinearLayout
                     android:id="@+id/detail_top_news_text_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/detail_top_news_image_view">
+                    android:layout_below="@id/detail_top_news_image_ripple_view">
 
                     <LinearLayout
                         android:id="@+id/detail_top_news_text_ripple_layout"
@@ -50,10 +59,10 @@
                             android:id="@+id/detail_top_news_title_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@android:style/Theme.Material"
+                            android:padding="@dimen/detail_text_padding"
                             android:textColor="@android:color/black"
                             android:textAppearance="@android:style/TextAppearance.Material.Headline"
-                            android:padding="@dimen/detail_text_padding"
+                            android:theme="@android:style/Theme.Material"
                             android:ellipsize="end"
                             android:maxLines="2"/>
 
@@ -65,8 +74,6 @@
                             android:paddingTop="@dimen/detail_text_inner_padding"
                             android:paddingEnd="@dimen/detail_text_wide_padding"
                             android:paddingBottom="@dimen/detail_text_wide_padding"
-                            android:focusable="false"
-                            android:clickable="false"
                             android:textColor="@android:color/darker_gray"
                             android:textAppearance="@android:style/TextAppearance.Material.Body1"
                             android:theme="@android:style/Theme.Material"
