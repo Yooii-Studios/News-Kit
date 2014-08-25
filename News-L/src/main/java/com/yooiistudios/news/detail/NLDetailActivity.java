@@ -40,8 +40,6 @@ import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.util.screen.NLScreenUtils;
 import com.yooiistudios.news.util.web.NLWebUtils;
 
-import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -73,7 +71,7 @@ public class NLDetailActivity extends Activity
     private NLNews mTopNews;
     private Bitmap mTopImageBitmap;
     private NLDetailNewsAdapter mAdapter;
-    private ArrayList<NLNews> mBottomNewsList;
+//    private ArrayList<NLNews> mBottomNewsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +85,11 @@ public class NLDetailActivity extends Activity
 
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NLNewsFeed.KEY_NEWS_FEED);
-        mTopNews = getIntent().getExtras().getParcelable(NLNews.KEY_NEWS);
+        int topNewsIndex = getIntent().getExtras().getInt(NLNews.KEY_NEWS);
+//        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
+        if (topNewsIndex < mNewsFeed.getNewsList().size()) {
+            mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
+        }
 //        Bitmap bitmap = getIntent().getExtras().getParcelable("bitmap");
 //        NLLog.i(TAG, "bitmap : " + (bitmap != null ? "exists" : "null"));
         String imageViewName = getIntent().getExtras().getString(NLMainActivity
@@ -151,13 +153,13 @@ public class NLDetailActivity extends Activity
         mTopDescriptionTextView.setAlpha(0);
 
 //        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
-        if (mNewsFeed.getNewsListContainsImageUrl().size() > 0) {
+        if (mTopNews != null) {
             loadTopNews();
-            if (mTopImageBitmap != null) {
-                colorize(mTopImageBitmap);
-            } else {
-                // TODO 이미지가 없을 경우 색상 처리
-            }
+//            if (mTopImageBitmap != null) {
+//                colorize(mTopImageBitmap);
+//            } else {
+//                // TODO 이미지가 없을 경우 색상 처리
+//            }
         } else {
             //TODO when NLNewsFeed is invalid.
         }
@@ -180,11 +182,10 @@ public class NLDetailActivity extends Activity
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
 
         // make bottom news array list. EXCLUDE top news.
-        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
-        mBottomNewsList.remove(mTopNews);
+//        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
 
-        for (int i = 0; i < mBottomNewsList.size(); i++) {
-            final NLNews news = mBottomNewsList.get(i);
+        for (int i = 0; i < mNewsFeed.getNewsList().size(); i++) {
+            final NLNews news = mNewsFeed.getNewsList().get(i);
             mBottomNewsListRecyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {

@@ -153,7 +153,8 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
         Intent intent = new Intent(getActivity(),
                 NLDetailActivity.class);
         intent.putExtra(NLNewsFeed.KEY_NEWS_FEED, mNewsFeed);
-        intent.putExtra(NLNews.KEY_NEWS, mNews);
+        // TODO: 리프레시 구현이 되었을 때 0을 현재 보여지고 있는 인덱스로 교체해야함
+        intent.putExtra(NLNews.KEY_NEWS, mPosition);
         intent.putExtra(NLMainActivity.INTENT_KEY_VIEW_NAME_IMAGE,
                 viewHolder.imageView.getViewName());
         intent.putExtra(NLMainActivity.INTENT_KEY_VIEW_NAME_TITLE,

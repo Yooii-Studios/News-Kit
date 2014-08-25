@@ -500,7 +500,8 @@ public class NLMainActivity extends Activity
         Intent intent = new Intent(NLMainActivity.this,
                 NLDetailActivity.class);
         intent.putExtra(NLNewsFeed.KEY_NEWS_FEED, newsFeed);
-        intent.putExtra(NLNews.KEY_NEWS, newsFeed.getNewsList().get(0));
+        // TODO: 리프레시 구현이 되었을 때 0을 현재 보여지고 있는 인덱스로 교체해야함
+        intent.putExtra(NLNews.KEY_NEWS, 0);
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
         startActivity(intent, activityOptions.toBundle());
