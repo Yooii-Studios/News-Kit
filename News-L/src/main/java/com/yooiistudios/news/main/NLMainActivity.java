@@ -54,12 +54,9 @@ public class NLMainActivity extends Activity
         NLBottomNewsFeedAdapter.OnItemClickListener,
         NLBottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
 
-    @InjectView(R.id.main_top_view_pager)
-    ViewPager mTopNewsFeedViewPager;
-    @InjectView(R.id.main_top_page_indicator)
-    CirclePageIndicator mTopViewPagerIndicator;
-    @InjectView(R.id.bottomNewsFeedRecyclerView)
-    RecyclerView mBottomNewsFeedRecyclerView;
+    @InjectView(R.id.main_top_view_pager)           ViewPager mTopNewsFeedViewPager;
+    @InjectView(R.id.main_top_page_indicator)       CirclePageIndicator mTopViewPagerIndicator;
+    @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = NLMainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
