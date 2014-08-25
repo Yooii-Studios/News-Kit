@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.NLNews;
+import com.yooiistudios.news.model.news.NLNews;
 import com.yooiistudios.news.util.dp.DipToPixel;
 
 import java.util.ArrayList;

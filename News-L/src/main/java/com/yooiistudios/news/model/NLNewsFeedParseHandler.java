@@ -1,5 +1,8 @@
 package com.yooiistudios.news.model;
 
+import com.yooiistudios.news.model.news.NLNews;
+import com.yooiistudios.news.model.news.NLNewsFeed;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 

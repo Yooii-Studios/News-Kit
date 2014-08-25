@@ -2,7 +2,7 @@ package com.yooiistudios.news.model.main;
 
 import android.os.AsyncTask;
 
-import com.yooiistudios.news.model.NLNews;
+import com.yooiistudios.news.model.news.NLNews;
 import com.yooiistudios.news.model.NLNewsFeedImageUrlFetchUtil;
 
 /**

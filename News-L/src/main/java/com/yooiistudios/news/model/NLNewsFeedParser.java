@@ -1,5 +1,7 @@
 package com.yooiistudios.news.model;
 
+import com.yooiistudios.news.model.news.NLNewsFeed;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;

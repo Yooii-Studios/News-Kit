@@ -1,5 +1,7 @@
 package com.yooiistudios.news.model;
 
+import com.yooiistudios.news.model.news.NLNews;
+import com.yooiistudios.news.model.news.NLNewsFeedUtils;
 import com.yooiistudios.news.util.log.NLLog;
 
 /**
