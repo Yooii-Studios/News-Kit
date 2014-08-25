@@ -1,4 +1,4 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.model.news;
 
 import android.os.Parcel;
 import android.os.Parcelable;

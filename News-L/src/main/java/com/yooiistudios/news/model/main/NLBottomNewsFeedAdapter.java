@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -18,8 +19,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.main.NLMainActivity;
-import com.yooiistudios.news.model.NLNews;
-import com.yooiistudios.news.model.NLNewsFeed;
+import com.yooiistudios.news.model.news.NLNews;
+import com.yooiistudios.news.model.news.NLNewsFeed;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.log.NLLog;
 
@@ -89,6 +90,8 @@ public class NLBottomNewsFeedAdapter extends
         imageView.setViewName(NLMainActivity.VIEW_NAME_IMAGE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
+
         String imageUrl;
         if (newsList.size() > 0 &&
                 (imageUrl = displayingNews.getImageUrl()) != null) {
@@ -118,6 +121,7 @@ public class NLBottomNewsFeedAdapter extends
                                     alpha, red, green, blue));
                         }
                     }
+                    viewHolder.progressBar.setVisibility(View.GONE);
 //                    viewHolder.imageView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
 
@@ -171,11 +175,13 @@ public class NLBottomNewsFeedAdapter extends
 
         public TextView feedName;
         public ImageView imageView;
+        public ProgressBar progressBar;
 
         public NLBottomNewsFeedViewHolder(View itemView) {
             super(itemView);
             feedName = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
             imageView = (ImageView)itemView.findViewById(R.id.image);
+            progressBar = (ProgressBar)itemView.findViewById(R.id.progress);
         }
 
     }

@@ -1,10 +1,12 @@
-package com.yooiistudios.news.model;
+package com.yooiistudios.news.model.news;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yooiistudios.news.model.NLNewsFeedUrl;
+import com.yooiistudios.news.model.NLNewsFeedUrlType;
 import com.yooiistudios.news.setting.language.NLLanguage;
 import com.yooiistudios.news.setting.language.NLLanguageType;
 import com.yooiistudios.news.util.log.NLLog;

@@ -21,8 +21,8 @@ import com.yooiistudios.news.NLNewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.detail.NLDetailActivity;
 import com.yooiistudios.news.main.NLMainActivity;
-import com.yooiistudios.news.model.NLNews;
-import com.yooiistudios.news.model.NLNewsFeed;
+import com.yooiistudios.news.model.news.NLNews;
+import com.yooiistudios.news.model.news.NLNewsFeed;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 /**
