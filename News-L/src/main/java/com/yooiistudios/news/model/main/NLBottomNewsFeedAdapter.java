@@ -39,7 +39,7 @@ public class NLBottomNewsFeedAdapter extends
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
     private Context mContext;
-    private ArrayList<NLNewsFeed> mNewsFeed;
+    private ArrayList<NLNewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -51,7 +51,7 @@ public class NLBottomNewsFeedAdapter extends
     public NLBottomNewsFeedAdapter(Context context, OnItemClickListener
                                    listener) {
         mContext = context;
-        mNewsFeed = new ArrayList<NLNewsFeed>();
+        mNewsFeedList = new ArrayList<NLNewsFeed>();
         mOnItemClickListener = listener;
     }
 
@@ -76,9 +76,10 @@ public class NLBottomNewsFeedAdapter extends
     @Override
     public void onBindViewHolder(final NLBottomNewsFeedViewHolder viewHolder,
             final int position) {
-        TextView titleView = viewHolder.feedName;
+        TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
-        ArrayList<NLNews> newsList = mNewsFeed.get(position).getNewsList();
+        TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
+        ArrayList<NLNews> newsList = mNewsFeedList.get(position).getNewsList();
         NLNews displayingNews = newsList.get(0);
 
         titleView.setText(displayingNews.getTitle());
@@ -89,6 +90,9 @@ public class NLBottomNewsFeedAdapter extends
         imageView.setImageDrawable(new ColorDrawable(Color.argb(200, 16, 16, 16)));
         imageView.setViewName(NLMainActivity.VIEW_NAME_IMAGE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
+
+        newsFeedTitleView.setText(mNewsFeedList.get(position).getTitle());
+
 
         viewHolder.progressBar.setVisibility(View.VISIBLE);
 
@@ -136,7 +140,7 @@ public class NLBottomNewsFeedAdapter extends
             new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NLNewsFeed newsFeed = mNewsFeed.get(position);
+                    NLNewsFeed newsFeed = mNewsFeedList.get(position);
 
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed);
@@ -148,12 +152,12 @@ public class NLBottomNewsFeedAdapter extends
 
     @Override
     public int getItemCount() {
-        return mNewsFeed.size();
+        return mNewsFeedList.size();
     }
 
     public void addNewsFeed(NLNewsFeed newsFeed) {
-        mNewsFeed.add(newsFeed);
-        notifyItemInserted(mNewsFeed.size() - 1);
+        mNewsFeedList.add(newsFeed);
+        notifyItemInserted(mNewsFeedList.size() - 1);
     }
 
     public void setImageUrlAt(String imageUrl, int position) {
@@ -164,7 +168,7 @@ public class NLBottomNewsFeedAdapter extends
 //        int position = ((Integer)view.getTag(KEY_INDEX));
 //        NLBottomNewsFeedViewHolder viewHolder = (NLBottomNewsFeedViewHolder)
 //                view.getTag(KEY_VIEW_HOLDER);
-//        NLNewsFeed newsFeed = mNewsFeed.get(position);
+//        NLNewsFeed newsFeed = mNewsFeedList.get(position);
 //
 //        if (mOnItemClickListener != null) {
 //            mOnItemClickListener.onItemClick(viewHolder, newsFeed);
@@ -174,15 +178,17 @@ public class NLBottomNewsFeedAdapter extends
     public static class NLBottomNewsFeedViewHolder extends RecyclerView
             .ViewHolder {
 
-        public TextView feedName;
+        public TextView newsTitleTextView;
         public ImageView imageView;
         public ProgressBar progressBar;
+        public TextView newsFeedTitleTextView;
 
         public NLBottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            feedName = (TextView)itemView.findViewById(R.id.main_bottom_news_item_title);
-            imageView = (ImageView)itemView.findViewById(R.id.main_bottom_item_image_view);
-            progressBar = (ProgressBar)itemView.findViewById(R.id.main_bottom_item_progress);
+            newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
+            imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
+            newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
         }
 
     }

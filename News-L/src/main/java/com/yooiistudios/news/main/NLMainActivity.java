@@ -493,7 +493,7 @@ public class NLMainActivity extends Activity
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
         ImageView imageView = viewHolder.imageView;
-        TextView titleView = viewHolder.feedName;
+        TextView titleView = viewHolder.newsTitleTextView;
 
 
         ActivityOptions activityOptions =
