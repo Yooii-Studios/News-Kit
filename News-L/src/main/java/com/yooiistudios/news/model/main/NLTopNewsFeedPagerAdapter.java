@@ -7,7 +7,7 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.yooiistudios.news.model.NLNewsFeed;
+import com.yooiistudios.news.model.news.NLNewsFeed;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.

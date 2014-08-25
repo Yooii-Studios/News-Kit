@@ -3,7 +3,7 @@ package com.yooiistudios.news.model.main;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.yooiistudios.news.model.NLNewsFeed;
+import com.yooiistudios.news.model.news.NLNewsFeed;
 import com.yooiistudios.news.model.NLNewsFeedFetchUtil;
 import com.yooiistudios.news.model.NLNewsFeedUrl;
 
