@@ -3,29 +3,22 @@
 <com.yooiistudios.news.ui.widget.NLSquareCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-    android:layout_margin="@dimen/main_bottom_margin_small"
-    cardview:cardCornerRadius="2dp">
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_margin="@dimen/main_bottom_margin_small"
+  cardview:cardCornerRadius="2dp">
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/image_view_content_description"/>
+
     <TextView
         android:id="@+id/detail_bottom_news_item_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:theme="@android:style/Theme.Material"
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-        android:textColor="#fff"
-        android:textStyle="bold"
-        android:maxLines="3"
-        android:ellipsize="end"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="16dp"/>
+        style="@style/MainBottomItemTextStyle"/>
     <!--
         android:background="?android:attr/colorPrimary" -->
 
