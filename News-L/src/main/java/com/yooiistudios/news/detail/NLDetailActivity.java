@@ -232,8 +232,7 @@ public class NLDetailActivity extends Activity
         if (imgUrl != null) {
             ImageLoader.ImageContainer imageContainer =
                     mImageLoader.get(imgUrl, this);
-            Bitmap bitmap;
-            if ((bitmap = imageContainer.getBitmap()) != null) {
+            if ((mTopImageBitmap = imageContainer.getBitmap()) != null) {
                 mTopImageView.setImageBitmap(mTopImageBitmap);
                 colorize(mTopImageBitmap);
             }
@@ -368,12 +367,12 @@ public class NLDetailActivity extends Activity
     @Override
     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
 //                    mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
-        if (mTopImageBitmap == null) {
-            mTopImageBitmap = response.getBitmap();
-
-            mTopImageView.setImageBitmap(mTopImageBitmap);
-            colorize(mTopImageBitmap);
-        }
+//        if (mTopImageBitmap == null) {
+//            mTopImageBitmap = response.getBitmap();
+//
+//            mTopImageView.setImageBitmap(mTopImageBitmap);
+//            colorize(mTopImageBitmap);
+//        }
     }
 
     @Override

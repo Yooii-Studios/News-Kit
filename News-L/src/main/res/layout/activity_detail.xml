@@ -57,28 +57,11 @@
 
                         <TextView
                             android:id="@+id/detail_top_news_title_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/detail_text_padding"
-                            android:textColor="@android:color/black"
-                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
-                            android:theme="@android:style/Theme.Material"
-                            android:ellipsize="end"
-                            android:maxLines="2"/>
+                            style="@style/DetailTitleStyle"/>
 
                         <TextView
                             android:id="@+id/detail_top_news_description_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="@dimen/detail_text_wide_padding"
-                            android:paddingTop="@dimen/detail_text_inner_padding"
-                            android:paddingEnd="@dimen/detail_text_wide_padding"
-                            android:paddingBottom="@dimen/detail_text_wide_padding"
-                            android:textColor="@android:color/darker_gray"
-                            android:textAppearance="@android:style/TextAppearance.Material.Body1"
-                            android:theme="@android:style/Theme.Material"
-                            android:ellipsize="end"
-                            android:maxLines="2"/>
+                            style="@style/DetailDescriptionStyle"/>
 
                     </LinearLayout>
                 </LinearLayout>
