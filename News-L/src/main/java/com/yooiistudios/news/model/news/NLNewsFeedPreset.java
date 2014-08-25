@@ -31,12 +31,13 @@ public class NLNewsFeedPreset {
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
-//                        "http://myhome.chosun.com/rss/www_section_rss.xml",
-                        "http://rss.donga.com/total.xml",
+//                        "http://feeds.bbci.co.uk/news/rss.xml?edition=int",
+                        "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
-                        "http://rss.asahi.com/rss/asahi/newsheadlines.rdf",
+//                        "http://adv.yomiuri.co.jp/index.rss",
+                        "http://rss.rssad.jp/rss/mainichi/flash.rss",
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
@@ -44,11 +45,14 @@ public class NLNewsFeedPreset {
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
-                        "http://feeds.bbci.co.uk/news/rss.xml?edition=int",
+                        "http://rss.lemonde.fr/c/205/f/3050/index.rss",
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
-                        "http://rss.lemonde.fr/c/205/f/3050/index.rss",
+//                        "http://myhome.chosun.com/rss/www_section_rss.xml",
+//                        "http://rss.donga.com/total.xml",
+//                        "http://www.thetimes.co.uk/tto/news/rss",
+                        "http://estaticos.elmundo.es/elmundo/rss/portada.xml",
                         NLNewsFeedUrlType.GENERAL));
 //        sBottomNewsFeedPresetList.add(
 //                new NLNewsFeedUrl(

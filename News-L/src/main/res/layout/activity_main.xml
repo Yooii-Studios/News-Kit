@@ -26,7 +26,6 @@
 
         </FrameLayout>
 
-
         <com.viewpagerindicator.CirclePageIndicator
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/main_top_page_indicator"

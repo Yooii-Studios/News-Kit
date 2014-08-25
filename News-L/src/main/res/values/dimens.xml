@@ -12,7 +12,7 @@
     <dimen name="main_top_news_feed_title_padding">10dp</dimen>
 
     <!-- Main Bottom -->
-    <dimen name="main_bottom_margin_small">1.5dp</dimen>
+    <dimen name="main_bottom_margin_small">2dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1dp</dimen>
     <dimen name="main_bottom_card_view_title_size">20sp</dimen>
     <dimen name="main_bottom_text_padding">16dp</dimen>
