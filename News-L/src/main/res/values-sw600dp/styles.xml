@@ -5,6 +5,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- Main -->
+    <!-- Top -->
+    <style name="TopTitleTextStyle" parent="TopTitleTextBaseStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Display1</item>
+    </style>
+
+    <!-- Detail -->
     <style name="DetailTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -19,11 +19,7 @@
 
     <TextView
         android:id="@+id/main_top_feed_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignBottom="@id/main_top_feed_image_view"
-        android:layout_margin="30dp"
-        android:theme="@android:style/Theme.Material"
-        android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        android:maxLines="2"/>
+        style="@style/TopTitleTextStyle"/>
+
 </RelativeLayout>

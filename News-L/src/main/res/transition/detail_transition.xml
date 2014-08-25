@@ -39,7 +39,7 @@
             starting and result Activities
         -->
         <targets>
-            <target android:targetId="@id/topFeedImage" />
+            <target android:targetId="@id/main_top_feed_image_view" />
             <target android:targetId="@id/detail_top_news_image_view" />
         </targets>
     </moveImage>
