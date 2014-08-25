@@ -176,8 +176,8 @@ public class NLTopNewsFeedViewPagerItem extends Fragment
         TextView titleTextView;
 
         public ItemViewHolder(View view) {
-            imageView = (ImageView)view.findViewById(R.id.topFeedImage);
-            titleTextView = (TextView)view.findViewById(R.id.topFeedTitle);
+            imageView = (ImageView)view.findViewById(R.id.main_top_feed_image_view);
+            titleTextView = (TextView)view.findViewById(R.id.main_top_feed_title);
         }
     }
 }

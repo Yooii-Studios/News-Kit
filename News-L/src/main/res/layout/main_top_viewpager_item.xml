@@ -6,19 +6,22 @@
               android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/topFeedImage"
+        android:id="@+id/main_top_feed_image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_top_view_pager_height"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/image_view_content_description"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#7f101010"/>
+
     <TextView
-        android:id="@+id/topFeedTitle"
+        android:id="@+id/main_top_feed_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/topFeedImage"
+        android:layout_alignBottom="@id/main_top_feed_image_view"
         android:layout_margin="30dp"
         android:theme="@android:style/Theme.Material"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"

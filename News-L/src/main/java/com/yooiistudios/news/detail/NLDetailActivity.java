@@ -382,15 +382,15 @@ public class NLDetailActivity extends Activity
     }
 
     private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
-        private final ImageView mHero;
+        private final ImageView mHeroImageView;
 
         public ColorFilterListener(ImageView hero) {
-            mHero = hero;
+            mHeroImageView = hero;
         }
 
         @Override
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            mHero.getDrawable().setColorFilter(mHero.getColorFilter());
+            mHeroImageView.getDrawable().setColorFilter(mHeroImageView.getColorFilter());
         }
     }
 }
