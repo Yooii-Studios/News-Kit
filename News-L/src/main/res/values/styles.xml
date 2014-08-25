@@ -50,12 +50,13 @@
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/main_news_feed_title_padding</item>
+        <item name="android:padding">@dimen/main_bottom_news_feed_title_padding</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Caption</item>
+        <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
         <!--<item name="android:textSize">11sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>

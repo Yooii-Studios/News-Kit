@@ -10,13 +10,14 @@
     <dimen name="main_top_view_pager_indicator_radius">4.2dp</dimen>
     <dimen name="main_top_view_pager_indicator_margin">7dp</dimen>
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>
-    <dimen name="main_bottom_text_padding">24dp</dimen>
-    <dimen name="main_news_feed_title_padding">12dp</dimen>
+    <dimen name="main_top_news_feed_title_padding">15dp</dimen>
 
     <!-- Main Bottom -->
     <dimen name="main_bottom_margin_small">2.1dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1.4dp</dimen>
     <dimen name="main_bottom_card_view_title_size">28sp</dimen>
+    <dimen name="main_bottom_text_padding">24dp</dimen>
+    <dimen name="main_bottom_news_feed_title_padding">12dp</dimen>
 
     <!-- Detail -->
     <dimen name="detail_text_padding">24dp</dimen>
