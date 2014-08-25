@@ -31,19 +31,20 @@ public class NLNewsFeedPreset {
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
+//                        "http://myhome.chosun.com/rss/www_section_rss.xml",
+                        "http://rss.donga.com/total.xml",
+                        NLNewsFeedUrlType.GENERAL));
+        sBottomNewsFeedPresetList.add(
+                new NLNewsFeedUrl(
+                        "http://rss.asahi.com/rss/asahi/newsheadlines.rdf",
+                        NLNewsFeedUrlType.GENERAL));
+        sBottomNewsFeedPresetList.add(
+                new NLNewsFeedUrl(
                         "http://www.cnet.com/rss/news/",
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
                         "http://feeds.bbci.co.uk/news/rss.xml?edition=int",
-                        NLNewsFeedUrlType.GENERAL));
-        sBottomNewsFeedPresetList.add(
-                new NLNewsFeedUrl(
-                        "http://www.newyorker.com/feed/news",
-                        NLNewsFeedUrlType.GENERAL));
-        sBottomNewsFeedPresetList.add(
-                new NLNewsFeedUrl(
-                        "http://estaticos.elmundo.es/elmundo/rss/portada.xml",
                         NLNewsFeedUrlType.GENERAL));
         sBottomNewsFeedPresetList.add(
                 new NLNewsFeedUrl(
