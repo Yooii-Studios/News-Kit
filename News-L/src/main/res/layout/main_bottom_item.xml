@@ -10,14 +10,14 @@
   cardview:cardCornerRadius="2dp">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/main_bottom_item_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:contentDescription="@string/image_view_content_description"/>
 
     <TextView
-        android:id="@+id/detail_bottom_news_item_title"
+        android:id="@+id/main_bottom_news_item_title"
         style="@style/MainBottomItemTextStyle"/>
     <!--
         android:background="?android:attr/colorPrimary" -->

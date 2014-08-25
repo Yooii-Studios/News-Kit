@@ -56,7 +56,7 @@ public class NLDetailNewsAdapter extends
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder,
             final int position) {
-        TextView titleTextView = viewHolder.newsTitle;
+        TextView titleTextView = viewHolder.newsTitleTextView;
         if (titleTextView != null) {
             titleTextView.setText(mNewsList.get(position).getTitle());
             titleTextView.setTextColor(Color.BLACK);
@@ -68,8 +68,8 @@ public class NLDetailNewsAdapter extends
             }
         }
 
-        TextView descriptionTextView = viewHolder.newsDescription;
-        if (descriptionTextView != null && mNewsList.get(position).getDescription() != null) {
+        TextView descriptionTextView = viewHolder.newsDescriptionTextView;
+        if (descriptionTextView != null) {
             String description = mNewsList.get(position).getDescription();
             if (description != null) {
                 descriptionTextView.setText(mNewsList.get(position).getDescription());
@@ -108,14 +108,13 @@ public class NLDetailNewsAdapter extends
     public static class ViewHolder extends RecyclerView
             .ViewHolder {
 
-        protected TextView newsTitle;
-        protected TextView newsDescription;
+        protected TextView newsTitleTextView;
+        protected TextView newsDescriptionTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            newsTitle = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
-            newsDescription = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_description);
+            newsTitleTextView = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
+            newsDescriptionTextView = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_description);
         }
-
     }
 }

@@ -174,8 +174,8 @@ public class NLBottomNewsFeedAdapter extends
 
         public NLBottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            feedName = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
-            imageView = (ImageView)itemView.findViewById(R.id.image);
+            feedName = (TextView)itemView.findViewById(R.id.main_bottom_news_item_title);
+            imageView = (ImageView)itemView.findViewById(R.id.main_bottom_item_image_view);
         }
 
     }
