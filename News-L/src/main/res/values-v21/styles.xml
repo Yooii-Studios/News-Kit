@@ -17,7 +17,7 @@
     </declare-styleable>
 
     <style name="BaseAppTheme" parent="android:Theme.Material.Light">
-        <!--<item name="android:colorPrimary">@color/theme_default_primary</item>-->
+        <item name="android:colorPrimary">#ffffff</item>
         <!--<item name="android:colorPrimaryDark">@color/theme_default_primary_dark</item>-->
 
         <!--<item name="android:colorBackground">@color/theme_background</item>-->
