@@ -56,6 +56,7 @@ public class NLMainActivity extends Activity
 
     @InjectView(R.id.main_top_view_pager)           ViewPager mTopNewsFeedViewPager;
     @InjectView(R.id.main_top_page_indicator)       CirclePageIndicator mTopViewPagerIndicator;
+    @InjectView(R.id.main_top_news_feed_title_text_view) TextView mTopNewsFeedTitleTextView;
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = NLMainActivity.class.getName();
@@ -157,6 +158,8 @@ public class NLMainActivity extends Activity
             mTopNewsFeedFirstImageReady = true;
             fetchTopNewsFeedImageExceptFirstNews();
         }
+
+        mTopNewsFeedTitleTextView.setText(mTopNewsFeed.getTitle());
     }
 
     private void initBottomNewsFeed(boolean refresh) {
@@ -493,7 +496,7 @@ public class NLMainActivity extends Activity
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
         ImageView imageView = viewHolder.imageView;
-        TextView titleView = viewHolder.feedName;
+        TextView titleView = viewHolder.newsTitleTextView;
 
 
         ActivityOptions activityOptions =

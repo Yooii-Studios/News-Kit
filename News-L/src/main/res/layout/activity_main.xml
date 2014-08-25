@@ -4,38 +4,52 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@color/theme_background">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_top_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_top_view_pager_height"
-        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
 
-    <com.viewpagerindicator.CirclePageIndicator
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/main_top_page_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="@dimen/main_top_view_pager_indicator_margin"
-        android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
-        app:fillColor="@color/theme_default_accent"
-        app:strokeWidth="0dp"
-        app:strokeColor="#00000000"
-        app:pageColor="@color/theme_default_accent_light"
-        app:centered="true"
-        app:snap="true"
-        app:radius="@dimen/main_top_view_pager_indicator_radius"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/bottomNewsFeedRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/main_bottom_margin_small"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/main_top_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_top_view_pager_height"
+                android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+
+            <TextView
+                android:id="@+id/main_top_news_feed_title_text_view"
+                style="@style/MainTopItemNewsFeedTitleTextStyle"/>
+
+        </FrameLayout>
+
+
+        <com.viewpagerindicator.CirclePageIndicator
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_top_page_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/main_top_view_pager_indicator_margin"
+            android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
+            app:fillColor="@color/theme_default_accent"
+            app:strokeWidth="0dp"
+            app:strokeColor="#00000000"
+            app:pageColor="@color/theme_default_accent_light"
+            app:centered="true"
+            app:snap="true"
+            app:radius="@dimen/main_top_view_pager_indicator_radius"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bottomNewsFeedRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_bottom_margin_small"/>
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/loading_container"
         android:layout_width="match_parent"

@@ -42,6 +42,31 @@
         <item name="android:textSize">21sp</item>
     </style>
 
+    <style name="MainNewsFeedTitleTextBaseStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="android:theme">@android:style/Theme.Material</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/main_bottom_news_feed_title_padding</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+        <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
+        <!--<item name="android:textSize">11sp</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Caption</item>
+        <item name="android:textSize">8sp</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
     <!-- Detail -->
     <style name="DetailTextBaseStyle">
         <item name="android:layout_width">match_parent</item>
