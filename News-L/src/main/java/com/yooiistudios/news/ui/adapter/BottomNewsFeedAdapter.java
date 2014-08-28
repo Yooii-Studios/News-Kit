@@ -45,7 +45,7 @@ public class BottomNewsFeedAdapter extends
     public interface OnItemClickListener {
         public void onBottomItemClick(
                 BottomNewsFeedAdapter.NLBottomNewsFeedViewHolder
-                        viewHolder, NewsFeed newsFeed);
+                        viewHolder, NewsFeed newsFeed, int position);
     }
 
     public BottomNewsFeedAdapter(Context context, OnItemClickListener
@@ -143,7 +143,7 @@ public class BottomNewsFeedAdapter extends
                     NewsFeed newsFeed = mNewsFeedList.get(position);
 
                     if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed);
+                        mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
                     }
                 }
             }

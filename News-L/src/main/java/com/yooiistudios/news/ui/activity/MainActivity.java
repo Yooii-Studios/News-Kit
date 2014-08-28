@@ -81,6 +81,7 @@ public class MainActivity extends Activity
             mTopNewsFeedNewsToImageTaskMap;
     private BottomNewsFeedAdapter mBottomNewsFeedAdapter;
     private TopNewsFeedPagerAdapter mTopNewsFeedPagerAdapter;
+    private ArrayList<Integer> mDisplayingBottomNewsFeedIndices;
 
     private SlideInFromBottomItemAnimator mItemAnimator;
 
@@ -177,6 +178,12 @@ public class MainActivity extends Activity
         Pair<ArrayList<NewsFeedUrl>, ArrayList<NewsFeed>> bottomNewsPair
                 = NewsFeedArchiveUtils.loadBottomNews(context);
         mBottomNewsFeedUrlList = bottomNewsPair.first;
+        mDisplayingBottomNewsFeedIndices = new ArrayList<Integer>();
+
+        // 메인 하단 뉴스피드들의 현재 뉴스 인덱스를 0으로 초기화
+        for (int i = 0; i < mBottomNewsFeedUrlList.size(); i++) {
+            mDisplayingBottomNewsFeedIndices.add(0);
+        }
 
         if (refresh) {
             fetchBottomNewsFeedList();
@@ -252,12 +259,19 @@ public class MainActivity extends Activity
 
         for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
             NewsFeed feed = mBottomNewsFeedList.get(i);
+
+            // IndexOutOfBoundException 방지
+            int newsIndex = i < mDisplayingBottomNewsFeedIndices.size() ?
+                    mDisplayingBottomNewsFeedIndices.get(i) : 0;
+
             ArrayList<News> newsList = feed.getNewsList();
             if (newsList.size() > 0) {
-                News news = newsList.get(0);
-                BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask
-                        (news, i, this);
+                // IndexOutOfBoundException 방지
+                News news = newsIndex < newsList.size() ? newsList.get(newsIndex) : newsList.get(0);
+
+                BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             }
         }
@@ -486,8 +500,8 @@ public class MainActivity extends Activity
 
     @Override
     public void onBottomItemClick(
-            BottomNewsFeedAdapter.NLBottomNewsFeedViewHolder
-                    viewHolder, NewsFeed newsFeed) {
+            BottomNewsFeedAdapter.NLBottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed,
+            int position) {
         NLLog.i(TAG, "onBottomItemClick");
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
@@ -508,8 +522,7 @@ public class MainActivity extends Activity
         Intent intent = new Intent(MainActivity.this,
                 DetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
-        // TODO: 리프레시 구현이 되었을 때 0을 현재 보여지고 있는 인덱스로 교체해야함
-        intent.putExtra(News.KEY_NEWS, 0);
+        intent.putExtra(News.KEY_NEWS, mDisplayingBottomNewsFeedIndices.get(position));
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
         startActivity(intent, activityOptions.toBundle());

@@ -13,10 +13,10 @@ import java.util.ArrayList;
 public class NewsFeed implements Parcelable {
     public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
 
-    private String title;
-    private String link;
-    private String description;
-    private String language;
+    private String mTitle;
+    private String mLink;
+    private String mDescription;
+    private String mLanguage;
     private ArrayList<News> mNewsList;
 
     public NewsFeed() {
@@ -25,19 +25,19 @@ public class NewsFeed implements Parcelable {
 
     public NewsFeed(Parcel source) {
         this();
-        title = source.readString();
-        link = source.readString();
-        description = source.readString();
-        language = source.readString();
+        mTitle = source.readString();
+        mLink = source.readString();
+        mDescription = source.readString();
+        mLanguage = source.readString();
         source.readTypedList(mNewsList, News.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(link);
-        dest.writeString(description);
-        dest.writeString(language);
+        dest.writeString(mTitle);
+        dest.writeString(mLink);
+        dest.writeString(mDescription);
+        dest.writeString(mLanguage);
         dest.writeTypedList(mNewsList);
     }
 
@@ -57,31 +57,31 @@ public class NewsFeed implements Parcelable {
 
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
     public void setTitle(String title) {
-        this.title = title;
+        this.mTitle = title;
     }
 
     public String getLink() {
-        return link;
+        return mLink;
     }
     public void setLink(String link) {
-        this.link = link;
+        this.mLink = link;
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
     public void setDescription(String description) {
-        this.description = description;
+        this.mDescription = description;
     }
 
     public String getLanguage() {
-        return language;
+        return mLanguage;
     }
     public void setLanguage(String language) {
-        this.language = language;
+        this.mLanguage = language;
     }
 
     public void setNewsList(ArrayList<News> newsList) {
