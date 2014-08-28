@@ -1,0 +1,120 @@
+package com.yooiistudios.news.ui.adapter;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.news.News;
+import com.yooiistudios.news.util.dp.DipToPixel;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 19.
+ *
+ * NLBottomNewsFeedAdapter
+ *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
+ */
+public class DetailNewsAdapter extends
+        RecyclerView.Adapter<DetailNewsAdapter.ViewHolder> {
+    private static final String TAG = DetailNewsAdapter.class.getName();
+
+    private Context mContext;
+    private ArrayList<News> mNewsList;
+    private OnItemClickListener mOnItemClickListener;
+
+    public interface OnItemClickListener {
+        public void onItemClick(ViewHolder viewHolder, News news);
+    }
+
+    public DetailNewsAdapter(Context context
+            , OnItemClickListener listener) {
+        mContext = context;
+        mNewsList = new ArrayList<News>();
+        mOnItemClickListener = listener;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                         int i) {
+        Context context = parent.getContext();
+        View v = LayoutInflater.from(context).inflate(
+                R.layout.detail_bottom_item, parent, false);
+        v.setElevation(DipToPixel.dpToPixel(context,
+                context.getResources().getDimension(
+                        R.dimen.main_bottom_card_view_elevation)
+        ));
+
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder viewHolder,
+            final int position) {
+        TextView titleTextView = viewHolder.newsTitleTextView;
+        if (titleTextView != null) {
+            titleTextView.setText(mNewsList.get(position).getTitle());
+            titleTextView.setTextColor(Color.BLACK);
+
+            // 아래 패딩 조절
+            if (mNewsList.get(position).getDescription() != null) {
+                titleTextView.setPadding(titleTextView.getPaddingLeft(),
+                        titleTextView.getPaddingTop(), titleTextView.getPaddingRight(), 0);
+            }
+        }
+
+        TextView descriptionTextView = viewHolder.newsDescriptionTextView;
+        if (descriptionTextView != null) {
+            String description = mNewsList.get(position).getDescription();
+            if (description != null) {
+                descriptionTextView.setText(mNewsList.get(position).getDescription());
+                descriptionTextView.setTextColor(Color.GRAY);
+            } else {
+                descriptionTextView.setVisibility(View.GONE);
+            }
+        }
+
+        viewHolder.itemView.setClickable(true);
+        viewHolder.itemView.setFocusable(true);
+        viewHolder.itemView.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    News news = mNewsList.get(position);
+
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(viewHolder, news);
+                    }
+                }
+            }
+        );
+    }
+
+    @Override
+    public int getItemCount() {
+        return mNewsList.size();
+    }
+
+    public void addNews(News news) {
+        mNewsList.add(news);
+        notifyItemInserted(mNewsList.size() - 1);
+    }
+
+    public static class ViewHolder extends RecyclerView
+            .ViewHolder {
+
+        protected TextView newsTitleTextView;
+        protected TextView newsDescriptionTextView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            newsTitleTextView = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
+            newsDescriptionTextView = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_description);
+        }
+    }
+}
