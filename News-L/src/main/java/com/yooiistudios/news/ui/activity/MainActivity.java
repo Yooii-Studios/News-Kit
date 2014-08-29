@@ -427,8 +427,7 @@ public class MainActivity extends Activity
                             (endMilli - startMilli));
                     NLLog.i(TAG, "onResponse\nposition : " + position);
 
-                    mTopNewsFeedPagerAdapter.notifyImageLoaded(
-                            getApplicationContext(), position);
+                    mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
 
                     if (position == 0) {
                         mTopNewsFeedFirstImageReady = true;
