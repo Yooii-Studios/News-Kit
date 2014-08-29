@@ -41,6 +41,7 @@ public class BottomNewsFeedAdapter extends
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
+    private ArrayList<Integer> mDisplayingNewsFeedIndices;
 
     public interface OnItemClickListener {
         public void onBottomItemClick(
@@ -52,6 +53,7 @@ public class BottomNewsFeedAdapter extends
             listener) {
         mContext = context;
         mNewsFeedList = new ArrayList<NewsFeed>();
+        mDisplayingNewsFeedIndices = new ArrayList<Integer>();
         mOnItemClickListener = listener;
     }
 
@@ -80,7 +82,15 @@ public class BottomNewsFeedAdapter extends
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
         ArrayList<News> newsList = mNewsFeedList.get(position).getNewsList();
-        final News displayingNews = newsList.get(0);
+
+        if (newsList == null || newsList.size() == 0) {
+            showDummyImage(viewHolder);
+            return;
+        }
+
+        int index = position < mDisplayingNewsFeedIndices.size()
+                ? mDisplayingNewsFeedIndices.get(position) : 0;
+        final News displayingNews = newsList.get(index);
 
         titleView.setText(displayingNews.getTitle());
         titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
@@ -109,59 +119,57 @@ public class BottomNewsFeedAdapter extends
 
         viewHolder.progressBar.setVisibility(View.VISIBLE);
 
-        if (newsList.size() > 0) {
-            String imageUrl;
-            if ((imageUrl = displayingNews.getImageUrl()) == null) {
-                if (displayingNews.isImageUrlChecked()) {
-                    showDummyImage(viewHolder);
+        String imageUrl;
+        if ((imageUrl = displayingNews.getImageUrl()) == null) {
+            if (displayingNews.isImageUrlChecked()) {
+                showDummyImage(viewHolder);
+                viewHolder.progressBar.setVisibility(View.GONE);
+                return;
+            } else {
+                return;
+            }
+        }
+
+        ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
+                (mContext), ImageMemoryCache.getInstance(mContext));
+
+        imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                NLLog.i(TAG, "onResponse\nposition : " + position);
+
+                Bitmap bitmap = response.getBitmap();
+
+                if (bitmap != null) {
+                    viewHolder.imageView.setImageBitmap(bitmap);
+                    Palette palette = Palette.generate(bitmap);
+                    PaletteItem paletteItem = palette.getDarkVibrantColor();
+                    if (paletteItem != null) {
+                        int darkVibrantColor = paletteItem.getRgb();
+                        int red = Color.red(darkVibrantColor);
+                        int green = Color.green(darkVibrantColor);
+                        int blue = Color.blue(darkVibrantColor);
+                        int alpha = mContext.getResources().getInteger(
+                                R.integer.vibrant_color_tint_alpha);
+                        viewHolder.imageView.setColorFilter(Color.argb(
+                                alpha, red, green, blue));
+                    }
                     viewHolder.progressBar.setVisibility(View.GONE);
-                    return;
                 } else {
-                    return;
+                    if (!displayingNews.isImageUrlChecked()) {
+                        // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
+                        viewHolder.progressBar.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                    }
                 }
             }
 
-            ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
-                    (mContext), ImageMemoryCache.getInstance(mContext));
-
-            imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
-                @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    NLLog.i(TAG, "onResponse\nposition : " + position);
-
-                    Bitmap bitmap = response.getBitmap();
-
-                    if (bitmap != null) {
-                        viewHolder.imageView.setImageBitmap(bitmap);
-                        Palette palette = Palette.generate(bitmap);
-                        PaletteItem paletteItem = palette.getDarkVibrantColor();
-                        if (paletteItem != null) {
-                            int darkVibrantColor = paletteItem.getRgb();
-                            int red = Color.red(darkVibrantColor);
-                            int green = Color.green(darkVibrantColor);
-                            int blue = Color.blue(darkVibrantColor);
-                            int alpha = mContext.getResources().getInteger(
-                                    R.integer.vibrant_color_tint_alpha);
-                            viewHolder.imageView.setColorFilter(Color.argb(
-                                    alpha, red, green, blue));
-                        }
-                        viewHolder.progressBar.setVisibility(View.GONE);
-                    } else {
-                        if (!displayingNews.isImageUrlChecked()) {
-                            // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
-                            viewHolder.progressBar.setVisibility(View.VISIBLE);
-                        } else {
-                            viewHolder.progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    showDummyImage(viewHolder);
-                }
-            });
-        }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showDummyImage(viewHolder);
+            }
+        });
     }
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(mContext);
@@ -175,6 +183,7 @@ public class BottomNewsFeedAdapter extends
 
     public void addNewsFeed(NewsFeed newsFeed) {
         mNewsFeedList.add(newsFeed);
+        mDisplayingNewsFeedIndices.add(0);
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
 

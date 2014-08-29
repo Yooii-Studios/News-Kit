@@ -367,7 +367,6 @@ public class MainActivity extends Activity
                 @Override
                 public void onAnimationsFinished() {
                     fetchBottomNewsFeedListImage();
-//                    mItemAnimator.animateAdd()
                 }
             });
         }
