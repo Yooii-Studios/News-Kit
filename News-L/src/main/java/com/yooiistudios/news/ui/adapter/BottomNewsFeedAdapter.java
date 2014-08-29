@@ -80,7 +80,7 @@ public class BottomNewsFeedAdapter extends
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
         ArrayList<News> newsList = mNewsFeedList.get(position).getNewsList();
-        News displayingNews = newsList.get(0);
+        final News displayingNews = newsList.get(0);
 
         titleView.setText(displayingNews.getTitle());
         titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
@@ -145,8 +145,15 @@ public class BottomNewsFeedAdapter extends
                             viewHolder.imageView.setColorFilter(Color.argb(
                                     alpha, red, green, blue));
                         }
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                    } else {
+                        if (!displayingNews.isImageUrlChecked()) {
+                            // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
+                            viewHolder.progressBar.setVisibility(View.VISIBLE);
+                        } else {
+                            viewHolder.progressBar.setVisibility(View.GONE);
+                        }
                     }
-                    viewHolder.progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
