@@ -155,11 +155,6 @@ public class DetailActivity extends Activity
 //        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
         if (mTopNews != null) {
             loadTopNews();
-//            if (mTopImageBitmap != null) {
-//                colorize(mTopImageBitmap);
-//            } else {
-//                // TODO 이미지가 없을 경우 색상 처리
-//            }
         } else {
             //TODO when NLNewsFeed is invalid.
         }

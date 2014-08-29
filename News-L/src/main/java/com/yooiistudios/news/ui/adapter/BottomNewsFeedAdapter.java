@@ -100,7 +100,7 @@ public class BottomNewsFeedAdapter extends
                     public void onClick(View view) {
                         NewsFeed newsFeed = mNewsFeedList.get(position);
 
-                        if (mOnItemClickListener != null) {
+                        if (mOnItemClickListener != null && newsFeed != null) {
                             mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
                         }
                     }

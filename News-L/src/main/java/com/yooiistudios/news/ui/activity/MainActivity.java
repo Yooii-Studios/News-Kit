@@ -13,6 +13,7 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +53,8 @@ public class MainActivity extends Activity
         BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
 
     @InjectView(R.id.main_top_view_pager)           ViewPager mTopNewsFeedViewPager;
+    @InjectView(R.id.main_top_view_pager_wrapper)   FrameLayout mTopNewsFeedViewPagerWrapper;
+    @InjectView(R.id.main_top_unavailable_wrapper)  FrameLayout mTopNewsFeedUnavailableWrapper;
     @InjectView(R.id.main_top_page_indicator)       CirclePageIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view) TextView mTopNewsFeedTitleTextView;
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
@@ -136,6 +139,11 @@ public class MainActivity extends Activity
     }
 
     private void notifyNewTopNewsFeedSet() {
+        // show view pager wrapper
+        mTopNewsFeedViewPagerWrapper.setVisibility(View.VISIBLE);
+        mTopNewsFeedUnavailableWrapper.setVisibility(View.GONE);
+        mTopViewPagerIndicator.setVisibility(View.VISIBLE);
+
         mTopNewsFeedReady = true;
         ArrayList<News> items = mTopNewsFeed.getNewsList();
         mTopNewsFeedPagerAdapter = new TopNewsFeedPagerAdapter(getFragmentManager(), mTopNewsFeed);
@@ -150,13 +158,22 @@ public class MainActivity extends Activity
             mTopImageUrlFetchTask = new TopFeedNewsImageUrlFetchTask(news, 0, this);
             mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            //TODO 해당 피드의 뉴스가 없을 경우 예외처리. Use dummy image.
-
             mTopNewsFeedFirstImageReady = true;
             fetchTopNewsFeedImageExceptFirstNews();
         }
 
         mTopNewsFeedTitleTextView.setText(mTopNewsFeed.getTitle());
+    }
+    private void showTopNewsFeedUnavailable() {
+        // show top unavailable wrapper
+        mTopNewsFeedViewPagerWrapper.setVisibility(View.GONE);
+        mTopNewsFeedUnavailableWrapper.setVisibility(View.VISIBLE);
+        mTopViewPagerIndicator.setVisibility(View.INVISIBLE);
+
+        mTopNewsFeed = null;
+        mTopNewsFeedReady = true;
+
+        mTopNewsFeedFirstImageReady = true;
     }
 
     private void initBottomNewsFeed(boolean refresh) {
@@ -279,6 +296,9 @@ public class MainActivity extends Activity
 
 
     private void fetchTopNewsFeedImageExceptFirstNews() {
+        if (mTopNewsFeed == null) {
+            return;
+        }
         mTopNewsFeedNewsToImageTaskMap = new
                 HashMap<News, TopFeedNewsImageUrlFetchTask>();
 
@@ -467,10 +487,8 @@ public class MainActivity extends Activity
     @Override
     public void onTopNewsFeedFetchFail() {
         NLLog.i(TAG, "onTopNewsFeedFetchFail");
-        // TODO Handle when top news fetch failed.
-//        if (mDialog != null) {
-//            mDialog.dismiss();
-//        }
+        showTopNewsFeedUnavailable();
+        showMainContentIfReady();
     }
 
     @Override

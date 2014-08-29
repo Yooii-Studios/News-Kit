@@ -28,8 +28,8 @@ public class NewsFeedArchiveUtils {
     private static final String KEY_BOTTOM_NEWS_FEED_LIST = "KEY_BOTTOM_NEWS_FEED_LIST";
 
     // 60 Min * 60 Sec * 1000 millisec = 1 Hour
-//    private static final long REFRESH_TERM_MILLISEC = 60 * 60 * 1000;
-    private static final long REFRESH_TERM_MILLISEC = 24 * 60 * 60 * 1000;
+    private static final long REFRESH_TERM_MILLISEC = 60 * 60 * 1000;
+//    private static final long REFRESH_TERM_MILLISEC = 24 * 60 * 60 * 1000;
     private static final long INVALID_REFRESH_TERM = -1;
 
     private NewsFeedArchiveUtils() {
@@ -106,11 +106,15 @@ public class NewsFeedArchiveUtils {
                                        @NonNull NewsFeedUrl topNewsFeedUrl,
                                        NewsFeed topNewsFeed) {
         String topNewsFeedUrlStr = new Gson().toJson(topNewsFeedUrl);
-        String topNewsFeedStr = new Gson().toJson(topNewsFeed);
+        String topNewsFeedStr = topNewsFeed != null ? new Gson().toJson(topNewsFeed) : null;
 
         // save top news feed
         editor.putString(KEY_TOP_NEWS_FEED_URL, topNewsFeedUrlStr);
-        editor.putString(KEY_TOP_NEWS_FEED, topNewsFeedStr);
+        if (topNewsFeedStr != null) {
+            editor.putString(KEY_TOP_NEWS_FEED, topNewsFeedStr);
+        } else {
+            editor.remove(KEY_TOP_NEWS_FEED);
+        }
     }
 
     private static void putBottomNewsFeedList(SharedPreferences.Editor editor,
