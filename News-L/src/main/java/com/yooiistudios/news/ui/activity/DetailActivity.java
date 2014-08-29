@@ -28,6 +28,7 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.ui.adapter.DetailNewsAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
@@ -154,11 +155,6 @@ public class DetailActivity extends Activity
 //        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
         if (mTopNews != null) {
             loadTopNews();
-//            if (mTopImageBitmap != null) {
-//                colorize(mTopImageBitmap);
-//            } else {
-//                // TODO 이미지가 없을 경우 색상 처리
-//            }
         } else {
             //TODO when NLNewsFeed is invalid.
         }
@@ -229,17 +225,20 @@ public class DetailActivity extends Activity
 
         // set image
         String imgUrl = mTopNews.getImageUrl();
+        Bitmap bitmap;
         if (imgUrl != null) {
             ImageLoader.ImageContainer imageContainer =
                     mImageLoader.get(imgUrl, this);
-            if ((mTopImageBitmap = imageContainer.getBitmap()) != null) {
-                mTopImageView.setImageBitmap(mTopImageBitmap);
-                colorize(mTopImageBitmap);
+            bitmap = imageContainer.getBitmap();
+            if (bitmap == null) {
+                bitmap = NewsFeedUtils.getDummyNewsImage(getApplicationContext());
             }
         } else {
-            // mTopImageBitmap
-            //TODO 이미지 주소가 없을 경우 기본 이미지 보여주기
+            bitmap = NewsFeedUtils.getDummyNewsImage(getApplicationContext());
         }
+
+        setTopNewsImageBitmap(bitmap);
+        colorize();
 
         mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,6 +259,11 @@ public class DetailActivity extends Activity
         animateTopItems();
     }
 
+    private void setTopNewsImageBitmap(Bitmap bitmap) {
+        mTopImageBitmap = bitmap;
+        mTopImageView.setImageBitmap(mTopImageBitmap);
+    }
+
     private void animateTopItems() {
         mTopTitleTextView.animate()
                 .setStartDelay(450)
@@ -273,8 +277,8 @@ public class DetailActivity extends Activity
                 .setInterpolator(new DecelerateInterpolator());
     }
 
-    private void colorize(Bitmap photo) {
-        mPalette = Palette.generate(photo);
+    private void colorize() {
+        mPalette = Palette.generate(mTopImageBitmap);
         applyPalette();
     }
 

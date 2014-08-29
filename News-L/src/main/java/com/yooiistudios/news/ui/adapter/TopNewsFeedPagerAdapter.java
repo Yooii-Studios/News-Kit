@@ -2,7 +2,6 @@ package com.yooiistudios.news.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -51,10 +50,10 @@ public class TopNewsFeedPagerAdapter extends FragmentStatePagerAdapter {
         mFragmentSparseArray.remove(position);
     }
 
-    public void notifyImageLoaded(Context context, int position) {
+    public void notifyImageLoaded(int position) {
         TopNewsFeedFragment item = mFragmentSparseArray.get(position);
         if (item != null) {
-            item.applyImage(context);
+            item.applyImage();
         }
     }
 

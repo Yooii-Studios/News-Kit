@@ -21,6 +21,7 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.ui.activity.DetailActivity;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.cache.ImageMemoryCache;
@@ -87,7 +88,7 @@ public class TopNewsFeedFragment extends Fragment
 
         holder.imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX +
                 mPosition);
-        applyImage(getActivity().getApplicationContext(), holder);
+        applyImage(holder);
 
         holder.titleTextView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
                 mPosition);
@@ -99,17 +100,18 @@ public class TopNewsFeedFragment extends Fragment
         return root;
     }
 
-    public void applyImage(Context context) {
+    public void applyImage() {
         View root;
         ItemViewHolder viewHolder;
         if ((root = getView()) != null &&
                 (viewHolder = (ItemViewHolder)root.getTag()) != null) {
-            applyImage(context, viewHolder);
+            applyImage(viewHolder);
         }
 
     }
 
-    private void applyImage(Context context, final ItemViewHolder viewHolder) {
+    private void applyImage(final ItemViewHolder viewHolder) {
+        viewHolder.imageView.setImageDrawable(null);
 
         // set image
         String imgUrl = mNews.getImageUrl();
@@ -129,11 +131,17 @@ public class TopNewsFeedFragment extends Fragment
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    showDummyImage(viewHolder);
                 }
             });
         } else {
-            // TODO image url 없을 경우
+            showDummyImage(viewHolder);
+        }
+    }
+    private void showDummyImage(ItemViewHolder viewHolder) {
+        if (!mRecycled && viewHolder.imageView != null) {
+            Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(getActivity().getApplicationContext());
+            viewHolder.imageView.setImageBitmap(dummyImage);
         }
     }
 
@@ -153,7 +161,6 @@ public class TopNewsFeedFragment extends Fragment
         Intent intent = new Intent(getActivity(),
                 DetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
-        // TODO: 리프레시 구현이 되었을 때 0을 현재 보여지고 있는 인덱스로 교체해야함
         intent.putExtra(News.KEY_NEWS, mPosition);
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE,
                 viewHolder.imageView.getViewName());

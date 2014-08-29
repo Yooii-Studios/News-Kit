@@ -2,9 +2,12 @@ package com.yooiistudios.news.model.news;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.util.log.NLLog;
@@ -385,5 +388,9 @@ public class NewsFeedUtils {
                 (endMilli - startMilli));
 
         return responseStr;
+    }
+
+    public static Bitmap getDummyNewsImage(Context context) {
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
     }
 }

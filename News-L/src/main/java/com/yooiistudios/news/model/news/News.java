@@ -17,37 +17,38 @@ import java.util.Locale;
 public class News implements Comparable<News>, Parcelable {
     public static final String KEY_NEWS = "KEY_NEWS";
 
-    private String title;
-    private String link;
-    private Date pubDate;
-    private String description;
-    private String content;
-    private String imageUrl;
+    private String mTitle;
+    private String mLink;
+    private Date mPubDate;
+    private String mDescription;
+    private String mContent;
+    private String mImageUrl;
+    private boolean mImageUrlChecked;
 
     public News() {
-
+        mImageUrlChecked = false;
     }
 
     public News(Parcel source) {
         this();
-        title = source.readString();
-        link = source.readString();
-        pubDate = (Date) source.readSerializable();
-        description = source.readString();
-        content = source.readString();
-        imageUrl = source.readString();
-//        source.readStringList(mImageUrlList);
+        mTitle = source.readString();
+        mLink = source.readString();
+        mPubDate = (Date) source.readSerializable();
+        mDescription = source.readString();
+        mContent = source.readString();
+        mImageUrl = source.readString();
+        mImageUrlChecked = source.readInt() == 1;
 
     }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(link);
-        dest.writeSerializable(pubDate);
-        dest.writeString(description);
-        dest.writeString(content);
-        dest.writeString(imageUrl);
-//        dest.writeStringList(mImageUrlList);
+        dest.writeString(mTitle);
+        dest.writeString(mLink);
+        dest.writeSerializable(mPubDate);
+        dest.writeString(mDescription);
+        dest.writeString(mContent);
+        dest.writeString(mImageUrl);
+        dest.writeInt(mImageUrlChecked ? 1 : 0); // 1 for true
     }
 
     @Override
@@ -68,52 +69,52 @@ public class News implements Comparable<News>, Parcelable {
 
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.mTitle = title;
     }
 
     public String getLink() {
-        return link;
+        return mLink;
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.mLink = link;
     }
 
     public Date getPubDate() {
-        return pubDate;
+        return mPubDate;
     }
 
     public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
+        this.mPubDate = pubDate;
     }
 
     public void setPubDate(String pubDate) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-            this.pubDate = dateFormat.parse(pubDate);
+            this.mPubDate = dateFormat.parse(pubDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.mDescription = description;
     }
 
     public String getContent() {
-        return content;
+        return mContent;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.mContent = content;
     }
 
     @Override
@@ -126,7 +127,7 @@ public class News implements Comparable<News>, Parcelable {
     }
 
     public void setImageUrl(String url) {
-        imageUrl = url;
+        mImageUrl = url;
     }
 
     /**
@@ -134,6 +135,13 @@ public class News implements Comparable<News>, Parcelable {
      * @return First image in image list. May be null if there's no image.
      */
     public String getImageUrl() {
-        return imageUrl;
+        return mImageUrl;
+    }
+
+    public boolean isImageUrlChecked() {
+        return mImageUrlChecked;
+    }
+    public void setImageUrlChecked(boolean checked) {
+        mImageUrlChecked = checked;
     }
 }
