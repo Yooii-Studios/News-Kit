@@ -1,5 +1,7 @@
 package com.yooiistudios.news.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -61,6 +63,7 @@ public class DetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
+    private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
     private static final String TAG = DetailActivity.class.getName();
 
     private Palette mPalette;
@@ -114,11 +117,33 @@ public class DetailActivity extends Activity
                 ObjectAnimator color = ObjectAnimator.ofArgb(
                         mTopImageView.getColorFilter(), "color", 0);
                 color.addUpdateListener(new ColorFilterListener(mTopImageView));
-                color.setDuration(1000).start();
+                color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
 
                 getWindow().getEnterTransition().removeListener(this);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int filterColor = mPalette.getDarkVibrantColor().getRgb();
+        int alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+        int red = Color.red(filterColor);
+        int green = Color.green(filterColor);
+        int blue = Color.blue(filterColor);
+
+        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color",
+                Color.argb(alpha, red, green, blue));
+
+        color.addUpdateListener(new ColorFilterListener(mTopImageView));
+        color.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                finishAfterTransition();
+            }
+        });
+        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI);
+        color.start();
     }
 
     private void initActionBar() {
@@ -307,7 +332,7 @@ public class DetailActivity extends Activity
             mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
         }
 
-        PaletteItem paletteItem = mPalette.getVibrantColor();
+        PaletteItem paletteItem = mPalette.getDarkVibrantColor();
         if (paletteItem != null) {
             int vibrantColor = paletteItem.getRgb();
             int red = Color.red(vibrantColor);
