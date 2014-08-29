@@ -391,6 +391,6 @@ public class NewsFeedUtils {
     }
 
     public static Bitmap getDummyNewsImage(Context context) {
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.dummy_news_image);
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
     }
 }

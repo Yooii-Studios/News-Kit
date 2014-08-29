@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.cache.ImageMemoryCache;
 import com.yooiistudios.news.util.log.NLLog;
@@ -33,8 +34,7 @@ import java.util.ArrayList;
  *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
  */
 public class BottomNewsFeedAdapter extends
-        RecyclerView.Adapter<BottomNewsFeedAdapter
-                .NLBottomNewsFeedViewHolder> {
+        RecyclerView.Adapter<BottomNewsFeedAdapter.BottomNewsFeedViewHolder> {
     private static final String TAG = BottomNewsFeedAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
@@ -44,7 +44,7 @@ public class BottomNewsFeedAdapter extends
 
     public interface OnItemClickListener {
         public void onBottomItemClick(
-                BottomNewsFeedAdapter.NLBottomNewsFeedViewHolder
+                BottomNewsFeedViewHolder
                         viewHolder, NewsFeed newsFeed, int position);
     }
 
@@ -56,7 +56,7 @@ public class BottomNewsFeedAdapter extends
     }
 
     @Override
-    public NLBottomNewsFeedViewHolder onCreateViewHolder(ViewGroup parent,
+    public BottomNewsFeedViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int i) {
         Context context = parent.getContext();
         View v = LayoutInflater.from(context).inflate(
@@ -67,14 +67,14 @@ public class BottomNewsFeedAdapter extends
 //        ));
 //        ((ViewGroup)v).setTransitionGroup(false);
 
-        NLBottomNewsFeedViewHolder viewHolder =
-                new NLBottomNewsFeedViewHolder(v);
+        BottomNewsFeedViewHolder viewHolder =
+                new BottomNewsFeedViewHolder(v);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final NLBottomNewsFeedViewHolder viewHolder,
+    public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder,
             final int position) {
         TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
@@ -94,11 +94,32 @@ public class BottomNewsFeedAdapter extends
         newsFeedTitleView.setText(mNewsFeedList.get(position).getTitle());
 
 
+        viewHolder.itemView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        NewsFeed newsFeed = mNewsFeedList.get(position);
+
+                        if (mOnItemClickListener != null) {
+                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
+                        }
+                    }
+                }
+        );
+
         viewHolder.progressBar.setVisibility(View.VISIBLE);
 
-        String imageUrl;
-        if (newsList.size() > 0 &&
-                (imageUrl = displayingNews.getImageUrl()) != null) {
+        if (newsList.size() > 0) {
+            String imageUrl;
+            if ((imageUrl = displayingNews.getImageUrl()) == null) {
+                if (displayingNews.isImageUrlChecked()) {
+                    showDummyImage(viewHolder);
+                    viewHolder.progressBar.setVisibility(View.GONE);
+                    return;
+                } else {
+                    return;
+                }
+            }
 
             ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
                     (mContext), ImageMemoryCache.getInstance(mContext));
@@ -126,28 +147,18 @@ public class BottomNewsFeedAdapter extends
                         }
                     }
                     viewHolder.progressBar.setVisibility(View.GONE);
-//                    viewHolder.imageView.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    showDummyImage(viewHolder);
                 }
             });
         }
-
-        viewHolder.itemView.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    NewsFeed newsFeed = mNewsFeedList.get(position);
-
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
-                    }
-                }
-            }
-        );
+    }
+    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+        Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(mContext);
+        viewHolder.imageView.setImageBitmap(dummyImage);
     }
 
     @Override
@@ -175,7 +186,7 @@ public class BottomNewsFeedAdapter extends
 //        }
 //    }
 
-    public static class NLBottomNewsFeedViewHolder extends RecyclerView
+    public static class BottomNewsFeedViewHolder extends RecyclerView
             .ViewHolder {
 
         public TextView newsTitleTextView;
@@ -183,7 +194,7 @@ public class BottomNewsFeedAdapter extends
         public ProgressBar progressBar;
         public TextView newsFeedTitleTextView;
 
-        public NLBottomNewsFeedViewHolder(View itemView) {
+        public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
             newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);

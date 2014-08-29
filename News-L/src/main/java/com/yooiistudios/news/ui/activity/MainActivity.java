@@ -446,6 +446,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onTopFeedImageUrlFetchFail() {
+        // TODO 여기로 들어올 경우 처리 하자!
         NLLog.i(TAG, "fetch image url failed.");
     }
 
@@ -499,7 +500,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onBottomItemClick(
-            BottomNewsFeedAdapter.NLBottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed,
+            BottomNewsFeedAdapter.BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed,
             int position) {
         NLLog.i(TAG, "onBottomItemClick");
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
@@ -531,6 +532,7 @@ public class MainActivity extends Activity
     public void onBottomImageUrlFetchSuccess(News news, String url,
                                              int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchSuccess");
+        news.setImageUrlChecked(true);
         if (url != null) {
             news.setImageUrl(url);
             if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
