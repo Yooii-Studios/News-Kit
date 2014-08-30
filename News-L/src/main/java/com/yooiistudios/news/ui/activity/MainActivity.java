@@ -69,7 +69,6 @@ public class MainActivity extends Activity
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
 
     private ImageLoader mImageLoader;
-//    private ProgressDialog mDialog;
 
     private NewsFeedUrl mTopNewsFeedUrl;
     private NewsFeed mTopNewsFeed;
@@ -234,43 +233,6 @@ public class MainActivity extends Activity
             mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
         }
     }
-
-//    private void initTopNewsImageView() {
-//        mTopNewsImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //TODO Top News가 unavailable할 경우 예외처리
-//
-////                ActivityOptions options2 = ActivityOptions.
-////                        makeSceneTransitionAnimation(NLMainActivity.this,
-////                                Pair.create(mTopNewsImageView, "topImage"),
-////                                Pair.create(mTopNewsTitle, "topTitle"));
-////                ActivityOptions options2 = ActivityOptions.
-////                        makeSceneTransitionAnimation(NLMainActivity.this,
-////                                mTopNewsImageView, "");
-//
-//                ActivityOptions activityOptions =
-//                        ActivityOptions.makeSceneTransitionAnimation(
-//                                NLMainActivity.this,
-//                                new Pair<View, String>(mTopNewsImageView,
-//                                        mTopNewsImageView.getViewName()),
-//                                new Pair<View, String>(mTopNewsTitle,
-//                                        mTopNewsTitle.getViewName())
-//                        );
-////                ActivityOptions activityOptions2 = ActivityOptions.
-////                        makeSceneTransitionAnimation(NLMainActivity.this,
-////                                mTopNewsImageView, mTopNewsImageView.getViewName());
-//
-//                Intent intent = new Intent(NLMainActivity.this,
-//                        NLDetailActivity.class);
-//                intent.putExtra(NLNewsFeed.KEY_NEWS_FEED, mTopNewsFeed);
-//                intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, mTopNewsImageView.getViewName());
-//                intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, mTopNewsTitle.getViewName());
-//
-//                startActivity(intent, activityOptions.toBundle());
-//            }
-//        });
-//    }
 
     private void fetchBottomNewsFeedListImage() {
         mBottomNewsFeedNewsToImageTaskMap = new

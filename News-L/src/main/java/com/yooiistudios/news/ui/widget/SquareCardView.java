@@ -66,14 +66,6 @@ public class SquareCardView extends CardView {
         NLLog.i(TAG, "measuredHeight : " + measuredHeight);
 
         int size = Math.max(measuredWidth, measuredHeight);
-//        if (widthMode == MeasureSpec.EXACTLY &&
-//                heightMode == MeasureSpec.EXACTLY) {
-//            // if both are match_parent, use smaller one
-//            size = Math.max(measuredWidth, measuredHeight);
-//        }
-//        else if (widthMode == MeasureSpec.EXACTLY) {
-//
-//        }
 
         int newWidthMeasureSpec =
                 MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY);
