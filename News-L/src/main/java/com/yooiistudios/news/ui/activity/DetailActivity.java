@@ -1,5 +1,7 @@
 package com.yooiistudios.news.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -29,6 +31,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.adapter.DetailNewsAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
@@ -61,6 +64,7 @@ public class DetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
+    private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
     private static final String TAG = DetailActivity.class.getName();
 
     private Palette mPalette;
@@ -71,7 +75,7 @@ public class DetailActivity extends Activity
     private News mTopNews;
     private Bitmap mTopImageBitmap;
     private DetailNewsAdapter mAdapter;
-//    private ArrayList<NLNews> mBottomNewsList;
+    private TintType mTintType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,21 +89,18 @@ public class DetailActivity extends Activity
 
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        Object tintTypeObj = getIntent().getExtras().getSerializable(MainActivity.INTENT_KEY_TINT_TYPE);
+        mTintType = tintTypeObj != null ? (TintType)tintTypeObj : TintType.GRAYSCALE;
+
         int topNewsIndex = getIntent().getExtras().getInt(News.KEY_NEWS);
-//        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
         if (topNewsIndex < mNewsFeed.getNewsList().size()) {
             mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
         }
-//        Bitmap bitmap = getIntent().getExtras().getParcelable("bitmap");
-//        NLLog.i(TAG, "bitmap : " + (bitmap != null ? "exists" : "null"));
         String imageViewName = getIntent().getExtras().getString(MainActivity
                 .INTENT_KEY_VIEW_NAME_IMAGE, null);
-//        String titleViewName = getIntent().getExtras().getString(NLMainActivity
-//                .INTENT_KEY_VIEW_NAME_TITLE, null);
 
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
-//        mTopTitleTextView.setViewName(titleViewName);
 
         applySystemWindowsBottomInset(R.id.detail_scrollView);
         initActionBar();
@@ -111,14 +112,55 @@ public class DetailActivity extends Activity
         getWindow().getEnterTransition().addListener(new TransitionAdapter() {
             @Override
             public void onTransitionEnd(Transition transition) {
-                ObjectAnimator color = ObjectAnimator.ofArgb(
-                        mTopImageView.getColorFilter(), "color", 0);
+//                mUseGrayFilter
+                ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
                 color.addUpdateListener(new ColorFilterListener(mTopImageView));
-                color.setDuration(1000).start();
+                color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
 
                 getWindow().getEnterTransition().removeListener(this);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int filterColor;
+        int alpha;
+        switch (mTintType) {
+            case PALETTE:
+                filterColor = mPalette.getDarkVibrantColor().getRgb();
+                alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                break;
+            case DUMMY:
+            case GRAYSCALE:
+            default:
+                filterColor = NewsFeedUtils.getGrayFilterColor();
+                alpha = Color.alpha(filterColor);
+                break;
+        }
+//        if (mUseGrayFilter) {
+//            filterColor = NewsFeedUtils.getGrayFilterColor();
+//            alpha = Color.alpha(filterColor);
+//        } else {
+//            filterColor = mPalette.getDarkVibrantColor().getRgb();
+//            alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+//        }
+        int red = Color.red(filterColor);
+        int green = Color.green(filterColor);
+        int blue = Color.blue(filterColor);
+
+        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color",
+                Color.argb(alpha, red, green, blue));
+
+        color.addUpdateListener(new ColorFilterListener(mTopImageView));
+        color.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                finishAfterTransition();
+            }
+        });
+        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI);
+        color.start();
     }
 
     private void initActionBar() {
@@ -293,30 +335,35 @@ public class DetailActivity extends Activity
             mTopDescriptionTextView.setTextColor(lightVibrantColor.getRgb());
         }
 
-        if (darkVibrantColor != null) {
-//            getWindow().setBackgroundDrawable(new ColorDrawable(vibrantColor.getRgb()));
-            int color = darkVibrantColor.getRgb();
+        int color;
+        int alpha;
 
-            mTopContentLayout.setBackground(new ColorDrawable(color));
-            mTopNewsTextLayout.setBackground(new ColorDrawable(color));
-
-            int red = Color.red(color);
-            int green = Color.green(color);
-            int blue = Color.blue(color);
-            int alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-            mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
+        switch(mTintType) {
+            case DUMMY:
+                color = NewsFeedUtils.getDummyImageFilterColor();
+                alpha = Color.alpha(color);
+                break;
+            case PALETTE:
+                if (darkVibrantColor != null) {
+                    color = darkVibrantColor.getRgb();
+                    alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                    break;
+                }
+                // darkVibrantColor == null 이라면 아래의 구문으로 넘어간다.
+            case GRAYSCALE:
+            default:
+                color = NewsFeedUtils.getGrayFilterColor();
+                alpha = Color.alpha(color);
+                break;
         }
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
 
-        PaletteItem paletteItem = mPalette.getVibrantColor();
-        if (paletteItem != null) {
-            int vibrantColor = paletteItem.getRgb();
-            int red = Color.red(vibrantColor);
-            int green = Color.green(vibrantColor);
-            int blue = Color.blue(vibrantColor);
-            int alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-            mTopImageView.setColorFilter(Color.argb(
-                    alpha, red, green, blue));
-        }
+        mTopContentLayout.setBackground(new ColorDrawable(color));
+        mTopNewsTextLayout.setBackground(new ColorDrawable(color));
+
+        mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
     }
 
     @Override

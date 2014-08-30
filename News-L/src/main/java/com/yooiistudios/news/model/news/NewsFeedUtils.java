@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -391,6 +392,21 @@ public class NewsFeedUtils {
     }
 
     public static Bitmap getDummyNewsImage(Context context) {
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.news_dummy);
+    }
+
+    /**
+     * Color used to Main Top news image and Dummy image
+     * @return
+     */
+    public static int getGrayFilterColor() {
+        return Color.argb(127, 16, 16, 16);
+    }
+    public static int getDummyImageFilterColor() {
+        return NewsFeedUtils.getGrayFilterColor();
+    }
+
+    public static int getMainBottomDefaultBackgroundColor() {
+        return Color.argb(200, 16, 16, 16);
     }
 }

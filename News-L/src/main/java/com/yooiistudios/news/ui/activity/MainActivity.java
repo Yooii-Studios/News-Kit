@@ -27,6 +27,7 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
+import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
@@ -64,6 +65,7 @@ public class MainActivity extends Activity
     public static final String VIEW_NAME_TITLE_PREFIX = "topTitle_";
     public static final String INTENT_KEY_VIEW_NAME_IMAGE = "INTENT_KEY_VIEW_NAME_IMAGE";
     public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
+    public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
 
     private ImageLoader mImageLoader;
@@ -542,6 +544,12 @@ public class MainActivity extends Activity
         intent.putExtra(News.KEY_NEWS, mDisplayingBottomNewsFeedIndices.get(position));
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
+
+        // 미리 이미지뷰에 set해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
+        Object tintTag = viewHolder.imageView.getTag();
+        TintType tintType = tintTag != null ? (TintType)tintTag : null;
+        intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
+
         startActivity(intent, activityOptions.toBundle());
     }
 

@@ -22,6 +22,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.activity.DetailActivity;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.cache.ImageMemoryCache;
@@ -124,6 +125,8 @@ public class TopNewsFeedFragment extends Fragment
                     if (!mRecycled && (bitmap = response.getBitmap()) != null
                             && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
+                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
+                        viewHolder.imageView.setTag(TintType.GRAYSCALE);
                     } else {
                         // TODO cache에 비트맵이 없는 경우. 기본적으로 없어야 할 상황.
                     }
@@ -142,6 +145,8 @@ public class TopNewsFeedFragment extends Fragment
         if (!mRecycled && viewHolder.imageView != null) {
             Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(getActivity().getApplicationContext());
             viewHolder.imageView.setImageBitmap(dummyImage);
+            viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
+            viewHolder.imageView.setTag(TintType.DUMMY);
         }
     }
 
@@ -162,10 +167,12 @@ public class TopNewsFeedFragment extends Fragment
                 DetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
         intent.putExtra(News.KEY_NEWS, mPosition);
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE,
-                viewHolder.imageView.getViewName());
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE,
-                viewHolder.titleTextView.getViewName());
+        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, viewHolder.imageView.getViewName());
+        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, viewHolder.titleTextView.getViewName());
+
+        Object tintTag = viewHolder.imageView.getTag();
+        TintType tintType = tintTag != null ? (TintType)tintTag : null;
+        intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
 
 //        Drawable drawable = viewHolder.imageView.getDrawable();
 //        if (drawable != null) {

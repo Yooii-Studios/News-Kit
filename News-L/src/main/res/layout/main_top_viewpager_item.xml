@@ -15,7 +15,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#7f101010"/>
+        android:background="#7f101010"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/main_top_feed_title"
