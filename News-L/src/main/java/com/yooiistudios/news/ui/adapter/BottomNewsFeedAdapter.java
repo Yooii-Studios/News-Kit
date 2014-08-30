@@ -153,7 +153,8 @@ public class BottomNewsFeedAdapter extends
                         viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
                         viewHolder.imageView.setTag(TintType.PALETTE);
                     } else {
-                        // TODO grayscale 필터 적용하자
+                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
+                        viewHolder.imageView.setTag(TintType.GRAYSCALE);
                     }
                     viewHolder.progressBar.setVisibility(View.GONE);
                 } else {
