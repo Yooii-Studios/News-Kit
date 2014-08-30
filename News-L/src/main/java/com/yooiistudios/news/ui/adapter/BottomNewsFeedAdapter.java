@@ -21,6 +21,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.cache.ImageMemoryCache;
 import com.yooiistudios.news.util.log.NLLog;
@@ -96,10 +97,9 @@ public class BottomNewsFeedAdapter extends
         titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
-        imageView.setBackgroundColor(Color.argb(200, 16, 16, 16));
-        imageView.setImageDrawable(new ColorDrawable(Color.argb(200, 16, 16, 16)));
-        imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX +
-                VIEW_NAME_POSTFIX + position);
+        imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
+        imageView.setImageDrawable(new ColorDrawable(NewsFeedUtils.getMainBottomDefaultBackgroundColor()));
+        imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + VIEW_NAME_POSTFIX + position);
 
         newsFeedTitleView.setText(mNewsFeedList.get(position).getTitle());
 
@@ -149,10 +149,11 @@ public class BottomNewsFeedAdapter extends
                         int red = Color.red(darkVibrantColor);
                         int green = Color.green(darkVibrantColor);
                         int blue = Color.blue(darkVibrantColor);
-                        int alpha = mContext.getResources().getInteger(
-                                R.integer.vibrant_color_tint_alpha);
-                        viewHolder.imageView.setColorFilter(Color.argb(
-                                alpha, red, green, blue));
+                        int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                        viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+                        viewHolder.imageView.setTag(TintType.PALETTE);
+                    } else {
+                        // TODO grayscale 필터 적용하자
                     }
                     viewHolder.progressBar.setVisibility(View.GONE);
                 } else {
@@ -174,6 +175,8 @@ public class BottomNewsFeedAdapter extends
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(mContext);
         viewHolder.imageView.setImageBitmap(dummyImage);
+        viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
+        viewHolder.imageView.setTag(TintType.DUMMY);
     }
 
     @Override
