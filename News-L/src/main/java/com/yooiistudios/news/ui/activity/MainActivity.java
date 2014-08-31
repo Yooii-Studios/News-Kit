@@ -51,7 +51,8 @@ public class MainActivity extends Activity
         TopNewsFeedFetchTask.OnFetchListener,
         BottomNewsFeedFetchTask.OnFetchListener,
         BottomNewsFeedAdapter.OnItemClickListener,
-        BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
+        BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener,
+        RecyclerView.ItemAnimator.ItemAnimatorFinishedListener {
 
     @InjectView(R.id.main_top_view_pager)           ViewPager mTopNewsFeedViewPager;
     @InjectView(R.id.main_top_view_pager_wrapper)   FrameLayout mTopNewsFeedViewPagerWrapper;
@@ -106,6 +107,7 @@ public class MainActivity extends Activity
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getApplicationContext());
 
         // TODO off-line configuration
+        // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initTopNewsFeed(needsRefresh);
         initBottomNewsFeed(needsRefresh);
         showMainContentIfReady();
@@ -320,19 +322,19 @@ public class MainActivity extends Activity
 
             for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
                 final NewsFeed newsFeed = mBottomNewsFeedList.get(i);
+                final int idx = i;
                 mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
+
+                        if (idx == (mBottomNewsFeedList.size() - 1)) {
+                            mItemAnimator.isRunning(MainActivity.this);
+                        }
                     }
                 }, BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI * i + 1);
+
             }
-            mItemAnimator.isRunning(new RecyclerView.ItemAnimator.ItemAnimatorFinishedListener() {
-                @Override
-                public void onAnimationsFinished() {
-                    fetchBottomNewsFeedListImage();
-                }
-            });
         }
     }
 
@@ -536,5 +538,10 @@ public class MainActivity extends Activity
     @Override
     public void onBottomImageUrlFetchFail() {
         NLLog.i(TAG, "onBottomImageUrlFetchFail");
+    }
+
+    @Override
+    public void onAnimationsFinished() {
+        fetchBottomNewsFeedListImage();
     }
 }

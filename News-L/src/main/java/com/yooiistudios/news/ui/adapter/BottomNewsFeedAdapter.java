@@ -191,21 +191,6 @@ public class BottomNewsFeedAdapter extends
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
 
-    public void setImageUrlAt(String imageUrl, int position) {
-    }
-
-//    @Override
-//    public void onClick(View view) {
-//        int position = ((Integer)view.getTag(KEY_INDEX));
-//        NLBottomNewsFeedViewHolder viewHolder = (NLBottomNewsFeedViewHolder)
-//                view.getTag(KEY_VIEW_HOLDER);
-//        NLNewsFeed newsFeed = mNewsFeedList.get(position);
-//
-//        if (mOnItemClickListener != null) {
-//            mOnItemClickListener.onItemClick(viewHolder, newsFeed);
-//        }
-//    }
-
     public static class BottomNewsFeedViewHolder extends RecyclerView
             .ViewHolder {
 

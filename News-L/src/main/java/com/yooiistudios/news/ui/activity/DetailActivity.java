@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -38,7 +39,6 @@ import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.cache.ImageMemoryCache;
-import com.yooiistudios.news.util.dp.DipToPixel;
 import com.yooiistudios.news.util.log.NLLog;
 import com.yooiistudios.news.util.screen.ScreenUtils;
 import com.yooiistudios.news.util.web.WebUtils;
@@ -48,7 +48,8 @@ import butterknife.InjectView;
 
 public class DetailActivity extends Activity
         implements DetailNewsAdapter.OnItemClickListener,
-        ObservableScrollView.Callbacks, ImageLoader.ImageListener {
+        ObservableScrollView.Callbacks, ImageLoader.ImageListener,
+        RecyclerView.ItemAnimator.ItemAnimatorFinishedListener {
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
@@ -76,6 +77,7 @@ public class DetailActivity extends Activity
     private Bitmap mTopImageBitmap;
     private DetailNewsAdapter mAdapter;
     private TintType mTintType;
+    private DividerItemDecoration mDividerItemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class DetailActivity extends Activity
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
 
+        // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scrollView);
         initActionBar();
         initCustomScrollView();
@@ -204,14 +207,15 @@ public class DetailActivity extends Activity
 
     private void initBottomNewsList() {
         //init ui
-        mBottomNewsListRecyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST));
+        mBottomNewsListRecyclerView.addItemDecoration(mDividerItemDecoration =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+
+        final RecyclerView.ItemAnimator itemAnimator;
 
         mBottomNewsListRecyclerView.setHasFixedSize(true);
         mBottomNewsListRecyclerView.setItemAnimator(
-                new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
-        LinearLayoutManager layoutManager = new LinearLayoutManager
-                (getApplicationContext());
+                itemAnimator = new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new DetailNewsAdapter(this, this);
@@ -221,17 +225,23 @@ public class DetailActivity extends Activity
         // make bottom news array list. EXCLUDE top news.
 //        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
 
-        for (int i = 0; i < mNewsFeed.getNewsList().size(); i++) {
+        final int newsCount = mNewsFeed.getNewsList().size();
+        for (int i = 0; i < newsCount; i++) {
             final News news = mNewsFeed.getNewsList().get(i);
+            final int idx = i;
             mBottomNewsListRecyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mAdapter.addNews(news);
+
+                    if (idx == (mNewsFeed.getNewsList().size() - 1)) {
+                        itemAnimator.isRunning(DetailActivity.this);
+                    }
                 }
             }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
         }
 
-        adjustBottomRecyclerViewHeight();
+        applyMaxBottomRecyclerViewHeight();
     }
 
     @Override
@@ -240,10 +250,17 @@ public class DetailActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    private void adjustBottomRecyclerViewHeight() {
-        LinearLayout.LayoutParams layoutParams =
-                (LinearLayout.LayoutParams) mBottomNewsListRecyclerView.getLayoutParams();
-        layoutParams.height = DipToPixel.dpToPixel(this, 100) * (mNewsFeed.getNewsList().size() - 1);
+    private void applyMaxBottomRecyclerViewHeight() {
+        int maxRowHeight = DetailNewsAdapter.measureMaximumRowHeight(getApplicationContext());
+        NLLog.now("maxRowHeight : " + maxRowHeight);
+
+        // divider height
+        Rect dividerRect = new Rect();
+        mDividerItemDecoration.getItemOffsets(dividerRect, -1, null);
+
+        int newsListCount = mNewsFeed.getNewsList().size();
+        mBottomNewsListRecyclerView.getLayoutParams().height =
+                maxRowHeight * newsListCount + dividerRect.height() * (newsListCount - 1);
     }
 
     private void loadTopNews() {
@@ -429,6 +446,22 @@ public class DetailActivity extends Activity
     @Override
     public void onErrorResponse(VolleyError error) {
 
+    }
+
+    @Override
+    public void onAnimationsFinished() {
+        int totalHeight = 0;
+        int childCount = mBottomNewsListRecyclerView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
+        }
+        // divider height
+        Rect dividerRect = new Rect();
+        mDividerItemDecoration.getItemOffsets(dividerRect, -1, null);
+
+        mBottomNewsListRecyclerView.getLayoutParams().height =
+                totalHeight + dividerRect.height() * (childCount - 1);
+        mAdapter.notifyDataSetChanged();
     }
 
     private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
