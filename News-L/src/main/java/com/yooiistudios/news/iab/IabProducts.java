@@ -3,7 +3,7 @@ package com.yooiistudios.news.iab;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.yooiistudios.news.model.StoreDebugChecker;
+import com.yooiistudios.news.util.StoreDebugCheckUtils;
 import com.yooiistudios.news.iab.util.Inventory;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class IabProducts {
     // 구매완료시 적용
     public static void saveIabProduct(String sku, Context context) {
         SharedPreferences prefs;
-        if (StoreDebugChecker.isUsingStore(context)) {
+        if (StoreDebugCheckUtils.isUsingStore(context)) {
             prefs = context.getSharedPreferences(SHARED_PREFERENCES_IAB, Context.MODE_PRIVATE);
         } else {
             prefs = context.getSharedPreferences(SHARED_PREFERENCES_IAB_DEBUG, Context.MODE_PRIVATE);
@@ -64,7 +64,7 @@ public class IabProducts {
         List<String> ownedSkus = new ArrayList<String>();
 
         SharedPreferences prefs;
-        if (StoreDebugChecker.isUsingStore(context)) {
+        if (StoreDebugCheckUtils.isUsingStore(context)) {
             prefs = context.getSharedPreferences(SHARED_PREFERENCES_IAB, Context.MODE_PRIVATE);
         } else {
             prefs = context.getSharedPreferences(SHARED_PREFERENCES_IAB_DEBUG, Context.MODE_PRIVATE);

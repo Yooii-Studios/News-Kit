@@ -1,4 +1,4 @@
-package com.yooiistudios.news.util.dp;
+package com.yooiistudios.news.util;
 
 /**
  * Created by yongbinbae on 2013. 10. 24..

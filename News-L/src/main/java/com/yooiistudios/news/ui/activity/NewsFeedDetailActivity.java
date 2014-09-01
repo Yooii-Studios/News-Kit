@@ -33,21 +33,21 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
-import com.yooiistudios.news.ui.adapter.DetailNewsAdapter;
+import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
-import com.yooiistudios.news.util.cache.ImageMemoryCache;
-import com.yooiistudios.news.util.log.NLLog;
-import com.yooiistudios.news.util.screen.ScreenUtils;
-import com.yooiistudios.news.util.web.WebUtils;
+import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.util.ScreenUtils;
+import com.yooiistudios.news.util.WebUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class DetailActivity extends Activity
-        implements DetailNewsAdapter.OnItemClickListener,
+public class NewsFeedDetailActivity extends Activity
+        implements NewsFeedDetailAdapter.OnItemClickListener,
         ObservableScrollView.Callbacks, ImageLoader.ImageListener,
         RecyclerView.ItemAnimator.ItemAnimatorFinishedListener {
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
@@ -66,7 +66,7 @@ public class DetailActivity extends Activity
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
-    private static final String TAG = DetailActivity.class.getName();
+    private static final String TAG = NewsFeedDetailActivity.class.getName();
 
     private Palette mPalette;
 
@@ -75,7 +75,7 @@ public class DetailActivity extends Activity
     private NewsFeed mNewsFeed;
     private News mTopNews;
     private Bitmap mTopImageBitmap;
-    private DetailNewsAdapter mAdapter;
+    private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
     private DividerItemDecoration mDividerItemDecoration;
 
@@ -218,7 +218,7 @@ public class DetailActivity extends Activity
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new DetailNewsAdapter(this, this);
+        mAdapter = new NewsFeedDetailAdapter(this, this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
 
@@ -235,7 +235,7 @@ public class DetailActivity extends Activity
                     mAdapter.addNews(news);
 
                     if (idx == (mNewsFeed.getNewsList().size() - 1)) {
-                        itemAnimator.isRunning(DetailActivity.this);
+                        itemAnimator.isRunning(NewsFeedDetailActivity.this);
                     }
                 }
             }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
@@ -251,7 +251,7 @@ public class DetailActivity extends Activity
     }
 
     private void applyMaxBottomRecyclerViewHeight() {
-        int maxRowHeight = DetailNewsAdapter.measureMaximumRowHeight(getApplicationContext());
+        int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
         NLLog.now("maxRowHeight : " + maxRowHeight);
 
         // divider height
@@ -303,7 +303,7 @@ public class DetailActivity extends Activity
             @Override
             public void onClick(View view) {
 //                NLLog.now("mTopNewsImageRippleView onClink");
-                WebUtils.openLink(DetailActivity.this, mTopNews.getLink());
+                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
             }
         });
 
@@ -311,7 +311,7 @@ public class DetailActivity extends Activity
             @Override
             public void onClick(View view) {
 //                NLLog.now("mTopNewsTextRippleLayout onClink");
-                WebUtils.openLink(DetailActivity.this, mTopNews.getLink());
+                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
             }
         });
 
@@ -384,7 +384,7 @@ public class DetailActivity extends Activity
     }
 
     @Override
-    public void onItemClick(DetailNewsAdapter.ViewHolder viewHolder, News news) {
+    public void onItemClick(NewsFeedDetailAdapter.ViewHolder viewHolder, News news) {
         NLLog.now("detail bottom onItemClick");
 //        NLWebUtils.openLink(this, news.getLink());
     }

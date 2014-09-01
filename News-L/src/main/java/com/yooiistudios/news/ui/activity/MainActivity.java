@@ -32,11 +32,11 @@ import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
-import com.yooiistudios.news.ui.adapter.BottomNewsFeedAdapter;
-import com.yooiistudios.news.ui.adapter.TopNewsFeedPagerAdapter;
+import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
+import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
-import com.yooiistudios.news.util.cache.ImageMemoryCache;
-import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class MainActivity extends Activity
         implements TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         TopNewsFeedFetchTask.OnFetchListener,
         BottomNewsFeedFetchTask.OnFetchListener,
-        BottomNewsFeedAdapter.OnItemClickListener,
+        MainBottomAdapter.OnItemClickListener,
         BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener,
         RecyclerView.ItemAnimator.ItemAnimatorFinishedListener {
 
@@ -84,8 +84,8 @@ public class MainActivity extends Activity
             mBottomNewsFeedNewsToImageTaskMap;
     private HashMap<News, TopFeedNewsImageUrlFetchTask>
             mTopNewsFeedNewsToImageTaskMap;
-    private BottomNewsFeedAdapter mBottomNewsFeedAdapter;
-    private TopNewsFeedPagerAdapter mTopNewsFeedPagerAdapter;
+    private MainBottomAdapter mBottomNewsFeedAdapter;
+    private MainTopPagerAdapter mTopNewsFeedPagerAdapter;
     private ArrayList<Integer> mDisplayingBottomNewsFeedIndices;
 
     private SlideInFromBottomItemAnimator mItemAnimator;
@@ -149,7 +149,7 @@ public class MainActivity extends Activity
 
         mTopNewsFeedReady = true;
         ArrayList<News> items = mTopNewsFeed.getNewsList();
-        mTopNewsFeedPagerAdapter = new TopNewsFeedPagerAdapter(getFragmentManager(), mTopNewsFeed);
+        mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(getFragmentManager(), mTopNewsFeed);
 
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
@@ -316,7 +316,7 @@ public class MainActivity extends Activity
         mBottomNewsFeedReady = true;
 
         if (animate) {
-            mBottomNewsFeedAdapter = new BottomNewsFeedAdapter
+            mBottomNewsFeedAdapter = new MainBottomAdapter
                     (getApplicationContext(), this);
             mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
@@ -483,7 +483,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onBottomItemClick(
-            BottomNewsFeedAdapter.BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed,
+            MainBottomAdapter.BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed,
             int position) {
         NLLog.i(TAG, "onBottomItemClick");
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
@@ -503,7 +503,7 @@ public class MainActivity extends Activity
 //                        imageView, imageView.getViewName());
 
         Intent intent = new Intent(MainActivity.this,
-                DetailActivity.class);
+                NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_NEWS, mDisplayingBottomNewsFeedIndices.get(position));
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());

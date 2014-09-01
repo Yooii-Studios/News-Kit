@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.yooiistudios.news.util.cache;
+package com.yooiistudios.news.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.yooiistudios.news.util.log.NLLog;
 
 import java.util.Map;
 

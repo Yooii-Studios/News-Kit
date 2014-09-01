@@ -3,7 +3,7 @@ package com.yooiistudios.news.model.language;
 import android.content.Context;
 
 import com.flurry.android.FlurryAgent;
-import com.yooiistudios.news.util.log.FlurryUtils;
+import com.yooiistudios.news.util.FlurryUtils;
 
 import java.util.HashMap;
 import java.util.Locale;

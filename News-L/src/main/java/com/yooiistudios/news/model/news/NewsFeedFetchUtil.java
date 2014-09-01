@@ -3,7 +3,7 @@ package com.yooiistudios.news.model.news;
 import android.content.Context;
 import android.text.Html;
 
-import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.NLLog;
 
 import org.xml.sax.SAXException;
 

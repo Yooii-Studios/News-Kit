@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
-import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.NLLog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

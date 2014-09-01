@@ -1,4 +1,4 @@
-package com.yooiistudios.news.util.web;
+package com.yooiistudios.news.util;
 
 import android.content.Context;
 import android.content.Intent;

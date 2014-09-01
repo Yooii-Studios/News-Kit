@@ -14,9 +14,9 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabManager;
 import com.yooiistudios.news.iab.IabManagerListener;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.model.StoreDebugChecker;
-import com.yooiistudios.news.util.encryption.Md5Utils;
-import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.StoreDebugCheckUtils;
+import com.yooiistudios.news.util.Md5Utils;
+import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.iab.util.IabHelper;
 import com.yooiistudios.news.iab.util.IabResult;
 import com.yooiistudios.news.iab.util.Inventory;
@@ -107,7 +107,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
         if (NLLog.isDebug) {
             resetButton.setVisibility(View.VISIBLE);
             debugButton.setVisibility(View.VISIBLE);
-            if (StoreDebugChecker.isUsingStore(this)) {
+            if (StoreDebugCheckUtils.isUsingStore(this)) {
 //                if (IS_STORE_FOR_NAVER) {
 //                    debugButton.setText("Naver Store");
 //                } else {
@@ -119,7 +119,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
         } else {
             resetButton.setVisibility(View.GONE);
             debugButton.setVisibility(View.GONE);
-            StoreDebugChecker.setUsingStore(true, this);
+            StoreDebugCheckUtils.setUsingStore(true, this);
         }
     }
 
@@ -256,7 +256,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
      */
     public void onResetButtonClicked(View view) {
         // 디버그 상태에서 구매했던 아이템들을 리셋
-        if (StoreDebugChecker.isUsingStore(this)) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
             if (iabManager != null) {
                 iabManager.loadWithAllItems();
             }
@@ -268,12 +268,12 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
     }
 
     public void onDebugButtonClicked(View view) {
-        if (StoreDebugChecker.isUsingStore(this)) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
             debugButton.setText("Debug");
-            StoreDebugChecker.setUsingStore(false, this);
+            StoreDebugCheckUtils.setUsingStore(false, this);
         } else {
             debugButton.setText("Google Store");
-            StoreDebugChecker.setUsingStore(true, this);
+            StoreDebugCheckUtils.setUsingStore(true, this);
         }
     }
 
@@ -281,7 +281,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
      * Buy
      */
     public void onFullVersionButtonClicked(View view) {
-        if (StoreDebugChecker.isUsingStore(this)) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
             iabManager.processPurchase(IabProducts.SKU_FULL_VERSION, this);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_FULL_VERSION, this);
@@ -290,7 +290,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
     }
 
     public void onNoAdButtonClicked(View view) {
-        if (StoreDebugChecker.isUsingStore(this)) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
             iabManager.processPurchase(IabProducts.SKU_NO_ADS, this);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_NO_ADS, this);
@@ -299,7 +299,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
     }
 
     public void onMoreNewsButtonClicked(View view) {
-        if (StoreDebugChecker.isUsingStore(this)) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
             iabManager.processPurchase(IabProducts.SKU_MORE_NEWS, this);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_MORE_NEWS, this);
@@ -308,7 +308,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
     }
 
     public void onFeature1ButtonClicked(View view) {
-        if (StoreDebugChecker.isUsingStore(this)) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
             iabManager.processPurchase(IabProducts.SKU_TEMP_FEATURE, this);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_TEMP_FEATURE, this);

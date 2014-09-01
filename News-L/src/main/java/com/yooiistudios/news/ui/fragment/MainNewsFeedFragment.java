@@ -23,17 +23,17 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
-import com.yooiistudios.news.ui.activity.DetailActivity;
+import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.activity.MainActivity;
-import com.yooiistudios.news.util.cache.ImageMemoryCache;
+import com.yooiistudios.news.util.ImageMemoryCache;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
  *
- * NLTopNewsFeedViewPagerItem
- *  메인화면 상단의 뷰페이저에 들어갈 아이템
+ * MainNewsFeedFragment
+ *  메인화면 상단의 뷰페이저에 들어갈 프레그먼트
  */
-public class TopNewsFeedFragment extends Fragment
+public class MainNewsFeedFragment extends Fragment
         implements View.OnClickListener {
     private static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
     private static final String KEY_NEWS = "KEY_NEWS";
@@ -45,9 +45,9 @@ public class TopNewsFeedFragment extends Fragment
     private int mPosition;
     private boolean mRecycled;
 
-    public static TopNewsFeedFragment newInstance(NewsFeed newsFeed,
+    public static MainNewsFeedFragment newInstance(NewsFeed newsFeed,
                                                   News news, int position) {
-        TopNewsFeedFragment f = new TopNewsFeedFragment();
+        MainNewsFeedFragment f = new MainNewsFeedFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -164,7 +164,7 @@ public class TopNewsFeedFragment extends Fragment
                 );
 
         Intent intent = new Intent(getActivity(),
-                DetailActivity.class);
+                NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
         intent.putExtra(News.KEY_NEWS, mPosition);
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, viewHolder.imageView.getViewName());

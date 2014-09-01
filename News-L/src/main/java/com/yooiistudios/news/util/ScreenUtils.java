@@ -1,14 +1,11 @@
-package com.yooiistudios.news.util.screen;
+package com.yooiistudios.news.util;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Window;
-
-import com.yooiistudios.news.util.log.NLLog;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 24.

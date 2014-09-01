@@ -23,20 +23,20 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.activity.MainActivity;
-import com.yooiistudios.news.util.cache.ImageMemoryCache;
-import com.yooiistudios.news.util.log.NLLog;
+import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 19.
  *
- * NLBottomNewsFeedAdapter
+ * MainBottomAdapter
  *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
  */
-public class BottomNewsFeedAdapter extends
-        RecyclerView.Adapter<BottomNewsFeedAdapter.BottomNewsFeedViewHolder> {
-    private static final String TAG = BottomNewsFeedAdapter.class.getName();
+public class MainBottomAdapter extends
+        RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
+    private static final String TAG = MainBottomAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
     private Context mContext;
@@ -50,7 +50,7 @@ public class BottomNewsFeedAdapter extends
                         viewHolder, NewsFeed newsFeed, int position);
     }
 
-    public BottomNewsFeedAdapter(Context context, OnItemClickListener
+    public MainBottomAdapter(Context context, OnItemClickListener
             listener) {
         mContext = context;
         mNewsFeedList = new ArrayList<NewsFeed>();

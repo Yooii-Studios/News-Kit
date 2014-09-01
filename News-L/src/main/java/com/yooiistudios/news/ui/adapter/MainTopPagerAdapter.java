@@ -7,27 +7,30 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.ui.fragment.TopNewsFeedFragment;
+import com.yooiistudios.news.ui.fragment.MainNewsFeedFragment;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
+ *
+ * MainTopPagerAdapter
+ *  메인화면 상단의 뷰페이저에 쓰이는 어댑터
  */
-public class TopNewsFeedPagerAdapter extends FragmentStatePagerAdapter {
+public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
-    private SparseArray<TopNewsFeedFragment> mFragmentSparseArray;
+    private SparseArray<MainNewsFeedFragment> mFragmentSparseArray;
     private NewsFeed mNewsFeed;
 
-    public TopNewsFeedPagerAdapter(FragmentManager fm, NewsFeed newsFeed) {
+    public MainTopPagerAdapter(FragmentManager fm, NewsFeed newsFeed) {
         super(fm);
-        mFragmentSparseArray = new SparseArray<TopNewsFeedFragment>();
+        mFragmentSparseArray = new SparseArray<MainNewsFeedFragment>();
         mNewsFeed = newsFeed;
     }
 
     @Override
     public Fragment getItem(int i) {
 //        NLTopNewsFeedViewPagerItem item = new NLTopNewsFeedViewPagerItem();
-        TopNewsFeedFragment item =
-                TopNewsFeedFragment.newInstance(mNewsFeed,
+        MainNewsFeedFragment item =
+                MainNewsFeedFragment.newInstance(mNewsFeed,
                         mNewsFeed.getNewsList().get(i), i);
         mFragmentSparseArray.put(i, item);
 
@@ -43,7 +46,7 @@ public class TopNewsFeedPagerAdapter extends FragmentStatePagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
 
-        TopNewsFeedFragment frag = mFragmentSparseArray.get(position);
+        MainNewsFeedFragment frag = mFragmentSparseArray.get(position);
         if (frag != null) {
             frag.setRecycled(true);
         }
@@ -51,7 +54,7 @@ public class TopNewsFeedPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void notifyImageLoaded(int position) {
-        TopNewsFeedFragment item = mFragmentSparseArray.get(position);
+        MainNewsFeedFragment item = mFragmentSparseArray.get(position);
         if (item != null) {
             item.applyImage();
         }

@@ -7,7 +7,7 @@
     <com.yooiistudios.news.ui.widget.ObservableScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.yooiistudios.news.ui.activity.DetailActivity"
+        tools:context="com.yooiistudios.news.ui.activity.NewsFeedDetailActivity"
         android:id="@+id/detail_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.yooiistudios.news.util.color;
+package com.yooiistudios.news.util;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 24.

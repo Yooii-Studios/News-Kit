@@ -11,19 +11,19 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
-import com.yooiistudios.news.util.dp.DipToPixel;
+import com.yooiistudios.news.util.DipToPixel;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 19.
  *
- * NLBottomNewsFeedAdapter
- *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
+ * NewsFeedDetailAdapter
+ *  뉴스 피드 디테일 화면 하단 뉴스 리스트의 RecyclerView에 쓰일 어뎁터
  */
-public class DetailNewsAdapter extends
-        RecyclerView.Adapter<DetailNewsAdapter.ViewHolder> {
-    private static final String TAG = DetailNewsAdapter.class.getName();
+public class NewsFeedDetailAdapter extends
+        RecyclerView.Adapter<NewsFeedDetailAdapter.ViewHolder> {
+    private static final String TAG = NewsFeedDetailAdapter.class.getName();
 
     private Context mContext;
     private ArrayList<News> mNewsList;
@@ -33,7 +33,7 @@ public class DetailNewsAdapter extends
         public void onItemClick(ViewHolder viewHolder, News news);
     }
 
-    public DetailNewsAdapter(Context context, OnItemClickListener onItemClickListener) {
+    public NewsFeedDetailAdapter(Context context, OnItemClickListener onItemClickListener) {
         mContext = context;
         mNewsList = new ArrayList<News>();
         mOnItemClickListener = onItemClickListener;
@@ -105,7 +105,7 @@ public class DetailNewsAdapter extends
     }
 
     public static int measureMaximumRowHeight(Context context) {
-        ViewHolder viewHolder = DetailNewsAdapter.createViewHolder(context, null);
+        ViewHolder viewHolder = NewsFeedDetailAdapter.createViewHolder(context, null);
 
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(R.style.DetailTextStyle,
                 new int[]{android.R.attr.maxLines});
@@ -132,7 +132,7 @@ public class DetailNewsAdapter extends
         news.setTitle(title);
         news.setDescription(description);
 
-        DetailNewsAdapter.configView(viewHolder, news, null);
+        NewsFeedDetailAdapter.configView(viewHolder, news, null);
 
         viewHolder.itemView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         return viewHolder.itemView.getMeasuredHeight();

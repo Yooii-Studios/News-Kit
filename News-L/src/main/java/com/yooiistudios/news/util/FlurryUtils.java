@@ -1,4 +1,4 @@
-package com.yooiistudios.news.util.log;
+package com.yooiistudios.news.util;
 
 /**
  * Created by Wooseong Kim in MorningKit from Yooii Studios Co., LTD. on 2014. 6. 16.
