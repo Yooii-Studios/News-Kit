@@ -448,6 +448,9 @@ public class NewsFeedDetailActivity extends Activity
 
     }
 
+    /**
+     * RecyclerView.ItemAnimator.ItemAnimatorFinishedListener
+     */
     @Override
     public void onAnimationsFinished() {
         int totalHeight = 0;

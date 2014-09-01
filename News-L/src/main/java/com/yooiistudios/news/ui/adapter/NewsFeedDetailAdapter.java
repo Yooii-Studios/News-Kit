@@ -111,20 +111,16 @@ public class NewsFeedDetailAdapter extends
                 new int[]{android.R.attr.maxLines});
         int maxLines = typedArray.getInt(0, -1);
 
-        String title = "";
+        String title = "T";
         for (int i = 0; i < maxLines; i++) {
-            title += "title";
-
             if (i != (maxLines - 1)) {
-                title += "\n";
+                title += "\nT";
             }
         }
-        String description = "";
+        String description = "D";
         for (int i = 0; i < maxLines; i++) {
-            description += "description";
-
             if (i != (maxLines - 1)) {
-                description += "\n";
+                description += "\nD";
             }
         }
 
