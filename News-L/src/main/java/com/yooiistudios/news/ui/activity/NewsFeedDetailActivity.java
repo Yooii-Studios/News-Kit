@@ -7,7 +7,6 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -37,7 +36,6 @@ import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
-import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
@@ -77,7 +75,6 @@ public class NewsFeedDetailActivity extends Activity
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
-    private DividerItemDecoration mDividerItemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,8 +204,6 @@ public class NewsFeedDetailActivity extends Activity
 
     private void initBottomNewsList() {
         //init ui
-        mBottomNewsListRecyclerView.addItemDecoration(mDividerItemDecoration =
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         final RecyclerView.ItemAnimator itemAnimator;
 
@@ -254,13 +249,9 @@ public class NewsFeedDetailActivity extends Activity
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
         NLLog.now("maxRowHeight : " + maxRowHeight);
 
-        // divider height
-        Rect dividerRect = new Rect();
-        mDividerItemDecoration.getItemOffsets(dividerRect, -1, null);
-
         int newsListCount = mNewsFeed.getNewsList().size();
         mBottomNewsListRecyclerView.getLayoutParams().height =
-                maxRowHeight * newsListCount + dividerRect.height() * (newsListCount - 1);
+                maxRowHeight * newsListCount;
     }
 
     private void loadTopNews() {
@@ -458,12 +449,8 @@ public class NewsFeedDetailActivity extends Activity
         for (int i = 0; i < childCount; i++) {
             totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
         }
-        // divider height
-        Rect dividerRect = new Rect();
-        mDividerItemDecoration.getItemOffsets(dividerRect, -1, null);
 
-        mBottomNewsListRecyclerView.getLayoutParams().height =
-                totalHeight + dividerRect.height() * (childCount - 1);
+        mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
         mAdapter.notifyDataSetChanged();
     }
 
