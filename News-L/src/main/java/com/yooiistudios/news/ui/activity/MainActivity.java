@@ -71,6 +71,7 @@ public class MainActivity extends Activity
     public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
+    private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
     private ImageLoader mImageLoader;
 
@@ -193,9 +194,7 @@ public class MainActivity extends Activity
                 mBottomNewsFeedRecyclerView);
         mBottomNewsFeedRecyclerView.setItemAnimator(mItemAnimator);
         GridLayoutManager layoutManager = new GridLayoutManager(context);
-        layoutManager.setColumns(2);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager
-//                (getApplicationContext());
+        layoutManager.setColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         Pair<ArrayList<NewsFeedUrl>, ArrayList<NewsFeed>> bottomNewsPair
@@ -218,6 +217,11 @@ public class MainActivity extends Activity
                 fetchBottomNewsFeedList();
             }
         }
+
+        // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
+        ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
+        recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getApplicationContext(),
+                mBottomNewsFeedUrlList.size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
 
     }
     private void fetchBottomNewsFeedList() {
@@ -489,6 +493,7 @@ public class MainActivity extends Activity
     @Override
     public void onBottomNewsFeedFetchFail() {
         NLLog.i(TAG, "onBottomNewsFeedFetchFail");
+        // TODO Top news처럼 뉴스 없음 처리하고 notify 해줘야 함
     }
 
     @Override

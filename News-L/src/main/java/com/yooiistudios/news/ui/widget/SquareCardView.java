@@ -6,6 +6,7 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
+import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.util.NLLog;
 
 /**
@@ -65,15 +66,16 @@ public class SquareCardView extends CardView {
         NLLog.i(TAG, "measuredWidth : " + measuredWidth);
         NLLog.i(TAG, "measuredHeight : " + measuredHeight);
 
-        int size = Math.max(measuredWidth, measuredHeight);
+//        int size = Math.max(measuredWidth, measuredHeight);
+        int rowHeight = (int)MainBottomAdapter.getRowHeight(measuredWidth);
 
         int newWidthMeasureSpec =
-                MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY);
+                MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY);
         int newHeightMeasureSpec =
-                MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY);
+                MeasureSpec.makeMeasureSpec(rowHeight, MeasureSpec.EXACTLY);
 
         super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec);
-        setMeasuredDimension(size, size);
+        setMeasuredDimension(measuredWidth, rowHeight);
 
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {

@@ -3,13 +3,15 @@ package com.yooiistudios.news.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Point;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -97,8 +99,10 @@ public class MainBottomAdapter extends
         titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
+        viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
+
         imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
-        imageView.setImageDrawable(new ColorDrawable(NewsFeedUtils.getMainBottomDefaultBackgroundColor()));
+//        imageView.setImageDrawable(new ColorDrawable(NewsFeedUtils.getMainBottomDefaultBackgroundColor()));
         imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + VIEW_NAME_POSTFIX + position);
 
         newsFeedTitleView.setText(mNewsFeedList.get(position).getTitle());
@@ -178,6 +182,40 @@ public class MainBottomAdapter extends
         viewHolder.imageView.setImageBitmap(dummyImage);
         viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
         viewHolder.imageView.setTag(TintType.DUMMY);
+    }
+
+    public static int measureMaximumHeight(Context context, int itemCount, int columnCount) {
+        NLLog.i(TAG, "itemCount : " + itemCount);
+        NLLog.i(TAG, "columnCount : " + columnCount);
+
+        // get display width
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+
+        Point displaySize = new Point();
+        display.getSize(displaySize);
+        int displayWidth = displaySize.x;
+
+        // main_bottom_margin_small : item padding = recyclerView margin
+        float recyclerViewMargin = context.getResources().
+                getDimension(R.dimen.main_bottom_margin_small);
+
+        float rowWidth = (displayWidth - (recyclerViewMargin * 2)) / columnCount;
+
+        float rowHeight = getRowHeight(rowWidth);
+
+        NLLog.i(TAG, "rowHeight : " + rowHeight);
+
+        int rowCount = itemCount / columnCount;
+        if (itemCount % columnCount != 0) {
+            rowCount += 1;
+        }
+
+        return Math.round(rowHeight * rowCount);
+    }
+
+    public static float getRowHeight(float width) {
+        return width;
     }
 
     @Override
