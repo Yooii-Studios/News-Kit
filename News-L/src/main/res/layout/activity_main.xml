@@ -5,66 +5,72 @@
     tools:context=".MainActivity"
     android:background="@color/theme_background">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <FrameLayout
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/main_scrolling_content"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/main_top_view_pager_height">
-            <FrameLayout
-                android:id="@+id/main_top_view_pager_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/main_top_view_pager"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_top_view_pager_height">
+                <FrameLayout
+                    android:id="@+id/main_top_view_pager_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/main_top_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+
+                    <TextView
+                        android:id="@+id/main_top_news_feed_title_text_view"
+                        style="@style/MainTopItemNewsFeedTitleTextStyle"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/main_top_unavailable_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
-
-                <TextView
-                    android:id="@+id/main_top_news_feed_title_text_view"
-                    style="@style/MainTopItemNewsFeedTitleTextStyle"/>
+                    android:visibility="gone">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_launcher"/>
+                </FrameLayout>
 
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/main_top_unavailable_wrapper"
+            <com.viewpagerindicator.CirclePageIndicator
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/main_top_page_indicator"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_launcher"/>
-            </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/main_top_view_pager_indicator_margin"
+                android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
+                app:fillColor="@color/theme_default_accent"
+                app:strokeWidth="0dp"
+                app:strokeColor="#00000000"
+                app:pageColor="@color/theme_default_accent_light"
+                app:centered="true"
+                app:snap="true"
+                app:radius="@dimen/main_top_view_pager_indicator_radius"/>
 
-        </FrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bottomNewsFeedRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/main_bottom_margin_small"/>
+        </LinearLayout>
 
-        <com.viewpagerindicator.CirclePageIndicator
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/main_top_page_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/main_top_view_pager_indicator_margin"
-            android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
-            app:fillColor="@color/theme_default_accent"
-            app:strokeWidth="0dp"
-            app:strokeColor="#00000000"
-            app:pageColor="@color/theme_default_accent_light"
-            app:centered="true"
-            app:snap="true"
-            app:radius="@dimen/main_top_view_pager_indicator_radius"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/bottomNewsFeedRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/main_bottom_margin_small"/>
-    </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/main_loading_container"

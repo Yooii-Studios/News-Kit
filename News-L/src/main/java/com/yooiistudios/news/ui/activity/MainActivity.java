@@ -8,12 +8,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,6 +65,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
+    @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
 
     private static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
@@ -71,6 +74,7 @@ public class MainActivity extends Activity
     public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
+    private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
     private ImageLoader mImageLoader;
 
@@ -114,6 +118,25 @@ public class MainActivity extends Activity
         initTopNewsFeed(needsRefresh);
         initBottomNewsFeed(needsRefresh);
         showMainContentIfReady();
+
+        applySystemWindowsBottomInset(mScrollingContent);
+    }
+    //
+
+    private void applySystemWindowsBottomInset(View containerView) {
+        containerView.setFitsSystemWindows(true);
+        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                } else {
+                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
     }
 
     private void initTopNewsFeed(boolean refresh) {
@@ -193,9 +216,7 @@ public class MainActivity extends Activity
                 mBottomNewsFeedRecyclerView);
         mBottomNewsFeedRecyclerView.setItemAnimator(mItemAnimator);
         GridLayoutManager layoutManager = new GridLayoutManager(context);
-        layoutManager.setColumns(2);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager
-//                (getApplicationContext());
+        layoutManager.setColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         Pair<ArrayList<NewsFeedUrl>, ArrayList<NewsFeed>> bottomNewsPair
@@ -218,6 +239,11 @@ public class MainActivity extends Activity
                 fetchBottomNewsFeedList();
             }
         }
+
+        // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
+        ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
+        recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getApplicationContext(),
+                mBottomNewsFeedUrlList.size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
 
     }
     private void fetchBottomNewsFeedList() {
@@ -489,6 +515,7 @@ public class MainActivity extends Activity
     @Override
     public void onBottomNewsFeedFetchFail() {
         NLLog.i(TAG, "onBottomNewsFeedFetchFail");
+        // TODO Top news처럼 뉴스 없음 처리하고 notify 해줘야 함
     }
 
     @Override
