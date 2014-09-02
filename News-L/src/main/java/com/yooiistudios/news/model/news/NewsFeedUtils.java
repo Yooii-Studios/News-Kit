@@ -288,6 +288,33 @@ public class NewsFeedUtils {
 
         return imgUrl;
     }
+    public static String requestHttpGet(String url) throws Exception {
+        // HttpClient 생성
+        HttpClient httpclient = new DefaultHttpClient();
+
+        // HttpGet생성
+        HttpGet httpget = new HttpGet(url);
+
+        System.out.println("executing request " + httpget.getURI());
+        HttpResponse response = httpclient.execute(httpget);
+        HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(
+                    response.getEntity().getContent()));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            return stringBuilder.toString();
+        }
+        httpget.abort();
+        httpclient.getConnectionManager().shutdown();
+
+        return null;
+    }
 
     public static String requestHttpGet_(String url) throws Exception {
         // HttpClient 생성
@@ -300,20 +327,12 @@ public class NewsFeedUtils {
             HttpResponse response = httpclient.execute(httpget);
             HttpEntity entity = response.getEntity();
 
-//            System.out.println("----------------------------------------");
-            // 응답 결과
-//            System.out.println(response.getStatusLine());
-//            StringBuilder responseBuilder = new StringBuilder();
             if (entity != null) {
-//                System.out.println("Response content length: "
-//                        + entity.getContentLength());
                 BufferedReader rd = new BufferedReader(new InputStreamReader(
                         response.getEntity().getContent()));
 
                 String line = "";
                 while ((line = rd.readLine()) != null) {
-//                    System.out.println(line);
-//                    responseBuilder.append(line);
                     if (line.contains("og:image")) {
                         return line;
                     } else if (line.contains("</head>")) {
@@ -342,7 +361,7 @@ public class NewsFeedUtils {
      * @return Html in plain String.
      * @throws Exception
      */
-    public static String requestHttpGet(String url) throws Exception {
+    public static String requestHttpGet__(String url) throws Exception {
         long startMilli;
         long endMilli;
 

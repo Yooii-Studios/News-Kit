@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -65,6 +66,7 @@ public class NewsFeedDetailActivity extends Activity
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
+    public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
 
     private Palette mPalette;
 
@@ -377,6 +379,11 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public void onItemClick(NewsFeedDetailAdapter.ViewHolder viewHolder, News news) {
         NLLog.now("detail bottom onItemClick");
+
+        Intent intent = new Intent(this, NewsDetailActivity.class);
+        intent.putExtra(INTENT_KEY_NEWS, news);
+
+        startActivity(intent);
 //        NLWebUtils.openLink(this, news.getLink());
     }
 

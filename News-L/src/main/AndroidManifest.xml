@@ -36,7 +36,12 @@
         <activity
             android:name=".ui.activity.StoreActivity"
             android:label="@string/action_store"
-            android:theme="@style/BaseAppTheme">
+            android:theme="@style/BaseAppTheme" >
+        </activity>
+        <activity
+            android:name=".ui.activity.NewsDetailActivity"
+            android:label="@string/title_activity_news"
+            android:theme="@style/NewsDetailActivityTheme" >
         </activity>
     </application>
 
