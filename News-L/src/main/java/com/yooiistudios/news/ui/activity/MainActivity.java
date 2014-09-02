@@ -13,6 +13,7 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,6 +61,8 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_top_page_indicator)       CirclePageIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view) TextView mTopNewsFeedTitleTextView;
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
+    @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
+    @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
 
     private static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
@@ -347,7 +350,14 @@ public class MainActivity extends Activity
         NLLog.i("showMainContentIfReady", "mTopNewsFeedFirstImageReady : " + mTopNewsFeedFirstImageReady);
         NLLog.i("showMainContentIfReady", "noTopNewsImage : " + noTopNewsImage);
 
-        if (findViewById(R.id.loading_container).getVisibility() == View.GONE) {
+        String loadingStatus = "Top news ready : " + mTopNewsFeedReady
+                + "\nTop news first image ready : "
+                + (noTopNewsImage ? "NO IMAGE!!!" : mTopNewsFeedFirstImageReady)
+                + "\nBottom news feed ready : " + mBottomNewsFeedReady;
+
+        mLoadingLog.setText(loadingStatus);
+
+        if (mLoadingContainer.getVisibility() == View.GONE) {
             return;
         }
 
@@ -358,7 +368,7 @@ public class MainActivity extends Activity
                 notifyNewBottomNewsFeedListSet(true);
 
                 // loaded
-                findViewById(R.id.loading_container).setVisibility(View.GONE);
+                mLoadingContainer.setVisibility(View.GONE);
             }
         }
     }

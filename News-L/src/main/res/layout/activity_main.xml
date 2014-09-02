@@ -66,16 +66,23 @@
             android:layout_margin="@dimen/main_bottom_margin_small"/>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/loading_container"
+    <RelativeLayout
+        android:id="@+id/main_loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff">
         <ProgressBar
+            android:id="@+id/main_loading_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             style="@android:style/Widget.Material.ProgressBar"/>
-    </FrameLayout>
+        <TextView
+            android:id="@+id/main_loading_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/main_loading_progress_bar"/>
+    </RelativeLayout>
 
 </FrameLayout>
