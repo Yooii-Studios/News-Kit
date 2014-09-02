@@ -29,6 +29,7 @@ public class NewsFeedArchiveUtils {
 
     // 60 Min * 60 Sec * 1000 millisec = 1 Hour
     private static final long REFRESH_TERM_MILLISEC = 60 * 60 * 1000;
+//    private static final long REFRESH_TERM_MILLISEC = 10 * 1000;
 //    private static final long REFRESH_TERM_MILLISEC = 24 * 60 * 60 * 1000;
     private static final long INVALID_REFRESH_TERM = -1;
 
