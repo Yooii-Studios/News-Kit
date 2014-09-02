@@ -47,6 +47,21 @@ public class NewsDetailActivity extends Activity {
         mWebView.loadUrl(mNews.getLink());
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            View decorView = getWindow().getDecorView();
+            int uiOptions = decorView.getSystemUiVisibility();
+
+            uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
     private void applySystemWindowsInset(View containerView) {
         containerView.setFitsSystemWindows(true);
         containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
