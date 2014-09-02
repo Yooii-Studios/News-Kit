@@ -8,12 +8,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,6 +65,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
+    @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
 
     private static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
@@ -115,6 +118,25 @@ public class MainActivity extends Activity
         initTopNewsFeed(needsRefresh);
         initBottomNewsFeed(needsRefresh);
         showMainContentIfReady();
+
+        applySystemWindowsBottomInset(mScrollingContent);
+    }
+    //
+
+    private void applySystemWindowsBottomInset(View containerView) {
+        containerView.setFitsSystemWindows(true);
+        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                } else {
+                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
     }
 
     private void initTopNewsFeed(boolean refresh) {

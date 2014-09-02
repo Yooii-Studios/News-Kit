@@ -1,14 +1,15 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@color/theme_background">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:id="@+id/main_scrolling_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
@@ -69,24 +70,25 @@
                 android:layout_margin="@dimen/main_bottom_margin_small"/>
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/main_loading_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff">
-            <ProgressBar
-                android:id="@+id/main_loading_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                style="@android:style/Widget.Material.ProgressBar"/>
-            <TextView
-                android:id="@+id/main_loading_log"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/main_loading_progress_bar"/>
-        </RelativeLayout>
-    </FrameLayout>
+    </ScrollView>
 
-</ScrollView>
+    <RelativeLayout
+        android:id="@+id/main_loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff">
+        <ProgressBar
+            android:id="@+id/main_loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            style="@android:style/Widget.Material.ProgressBar"/>
+        <TextView
+            android:id="@+id/main_loading_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/main_loading_progress_bar"/>
+    </RelativeLayout>
+
+</FrameLayout>
