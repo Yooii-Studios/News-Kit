@@ -2,6 +2,7 @@ package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.task.NewsLinkContentFetchTask;
+import com.yooiistudios.news.util.NLLog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,6 +25,8 @@ import butterknife.InjectView;
 
 public class NewsDetailActivity extends Activity
     implements NewsLinkContentFetchTask.OnContentFetchListener {
+
+    private static final String TAG = NewsDetailActivity.class.getName();
 
 //    @InjectView(R.id.news_detail_webview)           WebView mWebView;
     @InjectView(R.id.news_detail_content)           TextView mContentTextView;
@@ -38,6 +42,8 @@ public class NewsDetailActivity extends Activity
         ButterKnife.inject(this);
 
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
+
+        mContentTextView.setText(mNews.getDescription());
 
         new NewsLinkContentFetchTask(mNews, this).execute();
 
@@ -88,7 +94,9 @@ public class NewsDetailActivity extends Activity
     public void onContentFetch(String content) {
         mContentTextView.setText("\n\n\n\nfetch done\n\n");
 
-        mContentTextView.append(content);
+        mContentTextView.append(Html.fromHtml(content));
+
+        NLLog.i(TAG, content);
     }
 
 //    private class NewsWebViewClient extends WebViewClient {
