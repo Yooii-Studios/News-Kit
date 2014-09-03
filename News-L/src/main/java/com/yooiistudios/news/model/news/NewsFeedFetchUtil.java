@@ -66,6 +66,7 @@ public class NewsFeedFetchUtil {
                 // 피드의 본문에서 텍스트만 걸러내는 작업
                 String desc = item.getDescription();
                 if (desc != null) {
+                    item.setOriginalDescription(desc);
 
                     String strippedDesc = Html.fromHtml(desc.substring(0,
                             desc.length())).toString();

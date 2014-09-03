@@ -1,60 +1,58 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
-import com.yooiistudios.news.model.news.task.NewsLinkContentFetchTask;
-import com.yooiistudios.news.util.NLLog;
+
+import java.lang.reflect.Field;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class NewsDetailActivity extends Activity
-    implements NewsLinkContentFetchTask.OnContentFetchListener {
+public class NewsDetailActivity extends Activity {
 
     private static final String TAG = NewsDetailActivity.class.getName();
 
-//    @InjectView(R.id.news_detail_webview)           WebView mWebView;
-    @InjectView(R.id.news_detail_content)           TextView mContentTextView;
-//    @InjectView(R.id.news_detail_webview_container) FrameLayout mWebViewContainer;
-
+    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainter;
+    private WebView mWebView;
 
     private News mNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setConfigCallback((WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         ButterKnife.inject(this);
 
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
 
-        mContentTextView.setText(mNews.getDescription());
+        mWebView = new MWebView(getApplicationContext());
+        mRootContainter.addView(mWebView);
 
-        new NewsLinkContentFetchTask(mNews, this).execute();
-
+        initWebView();
     }
-//    private void initWebView() {
-//        WebSettings webSettings = mWebView.getSettings();
-//        webSettings.setBuiltInZoomControls(true);
-//        webSettings.setJavaScriptEnabled(true);
-//        mWebView.setWebViewClient(new NewsWebViewClient());
-//        mWebView.loadUrl(mNews.getLink());
-//    }
+
+    private void initWebView() {
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(false);
+        mWebView.setWebViewClient(new NewsWebViewClient());
+        mWebView.loadUrl(mNews.getLink());
+    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -90,20 +88,53 @@ public class NewsDetailActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onContentFetch(String content) {
-        mContentTextView.setText("\n\n\n\nfetch done\n\n");
+    private class NewsWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
+    private void setConfigCallback(WindowManager windowManager) {
+        try {
+            Field field = WebView.class.getDeclaredField("mWebViewCore");
+            field = field.getType().getDeclaredField("mBrowserFrame");
+            field = field.getType().getDeclaredField("sConfigCallback");
+            field.setAccessible(true);
+            Object configCallback = field.get(null);
 
-        mContentTextView.append(Html.fromHtml(content));
+            if (null == configCallback) {
+                return;
+            }
 
-        NLLog.i(TAG, content);
+            field = field.getType().getDeclaredField("mWindowManager");
+            field.setAccessible(true);
+            field.set(configCallback, windowManager);
+        } catch(Exception e) {
+        }
     }
 
-//    private class NewsWebViewClient extends WebViewClient {
-//        @Override
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            view.loadUrl(url);
-//            return true;
-//        }
-//    }
+    @Override
+    protected void onDestroy() {
+        if (mWebView != null) {
+            mWebView.destroy();
+            mWebView = null;
+        }
+
+        setConfigCallback(null);
+        super.onDestroy();
+    }
+
+    private class MWebView extends WebView {
+
+        public MWebView(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onDetachedFromWindow(){
+            super.onDetachedFromWindow();
+            setVisible(false);
+        }
+    }
 }

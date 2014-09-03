@@ -24,6 +24,7 @@ public class News implements Comparable<News>, Parcelable {
     private String mContent;
     private String mImageUrl;
     private boolean mImageUrlChecked;
+    private String mOriginalDescription;
 
     public News() {
         mImageUrlChecked = false;
@@ -38,7 +39,7 @@ public class News implements Comparable<News>, Parcelable {
         mContent = source.readString();
         mImageUrl = source.readString();
         mImageUrlChecked = source.readInt() == 1;
-
+        mOriginalDescription = source.readString();
     }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -49,6 +50,7 @@ public class News implements Comparable<News>, Parcelable {
         dest.writeString(mContent);
         dest.writeString(mImageUrl);
         dest.writeInt(mImageUrlChecked ? 1 : 0); // 1 for true
+        dest.writeString(mOriginalDescription);
     }
 
     @Override
@@ -143,5 +145,13 @@ public class News implements Comparable<News>, Parcelable {
     }
     public void setImageUrlChecked(boolean checked) {
         mImageUrlChecked = checked;
+    }
+
+    public String getOriginalDescription() {
+        return mOriginalDescription;
+    }
+
+    public void setOriginalDescription(String originalDescription) {
+        mOriginalDescription = originalDescription;
     }
 }
