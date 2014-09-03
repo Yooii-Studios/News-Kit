@@ -1,20 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yooiistudios.news.ui.activity.NewsDetailActivity">
+    <TextView
+        android:id="@+id/news_detail_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <!--
     android:fitsSystemWindows="true"
     android:clipToPadding="false"-->
 
-    <FrameLayout
-        android:id="@+id/news_detail_webview_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <WebView
-            android:id="@+id/news_detail_webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+    <!--<FrameLayout-->
+        <!--android:id="@+id/news_detail_webview_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:visibility="gone">-->
+        <!--<WebView-->
+            <!--android:id="@+id/news_detail_webview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+    <!--</FrameLayout>-->
 
-</RelativeLayout>
+</ScrollView>

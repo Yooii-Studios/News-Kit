@@ -11,19 +11,22 @@ import android.view.WindowInsets;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
+import com.yooiistudios.news.model.news.task.NewsLinkContentFetchTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends Activity
+    implements NewsLinkContentFetchTask.OnContentFetchListener {
 
-    @InjectView(R.id.news_detail_webview) WebView mWebView;
-    @InjectView(R.id.news_detail_webview_container) FrameLayout mWebViewContainer;
+//    @InjectView(R.id.news_detail_webview)           WebView mWebView;
+    @InjectView(R.id.news_detail_content)           TextView mContentTextView;
+//    @InjectView(R.id.news_detail_webview_container) FrameLayout mWebViewContainer;
 
 
     private News mNews;
@@ -36,16 +39,16 @@ public class NewsDetailActivity extends Activity {
 
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
 
-        initWebView();
-//        applySystemWindowsInset(mWebView);
+        new NewsLinkContentFetchTask(mNews, this).execute();
+
     }
-    private void initWebView() {
-        WebSettings webSettings = mWebView.getSettings();
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new NewsWebViewClient());
-        mWebView.loadUrl(mNews.getLink());
-    }
+//    private void initWebView() {
+//        WebSettings webSettings = mWebView.getSettings();
+//        webSettings.setBuiltInZoomControls(true);
+//        webSettings.setJavaScriptEnabled(true);
+//        mWebView.setWebViewClient(new NewsWebViewClient());
+//        mWebView.loadUrl(mNews.getLink());
+//    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -61,29 +64,6 @@ public class NewsDetailActivity extends Activity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
-
-    private void applySystemWindowsInset(View containerView) {
-        containerView.setFitsSystemWindows(true);
-        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-//                    view.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
-//                            windowInsets.getSystemWindowInsetBottom());
-                    ViewGroup.MarginLayoutParams lp =
-                            (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-                    lp.topMargin = windowInsets.getSystemWindowInsetTop();
-                    lp.bottomMargin = windowInsets.getSystemWindowInsetBottom();
-                }
-//                else {
-//                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
-//                }
-                return windowInsets.consumeSystemWindowInsets();
-            }
-        });
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,11 +84,18 @@ public class NewsDetailActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class NewsWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
+    @Override
+    public void onContentFetch(String content) {
+        mContentTextView.setText("\n\n\n\nfetch done\n\n");
+
+        mContentTextView.append(content);
     }
+
+//    private class NewsWebViewClient extends WebViewClient {
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            view.loadUrl(url);
+//            return true;
+//        }
+//    }
 }

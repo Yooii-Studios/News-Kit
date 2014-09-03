@@ -4,6 +4,11 @@ import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.util.NLLog;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 2.
@@ -27,22 +32,33 @@ public class NewsLinkContentFetchTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        try {
-            return NewsFeedUtils.requestHttpGet(mNews.getLink());
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            CharSequence cs = NewsFeedUtils.requestHttpGet(mNews.getLink());
+//
+//            Elements elements = Jsoup.parse(cs.toString()).body().select("*");
+//
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for (Element elm : elements) {
+//                stringBuilder.append(elm.ownText());
+//            }
+//
+//            String bodyStr = stringBuilder.toString();
+//            NLLog.now(bodyStr);
+//            return bodyStr;
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        }
 
-        return null;
+        return "";
+//        return null;
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-//        CharSequence
-//
-//        if (mOnContentFetchListener != null) {
-//            mOnContentFetchListener.onContentFetch(content);
-//        }
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+
+        if (mOnContentFetchListener != null) {
+            mOnContentFetchListener.onContentFetch(result);
+        }
     }
 }

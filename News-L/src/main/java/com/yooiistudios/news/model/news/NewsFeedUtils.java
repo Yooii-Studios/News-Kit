@@ -288,7 +288,7 @@ public class NewsFeedUtils {
 
         return imgUrl;
     }
-    public static String requestHttpGet(String url) throws Exception {
+    public static CharSequence requestHttpGet(String url) throws Exception {
         // HttpClient 생성
         HttpClient httpclient = new DefaultHttpClient();
 
@@ -308,7 +308,7 @@ public class NewsFeedUtils {
             while ((line = rd.readLine()) != null) {
                 stringBuilder.append(line);
             }
-            return stringBuilder.toString();
+            return stringBuilder;
         }
         httpget.abort();
         httpclient.getConnectionManager().shutdown();
