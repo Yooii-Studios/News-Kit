@@ -1,13 +1,12 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,33 +15,41 @@ import android.widget.FrameLayout;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 
+import java.lang.reflect.Field;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
 public class NewsDetailActivity extends Activity {
 
-    @InjectView(R.id.news_detail_webview) WebView mWebView;
-    @InjectView(R.id.news_detail_webview_container) FrameLayout mWebViewContainer;
+    private static final String TAG = NewsDetailActivity.class.getName();
 
+    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainter;
+    private WebView mWebView;
 
     private News mNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setConfigCallback((WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         ButterKnife.inject(this);
 
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
 
+        mWebView = new MWebView(getApplicationContext());
+        mRootContainter.addView(mWebView);
+
         initWebView();
-//        applySystemWindowsInset(mWebView);
     }
+
     private void initWebView() {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(false);
         mWebView.setWebViewClient(new NewsWebViewClient());
         mWebView.loadUrl(mNews.getLink());
     }
@@ -61,29 +68,6 @@ public class NewsDetailActivity extends Activity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
-
-    private void applySystemWindowsInset(View containerView) {
-        containerView.setFitsSystemWindows(true);
-        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-//                    view.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
-//                            windowInsets.getSystemWindowInsetBottom());
-                    ViewGroup.MarginLayoutParams lp =
-                            (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-                    lp.topMargin = windowInsets.getSystemWindowInsetTop();
-                    lp.bottomMargin = windowInsets.getSystemWindowInsetBottom();
-                }
-//                else {
-//                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
-//                }
-                return windowInsets.consumeSystemWindowInsets();
-            }
-        });
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +93,48 @@ public class NewsDetailActivity extends Activity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
+        }
+    }
+    private void setConfigCallback(WindowManager windowManager) {
+        try {
+            Field field = WebView.class.getDeclaredField("mWebViewCore");
+            field = field.getType().getDeclaredField("mBrowserFrame");
+            field = field.getType().getDeclaredField("sConfigCallback");
+            field.setAccessible(true);
+            Object configCallback = field.get(null);
+
+            if (null == configCallback) {
+                return;
+            }
+
+            field = field.getType().getDeclaredField("mWindowManager");
+            field.setAccessible(true);
+            field.set(configCallback, windowManager);
+        } catch(Exception e) {
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mWebView != null) {
+            mWebView.destroy();
+            mWebView = null;
+        }
+
+        setConfigCallback(null);
+        super.onDestroy();
+    }
+
+    private class MWebView extends WebView {
+
+        public MWebView(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onDetachedFromWindow(){
+            super.onDetachedFromWindow();
+            setVisible(false);
         }
     }
 }
