@@ -23,4 +23,5 @@
             android:duplicateParentState="true"/>
 
     </com.yooiistudios.news.ui.widget.FloatingActionButton>
+
 </FrameLayout>

@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.FloatingActionButton;
+import com.yooiistudios.news.util.WebUtils;
 
 import java.lang.reflect.Field;
 
@@ -48,6 +49,12 @@ public class NewsDetailActivity extends Activity {
         initWebView();
 
         mFab.bringToFront();
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebUtils.openLink(NewsDetailActivity.this, mNews.getLink());
+            }
+        });
     }
 
     private void initWebView() {

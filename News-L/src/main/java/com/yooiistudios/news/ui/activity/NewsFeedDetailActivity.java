@@ -40,7 +40,6 @@ import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
-import com.yooiistudios.news.util.WebUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -296,7 +295,11 @@ public class NewsFeedDetailActivity extends Activity
             @Override
             public void onClick(View view) {
 //                NLLog.now("mTopNewsImageRippleView onClink");
-                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
+                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
+                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
+
+                startActivity(intent);
+//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
             }
         });
 
@@ -304,7 +307,11 @@ public class NewsFeedDetailActivity extends Activity
             @Override
             public void onClick(View view) {
 //                NLLog.now("mTopNewsTextRippleLayout onClink");
-                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
+                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
+                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
+
+                startActivity(intent);
+//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
             }
         });
 
