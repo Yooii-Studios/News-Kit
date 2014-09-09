@@ -29,4 +29,11 @@
     <!-- Detail Bottom -->
     <dimen name="detail_bottom_divider_height">1dp</dimen>
     <dimen name="detail_bottom_divider_margin">15dp</dimen>
+
+    <!-- News Detail -->
+    <dimen name="fab_elevation">2dp</dimen>
+    <dimen name="fab_press_translation_z">2dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_size_small">40dp</dimen>
+    <dimen name="fab_icon_size">24dp</dimen>
 </resources>
