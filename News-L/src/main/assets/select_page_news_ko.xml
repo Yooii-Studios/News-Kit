@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <title>일본어</title>
+    <news>
+        <name>조선일보 - 속보</name>
+        <url>http://www.chosun.com/site/data/rss/rss.xml</url>
+    </news>
+
+</root>

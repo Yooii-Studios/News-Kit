@@ -43,6 +43,11 @@
             android:label="@string/title_activity_news"
             android:theme="@style/NewsDetailActivityTheme" >
         </activity>
+        <activity
+            android:name=".ui.activity.NewsSelectActivity"
+            android:label="@string/title_activity_news_select"
+            android:theme="@style/BaseAppTheme" >
+        </activity>
     </application>
 
 </manifest>

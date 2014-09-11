@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <title>English</title>
+    <news>
+        <name>CNN</name>
+        <url>http://rss.cnn.com/rss/edition.rss</url>
+    </news>
+    <news>
+        <name>Time</name>
+        <url>http://feeds2.feedburner.com/time/topstories</url>
+    </news>
+    <news>
+        <name>New York Times</name>
+        <url>http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml</url>
+    </news>
+    <news>
+        <name>CNet</name>
+        <url>http://www.cnet.com/rss/news/</url>
+    </news>
+
+</root>
