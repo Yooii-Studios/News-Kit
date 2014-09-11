@@ -2,9 +2,11 @@ package com.yooiistudios.news.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import com.yooiistudios.news.model.news.NewsSelectPageUrlProvider;
+import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
+import com.yooiistudios.news.model.news.NewsSelectPageLanguage;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 
 /**
@@ -15,8 +17,11 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
  */
 public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
 
-    public NewsSelectPagerAdapter(FragmentManager fm) {
+    private Context mContext;
+
+    public NewsSelectPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        mContext = context;
     }
 
     @Override
@@ -26,11 +31,13 @@ public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return NewsSelectPageUrlProvider.getLanguageCount();
+        return NewsSelectPageContentProvider.getInstance().getLanguageList(mContext).size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return NewsSelectPageUrlProvider.getLanguageAt(position);
+        NewsSelectPageLanguage language =
+                NewsSelectPageContentProvider.getInstance().getLanguageAt(mContext, position);
+        return language.getRegionalName();
     }
 }

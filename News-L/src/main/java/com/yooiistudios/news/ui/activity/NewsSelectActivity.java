@@ -1,6 +1,7 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -24,7 +25,9 @@ public class NewsSelectActivity extends Activity {
         setContentView(R.layout.activity_news_select);
         ButterKnife.inject(this);
 
-        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
+        Context context = getApplicationContext();
+
+        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), context));
 //        mViewPager.setOnPageChangeListener(mSimpleOnPageChangeListener);
 
         mSlidingTabLayout.setViewPager(mViewPager);

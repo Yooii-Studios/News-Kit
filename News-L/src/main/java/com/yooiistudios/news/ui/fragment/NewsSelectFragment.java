@@ -1,6 +1,7 @@
 package com.yooiistudios.news.ui.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsSelectPageUrlProvider;
+import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -53,9 +54,10 @@ public class NewsSelectFragment extends Fragment {
             mPosition = 0;
         }
 
-        mNewsFeedList = NewsSelectPageUrlProvider.getInstance().getNewsFeeds(
-                getActivity().getApplicationContext(),
-                NewsSelectPageUrlProvider.getLanguageAt(mPosition));
+        Context context = getActivity().getApplicationContext();
+
+        mNewsFeedList = NewsSelectPageContentProvider.getInstance().getNewsFeeds(context,
+                NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
     }
 
     @Nullable
