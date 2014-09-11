@@ -56,7 +56,7 @@ public class NewsFeedArchiveUtils {
         if (newsFeedUrlListStr != null) {
             urlList = new Gson().fromJson(newsFeedUrlListStr, urlListType);
         } else {
-            urlList = NewsFeedPreset.sBottomNewsFeedPresetList;
+            urlList = MainNewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
         }
 
         Type feedListType = new TypeToken<ArrayList<NewsFeed>>(){}.getType();
@@ -76,7 +76,7 @@ public class NewsFeedArchiveUtils {
         if (newsFeedUrlStr != null) {
             url = new Gson().fromJson(newsFeedUrlStr, urlType);
         } else {
-            url = NewsFeedPreset.sTopNewsFeesPreset;
+            url = MainNewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
         }
 
         Type feedType = new TypeToken<NewsFeed>(){}.getType();

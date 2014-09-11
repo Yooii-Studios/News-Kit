@@ -83,7 +83,7 @@ public class MainNewsFeedFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout
-                        .main_top_viewpager_item, container, false);
+                        .fragment_main_top_viewpager_item, container, false);
 
         ItemViewHolder holder = new ItemViewHolder(root);
 
