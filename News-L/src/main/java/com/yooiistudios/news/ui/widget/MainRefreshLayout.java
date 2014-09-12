@@ -26,7 +26,6 @@ public class MainRefreshLayout extends SwipeRefreshLayout {
         super(context, attrs);
     }
 
-    /*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int index = event.getActionIndex();
@@ -52,22 +51,28 @@ public class MainRefreshLayout extends SwipeRefreshLayout {
                 mVelocityTracker.computeCurrentVelocity(1000);
                 // Log velocity of pixels per second
                 // Best practice to use VelocityTrackerCompat where possible.
-//                Log.d("CustomRefreshLayout", "X velocity: " +
-//                        VelocityTrackerCompat.getXVelocity(mVelocityTracker,
-//                                pointerId));
+                Log.d("CustomRefreshLayout", "X velocity: " +
+                        VelocityTrackerCompat.getXVelocity(mVelocityTracker,
+                                pointerId));
 //                Log.d("CustomRefreshLayout", "Y velocity: " +
 //                        VelocityTrackerCompat.getYVelocity(mVelocityTracker,
 //                                pointerId));
-                if (VelocityTrackerCompat.getYVelocity(mVelocityTracker,
-                        pointerId) < 2500 && !isPullVelocityEnoughToRefresh) {
-//                    Log.d("CustomRefreshLayout", "velocity is lower than 200 or boolean is false");
+                if (VelocityTrackerCompat.getYVelocity(mVelocityTracker, pointerId) < 900 &&
+                        !isPullVelocityEnoughToRefresh) {
+                    Log.d("CustomRefreshLayout", "remove touch event: y slow");
                     return true;
                 } else {
                     Log.d("CustomRefreshLayout", "Y velocity: " +
                             VelocityTrackerCompat.getYVelocity(mVelocityTracker,
                                     pointerId));
-                    Log.d("CustomRefreshLayout", "velocity boolean is true");
-                    isPullVelocityEnoughToRefresh = true;
+                    float absXVelocity = Math.abs(VelocityTrackerCompat.getXVelocity(mVelocityTracker, pointerId));
+                    if (absXVelocity < 900) {
+                        Log.d("CustomRefreshLayout", "absXVelocity < 1000");
+                        isPullVelocityEnoughToRefresh = true;
+                    } else {
+                        Log.d("CustomRefreshLayout", "remove touch event: x fast");
+                        return true;
+                    }
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -79,5 +84,4 @@ public class MainRefreshLayout extends SwipeRefreshLayout {
         }
         return super.onTouchEvent(event);
     }
-    */
 }
