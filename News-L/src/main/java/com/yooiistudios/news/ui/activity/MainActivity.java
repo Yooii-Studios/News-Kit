@@ -81,9 +81,7 @@ public class MainActivity extends Activity
 
     private ImageLoader mImageLoader;
 
-    private NewsFeedUrl mTopNewsFeedUrl;
     private NewsFeed mTopNewsFeed;
-    private ArrayList<NewsFeedUrl> mBottomNewsFeedUrlList;
     private ArrayList<NewsFeed> mBottomNewsFeedList;
 
     private TopFeedNewsImageUrlFetchTask mTopImageUrlFetchTask;
@@ -170,12 +168,11 @@ public class MainActivity extends Activity
         Context context = getApplicationContext();
 
         // Fetch
-        Pair<NewsFeedUrl, NewsFeed> topFeedPair = NewsFeedArchiveUtils.loadTopNews(context);
-        mTopNewsFeedUrl = topFeedPair.first;
+        mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(context);
         if (refresh) {
             fetchTopNewsFeed();
         } else {
-            if ((mTopNewsFeed = topFeedPair.second) != null) {
+            if (mTopNewsFeed.isValid()) {
                 notifyNewTopNewsFeedSet();
             } else {
                 fetchTopNewsFeed();
@@ -185,8 +182,7 @@ public class MainActivity extends Activity
     }
     private void fetchTopNewsFeed() {
         mTopNewsFeedReady = false;
-        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this,
-                mTopNewsFeedUrl, this);
+        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(), this);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -242,20 +238,25 @@ public class MainActivity extends Activity
         layoutManager.setColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
-        Pair<ArrayList<NewsFeedUrl>, ArrayList<NewsFeed>> bottomNewsPair
-                = NewsFeedArchiveUtils.loadBottomNews(context);
-        mBottomNewsFeedUrlList = bottomNewsPair.first;
+        mBottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNews(context);
         mDisplayingBottomNewsFeedIndices = new ArrayList<Integer>();
 
         // 메인 하단 뉴스피드들의 현재 뉴스 인덱스를 0으로 초기화
-        for (int i = 0; i < mBottomNewsFeedUrlList.size(); i++) {
+        for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
             mDisplayingBottomNewsFeedIndices.add(0);
         }
 
         if (refresh) {
             fetchBottomNewsFeedList();
         } else {
-            if ((mBottomNewsFeedList = bottomNewsPair.second) != null) {
+            boolean isValid = true;
+            for (NewsFeed newsFeed : mBottomNewsFeedList) {
+                if (!newsFeed.isValid()) {
+                    isValid = false;
+                    break;
+                }
+            }
+            if (isValid) {
                 notifyNewBottomNewsFeedListSet(false);
 //                fetchBottomNewsFeedListImage();
             } else {
@@ -266,20 +267,15 @@ public class MainActivity extends Activity
         // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
         ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
         recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getApplicationContext(),
-                mBottomNewsFeedUrlList.size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
+                mBottomNewsFeedList.size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
 
     }
     private void fetchBottomNewsFeedList() {
-        final int bottomNewsCount = mBottomNewsFeedUrlList.size();
-
-        mBottomNewsFeedList = new ArrayList<NewsFeed>();
-        for (int i = 0; i < bottomNewsCount; i++) {
-            mBottomNewsFeedList.add(null);
-        }
+        final int bottomNewsCount = mBottomNewsFeedList.size();
 
         mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
         for (int i = 0; i < bottomNewsCount; i++) {
-            NewsFeedUrl url = mBottomNewsFeedUrlList.get(i);
+            NewsFeedUrl url = mBottomNewsFeedList.get(i).getNewsFeedUrl();
             BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
                     getApplicationContext(), url, i, this
             );
@@ -413,8 +409,8 @@ public class MainActivity extends Activity
             if (noTopNewsImage || mTopNewsFeedFirstImageReady) {
                 mSwipeRefreshLayout.setRefreshing(false);
 
-                NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeedUrl,
-                        mTopNewsFeed, mBottomNewsFeedUrlList, mBottomNewsFeedList);
+                NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed,
+                        mBottomNewsFeedList);
                 notifyNewBottomNewsFeedListSet(true);
 
                 // loaded
@@ -517,8 +513,7 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onBottomNewsFeedFetchSuccess(int position,
-                                             NewsFeed newsFeed) {
+    public void onBottomNewsFeedFetchSuccess(int position, NewsFeed newsFeed) {
         NLLog.i(TAG, "onBottomNewsFeedFetchSuccess");
         mBottomNewsFeedIndexToNewsFetchTaskMap.remove(position);
         mBottomNewsFeedList.set(position, newsFeed);
@@ -543,9 +538,8 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onBottomItemClick(
-            MainBottomAdapter.BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed,
-            int position) {
+    public void onBottomItemClick(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
+                                  NewsFeed newsFeed, int position) {
         NLLog.i(TAG, "onBottomItemClick");
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
