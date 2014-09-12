@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Transition;
 import android.util.DisplayMetrics;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
@@ -241,8 +242,24 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.news_feed, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        finishAfterTransition();
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                finishAfterTransition();
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class));
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

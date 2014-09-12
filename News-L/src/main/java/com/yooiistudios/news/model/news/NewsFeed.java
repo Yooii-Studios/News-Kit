@@ -14,31 +14,38 @@ public class NewsFeed implements Parcelable {
     public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
 
     private String mTitle;
+    private NewsFeedUrl mNewsFeedUrl;
     private String mLink;
     private String mDescription;
     private String mLanguage;
     private ArrayList<News> mNewsList;
+    private boolean mIsValid;
 
     public NewsFeed() {
         mNewsList = new ArrayList<News>();
+        mIsValid = false;
     }
 
     public NewsFeed(Parcel source) {
         this();
         mTitle = source.readString();
+        mNewsFeedUrl = (NewsFeedUrl)source.readSerializable();
         mLink = source.readString();
         mDescription = source.readString();
         mLanguage = source.readString();
         source.readTypedList(mNewsList, News.CREATOR);
+        mIsValid = source.readInt() == 1;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mTitle);
+        dest.writeSerializable(mNewsFeedUrl);
         dest.writeString(mLink);
         dest.writeString(mDescription);
         dest.writeString(mLanguage);
         dest.writeTypedList(mNewsList);
+        dest.writeInt(mIsValid ? 1 : 0);
     }
 
     public static final Parcelable.Creator<NewsFeed> CREATOR = new Parcelable.Creator<NewsFeed>() {
@@ -62,6 +69,14 @@ public class NewsFeed implements Parcelable {
     public void setTitle(String title) {
         this.mTitle = title;
     }
+
+    public NewsFeedUrl getNewsFeedUrl() {
+        return mNewsFeedUrl;
+    }
+    public void setNewsFeedUrl(NewsFeedUrl newsFeedUrl) {
+        mNewsFeedUrl = newsFeedUrl;
+    }
+
 
     public String getLink() {
         return mLink;
@@ -92,6 +107,13 @@ public class NewsFeed implements Parcelable {
         return mNewsList;
     }
 
+    public void setValid(boolean isValid) {
+        mIsValid = isValid;
+    }
+
+    public boolean isValid() {
+        return mIsValid;
+    }
 
     public void addNews(News news) {
         mNewsList.add(news);
