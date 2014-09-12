@@ -36,4 +36,7 @@
     <dimen name="fab_size">56dp</dimen>
     <dimen name="fab_size_small">40dp</dimen>
     <dimen name="fab_icon_size">24dp</dimen>
+
+    <!-- News Select -->
+    <dimen name="news_select_row_padding">10dp</dimen>
 </resources>
