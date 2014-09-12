@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 
@@ -21,7 +20,6 @@ public class MainRefreshLayout extends SwipeRefreshLayout {
     public MainRefreshLayout(Context context) {
         super(context);
     }
-
     public MainRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -33,52 +31,30 @@ public class MainRefreshLayout extends SwipeRefreshLayout {
         int pointerId = event.getPointerId(index);
 
         switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                Log.d("CustomRefreshLayout", "Action Down");
-                if (mVelocityTracker == null) {
-                    mVelocityTracker = VelocityTracker.obtain();
-                } else {
-                    mVelocityTracker.clear();
-                }
-                mVelocityTracker.addMovement(event);
-                break;
             case MotionEvent.ACTION_MOVE:
                 if (mVelocityTracker == null) {
                     mVelocityTracker = VelocityTracker.obtain();
                 }
-//                Log.d("CustomRefreshLayout", "Action Move");
                 mVelocityTracker.addMovement(event);
                 mVelocityTracker.computeCurrentVelocity(1000);
-                // Log velocity of pixels per second
-                // Best practice to use VelocityTrackerCompat where possible.
-                Log.d("CustomRefreshLayout", "X velocity: " +
-                        VelocityTrackerCompat.getXVelocity(mVelocityTracker,
-                                pointerId));
-//                Log.d("CustomRefreshLayout", "Y velocity: " +
-//                        VelocityTrackerCompat.getYVelocity(mVelocityTracker,
-//                                pointerId));
+                // y 속도가 900이 되지 않으면 리프레시를 시작하지 않는다
                 if (VelocityTrackerCompat.getYVelocity(mVelocityTracker, pointerId) < 900 &&
                         !isPullVelocityEnoughToRefresh) {
-                    Log.d("CustomRefreshLayout", "remove touch event: y slow");
                     return true;
                 } else {
-                    Log.d("CustomRefreshLayout", "Y velocity: " +
-                            VelocityTrackerCompat.getYVelocity(mVelocityTracker,
-                                    pointerId));
-                    float absXVelocity = Math.abs(VelocityTrackerCompat.getXVelocity(mVelocityTracker, pointerId));
-                    if (absXVelocity < 900) {
-                        Log.d("CustomRefreshLayout", "absXVelocity < 1000");
+                    // y 속도가 충분히 빨라도, 뷰페이저의 가로 스와이프일 수 있으므로 일정 x 속도 이하일 경우만 세로
+                    // 스크롤로 인식하게 구현
+                    float xVelocity = Math.abs(VelocityTrackerCompat.getXVelocity(mVelocityTracker, pointerId));
+                    if (Math.abs(xVelocity) < 900) {
                         isPullVelocityEnoughToRefresh = true;
                     } else {
-                        Log.d("CustomRefreshLayout", "remove touch event: x fast");
                         return true;
                     }
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                Log.d("CustomRefreshLayout", "Action Cancel/Up");
-//                mVelocityTracker.recycle();
+                mVelocityTracker.clear();
                 isPullVelocityEnoughToRefresh = false;
                 break;
         }
