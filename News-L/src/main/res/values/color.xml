@@ -6,4 +6,9 @@
     <color name="fab_color_1_muted">#ff8080</color>
     <color name="fab_color_2">#9c27b0</color>
     <color name="fab_color_2_muted">#a56ab0</color>
+
+    <color name="refresh_color_scheme_1">#33B5E5</color>
+    <color name="refresh_color_scheme_2">#99CC00</color>
+    <color name="refresh_color_scheme_3">#FFBB33</color>
+    <color name="refresh_color_scheme_4">#FF4444</color>
 </resources>

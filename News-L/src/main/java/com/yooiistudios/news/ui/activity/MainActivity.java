@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Pair;
@@ -38,6 +39,7 @@ import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
+import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
@@ -66,6 +68,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
+    @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
 
     private static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
@@ -115,6 +118,7 @@ public class MainActivity extends Activity
 
         // TODO off-line configuration
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
+        initRefreshLayout();
         initTopNewsFeed(needsRefresh);
         initBottomNewsFeed(needsRefresh);
         showMainContentIfReady();
@@ -135,6 +139,25 @@ public class MainActivity extends Activity
                     view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
                 }
                 return windowInsets.consumeSystemWindowInsets();
+            }
+        });
+    }
+
+    private void initRefreshLayout() {
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.refresh_color_scheme_1, R.color.refresh_color_scheme_2,
+                R.color.refresh_color_scheme_3, R.color.refresh_color_scheme_4);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
+                if (!mSwipeRefreshLayout.isRefreshing()) {
+                    // 기존 뉴스 삭제 후 뉴스피드 새로 로딩
+                    NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+                    initTopNewsFeed(false);
+                    initBottomNewsFeed(false);
+                }
             }
         });
     }
@@ -289,7 +312,6 @@ public class MainActivity extends Activity
         }
     }
 
-
     private void fetchTopNewsFeedImageExceptFirstNews() {
         if (mTopNewsFeed == null) {
             return;
@@ -389,6 +411,8 @@ public class MainActivity extends Activity
 
         if (mTopNewsFeedReady && mBottomNewsFeedReady) {
             if (noTopNewsImage || mTopNewsFeedFirstImageReady) {
+                mSwipeRefreshLayout.setRefreshing(false);
+
                 NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeedUrl,
                         mTopNewsFeed, mBottomNewsFeedUrlList, mBottomNewsFeedList);
                 notifyNewBottomNewsFeedListSet(true);
