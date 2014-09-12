@@ -52,13 +52,4 @@ public class NewsSelectActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    private SimpleOnPageChangeListener mSimpleOnPageChangeListener
-//            = new SimpleOnPageChangeListener() {
-//
-//        @Override
-//        public void onPageSelected(int position) {
-//
-//        }
-//    };
 }

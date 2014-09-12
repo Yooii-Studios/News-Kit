@@ -15,6 +15,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
+import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -68,13 +69,16 @@ public class NewsSelectFragment extends Fragment {
 
         mViewHolder = new ViewHolder(root);
 
+        Context context = getActivity().getApplicationContext();
         // init recycler view
         mViewHolder.mRecyclerView.setHasFixedSize(true);
         mViewHolder.mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mViewHolder.mRecyclerView.setLayoutManager(
-                new LinearLayoutManager(getActivity().getApplicationContext()));
+                new LinearLayoutManager(context));
 
         mViewHolder.mRecyclerView.setAdapter(new NewsSelectRecyclerViewAdapter(mNewsFeedList));
+        mViewHolder.mRecyclerView.addItemDecoration(new DividerItemDecoration(context,
+                DividerItemDecoration.VERTICAL_LIST));
 
         return root;
     }
