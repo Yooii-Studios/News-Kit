@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsPublisher;
 
 import java.util.ArrayList;
 
@@ -24,10 +24,15 @@ import butterknife.InjectView;
 public class NewsSelectRecyclerViewAdapter extends
         RecyclerView.Adapter<NewsSelectRecyclerViewAdapter.NewsSelectViewHolder> {
 
-    private ArrayList<NewsFeed> mNewsFeedList;
+    private ArrayList<NewsPublisher> mNewsProviderList;
+    private OnNewsPublisherClickListener mOnNewsPublisherClickListener;
 
-    public NewsSelectRecyclerViewAdapter(ArrayList<NewsFeed> presetList) {
-        mNewsFeedList = presetList;
+    public interface OnNewsPublisherClickListener {
+        public void onNewsPublisherClick(NewsPublisher newsPublisher);
+    }
+
+    public NewsSelectRecyclerViewAdapter(ArrayList<NewsPublisher> presetList) {
+        mNewsProviderList = presetList;
     }
 
     @Override
@@ -41,14 +46,20 @@ public class NewsSelectRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(NewsSelectViewHolder newsSelectViewHolder, int i) {
-        NewsFeed preset = mNewsFeedList.get(i);
+        final NewsPublisher newsPublisher = mNewsProviderList.get(i);
 
-        newsSelectViewHolder.mFeedNameTextView.setText(preset.getTitle());
+        newsSelectViewHolder.mFeedNameTextView.setText(newsPublisher.getName());
+        newsSelectViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnNewsPublisherClickListener.onNewsPublisherClick(newsPublisher);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mNewsFeedList.size();
+        return mNewsProviderList.size();
     }
 
     protected static class NewsSelectViewHolder extends RecyclerView.ViewHolder{
@@ -58,5 +69,9 @@ public class NewsSelectRecyclerViewAdapter extends
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
+    }
+
+    public void setOnNewsPublisherClickListener(OnNewsPublisherClickListener onNewsPublisherClickListener) {
+        mOnNewsPublisherClickListener = onNewsPublisherClickListener;
     }
 }

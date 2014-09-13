@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsPublisher;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
@@ -32,7 +32,7 @@ public class NewsSelectFragment extends Fragment {
     public static final String KEY_POSITION = "KEY_POSITION";
 
     private ViewHolder mViewHolder;
-    private ArrayList<NewsFeed> mNewsFeedList;
+    private ArrayList<NewsPublisher> mNewsProviderList;
     private int mPosition;
 
     public static NewsSelectFragment newInstance(int pageNum) {
@@ -57,7 +57,7 @@ public class NewsSelectFragment extends Fragment {
 
         Context context = getActivity().getApplicationContext();
 
-        mNewsFeedList = NewsSelectPageContentProvider.getInstance().getNewsFeeds(context,
+        mNewsProviderList = NewsSelectPageContentProvider.getInstance().getNewsFeeds(context,
                 NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
     }
 
@@ -76,7 +76,7 @@ public class NewsSelectFragment extends Fragment {
         mViewHolder.mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(context));
 
-        mViewHolder.mRecyclerView.setAdapter(new NewsSelectRecyclerViewAdapter(mNewsFeedList));
+        mViewHolder.mRecyclerView.setAdapter(new NewsSelectRecyclerViewAdapter(mNewsProviderList));
         mViewHolder.mRecyclerView.addItemDecoration(new DividerItemDecoration(context,
                 DividerItemDecoration.VERTICAL_LIST));
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-    <title>일본어</title>
-    <news>
-        <name>조선일보 - 속보</name>
-        <url>http://www.chosun.com/site/data/rss/rss.xml</url>
-    </news>
+    <news_provider>
+        <name>구글</name>
+        <news>
+            <name>주요 뉴스</name>
+            <url>http://news.google.co.kr/news?pz=1&amp;cf=all&amp;ned=kr&amp;hl=ko&amp;output=rss</url>
+        </news>
+    </news_provider>
 
 </root>

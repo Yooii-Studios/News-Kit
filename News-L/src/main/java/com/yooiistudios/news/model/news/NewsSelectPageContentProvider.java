@@ -22,7 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class NewsSelectPageContentProvider {
 
-    private HashMap<String, ArrayList<NewsFeed>> mNewsFeedUrlMap;
+    private HashMap<String, ArrayList<NewsPublisher>> mNewsProviderMap;
     private ArrayList<NewsSelectPageLanguage> mLanguageList;
 
     private static NewsSelectPageContentProvider instance;
@@ -36,7 +36,7 @@ public class NewsSelectPageContentProvider {
     }
 
     private NewsSelectPageContentProvider() {
-        mNewsFeedUrlMap = new HashMap<String, ArrayList<NewsFeed>>();
+        mNewsProviderMap = new HashMap<String, ArrayList<NewsPublisher>>();
     }
     public ArrayList<NewsSelectPageLanguage> getLanguageList(Context context) {
         if (mLanguageList == null) {
@@ -92,16 +92,16 @@ public class NewsSelectPageContentProvider {
     }
 
 
-    public ArrayList<NewsFeed> getNewsFeeds(Context context, NewsSelectPageLanguage language) {
-        ArrayList<NewsFeed> list = null;
+    public ArrayList<NewsPublisher> getNewsFeeds(Context context, NewsSelectPageLanguage language) {
+        ArrayList<NewsPublisher> list = null;
         String key = language.getLanguageCountryCode();
-        if ((list = mNewsFeedUrlMap.get(key)) == null) {
+        if ((list = mNewsProviderMap.get(key)) == null) {
             list = readNewsFeedUrls(context, key);
-            mNewsFeedUrlMap.put(key, list);
+            mNewsProviderMap.put(key, list);
         }
         return list;
     }
-    public ArrayList<NewsFeed> readNewsFeedUrls(Context context, String languageCode) {
+    public ArrayList<NewsPublisher> readNewsFeedUrls(Context context, String languageCode) {
         InputStream in = null;
         try {
             in = context.getAssets().open("select_page_news_" + languageCode + ".xml");
@@ -111,25 +111,41 @@ public class NewsSelectPageContentProvider {
             in.close();
             in = null;
 
-            NodeList newsList = doc.getElementsByTagName("news");
+            NodeList newsProviderList = doc.getElementsByTagName("news_provider");
 
-            int totalCnt = newsList.getLength();
+            int newsProviderCnt = newsProviderList.getLength();
 
-            ArrayList<NewsFeed> newsFeedArrayList = new ArrayList<NewsFeed>();
-            for (int i=0;i<totalCnt;i++) {
-                Element news = (Element) newsList.item(i);
+            ArrayList<NewsPublisher> newsPublisherArrayList = new ArrayList<NewsPublisher>();
+            for (int i=0;i<newsProviderCnt;i++) {
+                Element newsProvider = (Element) newsProviderList.item(i);
 
-                String newsName = news.getElementsByTagName("name").item(0).getChildNodes().item(0)
-                        .getNodeValue();
-                String newsUrl = news.getElementsByTagName("url").item(0).getChildNodes().item(0)
-                        .getNodeValue();
+                String newsProviderName = newsProvider.getElementsByTagName("name")
+                        .item(0).getChildNodes().item(0).getNodeValue();
 
-                NewsFeed newsFeed = new NewsFeed();
-                newsFeed.setTitle(newsName);
-                newsFeedArrayList.add(newsFeed);
+                NodeList newsList = newsProvider.getElementsByTagName("news");
+
+                int newsCount = newsList.getLength();
+
+                NewsPublisher newsPublisher = new NewsPublisher();
+                newsPublisher.setName(newsProviderName);
+
+                for (int j = 0; j < newsCount; j++) {
+                    //
+                    String newsName = newsProvider.getElementsByTagName("name")
+                            .item(0).getChildNodes().item(0).getNodeValue();
+                    String newsUrl = newsProvider.getElementsByTagName("url")
+                            .item(0).getChildNodes().item(0).getNodeValue();
+
+                    NewsFeed newsFeed = new NewsFeed();
+                    newsFeed.setTitle(newsName);
+                    newsFeed.setNewsFeedUrl(new NewsFeedUrl(newsUrl, NewsFeedUrlType.GENERAL));
+
+                    newsPublisher.addNewsFeed(newsFeed);
+                }
+                newsPublisherArrayList.add(newsPublisher);
             }
 
-            return newsFeedArrayList;
+            return newsPublisherArrayList;
         } catch(Exception e) {
             e.printStackTrace();
         }

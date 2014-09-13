@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-    <title>English</title>
-    <news>
+    <news_provider>
+        <name>Google</name>
+        <news>
+            <name>Top Stories</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss</url>
+        </news>
+        <news>
+            <name>World</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=w</url>
+        </news>
+    </news_provider>
+    <news_provider>
         <name>CNN</name>
-        <url>http://rss.cnn.com/rss/edition.rss</url>
-    </news>
-    <news>
-        <name>Time</name>
-        <url>http://feeds2.feedburner.com/time/topstories</url>
-    </news>
-    <news>
-        <name>New York Times</name>
-        <url>http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml</url>
-    </news>
-    <news>
-        <name>CNet</name>
-        <url>http://www.cnet.com/rss/news/</url>
-    </news>
+        <news>
+            <name>Top Stories</name>
+            <url>http://rss.cnn.com/rss/edition.rss</url>
+        </news>
+    </news_provider>
 
 </root>
