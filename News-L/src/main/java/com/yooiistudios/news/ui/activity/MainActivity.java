@@ -156,6 +156,7 @@ public class MainActivity extends Activity
             public void onRefresh() {
                 NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
                 if (!mIsRefreshingTopNewsFeed && !mIsRefreshingBottomNewsFeeds) {
+                    mSwipeRefreshLayout.setEnabled(false);
                     mIsRefreshingTopNewsFeed = true;
                     mIsRefreshingBottomNewsFeeds = true;
                     refreshTopNewsFeed();
@@ -525,6 +526,7 @@ public class MainActivity extends Activity
         if (!mIsRefreshingTopNewsFeed && !mIsRefreshingBottomNewsFeeds) {
             // dismiss loading progress bar
             mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setEnabled(true);
             NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed, mBottomNewsFeedList);
         }
     }
