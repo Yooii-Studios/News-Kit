@@ -98,9 +98,13 @@ public class MainActivity extends Activity
 
     private SlideInFromBottomItemAnimator mItemAnimator;
 
+    // flags for initializing
     private boolean mTopNewsFeedReady = false;
     private boolean mTopNewsFeedFirstImageReady = false;
     private boolean mBottomNewsFeedReady = false;
+
+    //
+    private boolean mIsRefreshing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +154,14 @@ public class MainActivity extends Activity
             @Override
             public void onRefresh() {
                 NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                if (!mSwipeRefreshLayout.isRefreshing()) {
+                if (!mIsRefreshing) {
+                    mIsRefreshing = true;
+                    refreshTopNewsFeed();
+
                     // 기존 뉴스 삭제 후 뉴스피드 새로 로딩
-                    NewsFeedArchiveUtils.clearArchive(getApplicationContext());
-                    initTopNewsFeed(false);
-                    initBottomNewsFeed(false);
+//                    NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+//                    initTopNewsFeed(false);
+//                    initBottomNewsFeed(false);
                 }
             }
         });
@@ -170,17 +177,17 @@ public class MainActivity extends Activity
         // Fetch
         mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(context);
         if (refresh) {
-            fetchTopNewsFeed();
+            fetchTopNewsFeedOnInitialize();
         } else {
             if (mTopNewsFeed.isValid()) {
                 notifyNewTopNewsFeedSet();
             } else {
-                fetchTopNewsFeed();
+                fetchTopNewsFeedOnInitialize();
             }
         }
 
     }
-    private void fetchTopNewsFeed() {
+    private void fetchTopNewsFeedOnInitialize() {
         mTopNewsFeedReady = false;
         mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(), this);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -418,6 +425,38 @@ public class MainActivity extends Activity
             }
         }
     }
+
+    private void refreshTopNewsFeed() {
+        NewsFeedUrl topNewsFeedUrl = mTopNewsFeed.getNewsFeedUrl();
+        mTopNewsFeed = new NewsFeed();
+        mTopNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
+
+        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(), mOnTopNewsRefreshedListener);
+        mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private TopNewsFeedFetchTask.OnFetchListener mOnTopNewsRefreshedListener
+            = new TopNewsFeedFetchTask.OnFetchListener() {
+
+        @Override
+        public void onTopNewsFeedFetchSuccess(NewsFeed newsFeed) {
+            mIsRefreshing = false;
+            mTopNewsFeed = newsFeed;
+            notifyNewTopNewsFeedSet();
+
+            // dismiss loading progress bar
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void onTopNewsFeedFetchFail() {
+            mIsRefreshing = false;
+            showTopNewsFeedUnavailable();
+
+            // dismiss loading progress bar
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
