@@ -448,7 +448,8 @@ public class MainActivity extends Activity
             newBottomNewsFeedList.add(newNewsFeed);
         }
         mBottomNewsFeedList = newBottomNewsFeedList;
-        //
+
+        // 프로그레스바를 나타내기 위해 NewsFeedUrl만 가지고 있는 뉴스피드를 넣음
         mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
 
         resetBottomNewsFeedShowingNewsIndices();
@@ -465,7 +466,7 @@ public class MainActivity extends Activity
             mTopNewsFeed = newsFeed;
             notifyNewTopNewsFeedSet();
 
-            dismissRefreshingBarIfReady();
+            configAfterRefreshDone();
         }
 
         @Override
@@ -473,7 +474,7 @@ public class MainActivity extends Activity
             mIsRefreshingTopNewsFeed = false;
             showTopNewsFeedUnavailable();
 
-            dismissRefreshingBarIfReady();
+            configAfterRefreshDone();
         }
     };
     private BottomNewsFeedFetchTask.OnFetchListener mOnBottomNewsRefreshedListener
@@ -501,7 +502,7 @@ public class MainActivity extends Activity
 
             if (remainingTaskCount == 0) {
                 mIsRefreshingBottomNewsFeeds = false;
-                dismissRefreshingBarIfReady();
+                configAfterRefreshDone();
 
                 mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
                 fetchBottomNewsFeedListImage();
@@ -509,10 +510,11 @@ public class MainActivity extends Activity
         }
     };
 
-    private void dismissRefreshingBarIfReady() {
+    private void configAfterRefreshDone() {
         if (!mIsRefreshingTopNewsFeed && !mIsRefreshingBottomNewsFeeds) {
             // dismiss loading progress bar
             mSwipeRefreshLayout.setRefreshing(false);
+            NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed, mBottomNewsFeedList);
         }
     }
 
