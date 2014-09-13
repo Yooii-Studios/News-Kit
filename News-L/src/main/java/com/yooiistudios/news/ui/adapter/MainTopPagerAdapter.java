@@ -6,8 +6,11 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.ui.fragment.MainNewsFeedFragment;
+
+import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
@@ -39,7 +42,8 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mNewsFeed.getNewsList().size();
+        ArrayList<News> newsList = mNewsFeed.getNewsList();
+        return newsList != null ? newsList.size() : 0;
     }
 
     @Override
@@ -60,4 +64,8 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    public void setNewsFeed(NewsFeed newsFeed) {
+        mNewsFeed = newsFeed;
+        notifyDataSetChanged();
+    }
 }

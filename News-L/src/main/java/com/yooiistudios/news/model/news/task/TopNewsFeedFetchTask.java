@@ -15,6 +15,8 @@ import com.yooiistudios.news.model.news.NewsFeedUrl;
  */
 public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
+    public static final int FETCH_COUNT = 10;
+
     private Context mContext;
     private NewsFeedUrl mNewsFeedUrl;
     private OnFetchListener mListener;
@@ -34,7 +36,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     @Override
     protected NewsFeed doInBackground(Void... voids) {
 
-        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, 10);
+        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT);
     }
 
     @Override

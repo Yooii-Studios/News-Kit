@@ -75,8 +75,8 @@ public class MainNewsFeedFragment extends Fragment
         }
         mRecycled = false;
 
-        RequestQueue requestQueue =
-                ((NewsApplication) getActivity().getApplication()).getRequestQueue();
+        RequestQueue requestQueue = ((NewsApplication) getActivity().getApplication())
+                .getRequestQueue();
         Context context = getActivity().getApplicationContext();
         mImageLoader = new ImageLoader(requestQueue,
                 ImageMemoryCache.getInstance(context));
@@ -90,13 +90,26 @@ public class MainNewsFeedFragment extends Fragment
 
         ItemViewHolder holder = new ItemViewHolder(root);
 
+        if (mNews == null) {
+            holder.imageView.setImageDrawable(null);
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.titleTextView.setText("");
+
+            root.setOnClickListener(null);
+
+            return root;
+        }
+
         holder.imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX +
                 mPosition);
         applyImage(holder);
 
         holder.titleTextView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
                 mPosition);
-        holder.titleTextView.setText(mNews.getTitle());
+        String newsName = mNews.getTitle();
+        if (newsName != null) {
+            holder.titleTextView.setText(newsName);
+        }
 
         root.setOnClickListener(this);
         root.setTag(holder);
@@ -164,7 +177,7 @@ public class MainNewsFeedFragment extends Fragment
 
     @Override
     public void onClick(View view) {
-        if (!mNewsFeed.isValid()) {
+        if (!mNewsFeed.isValid() || mNews == null) {
             return;
         }
         ItemViewHolder viewHolder = (ItemViewHolder)view.getTag();

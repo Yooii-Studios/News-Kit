@@ -209,6 +209,7 @@ public class MainActivity extends Activity
 
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
+//        mTopViewPagerIndicator.setCurrentItem(0);
 
         if (items.size() > 0) {
             News news = items.get(0);
@@ -435,6 +436,16 @@ public class MainActivity extends Activity
         NewsFeedUrl topNewsFeedUrl = mTopNewsFeed.getNewsFeedUrl();
         mTopNewsFeed = new NewsFeed();
         mTopNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
+
+        for (int i = 0; i < TopNewsFeedFetchTask.FETCH_COUNT; i++) {
+            mTopNewsFeed.getNewsList().add(null);
+        }
+
+        mTopViewPagerIndicator.setCurrentItem(0);
+        mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(getFragmentManager(), mTopNewsFeed);
+        mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
+        mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
+        mTopNewsFeedTitleTextView.setText("");
 
         fetchTopNewsFeed(mOnTopNewsRefreshedListener);
     }
