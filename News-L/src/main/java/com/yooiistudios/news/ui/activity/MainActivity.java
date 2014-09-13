@@ -98,9 +98,14 @@ public class MainActivity extends Activity
 
     private SlideInFromBottomItemAnimator mItemAnimator;
 
+    // flags for initializing
     private boolean mTopNewsFeedReady = false;
     private boolean mTopNewsFeedFirstImageReady = false;
     private boolean mBottomNewsFeedReady = false;
+
+    //
+    private boolean mIsRefreshingTopNewsFeed = false;
+    private boolean mIsRefreshingBottomNewsFeeds = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +155,16 @@ public class MainActivity extends Activity
             @Override
             public void onRefresh() {
                 NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                if (!mSwipeRefreshLayout.isRefreshing()) {
+                if (!mIsRefreshingTopNewsFeed && !mIsRefreshingBottomNewsFeeds) {
+                    mIsRefreshingTopNewsFeed = true;
+                    mIsRefreshingBottomNewsFeeds = true;
+                    refreshTopNewsFeed();
+                    refreshBottomNewsFeeds();
+
                     // 기존 뉴스 삭제 후 뉴스피드 새로 로딩
-                    NewsFeedArchiveUtils.clearArchive(getApplicationContext());
-                    initTopNewsFeed(false);
-                    initBottomNewsFeed(false);
+//                    NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+//                    initTopNewsFeed(false);
+//                    initBottomNewsFeed(false);
                 }
             }
         });
@@ -170,19 +180,20 @@ public class MainActivity extends Activity
         // Fetch
         mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(context);
         if (refresh) {
-            fetchTopNewsFeed();
+            mTopNewsFeedReady = false;
+            fetchTopNewsFeed(this);
         } else {
             if (mTopNewsFeed.isValid()) {
                 notifyNewTopNewsFeedSet();
             } else {
-                fetchTopNewsFeed();
+                mTopNewsFeedReady = false;
+                fetchTopNewsFeed(this);
             }
         }
 
     }
-    private void fetchTopNewsFeed() {
-        mTopNewsFeedReady = false;
-        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(), this);
+    private void fetchTopNewsFeed(TopNewsFeedFetchTask.OnFetchListener listener) {
+        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(), listener);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -239,15 +250,10 @@ public class MainActivity extends Activity
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         mBottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNews(context);
-        mDisplayingBottomNewsFeedIndices = new ArrayList<Integer>();
-
-        // 메인 하단 뉴스피드들의 현재 뉴스 인덱스를 0으로 초기화
-        for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
-            mDisplayingBottomNewsFeedIndices.add(0);
-        }
+        resetBottomNewsFeedShowingNewsIndices();
 
         if (refresh) {
-            fetchBottomNewsFeedList();
+            fetchBottomNewsFeedList(this);
         } else {
             boolean isValid = true;
             for (NewsFeed newsFeed : mBottomNewsFeedList) {
@@ -257,10 +263,9 @@ public class MainActivity extends Activity
                 }
             }
             if (isValid) {
-                notifyNewBottomNewsFeedListSet(false);
-//                fetchBottomNewsFeedListImage();
+                mBottomNewsFeedReady = true;
             } else {
-                fetchBottomNewsFeedList();
+                fetchBottomNewsFeedList(this);
             }
         }
 
@@ -270,14 +275,24 @@ public class MainActivity extends Activity
                 mBottomNewsFeedList.size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
 
     }
-    private void fetchBottomNewsFeedList() {
+
+    private void resetBottomNewsFeedShowingNewsIndices() {
+        mDisplayingBottomNewsFeedIndices = new ArrayList<Integer>();
+
+        // 메인 하단 뉴스피드들의 현재 뉴스 인덱스를 0으로 초기화
+        for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
+            mDisplayingBottomNewsFeedIndices.add(0);
+        }
+    }
+
+    private void fetchBottomNewsFeedList(BottomNewsFeedFetchTask.OnFetchListener listener) {
         final int bottomNewsCount = mBottomNewsFeedList.size();
 
         mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
         for (int i = 0; i < bottomNewsCount; i++) {
             NewsFeedUrl url = mBottomNewsFeedList.get(i).getNewsFeedUrl();
             BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
-                    getApplicationContext(), url, i, this
+                    getApplicationContext(), url, i, listener
             );
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
@@ -359,29 +374,26 @@ public class MainActivity extends Activity
         }
         mBottomNewsFeedNewsToImageTaskMap.clear();
     }
-    private void notifyNewBottomNewsFeedListSet(boolean animate) {
+    private void animateBottomNewsFeedListOnInit() {
         mBottomNewsFeedReady = true;
+        mBottomNewsFeedAdapter = new MainBottomAdapter
+                (getApplicationContext(), this);
+        mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
-        if (animate) {
-            mBottomNewsFeedAdapter = new MainBottomAdapter
-                    (getApplicationContext(), this);
-            mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
+        for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
+            final NewsFeed newsFeed = mBottomNewsFeedList.get(i);
+            final int idx = i;
+            mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
 
-            for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
-                final NewsFeed newsFeed = mBottomNewsFeedList.get(i);
-                final int idx = i;
-                mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
-
-                        if (idx == (mBottomNewsFeedList.size() - 1)) {
-                            mItemAnimator.isRunning(MainActivity.this);
-                        }
+                    if (idx == (mBottomNewsFeedList.size() - 1)) {
+                        mItemAnimator.isRunning(MainActivity.this);
                     }
-                }, BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI * i + 1);
+                }
+            }, BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI * i + 1);
 
-            }
         }
     }
 
@@ -411,11 +423,98 @@ public class MainActivity extends Activity
 
                 NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed,
                         mBottomNewsFeedList);
-                notifyNewBottomNewsFeedListSet(true);
+                animateBottomNewsFeedListOnInit();
 
                 // loaded
                 mLoadingContainer.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void refreshTopNewsFeed() {
+        NewsFeedUrl topNewsFeedUrl = mTopNewsFeed.getNewsFeedUrl();
+        mTopNewsFeed = new NewsFeed();
+        mTopNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
+
+        fetchTopNewsFeed(mOnTopNewsRefreshedListener);
+    }
+
+    private void refreshBottomNewsFeeds() {
+        ArrayList<NewsFeed> newBottomNewsFeedList = new ArrayList<NewsFeed>();
+        for (NewsFeed newsFeed : mBottomNewsFeedList) {
+            NewsFeed newNewsFeed = new NewsFeed();
+            newNewsFeed.setNewsFeedUrl(newsFeed.getNewsFeedUrl());
+
+            newBottomNewsFeedList.add(newNewsFeed);
+        }
+        mBottomNewsFeedList = newBottomNewsFeedList;
+
+        // 프로그레스바를 나타내기 위해 NewsFeedUrl만 가지고 있는 뉴스피드를 넣음
+        mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
+
+        resetBottomNewsFeedShowingNewsIndices();
+
+        fetchBottomNewsFeedList(mOnBottomNewsRefreshedListener);
+    }
+
+    private TopNewsFeedFetchTask.OnFetchListener mOnTopNewsRefreshedListener
+            = new TopNewsFeedFetchTask.OnFetchListener() {
+
+        @Override
+        public void onTopNewsFeedFetchSuccess(NewsFeed newsFeed) {
+            mIsRefreshingTopNewsFeed = false;
+            mTopNewsFeed = newsFeed;
+            notifyNewTopNewsFeedSet();
+
+            configAfterRefreshDone();
+        }
+
+        @Override
+        public void onTopNewsFeedFetchFail() {
+            mIsRefreshingTopNewsFeed = false;
+            showTopNewsFeedUnavailable();
+
+            configAfterRefreshDone();
+        }
+    };
+    private BottomNewsFeedFetchTask.OnFetchListener mOnBottomNewsRefreshedListener
+             = new BottomNewsFeedFetchTask.OnFetchListener() {
+
+        @Override
+        public void onBottomNewsFeedFetchSuccess(int position, NewsFeed newsFeed) {
+//            mBottomNewsFeedAdapter.replaceNewsFeedAt(position, newsFeed);
+            mBottomNewsFeedList.set(position, newsFeed);
+            mBottomNewsFeedIndexToNewsFetchTaskMap.remove(position);
+
+            checkAllBottomNewsFeedFetched();
+        }
+
+        @Override
+        public void onBottomNewsFeedFetchFail(int position) {
+            mBottomNewsFeedIndexToNewsFetchTaskMap.remove(position);
+
+            checkAllBottomNewsFeedFetched();
+            // TODO initialize 리스너 참조.
+        }
+
+        private void checkAllBottomNewsFeedFetched() {
+            int remainingTaskCount = mBottomNewsFeedIndexToNewsFetchTaskMap.size();
+
+            if (remainingTaskCount == 0) {
+                mIsRefreshingBottomNewsFeeds = false;
+                configAfterRefreshDone();
+
+                mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
+                fetchBottomNewsFeedListImage();
+            }
+        }
+    };
+
+    private void configAfterRefreshDone() {
+        if (!mIsRefreshingTopNewsFeed && !mIsRefreshingBottomNewsFeeds) {
+            // dismiss loading progress bar
+            mSwipeRefreshLayout.setRefreshing(false);
+            NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed, mBottomNewsFeedList);
         }
     }
 
@@ -449,6 +548,8 @@ public class MainActivity extends Activity
         NLLog.i(TAG, "fetch image url success.");
         NLLog.i(TAG, "news link : " + news.getLink());
         NLLog.i(TAG, "image url : " + url);
+
+        news.setImageUrlChecked(true);
         if (url == null) {
             fetchTopNewsFeedImageExceptFirstNews();
             showMainContentIfReady(true);
@@ -524,7 +625,6 @@ public class MainActivity extends Activity
                     mBottomNewsFeedList.size());
             mBottomNewsFeedReady = true;
 
-            notifyNewBottomNewsFeedListSet(false);
             showMainContentIfReady();
         } else {
             NLLog.i(TAG, remainingTaskCount + " remaining tasks.");
@@ -532,7 +632,7 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onBottomNewsFeedFetchFail() {
+    public void onBottomNewsFeedFetchFail(int position) {
         NLLog.i(TAG, "onBottomNewsFeedFetchFail");
         // TODO Top news처럼 뉴스 없음 처리하고 notify 해줘야 함
     }

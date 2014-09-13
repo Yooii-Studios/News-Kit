@@ -23,9 +23,12 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
-import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.activity.MainActivity;
+import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.util.ImageMemoryCache;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
@@ -82,8 +85,8 @@ public class MainNewsFeedFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup)inflater.inflate(R.layout
-                        .fragment_main_top_viewpager_item, container, false);
+        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_main_top_viewpager_item,
+                container, false);
 
         ItemViewHolder holder = new ItemViewHolder(root);
 
@@ -122,6 +125,8 @@ public class MainNewsFeedFragment extends Fragment
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     Bitmap bitmap;
 
+                    viewHolder.progressBar.setVisibility(View.GONE);
+
                     if (!mRecycled && (bitmap = response.getBitmap()) != null
                             && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
@@ -137,7 +142,12 @@ public class MainNewsFeedFragment extends Fragment
                     showDummyImage(viewHolder);
                 }
             });
+        } else if (!mNews.isImageUrlChecked()) {
+            // image url not yet fetched. show loading progress dialog
+            viewHolder.progressBar.setVisibility(View.VISIBLE);
+
         } else {
+            // failed to find image url
             showDummyImage(viewHolder);
         }
     }
@@ -147,11 +157,16 @@ public class MainNewsFeedFragment extends Fragment
             viewHolder.imageView.setImageBitmap(dummyImage);
             viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
             viewHolder.imageView.setTag(TintType.DUMMY);
+
+            viewHolder.progressBar.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onClick(View view) {
+        if (!mNewsFeed.isValid()) {
+            return;
+        }
         ItemViewHolder viewHolder = (ItemViewHolder)view.getTag();
 
         ActivityOptions activityOptions =
@@ -185,13 +200,13 @@ public class MainNewsFeedFragment extends Fragment
         mRecycled = recycled;
     }
 
-    private static class ItemViewHolder {
-        ImageView imageView;
-        TextView titleTextView;
+    static class ItemViewHolder {
+        @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
+        @InjectView(R.id.main_top_feed_title)       TextView titleTextView;
+        @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
 
         public ItemViewHolder(View view) {
-            imageView = (ImageView)view.findViewById(R.id.main_top_feed_image_view);
-            titleTextView = (TextView)view.findViewById(R.id.main_top_feed_title);
+            ButterKnife.inject(this, view);
         }
     }
 }
