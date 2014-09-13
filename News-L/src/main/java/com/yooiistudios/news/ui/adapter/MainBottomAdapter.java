@@ -86,8 +86,11 @@ public class MainBottomAdapter extends
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
         ArrayList<News> newsList = mNewsFeedList.get(position).getNewsList();
 
+        viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
+        imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
+
         if (newsList == null || newsList.size() == 0) {
-            showDummyImage(viewHolder);
+//            showDummyImage(viewHolder);
             return;
         }
 
@@ -95,17 +98,20 @@ public class MainBottomAdapter extends
                 ? mDisplayingNewsFeedIndices.get(position) : 0;
         final News displayingNews = newsList.get(index);
 
-        titleView.setText(displayingNews.getTitle());
+        String newsTitle = displayingNews.getTitle();
+        if (newsTitle != null) {
+            titleView.setText(newsTitle);
+        }
         titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
-        viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
-
-        imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
 //        imageView.setImageDrawable(new ColorDrawable(NewsFeedUtils.getMainBottomDefaultBackgroundColor()));
         imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + VIEW_NAME_POSTFIX + position);
 
-        newsFeedTitleView.setText(mNewsFeedList.get(position).getTitle());
+        String newsFeedTitle = mNewsFeedList.get(position).getTitle();
+        if (newsFeedTitle != null) {
+            newsFeedTitleView.setText(newsFeedTitle);
+        }
 
 
         viewHolder.itemView.setOnClickListener(
@@ -114,7 +120,7 @@ public class MainBottomAdapter extends
                     public void onClick(View view) {
                         NewsFeed newsFeed = mNewsFeedList.get(position);
 
-                        if (mOnItemClickListener != null && newsFeed != null) {
+                        if (mOnItemClickListener != null && newsFeed.isValid()) {
                             mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
                         }
                     }
@@ -130,6 +136,9 @@ public class MainBottomAdapter extends
                 viewHolder.progressBar.setVisibility(View.GONE);
                 return;
             } else {
+                viewHolder.imageView.setImageDrawable(null);
+                viewHolder.imageView.setColorFilter(null);
+//                viewHolder.progressBar
                 return;
             }
         }
@@ -227,6 +236,16 @@ public class MainBottomAdapter extends
         mNewsFeedList.add(newsFeed);
         mDisplayingNewsFeedIndices.add(0);
         notifyItemInserted(mNewsFeedList.size() - 1);
+    }
+    public void replaceNewsFeedAt(int idx, NewsFeed newsFeed) {
+        if (idx < mNewsFeedList.size()) {
+            mNewsFeedList.set(idx, newsFeed);
+            notifyItemChanged(idx);
+        }
+    }
+    public void setNewsFeedList(ArrayList<NewsFeed> newsFeedList) {
+        mNewsFeedList = newsFeedList;
+        notifyDataSetChanged();
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView

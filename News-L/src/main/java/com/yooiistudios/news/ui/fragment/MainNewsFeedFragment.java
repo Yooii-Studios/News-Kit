@@ -164,6 +164,9 @@ public class MainNewsFeedFragment extends Fragment
 
     @Override
     public void onClick(View view) {
+        if (!mNewsFeed.isValid()) {
+            return;
+        }
         ItemViewHolder viewHolder = (ItemViewHolder)view.getTag();
 
         ActivityOptions activityOptions =
