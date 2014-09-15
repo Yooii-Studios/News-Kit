@@ -7,18 +7,19 @@
 
     <com.yooiistudios.news.ui.widget.FloatingActionButton
         android:id="@+id/news_detail_fab"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/fab_size_small"
+        android:layout_height="@dimen/fab_size_small"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:elevation="@dimen/fab_elevation"
         android:background="@drawable/fab_background"
         android:stateListAnimator="@animator/fab_anim"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="end|bottom">
 
         <ImageView
             android:layout_width="@dimen/fab_icon_size"
             android:layout_height="@dimen/fab_icon_size"
-            android:src="@drawable/fab_icons"
+            android:src="@drawable/icon_internet"
             android:layout_gravity="center"
             android:duplicateParentState="true"/>
 
