@@ -37,7 +37,7 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
             if (imageUrl != null) {
                 mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition);
             } else {
-                mListener.onBottomImageUrlFetchFail();
+                mListener.onBottomImageUrlFetchFail(mNews, mPosition);
             }
         }
     }
@@ -47,6 +47,6 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
     public interface OnBottomImageUrlFetchListener {
         public void onBottomImageUrlFetchSuccess(News news, String url,
                                                  int position);
-        public void onBottomImageUrlFetchFail();
+        public void onBottomImageUrlFetchFail(News news, int position);
     }
 }
