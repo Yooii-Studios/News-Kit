@@ -224,7 +224,7 @@ public class MainBottomAdapter extends
     }
 
     public static float getRowHeight(float width) {
-        return width * 3.0f / 4.0f;
+        return width * 3.3f / 4.0f;
     }
 
     @Override
