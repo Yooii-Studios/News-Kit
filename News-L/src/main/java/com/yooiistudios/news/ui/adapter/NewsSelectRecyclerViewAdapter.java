@@ -40,7 +40,7 @@ public class NewsSelectRecyclerViewAdapter extends
         Context context = viewGroup.getContext();
         View v = LayoutInflater.from(context).inflate(
                 R.layout.news_select_recycler_view_item, viewGroup, false);
-
+        v.setTag(i);
         return new NewsSelectViewHolder(v);
     }
 
@@ -62,12 +62,17 @@ public class NewsSelectRecyclerViewAdapter extends
         return mNewsProviderList.size();
     }
 
-    protected static class NewsSelectViewHolder extends RecyclerView.ViewHolder{
+    protected static class NewsSelectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.news_select_item_feed_name) TextView mFeedNameTextView;
 
         public NewsSelectViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
+        }
+
+        @Override
+        public void onClick(View view) {
+
         }
     }
 

@@ -68,6 +68,8 @@ public class NewsFeedDetailActivity extends Activity
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
 
+    public static final int REQ_SELECT_NEWS_FEED = 13841;
+
     private Palette mPalette;
 
     private ImageLoader mImageLoader;
@@ -257,7 +259,8 @@ public class NewsFeedDetailActivity extends Activity
                 return true;
 
             case R.id.action_settings:
-                startActivity(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class));
+                startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
+                        REQ_SELECT_NEWS_FEED);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -496,5 +499,11 @@ public class NewsFeedDetailActivity extends Activity
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
             mHeroImageView.getDrawable().setColorFilter(mHeroImageView.getColorFilter());
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
     }
 }

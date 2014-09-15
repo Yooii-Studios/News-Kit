@@ -27,7 +27,7 @@ public class NewsDetailActivity extends Activity {
 
     private static final String TAG = NewsDetailActivity.class.getName();
 
-    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainter;
+    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainer;
     @InjectView(R.id.news_detail_fab)   FloatingActionButton mFab;
 
     private WebView mWebView;
@@ -44,7 +44,7 @@ public class NewsDetailActivity extends Activity {
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
 
         mWebView = new MWebView(getApplicationContext());
-        mRootContainter.addView(mWebView);
+        mRootContainer.addView(mWebView);
 
         initWebView();
 
