@@ -50,7 +50,8 @@
         </activity>
         <activity
             android:name=".ui.activity.SettingActivity"
-            android:label="@string/title_activity_setting" >
+            android:label="@string/title_activity_setting"
+            android:theme="@style/BaseAppTheme">
         </activity>
     </application>
 
