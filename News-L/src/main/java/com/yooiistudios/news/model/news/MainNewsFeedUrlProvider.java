@@ -34,7 +34,7 @@ public class MainNewsFeedUrlProvider {
                 NewsFeedUrlType.GENERAL));
         mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.rssad.jp/rss/mainichi/flash.rss",
                 NewsFeedUrlType.GENERAL));
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://www.cnet.com/rss/news/",
+        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://myhome.chosun.com/rss/www_section_rss.xml",
                 NewsFeedUrlType.GENERAL));
         mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.lemonde.fr/c/205/f/3050/index.rss",
                 NewsFeedUrlType.GENERAL));
