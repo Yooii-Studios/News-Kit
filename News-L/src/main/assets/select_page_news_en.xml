@@ -10,12 +10,68 @@
             <name>World</name>
             <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=w</url>
         </news>
+        <news>
+            <name>U.S.</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=n</url>
+        </news>
+        <news>
+            <name>Business</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=b</url>
+        </news>
+        <news>
+            <name>Technology</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=tc</url>
+        </news>
+        <news>
+            <name>Entertainment</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=e</url>
+        </news>
+        <news>
+            <name>Sports</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=s</url>
+        </news>
+        <news>
+            <name>Science</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=snc</url>
+        </news>
+        <news>
+            <name>Health</name>
+            <url>http://news.google.com/news?cf=all&amp;ned=us&amp;hl=en&amp;output=rss&amp;topic=m</url>
+        </news>
     </news_provider>
     <news_provider>
         <name>CNN</name>
         <news>
             <name>Top Stories</name>
             <url>http://rss.cnn.com/rss/edition.rss</url>
+        </news>
+        <news>
+            <name>World</name>
+            <url>http://rss.cnn.com/rss/edition_world.rss</url>
+        </news>
+        <news>
+            <name>U.S.</name>
+            <url>http://rss.cnn.com/rss/edition_us.rss</url>
+        </news>
+        <news>
+            <name>World Business</name>
+            <url>http://rss.cnn.com/rss/edition_business.rss</url>
+        </news>
+        <news>
+            <name>Technology</name>
+            <url>http://rss.cnn.com/rss/edition_technology.rss</url>
+        </news>
+        <news>
+            <name>Science &amp; Space</name>
+            <url>http://rss.cnn.com/rss/edition_space.rss</url>
+        </news>
+        <news>
+            <name>Entertainment</name>
+            <url>http://rss.cnn.com/rss/edition_entertainment.rss</url>
+        </news>
+        <news>
+            <name>World Sport</name>
+            <url>http://rss.cnn.com/rss/edition_sport.rss</url>
         </news>
     </news_provider>
 
