@@ -22,5 +22,6 @@
     <string name="setting_language_russian">Русский</string>
     <string name="title_activity_news">NewsActivity</string>
     <string name="title_activity_news_select">NewsSelectActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
 
 </resources>

@@ -48,6 +48,10 @@
             android:label="@string/title_activity_news_select"
             android:theme="@style/BaseAppTheme" >
         </activity>
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
     </application>
 
 </manifest>
