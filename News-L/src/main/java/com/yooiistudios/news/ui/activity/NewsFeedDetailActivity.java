@@ -20,6 +20,7 @@ import android.transition.Transition;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
@@ -86,6 +87,8 @@ public class NewsFeedDetailActivity extends Activity
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
+
+    private boolean mIsRefreshing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +219,12 @@ public class NewsFeedDetailActivity extends Activity
 
     private void initCustomScrollView() {
         mScrollView.addCallbacks(this);
+        mScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return mIsRefreshing;
+            }
+        });
     }
 
     private void initTopNews() {
@@ -366,6 +375,7 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void configBeforeRefresh() {
+        mIsRefreshing = true;
         mSwipeRefreshLayout.setRefreshing(true);
         animateTopOverlayFadeOut();
     }
@@ -382,7 +392,18 @@ public class NewsFeedDetailActivity extends Activity
         mActionBarOverlayView.animate()
                 .setDuration(250)
                 .alpha((Float) mActionBarOverlayView.getTag())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator())
+                .setListener(new Animator.AnimatorListener() {
+                    @Override public void onAnimationStart(Animator animator) {}
+                    @Override public void onAnimationCancel(Animator animator) {}
+                    @Override public void onAnimationRepeat(Animator animator) {}
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mIsRefreshing = false;
+                    }
+
+                });
     }
     private void animateTopOverlayFadeOut() {
         mTopOverlayView.setTag(mTopOverlayView.getAlpha());
