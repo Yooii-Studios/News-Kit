@@ -13,6 +13,9 @@
     <string name="splash_loading_title">News L</string>
     <string name="splash_loading_description">Loading News…</string>
 
+    <!-- News Select -->
+    <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
+
     <!-- Setting (Language) -->
     <string name="setting_language_korean">한국어</string>
     <string name="setting_language_english">English</string>
