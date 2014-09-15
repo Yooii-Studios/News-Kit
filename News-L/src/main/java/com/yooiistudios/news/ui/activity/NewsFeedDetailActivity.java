@@ -36,12 +36,12 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
-import com.yooiistudios.news.model.news.NewsFeedUrlType;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
+import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
@@ -76,7 +76,8 @@ public class NewsFeedDetailActivity extends Activity
     private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
-    private static final int RC_NEWS_SELECT = 10001;
+
+    public static final int REQ_SELECT_NEWS_FEED = 13841;
 
     private Palette mPalette;
 
@@ -292,8 +293,8 @@ public class NewsFeedDetailActivity extends Activity
                 return true;
 
             case R.id.action_settings:
-//                startActivity(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class));
-                setNewsFeed(new NewsFeedUrl("http://news.google.com/news?cf=all&ned=us&hl=en&output=rss", NewsFeedUrlType.GENERAL));
+                startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
+                        REQ_SELECT_NEWS_FEED);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -594,15 +595,16 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
-                case RC_NEWS_SELECT:
-                    NewsFeed newsFeed = getIntent().getParcelableExtra("");
+                case REQ_SELECT_NEWS_FEED:
+                    NewsFeed newsFeed = getIntent().getParcelableExtra(
+                            NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
                     setNewsFeed(newsFeed.getNewsFeedUrl());
 
                     break;
             }
         }
+        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
     }
 }

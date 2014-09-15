@@ -40,7 +40,7 @@ public class MainNewsFeedFragment extends Fragment
         implements View.OnClickListener {
     private static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
     private static final String KEY_NEWS = "KEY_NEWS";
-    private static final String KEY_POSITION = "KEY_POSITION";
+    private static final String KEY_POSITION = "KEY_TAB_POSITION";
 
     private ImageLoader mImageLoader;
     private NewsFeed mNewsFeed;
