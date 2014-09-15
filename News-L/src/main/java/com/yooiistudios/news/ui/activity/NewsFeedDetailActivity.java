@@ -232,9 +232,33 @@ public class NewsFeedDetailActivity extends Activity
         mTopTitleTextView.setAlpha(0);
         mTopDescriptionTextView.setAlpha(0);
 
+        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                NLLog.now("mTopNewsImageRippleView onClink");
+                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
+                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
+
+                startActivity(intent);
+//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
+            }
+        });
+
+        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                NLLog.now("mTopNewsTextRippleLayout onClink");
+                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
+                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
+
+                startActivity(intent);
+//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
+            }
+        });
+
 //        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
         if (mTopNews != null) {
-            setTopNews();
+            notifyTopNewsChanged();
         } else {
             //TODO when NLNewsFeed is invalid.
         }
@@ -246,11 +270,13 @@ public class NewsFeedDetailActivity extends Activity
         final RecyclerView.ItemAnimator itemAnimator;
 
         mBottomNewsListRecyclerView.setHasFixedSize(true);
-        mBottomNewsListRecyclerView.setItemAnimator(
-                itemAnimator = new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
+        mBottomNewsListRecyclerView.setItemAnimator(new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
+        notifyBottomNewsChanged();
+    }
+    private void notifyBottomNewsChanged() {
         mAdapter = new NewsFeedDetailAdapter(this, this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
@@ -268,7 +294,8 @@ public class NewsFeedDetailActivity extends Activity
                     mAdapter.addNews(news);
 
                     if (idx == (mNewsFeed.getNewsList().size() - 1)) {
-                        itemAnimator.isRunning(NewsFeedDetailActivity.this);
+                        mBottomNewsListRecyclerView.getItemAnimator()
+                                .isRunning(NewsFeedDetailActivity.this);
                     }
                 }
             }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
@@ -309,7 +336,7 @@ public class NewsFeedDetailActivity extends Activity
                 maxRowHeight * newsListCount;
     }
 
-    private void setTopNews() {
+    private void notifyTopNewsChanged() {
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
 
@@ -341,34 +368,10 @@ public class NewsFeedDetailActivity extends Activity
         setTopNewsImageBitmap(bitmap);
         colorize();
 
-        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                NLLog.now("mTopNewsImageRippleView onClink");
-                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
-                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
-
-                startActivity(intent);
-//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
-            }
-        });
-
-        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                NLLog.now("mTopNewsTextRippleLayout onClink");
-                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
-                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
-
-                startActivity(intent);
-//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
-            }
-        });
-
         animateTopItems();
     }
 
-    private void setNewsFeed(NewsFeedUrl newsFeedUrl) {
+    private void fetchNewsFeed(NewsFeedUrl newsFeedUrl) {
         new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -572,6 +575,13 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public void onNewsFeedFetchSuccess(NewsFeed newsFeed) {
         configAfterRefreshDone();
+
+//        mNewsFeed = newsFeed;
+//        if (mNewsFeed.getNewsList().size() > 0) {
+//            mTopNews = mNewsFeed.getNewsList().remove(0);
+//        }
+//        notifyTopNewsChanged();
+//        notifyBottomNewsChanged();
     }
 
     @Override
@@ -598,9 +608,9 @@ public class NewsFeedDetailActivity extends Activity
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
-                    NewsFeed newsFeed = getIntent().getParcelableExtra(
+                    NewsFeed newsFeed = data.getExtras().getParcelable(
                             NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
-                    setNewsFeed(newsFeed.getNewsFeedUrl());
+                    fetchNewsFeed(newsFeed.getNewsFeedUrl());
 
                     break;
             }

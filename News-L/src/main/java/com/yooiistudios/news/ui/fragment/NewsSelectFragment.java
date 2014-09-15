@@ -107,7 +107,7 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
                 getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsFeedList().get(i));
-                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }
         }).setTitle(R.string.select_news_select_newsfeed_dialog_title).create();
