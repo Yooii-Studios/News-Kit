@@ -66,6 +66,7 @@ public class NewsDetailActivity extends Activity {
         mWebView.loadUrl(mNews.getLink());
     }
 
+    /*
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -80,6 +81,7 @@ public class NewsDetailActivity extends Activity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
