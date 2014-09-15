@@ -600,7 +600,7 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onTopFeedImageUrlFetchFail() {
+    public void onTopFeedImageUrlFetchFail(News news, int position) {
         // TODO 여기로 들어올 경우 처리 하자!
         NLLog.i(TAG, "fetch image url failed.");
     }
@@ -690,22 +690,26 @@ public class MainActivity extends Activity
                                              int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchSuccess");
         news.setImageUrlChecked(true);
+        mBottomNewsFeedNewsToImageTaskMap.remove(news);
+
         if (url != null) {
             news.setImageUrl(url);
-            if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
-                mBottomNewsFeedAdapter.notifyItemChanged(position);
-            }
-
-            mBottomNewsFeedNewsToImageTaskMap.remove(news);
 
             NLLog.i(TAG, "title : " + news.getTitle() + "'s image url fetch " +
                     "success.\nimage url : " + url);
         }
+        if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
+            mBottomNewsFeedAdapter.notifyItemChanged(position);
+        }
     }
 
     @Override
-    public void onBottomImageUrlFetchFail() {
+    public void onBottomImageUrlFetchFail(News news, int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchFail");
+        news.setImageUrlChecked(true);
+        if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
+            mBottomNewsFeedAdapter.notifyItemChanged(position);
+        }
     }
 
     @Override
