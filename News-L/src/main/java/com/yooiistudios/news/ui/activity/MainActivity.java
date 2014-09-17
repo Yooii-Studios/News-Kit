@@ -40,6 +40,7 @@ import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
+import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
@@ -549,6 +550,9 @@ public class MainActivity extends Activity
             return true;
         } else if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
+            return true;
+        } else if (id == R.id.action_send_feedback) {
+            FeedbackUtils.sendFeedback(this);
             return true;
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());

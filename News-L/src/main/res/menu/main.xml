@@ -10,8 +10,14 @@
         android:title="@string/action_store"
         android:orderInCategory="100"
         android:showAsAction="never" />
+
+    <item android:id="@+id/action_send_feedback"
+          android:title="@string/action_send_feedback"
+          android:orderInCategory="100"
+          android:showAsAction="never" />
+
     <item android:id="@+id/action_remove_archive"
-          android:title="@string/remove_archive"
+          android:title="@string/action_remove_archive"
           android:orderInCategory="100"
           android:showAsAction="never" />
 </menu>

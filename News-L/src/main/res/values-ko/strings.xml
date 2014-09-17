@@ -5,7 +5,8 @@
     <string name="action_settings">설정</string>
     <string name="action_newsfeed">뉴스피드 교체</string>
     <string name="action_store">상점</string>
-    <string name="remove_archive">뉴스 캐시 삭제</string>
+    <string name="action_send_feedback">의견 보내기</string>
+    <string name="action_remove_archive">뉴스 캐시 삭제</string>
     <string name="image_view_content_description">로딩 중…</string>
 
     <!-- Main -->
@@ -38,5 +39,8 @@
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>
     <string name="recommend_description">Click the link and take it for a spin</string>
     <string name="recommend_app_full_name">News L</string>
+
+    <!-- Feedback -->
+    <string name="feedback_description">뉴스 L을 개선하기 위한 의견을 들려주세요^^</string>
 
 </resources>
