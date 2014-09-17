@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
     @InjectView(R.id.news_detail_swipe_refresh_layout)      SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.detail_loading_cover)                  View mLoadingCoverView;
 
     // Top
     @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
@@ -126,7 +128,7 @@ public class NewsFeedDetailActivity extends Activity
         initCustomScrollView();
         initTopNews();
         initBottomNewsList();
-
+        initLoadingCoverView();
 
         getWindow().getEnterTransition().addListener(new TransitionAdapter() {
             @Override
@@ -147,6 +149,19 @@ public class NewsFeedDetailActivity extends Activity
                 color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
 
                 getWindow().getEnterTransition().removeListener(this);
+            }
+        });
+    }
+    private void initLoadingCoverView() {
+        Point displaySize = new Point();
+        getWindowManager().getDefaultDisplay().getSize(displaySize);
+
+        mLoadingCoverView.getLayoutParams().height = displaySize.y;
+
+        mLoadingCoverView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
             }
         });
     }
@@ -384,6 +399,7 @@ public class NewsFeedDetailActivity extends Activity
         new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+        mLoadingCoverView.setVisibility(View.VISIBLE);
         configBeforeRefresh();
     }
 
@@ -561,6 +577,7 @@ public class NewsFeedDetailActivity extends Activity
 
             animateTopItems();
         }
+        mLoadingCoverView.setVisibility(View.GONE);
     }
 
     @Override
@@ -569,6 +586,8 @@ public class NewsFeedDetailActivity extends Activity
         colorize();
 
         animateTopItems();
+
+        mLoadingCoverView.setVisibility(View.GONE);
     }
 
     /**
