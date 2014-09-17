@@ -110,7 +110,7 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
                 getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }
-        }).setTitle(R.string.select_news_select_newsfeed_dialog_title).create();
+        }).setTitle(newsPublisher.getName()).create();
         alertDialog.show();
     }
 
