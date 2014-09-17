@@ -1,6 +1,8 @@
 package com.yooiistudios.news.model.language;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 
 import com.flurry.android.FlurryAgent;
 import com.yooiistudios.news.util.FlurryUtils;
@@ -55,14 +57,25 @@ public class Language {
 
     public static LanguageType getCurrentLanguageType(Context context) { return Language.getInstance(context).currentLanguageType; }
 
-    public static void setLanguageType(LanguageType newNewLanguage, Context context) {
-        Language.getInstance(context).currentLanguageType = newNewLanguage;
+    public static void setLanguageType(LanguageType newLanguage, Activity activity) {
+        Context context = activity.getApplicationContext();
+
+        // archive selection
+        Language.getInstance(context).currentLanguageType = newLanguage;
         context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .edit().putInt(LANGUAGE_MATRIX_KEY, newNewLanguage.getUniqueId()).commit();
+                .edit().putInt(LANGUAGE_MATRIX_KEY, newLanguage.getUniqueId()).commit();
+
+        // update locale
+        LanguageType currentLanguageType = Language.getCurrentLanguageType(activity);
+        Locale locale = new Locale(currentLanguageType.getCode(), currentLanguageType.getRegion());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        activity.getResources().updateConfiguration(config, activity.getResources().getDisplayMetrics());
 
         // 플러리
         Map<String, String> params = new HashMap<String, String>();
-        params.put(FlurryUtils.LANGUAGE, newNewLanguage.toString());
+        params.put(FlurryUtils.LANGUAGE, newLanguage.toString());
         FlurryAgent.logEvent(FlurryUtils.ON_SETTING_THEME, params);
     }
 }

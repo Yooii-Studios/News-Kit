@@ -1,7 +1,9 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,9 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.language.Language;
+import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
@@ -49,7 +55,6 @@ public class SettingActivity extends Activity {
     public static class PlaceholderFragment extends Fragment implements AdapterView.OnItemClickListener {
 
         @InjectView(R.id.setting_list_view) ListView mListView;
-        ArrayList<String> mSettingList;
 
         public PlaceholderFragment() {
         }
@@ -60,8 +65,13 @@ public class SettingActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_setting, container, false);
             ButterKnife.inject(this, rootView);
 
-            // List View
-            mSettingList = new ArrayList<String>();
+            initListView();
+
+            return rootView;
+        }
+
+        private void initListView() {
+            ArrayList<String> mSettingList = new ArrayList<String>();
             mSettingList.add(getString(R.string.setting_language));
             mSettingList.add(getString(R.string.setting_share_this_app));
             mSettingList.add(getString(R.string.setting_rate_this_app));
@@ -73,8 +83,12 @@ public class SettingActivity extends Activity {
 
             mListView.setAdapter(adapter);
             mListView.setOnItemClickListener(this);
+        }
 
-            return rootView;
+        @Override
+        public void onResume() {
+            super.onResume();
+            NLLog.now("onResume");
         }
 
         @Override
@@ -109,7 +123,27 @@ public class SettingActivity extends Activity {
         }
 
         private void showLanguageDialog() {
+            // 뉴스피드들의 타이틀을 CharSequence 로 변경
+            ArrayList<String> languageList = new ArrayList<String>();
+            for (int i = 0; i < LanguageType.values().length; i++) {
+                languageList.add(LanguageType.toTranselatedString(i, getActivity()));
+            }
 
+            String[] languages = languageList.toArray(new String[languageList.size()]);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            AlertDialog alertDialog = builder.setItems(languages, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+
+                    // archive selection
+                    Language.setLanguageType(LanguageType.valueOf(i), getActivity());
+
+//                    getActivity().finish();
+                    initListView();
+                }
+            }).setTitle(R.string.setting_language).create();
+            alertDialog.show();
         }
     }
 }

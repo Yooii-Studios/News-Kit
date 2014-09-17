@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">뉴스 L</string>
+    <string name="action_settings">설정</string>
+    <string name="action_newsfeed">뉴스피드 교체</string>
+    <string name="action_store">상점</string>
+    <string name="remove_archive">뉴스 캐시 삭제</string>
+    <string name="image_view_content_description">로딩 중…</string>
+
+    <!-- Main -->
+    <string name="splash_loading_title">뉴스 L</string>
+    <string name="splash_loading_description">뉴스 로딩 중…</string>
+
+    <!-- News Select -->
+    <string name="select_news_select_newsfeed_dialog_title">뉴스피드 선택</string>
+    <string name="title_activity_news">뉴스 선택</string>
+
+    <!-- Setting -->
+    <string name="title_activity_setting">설정</string>
+    <string name="setting_language">언어</string>
+    <string name="setting_share_this_app">앱 공유하기</string>
+    <string name="setting_rate_this_app">앱 평가하기</string>
+    <string name="setting_tutorial">튜토리얼</string>
+    <string name="setting_credit">크레디트</string>
+    <string name="setting_like_facebook">Like us on facebook</string>
+
+    <!-- Setting (Language) -->
+    <string name="setting_language_korean">한국어</string>
+    <string name="setting_language_english">English</string>
+    <string name="setting_language_japanese">日本語</string>
+    <string name="setting_language_simplified_chinese">简体中文</string>
+    <string name="setting_language_traditional_chinese">繁體中文</string>
+    <string name="setting_language_russian">Русский</string>
+
+    <!-- Recommend -->
+    <string name="recommend_to_friends">Recommend Morning Kit to your friends</string>
+    <string name="recommend_title">Check out this new app, it\'s awesome!</string>
+    <string name="recommend_description">Click the link and take it for a spin</string>
+    <string name="recommend_app_full_name">News L</string>
+
+</resources>
