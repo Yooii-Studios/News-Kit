@@ -6,7 +6,7 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
 
     <!-- Main Top -->
-    <dimen name="main_top_view_pager_height">448dp</dimen>      <!-- 64 * 7 -->
+    <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
     <dimen name="main_top_view_pager_indicator_radius">4.5dp</dimen>
     <dimen name="main_top_view_pager_indicator_margin">7.5dp</dimen>
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>
