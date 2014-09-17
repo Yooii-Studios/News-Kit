@@ -39,6 +39,7 @@ import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
+import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
@@ -55,7 +56,8 @@ public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener,
         ObservableScrollView.Callbacks, ImageLoader.ImageListener,
         RecyclerView.ItemAnimator.ItemAnimatorFinishedListener,
-        NewsFeedDetailNewsFeedFetchTask.OnFetchListener {
+        NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
+        NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
@@ -90,6 +92,7 @@ public class NewsFeedDetailActivity extends Activity
     private TintType mTintType;
 
     private boolean mIsRefreshing = false;
+    private boolean mHasAnimatedColorFilter = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +131,19 @@ public class NewsFeedDetailActivity extends Activity
         getWindow().getEnterTransition().addListener(new TransitionAdapter() {
             @Override
             public void onTransitionEnd(Transition transition) {
-//                mUseGrayFilter
                 ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
                 color.addUpdateListener(new ColorFilterListener(mTopImageView));
+                color.addListener(new Animator.AnimatorListener() {
+                    @Override public void onAnimationStart(Animator animator) {}
+                    @Override public void onAnimationCancel(Animator animator) {}
+                    @Override public void onAnimationRepeat(Animator animator) {}
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mHasAnimatedColorFilter = true;
+                    }
+
+                });
                 color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
 
                 getWindow().getEnterTransition().removeListener(this);
@@ -270,7 +283,8 @@ public class NewsFeedDetailActivity extends Activity
         final RecyclerView.ItemAnimator itemAnimator;
 
         mBottomNewsListRecyclerView.setHasFixedSize(true);
-        mBottomNewsListRecyclerView.setItemAnimator(new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
+        mBottomNewsListRecyclerView.setItemAnimator(
+                new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
@@ -351,24 +365,19 @@ public class NewsFeedDetailActivity extends Activity
                     mTopTitleTextView.getPaddingTop(), mTopTitleTextView.getPaddingRight(), 0);
         }
 
+        applyImage();
+    }
+    private void applyImage() {
         // set image
         String imgUrl = mTopNews.getImageUrl();
-        Bitmap bitmap;
         if (imgUrl != null) {
-            ImageLoader.ImageContainer imageContainer =
-                    mImageLoader.get(imgUrl, this);
-            bitmap = imageContainer.getBitmap();
-            if (bitmap == null) {
-                bitmap = NewsFeedUtils.getDummyNewsImage(getApplicationContext());
-            }
-        } else {
-            bitmap = NewsFeedUtils.getDummyNewsImage(getApplicationContext());
+            mImageLoader.get(imgUrl, this);
+        } else if (mTopNews.isImageUrlChecked()) {
+            setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()));
+            colorize();
+
+            animateTopItems();
         }
-
-        setTopNewsImageBitmap(bitmap);
-        colorize();
-
-        animateTopItems();
     }
 
     private void fetchNewsFeed(NewsFeedUrl newsFeedUrl) {
@@ -442,10 +451,10 @@ public class NewsFeedDetailActivity extends Activity
 
     private void colorize() {
         mPalette = Palette.generate(mTopImageBitmap);
-        applyPalette();
+        applyPalette(!mHasAnimatedColorFilter);
     }
 
-    private void applyPalette() {
+    private void applyPalette(boolean applyColorFilter) {
         // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
         PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
         PaletteItem darkVibrantColor = mPalette.getDarkVibrantColor();
@@ -484,7 +493,9 @@ public class NewsFeedDetailActivity extends Activity
         mTopContentLayout.setBackground(new ColorDrawable(color));
         mTopNewsTextLayout.setBackground(new ColorDrawable(color));
 
-        mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
+        if (applyColorFilter) {
+            mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
+        }
     }
 
     @Override
@@ -543,18 +554,21 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-//                    mTopImageBitmap = cache.getBitmapFromUrl(imgUrl);
-//        if (mTopImageBitmap == null) {
-//            mTopImageBitmap = response.getBitmap();
-//
-//            mTopImageView.setImageBitmap(mTopImageBitmap);
-//            colorize(mTopImageBitmap);
-//        }
+        Bitmap bitmap = response.getBitmap();
+        if (bitmap != null) {
+            setTopNewsImageBitmap(bitmap);
+            colorize();
+
+            animateTopItems();
+        }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()));
+        colorize();
 
+        animateTopItems();
     }
 
     /**
@@ -574,19 +588,40 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onNewsFeedFetchSuccess(NewsFeed newsFeed) {
-        configAfterRefreshDone();
+        mNewsFeed = newsFeed;
+        if (mNewsFeed.getNewsList().size() > 0) {
+            mTopNews = mNewsFeed.getNewsList().remove(0);
+        }
 
-//        mNewsFeed = newsFeed;
-//        if (mNewsFeed.getNewsList().size() > 0) {
-//            mTopNews = mNewsFeed.getNewsList().remove(0);
-//        }
-//        notifyTopNewsChanged();
-//        notifyBottomNewsChanged();
+        notifyTopNewsChanged();
+        notifyBottomNewsChanged();
+
+        new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
     public void onNewsFeedFetchFail() {
         configAfterRefreshDone();
+    }
+
+    @Override
+    public void onImageUrlFetchSuccess(News news, String url) {
+        configAfterRefreshDone();
+
+        news.setImageUrl(url);
+        news.setImageUrlChecked(true);
+
+        applyImage();
+    }
+
+    @Override
+    public void onImageUrlFetchFail(News news) {
+        configAfterRefreshDone();
+
+        news.setImageUrlChecked(true);
+
+        applyImage();
     }
 
     private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
