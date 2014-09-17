@@ -3,9 +3,12 @@ package com.yooiistudios.news.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,7 +30,7 @@ public class NewsDetailActivity extends Activity {
 
     private static final String TAG = NewsDetailActivity.class.getName();
 
-    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainter;
+    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainer;
     @InjectView(R.id.news_detail_fab)   FloatingActionButton mFab;
 
     private WebView mWebView;
@@ -44,7 +47,7 @@ public class NewsDetailActivity extends Activity {
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
 
         mWebView = new MWebView(getApplicationContext());
-        mRootContainter.addView(mWebView);
+        mRootContainer.addView(mWebView);
 
         initWebView();
 
@@ -64,8 +67,30 @@ public class NewsDetailActivity extends Activity {
         webSettings.setSupportZoom(false);
         mWebView.setWebViewClient(new NewsWebViewClient());
         mWebView.loadUrl(mNews.getLink());
+
+        applySystemWindowsBottomInset(mRootContainer);
     }
 
+    private void applySystemWindowsBottomInset(View containerView) {
+        containerView.setFitsSystemWindows(true);
+        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                ViewGroup.MarginLayoutParams lp = (FrameLayout.LayoutParams)mFab.getLayoutParams();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    lp.bottomMargin += windowInsets.getSystemWindowInsetBottom();
+//                    mFab.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                } else {
+                    lp.rightMargin += windowInsets.getSystemWindowInsetRight();
+//                    mFab.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                }
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
+    }
+
+    /*
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -80,6 +105,7 @@ public class NewsDetailActivity extends Activity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

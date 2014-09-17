@@ -1,7 +1,10 @@
 package com.yooiistudios.news.ui.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsPublisher;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
@@ -28,8 +32,10 @@ import butterknife.InjectView;
  * NewsSelectFragment
  *  뉴스 선택화면의 한 페이지의 컨텐츠.
  */
-public class NewsSelectFragment extends Fragment {
-    public static final String KEY_POSITION = "KEY_POSITION";
+public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
+    public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
+
+    public static final String KEY_SELECTED_NEWS_FEED = "KEY_SELECTED_NEWS_FEED";
 
     private ViewHolder mViewHolder;
     private ArrayList<NewsPublisher> mNewsProviderList;
@@ -39,7 +45,7 @@ public class NewsSelectFragment extends Fragment {
         NewsSelectFragment fragment = new NewsSelectFragment();
 
         Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, pageNum);
+        args.putInt(KEY_TAB_POSITION, pageNum);
         fragment.setArguments(args);
 
         return fragment;
@@ -50,7 +56,7 @@ public class NewsSelectFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mPosition = getArguments().getInt(KEY_POSITION);
+            mPosition = getArguments().getInt(KEY_TAB_POSITION);
         } else {
             mPosition = 0;
         }
@@ -76,11 +82,36 @@ public class NewsSelectFragment extends Fragment {
         mViewHolder.mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(context));
 
-        mViewHolder.mRecyclerView.setAdapter(new NewsSelectRecyclerViewAdapter(mNewsProviderList));
+        NewsSelectRecyclerViewAdapter adapter = new NewsSelectRecyclerViewAdapter(mNewsProviderList);
+        adapter.setOnNewsPublisherClickListener(this);
+        mViewHolder.mRecyclerView.setAdapter(adapter);
         mViewHolder.mRecyclerView.addItemDecoration(new DividerItemDecoration(context,
                 DividerItemDecoration.VERTICAL_LIST));
 
         return root;
+    }
+
+    @Override
+    public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        // 뉴스피드들의 타이틀을 CharSequence 로 변경
+        ArrayList<String> newsFeedTitleList = new ArrayList<String>();
+        for (NewsFeed newsFeed : newsPublisher.getNewsFeedList()) {
+            newsFeedTitleList.add(newsFeed.getTitle());
+        }
+
+        String[] titles = newsFeedTitleList.toArray(new String[newsFeedTitleList.size()]);
+        AlertDialog alertDialog = builder.setItems(titles, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsFeedList().get(i));
+                getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
+                getActivity().finish();
+            }
+        }).setTitle(R.string.select_news_select_newsfeed_dialog_title).create();
+        alertDialog.show();
     }
 
     static class ViewHolder {

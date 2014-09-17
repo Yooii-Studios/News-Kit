@@ -117,12 +117,12 @@ public class NewsSelectPageContentProvider {
 
             ArrayList<NewsPublisher> newsPublisherArrayList = new ArrayList<NewsPublisher>();
             for (int i=0;i<newsProviderCnt;i++) {
-                Element newsProvider = (Element) newsProviderList.item(i);
+                Element newsPublisherElement = (Element) newsProviderList.item(i);
 
-                String newsProviderName = newsProvider.getElementsByTagName("name")
+                String newsProviderName = newsPublisherElement.getElementsByTagName("name")
                         .item(0).getChildNodes().item(0).getNodeValue();
 
-                NodeList newsList = newsProvider.getElementsByTagName("news");
+                NodeList newsList = newsPublisherElement.getElementsByTagName("news");
 
                 int newsCount = newsList.getLength();
 
@@ -130,10 +130,10 @@ public class NewsSelectPageContentProvider {
                 newsPublisher.setName(newsProviderName);
 
                 for (int j = 0; j < newsCount; j++) {
-                    //
-                    String newsName = newsProvider.getElementsByTagName("name")
+                    Element newsFeedElement = (Element) newsList.item(j);
+                    String newsName = newsFeedElement.getElementsByTagName("name")
                             .item(0).getChildNodes().item(0).getNodeValue();
-                    String newsUrl = newsProvider.getElementsByTagName("url")
+                    String newsUrl = newsFeedElement.getElementsByTagName("url")
                             .item(0).getChildNodes().item(0).getNodeValue();
 
                     NewsFeed newsFeed = new NewsFeed();

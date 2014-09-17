@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import android.transition.Transition;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
@@ -32,10 +35,13 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
+import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.adapter.TransitionAdapter;
+import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
@@ -48,10 +54,13 @@ import butterknife.InjectView;
 public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener,
         ObservableScrollView.Callbacks, ImageLoader.ImageListener,
-        RecyclerView.ItemAnimator.ItemAnimatorFinishedListener {
+        RecyclerView.ItemAnimator.ItemAnimatorFinishedListener,
+        NewsFeedDetailNewsFeedFetchTask.OnFetchListener {
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
+    @InjectView(R.id.news_detail_swipe_refresh_layout)      SwipeRefreshLayout mSwipeRefreshLayout;
+
     // Top
     @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
     @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
@@ -68,6 +77,8 @@ public class NewsFeedDetailActivity extends Activity
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
 
+    public static final int REQ_SELECT_NEWS_FEED = 13841;
+
     private Palette mPalette;
 
     private ImageLoader mImageLoader;
@@ -77,6 +88,8 @@ public class NewsFeedDetailActivity extends Activity
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
+
+    private boolean mIsRefreshing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +119,7 @@ public class NewsFeedDetailActivity extends Activity
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scrollView);
         initActionBar();
+        initSwipeRefreshView();
         initCustomScrollView();
         initTopNews();
         initBottomNewsList();
@@ -188,17 +202,63 @@ public class NewsFeedDetailActivity extends Activity
         }
     }
 
+    private void initSwipeRefreshView() {
+        mSwipeRefreshLayout.setEnabled(false);
+//        mSwipeRefreshLayout.setRefreshing(true);
+
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.refresh_color_scheme_1, R.color.refresh_color_scheme_2,
+                R.color.refresh_color_scheme_3, R.color.refresh_color_scheme_4);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+        });
+    }
+
     private void initCustomScrollView() {
         mScrollView.addCallbacks(this);
+        mScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return mIsRefreshing;
+            }
+        });
     }
 
     private void initTopNews() {
         mTopTitleTextView.setAlpha(0);
         mTopDescriptionTextView.setAlpha(0);
 
+        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                NLLog.now("mTopNewsImageRippleView onClink");
+                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
+                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
+
+                startActivity(intent);
+//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
+            }
+        });
+
+        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                NLLog.now("mTopNewsTextRippleLayout onClink");
+                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
+                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
+
+                startActivity(intent);
+//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
+            }
+        });
+
 //        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
         if (mTopNews != null) {
-            loadTopNews();
+            notifyTopNewsChanged();
         } else {
             //TODO when NLNewsFeed is invalid.
         }
@@ -210,11 +270,13 @@ public class NewsFeedDetailActivity extends Activity
         final RecyclerView.ItemAnimator itemAnimator;
 
         mBottomNewsListRecyclerView.setHasFixedSize(true);
-        mBottomNewsListRecyclerView.setItemAnimator(
-                itemAnimator = new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
+        mBottomNewsListRecyclerView.setItemAnimator(new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
+        notifyBottomNewsChanged();
+    }
+    private void notifyBottomNewsChanged() {
         mAdapter = new NewsFeedDetailAdapter(this, this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
@@ -232,7 +294,8 @@ public class NewsFeedDetailActivity extends Activity
                     mAdapter.addNews(news);
 
                     if (idx == (mNewsFeed.getNewsList().size() - 1)) {
-                        itemAnimator.isRunning(NewsFeedDetailActivity.this);
+                        mBottomNewsListRecyclerView.getItemAnimator()
+                                .isRunning(NewsFeedDetailActivity.this);
                     }
                 }
             }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
@@ -257,7 +320,8 @@ public class NewsFeedDetailActivity extends Activity
                 return true;
 
             case R.id.action_settings:
-                startActivity(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class));
+                startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
+                        REQ_SELECT_NEWS_FEED);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -272,11 +336,7 @@ public class NewsFeedDetailActivity extends Activity
                 maxRowHeight * newsListCount;
     }
 
-    private void loadTopNews() {
-//        final ImageMemoryCache cache = ImageMemoryCache.INSTANCE;
-        final ImageMemoryCache cache = ImageMemoryCache.getInstance
-                (getApplicationContext());
-
+    private void notifyTopNewsChanged() {
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
 
@@ -308,31 +368,58 @@ public class NewsFeedDetailActivity extends Activity
         setTopNewsImageBitmap(bitmap);
         colorize();
 
-        mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                NLLog.now("mTopNewsImageRippleView onClink");
-                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
-                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
-
-                startActivity(intent);
-//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
-            }
-        });
-
-        mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                NLLog.now("mTopNewsTextRippleLayout onClink");
-                Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
-                intent.putExtra(INTENT_KEY_NEWS, mTopNews);
-
-                startActivity(intent);
-//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
-            }
-        });
-
         animateTopItems();
+    }
+
+    private void fetchNewsFeed(NewsFeedUrl newsFeedUrl) {
+        new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        configBeforeRefresh();
+    }
+
+    private void configBeforeRefresh() {
+        mIsRefreshing = true;
+        mSwipeRefreshLayout.setRefreshing(true);
+        animateTopOverlayFadeOut();
+    }
+    private void configAfterRefreshDone() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        animateTopOverlayFadeIn();
+    }
+
+    private void animateTopOverlayFadeIn() {
+        mTopOverlayView.animate()
+                .setDuration(250)
+                .alpha((Float)mTopOverlayView.getTag())
+                .setInterpolator(new DecelerateInterpolator());
+        mActionBarOverlayView.animate()
+                .setDuration(250)
+                .alpha((Float) mActionBarOverlayView.getTag())
+                .setInterpolator(new DecelerateInterpolator())
+                .setListener(new Animator.AnimatorListener() {
+                    @Override public void onAnimationStart(Animator animator) {}
+                    @Override public void onAnimationCancel(Animator animator) {}
+                    @Override public void onAnimationRepeat(Animator animator) {}
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mIsRefreshing = false;
+                    }
+
+                });
+    }
+    private void animateTopOverlayFadeOut() {
+        mTopOverlayView.setTag(mTopOverlayView.getAlpha());
+        mTopOverlayView.animate()
+                .setDuration(250)
+                .alpha(0f)
+                .setInterpolator(new DecelerateInterpolator());
+        mActionBarOverlayView.setTag(mActionBarOverlayView.getAlpha());
+        mActionBarOverlayView.animate()
+                .setDuration(250)
+                .alpha(0f)
+                .setInterpolator(new DecelerateInterpolator());
     }
 
     private void setTopNewsImageBitmap(Bitmap bitmap) {
@@ -485,6 +572,23 @@ public class NewsFeedDetailActivity extends Activity
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onNewsFeedFetchSuccess(NewsFeed newsFeed) {
+        configAfterRefreshDone();
+
+//        mNewsFeed = newsFeed;
+//        if (mNewsFeed.getNewsList().size() > 0) {
+//            mTopNews = mNewsFeed.getNewsList().remove(0);
+//        }
+//        notifyTopNewsChanged();
+//        notifyBottomNewsChanged();
+    }
+
+    @Override
+    public void onNewsFeedFetchFail() {
+        configAfterRefreshDone();
+    }
+
     private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
         private final ImageView mHeroImageView;
 
@@ -496,5 +600,21 @@ public class NewsFeedDetailActivity extends Activity
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
             mHeroImageView.getDrawable().setColorFilter(mHeroImageView.getColorFilter());
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch(requestCode) {
+                case REQ_SELECT_NEWS_FEED:
+                    NewsFeed newsFeed = data.getExtras().getParcelable(
+                            NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
+                    fetchNewsFeed(newsFeed.getNewsFeedUrl());
+
+                    break;
+            }
+        }
+        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
     }
 }
