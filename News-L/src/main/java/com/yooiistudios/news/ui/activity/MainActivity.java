@@ -215,13 +215,18 @@ public class MainActivity extends Activity
 
         if (items.size() > 0) {
             News news = items.get(0);
-            mTopNewsFeedFirstImageReady = false;
 
-            mTopImageUrlFetchTask = new TopFeedNewsImageUrlFetchTask(news, 0, this);
-            mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            if (news.getImageUrl() == null && !news.isImageUrlChecked()) {
+                mTopNewsFeedFirstImageReady = false;
+                mTopImageUrlFetchTask = new TopFeedNewsImageUrlFetchTask(news, 0, this);
+                mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                mTopNewsFeedFirstImageReady = true;
+                fetchTopNewsFeedImages();
+            }
         } else {
             mTopNewsFeedFirstImageReady = true;
-            fetchTopNewsFeedImageExceptFirstNews();
+            fetchTopNewsFeedImages();
         }
 
         mTopNewsFeedTitleTextView.setText(mTopNewsFeed.getTitle());
@@ -267,6 +272,7 @@ public class MainActivity extends Activity
             }
             if (isValid) {
                 mBottomNewsFeedReady = true;
+                showMainContentIfReady();
             } else {
                 fetchBottomNewsFeedList(this);
             }
@@ -326,22 +332,23 @@ public class MainActivity extends Activity
         }
     }
 
-    private void fetchTopNewsFeedImageExceptFirstNews() {
+    private void fetchTopNewsFeedImages() {
         if (mTopNewsFeed == null) {
             return;
         }
-        mTopNewsFeedNewsToImageTaskMap = new
-                HashMap<News, TopFeedNewsImageUrlFetchTask>();
+        mTopNewsFeedNewsToImageTaskMap = new HashMap<News, TopFeedNewsImageUrlFetchTask>();
 
         ArrayList<News> newsList = mTopNewsFeed.getNewsList();
 
-        for (int i = 1; i < newsList.size(); i++) {
+        for (int i = 0; i < newsList.size(); i++) {
             News news = newsList.get(i);
 
-            TopFeedNewsImageUrlFetchTask task = new
-                    TopFeedNewsImageUrlFetchTask(news, i, this);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mTopNewsFeedNewsToImageTaskMap.put(news, task);
+            if (news.getImageUrl() == null && !news.isImageUrlChecked()) {
+                TopFeedNewsImageUrlFetchTask task = new
+                        TopFeedNewsImageUrlFetchTask(news, i, this);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                mTopNewsFeedNewsToImageTaskMap.put(news, task);
+            }
         }
     }
     private void cancelTopNewsFeedImageFetchTasks() {
@@ -569,39 +576,37 @@ public class MainActivity extends Activity
 
         news.setImageUrlChecked(true);
         if (url == null) {
-            fetchTopNewsFeedImageExceptFirstNews();
+            fetchTopNewsFeedImages();
             showMainContentIfReady(true);
         }
         else {
             news.setImageUrl(url);
 
-            final long startMilli;
-
-            startMilli = System.currentTimeMillis();
             mImageLoader.get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    long endMilli;
-                    endMilli = System.currentTimeMillis();
-                    NLLog.i("performance", "mImageLoader.get : " +
-                            (endMilli - startMilli));
-                    NLLog.i(TAG, "onResponse\nposition : " + position);
 
                     mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
 
                     if (position == 0) {
                         mTopNewsFeedFirstImageReady = true;
-                        fetchTopNewsFeedImageExceptFirstNews();
+                        fetchTopNewsFeedImages();
                         showMainContentIfReady();
                     }
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    if (position == 0) {
+                        mTopNewsFeedFirstImageReady = true;
+                        fetchTopNewsFeedImages();
+                        showMainContentIfReady();
+                    }
                 }
             });
         }
+
+        NewsFeedArchiveUtils.saveTopNewsFeed(getApplicationContext(), mTopNewsFeed);
     }
 
     @Override
@@ -653,6 +658,9 @@ public class MainActivity extends Activity
     public void onBottomNewsFeedFetchFail(int position) {
         NLLog.i(TAG, "onBottomNewsFeedFetchFail");
         // TODO Top news처럼 뉴스 없음 처리하고 notify 해줘야 함
+        mBottomNewsFeedReady = true;
+
+        showMainContentIfReady();
     }
 
     @Override
@@ -694,11 +702,17 @@ public class MainActivity extends Activity
     public void onBottomImageUrlFetchSuccess(News news, String url,
                                              int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchSuccess");
+
         news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
 
         if (url != null) {
             news.setImageUrl(url);
+
+            // archive
+            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getApplicationContext(),
+                    mBottomNewsFeedList.get(position), position);
+
 
             NLLog.i(TAG, "title : " + news.getTitle() + "'s image url fetch " +
                     "success.\nimage url : " + url);

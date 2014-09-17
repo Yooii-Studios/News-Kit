@@ -21,7 +21,8 @@ public class NewsFeedArchiveUtils {
     private static final String KEY_TOP_NEWS_FEED = "KEY_TOP_NEWS_FEED";
     private static final String KEY_NEWS_FEED_RECENT_REFRESH = "KEY_NEWS_FEED_RECENT_REFRESH";
 
-    private static final String KEY_BOTTOM_NEWS_FEED_LIST = "KEY_BOTTOM_NEWS_FEED_LIST";
+    private static final String KEY_BOTTOM_NEWS_FEED = "KEY_BOTTOM_NEWS_FEED_";
+    private static final String KEY_BOTTOM_NEWS_FEED_COUNT = "KEY_BOTTOM_NEWS_FEED_COUNT";
 
     // 60 Min * 60 Sec * 1000 millisec = 1 Hour
     private static final long REFRESH_TERM_MILLISEC = 60 * 60 * 1000;
@@ -52,19 +53,24 @@ public class NewsFeedArchiveUtils {
     public static ArrayList<NewsFeed> loadBottomNews(Context context) {
         SharedPreferences prefs = getSharedPreferences(context);
 
-        String newsFeedListStr = prefs.getString(KEY_BOTTOM_NEWS_FEED_LIST, null);
-
-        Type feedListType = new TypeToken<ArrayList<NewsFeed>>(){}.getType();
-        ArrayList<NewsFeed> feedList;
-        if (newsFeedListStr != null) {
-            feedList = new Gson().fromJson(newsFeedListStr, feedListType);
-        } else {
-            feedList = new ArrayList<NewsFeed>();
-
+        int bottomNewsSize = prefs.getInt(KEY_BOTTOM_NEWS_FEED_COUNT, -1);
+        ArrayList<NewsFeed> feedList = new ArrayList<NewsFeed>();
+        if (bottomNewsSize < 0) {
             ArrayList<NewsFeedUrl> urlList = MainNewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
             for (NewsFeedUrl newsFeedUrl : urlList) {
                 NewsFeed newsFeed = new NewsFeed();
                 newsFeed.setNewsFeedUrl(newsFeedUrl);
+                feedList.add(newsFeed);
+            }
+        } else {
+            for (int i = 0; i < bottomNewsSize; i++) {
+                String key = getBottomNewsFeedKey(i);
+                String bottomNewsFeedStr = prefs.getString(key, null);
+                if (!prefs.contains(key) || bottomNewsFeedStr == null) {
+                    break;
+                }
+                Type feedType = new TypeToken<NewsFeed>(){}.getType();
+                NewsFeed newsFeed = new Gson().fromJson(bottomNewsFeedStr, feedType);
                 feedList.add(newsFeed);
             }
         }
@@ -84,6 +90,23 @@ public class NewsFeedArchiveUtils {
         editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
         editor.apply();
     }
+    public static void saveBottomNewsFeedAt(Context context, NewsFeed bottomNewsFeed,
+                                            int position) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        putBottomNewsFeed(editor, bottomNewsFeed, position);
+
+        editor.apply();
+    }
+    public static void saveTopNewsFeed(Context context, NewsFeed newsFeed) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        putTopNewsFeed(editor, newsFeed);
+
+        editor.apply();
+    }
     private static void putTopNewsFeed(SharedPreferences.Editor editor, NewsFeed topNewsFeed) {
         String topNewsFeedStr = topNewsFeed != null ? new Gson().toJson(topNewsFeed) : null;
 
@@ -97,10 +120,21 @@ public class NewsFeedArchiveUtils {
 
     private static void putBottomNewsFeedList(SharedPreferences.Editor editor,
                                               ArrayList<NewsFeed> bottomNewsFeedList) {
-        String bottomNewsFeedStr = new Gson().toJson(bottomNewsFeedList);
-
         // save bottom news feed
-        editor.putString(KEY_BOTTOM_NEWS_FEED_LIST, bottomNewsFeedStr);
+        int size = bottomNewsFeedList.size();
+        for (int i = 0; i < size; i++) {
+            putBottomNewsFeed(editor, bottomNewsFeedList.get(i), i);
+        }
+        editor.putInt(KEY_BOTTOM_NEWS_FEED_COUNT, size);
+    }
+    private static void putBottomNewsFeed(SharedPreferences.Editor editor,
+                                          NewsFeed bottomNewsFeed, int position) {
+        String bottomNewsFeedStr = new Gson().toJson(bottomNewsFeed);
+
+        editor.putString(getBottomNewsFeedKey(position), bottomNewsFeedStr);
+    }
+    private static String getBottomNewsFeedKey(int position) {
+        return KEY_BOTTOM_NEWS_FEED + position;
     }
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(SP_KEY_NEWS_FEED, Context.MODE_PRIVATE);

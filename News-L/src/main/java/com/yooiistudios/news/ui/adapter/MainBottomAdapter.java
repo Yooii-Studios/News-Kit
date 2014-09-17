@@ -129,8 +129,12 @@ public class MainBottomAdapter extends
 
         viewHolder.progressBar.setVisibility(View.VISIBLE);
 
-        String imageUrl;
-        if ((imageUrl = displayingNews.getImageUrl()) == null) {
+
+        String imageUrl = displayingNews.getImageUrl();
+        NLLog.i("main bottom image", "position : " + position);
+        NLLog.i("main bottom image", "imageUrl : " + imageUrl);
+        NLLog.i("main bottom image", "displayingNews.isImageUrlChecked() : " + displayingNews.isImageUrlChecked());
+        if (imageUrl == null) {
             if (displayingNews.isImageUrlChecked()) {
                 showDummyImage(viewHolder);
                 viewHolder.progressBar.setVisibility(View.GONE);
@@ -138,7 +142,6 @@ public class MainBottomAdapter extends
             } else {
                 viewHolder.imageView.setImageDrawable(null);
                 viewHolder.imageView.setColorFilter(null);
-//                viewHolder.progressBar
                 return;
             }
         }
@@ -149,7 +152,8 @@ public class MainBottomAdapter extends
         imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                NLLog.i(TAG, "onResponse\nposition : " + position);
+                NLLog.i("main bottom image", "onResponse\nposition : " + position + ", " +
+                        "isImmediate : " + isImmediate);
 
                 Bitmap bitmap = response.getBitmap();
 
