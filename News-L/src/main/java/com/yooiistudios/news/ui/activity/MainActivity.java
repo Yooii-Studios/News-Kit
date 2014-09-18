@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,10 +43,12 @@ import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
+import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,12 +92,9 @@ public class MainActivity extends Activity
 
     private TopFeedNewsImageUrlFetchTask mTopImageUrlFetchTask;
     private TopNewsFeedFetchTask mTopNewsFeedFetchTask;
-    private SparseArray<BottomNewsFeedFetchTask>
-            mBottomNewsFeedIndexToNewsFetchTaskMap;
-    private HashMap<News, BottomNewsImageUrlFetchTask>
-            mBottomNewsFeedNewsToImageTaskMap;
-    private HashMap<News, TopFeedNewsImageUrlFetchTask>
-            mTopNewsFeedNewsToImageTaskMap;
+    private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
+    private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
+    private HashMap<News, TopFeedNewsImageUrlFetchTask> mTopNewsFeedNewsToImageTaskMap;
     private MainBottomAdapter mBottomNewsFeedAdapter;
     private MainTopPagerAdapter mTopNewsFeedPagerAdapter;
     private ArrayList<Integer> mDisplayingBottomNewsFeedIndices;
@@ -107,6 +109,62 @@ public class MainActivity extends Activity
     //
     private boolean mIsRefreshingTopNewsFeed = false;
     private boolean mIsRefreshingBottomNewsFeeds = false;
+
+    /**
+     * Auto Refresh Handler
+     */
+    // auto refresh handler
+    private static final int AUTO_REFRESH_HANDLER_DELAY = 2 * 1000; // 10 secs
+    private boolean mIsHandlerRunning = false;
+    private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
+    private class NewsAutoRefreshHandler extends Handler {
+        @Override
+        public void handleMessage( Message msg ){
+            // 갱신
+//            NLLog.now("newsAutoRefresh");
+            if (mTopNewsFeedViewPager.getCurrentItem() + 1 < mTopNewsFeedViewPager.getAdapter().getCount()) {
+                mTopNewsFeedViewPager.setCurrentItem(mTopNewsFeedViewPager.getCurrentItem() + 1, true);
+            } else {
+                mTopNewsFeedViewPager.setCurrentItem(0, true);
+            }
+
+            // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
+            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
+                    AUTO_REFRESH_HANDLER_DELAY);
+        }
+    }
+
+    private void startNewsAutoRefresh() {
+        if (mIsHandlerRunning) {
+            return;
+        }
+        mIsHandlerRunning = true;
+        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, AUTO_REFRESH_HANDLER_DELAY);
+    }
+
+    private void stopNewsAutoRefresh() {
+        if (!mIsHandlerRunning) {
+            return;
+        }
+        mIsHandlerRunning = false;
+        mNewsAutoRefreshHandler.removeMessages(0);
+    }
+
+    /**
+     * Auto Refresh Handler End
+     */
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startNewsAutoRefresh();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopNewsAutoRefresh();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +236,19 @@ public class MainActivity extends Activity
 //                getString(R.string.splash_loading_description));
 
         Context context = getApplicationContext();
+
+        // ViewPager
+        try {
+            Field mScroller;
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            SlowSpeedScroller scroller = new SlowSpeedScroller(this,
+                    new AccelerateDecelerateInterpolator(this, null), true);
+            mScroller.set(mTopNewsFeedViewPager, scroller);
+        } catch (NoSuchFieldException ignored) {
+        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalAccessException ignored) {
+        }
 
         // Fetch
         mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(context);
