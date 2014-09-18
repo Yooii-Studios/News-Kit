@@ -308,18 +308,12 @@ public class MainActivity extends Activity
         mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
         for (int i = 0; i < bottomNewsCount; i++) {
             NewsFeedUrl url = mBottomNewsFeedList.get(i).getNewsFeedUrl();
-            BottomNewsFeedFetchTask task = fetchBottomNewsFeed(url, i, listener);
+            BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
+                    getApplicationContext(), url, i, listener
+            );
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
         }
-    }
-    private BottomNewsFeedFetchTask fetchBottomNewsFeed(NewsFeedUrl url, int position,
-                                     BottomNewsFeedFetchTask.OnFetchListener listener) {
-        BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
-                getApplicationContext(), url, position, listener
-        );
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        return task;
     }
 
     private void fetchBottomNewsFeedListImage() {
@@ -795,9 +789,17 @@ public class MainActivity extends Activity
 
                             if (newsFeed.isValid()) {
                                 mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
+
+                                News news = newsFeed.getNewsList().get(0);
+                                if (news.getImageUrl() == null) {
+                                    new BottomNewsImageUrlFetchTask(news, idx, this)
+                                            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                }
                             } else {
-                                fetchBottomNewsFeed(newsFeed.getNewsFeedUrl(), idx,
-                                        mOnBottomNewsFeedFetchListener);
+                                BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
+                                        getApplicationContext(), newsFeed.getNewsFeedUrl(), idx,
+                                        mOnBottomNewsFeedFetchListener, false);
+                                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                             }
                         }
                     } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {

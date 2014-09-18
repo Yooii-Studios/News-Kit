@@ -45,7 +45,7 @@ public class NewsFeedFetchUtil {
             startMilli = System.currentTimeMillis();
             feed = NewsFeedParser.read(conn.getInputStream());
             feed.setNewsFeedUrl(feedUrl);
-            feed.setValid(true);
+            feed.setValid(feed.getNewsList().size() > 0);
             endMilli = System.currentTimeMillis();
             NLLog.i("performance", "NLNewsFeedParser.read" +
                     (endMilli - startMilli));
