@@ -23,6 +23,12 @@ public class NewsFeedDetailNewsImageUrlFetchTask extends AsyncTask<Void, Void, S
 
     @Override
     protected String doInBackground(Void... voids) {
+
+        try {
+            Thread.sleep(1000);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         return NewsFeedImageUrlFetchUtil.getImageUrl(mNews);
     }
 

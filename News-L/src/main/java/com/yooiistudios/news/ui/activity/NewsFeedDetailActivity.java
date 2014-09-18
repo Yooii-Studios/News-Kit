@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -36,6 +37,7 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.TintType;
@@ -80,6 +82,7 @@ public class NewsFeedDetailActivity extends Activity
     private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
+    public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
 
     public static final int REQ_SELECT_NEWS_FEED = 13841;
 
@@ -95,6 +98,8 @@ public class NewsFeedDetailActivity extends Activity
 
     private boolean mIsRefreshing = false;
     private boolean mHasAnimatedColorFilter = false;
+
+    private boolean mHasNewsFeedReplaced = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -388,18 +393,18 @@ public class NewsFeedDetailActivity extends Activity
         if (imgUrl != null) {
             mImageLoader.get(imgUrl, this);
         } else if (mTopNews.isImageUrlChecked()) {
-            setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()));
-            colorize();
+            setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+                    TintType.DUMMY);
 
             animateTopItems();
         }
     }
 
     private void fetchNewsFeed(NewsFeedUrl newsFeedUrl) {
-        new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this)
+        new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this, false)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        mLoadingCoverView.setVisibility(View.VISIBLE);
+        showLoadingCover();
         configBeforeRefresh();
     }
 
@@ -411,6 +416,12 @@ public class NewsFeedDetailActivity extends Activity
     private void configAfterRefreshDone() {
         mSwipeRefreshLayout.setRefreshing(false);
         animateTopOverlayFadeIn();
+    }
+    private void showLoadingCover() {
+        mLoadingCoverView.setVisibility(View.VISIBLE);
+    }
+    private void hideLoadingCover() {
+        mLoadingCoverView.setVisibility(View.GONE);
     }
 
     private void animateTopOverlayFadeIn() {
@@ -448,8 +459,18 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void setTopNewsImageBitmap(Bitmap bitmap) {
+        setTopNewsImageBitmap(bitmap, null);
+    }
+    private void setTopNewsImageBitmap(Bitmap bitmap, TintType tintType) {
         mTopImageBitmap = bitmap;
         mTopImageView.setImageBitmap(mTopImageBitmap);
+
+
+        mPalette = Palette.generate(mTopImageBitmap);
+        if (tintType != null) {
+            mTintType = tintType;
+        }
+        applyPalette(!mHasAnimatedColorFilter);
     }
 
     private void animateTopItems() {
@@ -463,11 +484,6 @@ public class NewsFeedDetailActivity extends Activity
                 .setDuration(650)
                 .alpha(1f)
                 .setInterpolator(new DecelerateInterpolator());
-    }
-
-    private void colorize() {
-        mPalette = Palette.generate(mTopImageBitmap);
-        applyPalette(!mHasAnimatedColorFilter);
     }
 
     private void applyPalette(boolean applyColorFilter) {
@@ -573,21 +589,20 @@ public class NewsFeedDetailActivity extends Activity
         Bitmap bitmap = response.getBitmap();
         if (bitmap != null) {
             setTopNewsImageBitmap(bitmap);
-            colorize();
 
             animateTopItems();
         }
-        mLoadingCoverView.setVisibility(View.GONE);
+        hideLoadingCover();
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()));
-        colorize();
+        setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+                TintType.DUMMY);
 
         animateTopItems();
 
-        mLoadingCoverView.setVisibility(View.GONE);
+        hideLoadingCover();
     }
 
     /**
@@ -608,6 +623,10 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public void onNewsFeedFetchSuccess(NewsFeed newsFeed) {
         mNewsFeed = newsFeed;
+
+        // cache
+        archiveNewsFeed(newsFeed);
+
         if (mNewsFeed.getNewsList().size() > 0) {
             mTopNews = mNewsFeed.getNewsList().remove(0);
         }
@@ -631,12 +650,18 @@ public class NewsFeedDetailActivity extends Activity
         news.setImageUrl(url);
         news.setImageUrlChecked(true);
 
+        // 아카이빙을 위해 임시로 top news를 news feed에 추가.
+        mNewsFeed.addNewsAt(0, news);
+        archiveNewsFeed(mNewsFeed);
+        mNewsFeed.removeNewsAt(0);
+
         applyImage();
     }
 
     @Override
     public void onImageUrlFetchFail(News news) {
         configAfterRefreshDone();
+        hideLoadingCover();
 
         news.setImageUrlChecked(true);
 
@@ -656,6 +681,24 @@ public class NewsFeedDetailActivity extends Activity
         }
     }
 
+    private void archiveNewsFeed(NewsFeed newsFeed) {
+        // 이전 intent를 사용, 상단 뉴스피드인지 하단 뉴스피드인지 구분
+        String newsLocation = getIntent().getExtras().getString(
+                MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
+
+        // 저장
+        if (newsLocation != null) {
+            Context context = getApplicationContext();
+            if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
+                NewsFeedArchiveUtils.saveTopNewsFeed(context, newsFeed);
+            } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                int idx = getIntent().getExtras().getInt(
+                        MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
+                NewsFeedArchiveUtils.saveBottomNewsFeedAt(context, newsFeed, idx);
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -664,11 +707,26 @@ public class NewsFeedDetailActivity extends Activity
                 case REQ_SELECT_NEWS_FEED:
                     NewsFeed newsFeed = data.getExtras().getParcelable(
                             NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
+
+                    archiveNewsFeed(newsFeed);
+
                     fetchNewsFeed(newsFeed.getNewsFeedUrl());
+
+                    mHasNewsFeedReplaced = true;
 
                     break;
             }
         }
         NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
+    }
+
+    @Override
+    public void finish() {
+        if (mHasNewsFeedReplaced) {
+            getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
+            setResult(RESULT_OK, getIntent());
+        }
+
+        super.finish();
     }
 }

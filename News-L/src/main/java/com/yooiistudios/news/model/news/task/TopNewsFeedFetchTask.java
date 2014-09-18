@@ -20,6 +20,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     private Context mContext;
     private NewsFeedUrl mNewsFeedUrl;
     private OnFetchListener mListener;
+    private boolean mShuffle;
 
     public interface OnFetchListener {
         public void onTopNewsFeedFetchSuccess(NewsFeed newsFeed);
@@ -28,15 +29,20 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     public TopNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
                                 OnFetchListener listener) {
+        this(context, newsFeedUrl, listener, true);
+    }
+    public TopNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
+                                OnFetchListener listener, boolean shuffle) {
         mContext = context;
         mNewsFeedUrl = newsFeedUrl;
         mListener = listener;
+        mShuffle = shuffle;
     }
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
 
-        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT);
+        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT, mShuffle);
     }
 
     @Override
