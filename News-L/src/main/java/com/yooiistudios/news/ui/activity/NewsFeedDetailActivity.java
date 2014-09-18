@@ -587,6 +587,12 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
         Bitmap bitmap = response.getBitmap();
+
+        if (bitmap == null && isImmediate) {
+            // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+            return;
+        }
+
         if (bitmap != null) {
             setTopNewsImageBitmap(bitmap);
 

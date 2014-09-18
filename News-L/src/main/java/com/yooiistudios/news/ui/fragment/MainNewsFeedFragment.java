@@ -136,11 +136,16 @@ public class MainNewsFeedFragment extends Fragment
             mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    Bitmap bitmap;
+                    Bitmap bitmap = response.getBitmap();
 
                     viewHolder.progressBar.setVisibility(View.GONE);
 
-                    if (!mRecycled && (bitmap = response.getBitmap()) != null
+                    if (bitmap == null && isImmediate) {
+                        // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                        return;
+                    }
+
+                    if (!mRecycled && bitmap != null
                             && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
                         viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());

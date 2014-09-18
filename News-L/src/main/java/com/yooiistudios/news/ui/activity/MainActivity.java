@@ -236,6 +236,9 @@ public class MainActivity extends Activity
                 }
             }
         });
+
+        // 초기 로딩시 swipe refresh가 되지 않도록 설정
+        mSwipeRefreshLayout.setEnabled(false);
     }
 
     private void initTopNewsFeed(boolean refresh) {
@@ -509,6 +512,9 @@ public class MainActivity extends Activity
         if (mTopNewsFeedReady && mBottomNewsFeedReady) {
             if (noTopNewsImage || mTopNewsFeedFirstImageReady) {
                 mSwipeRefreshLayout.setRefreshing(false);
+
+                // 
+                mSwipeRefreshLayout.setEnabled(true);
 
                 NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed,
                         mBottomNewsFeedList);
