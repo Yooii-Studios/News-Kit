@@ -64,18 +64,30 @@ public class NewsFeedArchiveUtils {
             }
         } else {
             for (int i = 0; i < bottomNewsSize; i++) {
-                String key = getBottomNewsFeedKey(i);
-                String bottomNewsFeedStr = prefs.getString(key, null);
-                if (!prefs.contains(key) || bottomNewsFeedStr == null) {
+                NewsFeed newsFeed = loadBottomNewsFeedAt(prefs, i);
+
+                if (newsFeed == null) {
                     break;
                 }
-                Type feedType = new TypeToken<NewsFeed>(){}.getType();
-                NewsFeed newsFeed = new Gson().fromJson(bottomNewsFeedStr, feedType);
+
                 feedList.add(newsFeed);
             }
         }
 
         return feedList;
+    }
+    public static NewsFeed loadBottomNewsFeedAt(Context context, int position) {
+        return loadBottomNewsFeedAt(getSharedPreferences(context), position);
+    }
+    public static NewsFeed loadBottomNewsFeedAt(SharedPreferences prefs,
+                                                int position) {
+        String key = getBottomNewsFeedKey(position);
+        String bottomNewsFeedStr = prefs.getString(key, null);
+        if (!prefs.contains(key) || bottomNewsFeedStr == null) {
+            return null;
+        }
+        Type feedType = new TypeToken<NewsFeed>(){}.getType();
+        return new Gson().fromJson(bottomNewsFeedStr, feedType);
     }
 
     public static void save(Context context, NewsFeed topNewsFeed,

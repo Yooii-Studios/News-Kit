@@ -118,6 +118,14 @@ public class NewsFeed implements Parcelable {
     public void addNews(News news) {
         mNewsList.add(news);
     }
+
+    public void addNewsAt(int idx, News news) {
+        mNewsList.add(idx, news);
+    }
+
+    public void removeNewsAt(int idx) {
+        mNewsList.remove(idx);
+    }
     /**
      * 이미지 url을 포함하고 있는 뉴스만 반환한다.
      * @return ArrayList of NLNews which has image url.
