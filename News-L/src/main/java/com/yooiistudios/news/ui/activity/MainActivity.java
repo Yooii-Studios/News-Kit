@@ -114,7 +114,7 @@ public class MainActivity extends Activity
      * Auto Refresh Handler
      */
     // auto refresh handler
-    private static final int AUTO_REFRESH_HANDLER_DELAY = 2 * 1000; // 10 secs
+    private static final int AUTO_REFRESH_HANDLER_DELAY = 5 * 1000; // 10 secs
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
     private class NewsAutoRefreshHandler extends Handler {
