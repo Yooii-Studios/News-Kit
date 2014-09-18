@@ -22,8 +22,8 @@ public class NewsFeedFetchUtil {
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final String ILLEGAL_CHARACTER_OBJ = Character.toString((char) 65532);
 
-    public static NewsFeed fetch(Context context, NewsFeedUrl feedUrl,
-                                   int fetchLimit) {
+    public static NewsFeed fetch(Context context, NewsFeedUrl feedUrl, int fetchLimit,
+                                 boolean shuffle) {
 
         if (!feedUrl.getType().equals(NewsFeedUrlType.GENERAL)) {
             // 디폴트 세팅을 사용할 경우 패널단에서 언어설정을 감지 못하므로 무조건 현재 언어의
@@ -54,7 +54,9 @@ public class NewsFeedFetchUtil {
 //            feed = NLNewsFeedParser.read(mContext.getResources().getAssets().open("feeds.xml"));
 
             // shuffle and trim size
-            Collections.shuffle(feed.getNewsList(), new Random(System.nanoTime()));
+            if (shuffle) {
+                Collections.shuffle(feed.getNewsList(), new Random(System.nanoTime()));
+            }
             if (fetchLimit > 0 && fetchLimit < feed.getNewsList().size()) {
                 ArrayList<News> trimmedNewsList =
                         new ArrayList<News>(feed.getNewsList().subList(0,

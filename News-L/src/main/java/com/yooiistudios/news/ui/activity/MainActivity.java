@@ -80,6 +80,14 @@ public class MainActivity extends Activity
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
+    // 뉴스 새로고침시 사용할 인텐트 변수
+    public static final String INTENT_KEY_NEWS_FEED_LOCATION = "INTENT_KEY_NEWS_FEED_LOCATION";
+    public static final String INTENT_VALUE_TOP_NEWS_FEED = "INTENT_VALUE_TOP_NEWS_FEED";
+    public static final String INTENT_VALUE_BOTTOM_NEWS_FEED = "INTENT_VALUE_BOTTOM_NEWS_FEED";
+    public static final String INTENT_KEY_BOTTOM_NEWS_FEED_INDEX =
+                                                            "INTENT_KEY_BOTTOM_NEWS_FEED_INDEX";
+    private static final int RC_NEWS_FEED_DETAIL = 10001;
+
     private ImageLoader mImageLoader;
 
     private NewsFeed mTopNewsFeed;
@@ -300,12 +308,18 @@ public class MainActivity extends Activity
         mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
         for (int i = 0; i < bottomNewsCount; i++) {
             NewsFeedUrl url = mBottomNewsFeedList.get(i).getNewsFeedUrl();
-            BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
-                    getApplicationContext(), url, i, listener
-            );
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            BottomNewsFeedFetchTask task = fetchBottomNewsFeed(url, i, listener);
             mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
         }
+    }
+    private BottomNewsFeedFetchTask fetchBottomNewsFeed(NewsFeedUrl url, int position,
+                                     BottomNewsFeedFetchTask.OnFetchListener listener) {
+        BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
+                getApplicationContext(), url, position, listener
+        );
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        return task;
     }
 
     private void fetchBottomNewsFeedListImage() {
@@ -456,7 +470,7 @@ public class MainActivity extends Activity
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
         mTopNewsFeedTitleTextView.setText("");
 
-        fetchTopNewsFeed(mOnTopNewsRefreshedListener);
+        fetchTopNewsFeed(mOnTopNewsFeedRefreshedListener);
     }
 
     private void refreshBottomNewsFeeds() {
@@ -474,10 +488,10 @@ public class MainActivity extends Activity
 
         resetBottomNewsFeedShowingNewsIndices();
 
-        fetchBottomNewsFeedList(mOnBottomNewsRefreshedListener);
+        fetchBottomNewsFeedList(mOnBottomNewsFeedListRefreshedListener);
     }
 
-    private TopNewsFeedFetchTask.OnFetchListener mOnTopNewsRefreshedListener
+    private TopNewsFeedFetchTask.OnFetchListener mOnTopNewsFeedRefreshedListener
             = new TopNewsFeedFetchTask.OnFetchListener() {
 
         @Override
@@ -497,7 +511,7 @@ public class MainActivity extends Activity
             configAfterRefreshDone();
         }
     };
-    private BottomNewsFeedFetchTask.OnFetchListener mOnBottomNewsRefreshedListener
+    private BottomNewsFeedFetchTask.OnFetchListener mOnBottomNewsFeedListRefreshedListener
              = new BottomNewsFeedFetchTask.OnFetchListener() {
 
         @Override
@@ -527,6 +541,19 @@ public class MainActivity extends Activity
                 mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
                 fetchBottomNewsFeedListImage();
             }
+        }
+    };
+    private BottomNewsFeedFetchTask.OnFetchListener mOnBottomNewsFeedFetchListener
+            = new BottomNewsFeedFetchTask.OnFetchListener() {
+
+        @Override
+        public void onBottomNewsFeedFetchSuccess(int position, NewsFeed newsFeed) {
+            mBottomNewsFeedAdapter.replaceNewsFeedAt(position, newsFeed);
+        }
+
+        @Override
+        public void onBottomNewsFeedFetchFail(int position) {
+
         }
     };
 
@@ -690,12 +717,16 @@ public class MainActivity extends Activity
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
 
+        // 뉴스 새로 선택시
+        intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION, INTENT_VALUE_BOTTOM_NEWS_FEED);
+        intent.putExtra(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, position);
+
         // 미리 이미지뷰에 set해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
         Object tintTag = viewHolder.imageView.getTag();
         TintType tintType = tintTag != null ? (TintType)tintTag : null;
         intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
 
-        startActivity(intent, activityOptions.toBundle());
+        startActivityForResult(intent, RC_NEWS_FEED_DETAIL, activityOptions.toBundle());
     }
 
     @Override
@@ -734,5 +765,47 @@ public class MainActivity extends Activity
     @Override
     public void onAnimationsFinished() {
         fetchBottomNewsFeedListImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            switch (requestCode) {
+                case RC_NEWS_FEED_DETAIL:
+                    boolean hasNewsFeedReplaced = extras.getBoolean(
+                            NewsFeedDetailActivity.INTENT_KEY_NEWSFEED_REPLACED, false);
+                    String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+
+                    if (!hasNewsFeedReplaced || newsFeedType == null) {
+                        break;
+                    }
+
+                    // 교체된게 top news feed인지 bottom news feed인지 구분
+                    if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                        // bottom news feed중 하나가 교체됨
+
+                        // bottom news feed의 index를 가져옴
+                        int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+                        if (idx >= 0) {
+                            //read from cache
+                            NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(
+                                    getApplicationContext(), idx);
+
+                            if (newsFeed.isValid()) {
+                                mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
+                            } else {
+                                fetchBottomNewsFeed(newsFeed.getNewsFeedUrl(), idx,
+                                        mOnBottomNewsFeedFetchListener);
+                            }
+                        }
+                    } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+                        // top news feed가 교체됨
+                    }
+
+                    break;
+            }
+        }
     }
 }
