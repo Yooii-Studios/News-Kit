@@ -44,43 +44,33 @@ public class MainBottomAdapter extends
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
-    private ArrayList<Integer> mDisplayingNewsFeedIndices;
 
     public interface OnItemClickListener {
-        public void onBottomItemClick(
-                BottomNewsFeedViewHolder
-                        viewHolder, NewsFeed newsFeed, int position);
+        public void onBottomItemClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
     }
 
     public MainBottomAdapter(Context context, OnItemClickListener
             listener) {
         mContext = context;
         mNewsFeedList = new ArrayList<NewsFeed>();
-        mDisplayingNewsFeedIndices = new ArrayList<Integer>();
         mOnItemClickListener = listener;
     }
 
     @Override
-    public BottomNewsFeedViewHolder onCreateViewHolder(ViewGroup parent,
-                                                         int i) {
+    public BottomNewsFeedViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         Context context = parent.getContext();
-        View v = LayoutInflater.from(context).inflate(
-                R.layout.main_bottom_item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.main_bottom_item, parent, false);
 //        v.setElevation(DipToPixel.dpToPixel(context,
 //                context.getResources().getDimension(
 //                        R.dimen.main_bottom_card_view_elevation)
 //        ));
 //        ((ViewGroup)v).setTransitionGroup(false);
 
-        BottomNewsFeedViewHolder viewHolder =
-                new BottomNewsFeedViewHolder(v);
-
-        return viewHolder;
+        return new BottomNewsFeedViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder,
-            final int position) {
+    public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
         TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
@@ -90,13 +80,11 @@ public class MainBottomAdapter extends
         imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
 
         if (newsList == null || newsList.size() == 0) {
-//            showDummyImage(viewHolder);
             return;
         }
 
-        int index = position < mDisplayingNewsFeedIndices.size()
-                ? mDisplayingNewsFeedIndices.get(position) : 0;
-        final News displayingNews = newsList.get(index);
+        // 무조건 첫 실행시에는 첫번째 뉴스를 보여주게 변경
+        final News displayingNews = newsList.get(0);
 
         String newsTitle = displayingNews.getTitle();
         if (newsTitle != null) {
@@ -113,7 +101,6 @@ public class MainBottomAdapter extends
             newsFeedTitleView.setText(newsFeedTitle);
         }
 
-
         viewHolder.itemView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -128,7 +115,6 @@ public class MainBottomAdapter extends
         );
 
         viewHolder.progressBar.setVisibility(View.VISIBLE);
-
 
         String imageUrl = displayingNews.getImageUrl();
         NLLog.i("main bottom image", "position : " + position);
@@ -195,6 +181,7 @@ public class MainBottomAdapter extends
             }
         });
     }
+
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(mContext);
         viewHolder.imageView.setImageBitmap(dummyImage);
@@ -243,15 +230,16 @@ public class MainBottomAdapter extends
 
     public void addNewsFeed(NewsFeed newsFeed) {
         mNewsFeedList.add(newsFeed);
-        mDisplayingNewsFeedIndices.add(0);
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
+
     public void replaceNewsFeedAt(int idx, NewsFeed newsFeed) {
         if (idx < mNewsFeedList.size()) {
             mNewsFeedList.set(idx, newsFeed);
             notifyItemChanged(idx);
         }
     }
+
     public void setNewsFeedList(ArrayList<NewsFeed> newsFeedList) {
         mNewsFeedList = newsFeedList;
         notifyDataSetChanged();
@@ -264,14 +252,15 @@ public class MainBottomAdapter extends
         public ImageView imageView;
         public ProgressBar progressBar;
         public TextView newsFeedTitleTextView;
+        public int displayingNewsIndex;
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
+            displayingNewsIndex = 0;
             newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
         }
-
     }
 }

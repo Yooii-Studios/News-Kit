@@ -148,7 +148,10 @@ public class MainActivity extends Activity
     }
 
     private void autoRefreshBottomNewsFeeds() {
-//        mBottomNewsFeedAdapter.getItemId()
+//        NLLog.now(mBottomNewsFeedRecyclerView.getChildAt(0).getClass().toString());
+//        MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
+//                new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(0));
+//        newsFeedViewHolder.newsFeedTitleTextView.setText("Temp");
     }
 
     private void startNewsAutoRefresh() {
@@ -478,6 +481,7 @@ public class MainActivity extends Activity
         }
         mBottomNewsFeedNewsToImageTaskMap.clear();
     }
+
     private void animateBottomNewsFeedListOnInit() {
         mBottomNewsFeedReady = true;
         mBottomNewsFeedAdapter = new MainBottomAdapter
