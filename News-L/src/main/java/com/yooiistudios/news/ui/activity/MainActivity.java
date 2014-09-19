@@ -130,16 +130,25 @@ public class MainActivity extends Activity
         public void handleMessage( Message msg ){
             // 갱신
 //            NLLog.now("newsAutoRefresh");
-            if (mTopNewsFeedViewPager.getCurrentItem() + 1 < mTopNewsFeedViewPager.getAdapter().getCount()) {
-                mTopNewsFeedViewPager.setCurrentItem(mTopNewsFeedViewPager.getCurrentItem() + 1, true);
-            } else {
-                mTopNewsFeedViewPager.setCurrentItem(0, true);
-            }
+            autoRefreshTopNewsFeed();
+            autoRefreshBottomNewsFeeds();
 
             // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
             mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
                     AUTO_REFRESH_HANDLER_DELAY);
         }
+    }
+
+    private void autoRefreshTopNewsFeed() {
+        if (mTopNewsFeedViewPager.getCurrentItem() + 1 < mTopNewsFeedViewPager.getAdapter().getCount()) {
+            mTopNewsFeedViewPager.setCurrentItem(mTopNewsFeedViewPager.getCurrentItem() + 1, true);
+        } else {
+            mTopNewsFeedViewPager.setCurrentItem(0, true);
+        }
+    }
+
+    private void autoRefreshBottomNewsFeeds() {
+
     }
 
     private void startNewsAutoRefresh() {
@@ -165,7 +174,9 @@ public class MainActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        startNewsAutoRefresh();
+        if (mTopNewsFeedReady && mBottomNewsFeedReady) {
+            startNewsAutoRefresh();
+        }
     }
 
     @Override
@@ -522,6 +533,9 @@ public class MainActivity extends Activity
 
                 // loaded
                 mLoadingContainer.setVisibility(View.GONE);
+
+                // 메인 화면 로딩 후에 오토 리프레시 핸들러를 시작
+                startNewsAutoRefresh();
             }
         }
     }
