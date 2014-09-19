@@ -20,12 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +43,7 @@ import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
+import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
@@ -159,78 +156,36 @@ public class MainActivity extends Activity
     }
 
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
-        final int NEWS_FEED_ANIMATION_DURATION = 250;
-        final int NEWS_FEED_ANIMATION_FADE_DURATION = 200;
-
         final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
                 new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
 
-        AnimationSet hideSet = new AnimationSet(true);
-        hideSet.setInterpolator(new AccelerateInterpolator());
+        AnimationSet hideSet = AnimationFactory.makeBottomHideAnimation();
+        hideSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
 
-        Animation moveUpAnim = new TranslateAnimation
-                (Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, -0.1f);
-        moveUpAnim.setDuration(NEWS_FEED_ANIMATION_DURATION);
-        moveUpAnim.setFillEnabled(true);
-        moveUpAnim.setFillAfter(true);
-
-        hideSet.addAnimation(moveUpAnim);
-
-        Animation fadeoutAnim = new AlphaAnimation(1.0f, 0.0f);
-        fadeoutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
-        fadeoutAnim.setFillEnabled(true);
-        fadeoutAnim.setFillAfter(true);
-        hideSet.addAnimation(fadeoutAnim);
-
-        if (newsFeedViewHolder.newsTitleTextView != null) {
-            hideSet.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // 뉴스 갱신
+                NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
+                if (newsFeed.getDisplayingNewsIndex() < newsFeed.getNewsList().size() - 1) {
+                    newsFeed.setDisplayingNewsIndex(newsFeed.getDisplayingNewsIndex() + 1);
+                } else {
+                    newsFeed.setDisplayingNewsIndex(0);
                 }
+                mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    // 뉴스 갱신
-                    NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-                    if (newsFeed.getDisplayingNewsIndex() < newsFeed.getNewsList().size() - 1) {
-                        newsFeed.setDisplayingNewsIndex(newsFeed.getDisplayingNewsIndex() + 1);
-                    } else {
-                        newsFeed.setDisplayingNewsIndex(0);
-                    }
-                    mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+                // 다시 보여주기
+                newsFeedViewHolder.newsTitleTextView.startAnimation(
+                        AnimationFactory.makeBottomShowAnimation());
+            }
 
-                    // 다시 보여주기
-                    AnimationSet showSet = new AnimationSet(false);
-                    showSet.setInterpolator(new DecelerateInterpolator());
-
-                    Animation moveDownAnim = new TranslateAnimation
-                            (Animation.RELATIVE_TO_SELF, 0.0f,
-                                    Animation.RELATIVE_TO_SELF, 0.0f,
-                                    Animation.RELATIVE_TO_SELF, 0.1f,
-                                    Animation.RELATIVE_TO_SELF, 0.0f);
-                    moveDownAnim.setDuration(NEWS_FEED_ANIMATION_DURATION);
-                    moveDownAnim.setFillEnabled(true);
-                    moveDownAnim.setFillAfter(true);
-
-                    showSet.addAnimation(moveDownAnim);
-
-                    Animation fadeInAnim = new AlphaAnimation(0.0f, 1.0f);
-                    fadeInAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
-                    fadeInAnim.setFillEnabled(true);
-                    fadeInAnim.setFillAfter(true);
-                    showSet.addAnimation(fadeInAnim);
-                    newsFeedViewHolder.newsTitleTextView.startAnimation(showSet);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-            newsFeedViewHolder.newsTitleTextView.startAnimation(hideSet);
-        }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        newsFeedViewHolder.newsTitleTextView.startAnimation(hideSet);
     }
 
     private void startNewsAutoRefresh() {
