@@ -148,7 +148,7 @@ public class MainActivity extends Activity
     }
 
     private void autoRefreshBottomNewsFeeds() {
-
+//        mBottomNewsFeedAdapter.getItemId()
     }
 
     private void startNewsAutoRefresh() {
@@ -234,6 +234,7 @@ public class MainActivity extends Activity
             public void onRefresh() {
                 NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
                 if (!mIsRefreshingTopNewsFeed && !mIsRefreshingBottomNewsFeeds) {
+                    stopNewsAutoRefresh();
                     mSwipeRefreshLayout.setEnabled(false);
                     mIsRefreshingTopNewsFeed = true;
                     mIsRefreshingBottomNewsFeeds = true;
