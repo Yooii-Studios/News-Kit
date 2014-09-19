@@ -50,13 +50,15 @@ public class NewsFeedArchiveUtils {
 
         return newsFeed;
     }
+
     public static ArrayList<NewsFeed> loadBottomNews(Context context) {
         SharedPreferences prefs = getSharedPreferences(context);
 
         int bottomNewsSize = prefs.getInt(KEY_BOTTOM_NEWS_FEED_COUNT, -1);
         ArrayList<NewsFeed> feedList = new ArrayList<NewsFeed>();
         if (bottomNewsSize < 0) {
-            ArrayList<NewsFeedUrl> urlList = MainNewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
+            ArrayList<NewsFeedUrl> urlList =
+                    MainNewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
             for (NewsFeedUrl newsFeedUrl : urlList) {
                 NewsFeed newsFeed = new NewsFeed();
                 newsFeed.setNewsFeedUrl(newsFeedUrl);
@@ -76,11 +78,12 @@ public class NewsFeedArchiveUtils {
 
         return feedList;
     }
+
     public static NewsFeed loadBottomNewsFeedAt(Context context, int position) {
         return loadBottomNewsFeedAt(getSharedPreferences(context), position);
     }
-    public static NewsFeed loadBottomNewsFeedAt(SharedPreferences prefs,
-                                                int position) {
+
+    public static NewsFeed loadBottomNewsFeedAt(SharedPreferences prefs, int position) {
         String key = getBottomNewsFeedKey(position);
         String bottomNewsFeedStr = prefs.getString(key, null);
         if (!prefs.contains(key) || bottomNewsFeedStr == null) {
@@ -102,8 +105,8 @@ public class NewsFeedArchiveUtils {
         editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
         editor.apply();
     }
-    public static void saveBottomNewsFeedAt(Context context, NewsFeed bottomNewsFeed,
-                                            int position) {
+
+    public static void saveBottomNewsFeedAt(Context context, NewsFeed bottomNewsFeed, int position) {
         SharedPreferences prefs = getSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
 
@@ -111,6 +114,7 @@ public class NewsFeedArchiveUtils {
 
         editor.apply();
     }
+
     public static void saveTopNewsFeed(Context context, NewsFeed newsFeed) {
         SharedPreferences prefs = getSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
@@ -119,6 +123,7 @@ public class NewsFeedArchiveUtils {
 
         editor.apply();
     }
+
     private static void putTopNewsFeed(SharedPreferences.Editor editor, NewsFeed topNewsFeed) {
         String topNewsFeedStr = topNewsFeed != null ? new Gson().toJson(topNewsFeed) : null;
 
@@ -139,15 +144,18 @@ public class NewsFeedArchiveUtils {
         }
         editor.putInt(KEY_BOTTOM_NEWS_FEED_COUNT, size);
     }
+
     private static void putBottomNewsFeed(SharedPreferences.Editor editor,
                                           NewsFeed bottomNewsFeed, int position) {
         String bottomNewsFeedStr = new Gson().toJson(bottomNewsFeed);
 
         editor.putString(getBottomNewsFeedKey(position), bottomNewsFeedStr);
     }
+
     private static String getBottomNewsFeedKey(int position) {
         return KEY_BOTTOM_NEWS_FEED + position;
     }
+
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(SP_KEY_NEWS_FEED, Context.MODE_PRIVATE);
     }
@@ -164,11 +172,7 @@ public class NewsFeedArchiveUtils {
 
         long gap = currentMillisec - recentRefreshMillisec;
 
-        if (gap > REFRESH_TERM_MILLISEC) {
-            return true;
-        } else {
-            return false;
-        }
+        return gap > REFRESH_TERM_MILLISEC;
     }
 
     public static void clearArchive(Context context) {
