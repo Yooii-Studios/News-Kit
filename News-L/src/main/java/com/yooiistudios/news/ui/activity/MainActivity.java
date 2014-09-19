@@ -402,14 +402,10 @@ public class MainActivity extends Activity
         for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
             NewsFeed feed = mBottomNewsFeedList.get(i);
 
-            // IndexOutOfBoundException 방지
-            int newsIndex = i < mBottomNewsFeedAdapter.getDisplayingNewsFeedIndices().size() ?
-                    mBottomNewsFeedAdapter.getDisplayingNewsFeedIndices().get(i) : 0;
-
             ArrayList<News> newsList = feed.getNewsList();
             if (newsList.size() > 0) {
                 // IndexOutOfBoundException 방지
-                News news = newsIndex < newsList.size() ? newsList.get(newsIndex) : newsList.get(0);
+                News news = newsList.get(0);
 
                 BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -565,8 +561,6 @@ public class MainActivity extends Activity
 
         // 프로그레스바를 나타내기 위해 NewsFeedUrl만 가지고 있는 뉴스피드를 넣음
         mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
-
-        mBottomNewsFeedAdapter.resetDisplayingNewsFeedIndices();
 
         fetchBottomNewsFeedList(mOnBottomNewsFeedListRefreshedListener);
     }
@@ -793,8 +787,7 @@ public class MainActivity extends Activity
         Intent intent = new Intent(MainActivity.this,
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
-        intent.putExtra(News.KEY_NEWS,
-                mBottomNewsFeedAdapter.getDisplayingNewsFeedIndices().get(position));
+        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, viewHolder.displayingNewsIndex);
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
 

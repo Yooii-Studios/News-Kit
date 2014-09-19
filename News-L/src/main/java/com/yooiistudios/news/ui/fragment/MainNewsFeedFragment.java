@@ -39,7 +39,7 @@ import butterknife.InjectView;
 public class MainNewsFeedFragment extends Fragment
         implements View.OnClickListener {
     private static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
-    private static final String KEY_NEWS = "KEY_NEWS";
+    private static final String KEY_NEWS = "KEY_CURRENT_NEWS_INDEX";
     private static final String KEY_POSITION = "KEY_TAB_POSITION";
 
     private ImageLoader mImageLoader;
@@ -199,7 +199,7 @@ public class MainNewsFeedFragment extends Fragment
         Intent intent = new Intent(getActivity(),
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
-        intent.putExtra(News.KEY_NEWS, mPosition);
+        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, mPosition);
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, viewHolder.imageView.getViewName());
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, viewHolder.titleTextView.getViewName());
 

@@ -116,7 +116,7 @@ public class NewsFeedDetailActivity extends Activity
         Object tintTypeObj = getIntent().getExtras().getSerializable(MainActivity.INTENT_KEY_TINT_TYPE);
         mTintType = tintTypeObj != null ? (TintType)tintTypeObj : TintType.GRAYSCALE;
 
-        int topNewsIndex = getIntent().getExtras().getInt(News.KEY_NEWS);
+        int topNewsIndex = getIntent().getExtras().getInt(News.KEY_CURRENT_NEWS_INDEX);
         if (topNewsIndex < mNewsFeed.getNewsList().size()) {
             mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
         }
