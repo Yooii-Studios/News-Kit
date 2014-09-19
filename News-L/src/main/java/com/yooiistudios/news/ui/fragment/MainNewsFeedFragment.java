@@ -100,12 +100,10 @@ public class MainNewsFeedFragment extends Fragment
             return root;
         }
 
-        holder.imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX +
-                mPosition);
+        holder.imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + mPosition);
         applyImage(holder);
 
-        holder.titleTextView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
-                mPosition);
+        holder.titleTextView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX + mPosition);
         String newsName = mNews.getTitle();
         if (newsName != null) {
             holder.titleTextView.setText(newsName);
@@ -203,6 +201,10 @@ public class MainNewsFeedFragment extends Fragment
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, viewHolder.imageView.getViewName());
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, viewHolder.titleTextView.getViewName());
 
+
+        // 뉴스 새로 선택시
+        intent.putExtra(MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
+
         Object tintTag = viewHolder.imageView.getTag();
         TintType tintType = tintTag != null ? (TintType)tintTag : null;
         intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
@@ -212,7 +214,7 @@ public class MainNewsFeedFragment extends Fragment
 //            intent.putExtra("bitmap", ((BitmapDrawable) drawable).getBitmap());
 //        }
 
-        getActivity().startActivity(intent, activityOptions.toBundle());
+        getActivity().startActivityForResult(intent, MainActivity.RC_NEWS_FEED_DETAIL, activityOptions.toBundle());
     }
     public void setRecycled(boolean recycled) {
         mRecycled = recycled;

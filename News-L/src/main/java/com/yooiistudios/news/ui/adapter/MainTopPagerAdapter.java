@@ -65,6 +65,8 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void setNewsFeed(NewsFeed newsFeed) {
+        mFragmentSparseArray.clear();
+
         mNewsFeed = newsFeed;
         notifyDataSetChanged();
     }

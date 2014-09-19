@@ -91,7 +91,7 @@ public class MainActivity extends Activity
     public static final String INTENT_VALUE_BOTTOM_NEWS_FEED = "INTENT_VALUE_BOTTOM_NEWS_FEED";
     public static final String INTENT_KEY_BOTTOM_NEWS_FEED_INDEX =
                                                             "INTENT_KEY_BOTTOM_NEWS_FEED_INDEX";
-    private static final int RC_NEWS_FEED_DETAIL = 10001;
+    public static final int RC_NEWS_FEED_DETAIL = 10001;
 
     private ImageLoader mImageLoader;
 
@@ -133,8 +133,7 @@ public class MainActivity extends Activity
             autoRefreshBottomNewsFeeds();
 
             // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
-            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
-                    AUTO_REFRESH_HANDLER_DELAY);
+            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, AUTO_REFRESH_HANDLER_DELAY);
         }
     }
 
@@ -290,8 +289,14 @@ public class MainActivity extends Activity
         }
 
     }
+
     private void fetchTopNewsFeed(TopNewsFeedFetchTask.OnFetchListener listener) {
-        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(), listener);
+        fetchTopNewsFeed(listener, true);
+    }
+
+    private void fetchTopNewsFeed(TopNewsFeedFetchTask.OnFetchListener listener, boolean shuffle) {
+        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(this, mTopNewsFeed.getNewsFeedUrl(),
+                listener, shuffle);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -307,7 +312,7 @@ public class MainActivity extends Activity
 
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
-//        mTopViewPagerIndicator.setCurrentItem(0);
+        mTopViewPagerIndicator.setCurrentItem(0);
 
         if (items.size() > 0) {
             News news = items.get(0);
@@ -515,7 +520,7 @@ public class MainActivity extends Activity
             if (noTopNewsImage || mTopNewsFeedFirstImageReady) {
                 mSwipeRefreshLayout.setRefreshing(false);
 
-                // 
+                //
                 mSwipeRefreshLayout.setEnabled(true);
 
                 NewsFeedArchiveUtils.save(getApplicationContext(), mTopNewsFeed,
@@ -532,13 +537,17 @@ public class MainActivity extends Activity
     }
 
     private void refreshTopNewsFeed() {
+        refreshTopNewsFeed(true);
+    }
+    private void refreshTopNewsFeed(boolean shuffle) {
         NewsFeedUrl topNewsFeedUrl = mTopNewsFeed.getNewsFeedUrl();
         mTopNewsFeed = new NewsFeed();
         mTopNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
 
-        for (int i = 0; i < TopNewsFeedFetchTask.FETCH_COUNT; i++) {
-            mTopNewsFeed.getNewsList().add(null);
-        }
+        mTopNewsFeed.getNewsList().add(null);
+//        for (int i = 0; i < TopNewsFeedFetchTask.FETCH_COUNT; i++) {
+//            mTopNewsFeed.getNewsList().add(null);
+//        }
 
         mTopViewPagerIndicator.setCurrentItem(0);
         mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(getFragmentManager(), mTopNewsFeed);
@@ -546,7 +555,7 @@ public class MainActivity extends Activity
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
         mTopNewsFeedTitleTextView.setText("");
 
-        fetchTopNewsFeed(mOnTopNewsFeedRefreshedListener);
+        fetchTopNewsFeed(mOnTopNewsFeedRefreshedListener, shuffle);
     }
 
     private void refreshBottomNewsFeeds() {
@@ -804,8 +813,7 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onBottomImageUrlFetchSuccess(News news, String url,
-                                             int position) {
+    public void onBottomImageUrlFetchSuccess(News news, String url, int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchSuccess");
 
         news.setImageUrlChecked(true);
@@ -831,6 +839,7 @@ public class MainActivity extends Activity
     public void onBottomImageUrlFetchFail(News news, int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchFail");
         news.setImageUrlChecked(true);
+        mBottomNewsFeedNewsToImageTaskMap.remove(news);
         if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
             mBottomNewsFeedAdapter.notifyItemChanged(position);
         }
@@ -856,6 +865,7 @@ public class MainActivity extends Activity
                         break;
                     }
 
+                    Context context = getApplicationContext();
                     // 교체된게 top news feed인지 bottom news feed인지 구분
                     if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
                         // bottom news feed중 하나가 교체됨
@@ -864,8 +874,8 @@ public class MainActivity extends Activity
                         int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
                         if (idx >= 0) {
                             //read from cache
-                            NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(
-                                    getApplicationContext(), idx);
+                            NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(context,
+                                    idx);
 
                             if (newsFeed.isValid()) {
                                 mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
@@ -884,6 +894,13 @@ public class MainActivity extends Activity
                         }
                     } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
                         // top news feed가 교체됨
+
+                        mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(context);
+                        if (mTopNewsFeed.isValid()) {
+                            notifyNewTopNewsFeedSet();
+                        } else {
+                            refreshTopNewsFeed(false);
+                        }
                     }
 
                     break;
