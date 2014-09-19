@@ -105,7 +105,6 @@ public class MainActivity extends Activity
     private HashMap<News, TopFeedNewsImageUrlFetchTask> mTopNewsFeedNewsToImageTaskMap;
     private MainBottomAdapter mBottomNewsFeedAdapter;
     private MainTopPagerAdapter mTopNewsFeedPagerAdapter;
-    private ArrayList<Integer> mDisplayingBottomNewsFeedIndices;
 
     private SlideInFromBottomItemAnimator mItemAnimator;
 
@@ -351,7 +350,7 @@ public class MainActivity extends Activity
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         mBottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNews(context);
-        resetBottomNewsFeedShowingNewsIndices();
+//        mBottomNewsFeedAdapter.resetDisplayingNewsFeedIndices();
 
         if (refresh) {
             fetchBottomNewsFeedList(this);
@@ -378,15 +377,6 @@ public class MainActivity extends Activity
 
     }
 
-    private void resetBottomNewsFeedShowingNewsIndices() {
-        mDisplayingBottomNewsFeedIndices = new ArrayList<Integer>();
-
-        // 메인 하단 뉴스피드들의 현재 뉴스 인덱스를 0으로 초기화
-        for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
-            mDisplayingBottomNewsFeedIndices.add(0);
-        }
-    }
-
     private void fetchBottomNewsFeedList(BottomNewsFeedFetchTask.OnFetchListener listener) {
         final int bottomNewsCount = mBottomNewsFeedList.size();
 
@@ -409,8 +399,8 @@ public class MainActivity extends Activity
             NewsFeed feed = mBottomNewsFeedList.get(i);
 
             // IndexOutOfBoundException 방지
-            int newsIndex = i < mDisplayingBottomNewsFeedIndices.size() ?
-                    mDisplayingBottomNewsFeedIndices.get(i) : 0;
+            int newsIndex = i < mBottomNewsFeedAdapter.getDisplayingNewsFeedIndices().size() ?
+                    mBottomNewsFeedAdapter.getDisplayingNewsFeedIndices().get(i) : 0;
 
             ArrayList<News> newsList = feed.getNewsList();
             if (newsList.size() > 0) {
@@ -571,7 +561,7 @@ public class MainActivity extends Activity
         // 프로그레스바를 나타내기 위해 NewsFeedUrl만 가지고 있는 뉴스피드를 넣음
         mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
 
-        resetBottomNewsFeedShowingNewsIndices();
+        mBottomNewsFeedAdapter.resetDisplayingNewsFeedIndices();
 
         fetchBottomNewsFeedList(mOnBottomNewsFeedListRefreshedListener);
     }
@@ -798,7 +788,8 @@ public class MainActivity extends Activity
         Intent intent = new Intent(MainActivity.this,
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
-        intent.putExtra(News.KEY_NEWS, mDisplayingBottomNewsFeedIndices.get(position));
+        intent.putExtra(News.KEY_NEWS,
+                mBottomNewsFeedAdapter.getDisplayingNewsFeedIndices().get(position));
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
 

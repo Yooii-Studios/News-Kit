@@ -246,15 +246,28 @@ public class MainBottomAdapter extends
         mDisplayingNewsFeedIndices.add(0);
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
+
     public void replaceNewsFeedAt(int idx, NewsFeed newsFeed) {
         if (idx < mNewsFeedList.size()) {
             mNewsFeedList.set(idx, newsFeed);
             notifyItemChanged(idx);
         }
     }
+
     public void setNewsFeedList(ArrayList<NewsFeed> newsFeedList) {
         mNewsFeedList = newsFeedList;
         notifyDataSetChanged();
+    }
+
+    public void resetDisplayingNewsFeedIndices() {
+
+        for (int i = 0; i < mDisplayingNewsFeedIndices.size(); i++) {
+            mDisplayingNewsFeedIndices.set(i, 0);
+        }
+    }
+
+    public ArrayList<Integer> getDisplayingNewsFeedIndices() {
+        return mDisplayingNewsFeedIndices;
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView
