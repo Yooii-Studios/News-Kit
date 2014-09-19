@@ -84,7 +84,7 @@ public class MainBottomAdapter extends
         }
 
         // 무조건 첫 실행시에는 첫번째 뉴스를 보여주게 변경
-        final News displayingNews = newsList.get(viewHolder.displayingNewsIndex);
+        final News displayingNews = newsList.get(mNewsFeedList.get(position).getDisplayingNewsIndex());
 
         String newsTitle = displayingNews.getTitle();
         if (newsTitle != null) {
@@ -245,16 +245,18 @@ public class MainBottomAdapter extends
         notifyDataSetChanged();
     }
 
+    public ArrayList<NewsFeed> getNewsFeedList() {
+        return mNewsFeedList;
+    }
+
     public static class BottomNewsFeedViewHolder extends RecyclerView.ViewHolder {
         public TextView newsTitleTextView;
         public ImageView imageView;
         public ProgressBar progressBar;
         public TextView newsFeedTitleTextView;
-        public int displayingNewsIndex;
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            displayingNewsIndex = 0;
             newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);

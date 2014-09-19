@@ -20,10 +20,12 @@ public class NewsFeed implements Parcelable {
     private String mLanguage;
     private ArrayList<News> mNewsList;
     private boolean mIsValid;
+    private int mDisplayingNewsIndex;
 
     public NewsFeed() {
         mNewsList = new ArrayList<News>();
         mIsValid = false;
+        mDisplayingNewsIndex = 0;
     }
 
     public NewsFeed(Parcel source) {
@@ -126,6 +128,14 @@ public class NewsFeed implements Parcelable {
     public void removeNewsAt(int idx) {
         mNewsList.remove(idx);
     }
+
+    public int getDisplayingNewsIndex() {
+        return mDisplayingNewsIndex;
+    }
+    public void setDisplayingNewsIndex(int index) {
+        this.mDisplayingNewsIndex = index;
+    }
+
     /**
      * 이미지 url을 포함하고 있는 뉴스만 반환한다.
      * @return ArrayList of NLNews which has image url.
