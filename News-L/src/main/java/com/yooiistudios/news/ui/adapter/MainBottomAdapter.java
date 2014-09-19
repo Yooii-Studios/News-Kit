@@ -245,6 +245,17 @@ public class MainBottomAdapter extends
         notifyDataSetChanged();
     }
 
+    public void resetDisplayingNewsFeedIndices() {
+
+        for (int i = 0; i < mDisplayingNewsFeedIndices.size(); i++) {
+            mDisplayingNewsFeedIndices.set(i, 0);
+        }
+    }
+
+    public ArrayList<Integer> getDisplayingNewsFeedIndices() {
+        return mDisplayingNewsFeedIndices;
+    }
+
     public static class BottomNewsFeedViewHolder extends RecyclerView
             .ViewHolder {
 
