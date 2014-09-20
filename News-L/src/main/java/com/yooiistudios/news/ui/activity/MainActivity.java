@@ -63,27 +63,34 @@ public class MainActivity extends Activity
 
     @Override
     public void onMainTopInitialLoad() {
+        NLLog.i(TAG, "onMainTopInitialLoad");
         showMainContentIfReady();
+        startNewsAutoRefreshIfReady();
     }
 
     @Override
     public void onMainTopRefresh() {
+        NLLog.i(TAG, "onMainTopRefresh");
         configAfterRefreshDone();
     }
 
     @Override
     public void onMainBottomInitialLoad() {
+        NLLog.i(TAG, "onMainBottomInitialLoad");
         showMainContentIfReady();
+        startNewsAutoRefreshIfReady();
     }
 
     @Override
     public void onMainBottomRefresh() {
+        NLLog.i(TAG, "onMainBottomRefresh");
         configAfterRefreshDone();
     }
 
     @Override
-    public void onMainBottomNewsImageAllFetched() {
-        startNewsAutoRefresh();
+    public void onMainBottomNewsImageInitiallyAllFetched() {
+        NLLog.i(TAG, "onMainBottomNewsImageInitiallyAllFetched");
+        startNewsAutoRefreshIfReady();
     }
 
     private class NewsAutoRefreshHandler extends Handler {
@@ -96,6 +103,14 @@ public class MainActivity extends Activity
 
             // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
             mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, AUTO_REFRESH_HANDLER_DELAY);
+        }
+    }
+
+    private void startNewsAutoRefreshIfReady() {
+        if (mMainTopContainerLayout.isInitialized()
+                && mMainBottomContainerLayout.isInitialized()
+                && mMainBottomContainerLayout.isInitializedFirstImages()) {
+            startNewsAutoRefresh();
         }
     }
 
