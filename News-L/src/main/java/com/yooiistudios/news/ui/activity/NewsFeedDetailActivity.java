@@ -33,13 +33,13 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
@@ -108,8 +108,9 @@ public class NewsFeedDetailActivity extends Activity
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
 
-        mImageLoader = new ImageLoader(((NewsApplication)getApplication()).getRequestQueue(),
-                ImageMemoryCache.getInstance(getApplicationContext()));
+        Context context = getApplicationContext();
+        mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
+                ImageMemoryCache.getInstance(context));
 
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);

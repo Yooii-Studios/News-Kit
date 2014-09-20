@@ -3,8 +3,6 @@ package com.yooiistudios.news;
 import android.app.Application;
 import android.content.res.Configuration;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 
@@ -16,7 +14,6 @@ import java.util.Locale;
  * NewsApplication
  */
 public class NewsApplication extends Application {
-    private RequestQueue mRequestQueue;
     private Locale mLocale = null;
 
     @Override
@@ -56,10 +53,4 @@ public class NewsApplication extends Application {
         }
     }
 
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(this);
-        }
-        return mRequestQueue;
-    }
 }
