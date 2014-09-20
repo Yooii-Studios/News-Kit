@@ -128,7 +128,7 @@ public class NewsFeedDetailActivity extends Activity
         mTopImageView.setViewName(imageViewName);
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
-        applySystemWindowsBottomInset(R.id.detail_scrollView);
+        applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
