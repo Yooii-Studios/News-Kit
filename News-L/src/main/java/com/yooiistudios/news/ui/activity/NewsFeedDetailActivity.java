@@ -529,8 +529,9 @@ public class NewsFeedDetailActivity extends Activity
         int green = Color.green(color);
         int blue = Color.blue(color);
 
-        mTopContentLayout.setBackground(new ColorDrawable(color));
-        mTopNewsTextLayout.setBackground(new ColorDrawable(color));
+        int colorWithoutAlpha = Color.rgb(red, green, blue);
+        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+        mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
 
         if (applyColorFilter) {
             mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
