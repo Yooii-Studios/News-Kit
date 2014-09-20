@@ -16,13 +16,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.ImageMemoryCache;
@@ -132,8 +133,9 @@ public class MainBottomAdapter extends
             }
         }
 
-        ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue
-                (mContext), ImageMemoryCache.getInstance(mContext));
+        RequestQueue requestQueue = NewsImageRequestQueue.getInstance(mContext).getRequestQueue();
+        ImageLoader imageLoader = new ImageLoader(requestQueue,
+                ImageMemoryCache.getInstance(mContext));
 
         imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override

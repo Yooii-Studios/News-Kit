@@ -102,7 +102,7 @@ public class NewsFeedArchiveUtils {
         putBottomNewsFeedList(editor, bottomNewsFeedList);
 
         // save recent saved millisec
-        editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
+//        editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
         editor.apply();
     }
 
@@ -135,6 +135,16 @@ public class NewsFeedArchiveUtils {
         }
     }
 
+    public static void saveBottomNewsFeedList(Context context,
+                                           ArrayList<NewsFeed> bottomNewsFeedList) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        putBottomNewsFeedList(editor, bottomNewsFeedList);
+
+        editor.apply();
+    }
+
     private static void putBottomNewsFeedList(SharedPreferences.Editor editor,
                                               ArrayList<NewsFeed> bottomNewsFeedList) {
         // save bottom news feed
@@ -150,6 +160,15 @@ public class NewsFeedArchiveUtils {
         String bottomNewsFeedStr = new Gson().toJson(bottomNewsFeed);
 
         editor.putString(getBottomNewsFeedKey(position), bottomNewsFeedStr);
+    }
+
+    public static void saveRecentCacheMillisec(Context context) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
+
+        editor.apply();
     }
 
     private static String getBottomNewsFeedKey(int position) {
