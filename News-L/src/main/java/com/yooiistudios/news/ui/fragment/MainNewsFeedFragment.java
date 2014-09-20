@@ -134,6 +134,10 @@ public class MainNewsFeedFragment extends Fragment
             mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    if (mRecycled) {
+                        return;
+                    }
+
                     Bitmap bitmap = response.getBitmap();
 
                     viewHolder.progressBar.setVisibility(View.GONE);
@@ -143,8 +147,7 @@ public class MainNewsFeedFragment extends Fragment
                         return;
                     }
 
-                    if (!mRecycled && bitmap != null
-                            && viewHolder.imageView != null) {
+                    if (bitmap != null && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
                         viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
                         viewHolder.imageView.setTag(TintType.GRAYSCALE);

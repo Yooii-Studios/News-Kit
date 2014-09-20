@@ -203,17 +203,21 @@ public class MainTopContainerLayout extends FrameLayout
         if (items.size() > 0) {
             News news = items.get(0);
 
-            if (news.getImageUrl() == null && !news.isImageUrlChecked()) {
+            if (!news.isImageUrlChecked()) {
                 mTopNewsFeedFirstImageReady = false;
                 mTopImageUrlFetchTask = new TopFeedNewsImageUrlFetchTask(news, 0, this);
                 mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
-                mTopNewsFeedFirstImageReady = true;
-                fetchTopNewsFeedImages();
+                if (news.getImageUrl() == null) {
+                    // no image
+                    mTopNewsFeedFirstImageReady = true;
+                } else {
+                    // 이미지 url은 가져온 상태.
+                    applyImage(news.getImageUrl(), 0);
+                }
             }
         } else {
             mTopNewsFeedFirstImageReady = true;
-            fetchTopNewsFeedImages();
         }
 
         mTopNewsFeedTitleTextView.setText(mTopNewsFeed.getTitle());
@@ -347,37 +351,51 @@ public class MainTopContainerLayout extends FrameLayout
         else {
             news.setImageUrl(url);
 
-            mImageLoader.get(url, new ImageLoader.ImageListener() {
-                @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-
-                    mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
-
-                    if (position == 0) {
-                        mTopNewsFeedFirstImageReady = true;
-                        fetchTopNewsFeedImages();
-                        notifyIfInitialized();
-                    }
-                }
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (position == 0) {
-                        mTopNewsFeedFirstImageReady = true;
-                        fetchTopNewsFeedImages();
-                        notifyIfInitialized();
-                    }
-                }
-            });
+            applyImage(url, position);
         }
 
         NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
+    }
+    private void applyImage(String url, final int position) {
+        mImageLoader.get(url, new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                if (response.getBitmap() == null && isImmediate) {
+                    return;
+                }
+
+                mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
+
+                if (position == 0) {
+                    mTopNewsFeedFirstImageReady = true;
+                    fetchTopNewsFeedImages();
+                    notifyIfInitialized();
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (position == 0) {
+                    mTopNewsFeedFirstImageReady = true;
+                    fetchTopNewsFeedImages();
+                    notifyIfInitialized();
+                }
+            }
+        });
     }
 
     @Override
     public void onTopFeedImageUrlFetchFail(News news, int position) {
         // TODO 여기로 들어올 경우 처리 하자!
         NLLog.i(TAG, "fetch image url failed.");
+        news.setImageUrlChecked(true);
+        mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
+
+        if (position == 0) {
+            mTopNewsFeedFirstImageReady = true;
+            fetchTopNewsFeedImages();
+            notifyIfInitialized(true);
+        }
     }
 
     /**

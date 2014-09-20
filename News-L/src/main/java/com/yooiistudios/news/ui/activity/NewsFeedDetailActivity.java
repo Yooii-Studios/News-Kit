@@ -215,7 +215,10 @@ public class NewsFeedDetailActivity extends Activity
 
     private void initActionBar() {
         initActionBarGradientView();
+        applyActionBarTitle();
+    }
 
+    private void applyActionBarTitle() {
         if (getActionBar() != null && mNewsFeed != null) {
             getActionBar().setTitle(mNewsFeed.getTitle());
         }
@@ -372,6 +375,9 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void notifyTopNewsChanged() {
+        // set action bar title
+        applyActionBarTitle();
+
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
 
