@@ -67,7 +67,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
-    private ArrayList<News> mNewsListToFetchImage;
+    private HashMap<News, Boolean> mNewsToFetchImageMap;
     private MainBottomAdapter mBottomNewsFeedAdapter;
     private ArrayList<Animation> mAutoRefreshAnimationList;
 
@@ -257,9 +257,11 @@ public class MainBottomContainerLayout extends FrameLayout
     }
     private void fetchNextBottomNewsFeedListImageUrl(int index) {
         mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
-        mNewsListToFetchImage = new ArrayList<News>();
+        mNewsToFetchImageMap = new HashMap<News, Boolean>();
 
-        for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
+        int newsFeedCount = mBottomNewsFeedList.size();
+
+        for (int i = 0; i < newsFeedCount; i++) {
             NewsFeed newsFeed = mBottomNewsFeedList.get(i);
 
             ArrayList<News> newsList = newsFeed.getNewsList();
@@ -280,12 +282,19 @@ public class MainBottomContainerLayout extends FrameLayout
 
             News news = newsList.get(indexToFetch);
 
+            mNewsToFetchImageMap.put(news, false);
+
             if (!news.isImageUrlChecked()) {
                 BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
-                mNewsListToFetchImage.add(news);
+            } else {
+                if (news.getImageUrl() == null) {
+                    notifyOnNewsImageFetched(news, i);
+                } else {
+                    applyImage(news, i);
+                }
             }
         }
     }
@@ -310,7 +319,7 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
         mBottomNewsFeedNewsToImageTaskMap.clear();
-        mNewsListToFetchImage.clear();
+        mNewsToFetchImageMap.clear();
     }
 
     private void animateBottomNewsFeedListOnInit() {
@@ -432,13 +441,17 @@ public class MainBottomContainerLayout extends FrameLayout
         return mIsInitialized;
     }
 
+    public boolean isInitializedFirstImages() {
+        return mIsInitializedFirstImages;
+    }
+
     private void notifyOnNewsImageFetched(News news, int position) {
         if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
             mBottomNewsFeedAdapter.notifyItemChanged(position);
         }
-        mNewsListToFetchImage.remove(news);
+        mNewsToFetchImageMap.remove(news);
 
-        if (mNewsListToFetchImage.size() == 0) {
+        if (mNewsToFetchImageMap.size() == 0) {
             // 모든 이미지가 불려진 경우
 
             if (!mIsInitializedFirstImages) {
@@ -536,9 +549,16 @@ public class MainBottomContainerLayout extends FrameLayout
 
         NLLog.i(TAG, "title : " + news.getTitle() + "'s image url fetch " +
                 "success.\nimage url : " + url);
-        mImageLoader.get(url, new ImageLoader.ImageListener() {
+        applyImage(news, position);
+    }
+
+    private void applyImage(final News news, final int position) {
+        mImageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                if (response.getBitmap() == null && isImmediate) {
+                    return;
+                }
                 notifyOnNewsImageFetched(news, position);
             }
 
@@ -554,7 +574,7 @@ public class MainBottomContainerLayout extends FrameLayout
         NLLog.i(TAG, "onBottomImageUrlFetchFail");
         news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
-        mNewsListToFetchImage.remove(news);
+        mNewsToFetchImageMap.remove(news);
 
         notifyOnNewsImageFetched(news, position);
     }
