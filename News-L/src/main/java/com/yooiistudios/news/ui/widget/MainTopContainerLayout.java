@@ -121,7 +121,6 @@ public class MainTopContainerLayout extends FrameLayout
         }
     }
 
-
     public void init(Activity activity, boolean refresh) {
         if (!(activity instanceof MainActivity)) {
             throw new IllegalArgumentException("activity MUST BE an instance of MainActivity");
@@ -153,6 +152,7 @@ public class MainTopContainerLayout extends FrameLayout
         } else {
             if (mTopNewsFeed.isValid()) {
                 notifyNewTopNewsFeedSet();
+                notifyIfInitialized();
             } else {
                 mTopNewsFeedReady = false;
                 fetchTopNewsFeed(this);

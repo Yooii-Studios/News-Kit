@@ -12,6 +12,8 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
+import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
 import com.yooiistudios.news.util.NLLog;
 
@@ -112,9 +115,41 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public void autoRefreshBottomNewsFeeds() {
 //        NLLog.now(mBottomNewsFeedRecyclerView.getChildAt(0).getClass().toString());
-//        MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
-//                new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(0));
-//        newsFeedViewHolder.newsFeedTitleTextView.setText("Temp");
+        for (int i = 0; i < mBottomNewsFeedRecyclerView.getChildCount(); i++) {
+            doAutoRefreshBottomNewsFeedAtIndex(i);
+        }
+    }
+    private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
+        final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
+                new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
+
+        AnimationSet hideSet = AnimationFactory.makeBottomHideAnimation();
+        hideSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // 뉴스 갱신
+                NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
+                if (newsFeed.getDisplayingNewsIndex() < newsFeed.getNewsList().size() - 1) {
+                    newsFeed.setDisplayingNewsIndex(newsFeed.getDisplayingNewsIndex() + 1);
+                } else {
+                    newsFeed.setDisplayingNewsIndex(0);
+                }
+                mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+
+                // 다시 보여주기
+                newsFeedViewHolder.newsTitleTextView.startAnimation(
+                        AnimationFactory.makeBottomShowAnimation());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        newsFeedViewHolder.newsTitleTextView.startAnimation(hideSet);
     }
 
     public void init(Activity activity, boolean refresh) {
@@ -402,7 +437,7 @@ public class MainBottomContainerLayout extends FrameLayout
         Intent intent = new Intent(mActivity,
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
-        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, viewHolder.displayingNewsIndex);
+        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, newsFeed.getDisplayingNewsIndex());
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
         intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
 
