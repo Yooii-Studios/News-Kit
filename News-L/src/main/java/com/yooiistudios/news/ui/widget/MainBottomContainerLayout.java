@@ -18,12 +18,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
+import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
@@ -32,6 +35,7 @@ import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
+import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
@@ -63,11 +67,13 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
+    private ArrayList<News> mNewsListToFetchImage;
     private MainBottomAdapter mBottomNewsFeedAdapter;
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private SlideInFromBottomItemAnimator mItemAnimator;
     private Activity mActivity;
+    private ImageLoader mImageLoader;
 
     private boolean mIsInitialized = false;
 
@@ -77,6 +83,7 @@ public class MainBottomContainerLayout extends FrameLayout
     public interface OnMainBottomLayoutEventListener {
         public void onMainBottomInitialLoad();
         public void onMainBottomRefresh();
+        public void onMainBottomNewsImageAllFetched();
     }
 
     public MainBottomContainerLayout(Context context) {
@@ -111,6 +118,9 @@ public class MainBottomContainerLayout extends FrameLayout
         addView(root);
 
         ButterKnife.inject(this);
+
+        mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
+                ImageMemoryCache.getInstance(context));
     }
 
     public void autoRefreshBottomNewsFeeds() {
@@ -227,21 +237,21 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void fetchBottomNewsFeedListImage() {
-        mBottomNewsFeedNewsToImageTaskMap = new
-                HashMap<News, BottomNewsImageUrlFetchTask>();
+        mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
+        mNewsListToFetchImage = new ArrayList<News>();
 
         for (int i = 0; i < mBottomNewsFeedList.size(); i++) {
-            NewsFeed feed = mBottomNewsFeedList.get(i);
+            NewsFeed newsFeed = mBottomNewsFeedList.get(i);
 
-            ArrayList<News> newsList = feed.getNewsList();
-            if (newsList.size() > 0) {
-                // IndexOutOfBoundException 방지
-                News news = newsList.get(0);
+            ArrayList<News> newsList = newsFeed.getNewsList();
+            News news = newsList.get(newsFeed.getDisplayingNewsIndex());
 
+            if (!news.isImageUrlChecked()) {
                 BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
+                mNewsListToFetchImage.add(news);
             }
         }
     }
@@ -266,6 +276,7 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
         mBottomNewsFeedNewsToImageTaskMap.clear();
+        mNewsListToFetchImage.clear();
     }
 
     private void animateBottomNewsFeedListOnInit() {
@@ -387,6 +398,17 @@ public class MainBottomContainerLayout extends FrameLayout
         return mIsInitialized;
     }
 
+    private void notifyOnNewsImageFetched(News news, int position) {
+        if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
+            mBottomNewsFeedAdapter.notifyItemChanged(position);
+        }
+        mNewsListToFetchImage.remove(news);
+
+        if (mNewsListToFetchImage.size() == 0) {
+            mOnMainBottomLayoutEventListener.onMainBottomNewsImageAllFetched();
+        }
+    }
+
     @Override
     public void onBottomNewsFeedFetchSuccess(int position, NewsFeed newsFeed) {
         NLLog.i(TAG, "onBottomNewsFeedFetchSuccess");
@@ -456,26 +478,32 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     @Override
-    public void onBottomImageUrlFetchSuccess(News news, String url, int position) {
+    public void onBottomImageUrlFetchSuccess(final News news, String url, final int position) {
         NLLog.i(TAG, "onBottomImageUrlFetchSuccess");
 
         news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
 
-        if (url != null) {
-            news.setImageUrl(url);
+        news.setImageUrl(url);
 
-            // archive
-            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
-                    mBottomNewsFeedList.get(position), position);
+        // archive
+        NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
+                mBottomNewsFeedList.get(position), position);
 
 
-            NLLog.i(TAG, "title : " + news.getTitle() + "'s image url fetch " +
-                    "success.\nimage url : " + url);
-        }
-        if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
-            mBottomNewsFeedAdapter.notifyItemChanged(position);
-        }
+        NLLog.i(TAG, "title : " + news.getTitle() + "'s image url fetch " +
+                "success.\nimage url : " + url);
+        mImageLoader.get(url, new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                notifyOnNewsImageFetched(news, position);
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                notifyOnNewsImageFetched(news, position);
+            }
+        });
     }
 
     @Override
@@ -483,9 +511,9 @@ public class MainBottomContainerLayout extends FrameLayout
         NLLog.i(TAG, "onBottomImageUrlFetchFail");
         news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
-        if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
-            mBottomNewsFeedAdapter.notifyItemChanged(position);
-        }
+        mNewsListToFetchImage.remove(news);
+
+        notifyOnNewsImageFetched(news, position);
     }
 
     @Override

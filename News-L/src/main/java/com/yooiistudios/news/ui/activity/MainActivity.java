@@ -81,6 +81,11 @@ public class MainActivity extends Activity
         configAfterRefreshDone();
     }
 
+    @Override
+    public void onMainBottomNewsImageAllFetched() {
+        startNewsAutoRefresh();
+    }
+
     private class NewsAutoRefreshHandler extends Handler {
         @Override
         public void handleMessage( Message msg ){
@@ -117,9 +122,6 @@ public class MainActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMainTopContainerLayout.isInitialized() && mMainBottomContainerLayout.isInitialized()) {
-            startNewsAutoRefresh();
-        }
     }
 
     @Override
@@ -215,9 +217,6 @@ public class MainActivity extends Activity
 
             // loaded
             mLoadingContainer.setVisibility(View.GONE);
-
-            // 메인 화면 로딩 후에 오토 리프레시 핸들러를 시작
-            startNewsAutoRefresh();
         }
     }
 
@@ -228,6 +227,7 @@ public class MainActivity extends Activity
             mSwipeRefreshLayout.setRefreshing(false);
             mSwipeRefreshLayout.setEnabled(true);
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
+            startNewsAutoRefresh();
         }
     }
 

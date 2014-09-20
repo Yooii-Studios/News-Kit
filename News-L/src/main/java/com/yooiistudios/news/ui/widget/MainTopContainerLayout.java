@@ -344,15 +344,9 @@ public class MainTopContainerLayout extends FrameLayout
         NLLog.i(TAG, "image url : " + url);
 
         news.setImageUrlChecked(true);
-        if (url == null) {
-            fetchTopNewsFeedImages();
-            notifyIfInitialized(true);
-        }
-        else {
-            news.setImageUrl(url);
+        news.setImageUrl(url);
 
-            applyImage(url, position);
-        }
+        applyImage(url, position);
 
         NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
     }
