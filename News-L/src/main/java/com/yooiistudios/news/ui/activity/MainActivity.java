@@ -82,7 +82,7 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onMainBottomNewsImageAllFetched() {
+    public void onMainBottomNewsImageInitiallyAllFetched() {
         startNewsAutoRefresh();
     }
 

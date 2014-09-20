@@ -69,6 +69,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
     private ArrayList<News> mNewsListToFetchImage;
     private MainBottomAdapter mBottomNewsFeedAdapter;
+    private ArrayList<Animation> mAutoRefreshAnimationList;
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private SlideInFromBottomItemAnimator mItemAnimator;
@@ -76,6 +77,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private ImageLoader mImageLoader;
 
     private boolean mIsInitialized = false;
+    private boolean mIsInitializedFirstImages = false;
 
     private boolean mIsRefreshingBottomNewsFeeds = false;
 
@@ -83,7 +85,7 @@ public class MainBottomContainerLayout extends FrameLayout
     public interface OnMainBottomLayoutEventListener {
         public void onMainBottomInitialLoad();
         public void onMainBottomRefresh();
-        public void onMainBottomNewsImageAllFetched();
+        public void onMainBottomNewsImageInitiallyAllFetched();
     }
 
     public MainBottomContainerLayout(Context context) {
@@ -121,10 +123,14 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
+        mAutoRefreshAnimationList = new ArrayList<Animation>();
     }
 
     public void autoRefreshBottomNewsFeeds() {
 //        NLLog.now(mBottomNewsFeedRecyclerView.getChildAt(0).getClass().toString());
+
+        mAutoRefreshAnimationList.clear();
+
         for (int i = 0; i < mBottomNewsFeedRecyclerView.getChildCount(); i++) {
             doAutoRefreshBottomNewsFeedAtIndex(i);
         }
@@ -153,6 +159,10 @@ public class MainBottomContainerLayout extends FrameLayout
                 // 다시 보여주기
                 newsFeedViewHolder.newsTitleTextView.startAnimation(
                         AnimationFactory.makeBottomShowAnimation());
+
+                // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
+                mAutoRefreshAnimationList.remove(animation);
+                checkAutoRefreshAnimationListDone();
             }
 
             @Override
@@ -160,6 +170,12 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         });
         newsFeedViewHolder.newsTitleTextView.startAnimation(hideSet);
+        mAutoRefreshAnimationList.add(hideSet);
+    }
+    private void checkAutoRefreshAnimationListDone() {
+        if (mAutoRefreshAnimationList.size() == 0) {
+            fetchNextBottomNewsFeedListImageUrl();
+        }
     }
 
     public void init(Activity activity, boolean refresh) {
@@ -236,7 +252,10 @@ public class MainBottomContainerLayout extends FrameLayout
         }
     }
 
-    private void fetchBottomNewsFeedListImage() {
+    private void fetchNextBottomNewsFeedListImageUrl() {
+        fetchNextBottomNewsFeedListImageUrl(-1);
+    }
+    private void fetchNextBottomNewsFeedListImageUrl(int index) {
         mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
         mNewsListToFetchImage = new ArrayList<News>();
 
@@ -244,7 +263,22 @@ public class MainBottomContainerLayout extends FrameLayout
             NewsFeed newsFeed = mBottomNewsFeedList.get(i);
 
             ArrayList<News> newsList = newsFeed.getNewsList();
-            News news = newsList.get(newsFeed.getDisplayingNewsIndex());
+
+            int indexToFetch;
+            if (index >= 0) {
+                indexToFetch = index;
+            } else {
+                indexToFetch = newsFeed.getDisplayingNewsIndex();
+                if (indexToFetch < newsFeed.getNewsList().size() - 1) {
+                    indexToFetch += 1;
+                } else {
+                    indexToFetch = 0;
+                }
+            }
+
+            NLLog.i("indexToFetch", i + "th feed : " + indexToFetch + "th news.");
+
+            News news = newsList.get(indexToFetch);
 
             if (!news.isImageUrlChecked()) {
                 BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
@@ -348,7 +382,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 configOnRefreshed();
 
                 mBottomNewsFeedAdapter.setNewsFeedList(mBottomNewsFeedList);
-                fetchBottomNewsFeedListImage();
+                fetchNextBottomNewsFeedListImageUrl();
             }
         }
     };
@@ -405,7 +439,16 @@ public class MainBottomContainerLayout extends FrameLayout
         mNewsListToFetchImage.remove(news);
 
         if (mNewsListToFetchImage.size() == 0) {
-            mOnMainBottomLayoutEventListener.onMainBottomNewsImageAllFetched();
+            // 모든 이미지가 불려진 경우
+
+            if (!mIsInitializedFirstImages) {
+                mIsInitializedFirstImages = true;
+
+                // 콜백 불러주기
+                mOnMainBottomLayoutEventListener.onMainBottomNewsImageInitiallyAllFetched();
+
+                fetchNextBottomNewsFeedListImageUrl();
+            }
         }
     }
 
@@ -518,6 +561,6 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onAnimationsFinished() {
-        fetchBottomNewsFeedListImage();
+        fetchNextBottomNewsFeedListImageUrl(0);
     }
 }
