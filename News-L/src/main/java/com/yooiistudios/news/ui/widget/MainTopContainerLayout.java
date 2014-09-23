@@ -142,7 +142,7 @@ public class MainTopContainerLayout extends FrameLayout
             mScroller.setAccessible(true);
             SlowSpeedScroller scroller = new SlowSpeedScroller(context,
                     new AccelerateDecelerateInterpolator(context, null), true);
-            mScroller.set(this, scroller);
+            mScroller.set(mTopNewsFeedViewPager, scroller);
         } catch (NoSuchFieldException ignored) {
         } catch (IllegalArgumentException ignored) {
         } catch (IllegalAccessException ignored) {
