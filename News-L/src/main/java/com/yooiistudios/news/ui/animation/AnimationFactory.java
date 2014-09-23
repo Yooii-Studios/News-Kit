@@ -17,7 +17,7 @@ public class AnimationFactory {
     private AnimationFactory() { throw new AssertionError("You MUST not create this class!"); }
 
     private static final int NEWS_FEED_ANIMATION_DURATION = 500;
-    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 260;
+    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 420; // 260;
 //    private static final int NEWS_FEED_ANIMATION_IMAGE_FADE_DURATION = 500;
 
     public static AnimationSet makeBottomSlideOutAnimation() {

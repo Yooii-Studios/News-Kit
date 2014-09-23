@@ -87,9 +87,9 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
 
         Bitmap bitmap;
         if ((bitmap = get(key)) != null) {
-            NLLog.i(TAG, "Memory get succeed. url : " + key);
+//            NLLog.i(TAG, "Memory get succeed. url : " + key);
         } else {
-            NLLog.i(TAG, "Memory get failed. url : " + key);
+//            NLLog.i(TAG, "Memory get failed. url : " + key);
 //            bitmap = getBitmapFromDiskCache(key);
         }
 
@@ -118,7 +118,7 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
     @Override
     public void putBitmap(String key, Bitmap bitmap) {
         put(key, bitmap);
-        NLLog.i(TAG, "Memory put succeed. url : " + key);
+//        NLLog.i(TAG, "Memory put succeed. url : " + key);
 //        new NLImageDiskCacheSaveTask(this, key, bitmap).executeOnExecutor(
 //                AsyncTask.THREAD_POOL_EXECUTOR);
 
