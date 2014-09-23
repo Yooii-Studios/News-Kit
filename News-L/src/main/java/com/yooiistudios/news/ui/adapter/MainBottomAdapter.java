@@ -101,19 +101,6 @@ public class MainBottomAdapter extends
             newsFeedTitleView.setText(newsFeedTitle);
         }
 
-        viewHolder.itemView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        NewsFeed newsFeed = mNewsFeedList.get(position);
-
-                        if (mOnItemClickListener != null && newsFeed.isValid()) {
-                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
-                        }
-                    }
-                }
-        );
-
         String imageUrl = displayingNews.getImageUrl();
 //        if (position == 0) {
 //            NLLog.i("main bottom image", "position : " + position);
@@ -126,7 +113,7 @@ public class MainBottomAdapter extends
 
         if (imageUrl == null) {
             if (displayingNews.isImageUrlChecked()) {
-                showDummyImage(viewHolder);
+                showDummyImage(viewHolder, position);
             }
 
             return;
@@ -167,6 +154,7 @@ public class MainBottomAdapter extends
                     viewHolder.progressBar.setVisibility(View.GONE);
 
                     viewHolder.imageView.setImageBitmap(bitmap);
+                    setOnClickListener(viewHolder, position);
 
                     // apply palette
                     Palette palette = Palette.generate(bitmap);
@@ -188,14 +176,14 @@ public class MainBottomAdapter extends
                         // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
                         showLoading(viewHolder);
                     } else {
-                        showDummyImage(viewHolder);
+                        showDummyImage(viewHolder, position);
                     }
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                showDummyImage(viewHolder);
+                showDummyImage(viewHolder, position);
             }
         });
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
@@ -210,11 +198,27 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setOnClickListener(null);
     }
 
-    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+    private void showDummyImage(BottomNewsFeedViewHolder viewHolder, int position) {
         viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
         viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
         viewHolder.imageView.setTag(TintType.DUMMY);
+        setOnClickListener(viewHolder, position);
+    }
+
+    private void setOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position) {
+        viewHolder.itemView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        NewsFeed newsFeed = mNewsFeedList.get(position);
+
+                        if (mOnItemClickListener != null && newsFeed.isValid()) {
+                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
+                        }
+                    }
+                }
+        );
     }
 
     public static int measureMaximumHeight(Context context, int itemCount, int columnCount) {
