@@ -172,8 +172,7 @@ public class NewsFeedDetailActivity extends Activity
         });
     }
 
-    @Override
-    public void onBackPressed() {
+    private void darkenHeroImage() {
         int filterColor;
         int alpha;
         switch (mTintType) {
@@ -211,6 +210,11 @@ public class NewsFeedDetailActivity extends Activity
         });
         color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI);
         color.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        darkenHeroImage();
     }
 
     private void initActionBar() {

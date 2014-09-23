@@ -492,6 +492,7 @@ public class MainBottomContainerLayout extends FrameLayout
         notifyOnInitialized();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onBottomItemClick(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
                                   NewsFeed newsFeed, int position) {
@@ -502,12 +503,20 @@ public class MainBottomContainerLayout extends FrameLayout
         TextView titleView = viewHolder.newsTitleTextView;
 
 
+        Pair<View, String> imagePair = new Pair<View, String>(imageView, imageView.getViewName());
+        Pair<View, String> titlePair = new Pair<View, String>(titleView, titleView.getViewName());
         ActivityOptions activityOptions =
                 ActivityOptions.makeSceneTransitionAnimation(
                         mActivity,
-                        new Pair<View, String>(imageView, imageView.getViewName()),
-                        new Pair<View, String>(titleView, titleView.getViewName())
+                        imagePair,
+                        titlePair
                 );
+
+
+        /*
+        ActivityOptions activityOptions =
+                ActivityOptions.makeSceneTransitionAnimation(mActivity, imageView, imageView.getViewName());
+        */
 //        ActivityOptions activityOptions2 = ActivityOptions.
 //                makeSceneTransitionAnimation(NLMainActivity.this,
 //                        imageView, imageView.getViewName());
