@@ -39,7 +39,7 @@
     <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
         <item name="android:textAppearance">@android:style/TextAppearance.Material.Headline</item>
         <!--<item name="android:textStyle">bold</item>-->
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">19sp</item>
     </style>
 
     <style name="MainNewsFeedTitleTextBaseStyle">
@@ -63,7 +63,7 @@
 
     <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
         <item name="android:textAppearance">@android:style/TextAppearance.Material.Caption</item>
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">10sp</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 

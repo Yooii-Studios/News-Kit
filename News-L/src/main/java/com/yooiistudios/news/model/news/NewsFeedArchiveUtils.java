@@ -45,7 +45,7 @@ public class NewsFeedArchiveUtils {
         if (newsFeedStr != null) {
             newsFeed = new Gson().fromJson(newsFeedStr, feedType);
         } else {
-            NewsFeedUrl url = MainNewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
+            NewsFeedUrl url = NewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
             newsFeed = new NewsFeed();
             newsFeed.setNewsFeedUrl(url);
         }
@@ -60,7 +60,7 @@ public class NewsFeedArchiveUtils {
         ArrayList<NewsFeed> feedList = new ArrayList<NewsFeed>();
         if (bottomNewsSize < 0) {
             ArrayList<NewsFeedUrl> urlList =
-                    MainNewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
+                    NewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
             for (NewsFeedUrl newsFeedUrl : urlList) {
                 NewsFeed newsFeed = new NewsFeed();
                 newsFeed.setNewsFeedUrl(newsFeedUrl);
