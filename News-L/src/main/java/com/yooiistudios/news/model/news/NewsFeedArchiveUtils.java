@@ -16,6 +16,8 @@ import java.util.ArrayList;
  *  뉴스 피드 아카이빙 유틸
  */
 public class NewsFeedArchiveUtils {
+    private static final String TAG = NewsFeedArchiveUtils.class.getName();
+
     private static final String SP_KEY_NEWS_FEED = "SP_KEY_NEWS_FEED";
 
     private static final String KEY_TOP_NEWS_FEED = "KEY_TOP_NEWS_FEED";
@@ -71,6 +73,13 @@ public class NewsFeedArchiveUtils {
                 if (newsFeed == null) {
                     break;
                 }
+
+                //test
+//                if (i == 2) {
+//                    for (News news : newsFeed.getNewsList()) {
+//                        NLLog.i(TAG, news.getImageUrl());
+//                    }
+//                }
 
                 feedList.add(newsFeed);
             }

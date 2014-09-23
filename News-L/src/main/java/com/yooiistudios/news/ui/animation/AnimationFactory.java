@@ -19,7 +19,7 @@ public class AnimationFactory {
     private static final int NEWS_FEED_ANIMATION_DURATION = 250;
     private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 200;
 
-    public static AnimationSet makeBottomHideAnimation() {
+    public static AnimationSet makeBottomSlideOutAnimation() {
         AnimationSet hideSet = new AnimationSet(true);
         hideSet.setInterpolator(new AccelerateInterpolator());
 
@@ -42,7 +42,7 @@ public class AnimationFactory {
         return hideSet;
     }
 
-    public static AnimationSet makeBottomShowAnimation() {
+    public static AnimationSet makeBottomSlideInAnimation() {
         AnimationSet showSet = new AnimationSet(false);
         showSet.setInterpolator(new DecelerateInterpolator());
 
@@ -63,5 +63,24 @@ public class AnimationFactory {
         fadeInAnim.setFillAfter(true);
         showSet.addAnimation(fadeInAnim);
         return showSet;
+    }
+
+
+    public static Animation makeBottomFadeOutAnimation() {
+        Animation fadeoutAnim = new AlphaAnimation(1.0f, 0.0f);
+        fadeoutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
+        fadeoutAnim.setFillEnabled(true);
+        fadeoutAnim.setFillAfter(true);
+        fadeoutAnim.setInterpolator(new AccelerateInterpolator());
+        return fadeoutAnim;
+    }
+
+    public static Animation makeBottomFadeInAnimation() {
+        Animation fadeoutAnim = new AlphaAnimation(0.0f, 1.0f);
+        fadeoutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
+        fadeoutAnim.setFillEnabled(true);
+        fadeoutAnim.setFillAfter(true);
+        fadeoutAnim.setInterpolator(new AccelerateInterpolator());
+        return fadeoutAnim;
     }
 }
