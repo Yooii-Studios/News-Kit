@@ -294,7 +294,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 }
             }
 
-            NLLog.i("indexToFetch", i + "th feed : " + indexToFetch + "th news.");
+//            NLLog.i("indexToFetch", i + "th feed : " + indexToFetch + "th news.");
 
             News news = newsList.get(indexToFetch);
 
