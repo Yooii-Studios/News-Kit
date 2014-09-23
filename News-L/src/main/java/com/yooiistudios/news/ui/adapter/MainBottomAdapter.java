@@ -27,7 +27,6 @@ import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.ImageMemoryCache;
-import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 
@@ -116,46 +115,53 @@ public class MainBottomAdapter extends
         );
 
         String imageUrl = displayingNews.getImageUrl();
-//        NLLog.i("main bottom image", "position : " + position);
-//        NLLog.i("main bottom image", "imageUrl : " + imageUrl);
-//        NLLog.i("main bottom image", "displayingNewsIdx: " + mNewsFeedList.get(position).getDisplayingNewsIndex());
+//        if (position == 0) {
+//            NLLog.i("main bottom image", "position : " + position);
+//            NLLog.i("main bottom image", "imageUrl : " + imageUrl);
+//            NLLog.i("main bottom image", "displayingNewsIdx: " + mNewsFeedList.get(position).getDisplayingNewsIndex());
+//            NLLog.i("main bottom image", "displayingNews.isImageUrlChecked() : " + displayingNews.isImageUrlChecked());
+//        }
 
-//        NLLog.i("main bottom image", "displayingNews.isImageUrlChecked() : " + displayingNews.isImageUrlChecked());
+        showLoading(viewHolder);
+
         if (imageUrl == null) {
             if (displayingNews.isImageUrlChecked()) {
-                showDummyImage(viewHolder.imageView);
-                viewHolder.progressBar.setVisibility(View.GONE);
-                return;
-            } else {
-                viewHolder.progressBar.setVisibility(View.VISIBLE);
-//                NLLog.i(TAG, "progressBar imgUrl:null, imgurlChecked:false");
-                viewHolder.imageView.setImageDrawable(null);
-                viewHolder.imageView.setColorFilter(null);
-                return;
+                showDummyImage(viewHolder);
             }
+
+            return;
         }
 
         RequestQueue requestQueue = NewsImageRequestQueue.getInstance(mContext).getRequestQueue();
         ImageLoader imageLoader = new ImageLoader(requestQueue,
                 ImageMemoryCache.getInstance(mContext));
 
-        imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
+        Object tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request_idx);
+
+        if (tag != null) {
+            int previousRequestIdx = (Integer)tag;
+            int currentNewsIndex = mNewsFeedList.get(position).getDisplayingNewsIndex();
+
+            if (currentNewsIndex != previousRequestIdx) {
+                tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request);
+                ((ImageLoader.ImageContainer) tag).cancelRequest();
+            }
+        }
+        ImageLoader.ImageContainer imageContainer =
+                imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 final Bitmap bitmap = response.getBitmap();
 
-//                NLLog.i("volley image get", "position : " + position + ", " +
-//                        "isImmediate : " + isImmediate + ", bitmap : " + bitmap);
-
                 if (bitmap == null && isImmediate) {
                     // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
-                    viewHolder.progressBar.setVisibility(View.GONE);
+//                    viewHolder.progressBar.setVisibility(View.GONE);
                     return;
                 }
 
-                if (viewHolder.imageView.getAnimation() != null) {
-                    viewHolder.progressBar.setVisibility(View.GONE);
-                }
+//                if (viewHolder.imageView.getAnimation() != null) {
+//                    viewHolder.progressBar.setVisibility(View.GONE);
+//                }
 
                 if (bitmap != null) {
                     viewHolder.progressBar.setVisibility(View.GONE);
@@ -180,25 +186,35 @@ public class MainBottomAdapter extends
                 } else {
                     if (!displayingNews.isImageUrlChecked()) {
                         // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
-//                        NLLog.i(TAG, "progressBar bitmap:null, imgurlChecked:false");
-                        viewHolder.progressBar.setVisibility(View.VISIBLE);
+                        showLoading(viewHolder);
                     } else {
-                        viewHolder.progressBar.setVisibility(View.GONE);
+                        showDummyImage(viewHolder);
                     }
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                showDummyImage(viewHolder.imageView);
+                showDummyImage(viewHolder);
             }
         });
+        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
+        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
+                mNewsFeedList.get(position).getDisplayingNewsIndex());
     }
 
-    private void showDummyImage(ImageView imageView) {
-        imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
-        imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
-        imageView.setTag(TintType.DUMMY);
+    private void showLoading(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
+        viewHolder.imageView.setImageDrawable(null);
+        viewHolder.imageView.setColorFilter(null);
+        viewHolder.itemView.setOnClickListener(null);
+    }
+
+    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.progressBar.setVisibility(View.GONE);
+        viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
+        viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
+        viewHolder.imageView.setTag(TintType.DUMMY);
     }
 
     public static int measureMaximumHeight(Context context, int itemCount, int columnCount) {
