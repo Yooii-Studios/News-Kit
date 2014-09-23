@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -124,6 +123,9 @@ public class MainBottomContainerLayout extends FrameLayout
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
         mAutoRefreshAnimationList = new ArrayList<Animation>();
+
+        setAnimationCacheEnabled(true);
+        setDrawingCacheEnabled(true);
     }
 
     public void autoRefreshBottomNewsFeeds() {
@@ -131,15 +133,26 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mAutoRefreshAnimationList.clear();
 
-        for (int i = 0; i < mBottomNewsFeedRecyclerView.getChildCount(); i++) {
-            doAutoRefreshBottomNewsFeedAtIndex(i);
-        }
+        mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < mBottomNewsFeedRecyclerView.getChildCount(); i++) {
+                    final int idx = i;
+                    mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            doAutoRefreshBottomNewsFeedAtIndex(idx);
+                        }
+                    }, idx * 50);
+                }
+            }
+        }, 30);
     }
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
                 new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
 
-        AnimationSet hideTextSet = AnimationFactory.makeBottomSlideOutAnimation();
+        Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation();
         hideTextSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -158,7 +171,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 // 다시 보여주기
                 newsFeedViewHolder.newsTitleTextView.startAnimation(
-                        AnimationFactory.makeBottomSlideInAnimation());
+                        AnimationFactory.makeBottomFadeInAnimation());
                 newsFeedViewHolder.imageView.startAnimation(
                         AnimationFactory.makeBottomFadeInAnimation());
 
