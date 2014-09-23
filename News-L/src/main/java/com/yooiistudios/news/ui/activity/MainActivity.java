@@ -3,6 +3,7 @@ package com.yooiistudios.news.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -57,7 +58,8 @@ public class MainActivity extends Activity
      * Auto Refresh Handler
      */
     // auto refresh handler
-    private static final int AUTO_REFRESH_HANDLER_DELAY = 4 * 1000; // finally to be 10 secs
+    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000; // finally to be 10 secs
+    private static final int AUTO_REFRESH_HANDLER_DELAY = 7 * 1000; // finally to be 10 secs
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
 
@@ -119,7 +121,16 @@ public class MainActivity extends Activity
             return;
         }
         mIsHandlerRunning = true;
-        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, AUTO_REFRESH_HANDLER_DELAY);
+        // 첫 실행이면 빠른 딜레이 주기
+        SharedPreferences prefs = getSharedPreferences("AutoRefreshDelayPrefs", MODE_PRIVATE);
+        int delay;
+        if (prefs.getBoolean("isNotFirstAutoRefresh", false)) {
+            delay = AUTO_REFRESH_HANDLER_FIRST_DELAY;
+            prefs.edit().putBoolean("isNotFirstAutoRefresh", true).apply();
+        } else {
+            delay = AUTO_REFRESH_HANDLER_DELAY;
+        }
+        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, delay);
     }
 
     private void stopNewsAutoRefresh() {

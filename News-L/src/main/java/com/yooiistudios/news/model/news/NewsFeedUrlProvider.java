@@ -8,22 +8,22 @@ import java.util.ArrayList;
  * NLNewsFeedPreset
  *  디폴드 뉴스 피드 제공자
  */
-public class MainNewsFeedUrlProvider {
+public class NewsFeedUrlProvider {
 
     private NewsFeedUrl mTopNewsFeedUrl;
     private ArrayList<NewsFeedUrl> mBottomNewsFeedUrlList;
 
-    private static MainNewsFeedUrlProvider instance;
+    private static NewsFeedUrlProvider instance;
 
-    public static MainNewsFeedUrlProvider getInstance() {
+    public static NewsFeedUrlProvider getInstance() {
         if (instance == null) {
-            instance = new MainNewsFeedUrlProvider();
+            instance = new NewsFeedUrlProvider();
         }
 
         return instance;
     }
 
-    private MainNewsFeedUrlProvider() {
+    private NewsFeedUrlProvider() {
         mTopNewsFeedUrl = new NewsFeedUrl("http://rss.cnn.com/rss/edition.rss",
                 NewsFeedUrlType.GENERAL);
 
