@@ -17,6 +17,9 @@ import java.util.Random;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
+ *
+ * NewsFeedFetchUtil
+ *  url을 받아 뉴스피드를 파싱해 가져오는 유틸
  */
 public class NewsFeedFetchUtil {
     private static final int MAX_DESCRIPTION_LENGTH = 200;
