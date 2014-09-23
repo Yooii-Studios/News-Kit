@@ -62,6 +62,9 @@ public class MainBottomContainerLayout extends FrameLayout
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
+    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI = 200;
+    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET = 200; // 30;
+
     private ArrayList<NewsFeed> mBottomNewsFeedList;
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
@@ -143,10 +146,10 @@ public class MainBottomContainerLayout extends FrameLayout
                         public void run() {
                             doAutoRefreshBottomNewsFeedAtIndex(idx);
                         }
-                    }, idx * 50);
+                    }, idx * BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI);
                 }
             }
-        }, 30);
+        }, BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET);
     }
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =

@@ -116,11 +116,11 @@ public class MainBottomAdapter extends
         );
 
         String imageUrl = displayingNews.getImageUrl();
-        NLLog.i("main bottom image", "position : " + position);
-        NLLog.i("main bottom image", "imageUrl : " + imageUrl);
-        NLLog.i("main bottom image", "displayingNewsIdx: " + mNewsFeedList.get(position).getDisplayingNewsIndex());
+//        NLLog.i("main bottom image", "position : " + position);
+//        NLLog.i("main bottom image", "imageUrl : " + imageUrl);
+//        NLLog.i("main bottom image", "displayingNewsIdx: " + mNewsFeedList.get(position).getDisplayingNewsIndex());
 
-        NLLog.i("main bottom image", "displayingNews.isImageUrlChecked() : " + displayingNews.isImageUrlChecked());
+//        NLLog.i("main bottom image", "displayingNews.isImageUrlChecked() : " + displayingNews.isImageUrlChecked());
         if (imageUrl == null) {
             if (displayingNews.isImageUrlChecked()) {
                 showDummyImage(viewHolder.imageView);
@@ -128,7 +128,7 @@ public class MainBottomAdapter extends
                 return;
             } else {
                 viewHolder.progressBar.setVisibility(View.VISIBLE);
-                NLLog.i(TAG, "progressBar imgUrl:null, imgurlChecked:false");
+//                NLLog.i(TAG, "progressBar imgUrl:null, imgurlChecked:false");
                 viewHolder.imageView.setImageDrawable(null);
                 viewHolder.imageView.setColorFilter(null);
                 return;
@@ -144,8 +144,8 @@ public class MainBottomAdapter extends
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 final Bitmap bitmap = response.getBitmap();
 
-                NLLog.i("volley image get", "position : " + position + ", " +
-                        "isImmediate : " + isImmediate + ", bitmap : " + bitmap);
+//                NLLog.i("volley image get", "position : " + position + ", " +
+//                        "isImmediate : " + isImmediate + ", bitmap : " + bitmap);
 
                 if (bitmap == null && isImmediate) {
                     // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
@@ -180,7 +180,7 @@ public class MainBottomAdapter extends
                 } else {
                     if (!displayingNews.isImageUrlChecked()) {
                         // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
-                        NLLog.i(TAG, "progressBar bitmap:null, imgurlChecked:false");
+//                        NLLog.i(TAG, "progressBar bitmap:null, imgurlChecked:false");
                         viewHolder.progressBar.setVisibility(View.VISIBLE);
                     } else {
                         viewHolder.progressBar.setVisibility(View.GONE);
@@ -202,8 +202,8 @@ public class MainBottomAdapter extends
     }
 
     public static int measureMaximumHeight(Context context, int itemCount, int columnCount) {
-        NLLog.i(TAG, "itemCount : " + itemCount);
-        NLLog.i(TAG, "columnCount : " + columnCount);
+//        NLLog.i(TAG, "itemCount : " + itemCount);
+//        NLLog.i(TAG, "columnCount : " + columnCount);
 
         // get display width
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -221,7 +221,7 @@ public class MainBottomAdapter extends
 
         float rowHeight = getRowHeight(rowWidth);
 
-        NLLog.i(TAG, "rowHeight : " + rowHeight);
+//        NLLog.i(TAG, "rowHeight : " + rowHeight);
 
         int rowCount = itemCount / columnCount;
         if (itemCount % columnCount != 0) {
