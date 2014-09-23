@@ -41,6 +41,7 @@ public class SquareCardView extends CardView {
         int widthParam = typedArray.getInt(0, 0);
         int heightParam = typedArray.getInt(1, 0);
 
+        /*
         NLLog.i(TAG, "ViewGroup.LayoutParams.WRAP_CONTENT : " +
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         NLLog.i(TAG, "ViewGroup.LayoutParams.MATCH_PARENT : " +
@@ -48,23 +49,24 @@ public class SquareCardView extends CardView {
 
         NLLog.i(TAG, "widthParam : " + widthParam);
         NLLog.i(TAG, "heightParam : " + heightParam);
+        */
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        NLLog.i(TAG, "MeasureSpec.AT_MOST : " + MeasureSpec.AT_MOST); // wrap_content
-        NLLog.i(TAG, "MeasureSpec.EXACTLY : " + MeasureSpec.EXACTLY); // match_parent
-        NLLog.i(TAG, "MeasureSpec.UNSPECIFIED : " + MeasureSpec.UNSPECIFIED);
+//        NLLog.i(TAG, "MeasureSpec.AT_MOST : " + MeasureSpec.AT_MOST); // wrap_content
+//        NLLog.i(TAG, "MeasureSpec.EXACTLY : " + MeasureSpec.EXACTLY); // match_parent
+//        NLLog.i(TAG, "MeasureSpec.UNSPECIFIED : " + MeasureSpec.UNSPECIFIED);
 
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        NLLog.i(TAG, "widthMode : " + widthMode);
-        NLLog.i(TAG, "heightMode : " + heightMode);
+//        NLLog.i(TAG, "widthMode : " + widthMode);
+//        NLLog.i(TAG, "heightMode : " + heightMode);
 
         int measuredWidth = MeasureSpec.getSize(widthMeasureSpec);
         int measuredHeight = MeasureSpec.getSize(heightMeasureSpec);
-        NLLog.i(TAG, "measuredWidth : " + measuredWidth);
-        NLLog.i(TAG, "measuredHeight : " + measuredHeight);
+//        NLLog.i(TAG, "measuredWidth : " + measuredWidth);
+//        NLLog.i(TAG, "measuredHeight : " + measuredHeight);
 
 //        int size = Math.max(measuredWidth, measuredHeight);
         int rowHeight = (int)MainBottomAdapter.getRowHeight(measuredWidth);
