@@ -416,7 +416,6 @@ public class NewsFeedUtils {
 
     /**
      * Color used to Main Top news image and Dummy image
-     * @return
      */
     public static int getGrayFilterColor() {
         return Color.argb(127, 16, 16, 16);

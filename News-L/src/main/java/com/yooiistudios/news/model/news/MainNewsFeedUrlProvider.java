@@ -24,11 +24,11 @@ public class MainNewsFeedUrlProvider {
     }
 
     private MainNewsFeedUrlProvider() {
-        mTopNewsFeedUrl = new NewsFeedUrl("http://feeds2.feedburner.com/time/topstories",
+        mTopNewsFeedUrl = new NewsFeedUrl("http://rss.cnn.com/rss/edition.rss",
                 NewsFeedUrlType.GENERAL);
 
         mBottomNewsFeedUrlList = new ArrayList<NewsFeedUrl>();
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.cnn.com/rss/edition.rss",
+        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://feeds2.feedburner.com/time/topstories",
                 NewsFeedUrlType.GENERAL));
         mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
                 NewsFeedUrlType.GENERAL));
