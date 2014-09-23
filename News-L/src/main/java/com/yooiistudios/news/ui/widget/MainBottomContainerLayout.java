@@ -139,8 +139,8 @@ public class MainBottomContainerLayout extends FrameLayout
         final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
                 new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
 
-        AnimationSet hideSet = AnimationFactory.makeBottomHideAnimation();
-        hideSet.setAnimationListener(new Animation.AnimationListener() {
+        AnimationSet hideTextSet = AnimationFactory.makeBottomSlideOutAnimation();
+        hideTextSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
             }
@@ -158,7 +158,9 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 // 다시 보여주기
                 newsFeedViewHolder.newsTitleTextView.startAnimation(
-                        AnimationFactory.makeBottomShowAnimation());
+                        AnimationFactory.makeBottomSlideInAnimation());
+                newsFeedViewHolder.imageView.startAnimation(
+                        AnimationFactory.makeBottomFadeInAnimation());
 
                 // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
                 mAutoRefreshAnimationList.remove(animation);
@@ -169,8 +171,9 @@ public class MainBottomContainerLayout extends FrameLayout
             public void onAnimationRepeat(Animation animation) {
             }
         });
-        newsFeedViewHolder.newsTitleTextView.startAnimation(hideSet);
-        mAutoRefreshAnimationList.add(hideSet);
+        newsFeedViewHolder.newsTitleTextView.startAnimation(hideTextSet);
+        mAutoRefreshAnimationList.add(hideTextSet);
+        newsFeedViewHolder.imageView.startAnimation(AnimationFactory.makeBottomFadeOutAnimation());
     }
     private void checkAutoRefreshAnimationListDone() {
         if (mAutoRefreshAnimationList.size() == 0) {
