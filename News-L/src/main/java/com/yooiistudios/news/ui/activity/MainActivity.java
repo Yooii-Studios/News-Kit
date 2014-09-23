@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
@@ -35,8 +36,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
-    @InjectView(R.id.main_bottom_layout_container)
-                                            MainBottomContainerLayout mMainBottomContainerLayout;
+    @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
 
     private static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
