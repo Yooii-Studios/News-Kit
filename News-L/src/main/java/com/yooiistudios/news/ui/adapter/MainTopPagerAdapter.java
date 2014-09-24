@@ -57,7 +57,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
         mFragmentSparseArray.remove(position);
     }
 
-    public void notifyImageLoaded(int position) {
+    public void notifyImageUrlLoaded(int position) {
         MainNewsFeedFragment item = mFragmentSparseArray.get(position);
         if (item != null) {
             item.applyImage();
@@ -69,5 +69,9 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
         mNewsFeed = newsFeed;
         notifyDataSetChanged();
+    }
+
+    public NewsFeed getNewsFeed() {
+        return mNewsFeed;
     }
 }

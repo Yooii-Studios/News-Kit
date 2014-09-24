@@ -332,6 +332,11 @@ public class MainTopContainerLayout extends FrameLayout
         }
     }
 
+    public void configOnNewsImageUrlLoadedAt(String imageUrl, int idx) {
+        mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList().get(idx).setImageUrl(imageUrl);
+        mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(idx);
+    }
+
     public boolean isInitialized() {
         return mIsInitialized;
     }
@@ -362,7 +367,7 @@ public class MainTopContainerLayout extends FrameLayout
                     return;
                 }
 
-                mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
+                mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 
                 if (position == 0) {
                     mTopNewsFeedFirstImageReady = true;
@@ -387,7 +392,7 @@ public class MainTopContainerLayout extends FrameLayout
         // TODO 여기로 들어올 경우 처리 하자!
         NLLog.i(TAG, "fetch image url failed.");
         news.setImageUrlChecked(true);
-        mTopNewsFeedPagerAdapter.notifyImageLoaded(position);
+        mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 
         if (position == 0) {
             mTopNewsFeedFirstImageReady = true;

@@ -442,6 +442,12 @@ public class MainBottomContainerLayout extends FrameLayout
         }
     }
 
+    public void configOnNewsImageUrlLoadedAt(String imageUrl, int newsFeedIndex, int newsIndex) {
+        mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex).
+                getNewsList().get(newsIndex).setImageUrl(imageUrl);
+        mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+    }
+
     private BottomNewsFeedFetchTask.OnFetchListener mOnBottomNewsFeedFetchListener
             = new BottomNewsFeedFetchTask.OnFetchListener() {
 

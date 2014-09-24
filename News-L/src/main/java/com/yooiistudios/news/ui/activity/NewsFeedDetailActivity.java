@@ -82,6 +82,8 @@ public class NewsFeedDetailActivity extends Activity
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
+    public static final String INTENT_KEY_IMAGE_LOADED = "INTENT_KEY_IMAGE_LOADED";
+    public static final String INTENT_KEY_IMAGE_URL = "INTENT_KEY_IMAGE_URL";
 
     public static final int REQ_SELECT_NEWS_FEED = 13841;
 
@@ -99,6 +101,7 @@ public class NewsFeedDetailActivity extends Activity
     private boolean mHasAnimatedColorFilter = false;
 
     private boolean mHasNewsFeedReplaced = false;
+    private boolean mIsLoadingImageOnInit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -420,6 +423,10 @@ public class NewsFeedDetailActivity extends Activity
         // set image
         String imgUrl = mTopNews.getImageUrl();
         if (imgUrl != null) {
+            getIntent().putExtra(INTENT_KEY_IMAGE_LOADED, true);
+            getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
+            setResult(RESULT_OK, getIntent());
+
             mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -437,7 +444,10 @@ public class NewsFeedDetailActivity extends Activity
                     }
                     hideLoadingCover();
 
-                    animateTopImageViewColorFilter();
+                    if (mIsLoadingImageOnInit) {
+                        mIsLoadingImageOnInit = false;
+                        animateTopImageViewColorFilter();
+                    }
                 }
 
                 @Override
@@ -449,7 +459,10 @@ public class NewsFeedDetailActivity extends Activity
 
                     hideLoadingCover();
 
-                    animateTopImageViewColorFilter();
+                    if (mIsLoadingImageOnInit) {
+                        mIsLoadingImageOnInit = false;
+                        animateTopImageViewColorFilter();
+                    }
                 }
             });
         } else if (mTopNews.isImageUrlChecked()) {
@@ -462,6 +475,8 @@ public class NewsFeedDetailActivity extends Activity
             animateTopItems();
             new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this)
                     .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            mIsLoadingImageOnInit = true;
         }
     }
 
@@ -761,21 +776,12 @@ public class NewsFeedDetailActivity extends Activity
 
                     fetchNewsFeed(newsFeed.getNewsFeedUrl());
 
-                    mHasNewsFeedReplaced = true;
+                    getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
+                    setResult(RESULT_OK, getIntent());
 
                     break;
             }
         }
         NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
-    }
-
-    @Override
-    public void finish() {
-        if (mHasNewsFeedReplaced) {
-            getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
-            setResult(RESULT_OK, getIntent());
-        }
-
-        super.finish();
     }
 }

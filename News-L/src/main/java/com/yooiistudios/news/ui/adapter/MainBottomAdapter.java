@@ -99,6 +99,7 @@ public class MainBottomAdapter extends
                 }
         );
 
+        // 뉴스 제목 설정
         String newsTitle = displayingNews.getTitle();
         if (newsTitle != null) {
             titleView.setText(newsTitle);
@@ -106,7 +107,6 @@ public class MainBottomAdapter extends
         titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
                 VIEW_NAME_POSTFIX + position);
 
-//        imageView.setImageDrawable(new ColorDrawable(NewsFeedUtils.getMainBottomDefaultBackgroundColor()));
         imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + VIEW_NAME_POSTFIX + position);
 
         String newsFeedTitle = mNewsFeedList.get(position).getTitle();

@@ -1,7 +1,6 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.WindowInsets;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
@@ -295,24 +295,46 @@ public class MainActivity extends Activity
                     boolean hasNewsFeedReplaced = extras.getBoolean(
                             NewsFeedDetailActivity.INTENT_KEY_NEWSFEED_REPLACED, false);
                     String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+                    boolean newImageLoaded = extras.getBoolean(
+                            NewsFeedDetailActivity.INTENT_KEY_IMAGE_LOADED, false);
 
-                    if (!hasNewsFeedReplaced || newsFeedType == null) {
-                        break;
+                    if (newsFeedType == null) {
+                        return;
                     }
+                    if (hasNewsFeedReplaced) {
+                        // 교체된게 top news feed인지 bottom news feed인지 구분
+                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                            // bottom news feed중 하나가 교체됨
 
-                    Context context = getApplicationContext();
-                    // 교체된게 top news feed인지 bottom news feed인지 구분
-                    if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                        // bottom news feed중 하나가 교체됨
-
-                        // bottom news feed의 index를 가져옴
-                        int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
-                        if (idx >= 0) {
-                            mMainBottomContainerLayout.configOnNewsFeedReplacedAt(idx);
+                            // bottom news feed의 index를 가져옴
+                            int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+                            if (idx >= 0) {
+                                mMainBottomContainerLayout.configOnNewsFeedReplacedAt(idx);
+                            }
+                        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+                            // top news feed가 교체됨
+                            mMainTopContainerLayout.configOnNewsFeedReplaced();
                         }
-                    } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                        // top news feed가 교체됨
-                        mMainTopContainerLayout.configOnNewsFeedReplaced();
+                    } else if (newImageLoaded) {
+                        String imgUrl = extras.getString(
+                                NewsFeedDetailActivity.INTENT_KEY_IMAGE_URL, null);
+
+                        if (imgUrl == null) {
+                            return;
+                        }
+
+                        int newsIndex = extras.getInt(News.KEY_CURRENT_NEWS_INDEX, -1);
+                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                            int newsFeedIndex = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+                            if (newsFeedIndex >= 0 && newsIndex >= 0) {
+                                mMainBottomContainerLayout.configOnNewsImageUrlLoadedAt(
+                                        imgUrl, newsFeedIndex, newsIndex);
+                            }
+                        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+                            if (newsIndex >= 0) {
+                                mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
+                            }
+                        }
                     }
 
                     break;
