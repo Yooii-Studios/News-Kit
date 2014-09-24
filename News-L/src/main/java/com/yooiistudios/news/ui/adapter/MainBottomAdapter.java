@@ -86,6 +86,19 @@ public class MainBottomAdapter extends
         // 무조건 첫 실행시에는 첫번째 뉴스를 보여주게 변경
         final News displayingNews = newsList.get(mNewsFeedList.get(position).getDisplayingNewsIndex());
 
+        viewHolder.itemView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        NewsFeed newsFeed = mNewsFeedList.get(position);
+
+                        if (mOnItemClickListener != null && newsFeed.isValid()) {
+                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
+                        }
+                    }
+                }
+        );
+
         String newsTitle = displayingNews.getTitle();
         if (newsTitle != null) {
             titleView.setText(newsTitle);
@@ -154,7 +167,7 @@ public class MainBottomAdapter extends
                     viewHolder.progressBar.setVisibility(View.GONE);
 
                     viewHolder.imageView.setImageBitmap(bitmap);
-                    setOnClickListener(viewHolder, position);
+//                    setOnClickListener(viewHolder, position);
 
                     // apply palette
                     Palette palette = Palette.generate(bitmap);
@@ -195,7 +208,7 @@ public class MainBottomAdapter extends
         viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.imageView.setImageDrawable(null);
         viewHolder.imageView.setColorFilter(null);
-        viewHolder.itemView.setOnClickListener(null);
+//        viewHolder.itemView.setOnClickListener(null);
     }
 
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder, int position) {
@@ -203,23 +216,23 @@ public class MainBottomAdapter extends
         viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
         viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
         viewHolder.imageView.setTag(TintType.DUMMY);
-        setOnClickListener(viewHolder, position);
+//        setOnClickListener(viewHolder, position);
     }
 
-    private void setOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position) {
-        viewHolder.itemView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        NewsFeed newsFeed = mNewsFeedList.get(position);
-
-                        if (mOnItemClickListener != null && newsFeed.isValid()) {
-                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
-                        }
-                    }
-                }
-        );
-    }
+//    private void setOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position) {
+//        viewHolder.itemView.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        NewsFeed newsFeed = mNewsFeedList.get(position);
+//
+//                        if (mOnItemClickListener != null && newsFeed.isValid()) {
+//                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
+//                        }
+//                    }
+//                }
+//        );
+//    }
 
     public static int measureMaximumHeight(Context context, int itemCount, int columnCount) {
 //        NLLog.i(TAG, "itemCount : " + itemCount);

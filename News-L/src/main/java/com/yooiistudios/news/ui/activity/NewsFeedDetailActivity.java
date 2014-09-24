@@ -56,8 +56,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewsFeedDetailActivity extends Activity
-        implements NewsFeedDetailAdapter.OnItemClickListener,
-        ObservableScrollView.Callbacks, ImageLoader.ImageListener,
+        implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
         RecyclerView.ItemAnimator.ItemAnimatorFinishedListener,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
@@ -136,28 +135,49 @@ public class NewsFeedDetailActivity extends Activity
         initBottomNewsList();
         initLoadingCoverView();
 
-        getWindow().getEnterTransition().addListener(new TransitionAdapter() {
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
-                color.addUpdateListener(new ColorFilterListener(mTopImageView));
-                color.addListener(new Animator.AnimatorListener() {
-                    @Override public void onAnimationStart(Animator animator) {}
-                    @Override public void onAnimationCancel(Animator animator) {}
-                    @Override public void onAnimationRepeat(Animator animator) {}
+        if (mTopImageView.getDrawable() != null) {
+            hideLoadingCover();
+            getWindow().getEnterTransition().addListener(new TransitionAdapter() {
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    animateTopImageViewColorFilter();
 
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        mHasAnimatedColorFilter = true;
-                    }
-
-                });
-                color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
-
-                getWindow().getEnterTransition().removeListener(this);
-            }
-        });
+                    getWindow().getEnterTransition().removeListener(this);
+                }
+            });
+        } else {
+            showLoadingCover();
+        }
     }
+
+    private void animateTopImageViewColorFilter() {
+        if (mHasAnimatedColorFilter) {
+            return;
+        }
+        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
+        color.addUpdateListener(new ColorFilterListener(mTopImageView));
+        color.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                mHasAnimatedColorFilter = true;
+            }
+
+        });
+        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
+    }
+
     private void initLoadingCoverView() {
         Point displaySize = new Point();
         getWindowManager().getDefaultDisplay().getSize(displaySize);
@@ -187,13 +207,7 @@ public class NewsFeedDetailActivity extends Activity
                 alpha = Color.alpha(filterColor);
                 break;
         }
-//        if (mUseGrayFilter) {
-//            filterColor = NewsFeedUtils.getGrayFilterColor();
-//            alpha = Color.alpha(filterColor);
-//        } else {
-//            filterColor = mPalette.getDarkVibrantColor().getRgb();
-//            alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-//        }
+
         int red = Color.red(filterColor);
         int green = Color.green(filterColor);
         int blue = Color.blue(filterColor);
@@ -214,6 +228,10 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onBackPressed() {
+        if (mTopImageView.getDrawable() == null) {
+            super.onBackPressed();
+            return;
+        }
         darkenHeroImage();
     }
 
@@ -402,12 +420,48 @@ public class NewsFeedDetailActivity extends Activity
         // set image
         String imgUrl = mTopNews.getImageUrl();
         if (imgUrl != null) {
-            mImageLoader.get(imgUrl, this);
+            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    Bitmap bitmap = response.getBitmap();
+
+                    if (bitmap == null && isImmediate) {
+                        // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                        return;
+                    }
+
+                    if (bitmap != null) {
+                        setTopNewsImageBitmap(bitmap);
+
+                        animateTopItems();
+                    }
+                    hideLoadingCover();
+
+                    animateTopImageViewColorFilter();
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+                            TintType.DUMMY);
+
+                    animateTopItems();
+
+                    hideLoadingCover();
+
+                    animateTopImageViewColorFilter();
+                }
+            });
         } else if (mTopNews.isImageUrlChecked()) {
             setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
                     TintType.DUMMY);
 
             animateTopItems();
+        } else {
+            showLoadingCover();
+            animateTopItems();
+            new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this)
+                    .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -436,6 +490,10 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void animateTopOverlayFadeIn() {
+        if (mTopOverlayView.getTag() == null || mActionBarOverlayView.getTag() == null
+                || mTopOverlayView.getAlpha() > 0 || mActionBarOverlayView.getAlpha() > 0) {
+            return;
+        }
         mTopOverlayView.animate()
                 .setDuration(250)
                 .alpha((Float)mTopOverlayView.getTag())
@@ -594,33 +652,6 @@ public class NewsFeedDetailActivity extends Activity
                 mActionBarOverlayView.setAlpha(0);
             }
         }
-    }
-
-    @Override
-    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-        Bitmap bitmap = response.getBitmap();
-
-        if (bitmap == null && isImmediate) {
-            // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
-            return;
-        }
-
-        if (bitmap != null) {
-            setTopNewsImageBitmap(bitmap);
-
-            animateTopItems();
-        }
-        hideLoadingCover();
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
-                TintType.DUMMY);
-
-        animateTopItems();
-
-        hideLoadingCover();
     }
 
     /**
