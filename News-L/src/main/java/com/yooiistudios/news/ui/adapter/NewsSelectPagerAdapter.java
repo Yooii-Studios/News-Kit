@@ -15,7 +15,6 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
  *  뉴스 선택화면을 구성하는 뷰페이저 어댑터
  */
 public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
-
 //    private Context mContext;
 
     public NewsSelectPagerAdapter(FragmentManager fm, Context context) {
