@@ -17,9 +17,13 @@ import android.view.ViewGroup;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsPublisher;
+import com.yooiistudios.news.model.news.NewsPublisherList;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
+import com.yooiistudios.news.util.NLLog;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -39,6 +43,7 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
 
     private ViewHolder mViewHolder;
     private ArrayList<NewsPublisher> mNewsProviderList;
+    private NewsPublisherList mNewsPublisherList;
     private int mPosition;
 
     public static NewsSelectFragment newInstance(int pageNum) {
@@ -63,8 +68,14 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
 
         Context context = getActivity().getApplicationContext();
 
-        mNewsProviderList = NewsSelectPageContentProvider.getInstance().getNewsFeeds(context,
-                NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
+        // 기존 메서드
+//        mNewsProviderList = NewsSelectPageContentProvider.getInstance().getNewsFeeds(context,
+//                NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
+
+        // 새 메서드
+        // 추후 mNewsProviderList는 삭제하고 publisherList에서만 사용하게 리팩토링이 필요
+        mNewsPublisherList = NewsSelectPageContentProvider.getNewsProviders(context, mPosition);
+        mNewsProviderList = mNewsPublisherList.getNewsPublishers();
     }
 
     @Nullable

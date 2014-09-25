@@ -1,0 +1,70 @@
+{
+    "lang_name_english": "Japanese",
+    "lang_name_regional": "日本語",
+    "lang_code": "jp",
+    "region_code": "null",
+    "news_publishers": [
+        {
+            "publisher_name": "구글(임시)",
+            "categories": [
+                {
+                    "category_name": "주요 뉴스",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss"
+                },
+                {
+                    "category_name": "연예",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=e"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=s"
+                },
+                {
+                    "category_name": "문화/생활",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=l"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=b"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=y"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=w"
+                },
+                {
+                    "category_name": "과학기술",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=t"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=p"
+                }
+            ]
+        },
+        {
+            "publisher_name": "毎日新聞",
+            "categories": [
+                {
+                    "category_name": "ニュース速報（総合）",
+                    "url": "http://mainichi.jp/rss/"
+                },
+                {
+                    "category_name": "スポーツ",
+                    "url": "http://mainichi.jp/rss/etc/sports.rss"
+                },
+                {
+                    "category_name": "エンタメ",
+                    "url": "http://mainichi.jp/rss/etc/enta.rss"
+                },
+                {
+                    "category_name": "社説・解説・コラム",
+                    "url": "http://mainichi.jp/rss/etc/opinion.rss"
+                }
+            ]
+        }
+    ]
+}
