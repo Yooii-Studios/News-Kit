@@ -1,0 +1,311 @@
+{
+    "lang_name_english": "Korean",
+    "lang_name_regional": "한국어",
+    "lang_code": "ko",
+    "region_code": "null",
+    "news_providers": [
+        {
+            "provider_name": "구글",
+            "categories": [
+                {
+                    "category_name": "주요 뉴스",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss"
+                },
+                {
+                    "category_name": "연예",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=e"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=s"
+                },
+                {
+                    "category_name": "문화/생활",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=l"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=b"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=y"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=w"
+                },
+                {
+                    "category_name": "과학기술",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=t"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=p"
+                }
+            ]
+        },
+        {
+            "provider_name": "조선일보",
+            "categories": [
+                {
+                    "category_name": "속보",
+                    "url": "http://www.chosun.com/site/data/rss/rss.xml"
+                },
+                {
+                    "category_name": "오늘의 주요뉴스",
+                    "url": "http://myhome.chosun.com/rss/www_section_rss.xml"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://www.chosun.com/site/data/rss/politics.xml"
+                },
+                {
+                    "category_name": "조선비즈",
+                    "url": "http://biz.chosun.com/site/data/rss/rss.xml"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://www.chosun.com/site/data/rss/national.xml"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://www.chosun.com/site/data/rss/international.xml"
+                },
+                {
+                    "category_name": "문화",
+                    "url": "http://www.chosun.com/site/data/rss/culture.xml"
+                },
+                {
+                    "category_name": "오피니언",
+                    "url": "http://www.chosun.com/site/data/rss/editorials.xml"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://www.chosun.com/site/data/rss/sports.xml"
+                },
+                {
+                    "category_name": "연예",
+                    "url": "http://www.chosun.com/site/data/rss/ent.xml"
+                }
+            ]
+        },
+        {
+            "provider_name": "중앙일보",
+            "categories": [
+                {
+                    "category_name": "전체기사",
+                    "url": "http://rss.joins.com/joins_news_list.xml"
+                },
+                {
+                    "category_name": "주요기사",
+                    "url": "http://rss.joins.com/joins_homenews_list.xml"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://rss.joins.com/joins_money_list.xml"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://rss.joins.com/joins_life_list.xml"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://rss.joins.com/joins_politics_list.xml"
+                },
+                {
+                    "category_name": "지구촌",
+                    "url": "http://rss.joins.com/joins_world_list.xml"
+                },
+                {
+                    "category_name": "문화",
+                    "url": "http://rss.joins.com/joins_culture_list.xml"
+                },
+                {
+                    "category_name": "IT과학",
+                    "url": "http://rss.joins.com/joins_it_list.xml"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://rss.joins.com/sonagi/joins_sonagi_sports_list.xml"
+                },
+                {
+                    "category_name": "연예",
+                    "url": "http://rss.joins.com/sonagi/joins_sonagi_star_list.xml"
+                }
+            ]
+        },
+        {
+            "provider_name": "동아일보",
+            "categories": [
+                {
+                    "category_name": "전체기사",
+                    "url": "http://rss.donga.com/total.xml"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://rss.donga.com/politics.xml"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://rss.donga.com/national.xml"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://rss.donga.com/economy.xml"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://rss.donga.com/international.xml"
+                },
+                {
+                    "category_name": "사설칼럼",
+                    "url": "http://rss.donga.com/editorials.xml"
+                },
+                {
+                    "category_name": "의학과학",
+                    "url": "http://rss.donga.com/science.xml"
+                },
+                {
+                    "category_name": "문화연예",
+                    "url": "http://rss.donga.com/culture.xml"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://rss.donga.com/sports.xml"
+                }
+            ]
+        },
+        {
+            "provider_name": "한겨레",
+            "categories": [
+                {
+                    "category_name": "전체기사",
+                    "url": "http://www.hani.co.kr/rss/"
+                },
+                {
+                    "category_name": "주요기사",
+                    "url": "http://www.hani.co.kr/rss/lead/"
+                },
+                {
+                    "category_name": "인기기사",
+                    "url": "http://www.hani.co.kr/rss/newsrank/"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://www.hani.co.kr/rss/politics/"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://www.hani.co.kr/rss/economy/"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://www.hani.co.kr/rss/society/"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://www.hani.co.kr/rss/international/"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://www.hani.co.kr/rss/sports/"
+                },
+                {
+                    "category_name": "과학",
+                    "url": "http://www.hani.co.kr/rss/science/"
+                },
+                {
+                    "category_name": "사설·칼럼",
+                    "url": "http://www.hani.co.kr/rss/opinion/"
+                }
+            ]
+        },
+        {
+            "provider_name": "매일경제",
+            "categories": [
+                {
+                    "category_name": "헤드라인",
+                    "url": "http://file.mk.co.kr/news/rss/rss_30000001.xml"
+                },
+                {
+                    "category_name": "전체뉴스",
+                    "url": "http://file.mk.co.kr/news/rss/rss_40300001.xml"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://file.mk.co.kr/news/rss/rss_30100041.xml"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://file.mk.co.kr/news/rss/rss_30200030.xml"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://file.mk.co.kr/news/rss/rss_50400012.xml"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://file.mk.co.kr/news/rss/rss_30300018.xml"
+                },
+                {
+                    "category_name": "기업ㆍ경영",
+                    "url": "http://file.mk.co.kr/news/rss/rss_50100032.xml"
+                },
+                {
+                    "category_name": "문화ㆍ연예",
+                    "url": "http://file.mk.co.kr/news/rss/rss_30000023.xml"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://file.mk.co.kr/news/rss/rss_71000001.xml"
+                },
+                {
+                    "category_name": "오피니언",
+                    "url": "http://file.mk.co.kr/news/rss/rss_30500041.xml"
+                }
+            ]
+        },
+        {
+            "provider_name": "한국경제",
+            "categories": [
+                {
+                    "category_name": "증권",
+                    "url": "http://rss.hankyung.com/new/news_stock.xml"
+                },
+                {
+                    "category_name": "경제/금융",
+                    "url": "http://rss.hankyung.com/new/news_economy.xml"
+                },
+                {
+                    "category_name": "부동산",
+                    "url": "http://rss.hankyung.com/new/news_estate.xml"
+                },
+                {
+                    "category_name": "산업",
+                    "url": "http://rss.hankyung.com/new/news_industry.xml"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://rss.hankyung.com/new/news_intl.xml"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://rss.hankyung.com/new/news_politics.xml"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://rss.hankyung.com/new/news_society.xml"
+                },
+                {
+                    "category_name": "스포츠/문화",
+                    "url": "http://rss.hankyung.com/new/news_sports.xml"
+                },
+                {
+                    "category_name": "사설/칼럼",
+                    "url": "http://rss.hankyung.com/new/news_column.xml"
+                }
+            ]
+        }
+    ]
+}

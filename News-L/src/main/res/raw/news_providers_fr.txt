@@ -1,0 +1,98 @@
+{
+    "lang_name_english": "French",
+    "lang_name_regional": "Français",
+    "lang_code": "fr",
+    "region_code": "null",
+    "news_providers": [
+        {
+            "provider_name": "구글(임시)",
+            "categories": [
+                {
+                    "category_name": "주요 뉴스",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss"
+                },
+                {
+                    "category_name": "연예",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=e"
+                },
+                {
+                    "category_name": "스포츠",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=s"
+                },
+                {
+                    "category_name": "문화/생활",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=l"
+                },
+                {
+                    "category_name": "경제",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=b"
+                },
+                {
+                    "category_name": "사회",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=y"
+                },
+                {
+                    "category_name": "국제",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=w"
+                },
+                {
+                    "category_name": "과학기술",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=t"
+                },
+                {
+                    "category_name": "정치",
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=p"
+                }
+            ]
+        },
+        {
+            "provider_name": "Le monde",
+            "categories": [
+                {
+                    "category_name": "A la une",
+                    "url": "http://www.lemonde.fr/rss/une.xml"
+                },
+                {
+                    "category_name": "Culture",
+                    "url": "http://www.lemonde.fr/culture/rss_full.xml"
+                },
+                {
+                    "category_name": "Finances",
+                    "url": "http://www.lemonde.fr/finance/rss_full.xml"
+                },
+                {
+                    "category_name": "International",
+                    "url": "http://www.lemonde.fr/international/rss_full.xml"
+                },
+                {
+                    "category_name": "Paris",
+                    "url": "http://www.lemonde.fr/paris/rss_full.xml"
+                },
+                {
+                    "category_name": "Politique",
+                    "url": "http://www.lemonde.fr/politique/rss_full.xml"
+                },
+                {
+                    "category_name": "Santé",
+                    "url": "http://www.lemonde.fr/sante/rss_full.xml"
+                },
+                {
+                    "category_name": "Sciences",
+                    "url": "http://www.lemonde.fr/sciences/rss_full.xml"
+                },
+                {
+                    "category_name": "Sport",
+                    "url": "http://www.lemonde.fr/sport/rss_full.xml"
+                },
+                {
+                    "category_name": "Technologies",
+                    "url": "http://www.lemonde.fr/technologies/rss_full.xml"
+                },
+                {
+                    "category_name": "Économie",
+                    "url": "http://www.lemonde.fr/economie/rss_full.xml"
+                }
+            ]
+        }
+    ]
+}
