@@ -2,6 +2,7 @@ package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -10,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
@@ -30,8 +33,9 @@ public class NewsDetailActivity extends Activity {
 
     private static final String TAG = NewsDetailActivity.class.getName();
 
-    @InjectView(R.id.news_detail_root)  FrameLayout mRootContainer;
-    @InjectView(R.id.news_detail_fab)   FloatingActionButton mFab;
+    @InjectView(R.id.news_detail_root)          FrameLayout mRootContainer;
+    @InjectView(R.id.news_detail_fab)           FloatingActionButton mFab;
+    @InjectView(R.id.news_detail_progress_bar)  ProgressBar mLoadingProgressBar;
 
     private WebView mWebView;
 
@@ -51,6 +55,7 @@ public class NewsDetailActivity extends Activity {
 
         initWebView();
 
+        mLoadingProgressBar.bringToFront();
         mFab.bringToFront();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +63,22 @@ public class NewsDetailActivity extends Activity {
                 WebUtils.openLink(NewsDetailActivity.this, mNews.getLink());
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        WebBackForwardList list = mWebView.copyBackForwardList();
+
+        if (list.getCurrentIndex() <= 0 && !mWebView.canGoBack()) {
+            // 처음 들어온 페이지이거나, history가 없는경우
+            super.onBackPressed();
+        } else {
+            // history가 있는 경우
+            // 현재 페이지로 부터 history 수 만큼 뒷 페이지로 이동
+            mWebView.goBackOrForward(-(list.getCurrentIndex()));
+            // history 삭제
+            mWebView.clearHistory();
+        }
     }
 
     private void initWebView() {
@@ -127,10 +148,51 @@ public class NewsDetailActivity extends Activity {
     }
 
     private class NewsWebViewClient extends WebViewClient {
+        private boolean mLoadingFinished = true;
+        private boolean mRedirect = false;
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (!mLoadingFinished) {
+                mRedirect = true;
+            }
+
+            mLoadingFinished = false;
+
             view.loadUrl(url);
             return true;
+        }
+
+//        @Override
+//        public void onPageFinished(WebView view, String url) {
+//            super.onPageFinished(view, url);
+//            NLLog.i(TAG, "\n\n=========");
+//            NLLog.i(TAG, "onPageFinished");
+//            NLLog.i(TAG, "url : " + url);
+//            NLLog.i(TAG, "=========\n");
+//        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap facIcon) {
+            mLoadingFinished = false;
+            //SHOW LOADING IF IT ISNT ALREADY VISIBLE
+            if (mLoadingProgressBar.getVisibility() != View.VISIBLE) {
+                mLoadingProgressBar.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            if(!mRedirect){
+                mLoadingFinished = true;
+            }
+
+            if(mLoadingFinished && !mRedirect){
+                //HIDE LOADING IT HAS FINISHED
+                mLoadingProgressBar.setVisibility(View.INVISIBLE);
+            } else{
+                mRedirect = false;
+            }
+
         }
     }
     private void setConfigCallback(WindowManager windowManager) {

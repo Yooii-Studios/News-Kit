@@ -25,4 +25,10 @@
 
     </com.yooiistudios.news.ui.widget.FloatingActionButton>
 
+    <ProgressBar
+        android:id="@+id/news_detail_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
 </FrameLayout>
