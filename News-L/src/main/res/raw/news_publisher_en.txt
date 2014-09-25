@@ -3,9 +3,9 @@
     "lang_name_regional": "English",
     "lang_code": "en",
     "region_code": "null",
-    "news_providers": [
+    "news_publishers": [
         {
-            "provider_name": "Google",
+            "publisher_name": "Google",
             "categories": [
                 {
                     "category_name": "Top Stories",
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "provider_name": "CNN",
+            "publisher_name": "CNN",
             "categories": [
                 {
                     "category_name": "Top Stories",
@@ -83,7 +83,7 @@
             ]
         },
         {
-            "provider_name": "TIME",
+            "publisher_name": "TIME",
             "categories": [
                 {
                     "category_name": "Top Stories",
@@ -124,7 +124,7 @@
             ]
         },
         {
-            "provider_name": "New York Times",
+            "publisher_name": "New York Times",
             "categories": [
                 {
                     "category_name": "Home Page (U.S.)",

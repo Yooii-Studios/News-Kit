@@ -3,9 +3,9 @@
     "lang_name_regional": "한국어",
     "lang_code": "ko",
     "region_code": "null",
-    "news_providers": [
+    "news_publishers": [
         {
-            "provider_name": "구글",
+            "publisher_name": "구글",
             "categories": [
                 {
                     "category_name": "주요 뉴스",
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "provider_name": "조선일보",
+            "publisher_name": "조선일보",
             "categories": [
                 {
                     "category_name": "속보",
@@ -91,7 +91,7 @@
             ]
         },
         {
-            "provider_name": "중앙일보",
+            "publisher_name": "중앙일보",
             "categories": [
                 {
                     "category_name": "전체기사",
@@ -136,7 +136,7 @@
             ]
         },
         {
-            "provider_name": "동아일보",
+            "publisher_name": "동아일보",
             "categories": [
                 {
                     "category_name": "전체기사",
@@ -177,7 +177,7 @@
             ]
         },
         {
-            "provider_name": "한겨레",
+            "publisher_name": "한겨레",
             "categories": [
                 {
                     "category_name": "전체기사",
@@ -222,7 +222,7 @@
             ]
         },
         {
-            "provider_name": "매일경제",
+            "publisher_name": "매일경제",
             "categories": [
                 {
                     "category_name": "헤드라인",
@@ -267,7 +267,7 @@
             ]
         },
         {
-            "provider_name": "한국경제",
+            "publisher_name": "한국경제",
             "categories": [
                 {
                     "category_name": "증권",

@@ -1,11 +1,11 @@
 {
-    "lang_name_english": "French",
-    "lang_name_regional": "Français",
-    "lang_code": "fr",
+    "lang_name_english": "Japanese",
+    "lang_name_regional": "日本語",
+    "lang_code": "jp",
     "region_code": "null",
-    "news_providers": [
+    "news_publishers": [
         {
-            "provider_name": "구글(임시)",
+            "publisher_name": "구글(임시)",
             "categories": [
                 {
                     "category_name": "주요 뉴스",
@@ -46,51 +46,23 @@
             ]
         },
         {
-            "provider_name": "Le monde",
+            "publisher_name": "毎日新聞",
             "categories": [
                 {
-                    "category_name": "A la une",
-                    "url": "http://www.lemonde.fr/rss/une.xml"
+                    "category_name": "ニュース速報（総合）",
+                    "url": "http://mainichi.jp/rss/"
                 },
                 {
-                    "category_name": "Culture",
-                    "url": "http://www.lemonde.fr/culture/rss_full.xml"
+                    "category_name": "スポーツ",
+                    "url": "http://mainichi.jp/rss/etc/sports.rss"
                 },
                 {
-                    "category_name": "Finances",
-                    "url": "http://www.lemonde.fr/finance/rss_full.xml"
+                    "category_name": "エンタメ",
+                    "url": "http://mainichi.jp/rss/etc/enta.rss"
                 },
                 {
-                    "category_name": "International",
-                    "url": "http://www.lemonde.fr/international/rss_full.xml"
-                },
-                {
-                    "category_name": "Paris",
-                    "url": "http://www.lemonde.fr/paris/rss_full.xml"
-                },
-                {
-                    "category_name": "Politique",
-                    "url": "http://www.lemonde.fr/politique/rss_full.xml"
-                },
-                {
-                    "category_name": "Santé",
-                    "url": "http://www.lemonde.fr/sante/rss_full.xml"
-                },
-                {
-                    "category_name": "Sciences",
-                    "url": "http://www.lemonde.fr/sciences/rss_full.xml"
-                },
-                {
-                    "category_name": "Sport",
-                    "url": "http://www.lemonde.fr/sport/rss_full.xml"
-                },
-                {
-                    "category_name": "Technologies",
-                    "url": "http://www.lemonde.fr/technologies/rss_full.xml"
-                },
-                {
-                    "category_name": "Économie",
-                    "url": "http://www.lemonde.fr/economie/rss_full.xml"
+                    "category_name": "社説・解説・コラム",
+                    "url": "http://mainichi.jp/rss/etc/opinion.rss"
                 }
             ]
         }
