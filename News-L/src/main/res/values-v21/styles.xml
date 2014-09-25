@@ -101,8 +101,12 @@
         <item name="android:windowNoTitle">true</item>
 
         <!-- Set the transitions which are used for the entrance and exit of shared elements -->
-        <item name="android:windowSharedElementEnterTransition">@transition/detail_transition</item>
-        <item name="android:windowSharedElementExitTransition">@transition/detail_transition</item>
+        <!--<item name="android:windowEnterTransition">@transition/slide</item>-->
+        <!--<item name="android:windowExitTransition">@transition/slide</item>-->
+
+        <item name="android:windowContentTransitions">false</item>
+        <item name="android:windowAllowEnterTransitionOverlap">false</item>
+        <item name="android:windowAllowExitTransitionOverlap">false</item>
     </style>
 
 </resources>

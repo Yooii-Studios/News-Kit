@@ -16,7 +16,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
@@ -33,9 +32,9 @@ public class NewsDetailActivity extends Activity {
 
     private static final String TAG = NewsDetailActivity.class.getName();
 
-    @InjectView(R.id.news_detail_root)          FrameLayout mRootContainer;
-    @InjectView(R.id.news_detail_fab)           FloatingActionButton mFab;
-    @InjectView(R.id.news_detail_progress_bar)  ProgressBar mLoadingProgressBar;
+    @InjectView(R.id.news_detail_root)              FrameLayout mRootContainer;
+    @InjectView(R.id.news_detail_fab)               FloatingActionButton mFab;
+    @InjectView(R.id.news_detail_loading_container) FrameLayout mLoadingLayout;
 
     private WebView mWebView;
 
@@ -55,7 +54,7 @@ public class NewsDetailActivity extends Activity {
 
         initWebView();
 
-        mLoadingProgressBar.bringToFront();
+        mLoadingLayout.bringToFront();
         mFab.bringToFront();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +174,8 @@ public class NewsDetailActivity extends Activity {
         public void onPageStarted(WebView view, String url, Bitmap facIcon) {
             mLoadingFinished = false;
             //SHOW LOADING IF IT ISNT ALREADY VISIBLE
-            if (mLoadingProgressBar.getVisibility() != View.VISIBLE) {
-                mLoadingProgressBar.setVisibility(View.VISIBLE);
+            if (mLoadingLayout.getVisibility() != View.VISIBLE) {
+                mLoadingLayout.setVisibility(View.VISIBLE);
             }
         }
 
@@ -188,7 +187,7 @@ public class NewsDetailActivity extends Activity {
 
             if(mLoadingFinished && !mRedirect){
                 //HIDE LOADING IT HAS FINISHED
-                mLoadingProgressBar.setVisibility(View.INVISIBLE);
+                mLoadingLayout.setVisibility(View.INVISIBLE);
             } else{
                 mRedirect = false;
             }
