@@ -40,7 +40,6 @@ import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -71,7 +70,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
-    private HashMap<News, Boolean> mNewsToFetchImageMap;
+    private ArrayList<Pair<News, Boolean>> mNewsToFetchImageList;
     private MainBottomAdapter mBottomNewsFeedAdapter;
     private ArrayList<Animation> mAutoRefreshAnimationList;
 
@@ -274,11 +273,11 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void fetchNextBottomNewsFeedListImageUrl() {
-        fetchNextBottomNewsFeedListImageUrl(-1);
+        fetchNextBottomNewsFeedListImageUrl(false);
     }
-    private void fetchNextBottomNewsFeedListImageUrl(int index) {
+    private void fetchNextBottomNewsFeedListImageUrl(boolean fetchDisplayingNewsImage) {
         mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
-        mNewsToFetchImageMap = new HashMap<News, Boolean>();
+        mNewsToFetchImageList = new ArrayList<Pair<News, Boolean>>();
 
         int newsFeedCount = mBottomNewsFeedList.size();
 
@@ -288,8 +287,8 @@ public class MainBottomContainerLayout extends FrameLayout
             ArrayList<News> newsList = newsFeed.getNewsList();
 
             int indexToFetch;
-            if (index >= 0) {
-                indexToFetch = index;
+            if (fetchDisplayingNewsImage) {
+                indexToFetch = newsFeed.getDisplayingNewsIndex();
             } else {
                 indexToFetch = newsFeed.getDisplayingNewsIndex();
                 if (indexToFetch < newsFeed.getNewsList().size() - 1) {
@@ -303,8 +302,11 @@ public class MainBottomContainerLayout extends FrameLayout
 
             News news = newsList.get(indexToFetch);
 
-            mNewsToFetchImageMap.put(news, false);
+            mNewsToFetchImageList.add(new Pair<News, Boolean>(news, false));
+        }
 
+        for (int i = 0; i < mNewsToFetchImageList.size(); i++) {
+            News news = mNewsToFetchImageList.get(i).first;
             if (!news.isImageUrlChecked()) {
                 BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -340,7 +342,7 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
         mBottomNewsFeedNewsToImageTaskMap.clear();
-        mNewsToFetchImageMap.clear();
+        mNewsToFetchImageList.clear();
     }
 
     private void animateBottomNewsFeedListOnInit() {
@@ -476,15 +478,17 @@ public class MainBottomContainerLayout extends FrameLayout
         if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
             mBottomNewsFeedAdapter.notifyItemChanged(position);
         }
-        mNewsToFetchImageMap.put(news, true);
-
-        Iterator<Boolean> mNewsToFetchImageValueIterator = mNewsToFetchImageMap.values().iterator();
-
+        for (int i = 0; i < mNewsToFetchImageList.size(); i++) {
+            Pair<News, Boolean> pair = mNewsToFetchImageList.get(i);
+            if (pair.first == news) {
+                mNewsToFetchImageList.set(i, new Pair<News, Boolean>(news, true));
+                break;
+            }
+        }
 
         boolean allFetched = true;
-        while (mNewsToFetchImageValueIterator.hasNext()) {
-            boolean fetched = mNewsToFetchImageValueIterator.next();
-            if (!fetched) {
+        for (Pair<News, Boolean> pair : mNewsToFetchImageList) {
+            if (!pair.second) {
                 allFetched = false;
                 break;
             }
@@ -627,6 +631,6 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onAnimationsFinished() {
-        fetchNextBottomNewsFeedListImageUrl(0);
+        fetchNextBottomNewsFeedListImageUrl(true);
     }
 }
