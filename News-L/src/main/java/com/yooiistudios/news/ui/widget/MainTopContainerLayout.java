@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -24,6 +23,7 @@ import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
+import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
@@ -141,7 +141,7 @@ public class MainTopContainerLayout extends FrameLayout
             mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             SlowSpeedScroller scroller = new SlowSpeedScroller(context,
-                    new AccelerateDecelerateInterpolator(context, null), true);
+                    AnimationFactory.makeDefaultPathInterpolator(), true);
             mScroller.set(mTopNewsFeedViewPager, scroller);
         } catch (NoSuchFieldException ignored) {
         } catch (IllegalArgumentException ignored) {

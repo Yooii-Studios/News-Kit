@@ -34,6 +34,7 @@ import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.itemanimator.SlideInFromBottomItemAnimator;
+import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
@@ -62,8 +63,8 @@ public class MainBottomContainerLayout extends FrameLayout
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
-    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI = 200;
-    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET = 200; // 30;
+    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI = 250;
+//    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET = 400; // 30;
 
     private ArrayList<NewsFeed> mBottomNewsFeedList;
 
@@ -149,7 +150,7 @@ public class MainBottomContainerLayout extends FrameLayout
                     }, idx * BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI);
                 }
             }
-        }, BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET);
+        }, SlowSpeedScroller.SWIPE_DURATION);
     }
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =

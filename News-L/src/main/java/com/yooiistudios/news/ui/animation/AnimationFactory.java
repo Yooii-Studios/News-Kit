@@ -5,6 +5,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.PathInterpolator;
 import android.view.animation.TranslateAnimation;
 
 /**
@@ -17,7 +18,8 @@ public class AnimationFactory {
     private AnimationFactory() { throw new AssertionError("You MUST not create this class!"); }
 
     private static final int NEWS_FEED_ANIMATION_DURATION = 500;
-    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 420; // 260;
+//    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 420; // 260;
+    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 750; // 260;
 //    private static final int NEWS_FEED_ANIMATION_IMAGE_FADE_DURATION = 500;
 
     public static AnimationSet makeBottomSlideOutAnimation() {
@@ -68,20 +70,24 @@ public class AnimationFactory {
 
 
     public static Animation makeBottomFadeOutAnimation() {
-        Animation fadeoutAnim = new AlphaAnimation(1.0f, 0.0f);
-        fadeoutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
-        fadeoutAnim.setFillEnabled(true);
-        fadeoutAnim.setFillAfter(true);
-        fadeoutAnim.setInterpolator(new AccelerateInterpolator());
-        return fadeoutAnim;
+        Animation fadeOutAnim = new AlphaAnimation(1.0f, 0.0f);
+        fadeOutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
+        fadeOutAnim.setFillEnabled(true);
+        fadeOutAnim.setFillAfter(true);
+        fadeOutAnim.setInterpolator(makeDefaultPathInterpolator());
+        return fadeOutAnim;
     }
 
     public static Animation makeBottomFadeInAnimation() {
-        Animation fadeoutAnim = new AlphaAnimation(0.0f, 1.0f);
-        fadeoutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
-        fadeoutAnim.setFillEnabled(true);
-        fadeoutAnim.setFillAfter(true);
-        fadeoutAnim.setInterpolator(new AccelerateInterpolator());
-        return fadeoutAnim;
+        Animation fadeOutAnim = new AlphaAnimation(0.0f, 1.0f);
+        fadeOutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
+        fadeOutAnim.setFillEnabled(true);
+        fadeOutAnim.setFillAfter(true);
+        fadeOutAnim.setInterpolator(new PathInterpolator(0.2f, 0.f, 0.4f, 1.f));
+        return fadeOutAnim;
+    }
+
+    public static PathInterpolator makeDefaultPathInterpolator() {
+        return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
     }
 }

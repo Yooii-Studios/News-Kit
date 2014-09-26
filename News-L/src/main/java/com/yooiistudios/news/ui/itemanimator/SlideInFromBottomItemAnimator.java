@@ -4,7 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+
+import com.yooiistudios.news.ui.animation.AnimationFactory;
 
 public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
     private View parent;
@@ -21,8 +22,8 @@ public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
         return new PendingAnimator.Add(viewHolder) {
             @Override
             void animate(OnAnimatorEnd callback) {
-                v.animate().setDuration(getAddDuration() * 4).translationY(0)
-                        .setInterpolator(new DecelerateInterpolator())
+                v.animate().setDuration(getAddDuration() * 9).translationY(0)
+                        .setInterpolator(AnimationFactory.makeDefaultPathInterpolator())
                         .setListener(callback);
             }
 
