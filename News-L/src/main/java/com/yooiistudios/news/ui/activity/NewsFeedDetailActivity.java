@@ -117,7 +117,7 @@ public class NewsFeedDetailActivity extends Activity
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
         Object tintTypeObj = getIntent().getExtras().getSerializable(MainActivity.INTENT_KEY_TINT_TYPE);
-        mTintType = tintTypeObj != null ? (TintType)tintTypeObj : TintType.GRAYSCALE;
+        mTintType = tintTypeObj != null ? (TintType)tintTypeObj : null;
 
         int topNewsIndex = getIntent().getExtras().getInt(News.KEY_CURRENT_NEWS_INDEX);
         if (topNewsIndex < mNewsFeed.getNewsList().size()) {
@@ -196,27 +196,14 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void darkenHeroImage() {
-        int filterColor;
-        int alpha;
-        switch (mTintType) {
-            case PALETTE:
-                filterColor = mPalette.getDarkVibrantColor().getRgb();
-                alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                break;
-            case DUMMY:
-            case GRAYSCALE:
-            default:
-                filterColor = NewsFeedUtils.getGrayFilterColor();
-                alpha = Color.alpha(filterColor);
-                break;
-        }
+        int filterColor = getFilterColor();
 
         int red = Color.red(filterColor);
         int green = Color.green(filterColor);
         int blue = Color.blue(filterColor);
 
         ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color",
-                Color.argb(alpha, red, green, blue));
+                Color.argb(Color.alpha(filterColor), red, green, blue));
 
         color.addUpdateListener(new ColorFilterListener(mTopImageView));
         color.addListener(new AnimatorListenerAdapter() {
@@ -452,8 +439,7 @@ public class NewsFeedDetailActivity extends Activity
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
-                            TintType.DUMMY);
+                    applyDummyTopNewsImage();
 
                     animateTopItems();
 
@@ -466,8 +452,7 @@ public class NewsFeedDetailActivity extends Activity
                 }
             });
         } else if (mTopNews.isImageUrlChecked()) {
-            setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
-                    TintType.DUMMY);
+            applyDummyTopNewsImage();
 
             animateTopItems();
         } else {
@@ -542,17 +527,54 @@ public class NewsFeedDetailActivity extends Activity
                 .setInterpolator(new DecelerateInterpolator());
     }
 
-    private void setTopNewsImageBitmap(Bitmap bitmap) {
-        setTopNewsImageBitmap(bitmap, null);
+    private void applyDummyTopNewsImage() {
+        _setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+                TintType.DUMMY);
     }
-    private void setTopNewsImageBitmap(Bitmap bitmap, TintType tintType) {
+
+    private void setTopNewsImageBitmap(Bitmap bitmap) {
+        _setTopNewsImageBitmap(bitmap, null);
+    }
+
+    private void _setTopNewsImageBitmap(Bitmap bitmap, TintType tintType) {
         mTopImageBitmap = bitmap;
         mTopImageView.setImageBitmap(mTopImageBitmap);
 
-
         mPalette = Palette.generate(mTopImageBitmap);
+
+
         if (tintType != null) {
             mTintType = tintType;
+        } else if (mTintType == null) {
+            // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null이다.
+            // 그러므로 이 상황에서 이미지가 set 된다면
+            // 1. 메인 상단에서 들어온 경우 : TintType.GRAYSCALE
+            // 2. 메인 하단에서 들어온 경우 :
+            // 2.1 palette에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
+            // 2.2 palette에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAYSCALE(default)
+
+            // 상단 뉴스피드인지 하단 뉴스피드인지 구분
+            String newsLocation = getIntent().getExtras().getString(
+                    MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
+
+            if (newsLocation != null) {
+                if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
+                    // 메인 상단에서 온 경우
+                    mTintType = TintType.GRAYSCALE;
+                } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                    // 메인 하단에서 온 경우
+                    PaletteItem paletteItem = getTopImageFilterColorPaletteItem();
+                    if (paletteItem != null) {
+                        mTintType = TintType.PALETTE;
+                    } else {
+                        mTintType = TintType.GRAYSCALE;
+                    }
+                } else {
+                    mTintType = TintType.GRAYSCALE;
+                }
+            } else {
+                mTintType = TintType.GRAYSCALE;
+            }
         }
         applyPalette(!mHasAnimatedColorFilter);
     }
@@ -573,7 +595,6 @@ public class NewsFeedDetailActivity extends Activity
     private void applyPalette(boolean applyColorFilter) {
         // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
         PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
-        PaletteItem darkVibrantColor = mPalette.getDarkVibrantColor();
 
         mTopTitleTextView.setTextColor(Color.WHITE);
 
@@ -581,15 +602,33 @@ public class NewsFeedDetailActivity extends Activity
             mTopDescriptionTextView.setTextColor(lightVibrantColor.getRgb());
         }
 
+        int filterColor = getFilterColor();
+
+        int red = Color.red(filterColor);
+        int green = Color.green(filterColor);
+        int blue = Color.blue(filterColor);
+
+        int colorWithoutAlpha = Color.rgb(red, green, blue);
+        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+        mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+
+        if (applyColorFilter) {
+            mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
+        }
+    }
+
+    private int getFilterColor() {
         int color;
         int alpha;
+        TintType tintType = mTintType != null ? mTintType : TintType.GRAYSCALE;
 
-        switch(mTintType) {
+        switch(tintType) {
             case DUMMY:
                 color = NewsFeedUtils.getDummyImageFilterColor();
                 alpha = Color.alpha(color);
                 break;
             case PALETTE:
+                PaletteItem darkVibrantColor = getTopImageFilterColorPaletteItem();
                 if (darkVibrantColor != null) {
                     color = darkVibrantColor.getRgb();
                     alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
@@ -602,16 +641,16 @@ public class NewsFeedDetailActivity extends Activity
                 alpha = Color.alpha(color);
                 break;
         }
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
 
-        int colorWithoutAlpha = Color.rgb(red, green, blue);
-        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
-        mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
+    }
 
-        if (applyColorFilter) {
-            mTopImageView.setColorFilter(Color.argb(alpha, red, green, blue));
+    private PaletteItem getTopImageFilterColorPaletteItem() {
+        PaletteItem darkVibrantColor = mPalette.getDarkVibrantColor();
+        if (darkVibrantColor != null) {
+            return darkVibrantColor;
+        } else {
+            return null;
         }
     }
 
