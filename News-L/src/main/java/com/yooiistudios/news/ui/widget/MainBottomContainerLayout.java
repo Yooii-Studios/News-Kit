@@ -40,6 +40,7 @@ import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -475,11 +476,22 @@ public class MainBottomContainerLayout extends FrameLayout
         if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
             mBottomNewsFeedAdapter.notifyItemChanged(position);
         }
-        mNewsToFetchImageMap.remove(news);
+        mNewsToFetchImageMap.put(news, true);
 
-        if (mNewsToFetchImageMap.size() == 0) {
+        Iterator<Boolean> mNewsToFetchImageValueIterator = mNewsToFetchImageMap.values().iterator();
+
+
+        boolean allFetched = true;
+        while (mNewsToFetchImageValueIterator.hasNext()) {
+            boolean fetched = mNewsToFetchImageValueIterator.next();
+            if (!fetched) {
+                allFetched = false;
+                break;
+            }
+        }
+
+        if (allFetched) {
             // 모든 이미지가 불려진 경우
-
             if (!mIsInitializedFirstImages) {
                 mIsInitializedFirstImages = true;
 
@@ -609,7 +621,6 @@ public class MainBottomContainerLayout extends FrameLayout
         NLLog.i(TAG, "onBottomImageUrlFetchFail");
         news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
-        mNewsToFetchImageMap.remove(news);
 
         notifyOnNewsImageFetched(news, position);
     }
