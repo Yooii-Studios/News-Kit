@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 25.
@@ -16,8 +17,6 @@ import java.util.ArrayList;
  *  뉴스 피드 아카이빙 유틸
  */
 public class NewsFeedArchiveUtils {
-    private static final String TAG = NewsFeedArchiveUtils.class.getName();
-
     private static final String SP_KEY_NEWS_FEED = "SP_KEY_NEWS_FEED";
 
     private static final String KEY_TOP_NEWS_FEED = "KEY_TOP_NEWS_FEED";
@@ -35,6 +34,7 @@ public class NewsFeedArchiveUtils {
     private NewsFeedArchiveUtils() {
         throw new AssertionError("You MUST not create this class!");
     }
+
     public static NewsFeed loadTopNewsFeed(Context context) {
         SharedPreferences prefs = getSharedPreferences(context);
 
@@ -44,12 +44,12 @@ public class NewsFeedArchiveUtils {
         NewsFeed newsFeed;
         if (newsFeedStr != null) {
             newsFeed = new Gson().fromJson(newsFeedStr, feedType);
+            Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
         } else {
             NewsFeedUrl url = NewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
             newsFeed = new NewsFeed();
             newsFeed.setNewsFeedUrl(url);
         }
-
         return newsFeed;
     }
 
@@ -69,22 +69,14 @@ public class NewsFeedArchiveUtils {
         } else {
             for (int i = 0; i < bottomNewsSize; i++) {
                 NewsFeed newsFeed = loadBottomNewsFeedAt(prefs, i);
-
-                if (newsFeed == null) {
+                if (newsFeed != null) {
+                    Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
+                } else {
                     break;
                 }
-
-                //test
-//                if (i == 2) {
-//                    for (News news : newsFeed.getNewsList()) {
-//                        NLLog.i(TAG, news.getImageUrl());
-//                    }
-//                }
-
                 feedList.add(newsFeed);
             }
         }
-
         return feedList;
     }
 
@@ -206,14 +198,4 @@ public class NewsFeedArchiveUtils {
     public static void clearArchive(Context context) {
         getSharedPreferences(context).edit().clear().apply();
     }
-//    private static String getBottomUrlKey(int index) {
-//        return KEY_BOTTOM_NEWS_FEED_URL_LIST + "_" + index;
-//    }
-//    private static String getBottomFeedKey(int index) {
-//        return KEY_BOTTOM_NEWS_FEED_LIST + "_" + index;
-//    }
-//
-//    public static void printSharedPreferences(Context context) {
-//
-//    }
 }
