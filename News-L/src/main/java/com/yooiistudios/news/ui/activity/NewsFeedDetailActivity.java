@@ -27,6 +27,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -65,6 +66,7 @@ public class NewsFeedDetailActivity extends Activity
         RecyclerView.ItemAnimator.ItemAnimatorFinishedListener,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
+    @InjectView(R.id.detail_content_layout)                 FrameLayout mRootLayout;
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
@@ -101,6 +103,7 @@ public class NewsFeedDetailActivity extends Activity
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
+    private ColorDrawable mRootLayoutBackground;
 
     private boolean mIsRefreshing = false;
     private boolean mHasAnimatedColorFilter = false;
@@ -136,6 +139,8 @@ public class NewsFeedDetailActivity extends Activity
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
+        mRootLayoutBackground = new ColorDrawable(Color.MAGENTA);
+        mRootLayout.setBackground(mRootLayoutBackground);
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
@@ -202,6 +207,8 @@ public class NewsFeedDetailActivity extends Activity
      */
     public void runEnterAnimation(int leftDelta, int topDelta, float widthScale,
                                   float heightScale) {
+        mRootLayoutBackground.setAlpha(0);
+
         // TODO duration 바꾸기
         final long duration = 1000;
 
@@ -235,17 +242,15 @@ public class NewsFeedDetailActivity extends Activity
 //                                setInterpolator(sDecelerator);
 
                         animateTopImageViewColorFilter();
+
+                        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
+                        bgAnim.setDuration(duration);
+                        bgAnim.start();
                     }
                 })
         ;
 
         // Fade in the black background
-        mBottomNewsListRecyclerView.setAlpha(0);
-        mBottomNewsListRecyclerView.animate().setDuration(duration).alpha(1);
-//        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 255);
-//        bgAnim.setDuration(duration);
-//        bgAnim.start();
-
         // Animate a color filter to take the image from grayscale to full color.
         // This happens in parallel with the image scaling and moving into place.
 //        ObjectAnimator colorizer = ObjectAnimator.ofFloat(PictureDetailsActivity.this,
