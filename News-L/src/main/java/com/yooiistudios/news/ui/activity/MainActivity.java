@@ -51,6 +51,17 @@ public class MainActivity extends Activity
     public static final String INTENT_VALUE_BOTTOM_NEWS_FEED = "INTENT_VALUE_BOTTOM_NEWS_FEED";
     public static final String INTENT_KEY_BOTTOM_NEWS_FEED_INDEX =
                                                             "INTENT_KEY_BOTTOM_NEWS_FEED_INDEX";
+
+    // 액티비티 트랜지션시 이미지뷰 애니메이트를 위한 변수를 넘길 인텐트 변수
+    public static final String INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT =
+            "INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT";
+    public static final String INTENT_KEY_IMAGE_VIEW_LOCATION_TOP =
+            "INTENT_KEY_IMAGE_VIEW_LOCATION_TOP";
+    public static final String INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH =
+            "INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH";
+    public static final String INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT =
+            "INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT";
+
     public static final int RC_NEWS_FEED_DETAIL = 10001;
 
     /**

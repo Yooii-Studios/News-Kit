@@ -20,12 +20,14 @@
             <RelativeLayout
                 android:id="@+id/detail_scroll_content_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
 
                 <RelativeLayout
                     android:id="@+id/detail_top_content_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false">
 
                     <ImageView
                         android:id="@+id/detail_top_news_image_view"
