@@ -25,8 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +46,7 @@ import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
+import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
@@ -63,7 +64,6 @@ import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VI
 
 public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
-        RecyclerView.ItemAnimator.ItemAnimatorFinishedListener,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
     @InjectView(R.id.detail_content_layout)                 FrameLayout mRootLayout;
@@ -85,7 +85,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
-    private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
+    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 800;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
@@ -139,8 +139,9 @@ public class NewsFeedDetailActivity extends Activity
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
-        mRootLayoutBackground = new ColorDrawable(Color.MAGENTA);
-        mRootLayout.setBackground(mRootLayoutBackground);
+        mRootLayoutBackground = new ColorDrawable(Color.WHITE);
+//        findViewById(R.id.detail_scroll_content_wrapper).setBackground(mRootLayoutBackground);
+        mBottomNewsListRecyclerView.setBackground(mRootLayoutBackground);
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
@@ -148,18 +149,15 @@ public class NewsFeedDetailActivity extends Activity
         initBottomNewsList();
         initLoadingCoverView();
 
-        mTopImageView.bringToFront();
-        mTopContentLayout.bringToFront();
-
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null && mTopImageView.getDrawable() != null) {
-            ViewTreeObserver observer = mTopImageView.getViewTreeObserver();
+            ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
                 @Override
                 public boolean onPreDraw() {
-                    mTopImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
                     Bundle extras = getIntent().getExtras();
                     int thumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
@@ -207,10 +205,11 @@ public class NewsFeedDetailActivity extends Activity
      */
     public void runEnterAnimation(int leftDelta, int topDelta, float widthScale,
                                   float heightScale) {
-        mRootLayoutBackground.setAlpha(0);
+        mTopImageView.bringToFront();
+        mTopContentLayout.bringToFront();
 
         // TODO duration 바꾸기
-        final long duration = 1000;
+        final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
         // Set starting values for properties we're going to animate. These
         // values scale and position the full size version down to the thumbnail
@@ -227,28 +226,70 @@ public class NewsFeedDetailActivity extends Activity
 
         // Animate scale and translation to go from thumbnail to full size
         // TODO interpolator 바꾸기
-        mTopImageView.animate().setDuration(duration).
+        mTopImageView.animate().setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
                 scaleX(1).scaleY(1).
                 translationX(0).translationY(0).
-                setInterpolator(new AccelerateDecelerateInterpolator())
+                setInterpolator(pathInterpolator)
                 .withEndAction(new Runnable() {
                     public void run() {
-                        // Animate the description in after the image animation
-                        // is done. Slide and fade the text in from underneath
-                        // the picture.
-//                        mTextView.setTranslationY(-mTextView.getHeight());
-//                        mTextView.animate().setDuration(duration/2).
-//                                translationY(0).alpha(1).
-//                                setInterpolator(sDecelerator);
-
-                        animateTopImageViewColorFilter();
-
-                        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
-                        bgAnim.setDuration(duration);
-                        bgAnim.start();
+                        mTopNewsImageRippleView.bringToFront();
+                        mTopNewsTextLayout.bringToFront();
+                        mBottomNewsListRecyclerView.bringToFront();
+                        mLoadingCoverView.bringToFront();
                     }
                 })
         ;
+
+//        animateTopItems();
+        animateTopImageViewColorFilter();
+
+        Point displaySize = new Point();
+        getWindowManager().getDefaultDisplay().getSize(displaySize);
+
+        final int translationY = displaySize.y - mTopNewsTextLayout.getTop();
+
+        // animate top text view
+        mTopNewsTextLayout.setAlpha(0);
+        mTopNewsTextLayout.setTranslationY(translationY);
+        mTopNewsTextLayout.animate().
+                alpha(1.0f).
+                translationY(0).
+                setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                setInterpolator(pathInterpolator).
+                start();
+
+
+        ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                // animate bottom recycler view
+                for (int i = 0; i < mBottomNewsListRecyclerView.getChildCount(); i++) {
+                    View child = mBottomNewsListRecyclerView.getChildAt(i);
+
+                    child.setTranslationY(translationY);
+                    child.animate().
+                            translationY(0).
+                            setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                            setInterpolator(pathInterpolator).
+                            start();
+                }
+
+                return true;
+            }
+        });
+
+        // animate bg fade in
+        mRootLayoutBackground.setAlpha(0);
+        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
+        bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        bgAnim.setInterpolator(pathInterpolator);
+        bgAnim.start();
+
+
+
 
         // Fade in the black background
         // Animate a color filter to take the image from grayscale to full color.
@@ -289,7 +330,7 @@ public class NewsFeedDetailActivity extends Activity
             }
 
         });
-        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
+        color.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).start();
     }
 
     private void initLoadingCoverView() {
@@ -323,7 +364,7 @@ public class NewsFeedDetailActivity extends Activity
                 finishAfterTransition();
             }
         });
-        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI);
+        color.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         color.start();
     }
 
@@ -432,6 +473,7 @@ public class NewsFeedDetailActivity extends Activity
 
         notifyBottomNewsChanged();
     }
+
     private void notifyBottomNewsChanged() {
         mAdapter = new NewsFeedDetailAdapter(this, this);
 
@@ -442,22 +484,45 @@ public class NewsFeedDetailActivity extends Activity
 
         final int newsCount = mNewsFeed.getNewsList().size();
         for (int i = 0; i < newsCount; i++) {
-            final News news = mNewsFeed.getNewsList().get(i);
-            final int idx = i;
-            mBottomNewsListRecyclerView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.addNews(news);
+            News news = mNewsFeed.getNewsList().get(i);
+            mAdapter.addNews(news);
+//            final int idx = i;
+//            mBottomNewsListRecyclerView.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mAdapter.addNews(news);
+//
+//                    if (idx == (mNewsFeed.getNewsList().size() - 1)) {
+//                        mBottomNewsListRecyclerView.getItemAnimator()
+//                                .isRunning(NewsFeedDetailActivity.this);
+//                    }
+//                }
+//            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
+        }
+        applyMaxBottomRecyclerViewHeight();
 
-                    if (idx == (mNewsFeed.getNewsList().size() - 1)) {
-                        mBottomNewsListRecyclerView.getItemAnimator()
-                                .isRunning(NewsFeedDetailActivity.this);
-                    }
-                }
-            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
+        ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                applyActualRecyclerViewHeight();
+
+                return true;
+            }
+        });
+    }
+
+    private void applyActualRecyclerViewHeight() {
+        int totalHeight = 0;
+        int childCount = mBottomNewsListRecyclerView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
         }
 
-        applyMaxBottomRecyclerViewHeight();
+        mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -715,7 +780,7 @@ public class NewsFeedDetailActivity extends Activity
         int blue = Color.blue(filterColor);
 
         int colorWithoutAlpha = Color.rgb(red, green, blue);
-        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+//        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
         mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
 
         if (applyColorFilter) {
@@ -812,21 +877,6 @@ public class NewsFeedDetailActivity extends Activity
                 mActionBarOverlayView.setAlpha(0);
             }
         }
-    }
-
-    /**
-     * RecyclerView.ItemAnimator.ItemAnimatorFinishedListener
-     */
-    @Override
-    public void onAnimationsFinished() {
-        int totalHeight = 0;
-        int childCount = mBottomNewsListRecyclerView.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
-        }
-
-        mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override

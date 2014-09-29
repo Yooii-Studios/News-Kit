@@ -49,7 +49,8 @@
                         android:id="@+id/detail_top_news_text_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/detail_top_news_image_ripple_view">
+                        android:layout_below="@id/detail_top_news_image_ripple_view"
+                        android:elevation="@dimen/detail_top_text_layout_elevation">
 
                         <LinearLayout
                             android:id="@+id/detail_top_news_text_ripple_layout"
