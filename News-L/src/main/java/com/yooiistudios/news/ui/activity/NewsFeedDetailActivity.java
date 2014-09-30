@@ -21,7 +21,9 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -67,6 +69,16 @@ import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VI
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_TOP;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_GRAVITY;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_HEIGHT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_LEFT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_MAX_LINE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_COLOR;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_SIZE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TOP;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_WIDTH;
 
 public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
@@ -80,7 +92,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_loading_cover)                  View mLoadingCoverView;
 
     // Top
-    @InjectView(R.id.detail_top_news_image_wrapper)         View mTopNewsImageWrapper;
+    @InjectView(R.id.detail_top_news_image_wrapper)         FrameLayout mTopNewsImageWrapper;
     @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
     @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
@@ -91,7 +103,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
-    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 800;
+    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 8000;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
@@ -110,6 +122,23 @@ public class NewsFeedDetailActivity extends Activity
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
     private ColorDrawable mRootLayoutBackground;
+
+    // 액티비티 전환 애니메이션 관련 변수
+    private int mThumbnailLeft;
+    private int mThumbnailTop;
+    private int mThumbnailWidth;
+    private int mThumbnailHeight;
+    private String mThumbnailText;
+    private float mThumbnailTextSize;
+    private int mThumbnailTextColor;
+    private int mThumbnailTextViewGravity;
+    private int mThumbnailTextViewEllipsizeOrdinal;
+    private int mThumbnailTextViewMaxLine;
+
+    private int mThumbnailTextViewLeft;
+    private int mThumbnailTextViewTop;
+    private int mThumbnailTextViewWidth;
+    private int mThumbnailTextViewHeight;
 
     private boolean mIsRefreshing = false;
     private boolean mHasAnimatedColorFilter = false;
@@ -143,6 +172,26 @@ public class NewsFeedDetailActivity extends Activity
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
 
+        // 액티비티 전환 관련 변수
+        Bundle extras = getIntent().getExtras();
+
+        mThumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
+        mThumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
+        mThumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
+        mThumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
+
+        mThumbnailText = extras.getString(INTENT_KEY_TEXT_VIEW_TEXT, null);
+        mThumbnailTextSize = extras.getFloat(INTENT_KEY_TEXT_VIEW_TEXT_SIZE);
+        mThumbnailTextColor = extras.getInt(INTENT_KEY_TEXT_VIEW_TEXT_COLOR);
+        mThumbnailTextViewGravity = extras.getInt(INTENT_KEY_TEXT_VIEW_GRAVITY);
+        mThumbnailTextViewEllipsizeOrdinal = extras.getInt(INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL);
+        mThumbnailTextViewMaxLine = extras.getInt(INTENT_KEY_TEXT_VIEW_MAX_LINE);
+
+        mThumbnailTextViewLeft = extras.getInt(INTENT_KEY_TEXT_VIEW_LEFT);
+        mThumbnailTextViewTop = extras.getInt(INTENT_KEY_TEXT_VIEW_TOP);
+        mThumbnailTextViewWidth = extras.getInt(INTENT_KEY_TEXT_VIEW_WIDTH);
+        mThumbnailTextViewHeight = extras.getInt(INTENT_KEY_TEXT_VIEW_HEIGHT);
+
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
         mRootLayoutBackground = new ColorDrawable(Color.WHITE);
@@ -158,12 +207,6 @@ public class NewsFeedDetailActivity extends Activity
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null && mTopImageView.getDrawable() != null) {
-            Bundle extras = getIntent().getExtras();
-            final int thumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
-            final int thumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
-            final int thumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
-            final int thumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
-
             ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -171,7 +214,9 @@ public class NewsFeedDetailActivity extends Activity
                 public boolean onPreDraw() {
                     mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                    runEnterAnimation(thumbnailLeft, thumbnailTop, thumbnailWidth, thumbnailHeight);
+                    addThumbnailTextView();
+
+                    runEnterAnimation();
 
                     return true;
                 }
@@ -181,14 +226,33 @@ public class NewsFeedDetailActivity extends Activity
         }
     }
 
+    private void addThumbnailTextView() {
+        int padding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
+
+        TextView thumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+        thumbnailTextView.setPadding(padding, padding, padding, padding);
+        thumbnailTextView.setText(mThumbnailText);
+        thumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mThumbnailTextSize);
+        thumbnailTextView.setTextColor(mThumbnailTextColor);
+        thumbnailTextView.setGravity(mThumbnailTextViewGravity);
+        thumbnailTextView.setEllipsize(
+                TextUtils.TruncateAt.values()[mThumbnailTextViewEllipsizeOrdinal]);
+        thumbnailTextView.setMaxLines(mThumbnailTextViewMaxLine);
+
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                mThumbnailTextViewWidth, mThumbnailTextViewHeight);
+        lp.leftMargin = mThumbnailTextViewLeft;
+        lp.topMargin = mThumbnailTextViewTop;
+        mRootLayout.addView(thumbnailTextView, lp);
+    }
+
     /**
      * The enter animation scales the picture in from its previous thumbnail
      * size/location, colorizing it in parallel. In parallel, the background of the
      * activity is fading in. When the pictue is in place, the text description
      * drops down.
      */
-    public void runEnterAnimation(int thumbnailLeft, int thumbnailTop,
-                                  final int thumbnailWidth, final int thumbnailHeight) {
+    public void runEnterAnimation() {
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
         mTopNewsImageWrapper.setPivotX(0);
@@ -199,14 +263,14 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
         int left = screenLocation[0];
         int top = screenLocation[0];
-        final int leftDelta = thumbnailLeft - left;
-        final int topDelta = thumbnailTop - top;
+        final int leftDelta = mThumbnailLeft - left;
+        final int topDelta = mThumbnailTop - top;
 
-        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)thumbnailWidth;
-        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)thumbnailHeight;
+        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)mThumbnailWidth;
+        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)mThumbnailHeight;
         boolean fitWidth = widthRatio > heightRatio;
         final float scaleRatio = fitWidth ? widthRatio : heightRatio;
-        final int targetWidth = (int)(thumbnailWidth * scaleRatio);
+        final int targetWidth = (int)(mThumbnailWidth * scaleRatio);
 
         // 곡선 이동 PropertyValuesHolder 준비
         AnimatorPath path = new AnimatorPath();
@@ -219,8 +283,8 @@ public class NewsFeedDetailActivity extends Activity
 
         // 크기 변경 PropertyValuesHolder 준비
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-        lp.width = thumbnailWidth;
-        lp.height = thumbnailHeight;
+        lp.width = mThumbnailWidth;
+        lp.height = mThumbnailHeight;
         mTopNewsImageWrapper.setLayoutParams(lp);
 
         PropertyValuesHolder imageWrapperSizePvh = PropertyValuesHolder.ofObject("ImageWrapperSize",

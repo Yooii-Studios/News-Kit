@@ -61,6 +61,26 @@ public class MainActivity extends Activity
             "INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH";
     public static final String INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT =
             "INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT";
+    public static final String INTENT_KEY_TEXT_VIEW_TEXT =
+            "INTENT_KEY_TEXT_VIEW_TEXT";
+    public static final String INTENT_KEY_TEXT_VIEW_TEXT_SIZE =
+            "INTENT_KEY_TEXT_VIEW_TEXT_SIZE";
+    public static final String INTENT_KEY_TEXT_VIEW_TEXT_COLOR =
+            "INTENT_KEY_TEXT_VIEW_TEXT_COLOR";
+    public static final String INTENT_KEY_TEXT_VIEW_GRAVITY =
+            "INTENT_KEY_TEXT_VIEW_GRAVITY";
+    public static final String INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL =
+            "INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL";
+    public static final String INTENT_KEY_TEXT_VIEW_MAX_LINE =
+            "INTENT_KEY_TEXT_VIEW_MAX_LINE";
+    public static final String INTENT_KEY_TEXT_VIEW_LEFT =
+            "INTENT_KEY_TEXT_VIEW_LEFT";
+    public static final String INTENT_KEY_TEXT_VIEW_TOP =
+            "INTENT_KEY_TEXT_VIEW_TOP";
+    public static final String INTENT_KEY_TEXT_VIEW_WIDTH =
+            "INTENT_KEY_TEXT_VIEW_WIDTH";
+    public static final String INTENT_KEY_TEXT_VIEW_HEIGHT =
+            "INTENT_KEY_TEXT_VIEW_HEIGHT";
 
     public static final int RC_NEWS_FEED_DETAIL = 10001;
 
