@@ -30,7 +30,6 @@ import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -74,7 +73,8 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_loading_cover)                  View mLoadingCoverView;
 
     // Top
-    @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
+//    @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
+    @InjectView(R.id.detail_top_news_image_wrapper)         View mTopNewsImageWrapper;
     @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
     @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
@@ -140,14 +140,16 @@ public class NewsFeedDetailActivity extends Activity
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
         mRootLayoutBackground = new ColorDrawable(Color.WHITE);
-//        findViewById(R.id.detail_scroll_content_wrapper).setBackground(mRootLayoutBackground);
-        mBottomNewsListRecyclerView.setBackground(mRootLayoutBackground);
+        mRootLayout.setBackground(mRootLayoutBackground);
+//        mBottomNewsListRecyclerView.setBackground(mRootLayoutBackground);
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
         initTopNews();
         initBottomNewsList();
         initLoadingCoverView();
+
+//        mTopContentLayout.bringToFront();
 
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
@@ -205,8 +207,7 @@ public class NewsFeedDetailActivity extends Activity
      */
     public void runEnterAnimation(int leftDelta, int topDelta, float widthScale,
                                   float heightScale) {
-        mTopImageView.bringToFront();
-        mTopContentLayout.bringToFront();
+        mTopNewsImageWrapper.bringToFront();
 
         // TODO duration 바꾸기
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
@@ -232,10 +233,10 @@ public class NewsFeedDetailActivity extends Activity
                 setInterpolator(pathInterpolator)
                 .withEndAction(new Runnable() {
                     public void run() {
-                        mTopNewsImageRippleView.bringToFront();
-                        mTopNewsTextLayout.bringToFront();
+//                        mTopNewsImageRippleView.bringToFront();
                         mBottomNewsListRecyclerView.bringToFront();
-                        mLoadingCoverView.bringToFront();
+                        mTopNewsTextLayout.bringToFront();
+//                        mLoadingCoverView.bringToFront();
                     }
                 })
         ;
