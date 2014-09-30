@@ -80,7 +80,6 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_loading_cover)                  View mLoadingCoverView;
 
     // Top
-//    @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
     @InjectView(R.id.detail_top_news_image_wrapper)         View mTopNewsImageWrapper;
     @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
@@ -189,40 +188,42 @@ public class NewsFeedDetailActivity extends Activity
      * drops down.
      */
     public void runEnterAnimation(int thumbnailLeft, int thumbnailTop,
-                                  int thumbnailWidth, int thumbnailHeight) {
-        mTopNewsImageWrapper.bringToFront();
-
+                                  final int thumbnailWidth, final int thumbnailHeight) {
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
         mTopNewsImageWrapper.setPivotX(0);
         mTopNewsImageWrapper.setPivotY(0);
-        // Figure out where the thumbnail and full size versions are, relative
-        // to the screen and each other
+
+        // 썸네일 위치, 목표 위치 계산
         int[] screenLocation = new int[2];
         mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
-        final int leftDelta = thumbnailLeft - screenLocation[0];
-        final int topDelta = thumbnailTop - screenLocation[1];
+        int left = screenLocation[0];
+        int top = screenLocation[0];
+        final int leftDelta = thumbnailLeft - left;
+        final int topDelta = thumbnailTop - top;
 
-        // Set up path to new location using a Bézier spline curve
+        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)thumbnailWidth;
+        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)thumbnailHeight;
+        boolean fitWidth = widthRatio > heightRatio;
+        final float scaleRatio = fitWidth ? widthRatio : heightRatio;
+        final int targetWidth = (int)(thumbnailWidth * scaleRatio);
+
+        // 곡선 이동 PropertyValuesHolder 준비
         AnimatorPath path = new AnimatorPath();
         path.moveTo(leftDelta, topDelta);
-        path.curveTo(leftDelta/2, topDelta, 0, topDelta/2, 0, 0);
+        int leftTarget = fitWidth ? left : left - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
+        path.curveTo(leftDelta/2, topDelta, 0, topDelta/2, leftTarget, top);
 
-        // Prepare translation, size animation property values holders.
         PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
                 "ImageWrapperTranslation", new PathEvaluator(), path.getPoints().toArray());
 
-        int shrinkedHeight = (int)(mTopNewsImageWrapper.getWidth() *
-                ((float)thumbnailHeight / (float)thumbnailWidth));
-
+        // 크기 변경 PropertyValuesHolder 준비
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-        lp.height = shrinkedHeight;
+        lp.width = thumbnailWidth;
+        lp.height = thumbnailHeight;
         mTopNewsImageWrapper.setLayoutParams(lp);
 
-        int subDuration = (int)(ACTIVITY_ENTER_ANIMATION_DURATION*0.4);
-
-        float scaleRatio = thumbnailWidth/(float)mTopNewsImageWrapper.getWidth();
-        PropertyValuesHolder imageWrapperWidthPvh = PropertyValuesHolder.ofObject("ImageWrapperSize",
+        PropertyValuesHolder imageWrapperSizePvh = PropertyValuesHolder.ofObject("ImageWrapperSize",
                 new TypeEvaluator<PointF>() {
                     @Override
                     public PointF evaluate(float v, PointF startSize, PointF endSize) {
@@ -230,32 +231,24 @@ public class NewsFeedDetailActivity extends Activity
                         float y = startSize.y * (1-v) + endSize.y * v;
                         return new PointF(x, y);
                     }
-                }, new PointF(scaleRatio, scaleRatio),
-                new PointF(1.0f, 1.0f));
+                }, new PointF(1.0f, 1.0f),
+                new PointF(scaleRatio, scaleRatio));
 
-        // Run animations simultaneously.
+        // 준비해 놓은 PropertyValuesHolder들 실행
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
-                imageWrapperTranslationPvh, imageWrapperWidthPvh
+                imageWrapperTranslationPvh, imageWrapperSizePvh
         );
         animator.setInterpolator(pathInterpolator);
-        animator.setDuration(700);
+        animator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         animator.start();
 
-        ObjectAnimator lpAnimator = ObjectAnimator.ofInt(NewsFeedDetailActivity.this,
-                "ImageWrapperHeight", shrinkedHeight, mTopNewsImageWrapper.getHeight());
-        lpAnimator.setInterpolator(pathInterpolator);
-        lpAnimator.setStartDelay(300);
-        lpAnimator.setDuration(500);
-        lpAnimator.start();
-
+        // 이미지뷰 컬러 필터 애니메이션
         animateTopImageViewColorFilter();
 
+        // 상단 뉴스의 텍스트뷰 위치 애니메이션
         Point displaySize = new Point();
         getWindowManager().getDefaultDisplay().getSize(displaySize);
-
         final int translationY = displaySize.y - mTopNewsTextLayout.getTop();
-
-        // animate top text view
         mTopNewsTextLayout.setAlpha(0);
         mTopNewsTextLayout.setTranslationY(translationY);
         mTopNewsTextLayout.animate().
@@ -265,8 +258,7 @@ public class NewsFeedDetailActivity extends Activity
                 setInterpolator(pathInterpolator).
                 start();
 
-
-        // Animate recycler view's items.
+        // 하단 리사이클러뷰 아이템들 위치 애니메이션
         ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -290,7 +282,7 @@ public class NewsFeedDetailActivity extends Activity
             }
         });
 
-        // animate bg fade in
+        // 배경 색상 페이드인 애니메이션
         mRootLayoutBackground.setAlpha(0);
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
         bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
@@ -298,28 +290,21 @@ public class NewsFeedDetailActivity extends Activity
         bgAnim.start();
     }
 
+    /**
+     * runEnterAnimation 에서 이미지뷰 wrapper 스케일링에 사용될 메서드.
+     * @param size 계산된 사이즈
+     */
+    @SuppressWarnings("UnusedDeclaration")
     public void setImageWrapperSize(PointF size) {
         mTopNewsImageWrapper.setScaleX(size.x);
         mTopNewsImageWrapper.setScaleY(size.y);
-//        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-//        lp.width = size.x;
-//        lp.height = size.y;
-//        mTopNewsImageWrapper.setLayoutParams(lp);
     }
 
-    public void setImageWrapperWidth(int value) {
-        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-        lp.width = value;
-        mTopNewsImageWrapper.setLayoutParams(lp);
-//        mTopNewsImageWrapper.invalidate();
-    }
-
-    public void setImageWrapperHeight(int value) {
-        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-        lp.height = value;
-        mTopNewsImageWrapper.setLayoutParams(lp);
-//        mTopNewsImageWrapper.invalidate();
-    }
+    /**
+     * runEnterAnimation 에서 이미지뷰 wrapper 위치 이동에 사용될 메서드.
+     * @param newLoc 계산된 위치
+     */
+    @SuppressWarnings("UnusedDeclaration")
     public void setImageWrapperTranslation(PathPoint newLoc) {
         mTopNewsImageWrapper.setTranslationX(newLoc.mX);
         mTopNewsImageWrapper.setTranslationY(newLoc.mY);
@@ -885,14 +870,14 @@ public class NewsFeedDetailActivity extends Activity
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
-            mTopImageView.setTranslationY(scrollY * 0.4f);
+            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
 
             mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
             if (mActionBarOverlayView.getAlpha() >= 0.6f) {
                 mActionBarOverlayView.setAlpha(0.6f);
             }
         } else {
-            mTopImageView.setTranslationY(0);
+            mTopNewsImageWrapper.setTranslationY(0);
             if (mActionBarOverlayView.getAlpha() != 0) {
                 mActionBarOverlayView.setAlpha(0);
             }
