@@ -103,7 +103,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
-    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 8000;
+    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 800;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
@@ -128,6 +128,8 @@ public class NewsFeedDetailActivity extends Activity
     private int mThumbnailTop;
     private int mThumbnailWidth;
     private int mThumbnailHeight;
+
+    private TextView mThumbnailTextView;
     private String mThumbnailText;
     private float mThumbnailTextSize;
     private int mThumbnailTextColor;
@@ -229,21 +231,21 @@ public class NewsFeedDetailActivity extends Activity
     private void addThumbnailTextView() {
         int padding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
 
-        TextView thumbnailTextView = new TextView(NewsFeedDetailActivity.this);
-        thumbnailTextView.setPadding(padding, padding, padding, padding);
-        thumbnailTextView.setText(mThumbnailText);
-        thumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mThumbnailTextSize);
-        thumbnailTextView.setTextColor(mThumbnailTextColor);
-        thumbnailTextView.setGravity(mThumbnailTextViewGravity);
-        thumbnailTextView.setEllipsize(
+        mThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+        mThumbnailTextView.setPadding(padding, padding, padding, padding);
+        mThumbnailTextView.setText(mThumbnailText);
+        mThumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mThumbnailTextSize);
+        mThumbnailTextView.setTextColor(mThumbnailTextColor);
+        mThumbnailTextView.setGravity(mThumbnailTextViewGravity);
+        mThumbnailTextView.setEllipsize(
                 TextUtils.TruncateAt.values()[mThumbnailTextViewEllipsizeOrdinal]);
-        thumbnailTextView.setMaxLines(mThumbnailTextViewMaxLine);
+        mThumbnailTextView.setMaxLines(mThumbnailTextViewMaxLine);
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 mThumbnailTextViewWidth, mThumbnailTextViewHeight);
         lp.leftMargin = mThumbnailTextViewLeft;
         lp.topMargin = mThumbnailTextViewTop;
-        mRootLayout.addView(thumbnailTextView, lp);
+        mRootLayout.addView(mThumbnailTextView, lp);
     }
 
     /**
@@ -352,6 +354,11 @@ public class NewsFeedDetailActivity extends Activity
         bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         bgAnim.setInterpolator(pathInterpolator);
         bgAnim.start();
+
+        // 텍스트뷰 애니메이션
+//        mTopTitleTextView.getle
+        mThumbnailTextView.animate().alpha(0.0f).setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2)
+                .start();
     }
 
     /**
