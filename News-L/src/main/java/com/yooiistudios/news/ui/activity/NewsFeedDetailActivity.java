@@ -3,6 +3,7 @@ package com.yooiistudios.news.ui.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
@@ -46,6 +48,9 @@ import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
+import com.yooiistudios.news.ui.animation.curvemotion.AnimatorPath;
+import com.yooiistudios.news.ui.animation.curvemotion.PathEvaluator;
+import com.yooiistudios.news.ui.animation.curvemotion.PathPoint;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
@@ -141,7 +146,7 @@ public class NewsFeedDetailActivity extends Activity
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
         mRootLayoutBackground = new ColorDrawable(Color.WHITE);
         mRootLayout.setBackground(mRootLayoutBackground);
-//        mBottomNewsListRecyclerView.setBackground(mRootLayoutBackground);
+        mBottomNewsListRecyclerView.setBackground(mRootLayoutBackground);
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
@@ -149,11 +154,15 @@ public class NewsFeedDetailActivity extends Activity
         initBottomNewsList();
         initLoadingCoverView();
 
-//        mTopContentLayout.bringToFront();
-
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null && mTopImageView.getDrawable() != null) {
+            Bundle extras = getIntent().getExtras();
+            final int thumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
+            final int thumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
+            final int thumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
+            final int thumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
+
             ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -161,39 +170,11 @@ public class NewsFeedDetailActivity extends Activity
                 public boolean onPreDraw() {
                     mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                    Bundle extras = getIntent().getExtras();
-                    int thumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
-                    int thumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
-                    int thumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
-                    int thumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
-
-                    // Figure out where the thumbnail and full size versions are, relative
-                    // to the screen and each other
-                    int[] screenLocation = new int[2];
-                    mTopImageView.getLocationOnScreen(screenLocation);
-                    int leftDelta = thumbnailLeft - screenLocation[0];
-                    int topDelta = thumbnailTop - screenLocation[1];
-
-                    // Scale factors to make the large version the same size as the thumbnail
-                    float widthScale = (float) thumbnailWidth / mTopImageView.getWidth();
-                    float heightScale = (float) thumbnailHeight / mTopImageView.getHeight();
-
-                    runEnterAnimation(leftDelta, topDelta, widthScale, heightScale);
+                    runEnterAnimation(thumbnailLeft, thumbnailTop, thumbnailWidth, thumbnailHeight);
 
                     return true;
                 }
             });
-//        }
-//        if (mTopImageView.getDrawable() != null) {
-//            hideLoadingCover();
-//            getWindow().getEnterTransition().addListener(new TransitionAdapter() {
-//                @Override
-//                public void onTransitionEnd(Transition transition) {
-//                    animateTopImageViewColorFilter();
-//
-//                    getWindow().getEnterTransition().removeListener(this);
-//                }
-//            });
         } else {
             showLoadingCover();
         }
@@ -205,43 +186,39 @@ public class NewsFeedDetailActivity extends Activity
      * activity is fading in. When the pictue is in place, the text description
      * drops down.
      */
-    public void runEnterAnimation(int leftDelta, int topDelta, float widthScale,
-                                  float heightScale) {
+    public void runEnterAnimation(int thumbnailLeft, int thumbnailTop,
+                                  int thumbnailWidth, int thumbnailHeight) {
         mTopNewsImageWrapper.bringToFront();
 
-        // TODO duration 바꾸기
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
-        // Set starting values for properties we're going to animate. These
-        // values scale and position the full size version down to the thumbnail
-        // size/location, from which we'll animate it back up
-        mTopImageView.setPivotX(0);
-        mTopImageView.setPivotY(0);
-        mTopImageView.setScaleX(widthScale);
-        mTopImageView.setScaleY(heightScale);
-        mTopImageView.setTranslationX(leftDelta);
-        mTopImageView.setTranslationY(topDelta);
+        // Figure out where the thumbnail and full size versions are, relative
+        // to the screen and each other
+        int[] screenLocation = new int[2];
+        mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
+        final int leftDelta = thumbnailLeft - screenLocation[0];
+        final int topDelta = thumbnailTop - screenLocation[1];
 
-        // We'll fade the text in later
-//        mTextView.setAlpha(0);
+        // Set up path to new location using a Bézier spline curve
+        AnimatorPath path = new AnimatorPath();
+        path.moveTo(leftDelta, topDelta);
+        path.curveTo(leftDelta/2, topDelta, 0, topDelta/2, 0, 0);
 
-        // Animate scale and translation to go from thumbnail to full size
-        // TODO interpolator 바꾸기
-        mTopImageView.animate().setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
-                scaleX(1).scaleY(1).
-                translationX(0).translationY(0).
-                setInterpolator(pathInterpolator)
-                .withEndAction(new Runnable() {
-                    public void run() {
-//                        mTopNewsImageRippleView.bringToFront();
-                        mBottomNewsListRecyclerView.bringToFront();
-                        mTopNewsTextLayout.bringToFront();
-//                        mLoadingCoverView.bringToFront();
-                    }
-                })
-        ;
+        // Prepare translation, size animation property values holders.
+        PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
+                "ImageWrapperTranslation", new PathEvaluator(), path.getPoints().toArray());
+        PropertyValuesHolder imageWrapperWidthPvh = PropertyValuesHolder.ofInt(
+                "ImageWrapperWidth" , thumbnailWidth, mTopNewsImageWrapper.getWidth());
+        PropertyValuesHolder imageWrapperHeightPvh = PropertyValuesHolder.ofInt(
+                "ImageWrapperHeight", thumbnailHeight, mTopNewsImageWrapper.getHeight());
 
-//        animateTopItems();
+        // Run animations simultaneously.
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
+                imageWrapperTranslationPvh, imageWrapperWidthPvh, imageWrapperHeightPvh);
+        animator.setInterpolator(pathInterpolator);
+        animator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        animator.start();
+
         animateTopImageViewColorFilter();
 
         Point displaySize = new Point();
@@ -260,6 +237,7 @@ public class NewsFeedDetailActivity extends Activity
                 start();
 
 
+        // Animate recycler view's items.
         ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -288,22 +266,24 @@ public class NewsFeedDetailActivity extends Activity
         bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         bgAnim.setInterpolator(pathInterpolator);
         bgAnim.start();
+    }
 
+    public void setImageWrapperWidth(int value) {
+        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+        lp.width = value;
+        mTopNewsImageWrapper.setLayoutParams(lp);
+        mTopNewsImageWrapper.invalidate();
+    }
 
-
-
-        // Fade in the black background
-        // Animate a color filter to take the image from grayscale to full color.
-        // This happens in parallel with the image scaling and moving into place.
-//        ObjectAnimator colorizer = ObjectAnimator.ofFloat(PictureDetailsActivity.this,
-//                "saturation", 0, 1);
-//        colorizer.setDuration(duration);
-//        colorizer.start();
-
-        // Animate a drop-shadow of the image
-//        ObjectAnimator shadowAnim = ObjectAnimator.ofFloat(mShadowLayout, "shadowDepth", 0, 1);
-//        shadowAnim.setDuration(duration);
-//        shadowAnim.start();
+    public void setImageWrapperHeight(int value) {
+        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+        lp.height = value;
+        mTopNewsImageWrapper.setLayoutParams(lp);
+        mTopNewsImageWrapper.invalidate();
+    }
+    public void setImageWrapperTranslation(PathPoint newLoc) {
+        mTopNewsImageWrapper.setTranslationX(newLoc.mX);
+        mTopNewsImageWrapper.setTranslationY(newLoc.mY);
     }
 
     private void animateTopImageViewColorFilter() {

@@ -20,8 +20,7 @@
             <RelativeLayout
                 android:id="@+id/detail_scroll_content_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false">
+                android:layout_height="wrap_content">
 
                 <FrameLayout
                     android:id="@+id/detail_top_news_image_wrapper"
@@ -75,8 +74,7 @@
                     android:id="@+id/detail_bottom_news_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/detail_top_news_text_layout"
-                    android:background="?android:attr/colorPrimary"/>
+                    android:layout_below="@id/detail_top_news_text_layout"/>
 
                 <FrameLayout
                     android:id="@+id/detail_loading_cover"
