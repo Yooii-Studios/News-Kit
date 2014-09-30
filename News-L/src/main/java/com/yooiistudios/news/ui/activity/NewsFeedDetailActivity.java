@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -192,6 +194,8 @@ public class NewsFeedDetailActivity extends Activity
 
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
+        mTopNewsImageWrapper.setPivotX(0);
+        mTopNewsImageWrapper.setPivotY(0);
         // Figure out where the thumbnail and full size versions are, relative
         // to the screen and each other
         int[] screenLocation = new int[2];
@@ -207,17 +211,42 @@ public class NewsFeedDetailActivity extends Activity
         // Prepare translation, size animation property values holders.
         PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
                 "ImageWrapperTranslation", new PathEvaluator(), path.getPoints().toArray());
-        PropertyValuesHolder imageWrapperWidthPvh = PropertyValuesHolder.ofInt(
-                "ImageWrapperWidth" , thumbnailWidth, mTopNewsImageWrapper.getWidth());
-        PropertyValuesHolder imageWrapperHeightPvh = PropertyValuesHolder.ofInt(
-                "ImageWrapperHeight", thumbnailHeight, mTopNewsImageWrapper.getHeight());
+
+        int shrinkedHeight = (int)(mTopNewsImageWrapper.getWidth() *
+                ((float)thumbnailHeight / (float)thumbnailWidth));
+
+        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+        lp.height = shrinkedHeight;
+        mTopNewsImageWrapper.setLayoutParams(lp);
+
+        int subDuration = (int)(ACTIVITY_ENTER_ANIMATION_DURATION*0.4);
+
+        float scaleRatio = thumbnailWidth/(float)mTopNewsImageWrapper.getWidth();
+        PropertyValuesHolder imageWrapperWidthPvh = PropertyValuesHolder.ofObject("ImageWrapperSize",
+                new TypeEvaluator<PointF>() {
+                    @Override
+                    public PointF evaluate(float v, PointF startSize, PointF endSize) {
+                        float x = startSize.x * (1-v) + endSize.x * v;
+                        float y = startSize.y * (1-v) + endSize.y * v;
+                        return new PointF(x, y);
+                    }
+                }, new PointF(scaleRatio, scaleRatio),
+                new PointF(1.0f, 1.0f));
 
         // Run animations simultaneously.
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
-                imageWrapperTranslationPvh, imageWrapperWidthPvh, imageWrapperHeightPvh);
+                imageWrapperTranslationPvh, imageWrapperWidthPvh
+        );
         animator.setInterpolator(pathInterpolator);
-        animator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        animator.setDuration(700);
         animator.start();
+
+        ObjectAnimator lpAnimator = ObjectAnimator.ofInt(NewsFeedDetailActivity.this,
+                "ImageWrapperHeight", shrinkedHeight, mTopNewsImageWrapper.getHeight());
+        lpAnimator.setInterpolator(pathInterpolator);
+        lpAnimator.setStartDelay(300);
+        lpAnimator.setDuration(500);
+        lpAnimator.start();
 
         animateTopImageViewColorFilter();
 
@@ -248,9 +277,10 @@ public class NewsFeedDetailActivity extends Activity
                 for (int i = 0; i < mBottomNewsListRecyclerView.getChildCount(); i++) {
                     View child = mBottomNewsListRecyclerView.getChildAt(i);
 
-                    child.setTranslationY(translationY);
+                    child.setTranslationY(child.getTop() + child.getBottom());
                     child.animate().
                             translationY(0).
+                            setStartDelay(i*100).
                             setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
                             setInterpolator(pathInterpolator).
                             start();
@@ -268,18 +298,27 @@ public class NewsFeedDetailActivity extends Activity
         bgAnim.start();
     }
 
+    public void setImageWrapperSize(PointF size) {
+        mTopNewsImageWrapper.setScaleX(size.x);
+        mTopNewsImageWrapper.setScaleY(size.y);
+//        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+//        lp.width = size.x;
+//        lp.height = size.y;
+//        mTopNewsImageWrapper.setLayoutParams(lp);
+    }
+
     public void setImageWrapperWidth(int value) {
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
         lp.width = value;
         mTopNewsImageWrapper.setLayoutParams(lp);
-        mTopNewsImageWrapper.invalidate();
+//        mTopNewsImageWrapper.invalidate();
     }
 
     public void setImageWrapperHeight(int value) {
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
         lp.height = value;
         mTopNewsImageWrapper.setLayoutParams(lp);
-        mTopNewsImageWrapper.invalidate();
+//        mTopNewsImageWrapper.invalidate();
     }
     public void setImageWrapperTranslation(PathPoint newLoc) {
         mTopNewsImageWrapper.setTranslationX(newLoc.mX);
