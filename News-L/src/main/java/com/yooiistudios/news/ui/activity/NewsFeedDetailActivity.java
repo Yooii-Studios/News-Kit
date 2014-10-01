@@ -147,6 +147,12 @@ public class NewsFeedDetailActivity extends Activity
     private int mThumbnailWidth;
     private int mThumbnailHeight;
 
+    private int mThumbnailLeftDelta;
+    private int mThumbnailTopDelta;
+    private int mThumbnailLeftTarget;
+    private int mThumbnailTopTarget;
+    private float mThumbnailScaleRatio;
+
     private TextView mThumbnailTextView;
     private String mThumbnailText;
     private float mThumbnailTextSize;
@@ -251,6 +257,23 @@ public class NewsFeedDetailActivity extends Activity
         mThumbnailTextViewTop = extras.getInt(INTENT_KEY_TEXT_VIEW_TOP);
         mThumbnailTextViewWidth = extras.getInt(INTENT_KEY_TEXT_VIEW_WIDTH);
         mThumbnailTextViewHeight = extras.getInt(INTENT_KEY_TEXT_VIEW_HEIGHT);
+
+        // 썸네일 위치, 목표 위치 계산
+        int[] screenLocation = new int[2];
+        mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
+        int left = screenLocation[0];
+        int top = screenLocation[1];
+        mThumbnailLeftDelta = mThumbnailLeft - left;
+        mThumbnailTopDelta = mThumbnailTop - top;
+
+        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)mThumbnailWidth;
+        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)mThumbnailHeight;
+        boolean fitWidth = widthRatio > heightRatio;
+        mThumbnailScaleRatio = fitWidth ? widthRatio : heightRatio;
+        final int targetWidth = (int)(mThumbnailWidth * mThumbnailScaleRatio);
+        mThumbnailLeftTarget = fitWidth
+                ? left : left - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
+        mThumbnailTopTarget = top;
     }
 
     private void addThumbnailTextView() {
@@ -285,25 +308,11 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsImageWrapper.setPivotX(0);
         mTopNewsImageWrapper.setPivotY(0);
 
-        // 썸네일 위치, 목표 위치 계산
-        int[] screenLocation = new int[2];
-        mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
-        int left = screenLocation[0];
-        int top = screenLocation[0];
-        final int leftDelta = mThumbnailLeft - left;
-        final int topDelta = mThumbnailTop - top;
-
-        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)mThumbnailWidth;
-        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)mThumbnailHeight;
-        boolean fitWidth = widthRatio > heightRatio;
-        final float scaleRatio = fitWidth ? widthRatio : heightRatio;
-        final int targetWidth = (int)(mThumbnailWidth * scaleRatio);
-
         // 곡선 이동 PropertyValuesHolder 준비
         AnimatorPath path = new AnimatorPath();
-        path.moveTo(leftDelta, topDelta);
-        int leftTarget = fitWidth ? left : left - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
-        path.curveTo(leftDelta/2, topDelta, 0, topDelta/2, leftTarget, top);
+        path.moveTo(mThumbnailLeftDelta, mThumbnailTopDelta);
+        path.curveTo(mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
+                mThumbnailLeftTarget, mThumbnailTopTarget);
 
         PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
                 "ImageWrapperTranslation", new PathEvaluator(), path.getPoints().toArray());
@@ -323,7 +332,7 @@ public class NewsFeedDetailActivity extends Activity
                         return new PointF(x, y);
                     }
                 }, new PointF(1.0f, 1.0f),
-                new PointF(scaleRatio, scaleRatio));
+                new PointF(mThumbnailScaleRatio, mThumbnailScaleRatio));
 
         // 준비해 놓은 PropertyValuesHolder들 실행
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
@@ -412,8 +421,11 @@ public class NewsFeedDetailActivity extends Activity
 
         // 액션바 오버플로우 페이드인
         mActionBarOverflowIcon.setAlpha(0);
-        ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255)
-                .setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).start();
+        ObjectAnimator actionBarOverflowIconAnimator =
+                ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255);
+        actionBarOverflowIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
+        actionBarOverflowIconAnimator.start();
     }
 
     /**
@@ -499,13 +511,17 @@ public class NewsFeedDetailActivity extends Activity
         color.start();
     }
 
+    private void runExitAnimation() {
+    }
+
     @Override
     public void onBackPressed() {
         if (mTopImageView.getDrawable() == null) {
             super.onBackPressed();
             return;
         }
-        darkenHeroImage();
+//        darkenHeroImage();
+        runExitAnimation();
     }
 
     private void initActionBar() {
