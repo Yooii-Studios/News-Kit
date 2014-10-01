@@ -17,11 +17,10 @@ import com.yooiistudios.news.util.NLLog;
  *  메인 상단에 사용되는 뷰페이저
  */
 public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChangeListener {
-    int mScrollState = 0;
+    private static final float RATIO = 0.45f;
     int mTargetPageIndex = 0;
-    int mPrevPageIndex = 0;
-
     int mCurrentPageIndex = 0;
+    int mScrollState = SCROLL_STATE_IDLE;
 
     public MainTopViewPager(Context context) {
         super(context);
@@ -35,21 +34,20 @@ public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChang
     public void onPageScrolled(int position, float offset, int offsetPixels) {
         super.onPageScrolled(position, offset, offsetPixels);
 //        NLLog.now("position: " + position + " / offset: " + offset + " / offsetPixels: " + offsetPixels);
+//        NLLog.now("position: " + position);
 
         // 오른쪽으로 갈 때는 바로 다음 position이 나오고, 왼쪽으로 갈 때는
         // 스크롤이 완료 되어야만 전 페이지가 됨
 
 //        NLLog.now("currentItem: " +  getCurrentItem());
+        // 현재 페이지에서 스크롤 된 값만 파악
+        int pageWidth = getWidth() + getPageMargin();
         int scrollX;
         if (position != 0) {
-//            NLLog.now("scrollX: " + (getScrollX() % (getWidth() + getPageMargin())));
-            scrollX = getScrollX() % (getWidth() + getPageMargin());
+            scrollX = getScrollX() % pageWidth;
         } else {
-//            NLLog.now("scrollX: " + getScrollX());
             scrollX = getScrollX();
         }
-//        NLLog.now("l - oldl: " + (l - oldl));
-
 
         if (getAdapter() instanceof MainTopPagerAdapter) {
             MainTopPagerAdapter adapter = (MainTopPagerAdapter) getAdapter();
@@ -62,19 +60,32 @@ public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChang
             float currentFragTransition;
             float nextFragTransition;
             if (position >= mCurrentPageIndex) {
-                NLLog.now("swipe left");
+//                NLLog.now("swipe left");
 //                NLLog.now("scrollX: " + scrollX);
                 nextFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex + 1);
-                currentFragTransition = (float) (scrollX * 0.4);
+                currentFragTransition = scrollX * RATIO;
 //                transition = (float) (offsetPixels * 0.4);
-                nextFragTransition = (float) (scrollX * 0.2 * -1);
+
+                // 중요: 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 왼쪽으로 들어와서 최종적으로 딱 맞게 한다.
+                nextFragTransition = pageWidth * RATIO * -1.0f + scrollX * RATIO;
+                if (scrollX == 0) {
+                    nextFragTransition = 0; // 마지막 스크롤 시에는 원래 위치로 돌려주기
+                    currentFragTransition = 0;
+                }
             } else {
-                NLLog.now("swipe right");
+//                NLLog.now("swipe right");
 //                NLLog.now("getWidth() + getPageMargin() - scrollX: " + (getWidth() + getPageMargin() - scrollX));
                 nextFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex - 1);
-                currentFragTransition = (float) ((getWidth() + getPageMargin() - scrollX) * 0.4 * -1);
+                currentFragTransition = (pageWidth - scrollX) * RATIO * -1;
 //                transition = (float) (scrollX * 0.4 * -1);
-                nextFragTransition = (float) ((getWidth() + getPageMargin() - scrollX) * 0.2);
+//                nextFragTransition = (float) ((getWidth() + getPageMargin() - scrollX) * 0.4);
+
+                // 중요: 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 오른쪽으로 들어와서 최종적으로 딱 맞게 한다.
+                nextFragTransition = pageWidth * 0.4f + (pageWidth - scrollX) * 0.4f * -1.f;
+                if (scrollX == 0) {
+                    nextFragTransition = 0; // 마지막 스크롤 시에는 원래 위치로 돌려주기
+                    currentFragTransition = 0;
+                }
             }
 
             if (currentFragment != null && currentFragment.getView() != null) {
@@ -91,33 +102,21 @@ public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChang
 
     @Override
     public void onPageSelected(int i) {
-//        NLLog.now("onPageSelected: " + i);
+        NLLog.now("onPageSelected: " + i);
         mTargetPageIndex = i;
-//        mCurrentPageIndex = i;
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (state == ViewPager.SCROLL_STATE_SETTLING) {
-//            NLLog.now("SCROLL_STATE_SETTLING");
-//            NLLog.now("prev: " + mPrevPageIndex);
-//            NLLog.now("target: " + mTargetPageIndex);
-            mPrevPageIndex = mTargetPageIndex;
-        } else if (state == SCROLL_STATE_IDLE){
+        // 스크롤이 멈추면 현재 인덱스로 설정
+        if (state == SCROLL_STATE_IDLE) {
+            mScrollState = state;
+            NLLog.now("onPageScrollStateChanged: " + "SCROLL_STATE_IDLE");
             mCurrentPageIndex = mTargetPageIndex;
-//            NLLog.now("SCROLL_STATE_IDLE: " + mCurrentPageIndex);
+        } else if (state == SCROLL_STATE_SETTLING) {
+            NLLog.now("onPageScrollStateChanged: " + "SCROLL_STATE_SETTLING");
+        } else if (state == SCROLL_STATE_DRAGGING) {
+            NLLog.now("onPageScrollStateChanged: " + "SCROLL_STATE_DRAGGING");
         }
-        mScrollState = state;
-    }
-
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-
-//        NLLog.now("l: " + l + " / t: " + t + " / oldl: " + oldl + " / oldt: " + oldt);
-//        NLLog.now("l-oldl: " + (l - oldl));
-
-//        // 현재의 칸을 파악하고, 좌우의 방향을 확인한 뒤 해당 두 프래그먼트를 얻어내고, 해당 이미지뷰의 위치를 이동시킨다.
-//        mTopImageView.setTranslationY(scrollY * 0.4f);
     }
 }
