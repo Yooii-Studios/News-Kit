@@ -71,6 +71,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    // 나중에 Circlar ViewPager를 위해 놔둠
+//    compile project(':libraries:InfiniteViewPager')
+
     // Volley
     compile project(':libraries:Volley')
     compile project(':libraries:GridLayoutManager')

@@ -24,6 +24,7 @@ import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
+import com.yooiistudios.news.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
@@ -45,11 +46,11 @@ import butterknife.InjectView;
 public class MainTopContainerLayout extends FrameLayout
         implements TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         TopNewsFeedFetchTask.OnFetchListener {
-    @InjectView(R.id.main_top_view_pager)           ViewPager mTopNewsFeedViewPager;
-    @InjectView(R.id.main_top_view_pager_wrapper)   FrameLayout mTopNewsFeedViewPagerWrapper;
-    @InjectView(R.id.main_top_unavailable_wrapper)  FrameLayout mTopNewsFeedUnavailableWrapper;
-    @InjectView(R.id.main_top_page_indicator)       CirclePageIndicator mTopViewPagerIndicator;
-    @InjectView(R.id.main_top_news_feed_title_text_view) TextView mTopNewsFeedTitleTextView;
+    @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mTopNewsFeedViewPager;
+    @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
+    @InjectView(R.id.main_top_unavailable_wrapper)          FrameLayout mTopNewsFeedUnavailableWrapper;
+    @InjectView(R.id.main_top_page_indicator)               CirclePageIndicator mTopViewPagerIndicator;
+    @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
 
@@ -111,6 +112,8 @@ public class MainTopContainerLayout extends FrameLayout
 
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
+
+        mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_indicator_radius));
     }
 
     public void autoRefreshTopNewsFeed() {
@@ -118,11 +121,13 @@ public class MainTopContainerLayout extends FrameLayout
             // 네트워크도 없고 캐시 정보도 없는 경우
             return;
         }
+        /*
         if (mTopNewsFeedViewPager.getCurrentItem() + 1 < mTopNewsFeedViewPager.getAdapter().getCount()) {
             mTopNewsFeedViewPager.setCurrentItem(mTopNewsFeedViewPager.getCurrentItem() + 1, true);
         } else {
             mTopNewsFeedViewPager.setCurrentItem(0, true);
         }
+        */
     }
 
     public void init(Activity activity, boolean refresh) {
@@ -141,11 +146,10 @@ public class MainTopContainerLayout extends FrameLayout
             mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             SlowSpeedScroller scroller = new SlowSpeedScroller(context,
-                    AnimationFactory.makeDefaultPathInterpolator(), true);
+                    AnimationFactory.makeViewPagerScrollInterpolator(), true);
             mScroller.set(mTopNewsFeedViewPager, scroller);
-        } catch (NoSuchFieldException ignored) {
-        } catch (IllegalArgumentException ignored) {
-        } catch (IllegalAccessException ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // Fetch

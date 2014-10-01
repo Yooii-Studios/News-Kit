@@ -90,4 +90,8 @@ public class AnimationFactory {
     public static PathInterpolator makeDefaultPathInterpolator() {
         return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
     }
+
+    public static PathInterpolator makeViewPagerScrollInterpolator() {
+        return new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
+    }
 }

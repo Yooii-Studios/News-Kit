@@ -11,7 +11,7 @@ import android.widget.Scroller;
  *   뷰페이저의 속도를 늦추기 위해 사용
  */
 public class SlowSpeedScroller extends Scroller {
-    public static int SWIPE_DURATION = 700;
+    public static int SWIPE_DURATION = 375;
 
     public SlowSpeedScroller(Context context) {
         super(context);
