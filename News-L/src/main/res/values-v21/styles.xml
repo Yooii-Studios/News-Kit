@@ -75,7 +75,6 @@
     <!-- Detail -->
     <style name="DetailActivityTheme" parent="MainTheme">
         <item name="android:actionBarStyle">@style/DetailActionBar</item>
-        <!--<item name="android:colorAccent">@color/theme_default_accent</item>-->
         <item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>
 
         <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임. -->
@@ -83,14 +82,6 @@
 
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-
-        <!-- Set the transitions which are used for the entrance and exit of shared elements -->
-        <!--<item name="android:windowSharedElementEnterTransition">-->
-            <!--@transition/detail_transition-->
-        <!--</item>-->
-        <!--<item name="android:windowSharedElementExitTransition">-->
-            <!--@transition/detail_transition-->
-        <!--</item>-->
     </style>
 
     <style name="DetailActionBar" parent="android:Widget.Material.Light.ActionBar">

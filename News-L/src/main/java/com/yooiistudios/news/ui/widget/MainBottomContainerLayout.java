@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -45,22 +46,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_TOP;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_NEWS_FEED_LOCATION;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_GRAVITY;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_HEIGHT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_LEFT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_MAX_LINE;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_COLOR;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_SIZE;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TOP;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_WIDTH;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TINT_TYPE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_VIEW_NAME_IMAGE;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_VIEW_NAME_TITLE;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED;
@@ -564,25 +552,15 @@ public class MainBottomContainerLayout extends FrameLayout
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
         ImageView imageView = viewHolder.imageView;
-        TextView titleView = viewHolder.newsTitleTextView;
-
-
-//        Pair<View, String> imagePair = new Pair<View, String>(imageView, imageView.getViewName());
-//        Pair<View, String> titlePair = new Pair<View, String>(titleView, titleView.getViewName());
-//        ActivityOptions activityOptions =
-//                ActivityOptions.makeSceneTransitionAnimation(
-//                        mActivity,
-//                        imagePair,
-//                        titlePair
-//                );
-
+        TextView newsTitleTextView = viewHolder.newsTitleTextView;
+        TextView newsFeedTitleTextView = viewHolder.newsFeedTitleTextView;
 
         Intent intent = new Intent(mActivity,
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, newsFeed.getDisplayingNewsIndex());
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
-        intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
+        intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, newsTitleTextView.getViewName());
 
         // 뉴스 새로 선택시
         intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION,
@@ -595,24 +573,18 @@ public class MainBottomContainerLayout extends FrameLayout
         intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
 
         // ActivityOptions를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수
-        int[] screenLocation = new int[2];
-        imageView.getLocationOnScreen(screenLocation);
-        int[] textViewLocation = new int[2];
-        titleView.getLocationOnScreen(textViewLocation);
-        intent.putExtra(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT, screenLocation[0]);
-        intent.putExtra(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP, screenLocation[1]);
-        intent.putExtra(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH, imageView.getWidth());
-        intent.putExtra(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT, imageView.getHeight());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_TEXT, titleView.getText().toString());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_TEXT_SIZE, titleView.getTextSize());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_TEXT_COLOR, titleView.getCurrentTextColor());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_GRAVITY, titleView.getGravity());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL, titleView.getEllipsize().ordinal());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_MAX_LINE, titleView.getMaxLines());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_LEFT, textViewLocation[0]);
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_TOP, textViewLocation[1]);
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_WIDTH, titleView.getWidth());
-        intent.putExtra(INTENT_KEY_TEXT_VIEW_HEIGHT, titleView.getHeight());
+        int titleViewPadding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
+        int feedTitlePadding =
+                getResources().getDimensionPixelSize(R.dimen.main_bottom_news_feed_title_padding);
+
+        ActivityTransitionProperty transitionProperty = new ActivityTransitionProperty()
+                .addImageView(ActivityTransitionProperty.KEY_IMAGE, imageView)
+                .addTextView(ActivityTransitionProperty.KEY_TEXT, newsTitleTextView,
+                        titleViewPadding)
+                .addTextView(ActivityTransitionProperty.KEY_SUB_TEXT, newsFeedTitleTextView,
+                        feedTitlePadding);
+
+        intent.putExtra(INTENT_KEY_TRANSITION_PROPERTY, transitionProperty.toGsonString());
 
         mActivity.startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
 
