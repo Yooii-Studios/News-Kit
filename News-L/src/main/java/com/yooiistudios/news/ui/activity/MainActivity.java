@@ -51,6 +51,11 @@ public class MainActivity extends Activity
     public static final String INTENT_VALUE_BOTTOM_NEWS_FEED = "INTENT_VALUE_BOTTOM_NEWS_FEED";
     public static final String INTENT_KEY_BOTTOM_NEWS_FEED_INDEX =
                                                             "INTENT_KEY_BOTTOM_NEWS_FEED_INDEX";
+
+    // 액티비티 트랜지션시 이미지뷰 애니메이트를 위한 변수를 넘길 인텐트 변수
+    public static final String INTENT_KEY_TRANSITION_PROPERTY =
+            "INTENT_KEY_TRANSITION_PROPERTY";
+
     public static final int RC_NEWS_FEED_DETAIL = 10001;
 
     /**
@@ -281,6 +286,9 @@ public class MainActivity extends Activity
             return true;
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+        } else if (id == R.id.action_slow_anim) {
+            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ? 1 : 5;
+            item.setChecked(!item.isChecked());
         }
         return super.onOptionsItemSelected(item);
     }

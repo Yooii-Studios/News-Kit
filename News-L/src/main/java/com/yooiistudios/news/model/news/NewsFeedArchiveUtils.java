@@ -43,9 +43,12 @@ public class NewsFeedArchiveUtils {
         Type feedType = new TypeToken<NewsFeed>(){}.getType();
         NewsFeed newsFeed;
         if (newsFeedStr != null) {
+            // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
             newsFeed = new Gson().fromJson(newsFeedStr, feedType);
+            newsFeed.setDisplayingNewsIndex(0);
             Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
         } else {
+            // cache된 내용 없는 경우. 새로 만들어서 리턴.
             NewsFeedUrl url = NewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
             newsFeed = new NewsFeed();
             newsFeed.setNewsFeedUrl(url);
@@ -59,6 +62,7 @@ public class NewsFeedArchiveUtils {
         int bottomNewsSize = prefs.getInt(KEY_BOTTOM_NEWS_FEED_COUNT, -1);
         ArrayList<NewsFeed> feedList = new ArrayList<NewsFeed>();
         if (bottomNewsSize < 0) {
+            // cache된 내용 없는 경우. 새로 만들어서 리턴.
             ArrayList<NewsFeedUrl> urlList =
                     NewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
             for (NewsFeedUrl newsFeedUrl : urlList) {
@@ -67,9 +71,11 @@ public class NewsFeedArchiveUtils {
                 feedList.add(newsFeed);
             }
         } else {
+            // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
             for (int i = 0; i < bottomNewsSize; i++) {
                 NewsFeed newsFeed = loadBottomNewsFeedAt(prefs, i);
                 if (newsFeed != null) {
+                    newsFeed.setDisplayingNewsIndex(0);
                     Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
                 } else {
                     break;

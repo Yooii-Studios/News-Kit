@@ -1,7 +1,6 @@
 package com.yooiistudios.news.ui.widget;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -40,11 +40,19 @@ import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_NEWS_FEED_LOCATION;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TINT_TYPE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_VIEW_NAME_IMAGE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_VIEW_NAME_TITLE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED;
+import static com.yooiistudios.news.ui.activity.MainActivity.RC_NEWS_FEED_DETAIL;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 19.
@@ -71,7 +79,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
-    private HashMap<News, Boolean> mNewsToFetchImageMap;
+    private ArrayList<Pair<News, Boolean>> mNewsToFetchImageList;
     private MainBottomAdapter mBottomNewsFeedAdapter;
     private ArrayList<Animation> mAutoRefreshAnimationList;
 
@@ -155,7 +163,8 @@ public class MainBottomContainerLayout extends FrameLayout
     }
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
-                new MainBottomAdapter.BottomNewsFeedViewHolder(mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
+                new MainBottomAdapter.BottomNewsFeedViewHolder(
+                        mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
 
         Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation();
         hideTextSet.setAnimationListener(new Animation.AnimationListener() {
@@ -274,11 +283,11 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void fetchNextBottomNewsFeedListImageUrl() {
-        fetchNextBottomNewsFeedListImageUrl(-1);
+        fetchNextBottomNewsFeedListImageUrl(false);
     }
-    private void fetchNextBottomNewsFeedListImageUrl(int index) {
+    private void fetchNextBottomNewsFeedListImageUrl(boolean fetchDisplayingNewsImage) {
         mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
-        mNewsToFetchImageMap = new HashMap<News, Boolean>();
+        mNewsToFetchImageList = new ArrayList<Pair<News, Boolean>>();
 
         int newsFeedCount = mBottomNewsFeedList.size();
 
@@ -288,8 +297,8 @@ public class MainBottomContainerLayout extends FrameLayout
             ArrayList<News> newsList = newsFeed.getNewsList();
 
             int indexToFetch;
-            if (index >= 0) {
-                indexToFetch = index;
+            if (fetchDisplayingNewsImage) {
+                indexToFetch = newsFeed.getDisplayingNewsIndex();
             } else {
                 indexToFetch = newsFeed.getDisplayingNewsIndex();
                 if (indexToFetch < newsFeed.getNewsList().size() - 1) {
@@ -303,8 +312,11 @@ public class MainBottomContainerLayout extends FrameLayout
 
             News news = newsList.get(indexToFetch);
 
-            mNewsToFetchImageMap.put(news, false);
+            mNewsToFetchImageList.add(new Pair<News, Boolean>(news, false));
+        }
 
+        for (int i = 0; i < mNewsToFetchImageList.size(); i++) {
+            News news = mNewsToFetchImageList.get(i).first;
             if (!news.isImageUrlChecked()) {
                 BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(news, i, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -340,7 +352,7 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
         mBottomNewsFeedNewsToImageTaskMap.clear();
-        mNewsToFetchImageMap.clear();
+        mNewsToFetchImageList.clear();
     }
 
     private void animateBottomNewsFeedListOnInit() {
@@ -476,15 +488,17 @@ public class MainBottomContainerLayout extends FrameLayout
         if (mBottomNewsFeedAdapter != null && !mItemAnimator.isRunning()) {
             mBottomNewsFeedAdapter.notifyItemChanged(position);
         }
-        mNewsToFetchImageMap.put(news, true);
-
-        Iterator<Boolean> mNewsToFetchImageValueIterator = mNewsToFetchImageMap.values().iterator();
-
+        for (int i = 0; i < mNewsToFetchImageList.size(); i++) {
+            Pair<News, Boolean> pair = mNewsToFetchImageList.get(i);
+            if (pair.first == news) {
+                mNewsToFetchImageList.set(i, new Pair<News, Boolean>(news, true));
+                break;
+            }
+        }
 
         boolean allFetched = true;
-        while (mNewsToFetchImageValueIterator.hasNext()) {
-            boolean fetched = mNewsToFetchImageValueIterator.next();
-            if (!fetched) {
+        for (Pair<News, Boolean> pair : mNewsToFetchImageList) {
+            if (!pair.second) {
                 allFetched = false;
                 break;
             }
@@ -538,46 +552,43 @@ public class MainBottomContainerLayout extends FrameLayout
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
         ImageView imageView = viewHolder.imageView;
-        TextView titleView = viewHolder.newsTitleTextView;
-
-
-        Pair<View, String> imagePair = new Pair<View, String>(imageView, imageView.getViewName());
-        Pair<View, String> titlePair = new Pair<View, String>(titleView, titleView.getViewName());
-        ActivityOptions activityOptions =
-                ActivityOptions.makeSceneTransitionAnimation(
-                        mActivity,
-                        imagePair,
-                        titlePair
-                );
-
-
-        /*
-        ActivityOptions activityOptions =
-                ActivityOptions.makeSceneTransitionAnimation(mActivity, imageView, imageView.getViewName());
-        */
-//        ActivityOptions activityOptions2 = ActivityOptions.
-//                makeSceneTransitionAnimation(NLMainActivity.this,
-//                        imageView, imageView.getViewName());
+        TextView newsTitleTextView = viewHolder.newsTitleTextView;
+        TextView newsFeedTitleTextView = viewHolder.newsFeedTitleTextView;
 
         Intent intent = new Intent(mActivity,
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, newsFeed.getDisplayingNewsIndex());
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
+        intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
+        intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, newsTitleTextView.getViewName());
 
         // 뉴스 새로 선택시
-        intent.putExtra(MainActivity.INTENT_KEY_NEWS_FEED_LOCATION,
-                MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED);
-        intent.putExtra(MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, position);
+        intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION,
+                INTENT_VALUE_BOTTOM_NEWS_FEED);
+        intent.putExtra(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, position);
 
         // 미리 이미지뷰에 set해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
         Object tintTag = viewHolder.imageView.getTag();
         TintType tintType = tintTag != null ? (TintType)tintTag : null;
-        intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
+        intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
 
-        mActivity.startActivityForResult(intent, MainActivity.RC_NEWS_FEED_DETAIL,
-                activityOptions.toBundle());
+        // ActivityOptions를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수
+        int titleViewPadding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
+        int feedTitlePadding =
+                getResources().getDimensionPixelSize(R.dimen.main_bottom_news_feed_title_padding);
+
+        ActivityTransitionHelper transitionProperty = new ActivityTransitionHelper()
+                .addImageView(ActivityTransitionHelper.KEY_IMAGE, imageView)
+                .addTextView(ActivityTransitionHelper.KEY_TEXT, newsTitleTextView,
+                        titleViewPadding)
+                .addTextView(ActivityTransitionHelper.KEY_SUB_TEXT, newsFeedTitleTextView,
+                        feedTitlePadding);
+
+        intent.putExtra(INTENT_KEY_TRANSITION_PROPERTY, transitionProperty.toGsonString());
+
+        mActivity.startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
+
+        mActivity.overridePendingTransition(0, 0);
     }
 
     @Override
@@ -627,6 +638,6 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onAnimationsFinished() {
-        fetchNextBottomNewsFeedListImageUrl(0);
+        fetchNextBottomNewsFeedListImageUrl(true);
     }
 }

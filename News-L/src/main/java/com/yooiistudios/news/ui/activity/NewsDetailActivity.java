@@ -84,7 +84,9 @@ public class NewsDetailActivity extends Activity {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setSupportZoom(false);
+        webSettings.setSupportZoom(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
         mWebView.setWebViewClient(new NewsWebViewClient());
         mWebView.loadUrl(mNews.getLink());
 
