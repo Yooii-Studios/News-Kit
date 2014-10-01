@@ -206,7 +206,6 @@ public class MainTopContainerLayout extends FrameLayout
 
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
-        mTopViewPagerIndicator.setOnPageChangeListener(mTopNewsFeedViewPager);
         mTopViewPagerIndicator.setCurrentItem(0);
 
         if (items.size() > 0) {
