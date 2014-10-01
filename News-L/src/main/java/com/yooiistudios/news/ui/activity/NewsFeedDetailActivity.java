@@ -112,6 +112,8 @@ public class NewsFeedDetailActivity extends Activity
 
     public static final int REQ_SELECT_NEWS_FEED = 13841;
 
+    private static final int BACKGROUND_COLOR = Color.WHITE;
+
     private Palette mPalette;
 
     private ImageLoader mImageLoader;
@@ -122,6 +124,7 @@ public class NewsFeedDetailActivity extends Activity
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
     private ColorDrawable mRootLayoutBackground;
+    private ColorDrawable mRecyclerViewBackground;
 
     // 액티비티 전환 애니메이션 관련 변수
     private int mThumbnailLeft;
@@ -174,31 +177,11 @@ public class NewsFeedDetailActivity extends Activity
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
 
-        // 액티비티 전환 관련 변수
-        Bundle extras = getIntent().getExtras();
-
-        mThumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
-        mThumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
-        mThumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
-        mThumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
-
-        mThumbnailText = extras.getString(INTENT_KEY_TEXT_VIEW_TEXT, null);
-        mThumbnailTextSize = extras.getFloat(INTENT_KEY_TEXT_VIEW_TEXT_SIZE);
-        mThumbnailTextColor = extras.getInt(INTENT_KEY_TEXT_VIEW_TEXT_COLOR);
-        mThumbnailTextViewGravity = extras.getInt(INTENT_KEY_TEXT_VIEW_GRAVITY);
-        mThumbnailTextViewEllipsizeOrdinal = extras.getInt(INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL);
-        mThumbnailTextViewMaxLine = extras.getInt(INTENT_KEY_TEXT_VIEW_MAX_LINE);
-
-        mThumbnailTextViewLeft = extras.getInt(INTENT_KEY_TEXT_VIEW_LEFT);
-        mThumbnailTextViewTop = extras.getInt(INTENT_KEY_TEXT_VIEW_TOP);
-        mThumbnailTextViewWidth = extras.getInt(INTENT_KEY_TEXT_VIEW_WIDTH);
-        mThumbnailTextViewHeight = extras.getInt(INTENT_KEY_TEXT_VIEW_HEIGHT);
+        initEnterExitAnimationVariable();
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
-        mRootLayoutBackground = new ColorDrawable(Color.WHITE);
-        mRootLayout.setBackground(mRootLayoutBackground);
-        mBottomNewsListRecyclerView.setBackground(mRootLayoutBackground);
+        initRootLayout();
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
@@ -226,6 +209,33 @@ public class NewsFeedDetailActivity extends Activity
         } else {
             showLoadingCover();
         }
+    }
+
+    private void initRootLayout() {
+        mRootLayoutBackground = new ColorDrawable(BACKGROUND_COLOR);
+        mRootLayout.setBackground(mRootLayoutBackground);
+    }
+
+    private void initEnterExitAnimationVariable() {
+        // 액티비티 전환 관련 변수
+        Bundle extras = getIntent().getExtras();
+
+        mThumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
+        mThumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
+        mThumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
+        mThumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
+
+        mThumbnailText = extras.getString(INTENT_KEY_TEXT_VIEW_TEXT, null);
+        mThumbnailTextSize = extras.getFloat(INTENT_KEY_TEXT_VIEW_TEXT_SIZE);
+        mThumbnailTextColor = extras.getInt(INTENT_KEY_TEXT_VIEW_TEXT_COLOR);
+        mThumbnailTextViewGravity = extras.getInt(INTENT_KEY_TEXT_VIEW_GRAVITY);
+        mThumbnailTextViewEllipsizeOrdinal = extras.getInt(INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL);
+        mThumbnailTextViewMaxLine = extras.getInt(INTENT_KEY_TEXT_VIEW_MAX_LINE);
+
+        mThumbnailTextViewLeft = extras.getInt(INTENT_KEY_TEXT_VIEW_LEFT);
+        mThumbnailTextViewTop = extras.getInt(INTENT_KEY_TEXT_VIEW_TOP);
+        mThumbnailTextViewWidth = extras.getInt(INTENT_KEY_TEXT_VIEW_WIDTH);
+        mThumbnailTextViewHeight = extras.getInt(INTENT_KEY_TEXT_VIEW_HEIGHT);
     }
 
     private void addThumbnailTextView() {
@@ -354,6 +364,13 @@ public class NewsFeedDetailActivity extends Activity
         bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         bgAnim.setInterpolator(pathInterpolator);
         bgAnim.start();
+
+        mRecyclerViewBackground.setAlpha(0);
+        ObjectAnimator recyclerBgAnim = ObjectAnimator.ofInt(mRecyclerViewBackground, "alpha", 0,
+                255);
+        recyclerBgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        recyclerBgAnim.setInterpolator(pathInterpolator);
+        recyclerBgAnim.start();
 
         // 텍스트뷰 애니메이션
 //        mTopTitleTextView.getle
@@ -546,6 +563,9 @@ public class NewsFeedDetailActivity extends Activity
                 new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerViewBackground = new ColorDrawable(BACKGROUND_COLOR);
+        mBottomNewsListRecyclerView.setBackground(mRecyclerViewBackground);
 
         notifyBottomNewsChanged();
     }
