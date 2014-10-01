@@ -46,8 +46,13 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.AlphaForegroundColorSpan;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -69,23 +74,12 @@ import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
 
+import java.lang.reflect.Type;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_TOP;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_GRAVITY;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_HEIGHT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_LEFT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_MAX_LINE;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_COLOR;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_SIZE;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TOP;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_WIDTH;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 
 public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
@@ -139,10 +133,8 @@ public class NewsFeedDetailActivity extends Activity
     private int mActionTextColor;
 
     // 액티비티 전환 애니메이션 관련 변수
-    private int mThumbnailLeft;
-    private int mThumbnailTop;
-    private int mThumbnailWidth;
-    private int mThumbnailHeight;
+    private ActivityTransitionImageViewProperty mTransImageViewProperty;
+    private ActivityTransitionTextViewProperty mTransTitleViewProperty;
 
     private int mThumbnailLeftDelta;
     private int mThumbnailTopDelta;
@@ -151,17 +143,6 @@ public class NewsFeedDetailActivity extends Activity
     private float mThumbnailScaleRatio;
 
     private TextView mThumbnailTextView;
-    private String mThumbnailText;
-    private float mThumbnailTextSize;
-    private int mThumbnailTextColor;
-    private int mThumbnailTextViewGravity;
-    private int mThumbnailTextViewEllipsizeOrdinal;
-    private int mThumbnailTextViewMaxLine;
-
-    private int mThumbnailTextViewLeft;
-    private int mThumbnailTextViewTop;
-    private int mThumbnailTextViewWidth;
-    private int mThumbnailTextViewHeight;
 
     private int mWindowInsetEnd;
 
@@ -240,36 +221,28 @@ public class NewsFeedDetailActivity extends Activity
         // 액티비티 전환 관련 변수
         Bundle extras = getIntent().getExtras();
 
-        mThumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
-        mThumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
-        mThumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
-        mThumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
-
-        mThumbnailText = extras.getString(INTENT_KEY_TEXT_VIEW_TEXT, null);
-        mThumbnailTextSize = extras.getFloat(INTENT_KEY_TEXT_VIEW_TEXT_SIZE);
-        mThumbnailTextColor = extras.getInt(INTENT_KEY_TEXT_VIEW_TEXT_COLOR);
-        mThumbnailTextViewGravity = extras.getInt(INTENT_KEY_TEXT_VIEW_GRAVITY);
-        mThumbnailTextViewEllipsizeOrdinal = extras.getInt(INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL);
-        mThumbnailTextViewMaxLine = extras.getInt(INTENT_KEY_TEXT_VIEW_MAX_LINE);
-
-        mThumbnailTextViewLeft = extras.getInt(INTENT_KEY_TEXT_VIEW_LEFT);
-        mThumbnailTextViewTop = extras.getInt(INTENT_KEY_TEXT_VIEW_TOP);
-        mThumbnailTextViewWidth = extras.getInt(INTENT_KEY_TEXT_VIEW_WIDTH);
-        mThumbnailTextViewHeight = extras.getInt(INTENT_KEY_TEXT_VIEW_HEIGHT);
+        String transitionPropertyStr = extras.getString(INTENT_KEY_TRANSITION_PROPERTY);
+        Type type = new TypeToken<ActivityTransitionProperty>(){}.getType();
+        ActivityTransitionProperty transitionProperty =
+                new Gson().fromJson(transitionPropertyStr, type);
+        mTransImageViewProperty =
+                transitionProperty.getImageViewProperty(ActivityTransitionProperty.KEY_IMAGE);
+        mTransTitleViewProperty =
+                transitionProperty.getTextViewProperty(ActivityTransitionProperty.KEY_TEXT);
 
         // 썸네일 위치, 목표 위치 계산
         int[] screenLocation = new int[2];
         mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
         int left = screenLocation[0];
         int top = screenLocation[1];
-        mThumbnailLeftDelta = mThumbnailLeft - left;
-        mThumbnailTopDelta = mThumbnailTop - top;
+        mThumbnailLeftDelta = mTransImageViewProperty.getLeft() - left;
+        mThumbnailTopDelta = mTransImageViewProperty.getTop() - top;
 
-        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)mThumbnailWidth;
-        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)mThumbnailHeight;
+        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)mTransImageViewProperty.getWidth();
+        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)mTransImageViewProperty.getHeight();
         boolean fitWidth = widthRatio > heightRatio;
         mThumbnailScaleRatio = fitWidth ? widthRatio : heightRatio;
-        final int targetWidth = (int)(mThumbnailWidth * mThumbnailScaleRatio);
+        final int targetWidth = (int)(mTransImageViewProperty.getWidth() * mThumbnailScaleRatio);
         mThumbnailLeftTarget = fitWidth
                 ? left : left - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
         mThumbnailTopTarget = top;
@@ -280,18 +253,19 @@ public class NewsFeedDetailActivity extends Activity
 
         mThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
         mThumbnailTextView.setPadding(padding, padding, padding, padding);
-        mThumbnailTextView.setText(mThumbnailText);
-        mThumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mThumbnailTextSize);
-        mThumbnailTextView.setTextColor(mThumbnailTextColor);
-        mThumbnailTextView.setGravity(mThumbnailTextViewGravity);
+        mThumbnailTextView.setText(mTransTitleViewProperty.getText());
+        mThumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                mTransTitleViewProperty.getTextSize());
+        mThumbnailTextView.setTextColor(mTransTitleViewProperty.getTextColor());
+        mThumbnailTextView.setGravity(mTransTitleViewProperty.getGravity());
         mThumbnailTextView.setEllipsize(
-                TextUtils.TruncateAt.values()[mThumbnailTextViewEllipsizeOrdinal]);
-        mThumbnailTextView.setMaxLines(mThumbnailTextViewMaxLine);
+                TextUtils.TruncateAt.values()[mTransTitleViewProperty.getEllipsizeOrdinal()]);
+        mThumbnailTextView.setMaxLines(mTransTitleViewProperty.getMaxLine());
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                mThumbnailTextViewWidth, mThumbnailTextViewHeight);
-        lp.leftMargin = mThumbnailTextViewLeft;
-        lp.topMargin = mThumbnailTextViewTop;
+                mTransTitleViewProperty.getWidth(), mTransTitleViewProperty.getHeight());
+        lp.leftMargin = mTransTitleViewProperty.getLeft();
+        lp.topMargin = mTransTitleViewProperty.getTop();
         mRootLayout.addView(mThumbnailTextView, lp);
     }
 
@@ -318,8 +292,8 @@ public class NewsFeedDetailActivity extends Activity
 
         // 크기 변경 PropertyValuesHolder 준비
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-        lp.width = mThumbnailWidth;
-        lp.height = mThumbnailHeight;
+        lp.width = mTransImageViewProperty.getWidth();
+        lp.height = mTransImageViewProperty.getHeight();
         mTopNewsImageWrapper.setLayoutParams(lp);
 
         PropertyValuesHolder imageWrapperSizePvh = PropertyValuesHolder.ofFloat(
@@ -510,8 +484,8 @@ public class NewsFeedDetailActivity extends Activity
 
         // 크기 변경 PropertyValuesHolder 준비
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
-        lp.width = mThumbnailWidth;
-        lp.height = mThumbnailHeight;
+        lp.width = mTransImageViewProperty.getWidth();
+        lp.height = mTransImageViewProperty.getHeight();
         mTopNewsImageWrapper.setLayoutParams(lp);
 
         PropertyValuesHolder imageWrapperSizePvh = PropertyValuesHolder.ofFloat(
