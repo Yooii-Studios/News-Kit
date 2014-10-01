@@ -552,7 +552,7 @@ public class MainBottomContainerLayout extends FrameLayout
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
         ImageView imageView = viewHolder.imageView;
-        TextView titleView = viewHolder.newsTitleTextView;
+        TextView newsTitleTextView = viewHolder.newsTitleTextView;
         TextView newsFeedTitleTextView = viewHolder.newsFeedTitleTextView;
 
         Intent intent = new Intent(mActivity,
@@ -560,7 +560,7 @@ public class MainBottomContainerLayout extends FrameLayout
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, newsFeed.getDisplayingNewsIndex());
         intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
-        intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, titleView.getViewName());
+        intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, newsTitleTextView.getViewName());
 
         // 뉴스 새로 선택시
         intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION,
@@ -573,9 +573,16 @@ public class MainBottomContainerLayout extends FrameLayout
         intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
 
         // ActivityOptions를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수
+        int titleViewPadding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
+        int feedTitlePadding =
+                getResources().getDimensionPixelSize(R.dimen.main_bottom_news_feed_title_padding);
+
         ActivityTransitionProperty transitionProperty = new ActivityTransitionProperty()
                 .addImageView(ActivityTransitionProperty.KEY_IMAGE, imageView)
-                .addTextView(ActivityTransitionProperty.KEY_TEXT, titleView);
+                .addTextView(ActivityTransitionProperty.KEY_TEXT, newsTitleTextView,
+                        titleViewPadding)
+                .addTextView(ActivityTransitionProperty.KEY_SUB_TEXT, newsFeedTitleTextView,
+                        feedTitlePadding);
 
         intent.putExtra(INTENT_KEY_TRANSITION_PROPERTY, transitionProperty.toGsonString());
 

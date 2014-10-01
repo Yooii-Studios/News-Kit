@@ -50,7 +50,7 @@ public class ActivityTransitionProperty {
         return this;
     }
 
-    public ActivityTransitionProperty addTextView(String key, TextView textView) {
+    public ActivityTransitionProperty addTextView(String key, TextView textView, int padding) {
         int[] screenLocation = new int[2];
         textView.getLocationOnScreen(screenLocation);
 
@@ -61,6 +61,7 @@ public class ActivityTransitionProperty {
                         .setTop(screenLocation[1])
                         .setWidth(textView.getWidth())
                         .setHeight(textView.getHeight())
+                        .setPadding(padding)
                         .setText(textView.getText().toString())
                         .setTextSize(textView.getTextSize())
                         .setTextColor(textView.getCurrentTextColor())

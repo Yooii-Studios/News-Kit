@@ -12,6 +12,7 @@ public class ActivityTransitionTextViewProperty {
     private int mTop;
     private int mWidth;
     private int mHeight;
+    private int mPadding;
 
     private String mText;
     private float mTextSize;
@@ -34,6 +35,10 @@ public class ActivityTransitionTextViewProperty {
 
     public int getHeight() {
         return mHeight;
+    }
+
+    public int getPadding() {
+        return mPadding;
     }
 
     public String getText() {
@@ -80,6 +85,12 @@ public class ActivityTransitionTextViewProperty {
 
     public ActivityTransitionTextViewProperty setHeight(int height) {
         mHeight = height;
+
+        return this;
+    }
+
+    public ActivityTransitionTextViewProperty setPadding(int padding) {
+        mPadding = padding;
 
         return this;
     }

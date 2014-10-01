@@ -135,6 +135,7 @@ public class NewsFeedDetailActivity extends Activity
     // 액티비티 전환 애니메이션 관련 변수
     private ActivityTransitionImageViewProperty mTransImageViewProperty;
     private ActivityTransitionTextViewProperty mTransTitleViewProperty;
+    private ActivityTransitionTextViewProperty mTransFeedTitleViewProperty;
 
     private int mThumbnailLeftDelta;
     private int mThumbnailTopDelta;
@@ -142,7 +143,8 @@ public class NewsFeedDetailActivity extends Activity
     private int mThumbnailTopTarget;
     private float mThumbnailScaleRatio;
 
-    private TextView mThumbnailTextView;
+    private TextView mNewsTitleThumbnailTextView;
+    private TextView mNewsFeedTitleThumbnailTextView;
 
     private int mWindowInsetEnd;
 
@@ -200,7 +202,12 @@ public class NewsFeedDetailActivity extends Activity
 
                     initEnterExitAnimationVariable();
 
-                    addThumbnailTextView();
+                    mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+                    mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+
+                    addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
+                    addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
+                            mTransFeedTitleViewProperty);
 
                     runEnterAnimation();
 
@@ -233,6 +240,8 @@ public class NewsFeedDetailActivity extends Activity
                 transitionProperty.getImageViewProperty(ActivityTransitionProperty.KEY_IMAGE);
         mTransTitleViewProperty =
                 transitionProperty.getTextViewProperty(ActivityTransitionProperty.KEY_TEXT);
+        mTransFeedTitleViewProperty =
+                transitionProperty.getTextViewProperty(ActivityTransitionProperty.KEY_SUB_TEXT);
 
         // 썸네일 위치, 목표 위치 계산
         int[] screenLocation = new int[2];
@@ -252,25 +261,25 @@ public class NewsFeedDetailActivity extends Activity
         mThumbnailTopTarget = top;
     }
 
-    private void addThumbnailTextView() {
-        int padding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
+    private void addThumbnailTextView(TextView textView,
+                                      ActivityTransitionTextViewProperty textViewProperty) {
+        int padding = textViewProperty.getPadding();
 
-        mThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
-        mThumbnailTextView.setPadding(padding, padding, padding, padding);
-        mThumbnailTextView.setText(mTransTitleViewProperty.getText());
-        mThumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                mTransTitleViewProperty.getTextSize());
-        mThumbnailTextView.setTextColor(mTransTitleViewProperty.getTextColor());
-        mThumbnailTextView.setGravity(mTransTitleViewProperty.getGravity());
-        mThumbnailTextView.setEllipsize(
-                TextUtils.TruncateAt.values()[mTransTitleViewProperty.getEllipsizeOrdinal()]);
-        mThumbnailTextView.setMaxLines(mTransTitleViewProperty.getMaxLine());
+        // 뉴스 타이틀 썸네일 뷰 추가
+        textView.setPadding(padding, padding, padding, padding);
+        textView.setText(textViewProperty.getText());
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textViewProperty.getTextSize());
+        textView.setTextColor(textViewProperty.getTextColor());
+        textView.setGravity(textViewProperty.getGravity());
+        textView.setEllipsize(
+                TextUtils.TruncateAt.values()[textViewProperty.getEllipsizeOrdinal()]);
+        textView.setMaxLines(textViewProperty.getMaxLine());
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                mTransTitleViewProperty.getWidth(), mTransTitleViewProperty.getHeight());
-        lp.leftMargin = mTransTitleViewProperty.getLeft();
-        lp.topMargin = mTransTitleViewProperty.getTop();
-        mRootLayout.addView(mThumbnailTextView, lp);
+                textViewProperty.getWidth(), textViewProperty.getHeight());
+        lp.leftMargin = textViewProperty.getLeft();
+        lp.topMargin = textViewProperty.getTop();
+        mRootLayout.addView(textView, lp);
     }
 
     /**
@@ -365,12 +374,20 @@ public class NewsFeedDetailActivity extends Activity
         recyclerBgAnim.setInterpolator(pathInterpolator);
         recyclerBgAnim.start();
 
-        // 텍스트뷰 애니메이션
-        ViewPropertyAnimator thumbnailAlphaAnimator = mThumbnailTextView.animate();
+        // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
+        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
         thumbnailAlphaAnimator.alpha(0.0f);
-        thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
+        thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION / 2);
         thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         thumbnailAlphaAnimator.start();
+
+        // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
+        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
+                = mNewsFeedTitleThumbnailTextView.animate();
+        feedTitleThumbnailAlphaAnimator.alpha(0.0f);
+        feedTitleThumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION / 2);
+        feedTitleThumbnailAlphaAnimator.setInterpolator(pathInterpolator);
+        feedTitleThumbnailAlphaAnimator.start();
 
         // 액션바 홈버튼 페이드인
         mActionBarHomeIcon.setAlpha(0);
@@ -556,13 +573,22 @@ public class NewsFeedDetailActivity extends Activity
         recyclerBgAnim.setInterpolator(pathInterpolator);
         recyclerBgAnim.start();
 
-        // 텍스트뷰 애니메이션
-        mThumbnailTextView.setAlpha(0.0f);
-        ViewPropertyAnimator thumbnailAlphaAnimator = mThumbnailTextView.animate();
+        // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
+        mNewsTitleThumbnailTextView.setAlpha(0.0f);
+        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
         thumbnailAlphaAnimator.alpha(1.0f);
         thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
         thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         thumbnailAlphaAnimator.start();
+
+        // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
+        mNewsFeedTitleThumbnailTextView.setAlpha(0.0f);
+        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator =
+                mNewsFeedTitleThumbnailTextView.animate();
+        feedTitleThumbnailAlphaAnimator.alpha(1.0f);
+        feedTitleThumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
+        feedTitleThumbnailAlphaAnimator.setInterpolator(pathInterpolator);
+        feedTitleThumbnailAlphaAnimator.start();
 
         // 액션바 홈버튼 페이드인
 //        mActionBarHomeIcon.setAlpha(1);
