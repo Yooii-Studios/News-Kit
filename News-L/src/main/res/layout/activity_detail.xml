@@ -22,59 +22,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:id="@+id/detail_top_content_layout"
+                <FrameLayout
+                    android:id="@+id/detail_top_news_image_wrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="@dimen/detail_top_image_view_height">
                     <ImageView
                         android:id="@+id/detail_top_news_image_view"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/detail_top_image_view_height"
+                        android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:contentDescription="@string/image_view_content_description"/>
 
                     <View
                         android:id="@+id/detail_top_news_image_ripple_view"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/detail_top_image_view_height"
+                        android:layout_height="match_parent"
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:selectableItemBackground">
                     </View>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail_top_news_text_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/detail_top_image_view_height"
+                    android:elevation="@dimen/detail_top_text_layout_elevation">
 
                     <LinearLayout
-                        android:id="@+id/detail_top_news_text_layout"
+                        android:id="@+id/detail_top_news_text_ripple_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/detail_top_news_image_ripple_view">
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:background="?android:selectableItemBackground"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:id="@+id/detail_top_news_text_ripple_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="true"
-                            android:clickable="true"
-                            android:background="?android:selectableItemBackground"
-                            android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/detail_top_news_title_text_view"
+                            style="@style/DetailTitleStyle"/>
 
-                            <TextView
-                                android:id="@+id/detail_top_news_title_text_view"
-                                style="@style/DetailTitleStyle"/>
+                        <TextView
+                            android:id="@+id/detail_top_news_description_text_view"
+                            style="@style/DetailDescriptionStyle"/>
 
-                            <TextView
-                                android:id="@+id/detail_top_news_description_text_view"
-                                style="@style/DetailDescriptionStyle"/>
-
-                        </LinearLayout>
                     </LinearLayout>
-                </RelativeLayout>
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/detail_bottom_news_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/detail_top_content_layout"/>
+                    android:layout_below="@id/detail_top_news_text_layout"/>
 
                 <FrameLayout
                     android:id="@+id/detail_loading_cover"

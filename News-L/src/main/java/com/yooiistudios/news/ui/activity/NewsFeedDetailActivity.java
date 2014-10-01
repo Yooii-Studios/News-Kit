@@ -3,37 +3,54 @@ package com.yooiistudios.news.ui.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Transition;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
+import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.PathInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.AlphaForegroundColorSpan;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -44,7 +61,10 @@ import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
-import com.yooiistudios.news.ui.adapter.TransitionAdapter;
+import com.yooiistudios.news.ui.animation.AnimationFactory;
+import com.yooiistudios.news.ui.animation.curvemotion.AnimatorPath;
+import com.yooiistudios.news.ui.animation.curvemotion.PathEvaluator;
+import com.yooiistudios.news.ui.animation.curvemotion.PathPoint;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
@@ -55,11 +75,26 @@ import com.yooiistudios.news.util.ScreenUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_TOP;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_GRAVITY;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_HEIGHT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_LEFT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_MAX_LINE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_COLOR;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TEXT_SIZE;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_TOP;
+import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TEXT_VIEW_WIDTH;
+
 public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
-        RecyclerView.ItemAnimator.ItemAnimatorFinishedListener,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
+    @InjectView(R.id.detail_content_layout)                 FrameLayout mRootLayout;
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
@@ -67,7 +102,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_loading_cover)                  View mLoadingCoverView;
 
     // Top
-    @InjectView(R.id.detail_top_content_layout)             RelativeLayout mTopContentLayout;
+    @InjectView(R.id.detail_top_news_image_wrapper)         FrameLayout mTopNewsImageWrapper;
     @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
     @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
     @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
@@ -78,7 +113,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
-    private static final int TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI = 400;
+    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 800;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
@@ -86,6 +121,8 @@ public class NewsFeedDetailActivity extends Activity
     public static final String INTENT_KEY_IMAGE_URL = "INTENT_KEY_IMAGE_URL";
 
     public static final int REQ_SELECT_NEWS_FEED = 13841;
+
+    private static final int BACKGROUND_COLOR = Color.WHITE;
 
     private Palette mPalette;
 
@@ -96,6 +133,32 @@ public class NewsFeedDetailActivity extends Activity
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
+    private ColorDrawable mRootLayoutBackground;
+    private ColorDrawable mRecyclerViewBackground;
+    private BitmapDrawable mActionBarHomeIcon;
+    private BitmapDrawable mActionBarOverflowIcon;
+    private SpannableString mActionBarTitle;
+    private AlphaForegroundColorSpan mColorSpan;
+    private int mActionTextColor;
+
+    // 액티비티 전환 애니메이션 관련 변수
+    private int mThumbnailLeft;
+    private int mThumbnailTop;
+    private int mThumbnailWidth;
+    private int mThumbnailHeight;
+
+    private TextView mThumbnailTextView;
+    private String mThumbnailText;
+    private float mThumbnailTextSize;
+    private int mThumbnailTextColor;
+    private int mThumbnailTextViewGravity;
+    private int mThumbnailTextViewEllipsizeOrdinal;
+    private int mThumbnailTextViewMaxLine;
+
+    private int mThumbnailTextViewLeft;
+    private int mThumbnailTextViewTop;
+    private int mThumbnailTextViewWidth;
+    private int mThumbnailTextViewHeight;
 
     private boolean mIsRefreshing = false;
     private boolean mHasAnimatedColorFilter = false;
@@ -129,8 +192,11 @@ public class NewsFeedDetailActivity extends Activity
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
 
+        initEnterExitAnimationVariable();
+
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
+        initRootLayout();
         initActionBar();
         initSwipeRefreshView();
         initCustomScrollView();
@@ -138,19 +204,236 @@ public class NewsFeedDetailActivity extends Activity
         initBottomNewsList();
         initLoadingCoverView();
 
-        if (mTopImageView.getDrawable() != null) {
-            hideLoadingCover();
-            getWindow().getEnterTransition().addListener(new TransitionAdapter() {
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    animateTopImageViewColorFilter();
+        // Only run the animation if we're coming from the parent activity, not if
+        // we're recreated automatically by the window manager (e.g., device rotation)
+        if (savedInstanceState == null && mTopImageView.getDrawable() != null) {
+            ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
+            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                    getWindow().getEnterTransition().removeListener(this);
+                @Override
+                public boolean onPreDraw() {
+                    mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                    addThumbnailTextView();
+
+                    runEnterAnimation();
+
+                    return true;
                 }
             });
         } else {
             showLoadingCover();
         }
+    }
+
+    private void initRootLayout() {
+        mRootLayoutBackground = new ColorDrawable(BACKGROUND_COLOR);
+        mRootLayout.setBackground(mRootLayoutBackground);
+    }
+
+    private void initEnterExitAnimationVariable() {
+        // 액티비티 전환 관련 변수
+        Bundle extras = getIntent().getExtras();
+
+        mThumbnailLeft = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_LEFT);
+        mThumbnailTop = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_TOP);
+        mThumbnailWidth = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_WIDTH);
+        mThumbnailHeight = extras.getInt(INTENT_KEY_IMAGE_VIEW_LOCATION_HEIGHT);
+
+        mThumbnailText = extras.getString(INTENT_KEY_TEXT_VIEW_TEXT, null);
+        mThumbnailTextSize = extras.getFloat(INTENT_KEY_TEXT_VIEW_TEXT_SIZE);
+        mThumbnailTextColor = extras.getInt(INTENT_KEY_TEXT_VIEW_TEXT_COLOR);
+        mThumbnailTextViewGravity = extras.getInt(INTENT_KEY_TEXT_VIEW_GRAVITY);
+        mThumbnailTextViewEllipsizeOrdinal = extras.getInt(INTENT_KEY_TEXT_VIEW_ELLIPSIZE_ORDINAL);
+        mThumbnailTextViewMaxLine = extras.getInt(INTENT_KEY_TEXT_VIEW_MAX_LINE);
+
+        mThumbnailTextViewLeft = extras.getInt(INTENT_KEY_TEXT_VIEW_LEFT);
+        mThumbnailTextViewTop = extras.getInt(INTENT_KEY_TEXT_VIEW_TOP);
+        mThumbnailTextViewWidth = extras.getInt(INTENT_KEY_TEXT_VIEW_WIDTH);
+        mThumbnailTextViewHeight = extras.getInt(INTENT_KEY_TEXT_VIEW_HEIGHT);
+    }
+
+    private void addThumbnailTextView() {
+        int padding = getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
+
+        mThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+        mThumbnailTextView.setPadding(padding, padding, padding, padding);
+        mThumbnailTextView.setText(mThumbnailText);
+        mThumbnailTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mThumbnailTextSize);
+        mThumbnailTextView.setTextColor(mThumbnailTextColor);
+        mThumbnailTextView.setGravity(mThumbnailTextViewGravity);
+        mThumbnailTextView.setEllipsize(
+                TextUtils.TruncateAt.values()[mThumbnailTextViewEllipsizeOrdinal]);
+        mThumbnailTextView.setMaxLines(mThumbnailTextViewMaxLine);
+
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                mThumbnailTextViewWidth, mThumbnailTextViewHeight);
+        lp.leftMargin = mThumbnailTextViewLeft;
+        lp.topMargin = mThumbnailTextViewTop;
+        mRootLayout.addView(mThumbnailTextView, lp);
+    }
+
+    /**
+     * The enter animation scales the picture in from its previous thumbnail
+     * size/location, colorizing it in parallel. In parallel, the background of the
+     * activity is fading in. When the pictue is in place, the text description
+     * drops down.
+     */
+    public void runEnterAnimation() {
+        final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
+
+        mTopNewsImageWrapper.setPivotX(0);
+        mTopNewsImageWrapper.setPivotY(0);
+
+        // 썸네일 위치, 목표 위치 계산
+        int[] screenLocation = new int[2];
+        mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
+        int left = screenLocation[0];
+        int top = screenLocation[0];
+        final int leftDelta = mThumbnailLeft - left;
+        final int topDelta = mThumbnailTop - top;
+
+        float widthRatio = mTopNewsImageWrapper.getWidth()/(float)mThumbnailWidth;
+        float heightRatio = mTopNewsImageWrapper.getHeight()/(float)mThumbnailHeight;
+        boolean fitWidth = widthRatio > heightRatio;
+        final float scaleRatio = fitWidth ? widthRatio : heightRatio;
+        final int targetWidth = (int)(mThumbnailWidth * scaleRatio);
+
+        // 곡선 이동 PropertyValuesHolder 준비
+        AnimatorPath path = new AnimatorPath();
+        path.moveTo(leftDelta, topDelta);
+        int leftTarget = fitWidth ? left : left - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
+        path.curveTo(leftDelta/2, topDelta, 0, topDelta/2, leftTarget, top);
+
+        PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
+                "ImageWrapperTranslation", new PathEvaluator(), path.getPoints().toArray());
+
+        // 크기 변경 PropertyValuesHolder 준비
+        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+        lp.width = mThumbnailWidth;
+        lp.height = mThumbnailHeight;
+        mTopNewsImageWrapper.setLayoutParams(lp);
+
+        PropertyValuesHolder imageWrapperSizePvh = PropertyValuesHolder.ofObject("ImageWrapperSize",
+                new TypeEvaluator<PointF>() {
+                    @Override
+                    public PointF evaluate(float v, PointF startSize, PointF endSize) {
+                        float x = startSize.x * (1-v) + endSize.x * v;
+                        float y = startSize.y * (1-v) + endSize.y * v;
+                        return new PointF(x, y);
+                    }
+                }, new PointF(1.0f, 1.0f),
+                new PointF(scaleRatio, scaleRatio));
+
+        // 준비해 놓은 PropertyValuesHolder들 실행
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
+                imageWrapperTranslationPvh, imageWrapperSizePvh
+        );
+        animator.setInterpolator(pathInterpolator);
+        animator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        animator.start();
+
+        // 이미지뷰 컬러 필터 애니메이션
+        animateTopImageViewColorFilter();
+
+        // 상단 뉴스의 텍스트뷰 위치 애니메이션
+        Point displaySize = new Point();
+        getWindowManager().getDefaultDisplay().getSize(displaySize);
+        final int translationY = displaySize.y - mTopNewsTextLayout.getTop();
+        mTopNewsTextLayout.setAlpha(0);
+        mTopNewsTextLayout.setTranslationY(translationY);
+        mTopNewsTextLayout.animate().
+                alpha(1.0f).
+                translationY(0).
+                setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                setInterpolator(pathInterpolator).
+                start();
+
+        // 하단 리사이클러뷰 아이템들 위치 애니메이션
+        ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                // animate bottom recycler view
+                for (int i = 0; i < mBottomNewsListRecyclerView.getChildCount(); i++) {
+                    View child = mBottomNewsListRecyclerView.getChildAt(i);
+
+                    child.setTranslationY(child.getTop() + child.getBottom());
+                    child.animate().
+                            translationY(0).
+                            setStartDelay(i*100).
+                            setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                            setInterpolator(pathInterpolator).
+                            start();
+                }
+
+                return true;
+            }
+        });
+
+        // 배경 색상 페이드인 애니메이션
+        mRootLayoutBackground.setAlpha(0);
+        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
+        bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        bgAnim.setInterpolator(pathInterpolator);
+        bgAnim.start();
+
+        mRecyclerViewBackground.setAlpha(0);
+        ObjectAnimator recyclerBgAnim = ObjectAnimator.ofInt(mRecyclerViewBackground, "alpha", 0,
+                255);
+        recyclerBgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        recyclerBgAnim.setInterpolator(pathInterpolator);
+        recyclerBgAnim.start();
+
+        // 텍스트뷰 애니메이션
+        ViewPropertyAnimator thumbnailAlphaAnimator = mThumbnailTextView.animate();
+        thumbnailAlphaAnimator.alpha(0.0f);
+        thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
+        thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
+        thumbnailAlphaAnimator.start();
+
+        // 액션바 홈버튼 페이드인
+        mActionBarHomeIcon.setAlpha(0);
+        ObjectAnimator actionBarHomeIconAnimator =
+                ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 0, 255);
+        actionBarHomeIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
+        actionBarHomeIconAnimator.start();
+
+        // 액션바 텍스트 페이드인
+        mColorSpan.setAlpha(0.0f);
+        ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
+                NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 0.0f, 1.0f);
+        actionBarTitleAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarTitleAnimator.setInterpolator(pathInterpolator);
+        actionBarTitleAnimator.start();
+
+        // 액션바 오버플로우 페이드인
+        mActionBarOverflowIcon.setAlpha(0);
+        ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255)
+                .setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).start();
+    }
+
+    /**
+     * runEnterAnimation 에서 이미지뷰 wrapper 스케일링에 사용될 메서드.
+     * @param size 계산된 사이즈
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    public void setImageWrapperSize(PointF size) {
+        mTopNewsImageWrapper.setScaleX(size.x);
+        mTopNewsImageWrapper.setScaleY(size.y);
+    }
+
+    /**
+     * runEnterAnimation 에서 이미지뷰 wrapper 위치 이동에 사용될 메서드.
+     * @param newLoc 계산된 위치
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    public void setImageWrapperTranslation(PathPoint newLoc) {
+        mTopNewsImageWrapper.setTranslationX(newLoc.mX);
+        mTopNewsImageWrapper.setTranslationY(newLoc.mY);
     }
 
     private void animateTopImageViewColorFilter() {
@@ -178,7 +461,7 @@ public class NewsFeedDetailActivity extends Activity
             }
 
         });
-        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI).start();
+        color.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).start();
     }
 
     private void initLoadingCoverView() {
@@ -212,7 +495,7 @@ public class NewsFeedDetailActivity extends Activity
                 finishAfterTransition();
             }
         });
-        color.setDuration(TOP_NEWS_FILTER_ANIM_DURATION_UNIT_MILLI);
+        color.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         color.start();
     }
 
@@ -226,13 +509,57 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void initActionBar() {
+
         initActionBarGradientView();
+        initActionBarIcon();
+        initActionBarTitle();
+        //@drawable/ic_ab_up_white
+    }
+
+    private void initActionBarTitle() {
+        TypedArray typedArray = getTheme().obtainStyledAttributes(
+                R.style.MainThemeActionBarTitleTextStyle, new int[]{android.R.attr.textColor});
+        mActionTextColor = typedArray.getColor(0, Color.WHITE);
+        typedArray.recycle();
+
+        mColorSpan = new AlphaForegroundColorSpan(mActionTextColor);
+
         applyActionBarTitle();
     }
 
     private void applyActionBarTitle() {
         if (getActionBar() != null && mNewsFeed != null) {
-            getActionBar().setTitle(mNewsFeed.getTitle());
+            mActionBarTitle = new SpannableString(mNewsFeed.getTitle());
+            mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getActionBar().setTitle(mActionBarTitle);
+        }
+    }
+
+    /**
+     * runEnterAnimation 에서 액션바 타이틀 알파값 애니메이션에 사용될 메서드.
+     * @param value 계산된 알파값
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    private void setActionBarTitleAlpha(float value) {
+        mColorSpan.setAlpha(value);
+        mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (getActionBar() != null) {
+            getActionBar().setTitle(mActionBarTitle);
+        }
+    }
+
+    private void initActionBarIcon() {
+        if (getActionBar() != null) {
+            Bitmap upIconBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_ab_up_white);
+            mActionBarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
+            getActionBar().setHomeAsUpIndicator(mActionBarHomeIcon);
+
+            Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_menu_moreoverflow_mtrl_alpha);
+            mActionBarOverflowIcon = new BitmapDrawable(getResources(), overflowIconBitmap);
         }
     }
 
@@ -284,28 +611,23 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                NLLog.now("mTopNewsImageRippleView onClink");
                 Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
                 intent.putExtra(INTENT_KEY_NEWS, mTopNews);
 
                 startActivity(intent);
-//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
             }
         });
 
         mTopNewsTextRippleLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                NLLog.now("mTopNewsTextRippleLayout onClink");
                 Intent intent = new Intent(NewsFeedDetailActivity.this, NewsDetailActivity.class);
                 intent.putExtra(INTENT_KEY_NEWS, mTopNews);
 
                 startActivity(intent);
-//                WebUtils.openLink(NewsFeedDetailActivity.this, mTopNews.getLink());
             }
         });
 
-//        mTopNews = mNewsFeed.getNewsListContainsImageUrl().get(0);
         if (mTopNews != null) {
             notifyTopNewsChanged();
         } else {
@@ -324,8 +646,12 @@ public class NewsFeedDetailActivity extends Activity
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
+        mRecyclerViewBackground = new ColorDrawable(BACKGROUND_COLOR);
+        mBottomNewsListRecyclerView.setBackground(mRecyclerViewBackground);
+
         notifyBottomNewsChanged();
     }
+
     private void notifyBottomNewsChanged() {
         mAdapter = new NewsFeedDetailAdapter(this, this);
 
@@ -336,28 +662,56 @@ public class NewsFeedDetailActivity extends Activity
 
         final int newsCount = mNewsFeed.getNewsList().size();
         for (int i = 0; i < newsCount; i++) {
-            final News news = mNewsFeed.getNewsList().get(i);
-            final int idx = i;
-            mBottomNewsListRecyclerView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.addNews(news);
+            News news = mNewsFeed.getNewsList().get(i);
+            mAdapter.addNews(news);
+//            final int idx = i;
+//            mBottomNewsListRecyclerView.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mAdapter.addNews(news);
+//
+//                    if (idx == (mNewsFeed.getNewsList().size() - 1)) {
+//                        mBottomNewsListRecyclerView.getItemAnimator()
+//                                .isRunning(NewsFeedDetailActivity.this);
+//                    }
+//                }
+//            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
+        }
+        applyMaxBottomRecyclerViewHeight();
 
-                    if (idx == (mNewsFeed.getNewsList().size() - 1)) {
-                        mBottomNewsListRecyclerView.getItemAnimator()
-                                .isRunning(NewsFeedDetailActivity.this);
-                    }
-                }
-            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
+        ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                applyActualRecyclerViewHeight();
+
+                return true;
+            }
+        });
+    }
+
+    private void applyActualRecyclerViewHeight() {
+        int totalHeight = 0;
+        int childCount = mBottomNewsListRecyclerView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
         }
 
-        applyMaxBottomRecyclerViewHeight();
+        mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.news_feed, menu);
+
+//        getMenuInflater().inflate(R.menu.news_feed, menu);
+        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, Menu.NONE, "");
+        subMenu.setIcon(mActionBarOverflowIcon);
+        subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, Menu.NONE, R.string.action_newsfeed);
+        MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -369,7 +723,7 @@ public class NewsFeedDetailActivity extends Activity
                 finishAfterTransition();
                 return true;
 
-            case R.id.action_settings:
+            case R.id.action_replace_newsfeed:
                 startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
                         REQ_SELECT_NEWS_FEED);
                 return true;
@@ -609,7 +963,7 @@ public class NewsFeedDetailActivity extends Activity
         int blue = Color.blue(filterColor);
 
         int colorWithoutAlpha = Color.rgb(red, green, blue);
-        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+//        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
         mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
 
         if (applyColorFilter) {
@@ -694,33 +1048,18 @@ public class NewsFeedDetailActivity extends Activity
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
-            mTopImageView.setTranslationY(scrollY * 0.4f);
+            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
 
             mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
             if (mActionBarOverlayView.getAlpha() >= 0.6f) {
                 mActionBarOverlayView.setAlpha(0.6f);
             }
         } else {
-            mTopImageView.setTranslationY(0);
+            mTopNewsImageWrapper.setTranslationY(0);
             if (mActionBarOverlayView.getAlpha() != 0) {
                 mActionBarOverlayView.setAlpha(0);
             }
         }
-    }
-
-    /**
-     * RecyclerView.ItemAnimator.ItemAnimatorFinishedListener
-     */
-    @Override
-    public void onAnimationsFinished() {
-        int totalHeight = 0;
-        int childCount = mBottomNewsListRecyclerView.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
-        }
-
-        mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override

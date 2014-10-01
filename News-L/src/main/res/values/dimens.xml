@@ -25,6 +25,7 @@
 
     <!-- Detail Top -->
     <dimen name="detail_top_image_view_height">336dp</dimen>    <!-- 56 * 6 -->
+    <dimen name="detail_top_text_layout_elevation">10dp</dimen>
 
     <!-- Detail Bottom -->
     <dimen name="detail_bottom_divider_height">1dp</dimen>
