@@ -1,80 +1,55 @@
 package com.yooiistudios.news.model.activitytransition;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.google.gson.Gson;
-
-import java.util.HashMap;
-
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 10. 1.
  *
  * ActivityTransitionProperty
- *  액티비티 전환시 필요한 데이터를 저장하는 클래스
+ *  액티비티 트랜지션 프로퍼티 부모 클래스
  */
-public class ActivityTransitionProperty {
-    public static final String KEY_IMAGE = "KEY_IMAGE";
-    public static final String KEY_TEXT = "KEY_TEXT";
-    public static final String KEY_SUB_TEXT = "KEY_SUB_TEXT";
+public abstract class ActivityTransitionProperty {
 
-    private HashMap<String, ActivityTransitionImageViewProperty> mImageViewPropertyMap;
-    private HashMap<String, ActivityTransitionTextViewProperty> mTextViewPropertyMap;
+    private int mLeft;
+    private int mTop;
+    private int mWidth;
+    private int mHeight;
 
-    public ActivityTransitionProperty() {
-        mImageViewPropertyMap = new HashMap<String, ActivityTransitionImageViewProperty>();
-        mTextViewPropertyMap = new HashMap<String, ActivityTransitionTextViewProperty>();
-    }
-
-    public ActivityTransitionImageViewProperty getImageViewProperty(String key) {
-        return mImageViewPropertyMap.get(key);
-    }
-
-    public ActivityTransitionTextViewProperty getTextViewProperty(String key) {
-        return mTextViewPropertyMap.get(key);
-    }
-
-    public ActivityTransitionProperty addImageView(String key, ImageView imageView) {
-        int[] screenLocation = new int[2];
-        imageView.getLocationOnScreen(screenLocation);
-
-        mImageViewPropertyMap.put(
-                key,
-                new ActivityTransitionImageViewProperty()
-                    .setLeft(screenLocation[0])
-                    .setTop(screenLocation[1])
-                    .setWidth(imageView.getWidth())
-                    .setHeight(imageView.getHeight())
-        );
+    public ActivityTransitionProperty setLeft(int left) {
+        mLeft = left;
 
         return this;
     }
 
-    public ActivityTransitionProperty addTextView(String key, TextView textView, int padding) {
-        int[] screenLocation = new int[2];
-        textView.getLocationOnScreen(screenLocation);
-
-        mTextViewPropertyMap.put(
-                key,
-                new ActivityTransitionTextViewProperty()
-                        .setLeft(screenLocation[0])
-                        .setTop(screenLocation[1])
-                        .setWidth(textView.getWidth())
-                        .setHeight(textView.getHeight())
-                        .setPadding(padding)
-                        .setText(textView.getText().toString())
-                        .setTextSize(textView.getTextSize())
-                        .setTextColor(textView.getCurrentTextColor())
-                        .setEllipsizeOrdinal(textView.getEllipsize().ordinal())
-                        .setGravity(textView.getGravity())
-                        .setMaxLine(textView.getMaxLines())
-        );
+    public ActivityTransitionProperty setTop(int top) {
+        mTop = top;
 
         return this;
     }
 
+    public ActivityTransitionProperty setWidth(int width) {
+        mWidth = width;
 
-    public String toGsonString() {
-        return new Gson().toJson(this);
+        return this;
+    }
+
+    public ActivityTransitionProperty setHeight(int height) {
+        mHeight = height;
+
+        return this;
+    }
+
+    public int getLeft() {
+        return mLeft;
+    }
+
+    public int getTop() {
+        return mTop;
+    }
+
+    public int getWidth() {
+        return mWidth;
+    }
+
+    public int getHeight() {
+        return mHeight;
     }
 }

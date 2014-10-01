@@ -6,12 +6,8 @@ package com.yooiistudios.news.model.activitytransition;
  * ActivityTransitionImageProperty
  *  이미지의 속성 저장
  */
-public class ActivityTransitionTextViewProperty {
+public class ActivityTransitionTextViewProperty extends ActivityTransitionProperty {
 
-    private int mLeft;
-    private int mTop;
-    private int mWidth;
-    private int mHeight;
     private int mPadding;
 
     private String mText;
@@ -21,21 +17,6 @@ public class ActivityTransitionTextViewProperty {
     private int mEllipsizeOrdinal;
     private int mMaxLine;
 
-    public int getLeft() {
-        return mLeft;
-    }
-
-    public int getTop() {
-        return mTop;
-    }
-
-    public int getWidth() {
-        return mWidth;
-    }
-
-    public int getHeight() {
-        return mHeight;
-    }
 
     public int getPadding() {
         return mPadding;
@@ -65,26 +46,30 @@ public class ActivityTransitionTextViewProperty {
         return mMaxLine;
     }
 
+    @Override
     public ActivityTransitionTextViewProperty setLeft(int left) {
-        mLeft = left;
+        super.setLeft(left);
 
         return this;
     }
 
+    @Override
     public ActivityTransitionTextViewProperty setTop(int top) {
-        mTop = top;
+        super.setTop(top);
 
         return this;
     }
 
+    @Override
     public ActivityTransitionTextViewProperty setWidth(int width) {
-        mWidth = width;
+        super.setWidth(width);
 
         return this;
     }
 
+    @Override
     public ActivityTransitionTextViewProperty setHeight(int height) {
-        mHeight = height;
+        super.setHeight(height);
 
         return this;
     }

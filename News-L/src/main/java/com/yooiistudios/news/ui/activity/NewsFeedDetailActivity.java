@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.AlphaForegroundColorSpan;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionTextViewProperty;
@@ -86,6 +87,7 @@ public class NewsFeedDetailActivity extends Activity
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
     @InjectView(R.id.detail_content_layout)                 FrameLayout mRootLayout;
+    @InjectView(R.id.detail_transition_content_layout)      FrameLayout mTransitionLayout;
     @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
@@ -154,9 +156,15 @@ public class NewsFeedDetailActivity extends Activity
     private boolean mHasNewsFeedReplaced = false;
     private boolean mIsLoadingImageOnInit = false;
 
+
+    public static int sAnimatorScale = 1;
+    private long mDebugAnimDuration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mDebugAnimDuration = (long)(ACTIVITY_ENTER_ANIMATION_DURATION * sAnimatorScale);
 
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
@@ -205,6 +213,9 @@ public class NewsFeedDetailActivity extends Activity
                     mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
                     mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
 
+//                    View view = new View(NewsFeedDetailActivity.this);
+//                    view.setBackgroundColor(Color.BLACK);
+//                    addThumbnailView(view, mTransImageViewProperty);
                     addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
                     addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
                             mTransFeedTitleViewProperty);
@@ -233,15 +244,15 @@ public class NewsFeedDetailActivity extends Activity
         Bundle extras = getIntent().getExtras();
 
         String transitionPropertyStr = extras.getString(INTENT_KEY_TRANSITION_PROPERTY);
-        Type type = new TypeToken<ActivityTransitionProperty>(){}.getType();
-        ActivityTransitionProperty transitionProperty =
+        Type type = new TypeToken<ActivityTransitionHelper>(){}.getType();
+        ActivityTransitionHelper transitionProperty =
                 new Gson().fromJson(transitionPropertyStr, type);
         mTransImageViewProperty =
-                transitionProperty.getImageViewProperty(ActivityTransitionProperty.KEY_IMAGE);
+                transitionProperty.getImageViewProperty(ActivityTransitionHelper.KEY_IMAGE);
         mTransTitleViewProperty =
-                transitionProperty.getTextViewProperty(ActivityTransitionProperty.KEY_TEXT);
+                transitionProperty.getTextViewProperty(ActivityTransitionHelper.KEY_TEXT);
         mTransFeedTitleViewProperty =
-                transitionProperty.getTextViewProperty(ActivityTransitionProperty.KEY_SUB_TEXT);
+                transitionProperty.getTextViewProperty(ActivityTransitionHelper.KEY_SUB_TEXT);
 
         // 썸네일 위치, 목표 위치 계산
         int[] screenLocation = new int[2];
@@ -275,11 +286,15 @@ public class NewsFeedDetailActivity extends Activity
                 TextUtils.TruncateAt.values()[textViewProperty.getEllipsizeOrdinal()]);
         textView.setMaxLines(textViewProperty.getMaxLine());
 
+        addThumbnailView(textView, textViewProperty);
+    }
+
+    private void addThumbnailView(View view, ActivityTransitionProperty property) {
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                textViewProperty.getWidth(), textViewProperty.getHeight());
-        lp.leftMargin = textViewProperty.getLeft();
-        lp.topMargin = textViewProperty.getTop();
-        mRootLayout.addView(textView, lp);
+                property.getWidth(), property.getHeight());
+        lp.leftMargin = property.getLeft();
+        lp.topMargin = property.getTop();
+        mTransitionLayout.addView(view, lp);
     }
 
     /**
@@ -317,7 +332,7 @@ public class NewsFeedDetailActivity extends Activity
                 imageWrapperTranslationPvh, imageWrapperSizePvh
         );
         animator.setInterpolator(pathInterpolator);
-        animator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        animator.setDuration(mDebugAnimDuration);
         animator.start();
 
         // 이미지뷰 컬러 필터 애니메이션
@@ -332,7 +347,7 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsTextLayout.animate().
                 alpha(1.0f).
                 translationY(0).
-                setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                setDuration(mDebugAnimDuration).
                 setInterpolator(pathInterpolator).
                 start();
 
@@ -351,7 +366,7 @@ public class NewsFeedDetailActivity extends Activity
                     child.animate().
                             translationY(0).
                             setStartDelay(i*100).
-                            setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                            setDuration(mDebugAnimDuration).
                             setInterpolator(pathInterpolator).
                             start();
                 }
@@ -363,21 +378,21 @@ public class NewsFeedDetailActivity extends Activity
         // 배경 색상 페이드인 애니메이션
         mRootLayoutBackground.setAlpha(0);
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
-        bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        bgAnim.setDuration(mDebugAnimDuration);
         bgAnim.setInterpolator(pathInterpolator);
         bgAnim.start();
 
         mRecyclerViewBackground.setAlpha(0);
         ObjectAnimator recyclerBgAnim = ObjectAnimator.ofInt(mRecyclerViewBackground, "alpha", 0,
                 255);
-        recyclerBgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        recyclerBgAnim.setDuration(mDebugAnimDuration);
         recyclerBgAnim.setInterpolator(pathInterpolator);
         recyclerBgAnim.start();
 
         // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
         ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
         thumbnailAlphaAnimator.alpha(0.0f);
-        thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION / 2);
+        thumbnailAlphaAnimator.setDuration(mDebugAnimDuration / 2);
         thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         thumbnailAlphaAnimator.start();
 
@@ -385,7 +400,7 @@ public class NewsFeedDetailActivity extends Activity
         ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
                 = mNewsFeedTitleThumbnailTextView.animate();
         feedTitleThumbnailAlphaAnimator.alpha(0.0f);
-        feedTitleThumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION / 2);
+        feedTitleThumbnailAlphaAnimator.setDuration(mDebugAnimDuration / 2);
         feedTitleThumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         feedTitleThumbnailAlphaAnimator.start();
 
@@ -393,7 +408,7 @@ public class NewsFeedDetailActivity extends Activity
         mActionBarHomeIcon.setAlpha(0);
         ObjectAnimator actionBarHomeIconAnimator =
                 ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 0, 255);
-        actionBarHomeIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarHomeIconAnimator.setDuration(mDebugAnimDuration);
         actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
         actionBarHomeIconAnimator.start();
 
@@ -401,7 +416,7 @@ public class NewsFeedDetailActivity extends Activity
         mColorSpan.setAlpha(0.0f);
         ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 0.0f, 1.0f);
-        actionBarTitleAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarTitleAnimator.setDuration(mDebugAnimDuration);
         actionBarTitleAnimator.setInterpolator(pathInterpolator);
         actionBarTitleAnimator.start();
 
@@ -409,7 +424,7 @@ public class NewsFeedDetailActivity extends Activity
         mActionBarOverflowIcon.setAlpha(0);
         ObjectAnimator actionBarOverflowIconAnimator =
                 ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255);
-        actionBarOverflowIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarOverflowIconAnimator.setDuration(mDebugAnimDuration);
         actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
         actionBarOverflowIconAnimator.start();
 
@@ -470,7 +485,7 @@ public class NewsFeedDetailActivity extends Activity
             }
 
         });
-        color.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).start();
+        color.setDuration(mDebugAnimDuration).start();
     }
 
     private void initLoadingCoverView() {
@@ -498,7 +513,7 @@ public class NewsFeedDetailActivity extends Activity
                 Color.argb(Color.alpha(filterColor), red, green, blue));
 
         color.addUpdateListener(new ColorFilterListener(mTopImageView));
-        color.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        color.setDuration(mDebugAnimDuration);
         color.start();
     }
 
@@ -508,7 +523,7 @@ public class NewsFeedDetailActivity extends Activity
         // 곡선 이동 PropertyValuesHolder 준비
         AnimatorPath path = new AnimatorPath();
         path.moveTo(mThumbnailLeftTarget, mThumbnailTopTarget);
-        path.curveTo(mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
+        path.curveTo(0, mThumbnailTopDelta/2, mThumbnailLeftDelta/2, mThumbnailTopDelta,
                 mThumbnailLeftDelta, mThumbnailTopDelta);
 
         PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
@@ -528,7 +543,7 @@ public class NewsFeedDetailActivity extends Activity
                 imageWrapperTranslationPvh, imageWrapperSizePvh
         );
         animator.setInterpolator(pathInterpolator);
-        animator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        animator.setDuration(mDebugAnimDuration);
         animator.start();
 
         // 이미지뷰 컬러 필터 애니메이션
@@ -541,14 +556,14 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsTextLayout.animate().
                 alpha(0.0f).
                 translationYBy(translationY).
-                setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                setDuration(mDebugAnimDuration).
                 setInterpolator(pathInterpolator).
                 start();
 
         // 하단 리사이클러뷰 위치 애니메이션
         mBottomNewsListRecyclerView.animate().
                 translationYBy(displaySize.y - mBottomNewsListRecyclerView.getTop() + mWindowInsetEnd).
-                setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).
+                setDuration(mDebugAnimDuration).
                 setInterpolator(pathInterpolator).
                 withEndAction(new Runnable() {
                     @Override
@@ -562,14 +577,14 @@ public class NewsFeedDetailActivity extends Activity
         // 배경 색상 페이드인 애니메이션
 //        mRootLayoutBackground.setAlpha(1);
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 255, 0);
-        bgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        bgAnim.setDuration(mDebugAnimDuration);
         bgAnim.setInterpolator(pathInterpolator);
         bgAnim.start();
 
 //        mRecyclerViewBackground.setAlpha(1);
         ObjectAnimator recyclerBgAnim = ObjectAnimator.ofInt(mRecyclerViewBackground, "alpha", 255,
                 0);
-        recyclerBgAnim.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        recyclerBgAnim.setDuration(mDebugAnimDuration);
         recyclerBgAnim.setInterpolator(pathInterpolator);
         recyclerBgAnim.start();
 
@@ -577,7 +592,7 @@ public class NewsFeedDetailActivity extends Activity
         mNewsTitleThumbnailTextView.setAlpha(0.0f);
         ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
         thumbnailAlphaAnimator.alpha(1.0f);
-        thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
+        thumbnailAlphaAnimator.setDuration(mDebugAnimDuration/2);
         thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         thumbnailAlphaAnimator.start();
 
@@ -586,7 +601,7 @@ public class NewsFeedDetailActivity extends Activity
         ViewPropertyAnimator feedTitleThumbnailAlphaAnimator =
                 mNewsFeedTitleThumbnailTextView.animate();
         feedTitleThumbnailAlphaAnimator.alpha(1.0f);
-        feedTitleThumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
+        feedTitleThumbnailAlphaAnimator.setDuration(mDebugAnimDuration/2);
         feedTitleThumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         feedTitleThumbnailAlphaAnimator.start();
 
@@ -594,7 +609,7 @@ public class NewsFeedDetailActivity extends Activity
 //        mActionBarHomeIcon.setAlpha(1);
         ObjectAnimator actionBarHomeIconAnimator =
                 ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 255, 0);
-        actionBarHomeIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarHomeIconAnimator.setDuration(mDebugAnimDuration);
         actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
         actionBarHomeIconAnimator.start();
 
@@ -602,7 +617,7 @@ public class NewsFeedDetailActivity extends Activity
 //        mColorSpan.setAlpha(1.0f);
         ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 1.0f, 0.0f);
-        actionBarTitleAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarTitleAnimator.setDuration(mDebugAnimDuration);
         actionBarTitleAnimator.setInterpolator(pathInterpolator);
         actionBarTitleAnimator.start();
 
@@ -610,7 +625,7 @@ public class NewsFeedDetailActivity extends Activity
 //        mActionBarOverflowIcon.setAlpha(1);
         ObjectAnimator actionBarOverflowIconAnimator =
                 ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 255, 0);
-        actionBarOverflowIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarOverflowIconAnimator.setDuration(mDebugAnimDuration);
         actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
         actionBarOverflowIconAnimator.start();
 

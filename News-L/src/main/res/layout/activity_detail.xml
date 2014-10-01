@@ -92,6 +92,11 @@
         </com.yooiistudios.news.ui.widget.ObservableScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <FrameLayout
+        android:id="@+id/detail_transition_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <!-- Top 부분 Overlay 용 뷰 -->
     <View
         android:id="@+id/detail_top_overlay_view"

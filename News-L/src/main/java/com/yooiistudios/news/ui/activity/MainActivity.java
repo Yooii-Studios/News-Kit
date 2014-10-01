@@ -286,6 +286,9 @@ public class MainActivity extends Activity
             return true;
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+        } else if (id == R.id.action_slow_anim) {
+            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ? 1 : 5;
+            item.setChecked(!item.isChecked());
         }
         return super.onOptionsItemSelected(item);
     }

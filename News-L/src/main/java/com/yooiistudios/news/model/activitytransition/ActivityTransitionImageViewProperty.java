@@ -6,50 +6,33 @@ package com.yooiistudios.news.model.activitytransition;
  * ActivityTransitionImageProperty
  *  이미지의 속성 저장
  */
-public class ActivityTransitionImageViewProperty {
+public class ActivityTransitionImageViewProperty extends ActivityTransitionProperty {
 
-    private int mLeft;
-    private int mTop;
-    private int mWidth;
-    private int mHeight;
-
+    @Override
     public ActivityTransitionImageViewProperty setLeft(int left) {
-        mLeft = left;
+        super.setLeft(left);
 
         return this;
     }
 
+    @Override
     public ActivityTransitionImageViewProperty setTop(int top) {
-        mTop = top;
+        super.setTop(top);
 
         return this;
     }
 
+    @Override
     public ActivityTransitionImageViewProperty setWidth(int width) {
-        mWidth = width;
+        super.setWidth(width);
 
         return this;
     }
 
+    @Override
     public ActivityTransitionImageViewProperty setHeight(int height) {
-        mHeight = height;
+        super.setHeight(height);
 
         return this;
-    }
-
-    public int getLeft() {
-        return mLeft;
-    }
-
-    public int getTop() {
-        return mTop;
-    }
-
-    public int getWidth() {
-        return mWidth;
-    }
-
-    public int getHeight() {
-        return mHeight;
     }
 }

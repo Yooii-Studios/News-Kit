@@ -20,7 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
+import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -577,11 +577,11 @@ public class MainBottomContainerLayout extends FrameLayout
         int feedTitlePadding =
                 getResources().getDimensionPixelSize(R.dimen.main_bottom_news_feed_title_padding);
 
-        ActivityTransitionProperty transitionProperty = new ActivityTransitionProperty()
-                .addImageView(ActivityTransitionProperty.KEY_IMAGE, imageView)
-                .addTextView(ActivityTransitionProperty.KEY_TEXT, newsTitleTextView,
+        ActivityTransitionHelper transitionProperty = new ActivityTransitionHelper()
+                .addImageView(ActivityTransitionHelper.KEY_IMAGE, imageView)
+                .addTextView(ActivityTransitionHelper.KEY_TEXT, newsTitleTextView,
                         titleViewPadding)
-                .addTextView(ActivityTransitionProperty.KEY_SUB_TEXT, newsFeedTitleTextView,
+                .addTextView(ActivityTransitionHelper.KEY_SUB_TEXT, newsFeedTitleTextView,
                         feedTitlePadding);
 
         intent.putExtra(INTENT_KEY_TRANSITION_PROPERTY, transitionProperty.toGsonString());

@@ -7,6 +7,7 @@
     <string name="action_store">상점</string>
     <string name="action_send_feedback">의견 보내기</string>
     <string name="action_remove_archive">뉴스 캐시 삭제</string>
+    <string name="action_slow_anim">느린 전환</string>
     <string name="image_view_content_description">로딩 중…</string>
 
     <!-- Main -->
