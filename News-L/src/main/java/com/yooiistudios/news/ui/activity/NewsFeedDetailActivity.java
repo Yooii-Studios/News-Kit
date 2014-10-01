@@ -210,6 +210,10 @@ public class NewsFeedDetailActivity extends Activity
         } else {
             showLoadingCover();
         }
+
+//        mTopImageView.setVisibility(View.INVISIBLE);
+//        mTopOverlayView.setVisibility(View.INVISIBLE);
+//        mActionBarOverlayView.setVisibility(View.INVISIBLE);
     }
 
     private void initRootLayout() {
@@ -391,6 +395,17 @@ public class NewsFeedDetailActivity extends Activity
         actionBarOverflowIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
         actionBarOverflowIconAnimator.start();
+
+        //　액션바 배경, 오버레이 페이드 인
+        saveTopOverlayAlphaState();
+        mTopOverlayView.setAlpha(0);
+        mActionBarOverlayView.setAlpha(0);
+        animateTopOverlayFadeIn();
+    }
+
+    private void saveTopOverlayAlphaState() {
+        mTopOverlayView.setTag(mTopOverlayView.getAlpha());
+        mActionBarOverlayView.setTag(mActionBarOverlayView.getAlpha());
     }
 
     /**
@@ -572,6 +587,9 @@ public class NewsFeedDetailActivity extends Activity
         actionBarOverflowIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
         actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
         actionBarOverflowIconAnimator.start();
+
+        //　액션바 배경, 오버레이 페이드 인
+        animateTopOverlayFadeOut();
     }
 
     @Override
@@ -943,13 +961,13 @@ public class NewsFeedDetailActivity extends Activity
 
                 });
     }
+
     private void animateTopOverlayFadeOut() {
-        mTopOverlayView.setTag(mTopOverlayView.getAlpha());
+        saveTopOverlayAlphaState();
         mTopOverlayView.animate()
                 .setDuration(250)
                 .alpha(0f)
                 .setInterpolator(new DecelerateInterpolator());
-        mActionBarOverlayView.setTag(mActionBarOverlayView.getAlpha());
         mActionBarOverlayView.animate()
                 .setDuration(250)
                 .alpha(0f)

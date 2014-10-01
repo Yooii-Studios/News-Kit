@@ -553,17 +553,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         ImageView imageView = viewHolder.imageView;
         TextView titleView = viewHolder.newsTitleTextView;
-
-
-//        Pair<View, String> imagePair = new Pair<View, String>(imageView, imageView.getViewName());
-//        Pair<View, String> titlePair = new Pair<View, String>(titleView, titleView.getViewName());
-//        ActivityOptions activityOptions =
-//                ActivityOptions.makeSceneTransitionAnimation(
-//                        mActivity,
-//                        imagePair,
-//                        titlePair
-//                );
-
+        TextView newsFeedTitleTextView = viewHolder.newsFeedTitleTextView;
 
         Intent intent = new Intent(mActivity,
                 NewsFeedDetailActivity.class);
