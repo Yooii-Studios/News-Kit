@@ -36,10 +36,9 @@ public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChang
 //        NLLog.now("position: " + position + " / offset: " + offset + " / offsetPixels: " + offsetPixels);
 //        NLLog.now("position: " + position);
 
-        // 오른쪽으로 갈 때는 바로 다음 position이 나오고, 왼쪽으로 갈 때는
+        // 오른쪽으로 갈 때는 바로 다음 position 이 나오고, 왼쪽으로 갈 때는
         // 스크롤이 완료 되어야만 전 페이지가 됨
 
-//        NLLog.now("currentItem: " +  getCurrentItem());
         // 현재 페이지에서 스크롤 된 값만 파악
         int pageWidth = getWidth() + getPageMargin();
         int scrollX;
@@ -49,54 +48,68 @@ public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChang
             scrollX = getScrollX();
         }
 
-        if (getAdapter() instanceof MainTopPagerAdapter) {
-            MainTopPagerAdapter adapter = (MainTopPagerAdapter) getAdapter();
-            MainNewsFeedFragment currentFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex);
-            MainNewsFeedFragment nextFragment;
+        MainTopPagerAdapter adapter = (MainTopPagerAdapter) getAdapter();
+        MainNewsFeedFragment currentFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex);
+        MainNewsFeedFragment nextFragment;
 
 //            NLLog.now("current page: " + (getWidth() + getPageMargin()) * position);
-//            NLLog.now("scrollX: " + getScrollX());
-//            if ((getWidth() + getPageMargin()) * position > getScrollX()) {
-            float currentFragTransition;
-            float nextFragTransition;
-            if (position >= mCurrentPageIndex) {
+        int currentPage = 0;
+        if (getScrollX() == 0) {
+            currentPage = 0;
+        } else {
+//                NLLog.now("pageWidth * getAdapter().getCount(): " + pageWidth * getAdapter().getCount());
+//                NLLog.now("getScrollX: " + getScrollX());
+            for (int i = 0; i < getAdapter().getCount(); i++) {
+                if (getScrollX() >= pageWidth * i && getScrollX() < pageWidth * (i + 1)) {
+                    currentPage = i;
+                    break;
+                }
+            }
+//                NLLog.now("current page: " + (pageWidth * getAdapter().getCount() / getScrollX()));
+        }
+
+        mCurrentPageIndex = currentPage;
+
+//            NLLog.now("current page: " + currentPage);
+
+
+        // Calculate
+        float currentFragTransition;
+        float nextFragTransition;
+        if (position >= mCurrentPageIndex) {
 //                NLLog.now("swipe left");
 //                NLLog.now("scrollX: " + scrollX);
-                nextFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex + 1);
-                currentFragTransition = scrollX * RATIO;
-//                transition = (float) (offsetPixels * 0.4);
+            nextFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex + 1);
+            currentFragTransition = scrollX * RATIO;
 
-                // 중요: 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 왼쪽으로 들어와서 최종적으로 딱 맞게 한다.
-                nextFragTransition = pageWidth * RATIO * -1.0f + scrollX * RATIO;
-                if (scrollX == 0) {
-                    nextFragTransition = 0; // 마지막 스크롤 시에는 원래 위치로 돌려주기
-                    currentFragTransition = 0;
-                }
-            } else {
+            // 중요: 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 왼쪽으로 들어와서 최종적으로 딱 맞게 한다.
+            nextFragTransition = pageWidth * RATIO * -1.0f + scrollX * RATIO;
+            if (scrollX == 0) {
+                nextFragTransition = 0; // 마지막 스크롤 시에는 원래 위치로 돌려주기
+                currentFragTransition = 0;
+            }
+        } else {
 //                NLLog.now("swipe right");
 //                NLLog.now("getWidth() + getPageMargin() - scrollX: " + (getWidth() + getPageMargin() - scrollX));
-                nextFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex - 1);
-                currentFragTransition = (pageWidth - scrollX) * RATIO * -1;
-//                transition = (float) (scrollX * 0.4 * -1);
-//                nextFragTransition = (float) ((getWidth() + getPageMargin() - scrollX) * 0.4);
+            nextFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex - 1);
+            currentFragTransition = (pageWidth - scrollX) * RATIO * -1;
 
-                // 중요: 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 오른쪽으로 들어와서 최종적으로 딱 맞게 한다.
-                nextFragTransition = pageWidth * 0.4f + (pageWidth - scrollX) * 0.4f * -1.f;
-                if (scrollX == 0) {
-                    nextFragTransition = 0; // 마지막 스크롤 시에는 원래 위치로 돌려주기
-                    currentFragTransition = 0;
-                }
+            // 중요: 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 오른쪽으로 들어와서 최종적으로 딱 맞게 한다.
+            nextFragTransition = pageWidth * RATIO + (pageWidth - scrollX) * RATIO * -1.f;
+            if (scrollX == 0) {
+                nextFragTransition = 0; // 마지막 스크롤 시에는 원래 위치로 돌려주기
+                currentFragTransition = 0;
             }
+        }
 
-            if (currentFragment != null && currentFragment.getView() != null) {
-                ImageView imageView = (ImageView) currentFragment.getView().findViewById(R.id.main_top_feed_image_view);
-                imageView.setTranslationX(currentFragTransition);
-            }
-
-            if (nextFragment != null && nextFragment.getView() != null) {
-                ImageView imageView = (ImageView) nextFragment.getView().findViewById(R.id.main_top_feed_image_view);
-                imageView.setTranslationX(nextFragTransition);
-            }
+        // Transition
+        if (currentFragment != null && currentFragment.getView() != null) {
+            ImageView imageView = (ImageView) currentFragment.getView().findViewById(R.id.main_top_feed_image_view);
+            imageView.setTranslationX(currentFragTransition);
+        }
+        if (nextFragment != null && nextFragment.getView() != null) {
+            ImageView imageView = (ImageView) nextFragment.getView().findViewById(R.id.main_top_feed_image_view);
+            imageView.setTranslationX(nextFragTransition);
         }
     }
 
