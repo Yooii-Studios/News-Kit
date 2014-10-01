@@ -74,4 +74,6 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     public NewsFeed getNewsFeed() {
         return mNewsFeed;
     }
+
+    public SparseArray<MainNewsFeedFragment> getFragmentSparseArray() { return mFragmentSparseArray; }
 }
