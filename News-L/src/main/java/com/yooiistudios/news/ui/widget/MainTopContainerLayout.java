@@ -121,13 +121,11 @@ public class MainTopContainerLayout extends FrameLayout
             // 네트워크도 없고 캐시 정보도 없는 경우
             return;
         }
-        /*
         if (mTopNewsFeedViewPager.getCurrentItem() + 1 < mTopNewsFeedViewPager.getAdapter().getCount()) {
             mTopNewsFeedViewPager.setCurrentItem(mTopNewsFeedViewPager.getCurrentItem() + 1, true);
         } else {
             mTopNewsFeedViewPager.setCurrentItem(0, true);
         }
-        */
     }
 
     public void init(Activity activity, boolean refresh) {
