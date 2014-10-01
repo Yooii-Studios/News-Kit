@@ -17,7 +17,7 @@ import com.yooiistudios.news.util.NLLog;
  *  메인 상단에 사용되는 뷰페이저
  */
 public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChangeListener {
-    private static final float RATIO = 0.45f;
+    private static final float RATIO = 0.47f;
     int mTargetPageIndex = 0;
     int mCurrentPageIndex = 0;
     int mScrollState = SCROLL_STATE_IDLE;
@@ -52,25 +52,16 @@ public class MainTopViewPager extends ViewPager implements ViewPager.OnPageChang
         MainNewsFeedFragment currentFragment = adapter.getFragmentSparseArray().get(mCurrentPageIndex);
         MainNewsFeedFragment nextFragment;
 
-//            NLLog.now("current page: " + (getWidth() + getPageMargin()) * position);
-        int currentPage = 0;
+        int currentPage;
         if (getScrollX() == 0) {
             currentPage = 0;
         } else {
-//                NLLog.now("pageWidth * getAdapter().getCount(): " + pageWidth * getAdapter().getCount());
-//                NLLog.now("getScrollX: " + getScrollX());
-            for (int i = 0; i < getAdapter().getCount(); i++) {
-                if (getScrollX() >= pageWidth * i && getScrollX() < pageWidth * (i + 1)) {
-                    currentPage = i;
-                    break;
-                }
-            }
-//                NLLog.now("current page: " + (pageWidth * getAdapter().getCount() / getScrollX()));
+            currentPage = getScrollX() / pageWidth;
         }
 
         mCurrentPageIndex = currentPage;
 
-//            NLLog.now("current page: " + currentPage);
+        NLLog.now("current page: " + currentPage);
 
 
         // Calculate
