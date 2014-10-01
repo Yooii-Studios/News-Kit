@@ -9,26 +9,35 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
@@ -41,6 +50,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.AlphaForegroundColorSpan;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -125,6 +135,11 @@ public class NewsFeedDetailActivity extends Activity
     private TintType mTintType;
     private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
+    private BitmapDrawable mActionBarHomeIcon;
+    private BitmapDrawable mActionBarOverflowIcon;
+    private SpannableString mActionBarTitle;
+    private AlphaForegroundColorSpan mColorSpan;
+    private int mActionTextColor;
 
     // 액티비티 전환 애니메이션 관련 변수
     private int mThumbnailLeft;
@@ -373,9 +388,32 @@ public class NewsFeedDetailActivity extends Activity
         recyclerBgAnim.start();
 
         // 텍스트뷰 애니메이션
-//        mTopTitleTextView.getle
-        mThumbnailTextView.animate().alpha(0.0f).setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2)
-                .start();
+        ViewPropertyAnimator thumbnailAlphaAnimator = mThumbnailTextView.animate();
+        thumbnailAlphaAnimator.alpha(0.0f);
+        thumbnailAlphaAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION/2);
+        thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
+        thumbnailAlphaAnimator.start();
+
+        // 액션바 홈버튼 페이드인
+        mActionBarHomeIcon.setAlpha(0);
+        ObjectAnimator actionBarHomeIconAnimator =
+                ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 0, 255);
+        actionBarHomeIconAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
+        actionBarHomeIconAnimator.start();
+
+        // 액션바 텍스트 페이드인
+        mColorSpan.setAlpha(0.0f);
+        ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
+                NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 0.0f, 1.0f);
+        actionBarTitleAnimator.setDuration(ACTIVITY_ENTER_ANIMATION_DURATION);
+        actionBarTitleAnimator.setInterpolator(pathInterpolator);
+        actionBarTitleAnimator.start();
+
+        // 액션바 오버플로우 페이드인
+        mActionBarOverflowIcon.setAlpha(0);
+        ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255)
+                .setDuration(ACTIVITY_ENTER_ANIMATION_DURATION).start();
     }
 
     /**
@@ -471,13 +509,57 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void initActionBar() {
+
         initActionBarGradientView();
+        initActionBarIcon();
+        initActionBarTitle();
+        //@drawable/ic_ab_up_white
+    }
+
+    private void initActionBarTitle() {
+        TypedArray typedArray = getTheme().obtainStyledAttributes(
+                R.style.MainThemeActionBarTitleTextStyle, new int[]{android.R.attr.textColor});
+        mActionTextColor = typedArray.getColor(0, Color.WHITE);
+        typedArray.recycle();
+
+        mColorSpan = new AlphaForegroundColorSpan(mActionTextColor);
+
         applyActionBarTitle();
     }
 
     private void applyActionBarTitle() {
         if (getActionBar() != null && mNewsFeed != null) {
-            getActionBar().setTitle(mNewsFeed.getTitle());
+            mActionBarTitle = new SpannableString(mNewsFeed.getTitle());
+            mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getActionBar().setTitle(mActionBarTitle);
+        }
+    }
+
+    /**
+     * runEnterAnimation 에서 액션바 타이틀 알파값 애니메이션에 사용될 메서드.
+     * @param value 계산된 알파값
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    private void setActionBarTitleAlpha(float value) {
+        mColorSpan.setAlpha(value);
+        mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (getActionBar() != null) {
+            getActionBar().setTitle(mActionBarTitle);
+        }
+    }
+
+    private void initActionBarIcon() {
+        if (getActionBar() != null) {
+            Bitmap upIconBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_ab_up_white);
+            mActionBarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
+            getActionBar().setHomeAsUpIndicator(mActionBarHomeIcon);
+
+            Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_menu_moreoverflow_mtrl_alpha);
+            mActionBarOverflowIcon = new BitmapDrawable(getResources(), overflowIconBitmap);
         }
     }
 
@@ -624,7 +706,12 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.news_feed, menu);
+
+//        getMenuInflater().inflate(R.menu.news_feed, menu);
+        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, Menu.NONE, "");
+        subMenu.setIcon(mActionBarOverflowIcon);
+        subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, Menu.NONE, R.string.action_newsfeed);
+        MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -636,7 +723,7 @@ public class NewsFeedDetailActivity extends Activity
                 finishAfterTransition();
                 return true;
 
-            case R.id.action_settings:
+            case R.id.action_replace_newsfeed:
                 startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
                         REQ_SELECT_NEWS_FEED);
                 return true;
