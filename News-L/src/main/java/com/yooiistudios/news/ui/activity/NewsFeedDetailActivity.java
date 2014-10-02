@@ -645,7 +645,9 @@ public class NewsFeedDetailActivity extends Activity
         if (mTopImageView.getDrawable() == null) {
             super.finish();
         } else {
-            runExitAnimation();
+            if (!mIsAnimatingActivityTransitionAnimation) {
+                runExitAnimation();
+            }
         }
     }
 
