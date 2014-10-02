@@ -29,6 +29,11 @@ public class MainTopViewPager extends ViewPager {
     @Override
     public void onPageScrolled(int position, float offset, int offsetPixels) {
         super.onPageScrolled(position, offset, offsetPixels);
+
+        if (getAdapter() == null) {
+            return;
+        }
+
         // position 으로는 제대로 된 현재 페이지를 파악할 수가 없어서 사용을 하지 않게 변경
         int pageWidth = getWidth() + getPageMargin();
 
