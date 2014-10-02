@@ -3,6 +3,7 @@ package com.yooiistudios.news.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
@@ -33,6 +35,7 @@ public class MainActivity extends Activity
         MainBottomContainerLayout.OnMainBottomLayoutEventListener {
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
+    @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
@@ -233,6 +236,12 @@ public class MainActivity extends Activity
                 + "\nBottom news feed ready : " + bottomReady;
 
         mLoadingLog.setText(loadingStatus);
+        if (mLoadingImageView.getBackground() instanceof AnimationDrawable) {
+            AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getBackground();
+            if (!animation.isRunning()) {
+                animation.start();
+            }
+        }
 
         if (mLoadingContainer.getVisibility() == View.GONE) {
             return;
@@ -248,6 +257,10 @@ public class MainActivity extends Activity
 
             // loaded
             mLoadingContainer.setVisibility(View.GONE);
+            if (mLoadingImageView.getDrawable() instanceof AnimationDrawable) {
+                AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getDrawable();
+                animation.stop();
+            }
         }
     }
 
