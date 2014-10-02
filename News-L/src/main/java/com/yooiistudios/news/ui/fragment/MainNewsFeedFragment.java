@@ -60,6 +60,7 @@ public class MainNewsFeedFragment extends Fragment {
 
         return f;
     }
+    
     @SuppressWarnings("UnusedDeclaration")
     public MainNewsFeedFragment() {}
 
