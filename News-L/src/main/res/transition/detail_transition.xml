@@ -27,7 +27,7 @@
             starting and result Activities
         -->
         <targets>
-            <target android:targetId="@id/main_top_feed_title" />
+            <target android:targetId="@id/main_top_news_title" />
             <target android:targetId="@id/detail_top_news_title_text_view" />
         </targets>
     </changeBounds>
