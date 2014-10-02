@@ -10,6 +10,7 @@
     <dimen name="main_top_view_pager_indicator_radius">4.5dp</dimen>
     <dimen name="main_top_view_pager_indicator_margin">7.5dp</dimen>
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>
+    <dimen name="main_top_view_pager_page_margin">6dp</dimen>
     <dimen name="main_top_news_feed_title_padding">15dp</dimen>
 
     <!-- Main Bottom -->

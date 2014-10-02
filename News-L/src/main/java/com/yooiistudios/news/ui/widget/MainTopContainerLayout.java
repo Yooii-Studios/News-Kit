@@ -122,7 +122,7 @@ public class MainTopContainerLayout extends FrameLayout
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
 
-        mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_indicator_radius));
+        mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
     }
 
     public void autoRefreshTopNewsFeed() {
