@@ -60,6 +60,9 @@ public class MainNewsFeedFragment extends Fragment {
 
         return f;
     }
+    
+    @SuppressWarnings("UnusedDeclaration")
+    public MainNewsFeedFragment() {}
 
     public MainNewsFeedFragment(MainTopPagerAdapter.OnItemClickListener listener) {
         mOnItemClickListener = listener;
