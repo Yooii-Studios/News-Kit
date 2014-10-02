@@ -23,9 +23,7 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     private boolean mShuffle;
 
     public interface OnFetchListener {
-        public void onBottomNewsFeedFetchSuccess(int position,
-                                                 NewsFeed newsFeed);
-        public void onBottomNewsFeedFetchFail(int position);
+        public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position);
     }
 
     public BottomNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
@@ -50,11 +48,7 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            if (newsFeed != null) {
-                mListener.onBottomNewsFeedFetchSuccess(mPosition, newsFeed);
-            } else {
-                mListener.onBottomNewsFeedFetchFail(mPosition);
-            }
+            mListener.onBottomNewsFeedFetch(newsFeed, mPosition);
         }
     }
 }

@@ -73,7 +73,6 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
-import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Type;
@@ -190,7 +189,6 @@ public class NewsFeedDetailActivity extends Activity
         // set view name to animate
         mTopImageView.setViewName(imageViewName);
 
-        // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
         initRootLayout();
         initActionBar();
@@ -647,7 +645,9 @@ public class NewsFeedDetailActivity extends Activity
         if (mTopImageView.getDrawable() == null) {
             super.finish();
         } else {
-            runExitAnimation();
+            if (!mIsAnimatingActivityTransitionAnimation) {
+                runExitAnimation();
+            }
         }
     }
 
@@ -876,7 +876,7 @@ public class NewsFeedDetailActivity extends Activity
 
     private void applyMaxBottomRecyclerViewHeight() {
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
-        NLLog.now("maxRowHeight : " + maxRowHeight);
+//        NLLog.now("maxRowHeight : " + maxRowHeight);
 
         int newsListCount = mNewsFeed.getNewsList().size();
         mBottomNewsListRecyclerView.getLayoutParams().height =
@@ -1090,7 +1090,6 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void applyPalette(boolean applyColorFilter) {
-        // TODO 공식 문서가 release 된 후 palette.get~ 메서드가 null 을 반환할 가능성이 있는지 체크
         PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
 
         mTopTitleTextView.setTextColor(Color.WHITE);
@@ -1153,7 +1152,7 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onItemClick(NewsFeedDetailAdapter.ViewHolder viewHolder, News news) {
-        NLLog.now("detail bottom onItemClick");
+//        NLLog.now("detail bottom onItemClick");
 
         Intent intent = new Intent(this, NewsDetailActivity.class);
         intent.putExtra(INTENT_KEY_NEWS, news);
@@ -1305,6 +1304,6 @@ public class NewsFeedDetailActivity extends Activity
                     break;
             }
         }
-        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
+//        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
     }
 }
