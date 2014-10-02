@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
-import com.yooiistudios.news.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 20.

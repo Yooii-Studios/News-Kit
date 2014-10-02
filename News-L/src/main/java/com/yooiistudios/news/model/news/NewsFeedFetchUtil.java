@@ -3,8 +3,6 @@ package com.yooiistudios.news.model.news;
 import android.content.Context;
 import android.text.Html;
 
-import com.yooiistudios.news.util.NLLog;
-
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -50,8 +48,8 @@ public class NewsFeedFetchUtil {
             feed.setNewsFeedUrl(feedUrl);
             feed.setValid(feed.getNewsList().size() > 0);
             endMilli = System.currentTimeMillis();
-            NLLog.i("performance", "NLNewsFeedParser.read" +
-                    (endMilli - startMilli));
+//            NLLog.i("performance", "NLNewsFeedParser.read" +
+//                    (endMilli - startMilli));
             // 퍼포먼스 개선 여지 있음.
             // 로컬 테스트를 위한 코드
 //            feed = NLNewsFeedParser.read(mContext.getResources().getAssets().open("feeds.xml"));
