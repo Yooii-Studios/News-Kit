@@ -1,6 +1,7 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
@@ -152,6 +153,7 @@ public class NewsFeedDetailActivity extends Activity
 
     private boolean mIsRefreshing = false;
     private boolean mHasAnimatedColorFilter = false;
+    private boolean mIsAnimatingActivityTransitionAnimation = false;
 
     private boolean mHasNewsFeedReplaced = false;
     private boolean mIsLoadingImageOnInit = false;
@@ -228,10 +230,6 @@ public class NewsFeedDetailActivity extends Activity
         } else {
             showLoadingCover();
         }
-
-//        mTopImageView.setVisibility(View.INVISIBLE);
-//        mTopOverlayView.setVisibility(View.INVISIBLE);
-//        mActionBarOverlayView.setVisibility(View.INVISIBLE);
     }
 
     private void initRootLayout() {
@@ -304,6 +302,8 @@ public class NewsFeedDetailActivity extends Activity
      * drops down.
      */
     public void runEnterAnimation() {
+        mIsAnimatingActivityTransitionAnimation = true;
+
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
         mTopNewsImageWrapper.setPivotX(0);
@@ -333,6 +333,13 @@ public class NewsFeedDetailActivity extends Activity
         );
         animator.setInterpolator(pathInterpolator);
         animator.setDuration(mDebugAnimDuration);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mIsAnimatingActivityTransitionAnimation = false;
+            }
+        });
         animator.start();
 
         // 이미지뷰 컬러 필터 애니메이션
@@ -518,6 +525,8 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void runExitAnimation() {
+        mIsAnimatingActivityTransitionAnimation = true;
+
         final PathInterpolator pathInterpolator = AnimationFactory.makeDefaultPathInterpolator();
 
         // 곡선 이동 PropertyValuesHolder 준비
@@ -733,7 +742,7 @@ public class NewsFeedDetailActivity extends Activity
         mScrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                return mIsRefreshing;
+                return mIsRefreshing || mIsAnimatingActivityTransitionAnimation;
             }
         });
     }

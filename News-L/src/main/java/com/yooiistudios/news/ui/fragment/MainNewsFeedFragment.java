@@ -1,13 +1,10 @@
 package com.yooiistudios.news.ui.fragment;
 
-import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +21,12 @@ import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.ui.activity.MainActivity;
-import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
+import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import lombok.Getter;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
@@ -36,8 +34,7 @@ import butterknife.InjectView;
  * MainNewsFeedFragment
  *  메인화면 상단의 뷰페이저에 들어갈 프레그먼트
  */
-public class MainNewsFeedFragment extends Fragment
-        implements View.OnClickListener {
+public class MainNewsFeedFragment extends Fragment {
     private static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
     private static final String KEY_NEWS = "KEY_CURRENT_NEWS_INDEX";
     private static final String KEY_POSITION = "KEY_TAB_POSITION";
@@ -48,9 +45,11 @@ public class MainNewsFeedFragment extends Fragment
     private int mPosition;
     private boolean mRecycled;
 
-    public static MainNewsFeedFragment newInstance(NewsFeed newsFeed,
-                                                  News news, int position) {
-        MainNewsFeedFragment f = new MainNewsFeedFragment();
+    private MainTopPagerAdapter.OnItemClickListener mOnItemClickListener;
+
+    public static MainNewsFeedFragment newInstance(NewsFeed newsFeed, News news, int position,
+                                                MainTopPagerAdapter.OnItemClickListener listener) {
+        MainNewsFeedFragment f = new MainNewsFeedFragment(listener);
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -60,6 +59,10 @@ public class MainNewsFeedFragment extends Fragment
         f.setArguments(args);
 
         return f;
+    }
+
+    public MainNewsFeedFragment(MainTopPagerAdapter.OnItemClickListener listener) {
+        mOnItemClickListener = listener;
     }
 
     @Override
@@ -109,7 +112,13 @@ public class MainNewsFeedFragment extends Fragment
             holder.titleTextView.setText(newsName);
         }
 
-        root.setOnClickListener(this);
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ItemViewHolder viewHolder = (ItemViewHolder)view.getTag();
+                mOnItemClickListener.onTopItemClick(viewHolder, mNewsFeed, mPosition);
+            }
+        });
         root.setTag(holder);
 
         return root;
@@ -181,51 +190,14 @@ public class MainNewsFeedFragment extends Fragment
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (!mNewsFeed.isValid() || mNews == null) {
-            return;
-        }
-        ItemViewHolder viewHolder = (ItemViewHolder)view.getTag();
-
-        ActivityOptions activityOptions =
-                ActivityOptions.makeSceneTransitionAnimation(getActivity(),
-                        new Pair<View, String>(viewHolder.imageView,
-                                viewHolder.imageView.getViewName()),
-                        new Pair<View, String>(viewHolder.titleTextView,
-                                viewHolder.titleTextView.getViewName())
-                );
-
-        Intent intent = new Intent(getActivity(),
-                NewsFeedDetailActivity.class);
-        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
-        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, mPosition);
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, viewHolder.imageView.getViewName());
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, viewHolder.titleTextView.getViewName());
-
-
-        // 뉴스 새로 선택시
-        intent.putExtra(MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
-
-        Object tintTag = viewHolder.imageView.getTag();
-        TintType tintType = tintTag != null ? (TintType)tintTag : null;
-        intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
-
-//        Drawable drawable = viewHolder.imageView.getDrawable();
-//        if (drawable != null) {
-//            intent.putExtra("bitmap", ((BitmapDrawable) drawable).getBitmap());
-//        }
-
-        getActivity().startActivityForResult(intent, MainActivity.RC_NEWS_FEED_DETAIL, activityOptions.toBundle());
-    }
     public void setRecycled(boolean recycled) {
         mRecycled = recycled;
     }
 
-    static class ItemViewHolder {
-        @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
-        @InjectView(R.id.main_top_feed_title)       TextView titleTextView;
-        @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
+    public static class ItemViewHolder {
+        @Getter @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
+        @Getter @InjectView(R.id.main_top_news_title)       TextView titleTextView;
+        @Getter @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
 
         public ItemViewHolder(View view) {
             ButterKnife.inject(this, view);

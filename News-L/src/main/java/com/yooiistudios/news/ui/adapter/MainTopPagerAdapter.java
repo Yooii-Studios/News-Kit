@@ -23,10 +23,20 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     private SparseArray<MainNewsFeedFragment> mFragmentSparseArray;
     private NewsFeed mNewsFeed;
 
-    public MainTopPagerAdapter(FragmentManager fm, NewsFeed newsFeed) {
+    private OnItemClickListener mOnItemClickListener;
+
+    public interface OnItemClickListener {
+        public void onTopItemClick(MainNewsFeedFragment.ItemViewHolder viewHolder,
+                                   NewsFeed newsFeed, int position);
+    }
+
+    public MainTopPagerAdapter(FragmentManager fm, NewsFeed newsFeed,
+                               OnItemClickListener listener) {
         super(fm);
         mFragmentSparseArray = new SparseArray<MainNewsFeedFragment>();
         mNewsFeed = newsFeed;
+
+        mOnItemClickListener = listener;
     }
 
     @Override
@@ -34,7 +44,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 //        NLTopNewsFeedViewPagerItem item = new NLTopNewsFeedViewPagerItem();
         MainNewsFeedFragment item =
                 MainNewsFeedFragment.newInstance(mNewsFeed,
-                        mNewsFeed.getNewsList().get(i), i);
+                        mNewsFeed.getNewsList().get(i), i, mOnItemClickListener);
         mFragmentSparseArray.put(i, item);
 
         return item;

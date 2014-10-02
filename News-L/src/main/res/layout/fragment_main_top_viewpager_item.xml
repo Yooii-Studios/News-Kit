@@ -25,7 +25,7 @@
         android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/main_top_feed_title"
+        android:id="@+id/main_top_news_title"
         android:layout_alignBottom="@id/main_top_feed_image_view"
         style="@style/MainTopTitleTextStyle"/>
 

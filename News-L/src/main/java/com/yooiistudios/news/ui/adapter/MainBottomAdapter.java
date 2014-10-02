@@ -49,8 +49,7 @@ public class MainBottomAdapter extends
         public void onBottomItemClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
     }
 
-    public MainBottomAdapter(Context context, OnItemClickListener
-            listener) {
+    public MainBottomAdapter(Context context, OnItemClickListener listener) {
         mContext = context;
         mNewsFeedList = new ArrayList<NewsFeed>();
         mOnItemClickListener = listener;
