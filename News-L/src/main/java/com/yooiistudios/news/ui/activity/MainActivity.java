@@ -302,7 +302,7 @@ public class MainActivity extends Activity
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_slow_anim) {
-            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ? 1 : 5;
+            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ? 1 : 4;
             item.setChecked(!item.isChecked());
         }
         return super.onOptionsItemSelected(item);
