@@ -88,7 +88,19 @@ public class AnimationFactory {
     }
 
     public static PathInterpolator makeDefaultPathInterpolator() {
-        return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
+        return new PathInterpolator(.4f, .0f, 1.f, .2f);
+    }
+
+    public static PathInterpolator makeDefaultReversePathInterpolator() {
+        return new PathInterpolator(.0f, .4f, .2f, 1.f);
+    }
+
+    public static PathInterpolator makeNewsFeedTransitionInterpolator() {
+        return new PathInterpolator(.22f, .52f, .21f, 1.f);
+    }
+
+    public static PathInterpolator makeNewsFeedReverseTransitionInterpolator() {
+        return new PathInterpolator(.52f, .22f, 1.f, .21f);
     }
 
     public static PathInterpolator makeViewPagerScrollInterpolator() {
