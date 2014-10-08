@@ -99,6 +99,10 @@ public class AnimationFactory {
         return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
     }
 
+    public static PathInterpolator makeNewsFeedRootBoundInterpolator() {
+        return new PathInterpolator(.0f, .46f, .31f, 1.f);
+    }
+
     public static PathInterpolator makeNewsFeedReverseTransitionInterpolator() {
         return new PathInterpolator(.52f, .22f, 1.f, .21f);
     }

@@ -315,15 +315,16 @@ public class NewsFeedDetailActivity extends Activity
         mBottomNewsListRecyclerView.setAlpha(0);
         mRootLayoutBackground.setAlpha(0);
 
-        // 루트 뷰의 외곽 위치 이동
-        AnimatorPath rootClipBoundTranslationPath = new AnimatorPath();
-        rootClipBoundTranslationPath.moveTo(mThumbnailLeftDelta, mThumbnailTopDelta);
-        rootClipBoundTranslationPath.curveTo(mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
+        // 루트 뷰, 이미지뷰의 위치 곡선 정의
+        AnimatorPath imageTranslationPath = new AnimatorPath();
+        imageTranslationPath.moveTo(mThumbnailLeftDelta, mThumbnailTopDelta);
+        imageTranslationPath.curveTo(
+                mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
                 mThumbnailLeftTarget, mThumbnailTopTarget);
-//        path.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
+//        imageTranslationPath.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
 
         PropertyValuesHolder rootClipBoundTranslationPvh = PropertyValuesHolder.ofObject(
-                "RootClipBoundTranslation", new PathEvaluator(), rootClipBoundTranslationPath.getPoints().toArray());
+                "RootClipBoundTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
 //        PropertyValuesHolder rootClipBoundTranslationPvh = PropertyValuesHolder.ofObject(
 //                "RootClipBoundTranslation", new TypeEvaluator<Point>() {
 //                    @Override
@@ -360,14 +361,8 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsImageWrapper.setPivotY(0);
 
         // 곡선 이동 PropertyValuesHolder 준비
-        AnimatorPath path = new AnimatorPath();
-        path.moveTo(mThumbnailLeftDelta, mThumbnailTopDelta);
-        path.curveTo(mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
-                mThumbnailLeftTarget, mThumbnailTopTarget);
-//        path.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
-
         PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
-                "ImageWrapperTranslation", new PathEvaluator(), path.getPoints().toArray());
+                "ImageWrapperTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
 
         // 크기 변경 PropertyValuesHolder 준비
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
@@ -419,7 +414,8 @@ public class NewsFeedDetailActivity extends Activity
                                     return rect;
                                 }
                             }, mRootClipBound, rootLayoutOriginalBound);
-                    clipBoundAnimator.setInterpolator(new PathInterpolator(.0f, .46f, .31f, 1.f));
+                    clipBoundAnimator.setInterpolator(
+                            AnimationFactory.makeNewsFeedRootBoundInterpolator());
                     clipBoundAnimator.setDuration((int)(mDebugAnimDuration * 1.5));
                     clipBoundAnimator.addListener(new AnimatorListenerAdapter() {
                         @Override
