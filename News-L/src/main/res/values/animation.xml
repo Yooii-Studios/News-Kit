@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="bottom_news_feed_anim_delay_unit_milli">60</integer>
+    <integer name="bottom_news_feed_auto_refresh_delay_milli">500</integer>
+    <integer name="bottom_news_feed_fade_anim_duration_milli">550</integer>
+</resources>

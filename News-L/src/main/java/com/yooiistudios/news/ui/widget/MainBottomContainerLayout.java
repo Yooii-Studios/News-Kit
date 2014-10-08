@@ -68,11 +68,7 @@ public class MainBottomContainerLayout extends FrameLayout
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
-    private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
-
-    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI = 500; // 250;
-//    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET = 400; // 30;
 
 //    private ArrayList<NewsFeed> mBottomNewsFeedList;
 
@@ -154,7 +150,7 @@ public class MainBottomContainerLayout extends FrameLayout
                         public void run() {
                             doAutoRefreshBottomNewsFeedAtIndex(idx);
                         }
-                    }, idx * BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI);
+                    }, idx * getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli));
                 }
             }
         }, SlowSpeedScroller.SWIPE_DURATION);
@@ -164,7 +160,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 new MainBottomAdapter.BottomNewsFeedViewHolder(
                         mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
 
-        Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation();
+        Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation(getContext());
         hideTextSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -183,9 +179,9 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 // 다시 보여주기
                 newsFeedViewHolder.newsTitleTextView.startAnimation(
-                        AnimationFactory.makeBottomFadeInAnimation());
+                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
                 newsFeedViewHolder.imageView.startAnimation(
-                        AnimationFactory.makeBottomFadeInAnimation());
+                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
 
                 // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
                 mAutoRefreshAnimationList.remove(animation);
@@ -198,7 +194,7 @@ public class MainBottomContainerLayout extends FrameLayout
         });
         newsFeedViewHolder.newsTitleTextView.startAnimation(hideTextSet);
         mAutoRefreshAnimationList.add(hideTextSet);
-        newsFeedViewHolder.imageView.startAnimation(AnimationFactory.makeBottomFadeOutAnimation());
+        newsFeedViewHolder.imageView.startAnimation(AnimationFactory.makeBottomFadeOutAnimation(getContext()));
     }
     private void checkAutoRefreshAnimationListDone() {
         if (mAutoRefreshAnimationList.size() == 0) {
@@ -377,7 +373,7 @@ public class MainBottomContainerLayout extends FrameLayout
                     child.setTranslationY(recyclerViewHeight);
                     child.animate()
                             .translationY(0)
-                            .setStartDelay(BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI * i + 1)
+                            .setStartDelay(getResources().getInteger(R.integer.bottom_news_feed_anim_delay_unit_milli) * i + 1)
                             .setDuration(500)
                             .setInterpolator(AnimationFactory.makeDefaultPathInterpolator())
                             .withEndAction(new Runnable() {
