@@ -71,7 +71,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private static final int BOTTOM_NEWS_FEED_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
-    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI = 250;
+    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_ANIM_DELAY_MILLI = 500; // 250;
 //    private static final int BOTTOM_NEWS_FEED_AUTO_REFRESH_OFFSET = 400; // 30;
 
 //    private ArrayList<NewsFeed> mBottomNewsFeedList;

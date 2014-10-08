@@ -19,62 +19,15 @@ public class AnimationFactory {
 
     private static final int NEWS_FEED_ANIMATION_DURATION = 500;
 //    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 420; // 260;
-    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 750; // 260;
+    private static final int NEWS_FEED_ANIMATION_FADE_DURATION = 550; // 260;
 //    private static final int NEWS_FEED_ANIMATION_IMAGE_FADE_DURATION = 500;
-
-    public static AnimationSet makeBottomSlideOutAnimation() {
-        AnimationSet hideSet = new AnimationSet(true);
-        hideSet.setInterpolator(new AccelerateInterpolator());
-
-        Animation moveUpAnim = new TranslateAnimation
-                (Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, -0.1f);
-        moveUpAnim.setDuration(NEWS_FEED_ANIMATION_DURATION);
-        moveUpAnim.setFillEnabled(true);
-        moveUpAnim.setFillAfter(true);
-
-        hideSet.addAnimation(moveUpAnim);
-
-        Animation fadeoutAnim = new AlphaAnimation(1.0f, 0.0f);
-        fadeoutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
-        fadeoutAnim.setFillEnabled(true);
-        fadeoutAnim.setFillAfter(true);
-        hideSet.addAnimation(fadeoutAnim);
-        return hideSet;
-    }
-
-    public static AnimationSet makeBottomSlideInAnimation() {
-        AnimationSet showSet = new AnimationSet(false);
-        showSet.setInterpolator(new DecelerateInterpolator());
-
-        Animation moveDownAnim = new TranslateAnimation
-                (Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.1f,
-                        Animation.RELATIVE_TO_SELF, 0.0f);
-        moveDownAnim.setDuration(NEWS_FEED_ANIMATION_DURATION);
-        moveDownAnim.setFillEnabled(true);
-        moveDownAnim.setFillAfter(true);
-
-        showSet.addAnimation(moveDownAnim);
-
-        Animation fadeInAnim = new AlphaAnimation(0.0f, 1.0f);
-        fadeInAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
-        fadeInAnim.setFillEnabled(true);
-        fadeInAnim.setFillAfter(true);
-        showSet.addAnimation(fadeInAnim);
-        return showSet;
-    }
-
 
     public static Animation makeBottomFadeOutAnimation() {
         Animation fadeOutAnim = new AlphaAnimation(1.0f, 0.0f);
         fadeOutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
         fadeOutAnim.setFillEnabled(true);
         fadeOutAnim.setFillAfter(true);
-        fadeOutAnim.setInterpolator(makeDefaultPathInterpolator());
+        fadeOutAnim.setInterpolator(makeFadeOutPathInterpolator());
         return fadeOutAnim;
     }
 
@@ -83,7 +36,7 @@ public class AnimationFactory {
         fadeOutAnim.setDuration(NEWS_FEED_ANIMATION_FADE_DURATION);
         fadeOutAnim.setFillEnabled(true);
         fadeOutAnim.setFillAfter(true);
-        fadeOutAnim.setInterpolator(new PathInterpolator(0.2f, 0.f, 0.4f, 1.f));
+        fadeOutAnim.setInterpolator(makeFadeOutPathInterpolator());
         return fadeOutAnim;
     }
 
@@ -93,6 +46,15 @@ public class AnimationFactory {
 
     public static PathInterpolator makeDefaultReversePathInterpolator() {
         return new PathInterpolator(.0f, .4f, .2f, 1.f);
+    }
+
+    public static PathInterpolator makeFadeOutPathInterpolator() {
+        return new PathInterpolator(.57f, .16f, .65f, .67f);
+    }
+
+    public static PathInterpolator makeFadeInPathInterpolator() {
+//        return new PathInterpolator(.14f, .63f, .67f, .65f);
+        return new PathInterpolator(.16f, .57f, .67f, .65f);
     }
 
     public static PathInterpolator makeNewsFeedTransitionInterpolator() {
