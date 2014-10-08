@@ -109,7 +109,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
-    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 480;
+    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
@@ -419,8 +419,8 @@ public class NewsFeedDetailActivity extends Activity
                                     return rect;
                                 }
                             }, mRootClipBound, rootLayoutOriginalBound);
-                    clipBoundAnimator.setInterpolator(new PathInterpolator(.3f, .41f, .7f, .97f));
-                    clipBoundAnimator.setDuration((int)(mDebugAnimDuration * 1.1));
+                    clipBoundAnimator.setInterpolator(new PathInterpolator(.0f, .46f, .31f, 1.f));
+                    clipBoundAnimator.setDuration((int)(mDebugAnimDuration * 1.5));
                     clipBoundAnimator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
