@@ -302,7 +302,8 @@ public class MainActivity extends Activity
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_slow_anim) {
-            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ? 1 : 4;
+            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
+                   1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
             item.setChecked(!item.isChecked());
         }
         return super.onOptionsItemSelected(item);

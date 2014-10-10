@@ -43,7 +43,7 @@ public class AnimationFactory {
     }
 
     // slow-out-slow-in
-    public static PathInterpolator makeNewsFeedTransitionInterpolator() {
+    public static PathInterpolator makeNewsFeedImageTransitionInterpolator() {
         return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
     }
 
