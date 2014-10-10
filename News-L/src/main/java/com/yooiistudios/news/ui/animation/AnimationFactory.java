@@ -42,10 +42,12 @@ public class AnimationFactory {
         return new PathInterpolator(.0f, .4f, .2f, 1.f);
     }
 
+    // slow-out-slow-in
     public static PathInterpolator makeNewsFeedTransitionInterpolator() {
         return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
     }
 
+    // fast-out-slow-in
     public static PathInterpolator makeNewsFeedRootBoundInterpolator() {
         return new PathInterpolator(.0f, .46f, .31f, 1.f);
     }
@@ -56,5 +58,10 @@ public class AnimationFactory {
 
     public static PathInterpolator makeViewPagerScrollInterpolator() {
         return new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
+    }
+
+    // ease-in-out
+    public static PathInterpolator makeNewsFeedRootBoundVerticalInterpolator() {
+        return new PathInterpolator(.7f, .0f, 0.3f, 1.f);
     }
 }

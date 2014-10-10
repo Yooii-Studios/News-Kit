@@ -323,6 +323,12 @@ public class NewsFeedDetailActivity extends Activity
                 mThumbnailLeftTarget, mThumbnailTopTarget);
 //        imageTranslationPath.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
 
+        ObjectAnimator rootClipBoundTranslationAnimator = ObjectAnimator.ofObject(NewsFeedDetailActivity.this,
+                "rootClipBoundTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
+        rootClipBoundTranslationAnimator.setInterpolator(pathInterpolator);
+        rootClipBoundTranslationAnimator.setDuration(mDebugAnimDuration);
+        rootClipBoundTranslationAnimator.start();
+
         PropertyValuesHolder rootClipBoundTranslationPvh = PropertyValuesHolder.ofObject(
                 "RootClipBoundTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
 //        PropertyValuesHolder rootClipBoundTranslationPvh = PropertyValuesHolder.ofObject(
@@ -346,6 +352,29 @@ public class NewsFeedDetailActivity extends Activity
         mRootLayout.setClipToOutline(true);
         mRootLayout.setClipBounds(mRootClipBound);
 
+        ObjectAnimator rootClipBoundHorizontalSizeAnimator =
+                ObjectAnimator.ofObject(NewsFeedDetailActivity.this, "rootWidthClipBoundSize", new TypeEvaluator<Float>() {
+                    @Override
+                    public Float evaluate(float v, Float startScale, Float endScale) {
+                        return startScale * (1 - v) + endScale * v;
+                    }
+                }, 1.f, mThumbnailScaleRatio);
+        rootClipBoundHorizontalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundInterpolator());
+        rootClipBoundHorizontalSizeAnimator.setDuration(mDebugAnimDuration); // 530
+        rootClipBoundHorizontalSizeAnimator.start();
+
+        ObjectAnimator rootClipBoundVerticalSizeAnimator =
+                ObjectAnimator.ofObject(NewsFeedDetailActivity.this, "rootHeightClipBoundSize", new TypeEvaluator<Float>() {
+                    @Override
+                    public Float evaluate(float v, Float startScale, Float endScale) {
+                        return startScale * (1 - v) + endScale * v;
+                    }
+                }, 1.f, mThumbnailScaleRatio);
+        rootClipBoundVerticalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundVerticalInterpolator());
+        rootClipBoundVerticalSizeAnimator.setDuration(mDebugAnimDuration); // 530
+        rootClipBoundVerticalSizeAnimator.start();
+
+
         PropertyValuesHolder rootClipBoundSizePvh = PropertyValuesHolder.ofObject(
                 "RootClipBoundSize", new TypeEvaluator<PointF>() {
                     @Override
@@ -357,10 +386,9 @@ public class NewsFeedDetailActivity extends Activity
                 new PointF(1.0f, 1.0f),
                 new PointF(mThumbnailScaleRatio, mThumbnailScaleRatio * 0.6f));
 
+        // 곡선 이동 PropertyValuesHolder 준비
         mTopNewsImageWrapper.setPivotX(0);
         mTopNewsImageWrapper.setPivotY(0);
-
-        // 곡선 이동 PropertyValuesHolder 준비
         PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
                 "ImageWrapperTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
 
@@ -375,11 +403,18 @@ public class NewsFeedDetailActivity extends Activity
 
         // 준비해 놓은 PropertyValuesHolder들 실행
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
-                rootClipBoundSizePvh, rootClipBoundTranslationPvh,
                 imageWrapperTranslationPvh, imageWrapperSizePvh
         );
         animator.setInterpolator(pathInterpolator);
         animator.setDuration(mDebugAnimDuration);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mIsAnimatingActivityTransitionAnimation = false;
+            }
+        });
+        /*
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             private boolean mHasAnimated = false;
 
@@ -429,6 +464,7 @@ public class NewsFeedDetailActivity extends Activity
                 }
             }
         });
+        */
         animator.start();
 
         // 이미지뷰 컬러 필터 애니메이션
@@ -505,6 +541,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator actionBarHomeIconAnimator =
                 ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 0, 255);
         actionBarHomeIconAnimator.setDuration(mDebugAnimDuration);
+        actionBarHomeIconAnimator.setStartDelay(mDebugAnimDuration);
         actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
         actionBarHomeIconAnimator.start();
 
@@ -513,6 +550,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 0.0f, 1.0f);
         actionBarTitleAnimator.setDuration(mDebugAnimDuration);
+        actionBarTitleAnimator.setStartDelay(mDebugAnimDuration);
         actionBarTitleAnimator.setInterpolator(pathInterpolator);
         actionBarTitleAnimator.start();
 
@@ -521,6 +559,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator actionBarOverflowIconAnimator =
                 ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255);
         actionBarOverflowIconAnimator.setDuration(mDebugAnimDuration);
+        actionBarOverflowIconAnimator.setStartDelay(mDebugAnimDuration);
         actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
         actionBarOverflowIconAnimator.start();
 
@@ -557,6 +596,18 @@ public class NewsFeedDetailActivity extends Activity
                 (int)(mTransImageViewProperty.getWidth() * scale.x);
         mRootClipBound.bottom = mRootClipBound.top +
                 (int)(mTransImageViewProperty.getHeight() * scale.y);
+        mRootLayout.setClipBounds(mRootClipBound);
+    }
+
+    public void setRootWidthClipBoundSize(float scale) {
+        mRootClipBound.right = mRootClipBound.left +
+                (int)(mTransImageViewProperty.getWidth() * scale);
+        mRootLayout.setClipBounds(mRootClipBound);
+    }
+
+    public void setRootHeightClipBoundSize(float scale) {
+        mRootClipBound.bottom = mRootClipBound.top +
+                (int)(mTransImageViewProperty.getHeight() * scale);
         mRootLayout.setClipBounds(mRootClipBound);
     }
 
@@ -643,6 +694,7 @@ public class NewsFeedDetailActivity extends Activity
 
     private void runExitAnimation() {
         mIsAnimatingActivityTransitionAnimation = true;
+        long exitAnimationDuration = 100;
 
         final PathInterpolator pathInterpolator = AnimationFactory.makeNewsFeedReverseTransitionInterpolator();
 
@@ -669,7 +721,7 @@ public class NewsFeedDetailActivity extends Activity
                 imageWrapperTranslationPvh, imageWrapperSizePvh
         );
         animator.setInterpolator(pathInterpolator);
-        animator.setDuration(mDebugAnimDuration);
+        animator.setDuration(exitAnimationDuration);
         animator.start();
 
         // 이미지뷰 컬러 필터 애니메이션
@@ -682,14 +734,14 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsTextLayout.animate().
                 alpha(0.0f).
                 translationYBy(translationY).
-                setDuration(mDebugAnimDuration).
+                setDuration(exitAnimationDuration).
                 setInterpolator(pathInterpolator).
                 start();
 
         // 하단 리사이클러뷰 위치 애니메이션
         mBottomNewsListRecyclerView.animate().
                 translationYBy(displaySize.y - mBottomNewsListRecyclerView.getTop() + mWindowInsetEnd).
-                setDuration(mDebugAnimDuration).
+                setDuration(exitAnimationDuration).
                 setInterpolator(pathInterpolator).
                 withEndAction(new Runnable() {
                     @Override
@@ -703,14 +755,14 @@ public class NewsFeedDetailActivity extends Activity
         // 배경 색상 페이드인 애니메이션
 //        mRootLayoutBackground.setAlpha(1);
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 255, 0);
-        bgAnim.setDuration(mDebugAnimDuration);
+        bgAnim.setDuration(exitAnimationDuration);
         bgAnim.setInterpolator(pathInterpolator);
         bgAnim.start();
 
 //        mRecyclerViewBackground.setAlpha(1);
         ObjectAnimator recyclerBgAnim = ObjectAnimator.ofInt(mRecyclerViewBackground, "alpha", 255,
                 0);
-        recyclerBgAnim.setDuration(mDebugAnimDuration);
+        recyclerBgAnim.setDuration(exitAnimationDuration);
         recyclerBgAnim.setInterpolator(pathInterpolator);
         recyclerBgAnim.start();
 
@@ -718,7 +770,7 @@ public class NewsFeedDetailActivity extends Activity
         mNewsTitleThumbnailTextView.setAlpha(0.0f);
         ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
         thumbnailAlphaAnimator.alpha(1.0f);
-        thumbnailAlphaAnimator.setDuration(mDebugAnimDuration/2);
+        thumbnailAlphaAnimator.setDuration(exitAnimationDuration/2);
         thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         thumbnailAlphaAnimator.start();
 
@@ -727,7 +779,7 @@ public class NewsFeedDetailActivity extends Activity
         ViewPropertyAnimator feedTitleThumbnailAlphaAnimator =
                 mNewsFeedTitleThumbnailTextView.animate();
         feedTitleThumbnailAlphaAnimator.alpha(1.0f);
-        feedTitleThumbnailAlphaAnimator.setDuration(mDebugAnimDuration/2);
+        feedTitleThumbnailAlphaAnimator.setDuration(exitAnimationDuration/2);
         feedTitleThumbnailAlphaAnimator.setInterpolator(pathInterpolator);
         feedTitleThumbnailAlphaAnimator.start();
 
@@ -735,7 +787,7 @@ public class NewsFeedDetailActivity extends Activity
 //        mActionBarHomeIcon.setAlpha(1);
         ObjectAnimator actionBarHomeIconAnimator =
                 ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 255, 0);
-        actionBarHomeIconAnimator.setDuration(mDebugAnimDuration);
+        actionBarHomeIconAnimator.setDuration(exitAnimationDuration);
         actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
         actionBarHomeIconAnimator.start();
 
@@ -743,7 +795,7 @@ public class NewsFeedDetailActivity extends Activity
 //        mColorSpan.setAlpha(1.0f);
         ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 1.0f, 0.0f);
-        actionBarTitleAnimator.setDuration(mDebugAnimDuration);
+        actionBarTitleAnimator.setDuration(exitAnimationDuration);
         actionBarTitleAnimator.setInterpolator(pathInterpolator);
         actionBarTitleAnimator.start();
 
@@ -751,7 +803,7 @@ public class NewsFeedDetailActivity extends Activity
 //        mActionBarOverflowIcon.setAlpha(1);
         ObjectAnimator actionBarOverflowIconAnimator =
                 ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 255, 0);
-        actionBarOverflowIconAnimator.setDuration(mDebugAnimDuration);
+        actionBarOverflowIconAnimator.setDuration(exitAnimationDuration);
         actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
         actionBarOverflowIconAnimator.start();
 
@@ -1112,10 +1164,12 @@ public class NewsFeedDetailActivity extends Activity
         }
         mTopOverlayView.animate()
                 .setDuration(250)
-                .alpha((Float)mTopOverlayView.getTag())
+                .setStartDelay(mDebugAnimDuration)
+                .alpha((Float) mTopOverlayView.getTag())
                 .setInterpolator(new DecelerateInterpolator());
         mActionBarOverlayView.animate()
                 .setDuration(250)
+                .setStartDelay(mDebugAnimDuration)
                 .alpha((Float) mActionBarOverlayView.getTag())
                 .setInterpolator(new DecelerateInterpolator())
                 .setListener(new Animator.AnimatorListener() {
