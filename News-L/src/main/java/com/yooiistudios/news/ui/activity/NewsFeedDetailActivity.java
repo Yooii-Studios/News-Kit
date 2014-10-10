@@ -76,6 +76,7 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Type;
@@ -157,8 +158,10 @@ public class NewsFeedDetailActivity extends Activity
     public static int sAnimatorScale = 1;
     private long mExitAnimationDuration = 100;
     private long mImageFilterAnimationDuration;
-    private long mImageAnimationDuration;
-    private long mRootViewScaleAnimationDuration;
+    private long mImageScaleAnimationDuration;
+    private long mImageTranslationAnimationDuration;
+    private long mRootViewHorizontalScaleAnimationDuration;
+    private long mRootViewVerticalScaleAnimationDuration;
     private long mRootViewTranslationAnimationDuration;
     private long mThumbnailTextAnimationDuration;
     private long mActionBarIconAnimationDuration;
@@ -280,10 +283,14 @@ public class NewsFeedDetailActivity extends Activity
         // 애니메이션 속도 관련 변수
         mImageFilterAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_image_filter_duration_milli) * sAnimatorScale;
-        mImageAnimationDuration = getResources().getInteger(
-                R.integer.news_feed_detail_image_animation_duration_milli) * sAnimatorScale;
-        mRootViewScaleAnimationDuration = getResources().getInteger(
-                R.integer.news_feed_detail_root_scale_duration_milli) * sAnimatorScale;
+        mImageScaleAnimationDuration = getResources().getInteger(
+                R.integer.news_feed_detail_image_scale_duration_milli) * sAnimatorScale;
+        mImageTranslationAnimationDuration = getResources().getInteger(
+                R.integer.news_feed_detail_image_translation_duration_milli) * sAnimatorScale;
+        mRootViewHorizontalScaleAnimationDuration = getResources().getInteger(
+                R.integer.news_feed_detail_root_horizontal_scale_duration_milli) * sAnimatorScale;
+        mRootViewVerticalScaleAnimationDuration = getResources().getInteger(
+                R.integer.news_feed_detail_root_vertical_scale_duration_milli) * sAnimatorScale;
         mRootViewTranslationAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_root_translation_duration_milli) * sAnimatorScale;
         mThumbnailTextAnimationDuration = getResources().getInteger(
@@ -333,20 +340,20 @@ public class NewsFeedDetailActivity extends Activity
         // 애니메이션 실행 전 텍스트뷰, 리사이클러뷰, 배경 안보이게 해두기
         mTopNewsTextLayout.setAlpha(0);
         mBottomNewsListRecyclerView.setAlpha(0);
-        mRootLayoutBackground.setAlpha(0);
+//        mRootLayoutBackground.setAlpha(0);
 
         // 루트 뷰, 이미지뷰의 위치 곡선 정의
         AnimatorPath imageTranslationPath = new AnimatorPath();
         imageTranslationPath.moveTo(mThumbnailLeftDelta, mThumbnailTopDelta);
-        imageTranslationPath.curveTo(
-                mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
-                mThumbnailLeftTarget, mThumbnailTopTarget);
-//        imageTranslationPath.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
+//        imageTranslationPath.curveTo(
+//                mThumbnailLeftDelta/2, mThumbnailTopDelta, 0, mThumbnailTopDelta/2,
+//                mThumbnailLeftTarget, mThumbnailTopTarget);
+        imageTranslationPath.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
 
         ObjectAnimator rootClipBoundTranslationAnimator = ObjectAnimator.ofObject(NewsFeedDetailActivity.this,
                 "rootClipBoundTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
-        rootClipBoundTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageTransitionInterpolator());
-        rootClipBoundTranslationAnimator.setDuration(mRootViewScaleAnimationDuration);
+        rootClipBoundTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator());
+        rootClipBoundTranslationAnimator.setDuration(mRootViewTranslationAnimationDuration);
         rootClipBoundTranslationAnimator.start();
 
 //        PropertyValuesHolder rootClipBoundTranslationPvh = PropertyValuesHolder.ofObject(
@@ -380,19 +387,16 @@ public class NewsFeedDetailActivity extends Activity
                         return startScale * (1 - v) + endScale * v;
                     }
                 }, 1.f, mThumbnailScaleRatio);
-        rootClipBoundHorizontalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundInterpolator());
-        rootClipBoundHorizontalSizeAnimator.setDuration(mRootViewTranslationAnimationDuration); // 530
+        rootClipBoundHorizontalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundHorizontalInterpolator());
+        rootClipBoundHorizontalSizeAnimator.setDuration(mRootViewHorizontalScaleAnimationDuration); // 530
         rootClipBoundHorizontalSizeAnimator.start();
 
         ObjectAnimator rootClipBoundVerticalSizeAnimator =
-                ObjectAnimator.ofObject(NewsFeedDetailActivity.this, "rootHeightClipBoundSize", new TypeEvaluator<Float>() {
-                    @Override
-                    public Float evaluate(float v, Float startScale, Float endScale) {
-                        return startScale * (1 - v) + endScale * v;
-                    }
-                }, 1.f, mThumbnailScaleRatio);
+                ObjectAnimator.ofInt(NewsFeedDetailActivity.this, "rootVerticalClipBoundSize",
+                        mTransImageViewProperty.getHeight(), mRootLayout.getHeight());
         rootClipBoundVerticalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundVerticalInterpolator());
-        rootClipBoundVerticalSizeAnimator.setDuration(mRootViewTranslationAnimationDuration); // 530
+        rootClipBoundVerticalSizeAnimator.setDuration(mRootViewVerticalScaleAnimationDuration); //
+        // 530
         rootClipBoundVerticalSizeAnimator.start();
 
 
@@ -410,8 +414,12 @@ public class NewsFeedDetailActivity extends Activity
         // 곡선 이동 PropertyValuesHolder 준비
         mTopNewsImageWrapper.setPivotX(0);
         mTopNewsImageWrapper.setPivotY(0);
-        PropertyValuesHolder imageWrapperTranslationPvh = PropertyValuesHolder.ofObject(
-                "ImageWrapperTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
+        ObjectAnimator imageWrapperTranslationAnimator = ObjectAnimator.ofObject(
+                NewsFeedDetailActivity.this, "ImageWrapperTranslation", new PathEvaluator(),
+                imageTranslationPath.getPoints().toArray());
+        imageWrapperTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator());
+        imageWrapperTranslationAnimator.setDuration(mRootViewTranslationAnimationDuration);
+        imageWrapperTranslationAnimator.start();
 
         // 크기 변경 PropertyValuesHolder 준비
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
@@ -419,26 +427,24 @@ public class NewsFeedDetailActivity extends Activity
         lp.height = mTransImageViewProperty.getHeight();
         mTopNewsImageWrapper.setLayoutParams(lp);
 
-        PropertyValuesHolder imageWrapperSizePvh = PropertyValuesHolder.ofFloat(
-                "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
+        ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
+                NewsFeedDetailActivity.this, "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
+        imageWrapperSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageScaleInterpolator());
+        imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
+        imageWrapperSizeAnimator.start();
 
         // 준비해 놓은 PropertyValuesHolder들 실행
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
-                imageWrapperTranslationPvh, imageWrapperSizePvh
-        );
-        animator.setInterpolator(AnimationFactory.makeNewsFeedImageTransitionInterpolator());
-        animator.setDuration(mImageAnimationDuration);
-        animator.addListener(new AnimatorListenerAdapter() {
+//        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
+//                imageWrapperTranslationPvh, imageWrapperSizePvh
+//        );
+//        animator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator());
+//        animator.setDuration(mImageAnimationDuration);
+        imageWrapperSizeAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+
                 mIsAnimatingActivityTransitionAnimation = false;
-            }
-        });
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
 
                 // 액션바 텍스트 페이드인
                 ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
@@ -499,7 +505,7 @@ public class NewsFeedDetailActivity extends Activity
                                 }
                             }, mRootClipBound, rootLayoutOriginalBound);
                     clipBoundAnimator.setInterpolator(
-                            AnimationFactory.makeNewsFeedRootBoundInterpolator());
+                            AnimationFactory.makeNewsFeedRootBoundHorizontalInterpolator());
                     clipBoundAnimator.setDuration((int)(mDebugAnimDuration * 1.5));
                     clipBoundAnimator.addListener(new AnimatorListenerAdapter() {
                         @Override
@@ -514,7 +520,7 @@ public class NewsFeedDetailActivity extends Activity
             }
         });
         */
-        animator.start();
+//        animator.start();
 
         // 이미지뷰 컬러 필터 애니메이션
         animateTopImageViewColorFilter();
@@ -627,6 +633,11 @@ public class NewsFeedDetailActivity extends Activity
         mRootLayout.setClipBounds(mRootClipBound);
     }
 
+    public void setRootVerticalClipBoundSize(int height) {
+        mRootClipBound.bottom = mRootClipBound.top + height;
+        mRootLayout.setClipBounds(mRootClipBound);
+    }
+
     public void setRootWidthClipBoundSize(float scale) {
         mRootClipBound.right = mRootClipBound.left +
                 (int)(mTransImageViewProperty.getWidth() * scale);
@@ -636,6 +647,9 @@ public class NewsFeedDetailActivity extends Activity
     public void setRootHeightClipBoundSize(float scale) {
         mRootClipBound.bottom = mRootClipBound.top +
                 (int)(mTransImageViewProperty.getHeight() * scale);
+        NLLog.now("mRootClipBound.top : " + mRootClipBound.top);
+        NLLog.now("mRootClipBound.bottom : " + mRootClipBound.bottom);
+        NLLog.now("mRootClipBound.height() : " + (mRootClipBound.bottom - mRootClipBound.top));
         mRootLayout.setClipBounds(mRootClipBound);
     }
 
@@ -843,7 +857,7 @@ public class NewsFeedDetailActivity extends Activity
         if (mTopImageView.getDrawable() == null) {
             super.finish();
         } else {
-            if (!mIsAnimatingActivityTransitionAnimation) {
+            if (true || !mIsAnimatingActivityTransitionAnimation) {
                 runExitAnimation();
             }
         }
