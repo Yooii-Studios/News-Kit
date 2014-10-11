@@ -6,6 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.PathInterpolator;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.util.InterpolatorHelper;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 19.
@@ -43,31 +44,23 @@ public class AnimationFactory {
     }
 
     // slow-out-slow-in
-    public static PathInterpolator makeNewsFeedImageAndRootTransitionInterpolator() {
-//        return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
-//        return new PathInterpolator(.7f, .0f, 0.3f, 1.f);
-//        return new PathInterpolator(.78f, .0f, 0.22f, 1.f);
-//        return new PathInterpolator(.5f, .5f, 0.43f, 1.f);
-        return new PathInterpolator(.39f, .15f, .06f, .81f);
+    public static PathInterpolator makeNewsFeedImageAndRootTransitionInterpolator(Context context) {
+        return InterpolatorHelper.makeImageAndRootTransitionInterpolator(context);
+//
     }
 
-    public static PathInterpolator makeNewsFeedImageScaleInterpolator() {
-        return new PathInterpolator(.33f, .12f, .04f, 1.f);
-//        return new PathInterpolator(.0f, .0f, 1.f, 1.f);
+    public static PathInterpolator makeNewsFeedImageScaleInterpolator(Context context) {
+        return InterpolatorHelper.makeImageScaleInterpolator(context);
     }
 
     // fast-out-slow-in
-    public static PathInterpolator makeNewsFeedRootBoundHorizontalInterpolator() {
-        return new PathInterpolator(.38f, .12f, .04f, 1.f);
+    public static PathInterpolator makeNewsFeedRootBoundHorizontalInterpolator(Context context) {
+        return InterpolatorHelper.makeRootWidthScaleInterpolator(context);
     }
 
     // ease-in-out
-    public static PathInterpolator makeNewsFeedRootBoundVerticalInterpolator() {
-//        return new PathInterpolator(.7f, .0f, 0.3f, 1.f);
-//        return new PathInterpolator(.78f, .0f, 0.22f, 1.f);
-//        return new PathInterpolator(.66f, .0f, 0.34f, 1.f);
-//        return new PathInterpolator(.39f, .15f, .07f, 1.f);
-        return new PathInterpolator(.75f, 0.f, .25f, 1.f);
+    public static PathInterpolator makeNewsFeedRootBoundVerticalInterpolator(Context context) {
+        return InterpolatorHelper.makeRootHeightScaleInterpolator(context);
     }
 
     public static PathInterpolator makeNewsFeedReverseTransitionInterpolator() {

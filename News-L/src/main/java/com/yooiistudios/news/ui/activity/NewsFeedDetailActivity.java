@@ -352,7 +352,7 @@ public class NewsFeedDetailActivity extends Activity
 
         ObjectAnimator rootClipBoundTranslationAnimator = ObjectAnimator.ofObject(NewsFeedDetailActivity.this,
                 "rootClipBoundTranslation", new PathEvaluator(), imageTranslationPath.getPoints().toArray());
-        rootClipBoundTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator());
+        rootClipBoundTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator(getApplicationContext()));
         rootClipBoundTranslationAnimator.setDuration(mRootViewTranslationAnimationDuration);
         rootClipBoundTranslationAnimator.start();
 
@@ -387,14 +387,14 @@ public class NewsFeedDetailActivity extends Activity
                         return startScale * (1 - v) + endScale * v;
                     }
                 }, 1.f, mThumbnailScaleRatio);
-        rootClipBoundHorizontalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundHorizontalInterpolator());
+        rootClipBoundHorizontalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundHorizontalInterpolator(getApplicationContext()));
         rootClipBoundHorizontalSizeAnimator.setDuration(mRootViewHorizontalScaleAnimationDuration); // 530
         rootClipBoundHorizontalSizeAnimator.start();
 
         ObjectAnimator rootClipBoundVerticalSizeAnimator =
                 ObjectAnimator.ofInt(NewsFeedDetailActivity.this, "rootVerticalClipBoundSize",
                         mTransImageViewProperty.getHeight(), mRootLayout.getHeight());
-        rootClipBoundVerticalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundVerticalInterpolator());
+        rootClipBoundVerticalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundVerticalInterpolator(getApplicationContext()));
         rootClipBoundVerticalSizeAnimator.setDuration(mRootViewVerticalScaleAnimationDuration); //
         // 530
         rootClipBoundVerticalSizeAnimator.start();
@@ -417,7 +417,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator imageWrapperTranslationAnimator = ObjectAnimator.ofObject(
                 NewsFeedDetailActivity.this, "ImageWrapperTranslation", new PathEvaluator(),
                 imageTranslationPath.getPoints().toArray());
-        imageWrapperTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator());
+        imageWrapperTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator(getApplicationContext()));
         imageWrapperTranslationAnimator.setDuration(mRootViewTranslationAnimationDuration);
         imageWrapperTranslationAnimator.start();
 
@@ -429,7 +429,7 @@ public class NewsFeedDetailActivity extends Activity
 
         ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
-        imageWrapperSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageScaleInterpolator());
+        imageWrapperSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageScaleInterpolator(getApplicationContext()));
         imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
         imageWrapperSizeAnimator.start();
 

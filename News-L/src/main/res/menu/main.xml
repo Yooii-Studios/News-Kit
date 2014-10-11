@@ -25,4 +25,9 @@
           android:orderInCategory="100"
           android:showAsAction="never"
           android:checkable="true" />
+    <item android:id="@+id/action_edit_bezier"
+          android:title="@string/action_edit_bezier"
+          android:orderInCategory="100"
+          android:showAsAction="ifRoom"
+          android:checkable="true" />
 </menu>

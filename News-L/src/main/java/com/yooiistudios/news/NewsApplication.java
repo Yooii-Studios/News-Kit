@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.util.InterpolatorHelper;
 
 import java.util.Locale;
 
@@ -30,6 +31,8 @@ public class NewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        InterpolatorHelper.saveDefaultSetting(getApplicationContext());
 
         Configuration config = getApplicationContext().getResources().getConfiguration();
 
