@@ -159,7 +159,6 @@ public class NewsFeedDetailActivity extends Activity
     private long mExitAnimationDuration = 100;
     private long mImageFilterAnimationDuration;
     private long mImageScaleAnimationDuration;
-    private long mImageTranslationAnimationDuration;
     private long mRootViewHorizontalScaleAnimationDuration;
     private long mRootViewVerticalScaleAnimationDuration;
     private long mRootViewTranslationAnimationDuration;
@@ -285,8 +284,6 @@ public class NewsFeedDetailActivity extends Activity
                 R.integer.news_feed_detail_image_filter_duration_milli) * sAnimatorScale;
         mImageScaleAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_image_scale_duration_milli) * sAnimatorScale;
-        mImageTranslationAnimationDuration = getResources().getInteger(
-                R.integer.news_feed_detail_image_translation_duration_milli) * sAnimatorScale;
         mRootViewHorizontalScaleAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_root_horizontal_scale_duration_milli) * sAnimatorScale;
         mRootViewVerticalScaleAnimationDuration = getResources().getInteger(
@@ -429,7 +426,8 @@ public class NewsFeedDetailActivity extends Activity
 
         ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
-        imageWrapperSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageScaleInterpolator(getApplicationContext()));
+        imageWrapperSizeAnimator.setInterpolator(
+                AnimationFactory.makeNewsFeedImageScaleInterpolator(getApplicationContext()));
         imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
         imageWrapperSizeAnimator.start();
 

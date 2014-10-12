@@ -155,10 +155,14 @@ public class InterpolatorHelper {
         float twoY = sharedPreferences.getFloat(InterpolatorHelper.TRANSITION_CP_2Y, -1);
 
         if (oneX < 0 || oneY < 0 || twoX < 0 || twoY < 0) {
-            oneX = .39f;
-            oneY = .15f;
-            twoX = .06f;
-            twoY = .81f;
+//            oneX = .68f;
+//            oneY = .92f;
+//            twoX = .33f;
+//            twoY = .96f;
+            oneX = .42f;
+            oneY = .10f;
+            twoX = .58f;
+            twoY = .99f;
             sharedPreferences.edit()
                     .putFloat(InterpolatorHelper.TRANSITION_CP_1X, oneX)
                     .putFloat(InterpolatorHelper.TRANSITION_CP_1Y, oneY)
@@ -177,7 +181,11 @@ public class InterpolatorHelper {
         float twoY = sharedPreferences.getFloat(InterpolatorHelper.IMG_SCALE_CP_2Y, -1);
 
         if (oneX < 0 || oneY < 0 || twoX < 0 || twoY < 0) {
-            oneX = .33f;
+//            oneX = .33f;
+//            oneY = .12f;
+//            twoX = .04f;
+//            twoY = 1.f;
+            oneX = .36f;
             oneY = .12f;
             twoX = .04f;
             twoY = 1.f;
@@ -219,10 +227,14 @@ public class InterpolatorHelper {
         float twoY = sharedPreferences.getFloat(InterpolatorHelper.ROOT_BOUND_HEIGHT_CP_2Y, -1);
 
         if (oneX < 0 || oneY < 0 || twoX < 0 || twoY < 0) {
-            oneX = .75f;
-            oneY = 0.f;
-            twoX = .25f;
-            twoY = 1.f;
+//            oneX = .75f;
+//            oneY = 0.f;
+//            twoX = .25f;
+//            twoY = 1.f;
+            oneX = .56f;
+            oneY = .08f;
+            twoX = .02f;
+            twoY = .99f;
             sharedPreferences.edit()
                     .putFloat(InterpolatorHelper.ROOT_BOUND_HEIGHT_CP_1X, oneX)
                     .putFloat(InterpolatorHelper.ROOT_BOUND_HEIGHT_CP_1Y, oneY)

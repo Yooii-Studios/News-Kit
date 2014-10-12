@@ -4,13 +4,12 @@
     <integer name="bottom_news_feed_auto_refresh_delay_milli">500</integer>
     <integer name="bottom_news_feed_fade_anim_duration_milli">550</integer>
 
-    <integer name="news_feed_detail_image_scale_duration_milli">520</integer>
-    <integer name="news_feed_detail_image_translation_duration_milli">600</integer>
-    <integer name="news_feed_detail_root_horizontal_scale_duration_milli">530</integer>
-    <integer name="news_feed_detail_root_vertical_scale_duration_milli">1000</integer>
+    <integer name="news_feed_detail_root_translation_duration_milli">900</integer>
+    <integer name="news_feed_detail_image_scale_duration_milli">700</integer>
+    <integer name="news_feed_detail_root_horizontal_scale_duration_milli">700</integer>
+    <integer name="news_feed_detail_root_vertical_scale_duration_milli">1300</integer>
 
     <integer name="news_feed_detail_image_filter_duration_milli">600</integer>
-    <integer name="news_feed_detail_root_translation_duration_milli">600</integer>
     <integer name="news_feed_detail_thumbnail_text_duration_milli">200</integer>
     <integer name="news_feed_detail_action_bar_content_duration_milli">400</integer>
     <integer name="news_feed_detail_action_bar_bg_duration_milli">250</integer>

@@ -18,24 +18,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/root_bound_width_cp_1x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/root_bound_width_cp_1y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/root_bound_width_cp_2x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/root_bound_width_cp_2y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -53,24 +45,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/root_bound_height_cp_1x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/root_bound_height_cp_1y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/root_bound_height_cp_2x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/root_bound_height_cp_2y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -88,24 +72,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/image_scale_cp_1x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/image_scale_cp_1y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/image_scale_cp_2x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/image_scale_cp_2y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -123,24 +99,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/transition_cp_1x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/transition_cp_1y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/transition_cp_2x"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
             <EditText
                 android:id="@+id/transition_cp_2y"
-                android:layout_width="0px"
-                android:layout_weight="1"
-                android:layout_height="@dimen/dialog_bezier_row_height"/>
+                style="@style/BezierDialogEditTextStyle"/>
         </LinearLayout>
     </LinearLayout>
 
