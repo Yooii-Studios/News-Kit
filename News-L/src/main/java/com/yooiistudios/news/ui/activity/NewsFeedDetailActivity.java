@@ -213,6 +213,8 @@ public class NewsFeedDetailActivity extends Activity
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null && mTopImageView.getDrawable() != null) {
+            mTopNewsImageWrapper.bringToFront();
+
             ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -335,8 +337,8 @@ public class NewsFeedDetailActivity extends Activity
         final PathInterpolator commonInterpolator = new PathInterpolator(.4f, .0f, 1.f, .2f);
 
         // 애니메이션 실행 전 텍스트뷰, 리사이클러뷰, 배경 안보이게 해두기
-        mTopNewsTextLayout.setAlpha(0);
-        mBottomNewsListRecyclerView.setAlpha(0);
+//        mTopNewsTextLayout.setAlpha(0);
+//        mBottomNewsListRecyclerView.setAlpha(0);
 //        mRootLayoutBackground.setAlpha(0);
 
         // 루트 뷰, 이미지뷰의 위치 곡선 정의
@@ -394,6 +396,18 @@ public class NewsFeedDetailActivity extends Activity
         rootClipBoundVerticalSizeAnimator.setInterpolator(AnimationFactory.makeNewsFeedRootBoundVerticalInterpolator(getApplicationContext()));
         rootClipBoundVerticalSizeAnimator.setDuration(mRootViewVerticalScaleAnimationDuration); //
         // 530
+        rootClipBoundVerticalSizeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+
+                mTopNewsTextLayout.bringToFront();
+                mBottomNewsListRecyclerView.bringToFront();
+                mLoadingCoverView.bringToFront();
+
+                mIsAnimatingActivityTransitionAnimation = false;
+            }
+        });
         rootClipBoundVerticalSizeAnimator.start();
 
 
@@ -441,8 +455,6 @@ public class NewsFeedDetailActivity extends Activity
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-
-                mIsAnimatingActivityTransitionAnimation = false;
 
                 // 액션바 텍스트 페이드인
                 ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
@@ -576,20 +588,20 @@ public class NewsFeedDetailActivity extends Activity
 
         // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
         mNewsTitleThumbnailTextView.setAlpha(0.0f);
-//        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
-//        thumbnailAlphaAnimator.alpha(0.0f);
-//        thumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
-//        thumbnailAlphaAnimator.setInterpolator(commonInterpolator);
-//        thumbnailAlphaAnimator.start();
+        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
+        thumbnailAlphaAnimator.alpha(0.0f);
+        thumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
+        thumbnailAlphaAnimator.setInterpolator(commonInterpolator);
+        thumbnailAlphaAnimator.start();
 
         // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
         mNewsFeedTitleThumbnailTextView.setAlpha(0.0f);
-//        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
-//                = mNewsFeedTitleThumbnailTextView.animate();
-//        feedTitleThumbnailAlphaAnimator.alpha(0.0f);
-//        feedTitleThumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
-//        feedTitleThumbnailAlphaAnimator.setInterpolator(commonInterpolator);
-//        feedTitleThumbnailAlphaAnimator.start();
+        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
+                = mNewsFeedTitleThumbnailTextView.animate();
+        feedTitleThumbnailAlphaAnimator.alpha(0.0f);
+        feedTitleThumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
+        feedTitleThumbnailAlphaAnimator.setInterpolator(commonInterpolator);
+        feedTitleThumbnailAlphaAnimator.start();
 
         // 액션바 내용물 우선 숨겨두도록
         mActionBarHomeIcon.setAlpha(0);
@@ -856,7 +868,8 @@ public class NewsFeedDetailActivity extends Activity
             super.finish();
         } else {
             if (true || !mIsAnimatingActivityTransitionAnimation) {
-                runExitAnimation();
+                super.finish();
+//                runExitAnimation();
             }
         }
     }
