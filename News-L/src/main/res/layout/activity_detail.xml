@@ -47,8 +47,7 @@
                     android:id="@+id/detail_top_news_text_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/detail_top_image_view_height"
-                    android:elevation="@dimen/detail_top_text_layout_elevation">
+                    android:layout_marginTop="@dimen/detail_top_image_view_height">
 
                     <LinearLayout
                         android:id="@+id/detail_top_news_text_ripple_layout"

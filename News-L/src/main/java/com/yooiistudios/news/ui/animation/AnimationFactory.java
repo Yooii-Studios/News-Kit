@@ -6,6 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.PathInterpolator;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.util.InterpolatorHelper;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 19.
@@ -43,13 +44,23 @@ public class AnimationFactory {
     }
 
     // slow-out-slow-in
-    public static PathInterpolator makeNewsFeedTransitionInterpolator() {
-        return new PathInterpolator(0.4f, 0.f, 0.2f, 1.f);
+    public static PathInterpolator makeNewsFeedImageAndRootTransitionInterpolator(Context context) {
+        return InterpolatorHelper.makeImageAndRootTransitionInterpolator(context);
+//
+    }
+
+    public static PathInterpolator makeNewsFeedImageScaleInterpolator(Context context) {
+        return InterpolatorHelper.makeImageScaleInterpolator(context);
     }
 
     // fast-out-slow-in
-    public static PathInterpolator makeNewsFeedRootBoundInterpolator() {
-        return new PathInterpolator(.0f, .46f, .31f, 1.f);
+    public static PathInterpolator makeNewsFeedRootBoundHorizontalInterpolator(Context context) {
+        return InterpolatorHelper.makeRootWidthScaleInterpolator(context);
+    }
+
+    // ease-in-out
+    public static PathInterpolator makeNewsFeedRootBoundVerticalInterpolator(Context context) {
+        return InterpolatorHelper.makeRootHeightScaleInterpolator(context);
     }
 
     public static PathInterpolator makeNewsFeedReverseTransitionInterpolator() {
@@ -58,10 +69,5 @@ public class AnimationFactory {
 
     public static PathInterpolator makeViewPagerScrollInterpolator() {
         return new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
-    }
-
-    // ease-in-out
-    public static PathInterpolator makeNewsFeedRootBoundVerticalInterpolator() {
-        return new PathInterpolator(.7f, .0f, 0.3f, 1.f);
     }
 }

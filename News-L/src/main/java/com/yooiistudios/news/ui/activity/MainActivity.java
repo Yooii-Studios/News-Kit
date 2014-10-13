@@ -24,6 +24,7 @@ import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.FeedbackUtils;
+import com.yooiistudios.news.util.InterpolatorHelper;
 import com.yooiistudios.news.util.NLLog;
 
 import butterknife.ButterKnife;
@@ -301,9 +302,13 @@ public class MainActivity extends Activity
             return true;
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+//            getSharedPreferences("bezier", MODE_PRIVATE).edit().clear().apply();
         } else if (id == R.id.action_slow_anim) {
-            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ? 1 : 4;
+            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
+                   1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
             item.setChecked(!item.isChecked());
+        } else if (id == R.id.action_edit_bezier) {
+            InterpolatorHelper.showDialog(MainActivity.this);
         }
         return super.onOptionsItemSelected(item);
     }
