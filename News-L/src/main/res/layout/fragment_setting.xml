@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.yooiistudios.news.ui.activity.SettingActivity$PlaceholderFragment">
 
-    <ListView
-        android:id="@+id/setting_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/setting_adView"
@@ -17,5 +12,11 @@
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-2310680050309555/7001207426" />
+
+    <ListView
+        android:id="@+id/setting_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/setting_adView"/>
 
 </RelativeLayout>

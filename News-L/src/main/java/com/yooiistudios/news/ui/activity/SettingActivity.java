@@ -58,7 +58,6 @@ public class SettingActivity extends Activity {
 
         @InjectView(R.id.setting_list_view) ListView mListView;
         @InjectView(R.id.setting_adView) AdView mAdView;
-        private View mFooterView;
 
         public PlaceholderFragment() {
         }
@@ -69,10 +68,6 @@ public class SettingActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_setting, container, false);
             if (rootView != null) {
                 ButterKnife.inject(this, rootView);
-                // setAdapter 전에 호출 필요
-                mFooterView = LayoutInflater.from(getActivity().getApplicationContext())
-                        .inflate(R.layout.list_footer_view, null, false);
-                mListView.addFooterView(mFooterView);
                 initListView();
                 initAdView();
             }
@@ -84,9 +79,6 @@ public class SettingActivity extends Activity {
             // NO_ADS 만 체크해도 풀버전까지 체크됨
             if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
                 mAdView.setVisibility(View.GONE);
-                if (mFooterView != null) {
-                    mListView.removeFooterView(mFooterView);
-                }
             } else {
                 mAdView.setVisibility(View.VISIBLE);
                 AdRequest adRequest = new AdRequest.Builder().build();
