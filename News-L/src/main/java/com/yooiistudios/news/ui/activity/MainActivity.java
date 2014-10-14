@@ -25,6 +25,7 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
+import com.yooiistudios.news.ui.widget.MainScrollView;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.InterpolatorHelper;
@@ -38,10 +39,11 @@ import butterknife.InjectView;
 
 public class MainActivity extends Activity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
-        MainBottomContainerLayout.OnMainBottomLayoutEventListener {
+        MainBottomContainerLayout.OnMainBottomLayoutEventListener, MainScrollView.OnTouchUpDownListener {
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
+    @InjectView(R.id.main_scroll_view)              MainScrollView mScrollView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
@@ -111,6 +113,27 @@ public class MainActivity extends Activity
     public void onMainBottomNewsImageInitiallyAllFetched() {
         NLLog.i(TAG, "onMainBottomNewsImageInitiallyAllFetched");
         startNewsAutoRefreshIfReady();
+    }
+
+    /**
+     * Main ScrollView Callback
+     */
+    @Override
+    public void onActionDown() {
+        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
+        if (!ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.INVISIBLE);
+            mBottomButtonView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onActionUpCancel() {
+        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
+        if (!ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.VISIBLE);
+            mBottomButtonView.setVisibility(View.VISIBLE);
+        }
     }
 
     private class NewsAutoRefreshHandler extends Handler {
@@ -240,6 +263,7 @@ public class MainActivity extends Activity
     private void initAdView() {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        mScrollView.setListener(this);
     }
 
     private void checkAdView() {
