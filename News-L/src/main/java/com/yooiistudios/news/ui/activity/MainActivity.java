@@ -17,7 +17,10 @@ import android.view.WindowInsets;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
@@ -26,6 +29,8 @@ import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.InterpolatorHelper;
 import com.yooiistudios.news.util.NLLog;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,6 +46,11 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
+
+    // Ad
+    @InjectView(R.id.main_adView)                   AdView mAdView;
+    @InjectView(R.id.main_bottom_button_view)       View mBottomButtonView;
+    private int mSystemWindowInset;
 
     private static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
@@ -107,7 +117,6 @@ public class MainActivity extends Activity
         @Override
         public void handleMessage( Message msg ){
             // 갱신
-//            NLLog.now("newsAutoRefresh");
             mMainTopContainerLayout.autoRefreshTopNewsFeed();
             mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
 
@@ -157,10 +166,13 @@ public class MainActivity extends Activity
     protected void onResume() {
         super.onResume();
         startNewsAutoRefreshIfReady();
+        checkAdView();
+//        applySystemWindowsBottomInset(mScrollingContent, mAdView.getVisibility() == View.VISIBLE);
     }
 
     @Override
     protected void onPause() {
+        mAdView.pause();
         super.onPause();
         stopNewsAutoRefresh();
     }
@@ -176,28 +188,26 @@ public class MainActivity extends Activity
         // TODO off-line configuration
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initRefreshLayout();
-
         mMainTopContainerLayout.init(this, needsRefresh);
-
         mMainBottomContainerLayout.init(this, needsRefresh);
-
         showMainContentIfReady();
-
-        applySystemWindowsBottomInset(mScrollingContent);
+        applySystemWindowsBottomInset();
+        initAdView();
     }
-    //
 
-    private void applySystemWindowsBottomInset(View containerView) {
-        containerView.setFitsSystemWindows(true);
-        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+    private void applySystemWindowsBottomInset() {
+        mScrollingContent.setFitsSystemWindows(true);
+        mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
                 if (metrics.widthPixels < metrics.heightPixels) {
-                    view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
                 } else {
-                    view.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
                 }
+                mBottomButtonView.getLayoutParams().height = mSystemWindowInset;
+                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
@@ -223,8 +233,29 @@ public class MainActivity extends Activity
             }
         });
 
-        // 초기 로딩시 swipe refresh가 되지 않도록 설정
+        // 초기 로딩시 swipe refresh 가 되지 않도록 설정
         mSwipeRefreshLayout.setEnabled(false);
+    }
+
+    private void initAdView() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    private void checkAdView() {
+        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
+        // NO_ADS 만 체크해도 풀버전까지 체크됨
+        if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+            mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
+            mAdView.setVisibility(View.GONE);
+            mBottomButtonView.setVisibility(View.GONE);
+        } else {
+            int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
+            mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
+            mAdView.setVisibility(View.VISIBLE);
+            mAdView.resume();
+            mBottomButtonView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showMainContentIfReady() {

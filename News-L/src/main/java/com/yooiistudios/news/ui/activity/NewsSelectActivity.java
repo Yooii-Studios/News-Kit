@@ -47,8 +47,7 @@ public class NewsSelectActivity extends Activity {
             mAdView.setVisibility(View.GONE);
         } else {
             mAdView.setVisibility(View.VISIBLE);
-            AdRequest adRequest = new AdRequest.Builder()
-                    .build();
+            AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
         }
     }
