@@ -3,7 +3,6 @@ package com.yooiistudios.news.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -14,13 +13,15 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabManager;
 import com.yooiistudios.news.iab.IabManagerListener;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.util.StoreDebugCheckUtils;
-import com.yooiistudios.news.util.Md5Utils;
-import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.iab.util.IabHelper;
 import com.yooiistudios.news.iab.util.IabResult;
 import com.yooiistudios.news.iab.util.Inventory;
 import com.yooiistudios.news.iab.util.Purchase;
+import com.yooiistudios.news.util.Md5Utils;
+import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.util.StoreDebugCheckUtils;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -100,7 +101,44 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
     }
 
     private void initUI() {
-
+        if (NLLog.isDebug) {
+            List<String> ownedSkus = IabProducts.loadOwnedIabProducts(this);
+            if (ownedSkus.contains(IabProducts.SKU_FULL_VERSION)) {
+                fullVersionButton.setText("Purchased");
+                fullVersionButton.setClickable(false);
+                fullVersionButton.setEnabled(false);
+            } else {
+                fullVersionButton.setText("Buy");
+                fullVersionButton.setClickable(true);
+                fullVersionButton.setEnabled(true);
+            }
+            if (ownedSkus.contains(IabProducts.SKU_MORE_NEWS)) {
+                moreNewsButton.setText("Purchased");
+                moreNewsButton.setClickable(false);
+                moreNewsButton.setEnabled(false);
+            } else {
+                moreNewsButton.setText("Buy");
+                moreNewsButton.setClickable(true);
+                moreNewsButton.setEnabled(true);
+            }
+            if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+                noAdButton.setText("Purchased");
+                noAdButton.setClickable(false);
+                noAdButton.setEnabled(false);
+                noAdButton.setText("Buy");
+                noAdButton.setClickable(true);
+                noAdButton.setEnabled(true);
+            }
+            if (ownedSkus.contains(IabProducts.SKU_TEMP_FEATURE)) {
+                feature1Button.setText("Purchased");
+                feature1Button.setClickable(false);
+                feature1Button.setEnabled(false);
+            } else {
+                feature1Button.setText("Buy");
+                feature1Button.setClickable(true);
+                feature1Button.setEnabled(true);
+            }
+        }
     }
 
     private void checkDebug() {
@@ -108,11 +146,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
             resetButton.setVisibility(View.VISIBLE);
             debugButton.setVisibility(View.VISIBLE);
             if (StoreDebugCheckUtils.isUsingStore(this)) {
-//                if (IS_STORE_FOR_NAVER) {
-//                    debugButton.setText("Naver Store");
-//                } else {
-                    debugButton.setText("Google Store");
-//                }
+                debugButton.setText("Google Store");
             } else {
                 debugButton.setText("Debug");
             }
@@ -227,8 +261,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
 
             // 창하님 조언으로 수정: payload 는 sku 의 md5 해시값으로 비교해 해킹을 방지
             // 또한 orderId 는 무조건 37자리여야 한다고 하심. 프리덤같은 가짜 결제는 자릿수가 짧게 온다고 하심
-            if (info != null && info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))
-                    && info.getOrderId().length() == 37) {
+            if (info != null && info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
                 // 프레퍼런스에 저장
                 IabProducts.saveIabProduct(info.getSku(), this);
                 updateUIOnPurchase(info);
@@ -236,11 +269,6 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
                 showComplain("No purchase info");
             } else {
                 showComplain("Payload problem");
-                if (!info.getPackageName().equals(Md5Utils.getMd5String(info.getSku()))) {
-                    Log.e(TAG, "payload not equals to md5 hash of sku");
-                } else if (info.getOrderId().length() != 37) {
-                    Log.e(TAG, "length of orderId is not 37");
-                }
             }
         } else {
             showComplain("Purchase Failed");
