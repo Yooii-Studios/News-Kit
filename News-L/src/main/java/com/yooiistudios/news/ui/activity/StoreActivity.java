@@ -125,6 +125,7 @@ public class StoreActivity extends Activity implements IabManagerListener, IabHe
                 noAdButton.setText("Purchased");
                 noAdButton.setClickable(false);
                 noAdButton.setEnabled(false);
+            } else {
                 noAdButton.setText("Buy");
                 noAdButton.setClickable(true);
                 noAdButton.setEnabled(true);

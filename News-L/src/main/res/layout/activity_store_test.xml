@@ -59,7 +59,7 @@
         android:gravity="center"
         android:layout_toStartOf="@id/store_more_news_button"
         android:layout_below="@id/store_no_ad_text_view"
-        android:text="More News"/>
+        android:text="More Bottom News Slot"/>
 
     <Button
         android:id="@+id/store_feature1_button"
