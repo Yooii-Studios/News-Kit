@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,6 +34,22 @@
         </ScrollView>
     </com.yooiistudios.news.ui.widget.MainRefreshLayout>
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/main_bottom_button_view"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-2310680050309555/9954673820" />
+
+    <View
+        android:id="@+id/main_bottom_button_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray" />
+
     <RelativeLayout
         android:id="@+id/main_loading_container"
         android:layout_width="match_parent"
@@ -66,4 +82,4 @@
             android:layout_below="@id/main_loading_image_view"/>
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>
