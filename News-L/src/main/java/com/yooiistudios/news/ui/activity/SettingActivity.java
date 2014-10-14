@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -22,7 +21,6 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
-import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
@@ -60,7 +58,7 @@ public class SettingActivity extends Activity {
 
         @InjectView(R.id.setting_list_view) ListView mListView;
         @InjectView(R.id.setting_adView) AdView mAdView;
-        private View footerView;
+        private View mFooterView;
 
         public PlaceholderFragment() {
         }
@@ -71,9 +69,10 @@ public class SettingActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_setting, container, false);
             if (rootView != null) {
                 ButterKnife.inject(this, rootView);
-                footerView = LayoutInflater.from(getActivity().getApplicationContext())
+                // setAdapter 전에 호출 필요
+                mFooterView = LayoutInflater.from(getActivity().getApplicationContext())
                         .inflate(R.layout.list_footer_view, container, false);
-
+                mListView.addFooterView(mFooterView);
                 initListView();
                 initAdView();
             }
@@ -85,8 +84,8 @@ public class SettingActivity extends Activity {
             // NO_ADS 만 체크해도 풀버전까지 체크됨
             if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
                 mAdView.setVisibility(View.GONE);
-                if (footerView != null) {
-                    mListView.removeFooterView(footerView);
+                if (mFooterView != null) {
+                    mListView.removeFooterView(mFooterView);
                 }
             } else {
                 mAdView.setVisibility(View.VISIBLE);
