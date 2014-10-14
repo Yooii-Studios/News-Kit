@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.news.ui.widget.viewpager.SlidingTabLayout;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -18,6 +22,7 @@ public class NewsSelectActivity extends Activity {
 
     @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
     @InjectView(R.id.news_select_sliding_tabs)      SlidingTabLayout mSlidingTabLayout;
+    @InjectView(R.id.news_select_adView)            AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +36,20 @@ public class NewsSelectActivity extends Activity {
 //        mViewPager.setOnPageChangeListener(mSimpleOnPageChangeListener);
 
         mSlidingTabLayout.setViewPager(mViewPager);
+
+        initAdView();
+    }
+
+    private void initAdView() {
+        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
+        // NO_ADS 만 체크해도 풀버전까지 체크됨
+        if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.GONE);
+        } else {
+            mAdView.setVisibility(View.VISIBLE);
+            AdRequest adRequest = new AdRequest.Builder()
+                    .build();
+            mAdView.loadAd(adRequest);
+        }
     }
 }

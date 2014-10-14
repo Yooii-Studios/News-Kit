@@ -71,7 +71,7 @@ public class SettingActivity extends Activity {
                 ButterKnife.inject(this, rootView);
                 // setAdapter 전에 호출 필요
                 mFooterView = LayoutInflater.from(getActivity().getApplicationContext())
-                        .inflate(R.layout.list_footer_view, container, false);
+                        .inflate(R.layout.list_footer_view, null, false);
                 mListView.addFooterView(mFooterView);
                 initListView();
                 initAdView();
