@@ -68,6 +68,8 @@
         <activity
             android:name=".ui.activity.SettingActivity"
             android:label="@string/title_activity_setting"
+            android:screenOrientation="sensorPortrait"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@style/BaseAppTheme" />
 
         <activity
