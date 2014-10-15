@@ -76,6 +76,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
     private ArrayList<Pair<News, Boolean>> mNewsToFetchImageList;
     private MainBottomAdapter mBottomNewsFeedAdapter;
+    private ArrayList<ImageLoader.ImageContainer> mImageContainerList;
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private Activity mActivity;
@@ -294,14 +295,22 @@ public class MainBottomContainerLayout extends FrameLayout
     private void fetchNextBottomNewsFeedListImageUrl() {
         fetchNextBottomNewsFeedListImageUrl(false);
     }
+
     private void fetchNextBottomNewsFeedListImageUrl(boolean fetchDisplayingNewsImage) {
+        fetchNextBottomNewsFeedListImageUrl(mBottomNewsFeedAdapter.getNewsFeedList(),
+                fetchDisplayingNewsImage);
+    }
+
+    private void fetchNextBottomNewsFeedListImageUrl(ArrayList<NewsFeed> newsFeedList,
+                                                     boolean fetchDisplayingNewsImage) {
         mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
         mNewsToFetchImageList = new ArrayList<Pair<News, Boolean>>();
+        mImageContainerList = new ArrayList<ImageLoader.ImageContainer>();
 
-        int newsFeedCount = mBottomNewsFeedAdapter.getNewsFeedList().size();
+        int newsFeedCount = newsFeedList.size();
 
         for (int i = 0; i < newsFeedCount; i++) {
-            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(i);
+            NewsFeed newsFeed = newsFeedList.get(i);
 
             if (newsFeed == null) {
                 continue;
@@ -337,33 +346,56 @@ public class MainBottomContainerLayout extends FrameLayout
                 if (news.getImageUrl() == null) {
                     notifyOnNewsImageFetched(news, i);
                 } else {
-                    applyImage(news, i);
+                    mImageContainerList.add(applyImage(news, i));
                 }
             }
         }
     }
 
-    private void cancelBottomNewsFetchTasks() {
-        int taskCount = mBottomNewsFeedIndexToNewsFetchTaskMap.size();
-        for (int i = 0; i < taskCount; i++) {
-            mBottomNewsFeedIndexToNewsFetchTaskMap.valueAt(i).cancel(true);
-        }
-        mBottomNewsFeedIndexToNewsFetchTaskMap.clear();
-
+    private void cancelAllTasks() {
+        cancelBottomNewsFetchTasks();
         cancelBottomNewsImageUrlFetchTask();
+        cancelImageLoaderRequests();
+    }
+
+    private void cancelBottomNewsFetchTasks() {
+        if (mBottomNewsFeedIndexToNewsFetchTaskMap != null) {
+            int taskCount = mBottomNewsFeedIndexToNewsFetchTaskMap.size();
+            for (int i = 0; i < taskCount; i++) {
+                mBottomNewsFeedIndexToNewsFetchTaskMap.valueAt(i).cancel(true);
+            }
+            mBottomNewsFeedIndexToNewsFetchTaskMap.clear();
+        }
     }
 
     private void cancelBottomNewsImageUrlFetchTask() {
-        for (Map.Entry<News, BottomNewsImageUrlFetchTask> entry :
-                mBottomNewsFeedNewsToImageTaskMap.entrySet()) {
-            BottomNewsImageUrlFetchTask task = entry.getValue();
-            if (task != null) {
-                task.cancel(true);
+        if (mBottomNewsFeedNewsToImageTaskMap != null) {
+            for (Map.Entry<News, BottomNewsImageUrlFetchTask> entry :
+                    mBottomNewsFeedNewsToImageTaskMap.entrySet()) {
+                BottomNewsImageUrlFetchTask task = entry.getValue();
+                if (task != null) {
+                    task.cancel(true);
+                }
             }
+            mBottomNewsFeedNewsToImageTaskMap.clear();
         }
-        mBottomNewsFeedNewsToImageTaskMap.clear();
-        mNewsToFetchImageList.clear();
+        if (mNewsToFetchImageList != null) {
+            mNewsToFetchImageList.clear();
+        }
     }
+
+    private void cancelImageLoaderRequests() {
+        if (mImageContainerList != null) {
+            for (ImageLoader.ImageContainer imageContainer : mImageContainerList) {
+                imageContainer.cancelRequest();
+            }
+            mImageContainerList.clear();
+        }
+    }
+
+//    public void onActivityPause() {
+//        cancelAllTasks();
+//    }
 
     public void animateBottomNewsFeedListOnInit() {
         mBottomNewsFeedRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -424,8 +456,9 @@ public class MainBottomContainerLayout extends FrameLayout
 
             News news = newsFeed.getNewsList().get(newsFeed.getDisplayingNewsIndex());
             if (news.getImageUrl() == null) {
-                new BottomNewsImageUrlFetchTask(news, idx, this)
-                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                ArrayList<NewsFeed> list = new ArrayList<NewsFeed>();
+                list.add(newsFeed);
+                fetchNextBottomNewsFeedListImageUrl(list, false);
             }
         } else {
             ArrayList<Pair<NewsFeed, Integer>> list = new ArrayList<Pair<NewsFeed, Integer>>();
@@ -513,6 +546,9 @@ public class MainBottomContainerLayout extends FrameLayout
                 break;
             case BottomNewsFeedFetchTask.TASK_REPLACING:
                 NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, position);
+                ArrayList<NewsFeed> list = new ArrayList<NewsFeed>();
+                list.add(newsFeed);
+                fetchNextBottomNewsFeedListImageUrl(list, false);
                 break;
             default:
                 break;
@@ -584,11 +620,11 @@ public class MainBottomContainerLayout extends FrameLayout
 
         NLLog.i(TAG, "title : " + news.getTitle() + "'s image url fetch " +
                 "success.\nimage url : " + url);
-        applyImage(news, position);
+        mImageContainerList.add(applyImage(news, position));
     }
 
-    private void applyImage(final News news, final int position) {
-        mImageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
+    private ImageLoader.ImageContainer applyImage(final News news, final int position) {
+        return mImageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 if (response.getBitmap() == null && isImmediate) {
