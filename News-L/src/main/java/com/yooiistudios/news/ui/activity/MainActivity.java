@@ -392,7 +392,7 @@ public class MainActivity extends Activity
                             // bottom news feed의 index를 가져옴
                             int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
                             if (idx >= 0) {
-                                mMainBottomContainerLayout.configOnNewsFeedReplacedAt(idx);
+                                mMainBottomContainerLayout.reloadNewsFeedAt(idx);
                             }
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
                             // top news feed가 교체됨

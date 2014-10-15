@@ -21,20 +21,26 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     private OnFetchListener mListener;
     private int mPosition;
     private boolean mShuffle;
+    private int mTaskType;
+
+    public static final int TASK_INITIALIZE = 0;
+    public static final int TASK_REFRESHING = 1;
+    public static final int TASK_REPLACING = 2;
 
     public interface OnFetchListener {
-        public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position);
+        public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position, int taskType);
     }
 
     public BottomNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
-                                   int position, OnFetchListener listener) {
-        this(context, newsFeedUrl, position, listener, true);
+                                   int position, int taskType, OnFetchListener listener) {
+        this(context, newsFeedUrl, position, taskType, listener, true);
     }
     public BottomNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
-                                   int position, OnFetchListener listener, boolean shuffle) {
+                                   int position, int taskType, OnFetchListener listener, boolean shuffle) {
         mContext = context;
         mNewsFeedUrl = newsFeedUrl;
         mPosition = position;
+        mTaskType = taskType;
         mListener = listener;
         mShuffle = shuffle;
     }
@@ -48,7 +54,7 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            mListener.onBottomNewsFeedFetch(newsFeed, mPosition);
+            mListener.onBottomNewsFeedFetch(newsFeed, mPosition, mTaskType);
         }
     }
 }

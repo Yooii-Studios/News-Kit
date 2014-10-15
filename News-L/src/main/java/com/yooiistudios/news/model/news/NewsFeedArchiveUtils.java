@@ -77,8 +77,6 @@ public class NewsFeedArchiveUtils {
                 if (newsFeed != null) {
                     newsFeed.setDisplayingNewsIndex(0);
                     Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
-                } else {
-                    break;
                 }
                 feedList.add(newsFeed);
             }
