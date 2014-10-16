@@ -1505,7 +1505,7 @@ public class NewsFeedDetailActivity extends Activity
                     NewsFeed newsFeed = data.getExtras().getParcelable(
                             NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
 
-//                    archiveNewsFeed(newsFeed);
+                    archiveNewsFeed(newsFeed);
 
                     fetchNewsFeed(newsFeed.getNewsFeedUrl());
 

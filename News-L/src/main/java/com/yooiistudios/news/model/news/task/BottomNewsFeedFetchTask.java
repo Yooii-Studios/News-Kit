@@ -23,6 +23,7 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     private boolean mShuffle;
     private int mTaskType;
 
+    public static final int TASK_INVALID = -1;
     public static final int TASK_INITIALIZE = 0;
     public static final int TASK_REFRESH = 1;
     public static final int TASK_REPLACE = 2;

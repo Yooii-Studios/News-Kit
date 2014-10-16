@@ -101,7 +101,8 @@ public class MainBottomAdapter extends
                     public void onClick(View view) {
                         NewsFeed newsFeed = mNewsFeedList.get(position);
 
-                        if (mOnItemClickListener != null && newsFeed.isValid()) {
+                        if (mOnItemClickListener != null &&
+                                newsFeed != null && newsFeed.isValid()) {
                             mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
                         }
                     }

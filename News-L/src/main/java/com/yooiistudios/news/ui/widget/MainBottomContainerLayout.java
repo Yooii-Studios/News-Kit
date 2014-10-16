@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Pair;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +24,10 @@ import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
-import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
+import com.yooiistudios.news.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
@@ -62,9 +61,9 @@ import static com.yooiistudios.news.ui.activity.MainActivity.RC_NEWS_FEED_DETAIL
  */
 public class MainBottomContainerLayout extends FrameLayout
         implements
-        BottomNewsFeedFetchTask.OnFetchListener,
         MainBottomAdapter.OnItemClickListener,
-        BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
+        BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener,
+        BottomNewsFeedListFetchManager.OnFetchListener {
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
@@ -72,7 +71,6 @@ public class MainBottomContainerLayout extends FrameLayout
 
 //    private ArrayList<NewsFeed> mBottomNewsFeedList;
 
-    private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
     private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
     private ArrayList<Pair<News, Boolean>> mNewsToFetchImageList;
     private MainBottomAdapter mBottomNewsFeedAdapter;
@@ -220,7 +218,9 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNews(context));
 
         if (refresh) {
-            fetchBottomNewsFeedList(BottomNewsFeedFetchTask.TASK_INITIALIZE);
+            BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
+                    getContext(), mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                    BottomNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
             boolean isValid = true;
             ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
@@ -237,7 +237,8 @@ public class MainBottomContainerLayout extends FrameLayout
             if (isValid) {
                 notifyOnInitialized();
             } else {
-                fetchBottomNewsFeedList(newsFeedListToFetch,
+                BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
+                        getContext(), newsFeedListToFetch, this,
                         BottomNewsFeedFetchTask.TASK_INITIALIZE);
             }
         }
@@ -260,38 +261,38 @@ public class MainBottomContainerLayout extends FrameLayout
         return mIsRefreshingBottomNewsFeeds;
     }
 
-    private void fetchBottomNewsFeedList(int taskType) {
-        ArrayList<NewsFeed> newsFeedListToFetch = mBottomNewsFeedAdapter.getNewsFeedList();
-        int count = newsFeedListToFetch.size();
-        ArrayList<Pair<NewsFeed, Integer>> list = new ArrayList<Pair<NewsFeed, Integer>>();
-        for (int i = 0; i < count; i++) {
-            list.add(new Pair<NewsFeed, Integer>(newsFeedListToFetch.get(i), i));
-        }
-        fetchBottomNewsFeedList(list, taskType, true);
-    }
-    private void fetchBottomNewsFeedList(ArrayList<Pair<NewsFeed, Integer>> newsFeedList,
-                                         int taskType) {
-        fetchBottomNewsFeedList(newsFeedList, taskType, true);
-    }
-    private void fetchBottomNewsFeedList(ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList,
-                                         int taskType, boolean shuffle) {
-        final int newsFeedCount = newsFeedToIndexPairList.size();
-
-        mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
-        for (int i = 0; i < newsFeedCount; i++) {
-            Pair<NewsFeed, Integer> element = newsFeedToIndexPairList.get(i);
-            NewsFeed newsFeed = element.first;
-            if (newsFeed == null) {
-                continue;
-            }
-
-            NewsFeedUrl url = newsFeed.getNewsFeedUrl();
-            BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
-                    getContext(), url, element.second, taskType, this, shuffle);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
-        }
-    }
+//    private void fetchBottomNewsFeedList(int taskType) {
+//        ArrayList<NewsFeed> newsFeedListToFetch = mBottomNewsFeedAdapter.getNewsFeedList();
+//        int count = newsFeedListToFetch.size();
+//        ArrayList<Pair<NewsFeed, Integer>> list = new ArrayList<Pair<NewsFeed, Integer>>();
+//        for (int i = 0; i < count; i++) {
+//            list.add(new Pair<NewsFeed, Integer>(newsFeedListToFetch.get(i), i));
+//        }
+//        fetchBottomNewsFeedList(list, taskType, true);
+//    }
+//    private void fetchBottomNewsFeedList(ArrayList<Pair<NewsFeed, Integer>> newsFeedList,
+//                                         int taskType) {
+//        fetchBottomNewsFeedList(newsFeedList, taskType, true);
+//    }
+//    private void fetchBottomNewsFeedList(ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList,
+//                                         int taskType, boolean shuffle) {
+//        final int newsFeedCount = newsFeedToIndexPairList.size();
+//
+//        mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
+//        for (int i = 0; i < newsFeedCount; i++) {
+//            Pair<NewsFeed, Integer> element = newsFeedToIndexPairList.get(i);
+//            NewsFeed newsFeed = element.first;
+//            if (newsFeed == null) {
+//                continue;
+//            }
+//
+//            NewsFeedUrl url = newsFeed.getNewsFeedUrl();
+//            BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
+//                    getContext(), url, element.second, taskType, this, shuffle);
+//            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//            mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
+//        }
+//    }
 
     private void fetchNextBottomNewsFeedListImageUrl(int taskType) {
         fetchNextBottomNewsFeedListImageUrl(taskType, false);
@@ -370,21 +371,6 @@ public class MainBottomContainerLayout extends FrameLayout
         }
     }
 
-    private void cancelAllTasks() {
-        cancelBottomNewsFetchTasks();
-        cancelBottomNewsImageUrlFetchTask();
-    }
-
-    private void cancelBottomNewsFetchTasks() {
-        if (mBottomNewsFeedIndexToNewsFetchTaskMap != null) {
-            int taskCount = mBottomNewsFeedIndexToNewsFetchTaskMap.size();
-            for (int i = 0; i < taskCount; i++) {
-                mBottomNewsFeedIndexToNewsFetchTaskMap.valueAt(i).cancel(true);
-            }
-            mBottomNewsFeedIndexToNewsFetchTaskMap.clear();
-        }
-    }
-
     private void cancelBottomNewsImageUrlFetchTask() {
         if (mBottomNewsFeedNewsToImageTaskMap != null) {
             for (Map.Entry<News, BottomNewsImageUrlFetchTask> entry :
@@ -400,10 +386,6 @@ public class MainBottomContainerLayout extends FrameLayout
             mNewsToFetchImageList.clear();
         }
     }
-
-//    public void onActivityPause() {
-//        cancelAllTasks();
-//    }
 
     public void animateBottomNewsFeedListOnInit() {
         mBottomNewsFeedRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -450,7 +432,9 @@ public class MainBottomContainerLayout extends FrameLayout
         // 프로그레스바를 나타내기 위해 NewsFeedUrl만 가지고 있는 뉴스피드를 넣음
         mBottomNewsFeedAdapter.setNewsFeedList(newBottomNewsFeedList);
 
-        fetchBottomNewsFeedList(BottomNewsFeedFetchTask.TASK_REFRESH);
+        BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
+                getContext(), mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                BottomNewsFeedFetchTask.TASK_REFRESH);
     }
 
     public void reloadNewsFeedAt(int idx) {
@@ -470,9 +454,8 @@ public class MainBottomContainerLayout extends FrameLayout
                 // TODO 이미지 url은 있는데 비트맵은 캐시 됐는지 안됐는지 모르는 경우. ImageLoader.get() 불러야 할듯.
             }
         } else {
-            ArrayList<Pair<NewsFeed, Integer>> list = new ArrayList<Pair<NewsFeed, Integer>>();
-            list.add(new Pair<NewsFeed, Integer>(newsFeed, idx));
-            fetchBottomNewsFeedList(list, BottomNewsFeedFetchTask.TASK_REPLACE, false);
+            BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
+                    getContext(), newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
         }
     }
 
@@ -521,50 +504,6 @@ public class MainBottomContainerLayout extends FrameLayout
                 }
             }
         }
-    }
-
-    @Override
-    public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position, int taskType) {
-        NLLog.i(TAG, "onBottomNewsFeedFetch");
-        mBottomNewsFeedIndexToNewsFetchTaskMap.remove(position);
-        mBottomNewsFeedAdapter.replaceNewsFeedAt(position, newsFeed);
-
-        int remainingTaskCount = mBottomNewsFeedIndexToNewsFetchTaskMap.size();
-
-        switch(taskType) {
-            case BottomNewsFeedFetchTask.TASK_INITIALIZE:
-                if (remainingTaskCount == 0) {
-                    mBottomNewsFeedAdapter.notifyDataSetChanged();
-
-                    NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-                            mBottomNewsFeedAdapter.getNewsFeedList());
-                    if (!mIsInitialized) {
-                        notifyOnInitialized();
-                    }
-                }
-                break;
-            case BottomNewsFeedFetchTask.TASK_REFRESH:
-                if (remainingTaskCount == 0) {
-                    mIsRefreshingBottomNewsFeeds = false;
-
-                    NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-                            mBottomNewsFeedAdapter.getNewsFeedList());
-
-                    mOnMainBottomLayoutEventListener.onMainBottomRefresh();
-
-                    fetchNextBottomNewsFeedListImageUrl(BottomNewsImageUrlFetchTask.TASK_SWIPE_REFRESH);
-                }
-                break;
-            case BottomNewsFeedFetchTask.TASK_REPLACE:
-                NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, position);
-                ArrayList<NewsFeed> list = new ArrayList<NewsFeed>();
-                list.add(newsFeed);
-                fetchNextBottomNewsFeedListImageUrl(list, BottomNewsImageUrlFetchTask.TASK_REPLACE, false);
-                break;
-            default:
-                break;
-        }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -642,5 +581,52 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
 
         notifyOnNewsImageFetched(news, position, taskType);
+    }
+
+    @Override
+    public void onBottomNewsFeedFetch(NewsFeed newsFeed, int index, int taskType) {
+        NLLog.i("asdfqwer", "onBottomNewsFeedFetch");
+        mBottomNewsFeedAdapter.replaceNewsFeedAt(index, newsFeed);
+    }
+
+    @Override
+    public void onBottomNewsFeedListFetchDone(ArrayList<Pair<NewsFeed, Integer>> newsFeedPairList,
+                                              int taskType) {
+        NLLog.i("asdfqwer", "onBottomNewsFeedListFetchDone");
+        switch(taskType) {
+            case BottomNewsFeedFetchTask.TASK_INITIALIZE:
+                mBottomNewsFeedAdapter.notifyDataSetChanged();
+
+                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+                        mBottomNewsFeedAdapter.getNewsFeedList());
+                if (!mIsInitialized) {
+                    notifyOnInitialized();
+                }
+                break;
+            case BottomNewsFeedFetchTask.TASK_REFRESH:
+                mIsRefreshingBottomNewsFeeds = false;
+
+                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+                        mBottomNewsFeedAdapter.getNewsFeedList());
+
+                mOnMainBottomLayoutEventListener.onMainBottomRefresh();
+
+                fetchNextBottomNewsFeedListImageUrl(BottomNewsImageUrlFetchTask.TASK_SWIPE_REFRESH);
+                break;
+            case BottomNewsFeedFetchTask.TASK_REPLACE:
+                ArrayList<NewsFeed> newsFeedList = new ArrayList<NewsFeed>();
+                for (Pair<NewsFeed, Integer> pair : newsFeedPairList) {
+                    NewsFeed newsFeed = pair.first;
+                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, pair.second);
+
+                    newsFeedList.add(newsFeed);
+                }
+
+                fetchNextBottomNewsFeedListImageUrl(newsFeedList,
+                        BottomNewsImageUrlFetchTask.TASK_REPLACE, false);
+                break;
+            default:
+                break;
+        }
     }
 }
