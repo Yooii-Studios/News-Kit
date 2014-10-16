@@ -3,8 +3,8 @@ package com.yooiistudios.news.iab;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.yooiistudios.news.util.StoreDebugCheckUtils;
 import com.yooiistudios.news.iab.util.Inventory;
+import com.yooiistudios.news.util.StoreDebugCheckUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +57,11 @@ public class IabProducts {
 
     public static boolean isIabProductBought(String sku, Context context) {
         return loadOwnedIabProducts(context).contains(sku);
+    }
+
+    public static boolean containsSku(Context context, String sku) {
+        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(context);
+        return ownedSkus.contains(sku);
     }
 
     // 구매된 아이템들을 로드

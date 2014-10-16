@@ -1,6 +1,7 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
@@ -27,6 +29,7 @@ import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainScrollView;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
+import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.InterpolatorHelper;
 import com.yooiistudios.news.util.NLLog;
@@ -52,6 +55,11 @@ public class MainActivity extends Activity
     // Ad
     @InjectView(R.id.main_adView)                   AdView mAdView;
     @InjectView(R.id.main_bottom_button_view)       View mBottomButtonView;
+
+    // Quit Ad Dialog
+    private AdRequest mQuitAdRequest;
+    private AdView mQuitAdView;
+
     private int mSystemWindowInset;
 
     private static final String TAG = MainActivity.class.getName();
@@ -196,6 +204,7 @@ public class MainActivity extends Activity
     @Override
     protected void onPause() {
         mAdView.pause();
+        mQuitAdView.pause();
         super.onPause();
         stopNewsAutoRefresh();
     }
@@ -261,9 +270,19 @@ public class MainActivity extends Activity
     }
 
     private void initAdView() {
+        // banner
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         mScrollView.setListener(this);
+
+        // quit
+        // make AdView earlier for showing ad fast in the quit dialog
+        mQuitAdRequest = new AdRequest.Builder().build();
+
+        mQuitAdView = new AdView(this);
+        mQuitAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        mQuitAdView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
+        mQuitAdView.loadAd(mQuitAdRequest);
     }
 
     private void checkAdView() {
@@ -278,6 +297,7 @@ public class MainActivity extends Activity
             mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
             mAdView.setVisibility(View.VISIBLE);
             mAdView.resume();
+            mQuitAdView.resume();
             mBottomButtonView.setVisibility(View.VISIBLE);
         }
     }
@@ -422,6 +442,28 @@ public class MainActivity extends Activity
 
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)) {
+            AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);
+            if (adDialog != null) {
+                adDialog.show();
+                // make AdView again for next quit dialog
+                // prevent child reference
+                mQuitAdView = new AdView(this);
+                mQuitAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+                mQuitAdView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
+                mQuitAdView.loadAd(mQuitAdRequest);
+            } else {
+                // just finish activity when dialog is null
+                super.onBackPressed();
+            }
+        } else {
+            // just finish activity when no ad item is bought
+            super.onBackPressed();
         }
     }
 }
