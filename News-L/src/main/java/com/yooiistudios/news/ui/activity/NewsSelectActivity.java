@@ -13,8 +13,6 @@ import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.news.ui.widget.viewpager.SlidingTabLayout;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -41,9 +39,8 @@ public class NewsSelectActivity extends Activity {
     }
 
     private void initAdView() {
-        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
             mAdView.setVisibility(View.GONE);
         } else {
             mAdView.setVisibility(View.VISIBLE);

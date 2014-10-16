@@ -43,6 +43,7 @@ import butterknife.InjectView;
 public class MainActivity extends Activity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener, MainScrollView.OnTouchUpDownListener {
+
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
@@ -91,59 +92,6 @@ public class MainActivity extends Activity
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
 
-    @Override
-    public void onMainTopInitialLoad() {
-        NLLog.i(TAG, "onMainTopInitialLoad");
-        showMainContentIfReady();
-        startNewsAutoRefreshIfReady();
-    }
-
-    @Override
-    public void onMainTopRefresh() {
-        NLLog.i(TAG, "onMainTopRefresh");
-        configAfterRefreshDone();
-    }
-
-    @Override
-    public void onMainBottomInitialLoad() {
-        NLLog.i(TAG, "onMainBottomInitialLoad");
-        showMainContentIfReady();
-        startNewsAutoRefreshIfReady();
-    }
-
-    @Override
-    public void onMainBottomRefresh() {
-        NLLog.i(TAG, "onMainBottomRefresh");
-        configAfterRefreshDone();
-    }
-
-    @Override
-    public void onMainBottomNewsImageInitiallyAllFetched() {
-        NLLog.i(TAG, "onMainBottomNewsImageInitiallyAllFetched");
-        startNewsAutoRefreshIfReady();
-    }
-
-    /**
-     * Main ScrollView Callback
-     */
-    @Override
-    public void onActionDown() {
-        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
-        if (!ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
-            mAdView.setVisibility(View.INVISIBLE);
-            mBottomButtonView.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void onActionUpCancel() {
-        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
-        if (!ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
-            mAdView.setVisibility(View.VISIBLE);
-            mBottomButtonView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private class NewsAutoRefreshHandler extends Handler {
         @Override
         public void handleMessage( Message msg ){
@@ -156,59 +104,9 @@ public class MainActivity extends Activity
         }
     }
 
-    private void startNewsAutoRefreshIfReady() {
-        if (mMainTopContainerLayout.isInitialized()
-                && mMainBottomContainerLayout.isInitialized()
-                && mMainBottomContainerLayout.isInitializedFirstImages()) {
-            startNewsAutoRefresh();
-        }
-    }
-
-    private void startNewsAutoRefresh() {
-        if (mIsHandlerRunning) {
-            return;
-        }
-        mIsHandlerRunning = true;
-        // 첫 실행이면 빠른 딜레이 주기
-        SharedPreferences prefs = getSharedPreferences("AutoRefreshDelayPrefs", MODE_PRIVATE);
-        int delay;
-        if (prefs.getBoolean("isNotFirstAutoRefresh", false)) {
-            delay = AUTO_REFRESH_HANDLER_FIRST_DELAY;
-            prefs.edit().putBoolean("isNotFirstAutoRefresh", true).apply();
-        } else {
-            delay = AUTO_REFRESH_HANDLER_DELAY;
-        }
-        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, delay);
-    }
-
-    private void stopNewsAutoRefresh() {
-        if (!mIsHandlerRunning) {
-            return;
-        }
-        mIsHandlerRunning = false;
-        mNewsAutoRefreshHandler.removeMessages(0);
-    }
-
     /**
-     * Auto Refresh Handler End
+     * init
      */
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startNewsAutoRefreshIfReady();
-        checkAdView();
-//        applySystemWindowsBottomInset(mScrollingContent, mAdView.getVisibility() == View.VISIBLE);
-    }
-
-    @Override
-    protected void onPause() {
-        mAdView.pause();
-        mQuitAdView.pause();
-        super.onPause();
-        stopNewsAutoRefresh();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,24 +123,6 @@ public class MainActivity extends Activity
         showMainContentIfReady();
         applySystemWindowsBottomInset();
         initAdView();
-    }
-
-    private void applySystemWindowsBottomInset() {
-        mScrollingContent.setFitsSystemWindows(true);
-        mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
-                } else {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
-                }
-                mBottomButtonView.getLayoutParams().height = mSystemWindowInset;
-                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
-                return windowInsets.consumeSystemWindowInsets();
-            }
-        });
     }
 
     private void initRefreshLayout() {
@@ -286,9 +166,8 @@ public class MainActivity extends Activity
     }
 
     private void checkAdView() {
-        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
             mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
             mAdView.setVisibility(View.GONE);
             mBottomButtonView.setVisibility(View.GONE);
@@ -302,11 +181,138 @@ public class MainActivity extends Activity
         }
     }
 
+    private void applySystemWindowsBottomInset() {
+        mScrollingContent.setFitsSystemWindows(true);
+        mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
+                } else {
+                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
+                }
+                mBottomButtonView.getLayoutParams().height = mSystemWindowInset;
+                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startNewsAutoRefreshIfReady();
+        checkAdView();
+//        applySystemWindowsBottomInset(mScrollingContent, mAdView.getVisibility() == View.VISIBLE);
+    }
+
+    @Override
+    protected void onPause() {
+        mAdView.pause();
+        mQuitAdView.pause();
+        super.onPause();
+        stopNewsAutoRefresh();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingActivity.class));
+            return true;
+        } else if (id == R.id.action_store) {
+            startActivity(new Intent(MainActivity.this, StoreActivity.class));
+            return true;
+        } else if (id == R.id.action_send_feedback) {
+            FeedbackUtils.sendFeedback(this);
+            return true;
+        } else if (id == R.id.action_remove_archive) {
+            NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+//            getSharedPreferences("bezier", MODE_PRIVATE).edit().clear().apply();
+        } else if (id == R.id.action_slow_anim) {
+            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
+                    1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
+            item.setChecked(!item.isChecked());
+        } else if (id == R.id.action_edit_bezier) {
+            InterpolatorHelper.showDialog(MainActivity.this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMainTopInitialLoad() {
+        showMainContentIfReady();
+        startNewsAutoRefreshIfReady();
+    }
+
+    @Override
+    public void onMainTopRefresh() {
+        configAfterRefreshDone();
+    }
+
+    @Override
+    public void onMainBottomInitialLoad() {
+        showMainContentIfReady();
+        startNewsAutoRefreshIfReady();
+    }
+
+    @Override
+    public void onMainBottomRefresh() {
+        configAfterRefreshDone();
+    }
+
+    @Override
+    public void onMainBottomNewsImageInitiallyAllFetched() {
+        startNewsAutoRefreshIfReady();
+    }
+
+    private void startNewsAutoRefreshIfReady() {
+        if (mMainTopContainerLayout.isInitialized()
+                && mMainBottomContainerLayout.isInitialized()
+                && mMainBottomContainerLayout.isInitializedFirstImages()) {
+            startNewsAutoRefresh();
+        }
+    }
+
+    private void startNewsAutoRefresh() {
+        if (mIsHandlerRunning) {
+            return;
+        }
+        mIsHandlerRunning = true;
+        // 첫 실행이면 빠른 딜레이 주기
+        SharedPreferences prefs = getSharedPreferences("AutoRefreshDelayPrefs", MODE_PRIVATE);
+        int delay;
+        if (prefs.getBoolean("isNotFirstAutoRefresh", false)) {
+            delay = AUTO_REFRESH_HANDLER_FIRST_DELAY;
+            prefs.edit().putBoolean("isNotFirstAutoRefresh", true).apply();
+        } else {
+            delay = AUTO_REFRESH_HANDLER_DELAY;
+        }
+        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, delay);
+    }
+
+    private void stopNewsAutoRefresh() {
+        if (!mIsHandlerRunning) {
+            return;
+        }
+        mIsHandlerRunning = false;
+        mNewsAutoRefreshHandler.removeMessages(0);
+    }
+
     private void showMainContentIfReady() {
         boolean topReady = mMainTopContainerLayout.isInitialized();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
-        NLLog.i("showMainContentIfReady", "topReady : " + topReady);
-        NLLog.i("showMainContentIfReady", "bottomReady : " + bottomReady);
 
         String loadingStatus = "Top news feed ready : " + topReady
                 + "\nBottom news feed ready : " + bottomReady;
@@ -351,41 +357,6 @@ public class MainActivity extends Activity
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
             startNewsAutoRefresh();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingActivity.class));
-            return true;
-        } else if (id == R.id.action_store) {
-            startActivity(new Intent(MainActivity.this, StoreActivity.class));
-            return true;
-        } else if (id == R.id.action_send_feedback) {
-            FeedbackUtils.sendFeedback(this);
-            return true;
-        } else if (id == R.id.action_remove_archive) {
-            NewsFeedArchiveUtils.clearArchive(getApplicationContext());
-//            getSharedPreferences("bezier", MODE_PRIVATE).edit().clear().apply();
-        } else if (id == R.id.action_slow_anim) {
-            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
-                   1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
-            item.setChecked(!item.isChecked());
-        } else if (id == R.id.action_edit_bezier) {
-            InterpolatorHelper.showDialog(MainActivity.this);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -464,6 +435,26 @@ public class MainActivity extends Activity
         } else {
             // just finish activity when no ad item is bought
             super.onBackPressed();
+        }
+    }
+
+    /**
+     * Main ScrollView Callback
+     */
+    @Override
+    public void onActionDown() {
+        if (!IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.INVISIBLE);
+            mBottomButtonView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onActionUpCancel() {
+        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
+        if (!IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.VISIBLE);
+            mBottomButtonView.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -25,7 +25,6 @@ import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -75,9 +74,8 @@ public class SettingActivity extends Activity {
         }
 
         private void initAdView() {
-            List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getActivity().getApplicationContext());
             // NO_ADS 만 체크해도 풀버전까지 체크됨
-            if (ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
+            if (IabProducts.containsSku(getActivity().getApplicationContext(), IabProducts.SKU_NO_ADS)) {
                 mAdView.setVisibility(View.GONE);
             } else {
                 mAdView.setVisibility(View.VISIBLE);
