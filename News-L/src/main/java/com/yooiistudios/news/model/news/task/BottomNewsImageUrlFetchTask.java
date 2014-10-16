@@ -46,9 +46,9 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
         super.onPostExecute(imageUrl);
 
         if (mListener != null) {
-            if (imageUrl != null) {
-                mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
+            mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
 
+            if (imageUrl != null) {
                 mImageLoader.get(mNews.getImageUrl(), new ImageLoader.ImageListener() {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -63,9 +63,6 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
                         mListener.onGetImageBitmap(mNews, mPosition, mTaskType);
                     }
                 });
-
-            } else {
-                mListener.onBottomImageUrlFetchFail(mNews, mPosition, mTaskType);
             }
         }
     }
@@ -75,7 +72,6 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
     public interface OnBottomImageUrlFetchListener {
         public void onBottomImageUrlFetchSuccess(News news, String url,
                                                  int position, int taskType);
-        public void onBottomImageUrlFetchFail(News news, int position, int taskType);
         public void onGetImageBitmap(News news, int position, int taskType);
     }
 }

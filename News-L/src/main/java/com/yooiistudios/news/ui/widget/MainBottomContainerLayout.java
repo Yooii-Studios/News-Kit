@@ -562,11 +562,17 @@ public class MainBottomContainerLayout extends FrameLayout
         news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
 
-        news.setImageUrl(url);
+        if (url != null) {
+            news.setImageUrl(url);
 
-        // archive
-        NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
-                mBottomNewsFeedAdapter.getNewsFeedList().get(position), position);
+            // archive
+            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
+                    mBottomNewsFeedAdapter.getNewsFeedList().get(position), position);
+        } else {
+            // 이미지 url이 없는 경우. 바로 notify해서 더미 이미지 보여줌.
+            notifyOnNewsImageFetched(news, position, taskType);
+        }
+
     }
 
     @Override
@@ -575,24 +581,13 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     @Override
-    public void onBottomImageUrlFetchFail(News news, int position, int taskType) {
-        NLLog.i(TAG, "onBottomImageUrlFetchFail");
-        news.setImageUrlChecked(true);
-        mBottomNewsFeedNewsToImageTaskMap.remove(news);
-
-        notifyOnNewsImageFetched(news, position, taskType);
-    }
-
-    @Override
     public void onBottomNewsFeedFetch(NewsFeed newsFeed, int index, int taskType) {
-        NLLog.i("asdfqwer", "onBottomNewsFeedFetch");
         mBottomNewsFeedAdapter.replaceNewsFeedAt(index, newsFeed);
     }
 
     @Override
     public void onBottomNewsFeedListFetchDone(ArrayList<Pair<NewsFeed, Integer>> newsFeedPairList,
                                               int taskType) {
-        NLLog.i("asdfqwer", "onBottomNewsFeedListFetchDone");
         switch(taskType) {
             case BottomNewsFeedFetchTask.TASK_INITIALIZE:
                 mBottomNewsFeedAdapter.notifyDataSetChanged();
