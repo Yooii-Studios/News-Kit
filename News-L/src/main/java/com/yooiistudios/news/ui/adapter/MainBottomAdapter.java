@@ -73,10 +73,20 @@ public class MainBottomAdapter extends
         TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
-        ArrayList<News> newsList = mNewsFeedList.get(position).getNewsList();
+        NewsFeed newsFeed = mNewsFeedList.get(position);
 
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
         imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
+
+        if (newsFeed == null) {
+            newsFeedTitleView.setText("");
+            titleView.setText("");
+            viewHolder.progressBar.setVisibility(View.INVISIBLE);
+            showDummyImage(viewHolder);
+            return;
+        }
+
+        ArrayList<News> newsList = newsFeed.getNewsList();
 
         if (newsList == null || newsList.size() == 0) {
             return;
@@ -114,18 +124,12 @@ public class MainBottomAdapter extends
         }
 
         String imageUrl = displayingNews.getImageUrl();
-//        if (position == 0) {
-//            NLLog.i("main bottom image", "position : " + position);
-//            NLLog.i("main bottom image", "imageUrl : " + imageUrl);
-//            NLLog.i("main bottom image", "displayingNewsIdx: " + mNewsFeedList.get(position).getDisplayingNewsIndex());
-//            NLLog.i("main bottom image", "displayingNews.isImageUrlChecked() : " + displayingNews.isImageUrlChecked());
-//        }
 
         showLoading(viewHolder);
 
         if (imageUrl == null) {
             if (displayingNews.isImageUrlChecked()) {
-                showDummyImage(viewHolder, position);
+                showDummyImage(viewHolder);
             }
 
             return;
@@ -188,14 +192,14 @@ public class MainBottomAdapter extends
                         // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
                         showLoading(viewHolder);
                     } else {
-                        showDummyImage(viewHolder, position);
+                        showDummyImage(viewHolder);
                     }
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                showDummyImage(viewHolder, position);
+                showDummyImage(viewHolder);
             }
         });
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
@@ -210,7 +214,7 @@ public class MainBottomAdapter extends
 //        viewHolder.itemView.setOnClickListener(null);
     }
 
-    private void showDummyImage(BottomNewsFeedViewHolder viewHolder, int position) {
+    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
         viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());

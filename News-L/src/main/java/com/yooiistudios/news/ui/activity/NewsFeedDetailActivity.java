@@ -1149,7 +1149,7 @@ public class NewsFeedDetailActivity extends Activity
 
                         animateTopItems();
                     }
-                    hideLoadingCover();
+                    configAfterRefreshDone();
 
                     if (mIsLoadingImageOnInit) {
                         mIsLoadingImageOnInit = false;
@@ -1163,7 +1163,7 @@ public class NewsFeedDetailActivity extends Activity
 
                     animateTopItems();
 
-                    hideLoadingCover();
+                    configAfterRefreshDone();
 
                     if (mIsLoadingImageOnInit) {
                         mIsLoadingImageOnInit = false;
@@ -1189,7 +1189,6 @@ public class NewsFeedDetailActivity extends Activity
         new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this, false)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        showLoadingCover();
         configBeforeRefresh();
     }
 
@@ -1197,10 +1196,13 @@ public class NewsFeedDetailActivity extends Activity
         mIsRefreshing = true;
         mSwipeRefreshLayout.setRefreshing(true);
         animateTopOverlayFadeOut();
+        showLoadingCover();
     }
     private void configAfterRefreshDone() {
+        mIsRefreshing = false;
         mSwipeRefreshLayout.setRefreshing(false);
         animateTopOverlayFadeIn();
+        hideLoadingCover();
     }
     private void showLoadingCover() {
         mLoadingCoverView.setVisibility(View.VISIBLE);
@@ -1221,18 +1223,7 @@ public class NewsFeedDetailActivity extends Activity
         mActionBarOverlayView.animate()
                 .setDuration(mActionBarBgAnimationDuration)
                 .alpha((Float) mActionBarOverlayView.getTag())
-                .setInterpolator(new DecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override public void onAnimationStart(Animator animator) {}
-                    @Override public void onAnimationCancel(Animator animator) {}
-                    @Override public void onAnimationRepeat(Animator animator) {}
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        mIsRefreshing = false;
-                    }
-
-                });
+                .setInterpolator(new DecelerateInterpolator());
     }
 
     private void animateTopOverlayFadeOut() {
@@ -1454,8 +1445,6 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onImageUrlFetchSuccess(News news, String url) {
-        configAfterRefreshDone();
-
         news.setImageUrl(url);
         news.setImageUrlChecked(true);
 
@@ -1470,7 +1459,6 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public void onImageUrlFetchFail(News news) {
         configAfterRefreshDone();
-        hideLoadingCover();
 
         news.setImageUrlChecked(true);
 
@@ -1517,7 +1505,7 @@ public class NewsFeedDetailActivity extends Activity
                     NewsFeed newsFeed = data.getExtras().getParcelable(
                             NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
 
-                    archiveNewsFeed(newsFeed);
+//                    archiveNewsFeed(newsFeed);
 
                     fetchNewsFeed(newsFeed.getNewsFeedUrl());
 
