@@ -148,6 +148,8 @@ public class NewsDetailActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    // TODO: WebViewClient 를 WebChromeClient 로 대체해서 progress 를 표시할 수 있는 것이 좋을듯
+    // onProgressChanged 에서 progress 가 업데이트됨
     private class NewsWebViewClient extends WebViewClient {
         private boolean mLoadingFinished = true;
         private boolean mRedirect = false;

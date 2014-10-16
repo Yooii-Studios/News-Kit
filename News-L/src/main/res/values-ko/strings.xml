@@ -10,6 +10,8 @@
     <string name="action_slow_anim">느린 전환</string>
     <string name="action_edit_bezier">베지어 수정</string>
     <string name="image_view_content_description">로딩 중…</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Main -->
     <string name="splash_loading_title">뉴스 L</string>
@@ -44,5 +46,8 @@
 
     <!-- Feedback -->
     <string name="feedback_description">뉴스 L을 개선하기 위한 의견을 들려주세요^^</string>
+
+    <!-- Ad -->
+    <string name="ad_dialog_title_text">뉴스 L을 종료하시겠습니까?</string>
 
 </resources>

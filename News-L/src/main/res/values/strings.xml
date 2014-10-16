@@ -10,6 +10,8 @@
     <string name="action_slow_anim">Slow act trans</string>
     <string name="action_edit_bezier">Edit bezier</string>
     <string name="image_view_content_description">Loading…</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Main -->
     <string name="splash_loading_title">News L</string>
@@ -45,4 +47,6 @@
     <!-- Feedback -->
     <string name="feedback_description">How can we improve News L?</string>
 
+    <!-- Ad -->
+    <string name="ad_dialog_title_text">Do you want to quit News L?</string>
 </resources>
