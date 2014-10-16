@@ -447,19 +447,23 @@ public class MainActivity extends Activity
 
     @Override
     public void onBackPressed() {
-        AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);
-        if (adDialog != null) {
-            adDialog.show();
+        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)) {
+            AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);
+            if (adDialog != null) {
+                adDialog.show();
+                // make AdView again for next quit dialog
+                // prevent child reference
+                mQuitAdView = new AdView(this);
+                mQuitAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+                mQuitAdView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
+                mQuitAdView.loadAd(mQuitAdRequest);
+            } else {
+                // just finish activity when dialog is null
+                super.onBackPressed();
+            }
         } else {
-            // just finish activity when dialog is null
+            // just finish activity when no ad item is bought
             super.onBackPressed();
         }
-
-        // make AdView again for next quit dialog
-        // prevent child reference
-        mQuitAdView = new AdView(this);
-        mQuitAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
-        mQuitAdView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
-        mQuitAdView.loadAd(mQuitAdRequest);
     }
 }
