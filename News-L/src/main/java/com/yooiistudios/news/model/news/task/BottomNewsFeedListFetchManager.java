@@ -45,9 +45,8 @@ public class BottomNewsFeedListFetchManager
         mNewsFeedToIndexPairList = new ArrayList<Pair<NewsFeed, Integer>>();
     }
 
-    public void fetchNewsFeed(
-            Context context, NewsFeed newsFeed, int index,
-            OnFetchListener listener, int taskType) {
+    public void fetchNewsFeed(Context context, NewsFeed newsFeed, int index,
+                              OnFetchListener listener, int taskType) {
         ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList =
                 new ArrayList<Pair<NewsFeed, Integer>>();
 
@@ -55,9 +54,8 @@ public class BottomNewsFeedListFetchManager
 
         fetch(context, newsFeedToIndexPairList, listener, taskType);
     }
-    public void fetchNewsFeedList(
-            Context context, ArrayList<NewsFeed> newsFeedList,
-            OnFetchListener listener, int taskType) {
+    public void fetchNewsFeedList(Context context, ArrayList<NewsFeed> newsFeedList,
+                                  OnFetchListener listener, int taskType) {
         int count = newsFeedList.size();
         ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList =
                 new ArrayList<Pair<NewsFeed, Integer>>();
