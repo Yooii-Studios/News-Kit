@@ -67,6 +67,15 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedList, listener, taskType, true);
     }
 
+    public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
+                                         OnFetchListener listener, int taskType) {
+
+        ArrayList<NewsFeed> list = new ArrayList<NewsFeed>();
+        list.add(newsFeed);
+
+        fetch(imageLoader, list, listener, taskType, true);
+    }
+
     private void fetch(final ImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                        OnFetchListener listener, int taskType, boolean fetchNextNewsImage) {
         cancelBottomNewsImageUrlFetchTask();

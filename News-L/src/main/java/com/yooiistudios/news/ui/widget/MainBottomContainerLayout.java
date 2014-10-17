@@ -332,14 +332,14 @@ public class MainBottomContainerLayout extends FrameLayout
 
             News news = newsFeed.getNewsList().get(newsFeed.getDisplayingNewsIndex());
             if (news.getImageUrl() == null) {
-                ArrayList<NewsFeed> list = new ArrayList<NewsFeed>();
-                list.add(newsFeed);
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImage(
                         mImageLoader, newsFeed, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
                 );
-            } else {
-                // TODO 이미지 url은 있는데 비트맵은 캐시 됐는지 안됐는지 모르는 경우. ImageLoader.get() 불러야 할듯.
             }
+            // 다음 이미지 불러오기
+            BottomNewsImageFetchManager.getInstance().fetchNextNewsImage(
+                    mImageLoader, newsFeed, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
+            );
         } else {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
                     getContext(), newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
