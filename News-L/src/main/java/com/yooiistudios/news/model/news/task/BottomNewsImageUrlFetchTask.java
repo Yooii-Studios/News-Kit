@@ -21,7 +21,7 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
     private int mTaskType;
     private OnBottomImageUrlFetchListener mListener;
 
-    public static final int TASK_NONE = -1;
+    public static final int TASK_INVALID = -1;
     public static final int TASK_INITIAL_LOAD = 0;
     public static final int TASK_REPLACE = 1;
     public static final int TASK_SWIPE_REFRESH = 2;
@@ -46,26 +46,23 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
         super.onPostExecute(imageUrl);
 
         if (mListener != null) {
-            if (imageUrl != null) {
-                mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
+            mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
 
+            if (imageUrl != null) {
                 mImageLoader.get(mNews.getImageUrl(), new ImageLoader.ImageListener() {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                         if (response.getBitmap() == null && isImmediate) {
                             return;
                         }
-                        mListener.onGetImageBitmap(mNews, mPosition, mTaskType);
+                        mListener.onFetchImage(mNews, mPosition, mTaskType);
                     }
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        mListener.onGetImageBitmap(mNews, mPosition, mTaskType);
+                        mListener.onFetchImage(mNews, mPosition, mTaskType);
                     }
                 });
-
-            } else {
-                mListener.onBottomImageUrlFetchFail(mNews, mPosition, mTaskType);
             }
         }
     }
@@ -75,7 +72,6 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
     public interface OnBottomImageUrlFetchListener {
         public void onBottomImageUrlFetchSuccess(News news, String url,
                                                  int position, int taskType);
-        public void onBottomImageUrlFetchFail(News news, int position, int taskType);
-        public void onGetImageBitmap(News news, int position, int taskType);
+        public void onFetchImage(News news, int position, int taskType);
     }
 }
