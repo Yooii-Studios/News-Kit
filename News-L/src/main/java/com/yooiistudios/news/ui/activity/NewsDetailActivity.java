@@ -2,6 +2,7 @@ package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -114,15 +115,15 @@ public class NewsDetailActivity extends Activity {
         containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                Resources resources = getResources();
+                DisplayMetrics metrics = resources.getDisplayMetrics();
                 ViewGroup.MarginLayoutParams fabLayoutParams =
                         (RelativeLayout.LayoutParams)mFab.getLayoutParams();
 //                ViewGroup.MarginLayoutParams lp =
 //                        (ViewGroup.MarginLayoutParams)mRootContainer.getLayoutParams();
                 ViewGroup.MarginLayoutParams webViewLayoutParams =
                         (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
-                ViewGroup.MarginLayoutParams progressBarParams =
-                        (ViewGroup.MarginLayoutParams) mProgressBar.getLayoutParams();
+                int progressMarginOffset = resources.getDimensionPixelSize(R.dimen.progress_margin_offset);
 
                 if (metrics.widthPixels < metrics.heightPixels) {
                     NLLog.now("Portrait");
@@ -130,20 +131,23 @@ public class NewsDetailActivity extends Activity {
 
 //                    webViewLayoutParams.topMargin += windowInsets.getSystemWindowInsetTop();
 //                    webViewLayoutParams.bottomMargin += windowInsets.getSystemWindowInsetBottom();
-//                    progressBarParams.topMargin += windowInsets.getSystemWindowInsetTop();
 //                    mFab.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
-                    fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
+                    fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom() +
+                    resources.getDimensionPixelSize(R.dimen.fab_margin);
 //                    mWebView.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
 //                            windowInsets.getSystemWindowInsetBottom());
-//                    mProgressBar.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0, 0);
+                    mProgressBar.setPadding(0,
+                            windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
                 } else {
                     NLLog.now("Landscape");
 //                    lp.rightMargin += windowInsets.getSystemWindowInsetRight();
 //                    mFab.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
-                    fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
+                    fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom() +
+                            resources.getDimensionPixelSize(R.dimen.fab_margin);
 //                    webViewLayoutParams.topMargin += windowInsets.getSystemWindowInsetTop();
 //                    webViewLayoutParams.rightMargin += windowInsets.getSystemWindowInsetRight();
-//                    progressBarParams.rightMargin += windowInsets.getSystemWindowInsetRight();
+                    mProgressBar.setPadding(0,
+                            windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
                 }
                 return windowInsets.consumeSystemWindowInsets();
             }
