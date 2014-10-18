@@ -5,21 +5,22 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.webkit.WebBackForwardList;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.FloatingActionButton;
+import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.WebUtils;
 
 import java.lang.reflect.Field;
@@ -29,15 +30,14 @@ import butterknife.InjectView;
 
 
 public class NewsDetailActivity extends Activity {
-
     private static final String TAG = NewsDetailActivity.class.getName();
 
-    @InjectView(R.id.news_detail_root)              FrameLayout mRootContainer;
+    @InjectView(R.id.news_detail_root)              RelativeLayout mRootContainer;
     @InjectView(R.id.news_detail_fab)               FloatingActionButton mFab;
-    @InjectView(R.id.news_detail_loading_container) FrameLayout mLoadingLayout;
+//    @InjectView(R.id.news_detail_loading_container) FrameLayout mLoadingLayout;
+    @InjectView(R.id.news_detail_progress_bar)      ProgressBar mProgressBar;
 
     private WebView mWebView;
-
     private News mNews;
 
     @Override
@@ -49,12 +49,10 @@ public class NewsDetailActivity extends Activity {
 
         mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
 
-        mWebView = new MWebView(getApplicationContext());
-        mRootContainer.addView(mWebView);
-
         initWebView();
 
-        mLoadingLayout.bringToFront();
+//        mLoadingLayout.bringToFront();
+
         mFab.bringToFront();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +79,9 @@ public class NewsDetailActivity extends Activity {
     }
 
     private void initWebView() {
+        mWebView = new WebView(getApplicationContext());
+        mRootContainer.addView(mWebView);
+
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
@@ -88,24 +89,61 @@ public class NewsDetailActivity extends Activity {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
         mWebView.setWebViewClient(new NewsWebViewClient());
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                mProgressBar.setProgress(newProgress);
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                getWindow().setTitle(title);
+            }
+        });
+
         mWebView.loadUrl(mNews.getLink());
 
         applySystemWindowsBottomInset(mRootContainer);
     }
 
     private void applySystemWindowsBottomInset(View containerView) {
+        NLLog.now("applySystemWindowsBottomInset");
         containerView.setFitsSystemWindows(true);
         containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
-                ViewGroup.MarginLayoutParams lp = (FrameLayout.LayoutParams)mFab.getLayoutParams();
+                ViewGroup.MarginLayoutParams fabLayoutParams =
+                        (RelativeLayout.LayoutParams)mFab.getLayoutParams();
+//                ViewGroup.MarginLayoutParams lp =
+//                        (ViewGroup.MarginLayoutParams)mRootContainer.getLayoutParams();
+                ViewGroup.MarginLayoutParams webViewLayoutParams =
+                        (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
+                ViewGroup.MarginLayoutParams progressBarParams =
+                        (ViewGroup.MarginLayoutParams) mProgressBar.getLayoutParams();
+
                 if (metrics.widthPixels < metrics.heightPixels) {
-                    lp.bottomMargin += windowInsets.getSystemWindowInsetBottom();
+                    NLLog.now("Portrait");
+//                    lp.bottomMargin += windowInsets.getSystemWindowInsetBottom();
+
+//                    webViewLayoutParams.topMargin += windowInsets.getSystemWindowInsetTop();
+//                    webViewLayoutParams.bottomMargin += windowInsets.getSystemWindowInsetBottom();
+//                    progressBarParams.topMargin += windowInsets.getSystemWindowInsetTop();
 //                    mFab.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+                    fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
+//                    mWebView.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
+//                            windowInsets.getSystemWindowInsetBottom());
+//                    mProgressBar.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0, 0);
                 } else {
-                    lp.rightMargin += windowInsets.getSystemWindowInsetRight();
+                    NLLog.now("Landscape");
+//                    lp.rightMargin += windowInsets.getSystemWindowInsetRight();
 //                    mFab.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+                    fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
+//                    webViewLayoutParams.topMargin += windowInsets.getSystemWindowInsetTop();
+//                    webViewLayoutParams.rightMargin += windowInsets.getSystemWindowInsetRight();
+//                    progressBarParams.rightMargin += windowInsets.getSystemWindowInsetRight();
                 }
                 return windowInsets.consumeSystemWindowInsets();
             }
@@ -129,75 +167,58 @@ public class NewsDetailActivity extends Activity {
     }
     */
 
+/*
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.news, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    public void onBackPressed() {
+        if(mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
         }
-        return super.onOptionsItemSelected(item);
     }
+*/
+
 
     // TODO: WebViewClient 를 WebChromeClient 로 대체해서 progress 를 표시할 수 있는 것이 좋을듯
     // onProgressChanged 에서 progress 가 업데이트됨
     private class NewsWebViewClient extends WebViewClient {
-        private boolean mLoadingFinished = true;
-        private boolean mRedirect = false;
+        private boolean mIsRedirected = false;
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (!mLoadingFinished) {
-                mRedirect = true;
-            }
-
-            mLoadingFinished = false;
-
             view.loadUrl(url);
+            mIsRedirected = true;
             return true;
         }
 
-//        @Override
-//        public void onPageFinished(WebView view, String url) {
-//            super.onPageFinished(view, url);
-//            NLLog.i(TAG, "\n\n=========");
-//            NLLog.i(TAG, "onPageFinished");
-//            NLLog.i(TAG, "url : " + url);
-//            NLLog.i(TAG, "=========\n");
-//        }
-
         @Override
         public void onPageStarted(WebView view, String url, Bitmap facIcon) {
-            mLoadingFinished = false;
-            //SHOW LOADING IF IT ISNT ALREADY VISIBLE
-            if (mLoadingLayout.getVisibility() != View.VISIBLE) {
-                mLoadingLayout.setVisibility(View.VISIBLE);
+            if (!mIsRedirected) {
+                //Do something you want when starts loading
+                mProgressBar.setVisibility(View.VISIBLE);
             }
+            mIsRedirected = false;
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            if(!mRedirect){
-                mLoadingFinished = true;
-            }
-
-            if(mLoadingFinished && !mRedirect){
-                //HIDE LOADING IT HAS FINISHED
-                mLoadingLayout.setVisibility(View.INVISIBLE);
-            } else{
-                mRedirect = false;
+//            if(!mIsRedirected){
+//                mLoadingFinished = true;
+//            }
+//
+//            if(mLoadingFinished && !mIsRedirected){
+//                //HIDE LOADING IT HAS FINISHED
+//                mLoadingLayout.setVisibility(View.INVISIBLE);
+//            } else{
+//                mIsRedirected = false;
+//            }
+            if (!mIsRedirected) {
+                //Do something you want when finished loading
+                mProgressBar.setVisibility(View.INVISIBLE);
             }
 
         }
     }
+
     private void setConfigCallback(WindowManager windowManager) {
         try {
             Field field = WebView.class.getDeclaredField("mWebViewCore");
@@ -213,7 +234,7 @@ public class NewsDetailActivity extends Activity {
             field = field.getType().getDeclaredField("mWindowManager");
             field.setAccessible(true);
             field.set(configCallback, windowManager);
-        } catch(Exception e) {
+        } catch(Exception ignored) {
         }
     }
 
@@ -226,18 +247,5 @@ public class NewsDetailActivity extends Activity {
 
         setConfigCallback(null);
         super.onDestroy();
-    }
-
-    private class MWebView extends WebView {
-
-        public MWebView(Context context) {
-            super(context);
-        }
-
-        @Override
-        public void onDetachedFromWindow(){
-            super.onDetachedFromWindow();
-            setVisible(false);
-        }
     }
 }
