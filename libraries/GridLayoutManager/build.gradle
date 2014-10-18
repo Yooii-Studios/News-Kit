@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "19.1.0"
 
     defaultConfig {
         applicationId "com.antonioleiva.recyclerviewextensions"
-        minSdkVersion 'L'
-        targetSdkVersion 'L'
+        minSdkVersion 21
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -21,6 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:recyclerview-v7:21.+'
-    compile "com.android.support:cardview-v7:21.0.0-rc1"
+    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile "com.android.support:cardview-v7:21.0.0"
 }

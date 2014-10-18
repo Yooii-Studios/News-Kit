@@ -75,4 +75,9 @@ public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
             }
         };
     }
+
+    @Override
+    public boolean animateChange(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2, int i, int i2, int i3, int i4) {
+        return false;
+    }
 }

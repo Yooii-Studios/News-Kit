@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
-import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -195,11 +194,6 @@ public class NewsFeedDetailActivity extends Activity
         if (topNewsIndex < mNewsFeed.getNewsList().size()) {
             mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
         }
-        String imageViewName = getIntent().getExtras().getString(MainActivity
-                .INTENT_KEY_VIEW_NAME_IMAGE, null);
-
-        // set view name to animate
-        mTopImageView.setViewName(imageViewName);
 
         applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
         initRootLayout();
@@ -1274,8 +1268,8 @@ public class NewsFeedDetailActivity extends Activity
                     mTintType = TintType.GRAYSCALE;
                 } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
                     // 메인 하단에서 온 경우
-                    PaletteItem paletteItem = getTopImageFilterColorPaletteItem();
-                    if (paletteItem != null) {
+                    int filterColor = getTopImageFilterColorPaletteItem();
+                    if (filterColor != Color.TRANSPARENT) {
                         mTintType = TintType.PALETTE;
                     } else {
                         mTintType = TintType.GRAYSCALE;
@@ -1304,12 +1298,12 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void applyPalette(boolean applyColorFilter) {
-        PaletteItem lightVibrantColor = mPalette.getLightVibrantColor();
+        int lightVibrantColor = mPalette.getLightVibrantColor(Color.TRANSPARENT);
 
         mTopTitleTextView.setTextColor(Color.WHITE);
 
-        if (lightVibrantColor != null) {
-            mTopDescriptionTextView.setTextColor(lightVibrantColor.getRgb());
+        if (lightVibrantColor != Color.TRANSPARENT) {
+            mTopDescriptionTextView.setTextColor(lightVibrantColor);
         }
 
         int filterColor = getFilterColor();
@@ -1338,9 +1332,9 @@ public class NewsFeedDetailActivity extends Activity
                 alpha = Color.alpha(color);
                 break;
             case PALETTE:
-                PaletteItem darkVibrantColor = getTopImageFilterColorPaletteItem();
-                if (darkVibrantColor != null) {
-                    color = darkVibrantColor.getRgb();
+                int filterColor = getTopImageFilterColorPaletteItem();
+                if (filterColor != Color.TRANSPARENT) {
+                    color = filterColor;
                     alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
                     break;
                 }
@@ -1355,13 +1349,8 @@ public class NewsFeedDetailActivity extends Activity
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
     }
 
-    private PaletteItem getTopImageFilterColorPaletteItem() {
-        PaletteItem darkVibrantColor = mPalette.getDarkVibrantColor();
-        if (darkVibrantColor != null) {
-            return darkVibrantColor;
-        } else {
-            return null;
-        }
+    private int getTopImageFilterColorPaletteItem() {
+        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
     }
 
     @Override

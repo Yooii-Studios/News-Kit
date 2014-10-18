@@ -444,8 +444,6 @@ public class MainTopContainerLayout extends FrameLayout
         Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, position);
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_IMAGE, viewHolder.getImageView().getViewName());
-        intent.putExtra(MainActivity.INTENT_KEY_VIEW_NAME_TITLE, viewHolder.getTitleTextView().getViewName());
 
         // 뉴스 새로 선택시
         intent.putExtra(MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
