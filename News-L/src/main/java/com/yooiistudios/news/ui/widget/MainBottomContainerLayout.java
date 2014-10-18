@@ -27,7 +27,7 @@ import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchManager;
-import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
@@ -179,7 +179,7 @@ public class MainBottomContainerLayout extends FrameLayout
                     BottomNewsImageFetchManager.getInstance().fetchNextNewsImageList(
                             mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(),
                             MainBottomContainerLayout.this,
-                            BottomNewsImageUrlFetchTask.TASK_AUTO_REFRESH
+                            BottomNewsImageFetchTask.TASK_AUTO_REFRESH
                     );
                 }
             }
@@ -254,7 +254,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
                 mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
-                BottomNewsImageUrlFetchTask.TASK_INITIAL_LOAD);
+                BottomNewsImageFetchTask.TASK_INITIAL_LOAD);
     }
 
     public boolean isRefreshingBottomNewsFeeds() {
@@ -331,12 +331,12 @@ public class MainBottomContainerLayout extends FrameLayout
             News news = newsFeed.getNewsList().get(newsFeed.getDisplayingNewsIndex());
             if (news.getImageUrl() == null) {
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImage(
-                        mImageLoader, newsFeed, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
+                        mImageLoader, newsFeed, this, BottomNewsImageFetchTask.TASK_REPLACE
                 );
             }
             // 다음 이미지 불러오기
             BottomNewsImageFetchManager.getInstance().fetchNextNewsImage(
-                    mImageLoader, newsFeed, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
+                    mImageLoader, newsFeed, this, BottomNewsImageFetchTask.TASK_REPLACE
             );
         } else {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
@@ -443,7 +443,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
-                        BottomNewsImageUrlFetchTask.TASK_SWIPE_REFRESH
+                        BottomNewsImageFetchTask.TASK_SWIPE_REFRESH
                 );
                 break;
             case BottomNewsFeedFetchTask.TASK_REPLACE:
@@ -456,7 +456,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 }
 
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
-                        mImageLoader, newsFeedList, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
+                        mImageLoader, newsFeedList, this, BottomNewsImageFetchTask.TASK_REPLACE
                 );
                 break;
             default:
@@ -486,7 +486,7 @@ public class MainBottomContainerLayout extends FrameLayout
     @Override
     public void onBottomNewsImageListFetchDone(int taskType) {
         // 모든 이미지가 불려진 경우
-        if (taskType == BottomNewsImageUrlFetchTask.TASK_INITIAL_LOAD) {
+        if (taskType == BottomNewsImageFetchTask.TASK_INITIAL_LOAD) {
             if (!mIsInitializedFirstImages) {
                 mIsInitializedFirstImages = true;
 

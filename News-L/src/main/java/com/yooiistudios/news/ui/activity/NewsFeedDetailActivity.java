@@ -137,6 +137,8 @@ public class NewsFeedDetailActivity extends Activity
     private AlphaForegroundColorSpan mColorSpan;
     private int mActionTextColor;
 
+    private NewsFeedDetailNewsFeedFetchTask mNewsFeedFetchTask;
+
     // 액티비티 전환 애니메이션 관련 변수
     private ActivityTransitionImageViewProperty mTransImageViewProperty;
     private ActivityTransitionTextViewProperty mTransTitleViewProperty;
@@ -235,6 +237,15 @@ public class NewsFeedDetailActivity extends Activity
             });
         } else {
             showLoadingCover();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mNewsFeedFetchTask != null) {
+            mNewsFeedFetchTask.cancel(true);
         }
     }
 
@@ -1180,8 +1191,9 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void fetchNewsFeed(NewsFeedUrl newsFeedUrl) {
-        new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this, false)
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this,
+                false);
+        mNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         configBeforeRefresh();
     }

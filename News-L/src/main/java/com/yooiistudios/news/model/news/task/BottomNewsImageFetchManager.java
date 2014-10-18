@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +20,11 @@ import java.util.Map;
  *
  */
 public class BottomNewsImageFetchManager
-        implements BottomNewsImageUrlFetchTask.OnBottomImageUrlFetchListener {
+        implements BottomNewsImageFetchTask.OnBottomImageUrlFetchListener {
 
     private static BottomNewsImageFetchManager instance;
 
-    private HashMap<News, BottomNewsImageUrlFetchTask> mBottomNewsFeedNewsToImageTaskMap;
+    private HashMap<News, BottomNewsImageFetchTask> mBottomNewsFeedNewsToImageTaskMap;
     private ArrayList<Pair<News, Boolean>> mNewsToFetchImageList;
     private int mTaskType;
     private OnFetchListener mListener;
@@ -43,7 +44,7 @@ public class BottomNewsImageFetchManager
     }
 
     private BottomNewsImageFetchManager() {
-        mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageUrlFetchTask>();
+        mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageFetchTask>();
         mNewsToFetchImageList = new ArrayList<Pair<News, Boolean>>();
     }
 
@@ -112,14 +113,16 @@ public class BottomNewsImageFetchManager
 
         for (int i = 0; i < mNewsToFetchImageList.size(); i++) {
             final News news = mNewsToFetchImageList.get(i).first;
+            final int newsFeedIndex = i;
             if (!news.isImageUrlChecked()) {
-                BottomNewsImageUrlFetchTask task = new BottomNewsImageUrlFetchTask(imageLoader,
+                BottomNewsImageFetchTask task = new BottomNewsImageFetchTask(imageLoader,
                         news, i, mTaskType, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             } else {
                 if (news.getImageUrl() != null) {
+                    NLLog.i("Image fetch", "imageLoader.get. newsFeedIndex : " + newsFeedIndex);
                     imageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
                         @Override
                         public void onResponse(ImageLoader.ImageContainer response,
@@ -127,22 +130,29 @@ public class BottomNewsImageFetchManager
                             if (response.getBitmap() == null && isImmediate) {
                                 return;
                             }
-                            checkAllImageFetched(news, mTaskType);
+                            notifyOnImageFetch(news, newsFeedIndex, mTaskType);
+                            NLLog.i("Image fetch", "onResponse. newsFeedIndex : " + newsFeedIndex);
                         }
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            checkAllImageFetched(news, mTaskType);
+                            notifyOnImageFetch(news, newsFeedIndex, mTaskType);
+                            NLLog.i("Image fetch", "onErrorResponse. newsFeedIndex : " + newsFeedIndex);
                         }
                     });
                 } else {
-                    checkAllImageFetched(news, mTaskType);
+                    notifyOnImageFetch(news, newsFeedIndex, mTaskType);
+                    NLLog.i("Image fetch", "no url. newsFeedIndex : " + newsFeedIndex);
                 }
             }
         }
     }
 
-    private void checkAllImageFetched(News news, int taskType) {
+    private void notifyOnImageFetch(News news, int position, int taskType) {
+        if (mListener != null) {
+            mListener.onBottomNewsImageFetch(position);
+        }
+
         for (int i = 0; i < mNewsToFetchImageList.size(); i++) {
             Pair<News, Boolean> pair = mNewsToFetchImageList.get(i);
             if (pair.first == news) {
@@ -168,9 +178,9 @@ public class BottomNewsImageFetchManager
 
     private void cancelBottomNewsImageUrlFetchTask() {
         if (mBottomNewsFeedNewsToImageTaskMap != null) {
-            for (Map.Entry<News, BottomNewsImageUrlFetchTask> entry :
+            for (Map.Entry<News, BottomNewsImageFetchTask> entry :
                     mBottomNewsFeedNewsToImageTaskMap.entrySet()) {
-                BottomNewsImageUrlFetchTask task = entry.getValue();
+                BottomNewsImageFetchTask task = entry.getValue();
                 if (task != null) {
                     task.cancel(true);
                 }
@@ -182,7 +192,7 @@ public class BottomNewsImageFetchManager
         }
 
         mListener = null;
-        mTaskType = BottomNewsImageUrlFetchTask.TASK_INVALID;
+        mTaskType = BottomNewsImageFetchTask.TASK_INVALID;
     }
 
     @Override
@@ -198,10 +208,7 @@ public class BottomNewsImageFetchManager
 
     @Override
     public void onFetchImage(News news, int position, int taskType) {
-        checkAllImageFetched(news, taskType);
-
-        if (mListener != null) {
-            mListener.onBottomNewsImageFetch(position);
-        }
+        notifyOnImageFetch(news, position, taskType);
+        NLLog.i("Image fetch", "onFetchImage. newsFeedIndex : " + position);
     }
 }
