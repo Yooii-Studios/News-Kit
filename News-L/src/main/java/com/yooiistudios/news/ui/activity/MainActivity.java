@@ -244,9 +244,10 @@ public class MainActivity extends Activity
             NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
                     1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
             item.setChecked(!item.isChecked());
-        } else if (id == R.id.action_edit_bezier) {
-            InterpolatorHelper.showDialog(MainActivity.this);
         }
+//        else if (id == R.id.action_edit_bezier) {
+//            InterpolatorHelper.showDialog(MainActivity.this);
+//        }
         return super.onOptionsItemSelected(item);
     }
 
