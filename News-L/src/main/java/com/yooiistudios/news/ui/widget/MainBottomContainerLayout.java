@@ -45,8 +45,6 @@ import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_BOTTOM_N
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_NEWS_FEED_LOCATION;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TINT_TYPE;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_VIEW_NAME_IMAGE;
-import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_VIEW_NAME_TITLE;
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED;
 import static com.yooiistudios.news.ui.activity.MainActivity.RC_NEWS_FEED_DETAIL;
 
@@ -375,8 +373,6 @@ public class MainBottomContainerLayout extends FrameLayout
                 NewsFeedDetailActivity.class);
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, newsFeed.getDisplayingNewsIndex());
-        intent.putExtra(INTENT_KEY_VIEW_NAME_IMAGE, imageView.getViewName());
-        intent.putExtra(INTENT_KEY_VIEW_NAME_TITLE, newsTitleTextView.getViewName());
 
         // 뉴스 새로 선택시
         intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION,

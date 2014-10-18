@@ -19,6 +19,8 @@ package com.yooiistudios.news.ui.widget;
 import android.content.Context;
 import android.graphics.Outline;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 
 /**
@@ -97,12 +99,15 @@ public class FloatingActionButton extends FrameLayout {
 
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(final int w, final int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        Outline outline = new Outline();
-        outline.setOval(0, 0, w, h);
-        setOutline(outline);
+        setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setOval(0, 0, w, h);
+            }
+        });
         setClipToOutline(true);
     }
 

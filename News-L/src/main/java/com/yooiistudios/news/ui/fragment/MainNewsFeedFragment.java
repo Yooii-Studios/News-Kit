@@ -20,7 +20,6 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
-import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
@@ -106,10 +105,8 @@ public class MainNewsFeedFragment extends Fragment {
             return root;
         }
 
-        holder.imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + mPosition);
         applyImage(holder);
 
-        holder.titleTextView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX + mPosition);
         String newsName = mNews.getTitle();
         if (newsName != null) {
             holder.titleTextView.setText(newsName);

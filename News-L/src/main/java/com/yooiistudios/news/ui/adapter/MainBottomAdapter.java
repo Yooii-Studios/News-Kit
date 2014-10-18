@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.graphics.Palette;
-import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
-import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import java.util.ArrayList;
@@ -114,10 +112,6 @@ public class MainBottomAdapter extends
         if (newsTitle != null) {
             titleView.setText(newsTitle);
         }
-        titleView.setViewName(MainActivity.VIEW_NAME_TITLE_PREFIX +
-                VIEW_NAME_POSTFIX + position);
-
-        imageView.setViewName(MainActivity.VIEW_NAME_IMAGE_PREFIX + VIEW_NAME_POSTFIX + position);
 
         String newsFeedTitle = mNewsFeedList.get(position).getTitle();
         if (newsFeedTitle != null) {
@@ -175,9 +169,9 @@ public class MainBottomAdapter extends
 
                     // apply palette
                     Palette palette = Palette.generate(bitmap);
-                    PaletteItem paletteItem = palette.getDarkVibrantColor();
-                    if (paletteItem != null) {
-                        int darkVibrantColor = paletteItem.getRgb();
+                    int darkVibrantColor = palette.getDarkVibrantColor(Color.TRANSPARENT);
+                    if (darkVibrantColor != Color.TRANSPARENT) {
+//                        int darkVibrantColor = paletteItem.getRgb();
                         int red = Color.red(darkVibrantColor);
                         int green = Color.green(darkVibrantColor);
                         int blue = Color.blue(darkVibrantColor);
