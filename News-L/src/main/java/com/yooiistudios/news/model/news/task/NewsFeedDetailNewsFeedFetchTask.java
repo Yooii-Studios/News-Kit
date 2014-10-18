@@ -41,14 +41,14 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-        if (true) {
-            try {
-                Thread.sleep(1000 * 100);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
+//        if (true) {
+//            try {
+//                Thread.sleep(1000 * 100);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
 
         return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT, mShuffle);
     }

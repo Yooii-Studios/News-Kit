@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Pair;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,12 +77,14 @@ public class MainBottomContainerLayout extends FrameLayout
     private boolean mIsInitializedFirstImages = false;
 
     private boolean mIsRefreshingBottomNewsFeeds = false;
+    private boolean mIsReplacingBottomNewsFeed = false;
 
     // interface
     public interface OnMainBottomLayoutEventListener {
         public void onMainBottomInitialLoad();
         public void onMainBottomRefresh();
         public void onMainBottomNewsImageInitiallyAllFetched();
+        public void onMainBottomNewsReplaceDone();
     }
 
     public MainBottomContainerLayout(Context context) {
@@ -176,7 +179,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
                 if (newsFeedIndex == mBottomNewsFeedRecyclerView.getChildCount() - 1) {
-                    BottomNewsImageFetchManager.getInstance().fetchNextNewsImageList(
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
                             mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(),
                             MainBottomContainerLayout.this,
                             BottomNewsImageFetchTask.TASK_AUTO_REFRESH
@@ -252,7 +255,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mOnMainBottomLayoutEventListener.onMainBottomInitialLoad();
 
-        BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
+        BottomNewsImageFetchManager.getInstance().fetchAllDisplayingNewsImageList(
                 mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
                 BottomNewsImageFetchTask.TASK_INITIAL_LOAD);
     }
@@ -325,20 +328,21 @@ public class MainBottomContainerLayout extends FrameLayout
         //read from cache
         NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(getContext(), idx);
 
+        mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
         if (newsFeed.isValid()) {
-            mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
 
             News news = newsFeed.getNewsList().get(newsFeed.getDisplayingNewsIndex());
             if (news.getImageUrl() == null) {
+                mIsReplacingBottomNewsFeed = true;
+
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImage(
-                        mImageLoader, newsFeed, this, BottomNewsImageFetchTask.TASK_REPLACE
+                        mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
                 );
             }
             // 다음 이미지 불러오기
-            BottomNewsImageFetchManager.getInstance().fetchNextNewsImage(
-                    mImageLoader, newsFeed, this, BottomNewsImageFetchTask.TASK_REPLACE
-            );
         } else {
+            mIsReplacingBottomNewsFeed = true;
+
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
                     getContext(), newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
         }
@@ -356,6 +360,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public boolean isInitializedFirstImages() {
         return mIsInitializedFirstImages;
+    }
+
+    public boolean isReplacingBottomNewsFeed() {
+        return mIsReplacingBottomNewsFeed;
     }
 
     @SuppressWarnings("unchecked")
@@ -441,22 +449,22 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 mOnMainBottomLayoutEventListener.onMainBottomRefresh();
 
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
+                BottomNewsImageFetchManager.getInstance().fetchAllDisplayingNewsImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
                         BottomNewsImageFetchTask.TASK_SWIPE_REFRESH
                 );
                 break;
             case BottomNewsFeedFetchTask.TASK_REPLACE:
-                ArrayList<NewsFeed> newsFeedList = new ArrayList<NewsFeed>();
+                SparseArray<NewsFeed> newsFeedMap = new SparseArray<NewsFeed>();
                 for (Pair<NewsFeed, Integer> pair : newsFeedPairList) {
                     NewsFeed newsFeed = pair.first;
                     NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, pair.second);
 
-                    newsFeedList.add(newsFeed);
+                    newsFeedMap.put(pair.second, newsFeed);
                 }
 
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
-                        mImageLoader, newsFeedList, this, BottomNewsImageFetchTask.TASK_REPLACE
+                        mImageLoader, newsFeedMap, this, BottomNewsImageFetchTask.TASK_REPLACE
                 );
                 break;
             default:
@@ -486,17 +494,30 @@ public class MainBottomContainerLayout extends FrameLayout
     @Override
     public void onBottomNewsImageListFetchDone(int taskType) {
         // 모든 이미지가 불려진 경우
-        if (taskType == BottomNewsImageFetchTask.TASK_INITIAL_LOAD) {
-            if (!mIsInitializedFirstImages) {
-                mIsInitializedFirstImages = true;
+        switch(taskType) {
+            case BottomNewsImageFetchTask.TASK_INITIAL_LOAD:
+                if (!mIsInitializedFirstImages) {
+                    mIsInitializedFirstImages = true;
 
-                // 콜백 불러주기
-                mOnMainBottomLayoutEventListener.onMainBottomNewsImageInitiallyAllFetched();
+                    // 콜백 불러주기
+                    mOnMainBottomLayoutEventListener.onMainBottomNewsImageInitiallyAllFetched();
 
-                BottomNewsImageFetchManager.getInstance().fetchNextNewsImageList(
-                        mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this, taskType
-                );
-            }
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this, taskType
+                    );
+                }
+                break;
+            case BottomNewsImageFetchTask.TASK_REPLACE:
+                if (mIsReplacingBottomNewsFeed) {
+                    mIsReplacingBottomNewsFeed = false;
+                    mOnMainBottomLayoutEventListener.onMainBottomNewsReplaceDone();
+
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                            BottomNewsImageFetchTask.TASK_REPLACE
+                    );
+                }
+                break;
         }
     }
 }
