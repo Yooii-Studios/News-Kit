@@ -37,11 +37,13 @@
     <dimen name="detail_bottom_divider_margin">10dp</dimen>
 
     <!-- News Detail -->
+    <dimen name="progress_margin_offset">6dp</dimen>
     <dimen name="fab_elevation">3dp</dimen>
     <dimen name="fab_press_translation_z">3dp</dimen>
     <dimen name="fab_size">84dp</dimen>
     <dimen name="fab_size_small">60dp</dimen>
     <dimen name="fab_icon_size">36dp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
 
     <!-- News Select -->
     <dimen name="news_select_row_padding">15dp</dimen>

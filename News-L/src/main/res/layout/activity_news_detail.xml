@@ -1,27 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/news_detail_root"
     tools:context="com.yooiistudios.news.ui.activity.NewsDetailActivity">
 
+    <ProgressBar
+        android:id="@+id/news_detail_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:focusable="false"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:maxHeight="10dip"
+        android:minHeight="10dip"
+        android:indeterminate="false"/>
+
     <com.yooiistudios.news.ui.widget.FloatingActionButton
         android:id="@+id/news_detail_fab"
         android:layout_width="@dimen/fab_size_small"
         android:layout_height="@dimen/fab_size_small"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:elevation="@dimen/fab_elevation"
         android:background="@drawable/fab_background"
         android:stateListAnimator="@animator/fab_anim"
-        android:layout_gravity="end|bottom">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:layout_width="@dimen/fab_icon_size"
             android:layout_height="@dimen/fab_icon_size"
             android:src="@drawable/icon_internet"
             android:layout_gravity="center"
-            android:duplicateParentState="true"/>
+            android:duplicateParentState="true"
+            android:contentDescription="@string/image_view_content_description"/>
 
     </com.yooiistudios.news.ui.widget.FloatingActionButton>
 
@@ -29,11 +42,13 @@
         android:id="@+id/news_detail_loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#aaaa">
+        android:background="#aaaa"
+        android:visibility="gone">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
     </FrameLayout>
 
-</FrameLayout>
+</RelativeLayout>
