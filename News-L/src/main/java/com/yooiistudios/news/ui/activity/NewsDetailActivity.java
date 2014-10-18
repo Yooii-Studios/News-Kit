@@ -138,6 +138,8 @@ public class NewsDetailActivity extends Activity {
 //                            windowInsets.getSystemWindowInsetBottom());
                     mProgressBar.setPadding(0,
                             windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
+                    view.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
+                            windowInsets.getSystemWindowInsetBottom());
                 } else {
                     NLLog.now("Landscape");
 //                    lp.rightMargin += windowInsets.getSystemWindowInsetRight();
@@ -148,6 +150,8 @@ public class NewsDetailActivity extends Activity {
 //                    webViewLayoutParams.rightMargin += windowInsets.getSystemWindowInsetRight();
                     mProgressBar.setPadding(0,
                             windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
+                    view.setPadding(0, windowInsets.getSystemWindowInsetTop(),
+                            windowInsets.getSystemWindowInsetRight(), 0);
                 }
                 return windowInsets.consumeSystemWindowInsets();
             }
