@@ -86,31 +86,26 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public MainBottomContainerLayout(Context context) {
         super(context);
-
-        _init(context);
+        init(context);
     }
 
     public MainBottomContainerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        _init(context);
+        init(context);
     }
 
     public MainBottomContainerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        _init(context);
+        init(context);
     }
 
     public MainBottomContainerLayout(Context context, AttributeSet attrs, int defStyleAttr,
                                      int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-
-        _init(context);
+        init(context);
     }
 
-
-    private void _init(Context context) {
+    private void init(Context context) {
         View root = LayoutInflater.from(context).inflate(R.layout.main_bottom_container, this,
                 false);
         addView(root);
@@ -141,6 +136,7 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }, SlowSpeedScroller.SWIPE_DURATION);
     }
+
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
         if (newsFeed == null) {
@@ -282,21 +278,16 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 for (int i = 0; i < childCount; i++) {
                     View child = mBottomNewsFeedRecyclerView.getChildAt(i);
-
-                    child.setTranslationY(recyclerViewHeight);
+                    child.setTranslationY((float) (recyclerViewHeight * 1.5));
+                    int startDelay = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_delay) * i;
+                    int duration = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_duration);
                     child.animate()
                             .translationY(0)
-                            .setStartDelay(getResources().getInteger(R.integer.bottom_news_feed_anim_delay_unit_milli) * i + 1)
-                            .setDuration(500)
-                            .setInterpolator(AnimationFactory.makeDefaultPathInterpolator())
-//                            .withEndAction(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                }
-//                            })
+                            .setStartDelay(startDelay)
+                            .setDuration(duration)
+                            .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator())
                             .start();
                 }
-
                 return true;
             }
         });
@@ -473,7 +464,7 @@ public class MainBottomContainerLayout extends FrameLayout
             NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
                     mBottomNewsFeedAdapter.getNewsFeedList().get(index), index);
         } else {
-            // 이미지 url이 없는 경우. 바로 notify해서 더미 이미지 보여줌.
+            // 이미지 url이 없는 경우. 바로 notify 해서 더미 이미지 보여줌.
             mBottomNewsFeedAdapter.notifyItemChanged(index);
         }
     }
