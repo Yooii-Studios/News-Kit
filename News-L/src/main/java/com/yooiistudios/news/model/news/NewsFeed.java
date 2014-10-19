@@ -136,6 +136,17 @@ public class NewsFeed implements Parcelable {
         this.mDisplayingNewsIndex = index;
     }
 
+    public int getNextNewsIndex() {
+        int displayingNewsIndex = getDisplayingNewsIndex();
+        if (displayingNewsIndex < getNewsList().size() - 1) {
+            displayingNewsIndex += 1;
+        } else {
+            displayingNewsIndex = 0;
+        }
+
+        return displayingNewsIndex;
+    }
+
     /**
      * 이미지 url을 포함하고 있는 뉴스만 반환한다.
      * @return ArrayList of NLNews which has image url.

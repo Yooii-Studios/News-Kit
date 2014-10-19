@@ -138,6 +138,7 @@ public class NewsFeedDetailActivity extends Activity
     private int mActionTextColor;
 
     private NewsFeedDetailNewsFeedFetchTask mNewsFeedFetchTask;
+    private NewsFeedDetailNewsImageUrlFetchTask mTopNewsImageFetchTask;
 
     // 액티비티 전환 애니메이션 관련 변수
     private ActivityTransitionImageViewProperty mTransImageViewProperty;
@@ -246,6 +247,9 @@ public class NewsFeedDetailActivity extends Activity
 
         if (mNewsFeedFetchTask != null) {
             mNewsFeedFetchTask.cancel(true);
+        }
+        if (mTopNewsImageFetchTask != null) {
+            mTopNewsImageFetchTask.cancel(true);
         }
     }
 
@@ -1031,23 +1035,13 @@ public class NewsFeedDetailActivity extends Activity
         // make bottom news array list. EXCLUDE top news.
 //        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
 
-        final int newsCount = mNewsFeed.getNewsList().size();
-        for (int i = 0; i < newsCount; i++) {
-            News news = mNewsFeed.getNewsList().get(i);
-            mAdapter.addNews(news);
-//            final int idx = i;
-//            mBottomNewsListRecyclerView.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mAdapter.addNews(news);
-//
-//                    if (idx == (mNewsFeed.getNewsList().size() - 1)) {
-//                        mBottomNewsListRecyclerView.getItemAnimator()
-//                                .isRunning(NewsFeedDetailActivity.this);
-//                    }
-//                }
-//            }, BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI * i + 1);
-        }
+        mAdapter.setNewsFeed(mNewsFeed.getNewsList());
+
+//        final int newsCount = mNewsFeed.getNewsList().size();
+//        for (int i = 0; i < newsCount; i++) {
+//            News news = mNewsFeed.getNewsList().get(i);
+//            mAdapter.addNews(news);
+//        }
         applyMaxBottomRecyclerViewHeight();
 
         ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
@@ -1183,8 +1177,8 @@ public class NewsFeedDetailActivity extends Activity
         } else {
             showLoadingCover();
             animateTopItems();
-            new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this)
-                    .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
+            mTopNewsImageFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             mIsLoadingImageOnInit = true;
         }
@@ -1435,8 +1429,8 @@ public class NewsFeedDetailActivity extends Activity
         notifyTopNewsChanged();
         notifyBottomNewsChanged();
 
-        new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this)
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
+        mTopNewsImageFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override

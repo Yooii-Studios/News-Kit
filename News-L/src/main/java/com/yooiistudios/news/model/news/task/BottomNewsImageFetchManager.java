@@ -95,17 +95,27 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, list, listener, taskType, true);
     }
 
-    private void fetch(final ImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
+    public void fetchDisplayingAndNextImage(ImageLoader imageLoader, NewsFeed newsFeed,
+                                            OnFetchListener listener, int newsFeedIndex,
+                                            int taskType) {
+        setup(listener, taskType);
+
+        ArrayList<News> newsList = newsFeed.getNewsList();
+
+        mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()),
+                new Pair<Boolean, Integer>(false, newsFeedIndex));
+        mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
+                new Pair<Boolean, Integer>(false, newsFeedIndex));
+
+        _fetch(imageLoader);
+    }
+
+    private void fetch(ImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
                        OnFetchListener listener, int taskType, boolean fetchNextNewsImage) {
         //newsFeedMap의 key는 news feed의 인덱스이어야 한다.
-
-
-        cancelBottomNewsImageUrlFetchTask();
-        mListener = listener;
-        mTaskType = taskType;
+        setup(listener, taskType);
 
         int newsFeedCount = newsFeedMap.size();
-
         for (int i = 0; i < newsFeedCount; i++) {
             NewsFeed newsFeed = newsFeedMap.valueAt(i);
 
@@ -113,12 +123,7 @@ public class BottomNewsImageFetchManager
 
             int indexToFetch;
             if (fetchNextNewsImage) {
-                indexToFetch = newsFeed.getDisplayingNewsIndex();
-                if (indexToFetch < newsFeed.getNewsList().size() - 1) {
-                    indexToFetch += 1;
-                } else {
-                    indexToFetch = 0;
-                }
+                indexToFetch = newsFeed.getNextNewsIndex();
             } else {
                 indexToFetch = newsFeed.getDisplayingNewsIndex();
             }
@@ -127,6 +132,17 @@ public class BottomNewsImageFetchManager
 
             mNewsToFetchMap.put(news, new Pair<Boolean, Integer>(false, newsFeedMap.keyAt(i)));
         }
+
+        _fetch(imageLoader);
+    }
+
+    private void setup(OnFetchListener listener, int taskType) {
+        cancelBottomNewsImageUrlFetchTask();
+        mListener = listener;
+        mTaskType = taskType;
+    }
+
+    private void _fetch(ImageLoader imageLoader) {
 
         for (Map.Entry<News, Pair<Boolean, Integer>> entry : mNewsToFetchMap.entrySet()) {
             final News news = entry.getKey();

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Pair;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -329,20 +328,13 @@ public class MainBottomContainerLayout extends FrameLayout
         NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(getContext(), idx);
 
         mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
+
+        mIsReplacingBottomNewsFeed = true;
         if (newsFeed.isValid()) {
-
-            News news = newsFeed.getNewsList().get(newsFeed.getDisplayingNewsIndex());
-            if (news.getImageUrl() == null) {
-                mIsReplacingBottomNewsFeed = true;
-
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImage(
-                        mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
-                );
-            }
-            // 다음 이미지 불러오기
+            BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                    mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
+            );
         } else {
-            mIsReplacingBottomNewsFeed = true;
-
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
                     getContext(), newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
         }
@@ -455,17 +447,20 @@ public class MainBottomContainerLayout extends FrameLayout
                 );
                 break;
             case BottomNewsFeedFetchTask.TASK_REPLACE:
-                SparseArray<NewsFeed> newsFeedMap = new SparseArray<NewsFeed>();
-                for (Pair<NewsFeed, Integer> pair : newsFeedPairList) {
-                    NewsFeed newsFeed = pair.first;
-                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, pair.second);
+                if (newsFeedPairList.size() == 1) {
+                    Pair<NewsFeed, Integer> newsFeedPair = newsFeedPairList.get(0);
 
-                    newsFeedMap.put(pair.second, newsFeed);
+                    NewsFeed newsFeed = newsFeedPair.first;
+                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, newsFeedPair.second);
+
+                    BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                            mImageLoader, newsFeed, this, newsFeedPair.second,
+                            BottomNewsImageFetchTask.TASK_REPLACE
+                    );
+//                    BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
+//                            mImageLoader, newsFeedMap, this, BottomNewsImageFetchTask.TASK_REPLACE
+//                    );
                 }
-
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
-                        mImageLoader, newsFeedMap, this, BottomNewsImageFetchTask.TASK_REPLACE
-                );
                 break;
             default:
                 break;

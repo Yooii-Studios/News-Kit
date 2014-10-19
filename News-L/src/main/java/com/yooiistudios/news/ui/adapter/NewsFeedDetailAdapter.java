@@ -139,9 +139,13 @@ public class NewsFeedDetailAdapter extends
         return mNewsList.size();
     }
 
-    public void addNews(News news) {
-        mNewsList.add(news);
-        notifyItemInserted(mNewsList.size() - 1);
+//    public void addNews(News news) {
+//        mNewsList.add(news);
+//        notifyItemInserted(mNewsList.size() - 1);
+//    }
+
+    public void setNewsFeed(ArrayList<News> newsList) {
+        mNewsList = newsList;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
