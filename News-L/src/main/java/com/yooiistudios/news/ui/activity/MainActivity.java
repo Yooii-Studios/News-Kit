@@ -31,7 +31,6 @@ import com.yooiistudios.news.ui.widget.MainScrollView;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.FeedbackUtils;
-import com.yooiistudios.news.util.InterpolatorHelper;
 import com.yooiistudios.news.util.NLLog;
 
 import java.util.List;

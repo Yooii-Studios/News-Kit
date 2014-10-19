@@ -87,39 +87,39 @@
             "categories": [
                 {
                     "category_name": "Top Stories",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Ftopstories&t1="
+                    "url": "http://feeds.feedburner.com/time/topstories?format=xml"
                 },
                 {
                     "category_name": "U.S.",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fnation&t1="
+                    "url": "http://feeds.feedburner.com/time/nation?format=xml"
                 },
                 {
                     "category_name": "World",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fworld&t1="
+                    "url": "http://feeds.feedburner.com/time/world?format=xml"
                 },
                 {
                     "category_name": "Politics",
-                    "url": "http://swampland.time.com/feed/"
+                    "url": "http://feeds.feedburner.com/time/politics?format=xml"
                 },
                 {
                     "category_name": "Business",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fbusiness&t1="
+                    "url": "http://feeds.feedburner.com/time/business?format=xml"
                 },
                 {
                     "category_name": "Technology",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http://techland.time.com/feed/&t1="
+                    "url": "http://time.com/tech/feed/"
                 },
                 {
                     "category_name": "Health",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http://healthland.time.com/feed/rss/&t1="
+                    "url": "http://time.com/health/feed/"
                 },
                 {
                     "category_name": "Science",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fscienceandhealth&t1="
+                    "url": "http://feeds.feedburner.com/time/scienceandhealth?format=xml"
                 },
                 {
                     "category_name": "Entertainment",
-                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fentertainment&t1="
+                    "url": "http://feeds.feedburner.com/time/entertainment?format=xml"
                 }
             ]
         },

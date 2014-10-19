@@ -102,6 +102,10 @@ public class BottomNewsImageFetchManager
 
         ArrayList<News> newsList = newsFeed.getNewsList();
 
+        if (newsList.size() == 0) {
+            return;
+        }
+
         mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()),
                 new Pair<Boolean, Integer>(false, newsFeedIndex));
         mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
@@ -119,7 +123,14 @@ public class BottomNewsImageFetchManager
         for (int i = 0; i < newsFeedCount; i++) {
             NewsFeed newsFeed = newsFeedMap.valueAt(i);
 
+            if (newsFeed == null) {
+                continue;
+            }
             ArrayList<News> newsList = newsFeed.getNewsList();
+
+            if (newsList.size() == 0) {
+                continue;
+            }
 
             int indexToFetch;
             if (fetchNextNewsImage) {

@@ -442,15 +442,14 @@ public class MainBottomContainerLayout extends FrameLayout
                     Pair<NewsFeed, Integer> newsFeedPair = newsFeedPairList.get(0);
 
                     NewsFeed newsFeed = newsFeedPair.first;
-                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, newsFeedPair.second);
+                    if (newsFeed != null) {
+                        NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, newsFeedPair.second);
 
-                    BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
-                            mImageLoader, newsFeed, this, newsFeedPair.second,
-                            BottomNewsImageFetchTask.TASK_REPLACE
-                    );
-//                    BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
-//                            mImageLoader, newsFeedMap, this, BottomNewsImageFetchTask.TASK_REPLACE
-//                    );
+                        BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                                mImageLoader, newsFeed, this, newsFeedPair.second,
+                                BottomNewsImageFetchTask.TASK_REPLACE
+                        );
+                    }
                 }
                 break;
             default:

@@ -50,15 +50,15 @@
             "categories": [
                 {
                     "category_name": "ニュース速報（総合）",
-                    "url": "http://mainichi.jp/rss/"
+                    "url": "http://rss.rssad.jp/rss/mainichi/flash.rss?rss"
                 },
                 {
                     "category_name": "スポーツ",
-                    "url": "http://mainichi.jp/rss/etc/sports.rss"
+                    "url": "http://rss.rssad.jp/rss/mainichi/sports.rss?rss"
                 },
                 {
                     "category_name": "エンタメ",
-                    "url": "http://mainichi.jp/rss/etc/enta.rss"
+                    "url": "http://rss.rssad.jp/rss/mainichi/enta.rss?rss"
                 },
                 {
                     "category_name": "社説・解説・コラム",
