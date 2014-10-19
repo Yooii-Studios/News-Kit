@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class BottomNewsFeedListFetchManager
         implements BottomNewsFeedFetchTask.OnFetchListener {
 
+    private static final String TAG = "BottomNewsFeedListFetchManager";
     private static BottomNewsFeedListFetchManager instance;
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
@@ -90,7 +91,7 @@ public class BottomNewsFeedListFetchManager
             BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
                     context, url, element.second, mTaskType, this);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mBottomNewsFeedIndexToNewsFetchTaskMap.put(i, task);
+            mBottomNewsFeedIndexToNewsFetchTaskMap.put(element.second, task);
         }
     }
 
@@ -113,7 +114,7 @@ public class BottomNewsFeedListFetchManager
 
     @Override
     public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position, int taskType) {
-        mBottomNewsFeedIndexToNewsFetchTaskMap.remove(position);
+        mBottomNewsFeedIndexToNewsFetchTaskMap.delete(position);
         mNewsFeedToIndexPairList.add(new Pair<NewsFeed, Integer>(newsFeed, position));
 
         if (mListener != null && mTaskType != BottomNewsFeedFetchTask.TASK_INVALID) {

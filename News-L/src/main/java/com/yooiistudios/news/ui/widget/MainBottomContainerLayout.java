@@ -27,7 +27,7 @@ import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchManager;
-import com.yooiistudios.news.model.news.task.BottomNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
@@ -76,12 +76,14 @@ public class MainBottomContainerLayout extends FrameLayout
     private boolean mIsInitializedFirstImages = false;
 
     private boolean mIsRefreshingBottomNewsFeeds = false;
+    private boolean mIsReplacingBottomNewsFeed = false;
 
     // interface
     public interface OnMainBottomLayoutEventListener {
         public void onMainBottomInitialLoad();
         public void onMainBottomRefresh();
         public void onMainBottomNewsImageInitiallyAllFetched();
+        public void onMainBottomNewsReplaceDone();
     }
 
     public MainBottomContainerLayout(Context context) {
@@ -172,10 +174,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
                 if (newsFeedIndex == mBottomNewsFeedRecyclerView.getChildCount() - 1) {
-                    BottomNewsImageFetchManager.getInstance().fetchNextNewsImageList(
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
                             mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(),
                             MainBottomContainerLayout.this,
-                            BottomNewsImageUrlFetchTask.TASK_AUTO_REFRESH
+                            BottomNewsImageFetchTask.TASK_AUTO_REFRESH
                     );
                 }
             }
@@ -248,9 +250,9 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mOnMainBottomLayoutEventListener.onMainBottomInitialLoad();
 
-        BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
+        BottomNewsImageFetchManager.getInstance().fetchAllDisplayingNewsImageList(
                 mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
-                BottomNewsImageUrlFetchTask.TASK_INITIAL_LOAD);
+                BottomNewsImageFetchTask.TASK_INITIAL_LOAD);
     }
 
     public boolean isRefreshingBottomNewsFeeds() {
@@ -316,19 +318,13 @@ public class MainBottomContainerLayout extends FrameLayout
         //read from cache
         NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(getContext(), idx);
 
-        if (newsFeed.isValid()) {
-            mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
+        mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
 
-            News news = newsFeed.getNewsList().get(newsFeed.getDisplayingNewsIndex());
-            if (news.getImageUrl() == null) {
-                ArrayList<NewsFeed> list = new ArrayList<NewsFeed>();
-                list.add(newsFeed);
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImage(
-                        mImageLoader, newsFeed, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
-                );
-            } else {
-                // TODO 이미지 url은 있는데 비트맵은 캐시 됐는지 안됐는지 모르는 경우. ImageLoader.get() 불러야 할듯.
-            }
+        mIsReplacingBottomNewsFeed = true;
+        if (newsFeed.isValid()) {
+            BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                    mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
+            );
         } else {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
                     getContext(), newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
@@ -347,6 +343,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public boolean isInitializedFirstImages() {
         return mIsInitializedFirstImages;
+    }
+
+    public boolean isReplacingBottomNewsFeed() {
+        return mIsReplacingBottomNewsFeed;
     }
 
     @SuppressWarnings("unchecked")
@@ -432,23 +432,26 @@ public class MainBottomContainerLayout extends FrameLayout
 
                 mOnMainBottomLayoutEventListener.onMainBottomRefresh();
 
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
+                BottomNewsImageFetchManager.getInstance().fetchAllDisplayingNewsImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
-                        BottomNewsImageUrlFetchTask.TASK_SWIPE_REFRESH
+                        BottomNewsImageFetchTask.TASK_SWIPE_REFRESH
                 );
                 break;
             case BottomNewsFeedFetchTask.TASK_REPLACE:
-                ArrayList<NewsFeed> newsFeedList = new ArrayList<NewsFeed>();
-                for (Pair<NewsFeed, Integer> pair : newsFeedPairList) {
-                    NewsFeed newsFeed = pair.first;
-                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, pair.second);
+                if (newsFeedPairList.size() == 1) {
+                    Pair<NewsFeed, Integer> newsFeedPair = newsFeedPairList.get(0);
 
-                    newsFeedList.add(newsFeed);
+                    NewsFeed newsFeed = newsFeedPair.first;
+                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, newsFeedPair.second);
+
+                    BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                            mImageLoader, newsFeed, this, newsFeedPair.second,
+                            BottomNewsImageFetchTask.TASK_REPLACE
+                    );
+//                    BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
+//                            mImageLoader, newsFeedMap, this, BottomNewsImageFetchTask.TASK_REPLACE
+//                    );
                 }
-
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingNewsImageList(
-                        mImageLoader, newsFeedList, this, BottomNewsImageUrlFetchTask.TASK_REPLACE
-                );
                 break;
             default:
                 break;
@@ -477,17 +480,30 @@ public class MainBottomContainerLayout extends FrameLayout
     @Override
     public void onBottomNewsImageListFetchDone(int taskType) {
         // 모든 이미지가 불려진 경우
-        if (taskType == BottomNewsImageUrlFetchTask.TASK_INITIAL_LOAD) {
-            if (!mIsInitializedFirstImages) {
-                mIsInitializedFirstImages = true;
+        switch(taskType) {
+            case BottomNewsImageFetchTask.TASK_INITIAL_LOAD:
+                if (!mIsInitializedFirstImages) {
+                    mIsInitializedFirstImages = true;
 
-                // 콜백 불러주기
-                mOnMainBottomLayoutEventListener.onMainBottomNewsImageInitiallyAllFetched();
+                    // 콜백 불러주기
+                    mOnMainBottomLayoutEventListener.onMainBottomNewsImageInitiallyAllFetched();
 
-                BottomNewsImageFetchManager.getInstance().fetchNextNewsImageList(
-                        mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this, taskType
-                );
-            }
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this, taskType
+                    );
+                }
+                break;
+            case BottomNewsImageFetchTask.TASK_REPLACE:
+                if (mIsReplacingBottomNewsFeed) {
+                    mIsReplacingBottomNewsFeed = false;
+                    mOnMainBottomLayoutEventListener.onMainBottomNewsReplaceDone();
+
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                            BottomNewsImageFetchTask.TASK_REPLACE
+                    );
+                }
+                break;
         }
     }
 }

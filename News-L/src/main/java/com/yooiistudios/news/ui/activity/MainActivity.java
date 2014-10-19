@@ -278,10 +278,16 @@ public class MainActivity extends Activity
         startNewsAutoRefreshIfReady();
     }
 
+    @Override
+    public void onMainBottomNewsReplaceDone() {
+        startNewsAutoRefreshIfReady();
+    }
+
     private void startNewsAutoRefreshIfReady() {
         if (mMainTopContainerLayout.isInitialized()
                 && mMainBottomContainerLayout.isInitialized()
-                && mMainBottomContainerLayout.isInitializedFirstImages()) {
+                && mMainBottomContainerLayout.isInitializedFirstImages()
+                && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()) {
             startNewsAutoRefresh();
         }
     }

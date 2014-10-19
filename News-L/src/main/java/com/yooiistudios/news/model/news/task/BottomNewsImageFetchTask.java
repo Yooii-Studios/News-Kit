@@ -13,7 +13,7 @@ import com.yooiistudios.news.model.news.NewsFeedImageUrlFetchUtil;
  * NLNewsImageUrlFetchTask
  *  뉴스의 이미지 url을 뽑아내는 태스크
  */
-public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
+public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
 
     private ImageLoader mImageLoader;
     private News mNews;
@@ -27,8 +27,8 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
     public static final int TASK_SWIPE_REFRESH = 2;
     public static final int TASK_AUTO_REFRESH = 3;
 
-    public BottomNewsImageUrlFetchTask(ImageLoader imageLoader, News news, int position,
-                                       int taskType, OnBottomImageUrlFetchListener listener) {
+    public BottomNewsImageFetchTask(ImageLoader imageLoader, News news, int position,
+                                    int taskType, OnBottomImageUrlFetchListener listener) {
         mImageLoader = imageLoader;
         mNews = news;
         mPosition = position;
@@ -63,6 +63,8 @@ public class BottomNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
                         mListener.onFetchImage(mNews, mPosition, mTaskType);
                     }
                 });
+            } else {
+                mListener.onFetchImage(mNews, mPosition, mTaskType);
             }
         }
     }
