@@ -138,7 +138,7 @@ public class MainActivity extends Activity
                     stopNewsAutoRefresh();
                     mSwipeRefreshLayout.setEnabled(false);
 
-                    mMainTopContainerLayout.refreshNewsFeed();
+                    mMainTopContainerLayout.refreshNewsFeedOnSwipeDown();
                     mMainBottomContainerLayout.refreshBottomNewsFeeds();
                 }
             }
@@ -284,6 +284,7 @@ public class MainActivity extends Activity
 
     private void startNewsAutoRefreshIfReady() {
         if (mMainTopContainerLayout.isInitialized()
+                && !mMainTopContainerLayout.isRefreshingTopNewsFeed()
                 && mMainBottomContainerLayout.isInitialized()
                 && mMainBottomContainerLayout.isInitializedFirstImages()
                 && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()

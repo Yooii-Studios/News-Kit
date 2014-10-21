@@ -20,22 +20,23 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     private Context mContext;
     private NewsFeedUrl mNewsFeedUrl;
     private OnFetchListener mListener;
+    private int mTaskType;
     private boolean mShuffle;
 
+    public static final int TASK_INITIALIZE = 0;
+    public static final int TASK_SWIPE_REFRESH = 1;
+    public static final int TASK_REPLACE = 2;
+
     public interface OnFetchListener {
-        public void onTopNewsFeedFetchSuccess(NewsFeed newsFeed);
-        public void onTopNewsFeedFetchFail();
+        public void onTopNewsFeedFetch(NewsFeed newsFeed, int taskType);
     }
 
     public TopNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
-                                OnFetchListener listener) {
-        this(context, newsFeedUrl, listener, true);
-    }
-    public TopNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
-                                OnFetchListener listener, boolean shuffle) {
+                                OnFetchListener listener, int taskType, boolean shuffle) {
         mContext = context;
         mNewsFeedUrl = newsFeedUrl;
         mListener = listener;
+        mTaskType = taskType;
         mShuffle = shuffle;
     }
 
@@ -49,11 +50,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            if (newsFeed != null) {
-                mListener.onTopNewsFeedFetchSuccess(newsFeed);
-            } else {
-                mListener.onTopNewsFeedFetchFail();
-            }
+            mListener.onTopNewsFeedFetch(newsFeed, mTaskType);
         }
     }
 }

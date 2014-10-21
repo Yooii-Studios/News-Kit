@@ -36,6 +36,10 @@ public class NewsFeedArchiveUtils {
     }
 
     public static NewsFeed loadTopNewsFeed(Context context) {
+        return loadTopNewsFeed(context, true);
+    }
+
+    public static NewsFeed loadTopNewsFeed(Context context, boolean shuffle) {
         SharedPreferences prefs = getSharedPreferences(context);
 
         String newsFeedStr = prefs.getString(KEY_TOP_NEWS_FEED, null);
@@ -46,7 +50,9 @@ public class NewsFeedArchiveUtils {
             // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
             newsFeed = new Gson().fromJson(newsFeedStr, feedType);
             newsFeed.setDisplayingNewsIndex(0);
-            Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
+            if (shuffle){
+                Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
+            }
         } else {
             // cache된 내용 없는 경우. 새로 만들어서 리턴.
             NewsFeedUrl url = NewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
