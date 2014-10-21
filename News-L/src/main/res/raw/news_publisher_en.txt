@@ -120,6 +120,10 @@
                 {
                     "category_name": "Entertainment",
                     "url": "http://feeds.feedburner.com/time/entertainment?format=xml"
+                },
+                {
+                    "category_name": "test",
+                    "url": ""
                 }
             ]
         },

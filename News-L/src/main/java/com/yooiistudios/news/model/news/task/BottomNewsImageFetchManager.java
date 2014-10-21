@@ -98,11 +98,10 @@ public class BottomNewsImageFetchManager
     public void fetchDisplayingAndNextImage(ImageLoader imageLoader, NewsFeed newsFeed,
                                             OnFetchListener listener, int newsFeedIndex,
                                             int taskType) {
-        setup(listener, taskType);
+        prepare(listener, taskType);
 
-        ArrayList<News> newsList = newsFeed.getNewsList();
-
-        if (newsList.size() == 0) {
+        ArrayList<News> newsList;
+        if (newsFeed == null || (newsList = newsFeed.getNewsList()).size() == 0) {
             return;
         }
 
@@ -114,10 +113,33 @@ public class BottomNewsImageFetchManager
         _fetch(imageLoader);
     }
 
+
+    public void fetchDisplayingAndNextImageList(ImageLoader imageLoader,
+                                                ArrayList<NewsFeed> newsFeedList,
+                                                OnFetchListener listener, int taskType) {
+        prepare(listener, taskType);
+
+        ArrayList<News> newsList;
+
+        for (int i = 0 ; i< newsFeedList.size(); i++) {
+            NewsFeed newsFeed = newsFeedList.get(i);
+            if (newsFeed == null || (newsList = newsFeed.getNewsList()).size() == 0) {
+                return;
+            }
+
+            mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()),
+                    new Pair<Boolean, Integer>(false, i));
+            mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
+                    new Pair<Boolean, Integer>(false, i));
+        }
+
+        _fetch(imageLoader);
+    }
+
     private void fetch(ImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
                        OnFetchListener listener, int taskType, boolean fetchNextNewsImage) {
         //newsFeedMap의 key는 news feed의 인덱스이어야 한다.
-        setup(listener, taskType);
+        prepare(listener, taskType);
 
         int newsFeedCount = newsFeedMap.size();
         for (int i = 0; i < newsFeedCount; i++) {
@@ -147,7 +169,7 @@ public class BottomNewsImageFetchManager
         _fetch(imageLoader);
     }
 
-    private void setup(OnFetchListener listener, int taskType) {
+    private void prepare(OnFetchListener listener, int taskType) {
         cancelBottomNewsImageUrlFetchTask();
         mListener = listener;
         mTaskType = taskType;
@@ -220,7 +242,7 @@ public class BottomNewsImageFetchManager
         }
     }
 
-    private void cancelBottomNewsImageUrlFetchTask() {
+    public void cancelBottomNewsImageUrlFetchTask() {
         if (mBottomNewsFeedNewsToImageTaskMap != null) {
             for (Map.Entry<News, BottomNewsImageFetchTask> entry :
                     mBottomNewsFeedNewsToImageTaskMap.entrySet()) {

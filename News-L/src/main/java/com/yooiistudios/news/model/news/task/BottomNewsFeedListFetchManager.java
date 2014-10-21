@@ -78,10 +78,7 @@ public class BottomNewsFeedListFetchManager
         mListener = listener;
         mTaskType = taskType;
 
-        final int newsFeedCount = newsFeedToIndexPairList.size();
-
-        for (int i = 0; i < newsFeedCount; i++) {
-            Pair<NewsFeed, Integer> element = newsFeedToIndexPairList.get(i);
+        for (Pair<NewsFeed, Integer> element : newsFeedToIndexPairList) {
             NewsFeed newsFeed = element.first;
             if (newsFeed == null) {
                 continue;
@@ -107,6 +104,9 @@ public class BottomNewsFeedListFetchManager
         if (mNewsFeedToIndexPairList != null) {
             mNewsFeedToIndexPairList.clear();
         }
+
+        // cancel loading image
+        BottomNewsImageFetchManager.getInstance().cancelBottomNewsImageUrlFetchTask();
 
         mListener = null;
         mTaskType = BottomNewsFeedFetchTask.TASK_INVALID;

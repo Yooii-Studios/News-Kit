@@ -425,14 +425,10 @@ public class MainBottomContainerLayout extends FrameLayout
                 }
                 break;
             case BottomNewsFeedFetchTask.TASK_REFRESH:
-                mIsRefreshingBottomNewsFeeds = false;
-
                 NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
                         mBottomNewsFeedAdapter.getNewsFeedList());
 
-                mOnMainBottomLayoutEventListener.onMainBottomRefresh();
-
-                BottomNewsImageFetchManager.getInstance().fetchAllDisplayingNewsImageList(
+                BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
                         BottomNewsImageFetchTask.TASK_SWIPE_REFRESH
                 );
@@ -442,14 +438,13 @@ public class MainBottomContainerLayout extends FrameLayout
                     Pair<NewsFeed, Integer> newsFeedPair = newsFeedPairList.get(0);
 
                     NewsFeed newsFeed = newsFeedPair.first;
-                    if (newsFeed != null) {
-                        NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed, newsFeedPair.second);
+                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed,
+                            newsFeedPair.second);
 
-                        BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
-                                mImageLoader, newsFeed, this, newsFeedPair.second,
-                                BottomNewsImageFetchTask.TASK_REPLACE
-                        );
-                    }
+                    BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                            mImageLoader, newsFeed, this, newsFeedPair.second,
+                            BottomNewsImageFetchTask.TASK_REPLACE
+                    );
                 }
                 break;
             default:
@@ -492,9 +487,22 @@ public class MainBottomContainerLayout extends FrameLayout
                     );
                 }
                 break;
+            case BottomNewsImageFetchTask.TASK_SWIPE_REFRESH:
+                if (mIsRefreshingBottomNewsFeeds) {
+                    mIsRefreshingBottomNewsFeeds = false;
+
+                    mOnMainBottomLayoutEventListener.onMainBottomRefresh();
+
+                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                            BottomNewsImageFetchTask.TASK_SWIPE_REFRESH
+                    );
+                }
+                break;
             case BottomNewsImageFetchTask.TASK_REPLACE:
                 if (mIsReplacingBottomNewsFeed) {
                     mIsReplacingBottomNewsFeed = false;
+
                     mOnMainBottomLayoutEventListener.onMainBottomNewsReplaceDone();
 
                     BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(

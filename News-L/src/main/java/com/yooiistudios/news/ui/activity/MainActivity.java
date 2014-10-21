@@ -286,7 +286,8 @@ public class MainActivity extends Activity
         if (mMainTopContainerLayout.isInitialized()
                 && mMainBottomContainerLayout.isInitialized()
                 && mMainBottomContainerLayout.isInitializedFirstImages()
-                && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()) {
+                && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()
+                && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
             startNewsAutoRefresh();
         }
     }
@@ -340,8 +341,7 @@ public class MainActivity extends Activity
 
             mSwipeRefreshLayout.setRefreshing(false);
 
-            // TODO 새로고침에 버그가 너무 많아서 일단 막아놓음. 버그 수정하고 주석 없에야 함.
-//            mSwipeRefreshLayout.setEnabled(true);
+            mSwipeRefreshLayout.setEnabled(true);
 
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
