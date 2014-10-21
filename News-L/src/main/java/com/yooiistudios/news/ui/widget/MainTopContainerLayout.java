@@ -32,7 +32,6 @@ import com.yooiistudios.news.ui.fragment.MainNewsFeedFragment;
 import com.yooiistudios.news.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
-import com.yooiistudios.news.util.NLLog;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -76,11 +75,13 @@ public class MainTopContainerLayout extends FrameLayout
 
     // flags for initializing
     private boolean mTopNewsFeedReady = false;
-    private boolean mTopNewsFeedFirstImageReady = false;
+    private boolean mTopNewsFeedFirstImageReadyOnInitialize = false;
     private boolean mIsInitialized = false;
 
     //
     private boolean mIsRefreshingTopNewsFeed = false;
+
+    public static boolean asdfasdf = false;
 
     // interface
     public interface OnMainTopLayoutEventListener {
@@ -163,14 +164,15 @@ public class MainTopContainerLayout extends FrameLayout
         mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(context);
         if (refresh) {
             mTopNewsFeedReady = false;
-            fetchTopNewsFeed(this);
+            fetchTopNewsFeed(TopNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
             if (mTopNewsFeed.isValid()) {
                 notifyNewTopNewsFeedSet();
-                notifyIfInitialized();
+                fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TASK_INITIALIZE);
+//                notifyIfInitialized();
             } else {
                 mTopNewsFeedReady = false;
-                fetchTopNewsFeed(this);
+                fetchTopNewsFeed(TopNewsFeedFetchTask.TASK_INITIALIZE);
             }
         }
 
@@ -180,10 +182,8 @@ public class MainTopContainerLayout extends FrameLayout
         notifyIfInitialized(false);
     }
     private void notifyIfInitialized(boolean noTopNewsImage) {
-        if (mTopNewsFeedReady && (noTopNewsImage || mTopNewsFeedFirstImageReady)) {
+        if (mTopNewsFeedReady && (noTopNewsImage || mTopNewsFeedFirstImageReadyOnInitialize)) {
             mIsInitialized = true;
-
-            NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
 
             mOnMainTopLayoutEventListener.onMainTopInitialLoad();
         }
@@ -191,13 +191,13 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
 
-    private void fetchTopNewsFeed(TopNewsFeedFetchTask.OnFetchListener listener) {
-        fetchTopNewsFeed(listener, true);
+    private void fetchTopNewsFeed(int taskType) {
+        fetchTopNewsFeed(taskType, true);
     }
 
-    private void fetchTopNewsFeed(TopNewsFeedFetchTask.OnFetchListener listener, boolean shuffle) {
+    private void fetchTopNewsFeed(int taskType, boolean shuffle) {
         mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(getContext(), mTopNewsFeed.getNewsFeedUrl(),
-                listener, shuffle);
+                this, taskType, shuffle);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -208,7 +208,6 @@ public class MainTopContainerLayout extends FrameLayout
         mTopViewPagerIndicator.setVisibility(View.VISIBLE);
 
         mTopNewsFeedReady = true;
-        ArrayList<News> items = mTopNewsFeed.getNewsList();
         mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager(),
                 mTopNewsFeed, this);
 
@@ -216,27 +215,31 @@ public class MainTopContainerLayout extends FrameLayout
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
         mTopViewPagerIndicator.setCurrentItem(0);
 
+        mTopNewsFeedTitleTextView.setText(mTopNewsFeed.getTitle());
+    }
+
+    private void fetchFirstNewsImage(int taskType) {
+        ArrayList<News> items = mTopNewsFeed.getNewsList();
         if (items.size() > 0) {
             News news = items.get(0);
 
             if (!news.isImageUrlChecked()) {
-                mTopNewsFeedFirstImageReady = false;
-                mTopImageUrlFetchTask = new TopFeedNewsImageUrlFetchTask(news, 0, this);
+                mTopNewsFeedFirstImageReadyOnInitialize = false;
+                mTopImageUrlFetchTask = new TopFeedNewsImageUrlFetchTask(news, 0,
+                        taskType, this);
                 mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
                 if (news.getImageUrl() == null) {
                     // no image
-                    mTopNewsFeedFirstImageReady = true;
+                    mTopNewsFeedFirstImageReadyOnInitialize = true;
                 } else {
                     // 이미지 url은 가져온 상태.
-                    applyImage(news.getImageUrl(), 0);
+                    applyImage(news.getImageUrl(), 0, taskType);
                 }
             }
         } else {
-            mTopNewsFeedFirstImageReady = true;
+            mTopNewsFeedFirstImageReadyOnInitialize = true;
         }
-
-        mTopNewsFeedTitleTextView.setText(mTopNewsFeed.getTitle());
     }
 
     private void showTopNewsFeedUnavailable() {
@@ -244,14 +247,9 @@ public class MainTopContainerLayout extends FrameLayout
         mTopNewsFeedViewPagerWrapper.setVisibility(View.GONE);
         mTopNewsFeedUnavailableWrapper.setVisibility(View.VISIBLE);
         mTopViewPagerIndicator.setVisibility(View.INVISIBLE);
-
-        mTopNewsFeed = null;
-        mTopNewsFeedReady = true;
-
-        mTopNewsFeedFirstImageReady = true;
     }
 
-    private void fetchTopNewsFeedImages() {
+    private void fetchTopNewsFeedImages(int taskType) {
         if (mTopNewsFeed == null) {
             return;
         }
@@ -263,8 +261,8 @@ public class MainTopContainerLayout extends FrameLayout
             News news = newsList.get(i);
 
             if (news.getImageUrl() == null && !news.isImageUrlChecked()) {
-                TopFeedNewsImageUrlFetchTask task = new
-                        TopFeedNewsImageUrlFetchTask(news, i, this);
+                TopFeedNewsImageUrlFetchTask task =
+                        new TopFeedNewsImageUrlFetchTask(news, i, taskType, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 mTopNewsFeedNewsToImageTaskMap.put(news, task);
             }
@@ -283,21 +281,18 @@ public class MainTopContainerLayout extends FrameLayout
         mTopNewsFeedNewsToImageTaskMap.clear();
     }
 
-    public void refreshNewsFeed() {
-        mIsRefreshingTopNewsFeed = true;
-
-        refreshTopNewsFeed(true);
+    public void refreshNewsFeedOnSwipeDown() {
+        refreshTopNewsFeed(TopNewsFeedFetchTask.TASK_SWIPE_REFRESH, true);
     }
 
-    private void refreshTopNewsFeed(boolean shuffle) {
+    private void refreshTopNewsFeed(int taskType, boolean shuffle) {
+        mIsRefreshingTopNewsFeed = true;
+
         NewsFeedUrl topNewsFeedUrl = mTopNewsFeed.getNewsFeedUrl();
         mTopNewsFeed = new NewsFeed();
         mTopNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
 
         mTopNewsFeed.getNewsList().add(null);
-//        for (int i = 0; i < TopNewsFeedFetchTask.FETCH_COUNT; i++) {
-//            mTopNewsFeed.getNewsList().add(null);
-//        }
 
         mTopViewPagerIndicator.setCurrentItem(0);
         mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager(),
@@ -306,42 +301,19 @@ public class MainTopContainerLayout extends FrameLayout
         mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
         mTopNewsFeedTitleTextView.setText("");
 
-        fetchTopNewsFeed(mOnTopNewsFeedRefreshedListener, shuffle);
-    }
-
-    private TopNewsFeedFetchTask.OnFetchListener mOnTopNewsFeedRefreshedListener
-            = new TopNewsFeedFetchTask.OnFetchListener() {
-
-        @Override
-        public void onTopNewsFeedFetchSuccess(NewsFeed newsFeed) {
-            mIsRefreshingTopNewsFeed = false;
-            mTopNewsFeed = newsFeed;
-            notifyNewTopNewsFeedSet();
-
-            configOnRefreshed();
-        }
-
-        @Override
-        public void onTopNewsFeedFetchFail() {
-            mIsRefreshingTopNewsFeed = false;
-            showTopNewsFeedUnavailable();
-
-            configOnRefreshed();
-        }
-    };
-
-    private void configOnRefreshed() {
-        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
-
-        mOnMainTopLayoutEventListener.onMainTopRefresh();
+        fetchTopNewsFeed(taskType, shuffle);
     }
 
     public void configOnNewsFeedReplaced() {
-        mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(getContext());
+        asdfasdf = true;
+
+        mIsRefreshingTopNewsFeed = true;
+        mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(getContext(), false);
         if (mTopNewsFeed.isValid()) {
             notifyNewTopNewsFeedSet();
+            fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TASK_REPLACE);
         } else {
-            refreshTopNewsFeed(false);
+            refreshTopNewsFeed(TopNewsFeedFetchTask.TASK_REPLACE, false);
         }
     }
 
@@ -358,21 +330,7 @@ public class MainTopContainerLayout extends FrameLayout
         return mIsRefreshingTopNewsFeed;
     }
 
-    @Override
-    public void onTopFeedImageUrlFetchSuccess(News news, String url,
-                                              final int position) {
-        NLLog.i(TAG, "fetch image url success.");
-        NLLog.i(TAG, "news link : " + news.getLink());
-        NLLog.i(TAG, "image url : " + url);
-
-        news.setImageUrlChecked(true);
-        news.setImageUrl(url);
-
-        applyImage(url, position);
-
-        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
-    }
-    private void applyImage(String url, final int position) {
+    private void applyImage(String url, final int position, final int taskType) {
         mImageLoader.get(url, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -383,56 +341,116 @@ public class MainTopContainerLayout extends FrameLayout
                 mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 
                 if (position == 0) {
-                    mTopNewsFeedFirstImageReady = true;
-                    fetchTopNewsFeedImages();
-                    notifyIfInitialized();
+                    switch (taskType) {
+                        case TopFeedNewsImageUrlFetchTask.TASK_INITIALIZE:
+                            if (!mTopNewsFeedFirstImageReadyOnInitialize) {
+                                mTopNewsFeedFirstImageReadyOnInitialize = true;
+                                notifyIfInitialized();
+                            }
+                            break;
+                        case TopFeedNewsImageUrlFetchTask.TASK_REFRESH:
+                        case TopFeedNewsImageUrlFetchTask.TASK_REPLACE:
+                            if (mIsRefreshingTopNewsFeed) {
+                                mIsRefreshingTopNewsFeed = false;
+
+                                mOnMainTopLayoutEventListener.onMainTopRefresh();
+                            }
+                            break;
+                    }
+                    fetchTopNewsFeedImages(taskType);
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (position == 0) {
-                    mTopNewsFeedFirstImageReady = true;
-                    fetchTopNewsFeedImages();
-                    notifyIfInitialized();
+                    switch (taskType) {
+                        case TopFeedNewsImageUrlFetchTask.TASK_INITIALIZE:
+                            if (!mTopNewsFeedFirstImageReadyOnInitialize) {
+                                mTopNewsFeedFirstImageReadyOnInitialize = true;
+                                notifyIfInitialized();
+                            }
+                            break;
+                        case TopFeedNewsImageUrlFetchTask.TASK_REFRESH:
+                        case TopFeedNewsImageUrlFetchTask.TASK_REPLACE:
+                            if (mIsRefreshingTopNewsFeed) {
+                                mIsRefreshingTopNewsFeed = false;
+
+                                mOnMainTopLayoutEventListener.onMainTopRefresh();
+                            }
+                            break;
+                    }
+                    fetchTopNewsFeedImages(taskType);
                 }
             }
         });
-    }
-
-    @Override
-    public void onTopFeedImageUrlFetchFail(News news, int position) {
-        // TODO 여기로 들어올 경우 처리 하자!
-        NLLog.i(TAG, "fetch image url failed.");
-        news.setImageUrlChecked(true);
-        mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
-
-        if (position == 0) {
-            mTopNewsFeedFirstImageReady = true;
-            fetchTopNewsFeedImages();
-            notifyIfInitialized(true);
-        }
     }
 
     /**
      * TopNewsFeedFetch Listener
      */
     @Override
-    public void onTopNewsFeedFetchSuccess(NewsFeed newsFeed) {
-        NLLog.i(TAG, "onTopNewsFeedFetchSuccess");
-//        if (mDialog != null) {
-//            mDialog.dismiss();
-//        }
+    public void onTopNewsFeedFetch(NewsFeed newsFeed, int taskType) {
         mTopNewsFeed = newsFeed;
-        notifyNewTopNewsFeedSet();
-//        notifyIfInitialized();
+        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
+
+        switch (taskType) {
+            case TopNewsFeedFetchTask.TASK_INITIALIZE:
+                if (mTopNewsFeed != null) {
+                    notifyNewTopNewsFeedSet();
+                    fetchFirstNewsImage(taskType);
+                } else {
+                    mTopNewsFeedReady = true;
+                    mTopNewsFeedFirstImageReadyOnInitialize = true;
+
+                    showTopNewsFeedUnavailable();
+                    notifyIfInitialized();
+                }
+                break;
+            case TopNewsFeedFetchTask.TASK_SWIPE_REFRESH:
+            case TopNewsFeedFetchTask.TASK_REPLACE:
+                if (mTopNewsFeed != null) {
+                    notifyNewTopNewsFeedSet();
+                    fetchFirstNewsImage(taskType);
+                } else {
+                    showTopNewsFeedUnavailable();
+
+                    mIsRefreshingTopNewsFeed = false;
+                    mOnMainTopLayoutEventListener.onMainTopRefresh();
+                }
+                break;
+        }
     }
 
     @Override
-    public void onTopNewsFeedFetchFail() {
-        NLLog.i(TAG, "onTopNewsFeedFetchFail");
-        showTopNewsFeedUnavailable();
-        notifyIfInitialized();
+    public void onTopFeedImageUrlFetch(News news, String url, final int position, int taskType) {
+        news.setImageUrlChecked(true);
+
+        if (url != null) {
+            news.setImageUrl(url);
+            applyImage(url, position, taskType);
+            NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeed);
+        } else {
+            mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
+
+            if (position == 0) {
+                fetchTopNewsFeedImages(taskType);
+                switch (taskType) {
+                    case TopFeedNewsImageUrlFetchTask.TASK_INITIALIZE:
+                        mTopNewsFeedFirstImageReadyOnInitialize = true;
+                        notifyIfInitialized(true);
+                        break;
+                    case TopFeedNewsImageUrlFetchTask.TASK_REFRESH:
+                    case TopFeedNewsImageUrlFetchTask.TASK_REPLACE:
+                        if (mIsRefreshingTopNewsFeed) {
+                            mIsRefreshingTopNewsFeed = false;
+
+                            mOnMainTopLayoutEventListener.onMainTopRefresh();
+                        }
+                        break;
+                }
+            }
+        }
     }
 
     @Override

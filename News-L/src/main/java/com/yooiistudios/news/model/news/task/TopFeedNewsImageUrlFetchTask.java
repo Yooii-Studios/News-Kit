@@ -15,12 +15,18 @@ public class TopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> 
 
     private News mNews;
     private int mPosition;
+    private int mTaskType;
     private OnTopFeedImageUrlFetchListener mListener;
 
-    public TopFeedNewsImageUrlFetchTask(News news, int position,
+    public static final int TASK_INITIALIZE = 0;
+    public static final int TASK_REFRESH = 1;
+    public static final int TASK_REPLACE = 2;
+
+    public TopFeedNewsImageUrlFetchTask(News news, int position, int taskType,
                                         OnTopFeedImageUrlFetchListener listener) {
         mNews = news;
         mPosition = position;
+        mTaskType = taskType;
         mListener = listener;
     }
 
@@ -34,20 +40,13 @@ public class TopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> 
         super.onPostExecute(imageUrl);
 
         if (mListener != null) {
-            if (imageUrl != null) {
-                mListener.onTopFeedImageUrlFetchSuccess(mNews, imageUrl,
-                        mPosition);
-            } else {
-                mListener.onTopFeedImageUrlFetchFail(mNews, mPosition);
-            }
+            mListener.onTopFeedImageUrlFetch(mNews, imageUrl, mPosition, mTaskType);
         }
     }
 
 
 
     public interface OnTopFeedImageUrlFetchListener {
-        public void onTopFeedImageUrlFetchSuccess(News news, String url,
-                                                  int position);
-        public void onTopFeedImageUrlFetchFail(News news, int position);
+        public void onTopFeedImageUrlFetch(News news, String url, int position, int taskType);
     }
 }
