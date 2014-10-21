@@ -81,8 +81,6 @@ public class MainTopContainerLayout extends FrameLayout
     //
     private boolean mIsRefreshingTopNewsFeed = false;
 
-    public static boolean asdfasdf = false;
-
     // interface
     public interface OnMainTopLayoutEventListener {
         public void onMainTopInitialLoad();
@@ -305,8 +303,6 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     public void configOnNewsFeedReplaced() {
-        asdfasdf = true;
-
         mIsRefreshingTopNewsFeed = true;
         mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(getContext(), false);
         if (mTopNewsFeed.isValid()) {
