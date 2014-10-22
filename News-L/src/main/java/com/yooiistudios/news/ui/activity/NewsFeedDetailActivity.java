@@ -1128,11 +1128,11 @@ public class NewsFeedDetailActivity extends Activity
     private void applyImage() {
         // set image
         String imgUrl = mTopNews.getImageUrl();
-        if (imgUrl != null) {
-            getIntent().putExtra(INTENT_KEY_IMAGE_LOADED, true);
-            getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
-            setResult(RESULT_OK, getIntent());
+        getIntent().putExtra(INTENT_KEY_IMAGE_LOADED, true);
+        getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
+        setResult(RESULT_OK, getIntent());
 
+        if (imgUrl != null) {
             mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {

@@ -330,8 +330,12 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     public void configOnNewsImageUrlLoadedAt(String imageUrl, int idx) {
-        mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList().get(idx).setImageUrl(imageUrl);
+        News news = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList().get(idx);
+        news.setImageUrl(imageUrl);
+        news.setImageUrlChecked(true);
         mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(idx);
+
+        mIsReady = true;
     }
 
     private void applyImage(String url, final int position,
