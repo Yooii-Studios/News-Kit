@@ -30,11 +30,9 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
                                    NewsFeed newsFeed, int position);
     }
 
-    public MainTopPagerAdapter(FragmentManager fm, NewsFeed newsFeed,
-                               OnItemClickListener listener) {
+    public MainTopPagerAdapter(FragmentManager fm, OnItemClickListener listener) {
         super(fm);
         mFragmentSparseArray = new SparseArray<MainNewsFeedFragment>();
-        mNewsFeed = newsFeed;
 
         mOnItemClickListener = listener;
     }
@@ -52,8 +50,9 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        ArrayList<News> newsList = mNewsFeed.getNewsList();
-        return newsList != null ? newsList.size() : 0;
+        ArrayList<News> newsList;
+        return (mNewsFeed != null && (newsList = mNewsFeed.getNewsList()) != null)
+                ? newsList.size() : 0;
     }
 
     @Override
@@ -85,5 +84,9 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
         return mNewsFeed;
     }
 
-    public SparseArray<MainNewsFeedFragment> getFragmentSparseArray() { return mFragmentSparseArray; }
+    public SparseArray<MainNewsFeedFragment> getFragmentSparseArray() {
+        return mFragmentSparseArray;
+    }
+
+//    public boolean isFirst
 }
