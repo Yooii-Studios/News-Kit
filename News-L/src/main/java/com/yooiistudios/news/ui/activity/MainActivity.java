@@ -133,7 +133,7 @@ public class MainActivity extends Activity
             @Override
             public void onRefresh() {
                 NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                if (!mMainTopContainerLayout.isRefreshingTopNewsFeed() &&
+                if (mMainTopContainerLayout.isReady() &&
                         !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
                     stopNewsAutoRefresh();
                     mSwipeRefreshLayout.setEnabled(false);
@@ -283,8 +283,7 @@ public class MainActivity extends Activity
     }
 
     private void startNewsAutoRefreshIfReady() {
-        if (mMainTopContainerLayout.isInitialized()
-                && !mMainTopContainerLayout.isRefreshingTopNewsFeed()
+        if (mMainTopContainerLayout.isReady()
                 && mMainBottomContainerLayout.isInitialized()
                 && mMainBottomContainerLayout.isInitializedFirstImages()
                 && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()
@@ -319,7 +318,7 @@ public class MainActivity extends Activity
     }
 
     private void showMainContentIfReady() {
-        boolean topReady = mMainTopContainerLayout.isInitialized();
+        boolean topReady = mMainTopContainerLayout.isReady();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
 
         String loadingStatus = "Top news feed ready : " + topReady
@@ -356,7 +355,7 @@ public class MainActivity extends Activity
     }
 
     private void configAfterRefreshDone() {
-        if (!mMainTopContainerLayout.isRefreshingTopNewsFeed() &&
+        if (mMainTopContainerLayout.isReady() &&
                 !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
             // dismiss loading progress bar
             mSwipeRefreshLayout.setRefreshing(false);
@@ -400,10 +399,6 @@ public class MainActivity extends Activity
                         String imgUrl = extras.getString(
                                 NewsFeedDetailActivity.INTENT_KEY_IMAGE_URL, null);
 
-                        if (imgUrl == null) {
-                            return;
-                        }
-
                         int newsIndex = extras.getInt(News.KEY_CURRENT_NEWS_INDEX, -1);
                         if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
                             int newsFeedIndex = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
@@ -414,6 +409,11 @@ public class MainActivity extends Activity
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
                             if (newsIndex >= 0) {
                                 mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
+
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mSwipeRefreshLayout.setEnabled(true);
+
+                                startNewsAutoRefreshIfReady();
                             }
                         }
                     }
