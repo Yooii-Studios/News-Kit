@@ -13,16 +13,14 @@ import com.yooiistudios.news.model.news.NewsFeedImageUrlFetchUtil;
  */
 public class TopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
 
+    public enum TaskType { INITIALIZE, REFRESH, REPLACE }
+
     private News mNews;
     private int mPosition;
-    private int mTaskType;
+    private TaskType mTaskType;
     private OnTopFeedImageUrlFetchListener mListener;
 
-    public static final int TASK_INITIALIZE = 0;
-    public static final int TASK_REFRESH = 1;
-    public static final int TASK_REPLACE = 2;
-
-    public TopFeedNewsImageUrlFetchTask(News news, int position, int taskType,
+    public TopFeedNewsImageUrlFetchTask(News news, int position, TaskType taskType,
                                         OnTopFeedImageUrlFetchListener listener) {
         mNews = news;
         mPosition = position;
@@ -47,6 +45,6 @@ public class TopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> 
 
 
     public interface OnTopFeedImageUrlFetchListener {
-        public void onTopFeedImageUrlFetch(News news, String url, int position, int taskType);
+        public void onTopFeedImageUrlFetch(News news, String url, int position, TaskType taskType);
     }
 }
