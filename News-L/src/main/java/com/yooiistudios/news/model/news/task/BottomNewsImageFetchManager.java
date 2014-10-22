@@ -176,7 +176,6 @@ public class BottomNewsImageFetchManager
     }
 
     private void _fetch(ImageLoader imageLoader) {
-
         for (Map.Entry<News, Pair<Boolean, Integer>> entry : mNewsToFetchMap.entrySet()) {
             final News news = entry.getKey();
             final int newsFeedIndex = entry.getValue().second;
@@ -215,7 +214,9 @@ public class BottomNewsImageFetchManager
     }
 
     private void notifyOnImageFetch(News news, int position, int taskType) {
-        if (mNewsToFetchMap.get(news) == null) {
+        Pair<Boolean, Integer> newsFetchedToIndexPair;
+        if ((newsFetchedToIndexPair = mNewsToFetchMap.get(news)) == null ||
+                newsFetchedToIndexPair.first) {
             return;
         }
         if (mListener != null) {
@@ -224,7 +225,7 @@ public class BottomNewsImageFetchManager
 
         mNewsToFetchMap.put(
                 news,
-                new Pair<Boolean, Integer>(true, mNewsToFetchMap.get(news).second)
+                new Pair<Boolean, Integer>(true, newsFetchedToIndexPair.second)
         );
 
         boolean allFetched = true;
@@ -259,6 +260,16 @@ public class BottomNewsImageFetchManager
 
         mListener = null;
         mTaskType = BottomNewsImageFetchTask.TASK_INVALID;
+    }
+
+    public void notifyOnImageFetchedManually(News news, String url, int position) {
+        BottomNewsImageFetchTask task = mBottomNewsFeedNewsToImageTaskMap.get(news);
+        if (task != null) {
+            task.cancel(true);
+
+            onBottomImageUrlFetchSuccess(news, url, position, mTaskType);
+        }
+        notifyOnImageFetch(news, position, mTaskType);
     }
 
     @Override

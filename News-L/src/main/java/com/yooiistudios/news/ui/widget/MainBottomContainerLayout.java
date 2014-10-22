@@ -332,8 +332,13 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void configOnNewsImageUrlLoadedAt(String imageUrl, int newsFeedIndex, int newsIndex) {
-        mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex).
-                getNewsList().get(newsIndex).setImageUrl(imageUrl);
+        News news = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex).
+                getNewsList().get(newsIndex);
+
+        BottomNewsImageFetchManager.getInstance().notifyOnImageFetchedManually(news, imageUrl,
+                newsIndex);
+
+        news.setImageUrl(imageUrl);
         mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
     }
 
