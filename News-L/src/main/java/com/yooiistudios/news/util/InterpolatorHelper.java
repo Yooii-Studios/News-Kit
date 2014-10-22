@@ -1,11 +1,14 @@
 package com.yooiistudios.news.util;
 
+import android.animation.TimeInterpolator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.EditText;
 
@@ -147,7 +150,7 @@ public class InterpolatorHelper {
         makeRootWidthScaleInterpolator(context);
     }
 
-    public static PathInterpolator makeImageAndRootTransitionInterpolator(Context context) {
+    public static TimeInterpolator makeImageAndRootTransitionInterpolator(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("bezier", Context.MODE_PRIVATE);
         float oneX = sharedPreferences.getFloat(InterpolatorHelper.TRANSITION_CP_1X, -1);
         float oneY = sharedPreferences.getFloat(InterpolatorHelper.TRANSITION_CP_1Y, -1);
@@ -170,10 +173,14 @@ public class InterpolatorHelper {
                     .putFloat(InterpolatorHelper.TRANSITION_CP_2Y, twoY)
                     .apply();
         }
-        return new PathInterpolator(oneX, oneY, twoX, twoY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return new PathInterpolator(oneX, oneY, twoX, twoY);
+        } else {
+            return new AccelerateDecelerateInterpolator(context, null);
+        }
     }
 
-    public static PathInterpolator makeImageScaleInterpolator(Context context) {
+    public static TimeInterpolator makeImageScaleInterpolator(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("bezier", Context.MODE_PRIVATE);
         float oneX = sharedPreferences.getFloat(InterpolatorHelper.IMG_SCALE_CP_1X, -1);
         float oneY = sharedPreferences.getFloat(InterpolatorHelper.IMG_SCALE_CP_1Y, -1);
@@ -196,9 +203,14 @@ public class InterpolatorHelper {
                     .putFloat(InterpolatorHelper.IMG_SCALE_CP_2Y, twoY)
                     .apply();
         }
-        return new PathInterpolator(oneX, oneY, twoX, twoY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return new PathInterpolator(oneX, oneY, twoX, twoY);
+        } else {
+            return new AccelerateDecelerateInterpolator(context, null);
+        }
     }
-    public static PathInterpolator makeRootWidthScaleInterpolator(Context context) {
+
+    public static TimeInterpolator makeRootWidthScaleInterpolator(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("bezier", Context.MODE_PRIVATE);
         float oneX = sharedPreferences.getFloat(InterpolatorHelper.ROOT_BOUND_WIDTH_CP_1X, -1);
         float oneY = sharedPreferences.getFloat(InterpolatorHelper.ROOT_BOUND_WIDTH_CP_1Y, -1);
@@ -217,9 +229,14 @@ public class InterpolatorHelper {
                     .putFloat(InterpolatorHelper.ROOT_BOUND_WIDTH_CP_2Y, twoY)
                     .apply();
         }
-        return new PathInterpolator(oneX, oneY, twoX, twoY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return new PathInterpolator(oneX, oneY, twoX, twoY);
+        } else {
+            return new AccelerateDecelerateInterpolator(context, null);
+        }
     }
-    public static PathInterpolator makeRootHeightScaleInterpolator(Context context) {
+
+    public static TimeInterpolator makeRootHeightScaleInterpolator(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("bezier", Context.MODE_PRIVATE);
         float oneX = sharedPreferences.getFloat(InterpolatorHelper.ROOT_BOUND_HEIGHT_CP_1X, -1);
         float oneY = sharedPreferences.getFloat(InterpolatorHelper.ROOT_BOUND_HEIGHT_CP_1Y, -1);
@@ -242,6 +259,10 @@ public class InterpolatorHelper {
                     .putFloat(InterpolatorHelper.ROOT_BOUND_HEIGHT_CP_2Y, twoY)
                     .apply();
         }
-        return new PathInterpolator(oneX, oneY, twoX, twoY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return new PathInterpolator(oneX, oneY, twoX, twoY);
+        } else {
+            return new AccelerateDecelerateInterpolator(context, null);
+        }
     }
 }

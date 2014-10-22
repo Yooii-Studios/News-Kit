@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -756,7 +757,7 @@ public class NewsFeedDetailActivity extends Activity
     private void runExitAnimation() {
         mIsAnimatingActivityTransitionAnimation = true;
 
-        final PathInterpolator pathInterpolator = AnimationFactory.makeNewsFeedReverseTransitionInterpolator();
+        final TimeInterpolator interpolator = AnimationFactory.makeNewsFeedReverseTransitionInterpolator(this);
 
         // 곡선 이동 PropertyValuesHolder 준비
         AnimatorPath path = new AnimatorPath();
@@ -780,7 +781,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(NewsFeedDetailActivity.this,
                 imageWrapperTranslationPvh, imageWrapperSizePvh
         );
-        animator.setInterpolator(pathInterpolator);
+        animator.setInterpolator(interpolator);
         animator.setDuration(mExitAnimationDuration);
         animator.start();
 
@@ -795,14 +796,14 @@ public class NewsFeedDetailActivity extends Activity
                 alpha(0.0f).
                 translationYBy(translationY).
                 setDuration(mExitAnimationDuration).
-                setInterpolator(pathInterpolator).
+                setInterpolator(interpolator).
                 start();
 
         // 하단 리사이클러뷰 위치 애니메이션
         mBottomNewsListRecyclerView.animate().
                 translationYBy(displaySize.y - mBottomNewsListRecyclerView.getTop() + mWindowInsetEnd).
                 setDuration(mExitAnimationDuration).
-                setInterpolator(pathInterpolator).
+                setInterpolator(interpolator).
                 withEndAction(new Runnable() {
                     @Override
                     public void run() {
@@ -816,14 +817,14 @@ public class NewsFeedDetailActivity extends Activity
 //        mRootLayoutBackground.setAlpha(1);
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 255, 0);
         bgAnim.setDuration(mExitAnimationDuration);
-        bgAnim.setInterpolator(pathInterpolator);
+        bgAnim.setInterpolator(interpolator);
         bgAnim.start();
 
 //        mRecyclerViewBackground.setAlpha(1);
         ObjectAnimator recyclerBgAnim = ObjectAnimator.ofInt(mRecyclerViewBackground, "alpha", 255,
                 0);
         recyclerBgAnim.setDuration(mExitAnimationDuration);
-        recyclerBgAnim.setInterpolator(pathInterpolator);
+        recyclerBgAnim.setInterpolator(interpolator);
         recyclerBgAnim.start();
 
         // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
@@ -831,7 +832,7 @@ public class NewsFeedDetailActivity extends Activity
         ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
         thumbnailAlphaAnimator.alpha(1.0f);
         thumbnailAlphaAnimator.setDuration(mExitAnimationDuration/2);
-        thumbnailAlphaAnimator.setInterpolator(pathInterpolator);
+        thumbnailAlphaAnimator.setInterpolator(interpolator);
         thumbnailAlphaAnimator.start();
 
         // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
@@ -840,7 +841,7 @@ public class NewsFeedDetailActivity extends Activity
                 mNewsFeedTitleThumbnailTextView.animate();
         feedTitleThumbnailAlphaAnimator.alpha(1.0f);
         feedTitleThumbnailAlphaAnimator.setDuration(mExitAnimationDuration/2);
-        feedTitleThumbnailAlphaAnimator.setInterpolator(pathInterpolator);
+        feedTitleThumbnailAlphaAnimator.setInterpolator(interpolator);
         feedTitleThumbnailAlphaAnimator.start();
 
         // 액션바 홈버튼 페이드인
@@ -848,7 +849,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator actionBarHomeIconAnimator =
                 ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 255, 0);
         actionBarHomeIconAnimator.setDuration(mExitAnimationDuration);
-        actionBarHomeIconAnimator.setInterpolator(pathInterpolator);
+        actionBarHomeIconAnimator.setInterpolator(interpolator);
         actionBarHomeIconAnimator.start();
 
         // 액션바 텍스트 페이드인
@@ -856,7 +857,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 1.0f, 0.0f);
         actionBarTitleAnimator.setDuration(mExitAnimationDuration);
-        actionBarTitleAnimator.setInterpolator(pathInterpolator);
+        actionBarTitleAnimator.setInterpolator(interpolator);
         actionBarTitleAnimator.start();
 
         // 액션바 오버플로우 페이드인
@@ -864,7 +865,7 @@ public class NewsFeedDetailActivity extends Activity
         ObjectAnimator actionBarOverflowIconAnimator =
                 ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 255, 0);
         actionBarOverflowIconAnimator.setDuration(mExitAnimationDuration);
-        actionBarOverflowIconAnimator.setInterpolator(pathInterpolator);
+        actionBarOverflowIconAnimator.setInterpolator(interpolator);
         actionBarOverflowIconAnimator.start();
 
         //　액션바 배경, 오버레이 페이드 인

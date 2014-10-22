@@ -1,10 +1,12 @@
 package com.yooiistudios.news.ui.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -180,22 +182,25 @@ public class MainActivity extends Activity
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applySystemWindowsBottomInset() {
-        mScrollingContent.setFitsSystemWindows(true);
-        mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
-                } else {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mScrollingContent.setFitsSystemWindows(true);
+            mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    DisplayMetrics metrics = getResources().getDisplayMetrics();
+                    if (metrics.widthPixels < metrics.heightPixels) {
+                        mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
+                    } else {
+                        mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
+                    }
+                    mBottomButtonView.getLayoutParams().height = mSystemWindowInset;
+                    checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
+                    return windowInsets.consumeSystemWindowInsets();
                 }
-                mBottomButtonView.getLayoutParams().height = mSystemWindowInset;
-                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
-                return windowInsets.consumeSystemWindowInsets();
-            }
-        });
+            });
+        }
     }
 
     @Override

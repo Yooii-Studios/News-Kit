@@ -287,7 +287,7 @@ public class MainBottomContainerLayout extends FrameLayout
                             .translationY(0)
                             .setStartDelay(startDelay)
                             .setDuration(duration)
-                            .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator())
+                            .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator(getContext()))
                             .start();
                 }
                 return true;

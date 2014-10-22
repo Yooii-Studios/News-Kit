@@ -23,7 +23,7 @@ public class SlideInFromBottomItemAnimator extends BaseItemAnimator {
             @Override
             void animate(OnAnimatorEnd callback) {
                 v.animate().setDuration(getAddDuration() * 9).translationY(0)
-                        .setInterpolator(AnimationFactory.makeDefaultPathInterpolator())
+                        .setInterpolator(AnimationFactory.makeDefaultPathInterpolator(v.getContext()))
                         .setListener(callback);
             }
 

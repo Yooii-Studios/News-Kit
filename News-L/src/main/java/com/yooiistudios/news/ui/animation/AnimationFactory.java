@@ -1,6 +1,10 @@
 package com.yooiistudios.news.ui.animation;
 
+import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.PathInterpolator;
@@ -35,39 +39,86 @@ public class AnimationFactory {
         return fadeOutAnim;
     }
 
-    public static PathInterpolator makeDefaultPathInterpolator() {
-        return new PathInterpolator(.4f, .0f, 1.f, .2f);
+    public static TimeInterpolator makeDefaultPathInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = new PathInterpolator(.4f, .0f, 1.f, .2f);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
-    public static PathInterpolator makeDefaultReversePathInterpolator() {
-        return new PathInterpolator(.0f, .4f, .2f, 1.f);
+    public static TimeInterpolator makeDefaultReversePathInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = new PathInterpolator(.0f, .4f, .2f, 1.f);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
     // slow-out-slow-in
-    public static PathInterpolator makeNewsFeedImageAndRootTransitionInterpolator(Context context) {
-        return InterpolatorHelper.makeImageAndRootTransitionInterpolator(context);
-//
+    public static TimeInterpolator makeNewsFeedImageAndRootTransitionInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = InterpolatorHelper.makeImageAndRootTransitionInterpolator(context);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
-    public static PathInterpolator makeNewsFeedImageScaleInterpolator(Context context) {
-        return InterpolatorHelper.makeImageScaleInterpolator(context);
+    public static TimeInterpolator makeNewsFeedImageScaleInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = InterpolatorHelper.makeImageScaleInterpolator(context);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
     // fast-out-slow-in
-    public static PathInterpolator makeNewsFeedRootBoundHorizontalInterpolator(Context context) {
-        return InterpolatorHelper.makeRootWidthScaleInterpolator(context);
+    public static TimeInterpolator makeNewsFeedRootBoundHorizontalInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = InterpolatorHelper.makeRootWidthScaleInterpolator(context);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
     // ease-in-out
-    public static PathInterpolator makeNewsFeedRootBoundVerticalInterpolator(Context context) {
-        return InterpolatorHelper.makeRootHeightScaleInterpolator(context);
+    public static TimeInterpolator makeNewsFeedRootBoundVerticalInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = InterpolatorHelper.makeRootHeightScaleInterpolator(context);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
-    public static PathInterpolator makeNewsFeedReverseTransitionInterpolator() {
-        return new PathInterpolator(.52f, .22f, 1.f, .21f);
+    public static TimeInterpolator makeNewsFeedReverseTransitionInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = new PathInterpolator(.52f, .22f, 1.f, .21f);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 
-    public static PathInterpolator makeViewPagerScrollInterpolator() {
-        return new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
+    public static TimeInterpolator makeViewPagerScrollInterpolator(Context context) {
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
+        } else {
+            interpolator = new AccelerateDecelerateInterpolator(context, null);
+        }
+        return interpolator;
     }
 }
