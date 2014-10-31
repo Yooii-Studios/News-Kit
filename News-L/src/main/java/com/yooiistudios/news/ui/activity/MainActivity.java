@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
-//    @InjectView(R.id.main_scroll_view)              MainScrollView mScrollView;
+    @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
@@ -204,7 +205,6 @@ public class MainActivity extends Activity
         super.onResume();
         startNewsAutoRefreshIfReady();
         checkAdView();
-//        applySystemWindowsBottomInset(mScrollingContent, mAdView.getVisibility() == View.VISIBLE);
     }
 
     @Override
@@ -338,7 +338,6 @@ public class MainActivity extends Activity
         }
 
         if (topReady && bottomReady) {
-            NLLog.now("topReady && bottomReady");
             mMainBottomContainerLayout.animateBottomNewsFeedListOnInit();
 
             mSwipeRefreshLayout.setRefreshing(false);
@@ -348,12 +347,11 @@ public class MainActivity extends Activity
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
             // loaded
-            mLoadingContainer.setVisibility(View.GONE);
-
             if (mLoadingImageView.getBackground() instanceof AnimationDrawable) {
                 AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getBackground();
                 animation.stop();
             }
+            mLoadingContainer.setVisibility(View.GONE);
         }
     }
 
