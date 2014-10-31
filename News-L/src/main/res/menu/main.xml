@@ -1,39 +1,48 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
 
-    <item android:id="@+id/action_store"
-        android:title="@string/action_store"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_overflow"
+        android:icon="@drawable/icon_overflow"
+        android:title=""
+        android:showAsAction="always">
 
-    <item android:id="@+id/action_send_feedback"
-          android:title="@string/action_send_feedback"
-          android:orderInCategory="100"
-          android:showAsAction="never" />
+        <menu>
+            <item android:id="@+id/action_settings"
+                  android:title="@string/action_settings"
+                  android:orderInCategory="100"
+                  android:showAsAction="never" />
 
-    <item android:id="@+id/action_remove_archive"
-          android:title="@string/action_remove_archive"
-          android:orderInCategory="100"
-          android:showAsAction="never" />
+            <item android:id="@+id/action_store"
+                  android:title="@string/action_store"
+                  android:orderInCategory="100"
+                  android:showAsAction="never" />
 
-    <item android:id="@+id/action_slow_anim"
-          android:title="@string/action_slow_anim"
-          android:orderInCategory="100"
-          android:showAsAction="never"
-          android:checkable="true" />
+            <item android:id="@+id/action_send_feedback"
+                  android:title="@string/action_send_feedback"
+                  android:orderInCategory="100"
+                  android:showAsAction="never" />
 
-<!--
+            <item android:id="@+id/action_remove_archive"
+                  android:title="@string/action_remove_archive"
+                  android:orderInCategory="100"
+                  android:showAsAction="never" />
 
-    <item android:id="@+id/action_edit_bezier"
-          android:title="@string/action_edit_bezier"
-          android:orderInCategory="100"
-          android:showAsAction="ifRoom"
-          android:checkable="true" />
--->
+            <item android:id="@+id/action_slow_anim"
+                  android:title="@string/action_slow_anim"
+                  android:orderInCategory="100"
+                  android:showAsAction="never"
+                  android:checkable="true" />
 
+            <!--
+
+                <item android:id="@+id/action_edit_bezier"
+                      android:title="@string/action_edit_bezier"
+                      android:orderInCategory="100"
+                      android:showAsAction="ifRoom"
+                      android:checkable="true" />
+            -->
+        </menu>
+    </item>
 </menu>
