@@ -1,7 +1,6 @@
 package com.yooiistudios.news.ui.animation;
 
 import android.animation.TimeInterpolator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -26,7 +25,11 @@ public class AnimationFactory {
         fadeOutAnim.setDuration(context.getResources().getInteger(R.integer.bottom_news_feed_fade_anim_duration_milli));
         fadeOutAnim.setFillEnabled(true);
         fadeOutAnim.setFillAfter(true);
-        fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
+        } else {
+            fadeOutAnim.setInterpolator(new AccelerateDecelerateInterpolator(context, null));
+        }
         return fadeOutAnim;
     }
 
@@ -35,7 +38,12 @@ public class AnimationFactory {
         fadeOutAnim.setDuration(context.getResources().getInteger(R.integer.bottom_news_feed_fade_anim_duration_milli));
         fadeOutAnim.setFillEnabled(true);
         fadeOutAnim.setFillAfter(true);
-        fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
+        } else {
+            fadeOutAnim.setInterpolator(new AccelerateDecelerateInterpolator(context, null));
+        }
+
         return fadeOutAnim;
     }
 
