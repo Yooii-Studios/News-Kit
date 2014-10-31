@@ -1,115 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="theme_default_primary_light">#ffff598e</color>
+    <color name="theme_default_primary">#e91e63</color>
+    <color name="theme_default_primary_dark">#c2185b</color>
+    <color name="theme_default_accent">#9e9e9e</color>
+    <color name="theme_default_accent_light">#33e0e0e0</color>
+    <color name="theme_default_accent_dark">#616161</color>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!--<color name="theme_background">#f2f2f2</color>-->
+    <color name="theme_background">#000</color>
+
+    <color name="theme_detail_selected_background">#339e9e9e</color>
+
+    <declare-styleable name="BaseAppTheme">
+        <attr name="actionBarIconColor" format="color" />
+    </declare-styleable>
+
+    <style name="BaseAppTheme" parent="android:Theme.Holo.Light">
+        <!--<item name="android:colorPrimary">#ffffff</item>-->
+
+        <!-- activity transition 하기 위해 true 로 해야 함. -->
+        <!--<item name="android:windowContentTransitions">true</item>-->
+        <!--<item name="android:windowAllowEnterTransitionOverlap">true</item>-->
     </style>
 
     <!-- Main -->
-    <!-- Top -->
-    <style name="MainTopTitleTextBaseStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:theme">@android:style/Theme.Material</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:gravity">start</item>
-        <item name="android:padding">@dimen/main_top_view_pager_title_padding</item>
-        <item name="android:textColor">@android:color/white</item>
+    <style name="MainTheme" parent="BaseAppTheme">
+        <!--<item name="android:actionBarTheme">@style/MainActionBarThemeOverlay</item>-->
+        <item name="android:actionBarStyle">@style/MainActionBar</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!-- 액션바, 상태바 투명하게 만듦 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="MainBottomItemTextBaseStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:theme">@android:style/Theme.Material</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">3</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/main_bottom_text_padding</item>
-        <item name="android:textColor">@android:color/white</item>
+    <style name="MainActionBar" parent="android:Widget.Holo.Light.ActionBar">
+        <item name="android:background">@null</item>
+        <item name="android:displayOptions">none</item><!-- |homeAsUp -->
+        <!--<item name="android:homeAsUpIndicator">@drawable/ic_ab_drawer</item>-->
+        <item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>
     </style>
 
-    <style name="MainTopTitleTextStyle" parent="MainTopTitleTextBaseStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Display1</item>
-        <item name="android:textSize">26sp</item>
-        <!--<item name="android:textStyle">bold</item>-->
+    <style name="MainActionBarThemeOverlay" parent="">
+        <!--<item name="android:colorControlNormal">?actionBarIconColor</item>-->
+        <!--<item name="android:colorControlHighlight">@color/theme_default_accent_light</item>-->
     </style>
 
-    <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Headline</item>
-        <!--<item name="android:textStyle">bold</item>-->
-        <item name="android:textSize">19sp</item>
+    <style name="MainThemeActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#fff</item>
     </style>
 
-    <style name="MainNewsFeedTitleTextBaseStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">right|bottom</item>
-        <item name="android:theme">@android:style/Theme.Material</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/main_bottom_news_feed_title_padding</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
-        <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>
-        <!--<item name="android:textSize">11sp</item>-->
-        <!--<item name="android:textStyle">bold</item>-->
-    </style>
-
-    <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Caption</item>
-        <item name="android:textSize">10sp</item>
-        <!--<item name="android:textStyle">bold</item>-->
+    <style name="MainActivityTheme" parent="MainTheme">
     </style>
 
     <!-- Detail -->
-    <style name="DetailTextBaseStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:theme">@android:style/Theme.Material</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:gravity">start</item>
+    <style name="DetailActivityTheme" parent="MainTheme">
+        <item name="android:actionBarStyle">@style/DetailActionBar</item>
+        <!--<item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>-->
+
+        <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임. -->
+        <!--<item name="android:windowContentTransitions">false</item>-->
+
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="DetailTextStyle" parent="DetailTextBaseStyle">
-        <item name="android:maxLines">2</item>
+    <style name="DetailActionBar" parent="android:Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>
+        <item name="android:background">@null</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_white</item>
+        <item name="android:displayOptions">homeAsUp|showTitle</item>
     </style>
 
-    <style name="DetailTitleTextBaseStyle" parent="DetailTextStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Headline</item>
-    </style>
 
-    <style name="DetailDescriptionTextBaseStyle" parent="DetailTextStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>
-    </style>
+    <!-- News Detail -->
+    <style name="NewsDetailActivityTheme" parent="MainTheme">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
 
-    <style name="DetailTitleStyle" parent="DetailTitleTextBaseStyle">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:padding">@dimen/detail_text_padding</item>
-    </style>
-
-    <style name="DetailDescriptionStyle" parent="DetailDescriptionTextBaseStyle">
-        <item name="android:textColor">@android:color/darker_gray</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:paddingStart">@dimen/detail_text_wide_padding</item>
-        <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
-        <item name="android:paddingEnd">@dimen/detail_text_wide_padding</item>
-        <item name="android:paddingBottom">@dimen/detail_text_wide_padding</item>
-    </style>
-
-    <!-- Debug -->
-    <style name="BezierDialogEditTextStyle" >
-        <item name="android:layout_width">0px</item>
-        <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:inputType">numberDecimal</item>
-        <item name="android:selectAllOnFocus">true</item>
-        <item name="android:imeOptions">actionNext</item>
+        <!--<item name="android:windowContentTransitions">false</item>-->
+        <!--<item name="android:windowAllowEnterTransitionOverlap">false</item>-->
     </style>
 
 </resources>

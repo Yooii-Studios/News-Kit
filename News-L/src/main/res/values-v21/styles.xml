@@ -83,7 +83,6 @@
         <item name="android:displayOptions">homeAsUp|showTitle</item>
     </style>
 
-
     <!-- News Detail -->
     <style name="NewsDetailActivityTheme" parent="MainTheme">
         <item name="android:windowActionBar">false</item>
