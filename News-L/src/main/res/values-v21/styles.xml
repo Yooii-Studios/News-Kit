@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="theme_default_primary_light">#ffff598e</color>
-    <color name="theme_default_primary">#e91e63</color>
-    <color name="theme_default_primary_dark">#c2185b</color>
-    <color name="theme_default_accent">#9e9e9e</color>
-    <color name="theme_default_accent_light">#33e0e0e0</color>
-    <color name="theme_default_accent_dark">#616161</color>
-
-    <!--<color name="theme_background">#f2f2f2</color>-->
-    <color name="theme_background">#000</color>
-
-    <color name="theme_detail_selected_background">#339e9e9e</color>
-
-    <declare-styleable name="BaseAppTheme">
-        <attr name="actionBarIconColor" format="color" />
-    </declare-styleable>
 
     <style name="BaseAppTheme" parent="android:Theme.Material.Light">
         <item name="android:colorPrimary">#ffffff</item>

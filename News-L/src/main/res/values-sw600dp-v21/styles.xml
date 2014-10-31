@@ -7,28 +7,22 @@
 
     <!-- Main -->
     <style name="MainTopTitleTextStyle" parent="MainTopTitleTextBaseStyle">
-        <!-- TODO: font family missing -->
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Display1</item>-->
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Display1</item>
     </style>
 
     <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
-        <!-- TODO: font family missing -->
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Headline</item>-->
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Headline</item>
     </style>
 
     <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
         <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
-        <!-- TODO: font family missing -->
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>-->
-
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
         <!--<item name="android:textSize">11sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
-        <!-- TODO: font family missing -->
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>-->
-
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>
         <!--<item name="android:textSize">12sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>
@@ -39,14 +33,12 @@
     </style>
 
     <style name="DetailTitleTextBaseStyle" parent="DetailTextStyle">
-        <!-- TODO: font family missing -->
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Display1</item>-->
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Display1</item>
         <item name="android:textSize">30sp</item>
     </style>
 
     <style name="DetailDescriptionTextBaseStyle" parent="DetailTextStyle">
-        <!-- TODO: font family missing -->
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>-->
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
         <item name="android:textSize">18sp</item>
         <!--<item name="android:textStyle">normal</item>-->
     </style>
