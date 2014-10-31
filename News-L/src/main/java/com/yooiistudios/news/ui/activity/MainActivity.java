@@ -29,13 +29,10 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
-import com.yooiistudios.news.ui.widget.MainScrollView;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.NLLog;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,12 +40,12 @@ import butterknife.InjectView;
 
 public class MainActivity extends Activity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
-        MainBottomContainerLayout.OnMainBottomLayoutEventListener, MainScrollView.OnTouchUpDownListener {
+        MainBottomContainerLayout.OnMainBottomLayoutEventListener {
 
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
-    @InjectView(R.id.main_scroll_view)              MainScrollView mScrollView;
+//    @InjectView(R.id.main_scroll_view)              MainScrollView mScrollView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
@@ -154,7 +151,6 @@ public class MainActivity extends Activity
         // banner
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        mScrollView.setListener(this);
 
         // quit
         // make AdView earlier for showing ad fast in the quit dialog
@@ -342,6 +338,7 @@ public class MainActivity extends Activity
         }
 
         if (topReady && bottomReady) {
+            NLLog.now("topReady && bottomReady");
             mMainBottomContainerLayout.animateBottomNewsFeedListOnInit();
 
             mSwipeRefreshLayout.setRefreshing(false);
@@ -352,8 +349,9 @@ public class MainActivity extends Activity
 
             // loaded
             mLoadingContainer.setVisibility(View.GONE);
-            if (mLoadingImageView.getDrawable() instanceof AnimationDrawable) {
-                AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getDrawable();
+
+            if (mLoadingImageView.getBackground() instanceof AnimationDrawable) {
+                AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getBackground();
                 animation.stop();
             }
         }
@@ -447,26 +445,6 @@ public class MainActivity extends Activity
         } else {
             // just finish activity when no ad item is bought
             super.onBackPressed();
-        }
-    }
-
-    /**
-     * Main ScrollView Callback
-     */
-    @Override
-    public void onActionDown() {
-        if (!IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            mAdView.setVisibility(View.INVISIBLE);
-            mBottomButtonView.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void onActionUpCancel() {
-        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(getApplicationContext());
-        if (!IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            mAdView.setVisibility(View.VISIBLE);
-            mBottomButtonView.setVisibility(View.VISIBLE);
         }
     }
 }

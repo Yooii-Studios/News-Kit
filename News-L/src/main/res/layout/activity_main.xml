@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.yooiistudios.news.ui.widget.MainScrollView
+        <!-- <com.yooiistudios.news.ui.widget.MainScrollView -->
+        <ScrollView
             android:id="@+id/main_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -29,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>
-        </com.yooiistudios.news.ui.widget.MainScrollView>
+        </ScrollView>
     </com.yooiistudios.news.ui.widget.MainRefreshLayout>
 
     <com.google.android.gms.ads.AdView
