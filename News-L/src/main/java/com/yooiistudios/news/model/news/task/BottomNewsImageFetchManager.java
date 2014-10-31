@@ -8,7 +8,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.util.NLLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -187,7 +186,7 @@ public class BottomNewsImageFetchManager
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             } else {
                 if (news.getImageUrl() != null) {
-                    NLLog.i("Image fetch", "imageLoader.get. newsFeedIndex : " + newsFeedIndex);
+//                    NLLog.i("Image fetch", "imageLoader.get. newsFeedIndex : " + newsFeedIndex);
                     imageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
                         @Override
                         public void onResponse(ImageLoader.ImageContainer response,
@@ -196,18 +195,18 @@ public class BottomNewsImageFetchManager
                                 return;
                             }
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
-                            NLLog.i("Image fetch", "onResponse. newsFeedIndex : " + newsFeedIndex);
+//                            NLLog.i("Image fetch", "onResponse. newsFeedIndex : " + newsFeedIndex);
                         }
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
-                            NLLog.i("Image fetch", "onErrorResponse. newsFeedIndex : " + newsFeedIndex);
+//                            NLLog.i("Image fetch", "onErrorResponse. newsFeedIndex : " + newsFeedIndex);
                         }
                     });
                 } else {
                     notifyOnImageFetch(news, newsFeedIndex, mTaskType);
-                    NLLog.i("Image fetch", "no url. newsFeedIndex : " + newsFeedIndex);
+//                    NLLog.i("Image fetch", "no url. newsFeedIndex : " + newsFeedIndex);
                 }
             }
         }
@@ -286,6 +285,6 @@ public class BottomNewsImageFetchManager
     @Override
     public void onFetchImage(News news, int position, int taskType) {
         notifyOnImageFetch(news, position, taskType);
-        NLLog.i("Image fetch", "onFetchImage. newsFeedIndex : " + position);
+//        NLLog.i("Image fetch", "onFetchImage. newsFeedIndex : " + position);
     }
 }
