@@ -172,11 +172,7 @@ public class NewsFeedDetailActivity extends Activity
     private int mWindowInsetEnd;
 
     private boolean mIsRefreshing = false;
-    private boolean mHasAnimatedColorFilter = false;
     private boolean mIsAnimatingActivityTransitionAnimation = false;
-
-    private boolean mHasNewsFeedReplaced = false;
-    private boolean mIsLoadingImageOnInit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,35 +206,37 @@ public class NewsFeedDetailActivity extends Activity
 
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
-        if (savedInstanceState == null && mTopImageView.getDrawable() != null) {
-            mTopNewsImageWrapper.bringToFront();
+        if (savedInstanceState == null) {
+            if (mTopImageView.getDrawable() != null) {
+                mTopNewsImageWrapper.bringToFront();
 
-            ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
-            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
+                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                @Override
-                public boolean onPreDraw() {
-                    mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                    @Override
+                    public boolean onPreDraw() {
+                        mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                    initEnterExitAnimationVariable();
+                        initEnterExitAnimationVariable();
 
-                    mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
-                    mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+                        mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+                        mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
 
 //                    View view = new View(NewsFeedDetailActivity.this);
 //                    view.setBackgroundColor(Color.BLACK);
 //                    addThumbnailView(view, mTransImageViewProperty);
-                    addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
-                    addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
-                            mTransFeedTitleViewProperty);
+                        addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
+                        addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
+                                mTransFeedTitleViewProperty);
 
-                    runEnterAnimation();
+                        runEnterAnimation();
 
-                    return true;
-                }
-            });
-        } else {
-            showLoadingCover();
+                        return true;
+                    }
+                });
+            } else {
+                showLoadingCover();
+            }
         }
     }
 
@@ -698,30 +696,15 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void animateTopImageViewColorFilter() {
-        if (mHasAnimatedColorFilter) {
-            return;
-        }
+        int filterColor = getFilterColor();
+
+        int red = Color.red(filterColor);
+        int green = Color.green(filterColor);
+        int blue = Color.blue(filterColor);
+        mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
+
         ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
         color.addUpdateListener(new ColorFilterListener(mTopImageView));
-        color.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                mHasAnimatedColorFilter = true;
-            }
-
-        });
         color.setDuration(mImageFilterAnimationDuration).start();
     }
 
@@ -1150,11 +1133,6 @@ public class NewsFeedDetailActivity extends Activity
                         animateTopItems();
                     }
                     configAfterRefreshDone();
-
-                    if (mIsLoadingImageOnInit) {
-                        mIsLoadingImageOnInit = false;
-                        animateTopImageViewColorFilter();
-                    }
                 }
 
                 @Override
@@ -1164,11 +1142,6 @@ public class NewsFeedDetailActivity extends Activity
                     animateTopItems();
 
                     configAfterRefreshDone();
-
-                    if (mIsLoadingImageOnInit) {
-                        mIsLoadingImageOnInit = false;
-                        animateTopImageViewColorFilter();
-                    }
                 }
             });
         } else if (mTopNews.isImageUrlChecked()) {
@@ -1180,8 +1153,6 @@ public class NewsFeedDetailActivity extends Activity
             animateTopItems();
             mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
             mTopNewsImageFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-            mIsLoadingImageOnInit = true;
         }
     }
 
@@ -1288,7 +1259,7 @@ public class NewsFeedDetailActivity extends Activity
                 mTintType = TintType.GRAYSCALE;
             }
         }
-        applyPalette(!mHasAnimatedColorFilter);
+        applyPalette();
     }
 
     private void animateTopItems() {
@@ -1304,7 +1275,7 @@ public class NewsFeedDetailActivity extends Activity
                 .setInterpolator(new DecelerateInterpolator());
     }
 
-    private void applyPalette(boolean applyColorFilter) {
+    private void applyPalette() {
         int lightVibrantColor = mPalette.getLightVibrantColor(Color.TRANSPARENT);
 
         mTopTitleTextView.setTextColor(Color.WHITE);
@@ -1322,10 +1293,6 @@ public class NewsFeedDetailActivity extends Activity
         int colorWithoutAlpha = Color.rgb(red, green, blue);
 //        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
         mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
-
-        if (applyColorFilter) {
-            mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
-        }
     }
 
     private int getFilterColor() {

@@ -12,7 +12,7 @@ import android.text.style.ForegroundColorSpan;
  */
 public class AlphaForegroundColorSpan extends ForegroundColorSpan {
 
-    private float mAlpha;
+    private float mAlpha = 1.f;
 
     public AlphaForegroundColorSpan(int color) {
         super(color);
