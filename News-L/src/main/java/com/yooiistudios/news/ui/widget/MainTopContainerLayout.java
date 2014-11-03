@@ -459,6 +459,8 @@ public class MainTopContainerLayout extends FrameLayout
 
         mActivity.startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
 
-        mActivity.overridePendingTransition(0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mActivity.overridePendingTransition(0, 0);
+        }
     }
 }

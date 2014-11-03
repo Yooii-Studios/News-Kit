@@ -3,6 +3,7 @@ package com.yooiistudios.news.ui.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -397,7 +398,9 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mActivity.startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
 
-        mActivity.overridePendingTransition(0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mActivity.overridePendingTransition(0, 0);
+        }
     }
 
     /**
