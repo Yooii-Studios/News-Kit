@@ -24,6 +24,8 @@
     <!-- Setting -->
     <string name="title_activity_setting">Setting</string>
     <string name="setting_language">Language</string>
+    <string name="setting_keep_screen_on">Keep screen on</string>
+    <string name="setting_keep_screen_on_description">test</string>
     <string name="setting_share_this_app">Share this app</string>
     <string name="setting_rate_this_app">Rate this app</string>
     <string name="setting_tutorial">Tutorial</string>

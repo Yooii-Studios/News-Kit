@@ -3,6 +3,7 @@ package com.yooiistudios.news.ui.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.ui.fragment.SettingFragment;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
@@ -205,6 +208,15 @@ public class MainActivity extends Activity
         super.onResume();
         startNewsAutoRefreshIfReady();
         checkAdView();
+
+        // 화면 켜짐 유지 설정
+        SharedPreferences preferences = getSharedPreferences(
+                SettingFragment.KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        if (preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false)) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 
     @Override

@@ -24,6 +24,8 @@
     <!-- Setting -->
     <string name="title_activity_setting">설정</string>
     <string name="setting_language">언어</string>
+    <string name="setting_keep_screen_on">화면 켜짐 유지</string>
+    <string name="setting_keep_screen_on_description">테스트..</string>
     <string name="setting_share_this_app">앱 공유하기</string>
     <string name="setting_rate_this_app">앱 평가하기</string>
     <string name="setting_tutorial">튜토리얼</string>
