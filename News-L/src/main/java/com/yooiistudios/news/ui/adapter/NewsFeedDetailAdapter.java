@@ -3,6 +3,7 @@ package com.yooiistudios.news.ui.adapter;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,12 @@ public class NewsFeedDetailAdapter extends
     public static ViewHolder createViewHolder(Context context, ViewGroup parent) {
         View v = LayoutInflater.from(context).inflate(
                 R.layout.detail_bottom_item, parent, false);
-        v.setElevation(DipToPixel.dpToPixel(context,
-                context.getResources().getDimension(
-                        R.dimen.main_bottom_card_view_elevation)
-        ));
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            v.setElevation(DipToPixel.dpToPixel(context,
+                    context.getResources().getDimension(
+                            R.dimen.main_bottom_card_view_elevation)
+            ));
+        }
         return new ViewHolder(v);
     }
 

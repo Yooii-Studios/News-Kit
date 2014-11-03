@@ -7,6 +7,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -208,32 +210,30 @@ public class NewsFeedDetailActivity extends Activity
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null) {
             if (mTopImageView.getDrawable() != null) {
-                mTopNewsImageWrapper.bringToFront();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mTopNewsImageWrapper.bringToFront();
 
-                ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
-                observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
+                    observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
-                    @Override
-                    public boolean onPreDraw() {
-                        mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                        @Override
+                        public boolean onPreDraw() {
+                            mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                        initEnterExitAnimationVariable();
+                            initEnterExitAnimationVariable();
 
-                        mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
-                        mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+                            mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+                            mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
 
-//                    View view = new View(NewsFeedDetailActivity.this);
-//                    view.setBackgroundColor(Color.BLACK);
-//                    addThumbnailView(view, mTransImageViewProperty);
-                        addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
-                        addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
-                                mTransFeedTitleViewProperty);
+                            addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
+                            addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
+                                    mTransFeedTitleViewProperty);
 
-                        runEnterAnimation();
-
-                        return true;
-                    }
-                });
+                            runEnterAnimation();
+                            return true;
+                        }
+                    });
+                }
             } else {
                 showLoadingCover();
             }
@@ -339,6 +339,7 @@ public class NewsFeedDetailActivity extends Activity
      * activity is fading in. When the pictue is in place, the text description
      * drops down.
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void runEnterAnimation() {
         mIsAnimatingActivityTransitionAnimation = true;
 
@@ -611,6 +612,9 @@ public class NewsFeedDetailActivity extends Activity
         feedTitleThumbnailAlphaAnimator.setInterpolator(commonInterpolator);
         feedTitleThumbnailAlphaAnimator.start();
 
+        // 탑 뉴스 텍스트(타이틀, 디스크립션) 애니메이션
+        animateTopItems();
+
         // 액션바 내용물 우선 숨겨두도록
         mActionBarHomeIcon.setAlpha(0);
         mColorSpan.setAlpha(0.0f);
@@ -695,6 +699,7 @@ public class NewsFeedDetailActivity extends Activity
         mRootLayout.setClipBounds(clipBound);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void animateTopImageViewColorFilter() {
         int filterColor = getFilterColor();
 
@@ -722,6 +727,7 @@ public class NewsFeedDetailActivity extends Activity
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void darkenHeroImage() {
         int filterColor = getFilterColor();
 
@@ -964,8 +970,8 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void initTopNews() {
-        mTopTitleTextView.setAlpha(0);
-        mTopDescriptionTextView.setAlpha(0);
+//        mTopTitleTextView.setAlpha(0);
+//        mTopDescriptionTextView.setAlpha(0);
 
         mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1069,7 +1075,11 @@ public class NewsFeedDetailActivity extends Activity
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                finishAfterTransition();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    finishAfterTransition();
+                } else {
+                    finish();
+                }
                 return true;
 
             case R.id.action_replace_newsfeed:
@@ -1130,7 +1140,7 @@ public class NewsFeedDetailActivity extends Activity
                     if (bitmap != null) {
                         setTopNewsImageBitmap(bitmap);
 
-                        animateTopItems();
+//                        animateTopItems();
                     }
                     configAfterRefreshDone();
                 }
@@ -1139,7 +1149,7 @@ public class NewsFeedDetailActivity extends Activity
                 public void onErrorResponse(VolleyError error) {
                     applyDummyTopNewsImage();
 
-                    animateTopItems();
+//                    animateTopItems();
 
                     configAfterRefreshDone();
                 }
@@ -1147,10 +1157,10 @@ public class NewsFeedDetailActivity extends Activity
         } else if (mTopNews.isImageUrlChecked()) {
             applyDummyTopNewsImage();
 
-            animateTopItems();
+//            animateTopItems();
         } else {
             showLoadingCover();
-            animateTopItems();
+//            animateTopItems();
             mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
             mTopNewsImageFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -1338,23 +1348,26 @@ public class NewsFeedDetailActivity extends Activity
 //        NLWebUtils.openLink(this, news.getLink());
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applySystemWindowsBottomInset(int container) {
-        View containerView = findViewById(container);
-        containerView.setFitsSystemWindows(true);
-        containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-                    mWindowInsetEnd = windowInsets.getSystemWindowInsetBottom();
-                    view.setPadding(0, 0, 0, mWindowInsetEnd);
-                } else {
-                    mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
-                    view.setPadding(0, 0, mWindowInsetEnd, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View containerView = findViewById(container);
+            containerView.setFitsSystemWindows(true);
+            containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                    DisplayMetrics metrics = getResources().getDisplayMetrics();
+                    if (metrics.widthPixels < metrics.heightPixels) {
+                        mWindowInsetEnd = windowInsets.getSystemWindowInsetBottom();
+                        view.setPadding(0, 0, 0, mWindowInsetEnd);
+                    } else {
+                        mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
+                        view.setPadding(0, 0, mWindowInsetEnd, 0);
+                    }
+                    return windowInsets.consumeSystemWindowInsets();
                 }
-                return windowInsets.consumeSystemWindowInsets();
-            }
-        });
+            });
+        }
     }
 
     /**
