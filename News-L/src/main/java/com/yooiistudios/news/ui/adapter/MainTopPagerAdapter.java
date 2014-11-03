@@ -42,7 +42,8 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 //        NLTopNewsFeedViewPagerItem item = new NLTopNewsFeedViewPagerItem();
         MainNewsFeedFragment item =
                 MainNewsFeedFragment.newInstance(mNewsFeed,
-                        mNewsFeed.getNewsList().get(i), i, mOnItemClickListener);
+                        mNewsFeed.getNewsList().get(i), i);
+        item.setOnItemClickListener(mOnItemClickListener);
         mFragmentSparseArray.put(i, item);
 
         return item;

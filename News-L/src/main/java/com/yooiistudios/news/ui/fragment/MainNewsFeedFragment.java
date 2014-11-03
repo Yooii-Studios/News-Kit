@@ -46,9 +46,8 @@ public class MainNewsFeedFragment extends Fragment {
 
     private MainTopPagerAdapter.OnItemClickListener mOnItemClickListener;
 
-    public static MainNewsFeedFragment newInstance(NewsFeed newsFeed, News news, int position,
-                                                MainTopPagerAdapter.OnItemClickListener listener) {
-        MainNewsFeedFragment f = new MainNewsFeedFragment(listener);
+    public static MainNewsFeedFragment newInstance(NewsFeed newsFeed, News news, int position) {
+        MainNewsFeedFragment f = new MainNewsFeedFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -63,16 +62,12 @@ public class MainNewsFeedFragment extends Fragment {
     @SuppressWarnings("UnusedDeclaration")
     public MainNewsFeedFragment() {}
 
-    public MainNewsFeedFragment(MainTopPagerAdapter.OnItemClickListener listener) {
-        mOnItemClickListener = listener;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mNewsFeed = getArguments().getParcelable(KEY_NEWS_FEED);
             mNews = getArguments().getParcelable(KEY_NEWS);
+            mNewsFeed = getArguments().getParcelable(KEY_NEWS_FEED);
             mPosition = getArguments().getInt(KEY_POSITION);
         } else {
             mNews = null;
@@ -122,6 +117,10 @@ public class MainNewsFeedFragment extends Fragment {
         root.setTag(holder);
 
         return root;
+    }
+
+    public void setOnItemClickListener(MainTopPagerAdapter.OnItemClickListener listener) {
+        mOnItemClickListener = listener;
     }
 
     public void applyImage() {
