@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.PathInterpolator;
 
 import com.yooiistudios.news.R;
@@ -125,7 +126,7 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
         } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
+            interpolator = new DecelerateInterpolator(context, null);
         }
         return interpolator;
     }

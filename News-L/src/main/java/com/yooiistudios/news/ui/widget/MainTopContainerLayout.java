@@ -1,10 +1,12 @@
 package com.yooiistudios.news.ui.widget;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Interpolator;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -101,6 +103,7 @@ public class MainTopContainerLayout extends FrameLayout
         _init(context);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MainTopContainerLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
