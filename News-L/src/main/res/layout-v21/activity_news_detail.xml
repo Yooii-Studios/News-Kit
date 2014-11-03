@@ -22,11 +22,12 @@
         android:layout_height="@dimen/fab_size_small"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
+        android:elevation="@dimen/fab_elevation"
         android:background="@drawable/fab_background"
+        android:stateListAnimator="@animator/fab_anim"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true">
 
-        <!--<com.yooiistudios.news.ui.widget.RoundedImageView-->
         <ImageView
             android:layout_width="@dimen/fab_icon_size"
             android:layout_height="@dimen/fab_icon_size"

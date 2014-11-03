@@ -16,8 +16,10 @@
 
 package com.yooiistudios.news.ui.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Outline;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -102,6 +104,13 @@ public class FloatingActionButton extends FrameLayout {
     protected void onSizeChanged(final int w, final int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            makeFAB(w, h);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void makeFAB(final int w, final int h) {
         setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
@@ -110,5 +119,4 @@ public class FloatingActionButton extends FrameLayout {
         });
         setClipToOutline(true);
     }
-
 }
