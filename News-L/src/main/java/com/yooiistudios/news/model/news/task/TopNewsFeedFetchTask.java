@@ -44,7 +44,6 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-
         return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT, mShuffle);
     }
 

@@ -369,15 +369,11 @@ public class NewsFeedUtils {
         HttpURLConnection con =
                 (HttpURLConnection)new URL(url).openConnection();
         endMilli = System.currentTimeMillis();
-        NLLog.i("performance", "open connection : " +
-                (endMilli - startMilli));
         con.setRequestMethod("GET");
 
         startMilli = System.currentTimeMillis();
         int responseCode = con.getResponseCode();
         endMilli = System.currentTimeMillis();
-        NLLog.i("performance", "getting response code : " +
-                (endMilli - startMilli));
 
         if (responseCode != 200) {
             return null;
@@ -389,8 +385,6 @@ public class NewsFeedUtils {
         String inputLine;
         StringBuilder responseBuilder = new StringBuilder();
         endMilli = System.currentTimeMillis();
-        NLLog.i("performance", "make buffered reader with input stream: " +
-                (endMilli - startMilli));
 
         startMilli = System.currentTimeMillis();
         while ((inputLine = in.readLine()) != null) {
@@ -398,14 +392,10 @@ public class NewsFeedUtils {
         }
         in.close();
         endMilli = System.currentTimeMillis();
-        NLLog.i("performance", "read with while loop : " +
-                (endMilli - startMilli));
 
         startMilli = System.currentTimeMillis();
         String responseStr = responseBuilder.toString();
         endMilli = System.currentTimeMillis();
-        NLLog.i("performance", "reponseBuilder to responseStr : " +
-                (endMilli - startMilli));
 
         return responseStr;
     }

@@ -39,17 +39,9 @@ public class NewsFeedFetchUtil {
             URLConnection conn = url.openConnection();
 
             // RSS 파싱
-
-            long startMilli;
-            long endMilli;
-
-            startMilli = System.currentTimeMillis();
             feed = NewsFeedParser.read(conn.getInputStream());
             feed.setNewsFeedUrl(feedUrl);
             feed.setValid(feed.getNewsList().size() > 0);
-            endMilli = System.currentTimeMillis();
-//            NLLog.i("performance", "NLNewsFeedParser.read" +
-//                    (endMilli - startMilli));
             // 퍼포먼스 개선 여지 있음.
             // 로컬 테스트를 위한 코드
 //            feed = NLNewsFeedParser.read(mContext.getResources().getAssets().open("feeds.xml"));

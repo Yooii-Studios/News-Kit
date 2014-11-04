@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Interpolator;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
@@ -170,7 +169,9 @@ public class MainTopContainerLayout extends FrameLayout
             Field mScroller;
             mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
-            android.view.animation.Interpolator interpolator = (android.view.animation.Interpolator) AnimationFactory.makeViewPagerScrollInterpolator(getContext());
+            android.view.animation.Interpolator interpolator =
+                    (android.view.animation.Interpolator)
+                        AnimationFactory.makeViewPagerScrollInterpolator(getContext());
             SlowSpeedScroller scroller = new SlowSpeedScroller(context, interpolator, true);
             mScroller.set(mTopNewsFeedViewPager, scroller);
         } catch (Exception e) {
