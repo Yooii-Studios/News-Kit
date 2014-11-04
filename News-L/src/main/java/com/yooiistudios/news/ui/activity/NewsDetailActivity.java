@@ -54,7 +54,7 @@ public class NewsDetailActivity extends Activity {
 
         initWebView();
 
-//        mLoadingLayout.bringToFront();
+        mProgressBar.bringToFront();
 
         mFab.bringToFront();
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +83,10 @@ public class NewsDetailActivity extends Activity {
 
     private void initWebView() {
         mWebView = new WebView(getApplicationContext());
-        mRootContainer.addView(mWebView);
+        mRootContainer.addView(mWebView,
+                new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setBuiltInZoomControls(true);
