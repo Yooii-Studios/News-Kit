@@ -17,6 +17,11 @@
     <string name="splash_loading_title">News L</string>
     <string name="splash_loading_description">Loading News…</string>
 
+    <!-- Newsfeed Detail -->
+    <string name="newsfeed_auto_scroll">Auto Scroll</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
     <!-- News Select -->
     <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
     <string name="title_activity_news">Select News</string>
@@ -24,6 +29,7 @@
     <!-- Setting -->
     <string name="title_activity_setting">Setting</string>
     <string name="setting_language">Language</string>
+    <string name="setting_newsfeed_auto_scroll">News list auto scroll</string>
     <string name="setting_keep_screen_on">Keep screen on</string>
     <string name="setting_keep_screen_on_description">test</string>
     <string name="setting_share_this_app">Share this app</string>

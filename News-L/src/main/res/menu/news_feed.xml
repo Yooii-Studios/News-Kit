@@ -3,6 +3,9 @@
     tools:context=".MainActivity" >
     <item android:id="@+id/action_settings"
         android:title="@string/action_newsfeed"
-        android:orderInCategory="100"
         android:showAsAction="never" />
+
+    <item android:id="@+id/action_auto_scroll"
+          android:title="@string/newsfeed_auto_scroll"
+          android:showAsAction="never" />
 </menu>

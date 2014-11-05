@@ -17,6 +17,11 @@
     <string name="splash_loading_title">뉴스 L</string>
     <string name="splash_loading_description">뉴스 로딩 중…</string>
 
+    <!-- Newsfeed Detail -->
+    <string name="newsfeed_auto_scroll">자동 스크롤</string>
+    <string name="on">켜기</string>
+    <string name="off">끄기</string>
+
     <!-- News Select -->
     <string name="select_news_select_newsfeed_dialog_title">뉴스피드 선택</string>
     <string name="title_activity_news">뉴스 선택</string>
@@ -24,6 +29,7 @@
     <!-- Setting -->
     <string name="title_activity_setting">설정</string>
     <string name="setting_language">언어</string>
+    <string name="setting_newsfeed_auto_scroll">뉴스 리스트 자동 스크롤</string>
     <string name="setting_keep_screen_on">화면 켜짐 유지</string>
     <string name="setting_keep_screen_on_description">테스트..</string>
     <string name="setting_share_this_app">앱 공유하기</string>

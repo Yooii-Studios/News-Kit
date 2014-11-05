@@ -56,6 +56,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.AlphaForegroundColorSpan;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
@@ -1066,6 +1067,14 @@ public class NewsFeedDetailActivity extends Activity
         SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, Menu.NONE, "");
         subMenu.setIcon(mActionBarOverflowIcon);
         subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, Menu.NONE, R.string.action_newsfeed);
+
+        String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
+        if (Settings.isNewsFeedAutoScroll(this)) {
+            autoScrollString += getString(R.string.off);
+        } else {
+            autoScrollString += getString(R.string.on);
+        }
+        subMenu.add(Menu.NONE, R.id.action_auto_scroll, Menu.NONE, autoScrollString);
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
@@ -1085,6 +1094,18 @@ public class NewsFeedDetailActivity extends Activity
             case R.id.action_replace_newsfeed:
                 startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
                         REQ_SELECT_NEWS_FEED);
+                return true;
+
+            case R.id.action_auto_scroll:
+                boolean isAutoScroll = Settings.isNewsFeedAutoScroll(this);
+                String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
+                if (isAutoScroll) {
+                    autoScrollString += getString(R.string.off);
+                } else {
+                    autoScrollString += getString(R.string.on);
+                }
+                item.setTitle(autoScrollString);
+                Settings.setNewsFeedAutoScroll(this, !isAutoScroll);
                 return true;
         }
         return super.onOptionsItemSelected(item);

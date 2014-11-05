@@ -19,6 +19,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
@@ -40,6 +41,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
+        NEWSFEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
         SHARE_APP(R.string.setting_share_this_app),
         RATE(R.string.setting_rate_this_app),
@@ -112,6 +114,11 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             case LANGUAGE:
                 showLanguageDialog();
                 break;
+
+            case NEWSFEED_AUTO_SCROLL:
+                showNewsFeedAutoScrollDialog();
+                break;
+
             case KEEP_SCREEN_ON:
                 Context context = getActivity().getApplicationContext();
                 SharedPreferences preferences = context.getSharedPreferences(
@@ -121,16 +128,21 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
                 mSettingAdapter.notifyDataSetChanged();
                 break;
+
             case SHARE_APP:
                 RecommendUtils.showRecommendDialog(getActivity());
                 break;
+
             case RATE:
                 ReviewUtils.showReviewActivity(getActivity());
                 break;
+
             case TUTORIAL:
                 break;
+
             case CREDIT:
                 break;
+
             case LIKE_ON_FACEBOOK:
                 try {
                     PackageManager packageManager = getActivity().getPackageManager();
@@ -167,6 +179,31 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 initListView();
             }
         }).setTitle(R.string.setting_language).create();
+        alertDialog.show();
+    }
+
+    private void showNewsFeedAutoScrollDialog() {
+        // 뉴스피드들의 타이틀을 CharSequence 로 변경
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(getString(R.string.on));
+        list.add(getString(R.string.off));
+
+        String[] booleanList = list.toArray(new String[list.size()]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog alertDialog = builder.setItems(booleanList, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                // archive selection
+                if (i == 0) {
+                    Settings.setNewsFeedAutoScroll(getActivity(), true);
+                } else {
+                    Settings.setNewsFeedAutoScroll(getActivity(), false);
+                }
+                initListView();
+            }
+        }).setTitle(R.string.setting_newsfeed_auto_scroll).create();
         alertDialog.show();
     }
 }
