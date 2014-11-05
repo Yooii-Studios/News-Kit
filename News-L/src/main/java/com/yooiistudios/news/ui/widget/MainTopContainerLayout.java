@@ -32,6 +32,7 @@ import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.fragment.MainNewsFeedFragment;
 import com.yooiistudios.news.ui.widget.viewpager.MainTopViewPager;
+import com.yooiistudios.news.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
@@ -58,7 +59,8 @@ public class MainTopContainerLayout extends FrameLayout
     @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mTopNewsFeedViewPager;
     @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
     @InjectView(R.id.main_top_unavailable_wrapper)          FrameLayout mTopNewsFeedUnavailableWrapper;
-    @InjectView(R.id.main_top_page_indicator)               CirclePageIndicator mTopViewPagerIndicator;
+    @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mTopViewPagerIndicator;
+//    @InjectView(R.id.main_top_page_indicator)               CirclePageIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
@@ -231,8 +233,7 @@ public class MainTopContainerLayout extends FrameLayout
         mTopViewPagerIndicator.setVisibility(View.VISIBLE);
 
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
-        mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
-        mTopViewPagerIndicator.setCurrentItem(0);
+        mTopViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mTopNewsFeedViewPager);
 
         mTopNewsFeedTitleTextView.setText(mTopNewsFeedPagerAdapter.getNewsFeed().getTitle());
     }
@@ -312,11 +313,11 @@ public class MainTopContainerLayout extends FrameLayout
         topNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
         topNewsFeed.getNewsList().add(null);
 
-        mTopViewPagerIndicator.setCurrentItem(0);
+//        mTopViewPagerIndicator.setCurrentItem(0);
         mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager(), this);
         mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
-        mTopViewPagerIndicator.setViewPager(mTopNewsFeedViewPager);
+        mTopViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mTopNewsFeedViewPager);
         mTopNewsFeedTitleTextView.setText("");
 
         fetchTopNewsFeed(taskType, shuffle);

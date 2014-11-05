@@ -63,7 +63,8 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.0f, .4f, .2f, 1.f);
         } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
+//            interpolator = new AccelerateDecelerateInterpolator(context, null);
+            interpolator = new CubicBezierInterpolator(.0f, .4f, .2f, 1.f);
         }
         return interpolator;
     }
