@@ -1098,6 +1098,9 @@ public class NewsFeedDetailActivity extends Activity
 
             case R.id.action_auto_scroll:
                 boolean isAutoScroll = Settings.isNewsFeedAutoScroll(this);
+                isAutoScroll = !isAutoScroll;
+                Settings.setNewsFeedAutoScroll(this, isAutoScroll);
+
                 String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
                 if (isAutoScroll) {
                     autoScrollString += getString(R.string.off);
@@ -1105,7 +1108,6 @@ public class NewsFeedDetailActivity extends Activity
                     autoScrollString += getString(R.string.on);
                 }
                 item.setTitle(autoScrollString);
-                Settings.setNewsFeedAutoScroll(this, !isAutoScroll);
                 return true;
         }
         return super.onOptionsItemSelected(item);
