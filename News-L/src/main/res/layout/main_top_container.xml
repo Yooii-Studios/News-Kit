@@ -37,20 +37,10 @@
         </FrameLayout>
     </FrameLayout>
 
-    <com.viewpagerindicator.CirclePageIndicator
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/main_top_page_indicator"
+    <com.yooiistudios.news.ui.widget.viewpager.ParallexViewPagerIndicator
+        android:id="@+id/main_top_view_pager_indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="@dimen/main_top_view_pager_indicator_margin"
-        android:layout_marginBottom="@dimen/main_top_view_pager_indicator_margin"
-        app:fillColor="@color/theme_default_accent"
-        app:strokeWidth="0dp"
-        app:strokeColor="#00000000"
-        app:pageColor="@color/theme_default_accent_light"
-        app:centered="true"
-        app:snap="true"
-        app:radius="@dimen/main_top_view_pager_indicator_radius"/>
+        android:layout_height="@dimen/main_bottom_margin_small"
+        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
 
 </LinearLayout>

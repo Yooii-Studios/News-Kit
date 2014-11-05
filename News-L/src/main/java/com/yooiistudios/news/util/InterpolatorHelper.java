@@ -8,11 +8,11 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.EditText;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.ui.animation.CubicBezierInterpolator;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 10. 11.
@@ -176,7 +176,7 @@ public class InterpolatorHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return new PathInterpolator(oneX, oneY, twoX, twoY);
         } else {
-            return new AccelerateDecelerateInterpolator(context, null);
+            return new CubicBezierInterpolator(oneX, oneY, twoX, twoY);
         }
     }
 
@@ -206,7 +206,7 @@ public class InterpolatorHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return new PathInterpolator(oneX, oneY, twoX, twoY);
         } else {
-            return new AccelerateDecelerateInterpolator(context, null);
+            return new CubicBezierInterpolator(oneX, oneY, twoX, twoY);
         }
     }
 
@@ -232,7 +232,7 @@ public class InterpolatorHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return new PathInterpolator(oneX, oneY, twoX, twoY);
         } else {
-            return new AccelerateDecelerateInterpolator(context, null);
+            return new CubicBezierInterpolator(oneX, oneY, twoX, twoY);
         }
     }
 
@@ -262,7 +262,7 @@ public class InterpolatorHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return new PathInterpolator(oneX, oneY, twoX, twoY);
         } else {
-            return new AccelerateDecelerateInterpolator(context, null);
+            return new CubicBezierInterpolator(oneX, oneY, twoX, twoY);
         }
     }
 }

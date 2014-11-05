@@ -3,10 +3,8 @@ package com.yooiistudios.news.ui.animation;
 import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.os.Build;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.PathInterpolator;
 
 import com.yooiistudios.news.R;
@@ -29,7 +27,7 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
         } else {
-            fadeOutAnim.setInterpolator(new AccelerateDecelerateInterpolator(context, null));
+            fadeOutAnim.setInterpolator(new CubicBezierInterpolator(.57f, .15f, .65f, .67f));
         }
         return fadeOutAnim;
     }
@@ -42,7 +40,7 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
         } else {
-            fadeOutAnim.setInterpolator(new AccelerateDecelerateInterpolator(context, null));
+            fadeOutAnim.setInterpolator(new CubicBezierInterpolator(.57f, .15f, .65f, .67f));
         }
 
         return fadeOutAnim;
@@ -53,7 +51,7 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.4f, .0f, 1.f, .2f);
         } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
+            interpolator = new CubicBezierInterpolator(.4f, .0f, 1.f, .2f);
         }
         return interpolator;
     }
@@ -63,52 +61,28 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.0f, .4f, .2f, 1.f);
         } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
+            interpolator = new CubicBezierInterpolator(.0f, .4f, .2f, 1.f);
         }
         return interpolator;
     }
 
     // slow-out-slow-in
     public static TimeInterpolator makeNewsFeedImageAndRootTransitionInterpolator(Context context) {
-        TimeInterpolator interpolator;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            interpolator = InterpolatorHelper.makeImageAndRootTransitionInterpolator(context);
-        } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
-        }
-        return interpolator;
+        return InterpolatorHelper.makeImageAndRootTransitionInterpolator(context);
     }
 
     public static TimeInterpolator makeNewsFeedImageScaleInterpolator(Context context) {
-        TimeInterpolator interpolator;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            interpolator = InterpolatorHelper.makeImageScaleInterpolator(context);
-        } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
-        }
-        return interpolator;
+        return InterpolatorHelper.makeImageScaleInterpolator(context);
     }
 
     // fast-out-slow-in
     public static TimeInterpolator makeNewsFeedRootBoundHorizontalInterpolator(Context context) {
-        TimeInterpolator interpolator;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            interpolator = InterpolatorHelper.makeRootWidthScaleInterpolator(context);
-        } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
-        }
-        return interpolator;
+        return InterpolatorHelper.makeRootWidthScaleInterpolator(context);
     }
 
     // ease-in-out
     public static TimeInterpolator makeNewsFeedRootBoundVerticalInterpolator(Context context) {
-        TimeInterpolator interpolator;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            interpolator = InterpolatorHelper.makeRootHeightScaleInterpolator(context);
-        } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
-        }
-        return interpolator;
+        return InterpolatorHelper.makeRootHeightScaleInterpolator(context);
     }
 
     public static TimeInterpolator makeNewsFeedReverseTransitionInterpolator(Context context) {
@@ -116,7 +90,7 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.52f, .22f, 1.f, .21f);
         } else {
-            interpolator = new AccelerateDecelerateInterpolator(context, null);
+            interpolator = new CubicBezierInterpolator(.52f, .22f, 1.f, .21f);
         }
         return interpolator;
     }
@@ -126,7 +100,7 @@ public class AnimationFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
         } else {
-            interpolator = new DecelerateInterpolator(context, null);
+            interpolator = new CubicBezierInterpolator(0.15f, 0.12f, 0.24f, 1.0f);
         }
         return interpolator;
     }
