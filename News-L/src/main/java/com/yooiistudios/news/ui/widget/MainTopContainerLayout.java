@@ -4,18 +4,19 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.viewpagerindicator.CirclePageIndicator;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.news.News;
@@ -120,6 +121,36 @@ public class MainTopContainerLayout extends FrameLayout
                 ImageMemoryCache.getInstance(context));
 
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
+    }
+
+    public void animateOnInit() {
+//        final View view = findViewById(R.id.main_top_root);
+        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                getViewTreeObserver().removeOnPreDrawListener(this);
+
+                // get display height
+                Point displaySize = new Point();
+                mActivity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+                int displayHeight = displaySize.y;
+
+                // calculate translation Y for animation.
+                int translationY = displayHeight - getTop();
+
+                // animate
+                setTranslationY(translationY);
+
+                int duration = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_duration);
+                animate()
+                    .setDuration(duration)
+                    .translationY(0)
+                    .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator(getContext()))
+                    .start();
+
+                return false;
+            }
+        });
     }
 
     public void autoRefreshTopNewsFeed() {

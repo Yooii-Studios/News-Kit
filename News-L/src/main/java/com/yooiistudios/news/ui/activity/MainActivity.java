@@ -350,6 +350,7 @@ public class MainActivity extends Activity
         }
 
         if (topReady && bottomReady) {
+            mMainTopContainerLayout.animateOnInit();
             mMainBottomContainerLayout.animateBottomNewsFeedListOnInit();
 
             mSwipeRefreshLayout.setRefreshing(false);

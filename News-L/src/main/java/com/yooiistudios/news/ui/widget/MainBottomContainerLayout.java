@@ -282,7 +282,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 for (int i = 0; i < childCount; i++) {
                     View child = mBottomNewsFeedRecyclerView.getChildAt(i);
                     child.setTranslationY((float) (recyclerViewHeight * 1.5));
-                    int startDelay = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_delay) * i;
+                    int startDelay = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_delay) * (i+1);
                     int duration = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_duration);
                     child.animate()
                             .translationY(0)

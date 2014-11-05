@@ -14,22 +14,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/main_scrolling_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <com.yooiistudios.news.ui.widget.MainTopContainerLayout
-                    android:id="@+id/main_top_layout_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" >
 
                 <com.yooiistudios.news.ui.widget.MainBottomContainerLayout
                     android:id="@+id/main_bottom_layout_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/main_top_layout_container"/>
+
+                <com.yooiistudios.news.ui.widget.MainTopContainerLayout
+                    android:id="@+id/main_top_layout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"/>
+            </RelativeLayout>
         </ScrollView>
     </com.yooiistudios.news.ui.widget.MainRefreshLayout>
 
