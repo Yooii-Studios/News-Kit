@@ -17,7 +17,9 @@
 package com.yooiistudios.news.ui.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
@@ -35,12 +37,35 @@ public class ObservableScrollView extends ScrollView {
         super(context, attrs);
     }
 
+
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         for (Callbacks c : mCallbacks) {
             c.onScrollChanged(l - oldl, t - oldt);
         }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (Callbacks c : mCallbacks) {
+                    c.onScrollStarted();
+                }
+                break;
+        }
+        return super.onInterceptTouchEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            for (Callbacks c : mCallbacks) {
+                c.onScrollFinished();
+            }
+        }
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -56,5 +81,7 @@ public class ObservableScrollView extends ScrollView {
 
     public static interface Callbacks {
         public void onScrollChanged(int deltaX, int deltaY);
+        public void onScrollStarted();
+        public void onScrollFinished();
     }
 }
