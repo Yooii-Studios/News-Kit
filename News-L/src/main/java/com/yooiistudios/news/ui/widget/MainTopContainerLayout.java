@@ -60,7 +60,6 @@ public class MainTopContainerLayout extends FrameLayout
     @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
     @InjectView(R.id.main_top_unavailable_wrapper)          FrameLayout mTopNewsFeedUnavailableWrapper;
     @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mTopViewPagerIndicator;
-//    @InjectView(R.id.main_top_page_indicator)               CirclePageIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
