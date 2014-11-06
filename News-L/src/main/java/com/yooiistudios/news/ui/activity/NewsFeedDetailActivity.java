@@ -45,6 +45,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -78,6 +79,7 @@ import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
+import com.yooiistudios.news.ui.animation.CubicBezierInterpolator;
 import com.yooiistudios.news.ui.animation.curvemotion.AnimatorPath;
 import com.yooiistudios.news.ui.animation.curvemotion.PathEvaluator;
 import com.yooiistudios.news.ui.animation.curvemotion.PathPoint;
@@ -104,6 +106,7 @@ public class NewsFeedDetailActivity extends Activity
     @InjectView(R.id.detail_actionbar_overlay_view)             View mActionBarOverlayView;
     @InjectView(R.id.detail_top_overlay_view)                   View mTopOverlayView;
     @InjectView(R.id.detail_scrollView)                         ObservableScrollView mScrollView;
+    @InjectView(R.id.detail_scroll_content_wrapper)             RelativeLayout mScrollContentWrapper;
     @InjectView(R.id.newsfeed_detail_swipe_refresh_layout)      SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.detail_loading_cover)                      View mLoadingCoverView;
 
@@ -1120,7 +1123,6 @@ public class NewsFeedDetailActivity extends Activity
 
         mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
         mAdapter.notifyDataSetChanged();
-        NLLog.now("recyclerView Height: " + totalHeight);
         startAutoScroll();
     }
 
@@ -1472,7 +1474,7 @@ public class NewsFeedDetailActivity extends Activity
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
-            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
+//            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
 
             mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
             if (mActionBarOverlayView.getAlpha() >= 0.6f) {
@@ -1488,7 +1490,6 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onScrollStarted() {
-        NLLog.now("onScrollStarted");
         mAutoScrollDownAnimator.cancel();
         mAutoScrollUpAnimator.cancel();
     }
@@ -1600,46 +1601,64 @@ public class NewsFeedDetailActivity extends Activity
     private void startAutoScroll() {
         // 1초 기다렸다가 아래로 스크롤, 스크롤 된 뒤는 다시 위로 올라옴
         // 중간 터치가 있을 때에는 onScrollChanged 애니메이션을 중지
-        final int maxY = mBottomNewsListRecyclerView.getLayoutParams().height;
+//        final int maxY = mBottomNewsListRecyclerView.getLayoutParams().height;
 //        final int maxY = mScrollView.getMaxScrollAmount();
 //        final int maxY = mScrollView.getChildAt(0).getHeight();
-        NLLog.now("maxY: " + maxY);
-        NLLog.now("getScrollY: " + mScrollView.getScaleY());
+        mScrollView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
+                NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
+                return true;
+            }
+        });
 
-        final int defaultDuration = 17000;
-        int startDelay = 4000;
-        final int middleDelay = 50;
+        mBottomNewsListRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                NLLog.now("mBottomNewsListRecyclerView.getHeight(): " + mBottomNewsListRecyclerView.getHeight());
+                return true;
+            }
+        });
+
+        final int maxY = (int) (mBottomNewsListRecyclerView.getHeight() - mTopNewsImageWrapper.getHeight() * 0.4);
+        NLLog.now("maxY: " + maxY);
+//        NLLog.now("mBottomNewsListRecyclerView.getHeight(): " + mBottomNewsListRecyclerView.getHeight());
+        NLLog.now("mTopNewsImageWrapper.getHeight(): " + mTopNewsImageWrapper.getHeight());
+        NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
+        NLLog.now("mSwipeRefreshLayout.getHeight(): " + mSwipeRefreshLayout.getHeight());
+        NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
+        NLLog.now("childCount: " + mBottomNewsListRecyclerView.getChildCount());
+
+//        final int durationForOneItem = 7000;
+        final int durationForOneItem = 400;
+        final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
+//        int startDelay = 3000;
+        int startDelay = 1000;
+        final int middleDelay = 10;
         int startDuration = defaultDuration;
-        if (mScrollView.getScaleY() != 0) {
+        if (mScrollView.getScrollY() != 0) {
             startDuration = (int) (startDuration * (((float)maxY - mScrollView.getScrollY()) / maxY));
         }
-
-        NLLog.now("startDuration: " + startDuration);
 
         mAutoScrollDownAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", mScrollView.getScrollY(), maxY);
         mAutoScrollDownAnimator.setStartDelay(startDelay);
         mAutoScrollDownAnimator.setDuration(startDuration);
-        mAutoScrollDownAnimator.setInterpolator(new AccelerateDecelerateInterpolator(this, null));
+        mAutoScrollDownAnimator.setInterpolator(new LinearInterpolator(this, null));
         mAutoScrollDownAnimator.start();
 
         mAutoScrollDownAnimator.addListener(new AnimatorListenerAdapter() {
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-//                super.onAnimationCancel(animation);
-                NLLog.now("onAnimationCancel");
-            }
-
-            @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                NLLog.now("onAnimationEnd");
 
                 mAutoScrollUpAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", maxY, 0);
                 mAutoScrollUpAnimator.setStartDelay(middleDelay);
                 mAutoScrollUpAnimator.setDuration(defaultDuration);
                 mAutoScrollUpAnimator.setInterpolator(
-                        new AccelerateDecelerateInterpolator(NewsFeedDetailActivity.this, null));
+                        new LinearInterpolator(NewsFeedDetailActivity.this, null));
                 mAutoScrollUpAnimator.start();
             }
         });
