@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/main_bottom_button_view"
+        android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-2310680050309555/9954673820" />
 

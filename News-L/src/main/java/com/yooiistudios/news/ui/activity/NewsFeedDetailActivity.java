@@ -48,13 +48,17 @@ import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.AlphaForegroundColorSpan;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
@@ -92,24 +96,25 @@ public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
-    @InjectView(R.id.detail_content_layout)                 FrameLayout mRootLayout;
-    @InjectView(R.id.detail_transition_content_layout)      FrameLayout mTransitionLayout;
-    @InjectView(R.id.detail_actionbar_overlay_view)         View mActionBarOverlayView;
-    @InjectView(R.id.detail_top_overlay_view)               View mTopOverlayView;
-    @InjectView(R.id.detail_scrollView)                     ObservableScrollView mScrollView;
-    @InjectView(R.id.news_detail_swipe_refresh_layout)      SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectView(R.id.detail_loading_cover)                  View mLoadingCoverView;
+    @InjectView(R.id.detail_content_layout)                     RelativeLayout mRootLayout;
+    @InjectView(R.id.detail_transition_content_layout)          FrameLayout mTransitionLayout;
+    @InjectView(R.id.detail_actionbar_overlay_view)             View mActionBarOverlayView;
+    @InjectView(R.id.detail_top_overlay_view)                   View mTopOverlayView;
+    @InjectView(R.id.detail_scrollView)                         ObservableScrollView mScrollView;
+    @InjectView(R.id.newsfeed_detail_swipe_refresh_layout)      SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.detail_loading_cover)                      View mLoadingCoverView;
 
     // Top
-    @InjectView(R.id.detail_top_news_image_wrapper)         FrameLayout mTopNewsImageWrapper;
-    @InjectView(R.id.detail_top_news_image_ripple_view)     View mTopNewsImageRippleView;
-    @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
-    @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
-    @InjectView(R.id.detail_top_news_text_ripple_layout)    LinearLayout mTopNewsTextRippleLayout;
-    @InjectView(R.id.detail_top_news_title_text_view)       TextView mTopTitleTextView;
-    @InjectView(R.id.detail_top_news_description_text_view) TextView mTopDescriptionTextView;
+    @InjectView(R.id.detail_top_news_image_wrapper)             FrameLayout mTopNewsImageWrapper;
+    @InjectView(R.id.detail_top_news_image_ripple_view)         View mTopNewsImageRippleView;
+    @InjectView(R.id.detail_top_news_image_view)                ImageView mTopImageView;
+    @InjectView(R.id.detail_top_news_text_layout)               LinearLayout mTopNewsTextLayout;
+    @InjectView(R.id.detail_top_news_text_ripple_layout)        LinearLayout mTopNewsTextRippleLayout;
+    @InjectView(R.id.detail_top_news_title_text_view)           TextView mTopTitleTextView;
+    @InjectView(R.id.detail_top_news_description_text_view)     TextView mTopDescriptionTextView;
+
     // Bottom
-    @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
+    @InjectView(R.id.detail_bottom_news_recycler_view)          RecyclerView mBottomNewsListRecyclerView;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
@@ -176,11 +181,14 @@ public class NewsFeedDetailActivity extends Activity
     private boolean mIsRefreshing = false;
     private boolean mIsAnimatingActivityTransitionAnimation = false;
 
+    @InjectView(R.id.newsfeed_detail_adView) AdView mAdView;
+    @InjectView(R.id.newsfeed_detail_bottom_view) View mBottomView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_newsfeed_detail);
         ButterKnife.inject(this);
 
         Context context = getApplicationContext();
@@ -205,6 +213,7 @@ public class NewsFeedDetailActivity extends Activity
         initTopNews();
         initBottomNewsList();
         initLoadingCoverView();
+        initAdView();
 
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
@@ -255,6 +264,32 @@ public class NewsFeedDetailActivity extends Activity
     private void initRootLayout() {
         mRootLayoutBackground = new ColorDrawable(BACKGROUND_COLOR);
         mRootLayout.setBackground(mRootLayoutBackground);
+    }
+
+    private void initAdView() {
+        // NO_ADS 만 체크해도 풀버전까지 체크됨
+        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.GONE);
+        } else {
+            mAdView.setVisibility(View.VISIBLE);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+    }
+
+    private void checkAdView() {
+        // NO_ADS 만 체크해도 풀버전까지 체크됨
+        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
+            mScrollView.setPadding(0, 0, 0, mWindowInsetEnd);
+            mAdView.setVisibility(View.GONE);
+            mBottomView.setVisibility(View.GONE);
+        } else {
+            int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
+            mScrollView.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
+            mAdView.setVisibility(View.VISIBLE);
+            mAdView.resume();
+            mBottomView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initEnterExitAnimationVariable() {
@@ -413,6 +448,8 @@ public class NewsFeedDetailActivity extends Activity
                 mTopNewsTextLayout.bringToFront();
                 mBottomNewsListRecyclerView.bringToFront();
                 mLoadingCoverView.bringToFront();
+                mBottomView.bringToFront();
+                mAdView.bringToFront();
 
                 mIsAnimatingActivityTransitionAnimation = false;
             }
@@ -691,7 +728,7 @@ public class NewsFeedDetailActivity extends Activity
      */
     @SuppressWarnings("UnusedDeclaration")
     public void setImageWrapperTranslation(PathPoint newLoc) {
-        mTopNewsImageWrapper.setTranslationX((int)newLoc.mX);
+        mTopNewsImageWrapper.setTranslationX((int) newLoc.mX);
         mTopNewsImageWrapper.setTranslationY((int) newLoc.mY);
     }
 
@@ -941,6 +978,12 @@ public class NewsFeedDetailActivity extends Activity
             mTopOverlayView.getLayoutParams().height = (actionBarSize + statusBarSize) * 2;
             mActionBarOverlayView.getLayoutParams().height = actionBarSize + statusBarSize;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAdView();
     }
 
     private void initSwipeRefreshView() {
@@ -1364,6 +1407,7 @@ public class NewsFeedDetailActivity extends Activity
                         mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
                         view.setPadding(0, 0, mWindowInsetEnd, 0);
                     }
+                    mBottomView.getLayoutParams().height = mWindowInsetEnd;
                     return windowInsets.consumeSystemWindowInsets();
                 }
             });

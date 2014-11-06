@@ -1,13 +1,31 @@
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/detail_content_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/newsfeed_detail_adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/newsfeed_detail_bottom_view"
+        android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-2310680050309555/8477940628" />
+
+    <View
+        android:id="@+id/newsfeed_detail_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/black" />
+
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/news_detail_swipe_refresh_layout"
+        android:id="@+id/newsfeed_detail_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.yooiistudios.news.ui.widget.ObservableScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -113,4 +131,4 @@
         android:alpha="0"
         android:layout_gravity="top" />
 
-</FrameLayout>
+</RelativeLayout>
