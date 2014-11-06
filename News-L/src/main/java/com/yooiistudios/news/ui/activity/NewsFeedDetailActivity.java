@@ -43,7 +43,6 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.PathInterpolator;
@@ -79,7 +78,6 @@ import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
-import com.yooiistudios.news.ui.animation.CubicBezierInterpolator;
 import com.yooiistudios.news.ui.animation.curvemotion.AnimatorPath;
 import com.yooiistudios.news.ui.animation.curvemotion.PathEvaluator;
 import com.yooiistudios.news.ui.animation.curvemotion.PathPoint;
@@ -1481,7 +1479,7 @@ public class NewsFeedDetailActivity extends Activity
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
-//            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
+            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
 
             mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
             if (mActionBarOverlayView.getAlpha() >= 0.6f) {
@@ -1637,11 +1635,11 @@ public class NewsFeedDetailActivity extends Activity
         NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
         NLLog.now("childCount: " + mBottomNewsListRecyclerView.getChildCount());
 
-//        final int durationForOneItem = 7000;
-        final int durationForOneItem = 400;
+        final int durationForOneItem = 7000;
+//        final int durationForOneItem = 400;
         final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
-//        int startDelay = 3000;
-        int startDelay = 1000;
+        int startDelay = 3000;
+//        int startDelay = 1000;
         final int middleDelay = 10;
         int startDuration = defaultDuration;
         if (mScrollView.getScrollY() != 0) {
