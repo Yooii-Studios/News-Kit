@@ -1123,7 +1123,9 @@ public class NewsFeedDetailActivity extends Activity
 
         mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
         mAdapter.notifyDataSetChanged();
-        startAutoScroll();
+        if (Settings.isNewsFeedAutoScroll(this)) {
+            startAutoScroll();
+        }
     }
 
     @Override
@@ -1175,6 +1177,11 @@ public class NewsFeedDetailActivity extends Activity
                     autoScrollString += getString(R.string.on);
                 }
                 item.setTitle(autoScrollString);
+
+                if (isAutoScroll) {
+                    stopAutoScroll();
+                    startAutoScroll();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -1490,8 +1497,7 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public void onScrollStarted() {
-        mAutoScrollDownAnimator.cancel();
-        mAutoScrollUpAnimator.cancel();
+        stopAutoScroll();
     }
 
     @Override
@@ -1664,11 +1670,19 @@ public class NewsFeedDetailActivity extends Activity
         });
     }
 
+    private void stopAutoScroll() {
+        if (mAutoScrollDownAnimator != null) {
+            mAutoScrollDownAnimator.cancel();
+        }
+        if (mAutoScrollUpAnimator != null) {
+            mAutoScrollUpAnimator.cancel();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         NLLog.now("onDestroy");
-        mAutoScrollDownAnimator.cancel();
-        mAutoScrollUpAnimator.cancel();
+        stopAutoScroll();
         super.onDestroy();
     }
 }
