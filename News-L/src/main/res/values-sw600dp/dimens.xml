@@ -7,6 +7,7 @@
 
     <!-- General -->
     <dimen name="admob_smart_banner_height">90dp</dimen>                <!--Done-->
+    <dimen name="admob_upper_divider_height">1.5dp</dimen>
 
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
@@ -23,7 +24,7 @@
     <dimen name="main_bottom_text_padding">24dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">12dp</dimen>
 
-    <!-- Detail -->
+    <!-- Newsfeed Detail -->
     <dimen name="detail_text_padding">24dp</dimen>
     <dimen name="detail_text_inner_padding">6dp</dimen>
     <dimen name="detail_text_wide_padding">30dp</dimen>
