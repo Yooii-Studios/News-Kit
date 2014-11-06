@@ -4,18 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <View
+        android:id="@+id/newsfeed_detail_ad_upper_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/admob_upper_divider_height"
+        android:layout_above="@+id/newsfeed_detail_adView"
+        android:background="@color/ad_upper_divider_color" />
+
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/newsfeed_detail_adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/newsfeed_detail_bottom_view"
+        android:layout_above="@+id/newsfeed_detail_button_view"
         android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-2310680050309555/8477940628" />
 
     <View
-        android:id="@+id/newsfeed_detail_bottom_view"
+        android:id="@+id/newsfeed_detail_button_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"

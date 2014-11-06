@@ -53,6 +53,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
@@ -115,6 +116,9 @@ public class NewsFeedDetailActivity extends Activity
 
     // Bottom
     @InjectView(R.id.detail_bottom_news_recycler_view)          RecyclerView mBottomNewsListRecyclerView;
+
+    ObjectAnimator mAutoScrollDownAnimator;
+    ObjectAnimator mAutoScrollUpAnimator;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
@@ -181,8 +185,9 @@ public class NewsFeedDetailActivity extends Activity
     private boolean mIsRefreshing = false;
     private boolean mIsAnimatingActivityTransitionAnimation = false;
 
+    @InjectView(R.id.newsfeed_detail_ad_upper_view) View mAdUpperView;
     @InjectView(R.id.newsfeed_detail_adView) AdView mAdView;
-    @InjectView(R.id.newsfeed_detail_bottom_view) View mBottomView;
+    @InjectView(R.id.newsfeed_detail_button_view) View mBottomView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,10 +275,20 @@ public class NewsFeedDetailActivity extends Activity
         // NO_ADS 만 체크해도 풀버전까지 체크됨
         if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
             mAdView.setVisibility(View.GONE);
+            mAdUpperView.setVisibility(View.GONE);
         } else {
             mAdView.setVisibility(View.VISIBLE);
+            mAdUpperView.setVisibility(View.VISIBLE);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
+            mAdView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                    mAdUpperView.setVisibility(View.VISIBLE);
+                    mAdUpperView.bringToFront();
+                }
+            });
         }
     }
 
@@ -281,6 +296,7 @@ public class NewsFeedDetailActivity extends Activity
         // NO_ADS 만 체크해도 풀버전까지 체크됨
         if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
             mScrollView.setPadding(0, 0, 0, mWindowInsetEnd);
+            mAdUpperView.setVisibility(View.GONE);
             mAdView.setVisibility(View.GONE);
             mBottomView.setVisibility(View.GONE);
         } else {
@@ -450,6 +466,9 @@ public class NewsFeedDetailActivity extends Activity
                 mLoadingCoverView.bringToFront();
                 mBottomView.bringToFront();
                 mAdView.bringToFront();
+
+                mAdView.bringToFront();
+                mBottomView.bringToFront();
 
                 mIsAnimatingActivityTransitionAnimation = false;
             }
