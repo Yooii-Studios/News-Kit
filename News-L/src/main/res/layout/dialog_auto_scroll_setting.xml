@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/detail_text_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:labelFor="@+id/auto_scroll_start_delay_edit_text"
+            android:text="Start Delay"
+            android:textSize="17dp"/>
+
+        <EditText
+            android:id="@+id/auto_scroll_start_delay_edit_text"
+            style="@style/AutoScrollSettingDialogEditTextStyle"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:labelFor="@+id/auto_scroll_duration_edit_text"
+            android:text="Duration for each item"
+            android:textSize="17dp"/>
+
+        <EditText
+            android:id="@+id/auto_scroll_duration_edit_text"
+            style="@style/AutoScrollSettingDialogEditTextStyle"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:labelFor="@+id/auto_scroll_mid_delay_edit_text"
+            android:text="Middle Delay"
+            android:textSize="17dp"/>
+
+        <EditText
+            android:id="@+id/auto_scroll_mid_delay_edit_text"
+            style="@style/AutoScrollSettingDialogEditTextStyle"/>
+    </LinearLayout>
+</LinearLayout>

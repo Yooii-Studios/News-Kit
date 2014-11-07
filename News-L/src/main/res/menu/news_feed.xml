@@ -8,4 +8,9 @@
     <item android:id="@+id/action_auto_scroll"
           android:title="@string/newsfeed_auto_scroll"
           android:showAsAction="never" />
+
+    <item android:id="@+id/action_auto_scroll_setting_debug"
+          android:title="Auto Scroll Setting(Debug)"
+          android:orderInCategory="100"
+          android:showAsAction="never" />
 </menu>

@@ -101,6 +101,18 @@
     </style>
 
     <!-- Debug -->
+    <style name="AutoScrollSettingDialogEditTextStyle" >
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:padding">@dimen/main_top_view_pager_page_margin</item>
+    </style>
+
+    <!-- Debug -->
     <style name="BezierDialogEditTextStyle" >
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
