@@ -87,7 +87,6 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
-import com.yooiistudios.news.util.InterpolatorHelper;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
 
@@ -1625,17 +1624,14 @@ public class NewsFeedDetailActivity extends Activity
     private void startAutoScroll() {
         // 1초 기다렸다가 아래로 스크롤, 스크롤 된 뒤는 다시 위로 올라옴
         // 중간 터치가 있을 때에는 onScrollChanged 애니메이션을 중지
-
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int deviceHeight = displayMetrics.heightPixels;
 
         final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mWindowInsetEnd;
 
         int startDelay = DebugSettings.getStartDelay(this);
-
         final int durationForOneItem = DebugSettings.getDurationForEachItem(this);
         final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
-
         final int middleDelay = DebugSettings.getMidDelay(this);
         int downScrollDuration = defaultDuration;
 
@@ -1655,16 +1651,6 @@ public class NewsFeedDetailActivity extends Activity
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
-                NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
-                NLLog.now("scrollY: " + mScrollView.getScrollY());
-                NLLog.now("mWindowInsetEnd: " + mWindowInsetEnd);
-                NLLog.now("offset: " + (maxY - mScrollView.getScrollY()));
-
-                NLLog.now("mBottomNewsListRecyclerView.getHeight(): " + mBottomNewsListRecyclerView.getHeight());
-                NLLog.now("mTopNewsImageWrapper.getHeight(): " + mTopNewsImageWrapper.getHeight());
-                NLLog.now("sum: " + (mBottomNewsListRecyclerView.getHeight() + mTopNewsImageWrapper.getHeight()));
-
                 mAutoScrollUpAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", maxY, 0);
                 mAutoScrollUpAnimator.setStartDelay(middleDelay);
                 mAutoScrollUpAnimator.setDuration(defaultDuration);

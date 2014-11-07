@@ -20,6 +20,6 @@ public class Settings {
 
     public static boolean isNewsFeedAutoScroll(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getBoolean(NEWS_FEED_AUTO_SCROLL_KEY, false);
+                .getBoolean(NEWS_FEED_AUTO_SCROLL_KEY, true);
     }
 }
