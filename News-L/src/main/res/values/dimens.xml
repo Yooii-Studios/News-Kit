@@ -10,8 +10,6 @@
 
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">280dp</dimen>      <!-- 56 * 5 -->
-    <dimen name="main_top_view_pager_indicator_radius">3dp</dimen>
-    <dimen name="main_top_view_pager_indicator_margin">5dp</dimen>
     <dimen name="main_top_view_pager_title_padding">30dp</dimen>
     <dimen name="main_top_view_pager_page_margin">4dp</dimen>
     <dimen name="main_top_news_feed_title_padding">10dp</dimen>
