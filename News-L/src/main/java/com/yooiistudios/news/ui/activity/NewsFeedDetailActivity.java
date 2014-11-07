@@ -67,6 +67,8 @@ import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionTextViewProperty;
+import com.yooiistudios.news.model.debug.DebugSettingDialogFactory;
+import com.yooiistudios.news.model.debug.DebugSettings;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
@@ -85,6 +87,7 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.InterpolatorHelper;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
 
@@ -120,6 +123,10 @@ public class NewsFeedDetailActivity extends Activity
     // Bottom
     @InjectView(R.id.detail_bottom_news_recycler_view)          RecyclerView mBottomNewsListRecyclerView;
 
+    // Auto Scroll
+    public static final int START_DELAY = 1000;
+    public static final int MIDDLE_DELAY = 10;
+    public static final int DURATION_FOR_EACH_ITEM = 400;
     ObjectAnimator mAutoScrollDownAnimator;
     ObjectAnimator mAutoScrollUpAnimator;
 
@@ -1138,9 +1145,8 @@ public class NewsFeedDetailActivity extends Activity
         // Inflate the menu; this adds items to the action bar if it is present.
 
 //        getMenuInflater().inflate(R.menu.news_feed, menu);
-        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, Menu.NONE, "");
+        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
         subMenu.setIcon(mActionBarOverflowIcon);
-        subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, Menu.NONE, R.string.action_newsfeed);
 
         String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
         if (Settings.isNewsFeedAutoScroll(this)) {
@@ -1148,7 +1154,10 @@ public class NewsFeedDetailActivity extends Activity
         } else {
             autoScrollString += getString(R.string.on);
         }
-        subMenu.add(Menu.NONE, R.id.action_auto_scroll, Menu.NONE, autoScrollString);
+
+        subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, 0, R.string.action_newsfeed);
+        subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
+        subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
@@ -1187,6 +1196,17 @@ public class NewsFeedDetailActivity extends Activity
                     stopAutoScroll();
                     startAutoScroll();
                 }
+                return true;
+
+            case R.id.action_auto_scroll_setting_debug:
+                DebugSettingDialogFactory.showAutoScrollSettingDialog(this,
+                        new DebugSettingDialogFactory.DebugSettingListener() {
+                            @Override
+                            public void autoScrollSettingSaved() {
+                                stopAutoScroll();
+                                startAutoScroll();
+                            }
+                        });
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -1482,7 +1502,6 @@ public class NewsFeedDetailActivity extends Activity
         // Reposition the header bar -- it's normally anchored to the top of the content,
         // but locks to the top of the screen on scroll
         int scrollY = mScrollView.getScrollY();
-//        NLLog.i(TAG, "scrollY: " + scrollY);
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
@@ -1606,32 +1625,28 @@ public class NewsFeedDetailActivity extends Activity
     private void startAutoScroll() {
         // 1초 기다렸다가 아래로 스크롤, 스크롤 된 뒤는 다시 위로 올라옴
         // 중간 터치가 있을 때에는 onScrollChanged 애니메이션을 중지
-//        final int maxY = mBottomNewsListRecyclerView.getLayoutParams().height;
-//        final int maxY = mScrollView.getMaxScrollAmount();
-//        final int maxY = mScrollView.getChildAt(0).getHeight();
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int deviceHeight = displayMetrics.heightPixels;
 
         final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mWindowInsetEnd;
-//        NLLog.now("maxY: " + maxY);
-//        NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
-//        NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
 
-//        final int durationForOneItem = 6200;
-        final int durationForOneItem = 400;
+        int startDelay = DebugSettings.getStartDelay(this);
+
+        final int durationForOneItem = DebugSettings.getDurationForEachItem(this);
         final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
-//        int startDelay = 3000;
-        int startDelay = 1000;
-        final int middleDelay = 10;
-        int startDuration = defaultDuration;
+
+        final int middleDelay = DebugSettings.getMidDelay(this);
+        int downScrollDuration = defaultDuration;
+
+        // 아래 스크롤은 시작 위치에 따라 시간이 달라질 수 있음
         if (mScrollView.getScrollY() != 0) {
-            startDuration = (int) (startDuration * (((float)maxY - mScrollView.getScrollY()) / maxY));
+            downScrollDuration = (int) (downScrollDuration * (((float)maxY - mScrollView.getScrollY()) / maxY));
         }
 
         mAutoScrollDownAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", mScrollView.getScrollY(), maxY);
         mAutoScrollDownAnimator.setStartDelay(startDelay);
-        mAutoScrollDownAnimator.setDuration(startDuration);
+        mAutoScrollDownAnimator.setDuration(downScrollDuration);
         mAutoScrollDownAnimator.setInterpolator(new LinearInterpolator(this, null));
         mAutoScrollDownAnimator.start();
 
