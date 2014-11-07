@@ -59,16 +59,6 @@ public class ObservableScrollView extends ScrollView {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-            for (Callbacks c : mCallbacks) {
-                c.onScrollFinished();
-            }
-        }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     public int computeVerticalScrollRange() {
         return super.computeVerticalScrollRange();
     }
@@ -82,6 +72,5 @@ public class ObservableScrollView extends ScrollView {
     public static interface Callbacks {
         public void onScrollChanged(int deltaX, int deltaY);
         public void onScrollStarted();
-        public void onScrollFinished();
     }
 }

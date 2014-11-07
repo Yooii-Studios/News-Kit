@@ -1104,9 +1104,7 @@ public class NewsFeedDetailActivity extends Activity
             @Override
             public boolean onPreDraw() {
                 mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-
                 applyActualRecyclerViewHeight();
-
                 return true;
             }
         });
@@ -1122,7 +1120,16 @@ public class NewsFeedDetailActivity extends Activity
         mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
         mAdapter.notifyDataSetChanged();
         if (Settings.isNewsFeedAutoScroll(this)) {
-            startAutoScroll();
+            // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
+            // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
+            mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    mScrollContentWrapper.getViewTreeObserver().removeOnPreDrawListener(this);
+                    startAutoScroll();
+                    return true;
+                }
+            });
         }
     }
 
@@ -1475,7 +1482,7 @@ public class NewsFeedDetailActivity extends Activity
         // Reposition the header bar -- it's normally anchored to the top of the content,
         // but locks to the top of the screen on scroll
         int scrollY = mScrollView.getScrollY();
-        NLLog.i(TAG, "scrollY: " + scrollY);
+//        NLLog.i(TAG, "scrollY: " + scrollY);
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
@@ -1496,12 +1503,6 @@ public class NewsFeedDetailActivity extends Activity
     @Override
     public void onScrollStarted() {
         stopAutoScroll();
-    }
-
-    @Override
-    public void onScrollFinished() {
-//        NLLog.now("onScrollFinished");
-//        startAutoScroll();
     }
 
     @Override
@@ -1608,38 +1609,20 @@ public class NewsFeedDetailActivity extends Activity
 //        final int maxY = mBottomNewsListRecyclerView.getLayoutParams().height;
 //        final int maxY = mScrollView.getMaxScrollAmount();
 //        final int maxY = mScrollView.getChildAt(0).getHeight();
-        mScrollView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
-                NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
-                return true;
-            }
-        });
 
-        mBottomNewsListRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                NLLog.now("mBottomNewsListRecyclerView.getHeight(): " + mBottomNewsListRecyclerView.getHeight());
-                return true;
-            }
-        });
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int deviceHeight = displayMetrics.heightPixels;
 
-        final int maxY = (int) (mBottomNewsListRecyclerView.getHeight() - mTopNewsImageWrapper.getHeight() * 0.4);
-        NLLog.now("maxY: " + maxY);
-//        NLLog.now("mBottomNewsListRecyclerView.getHeight(): " + mBottomNewsListRecyclerView.getHeight());
-        NLLog.now("mTopNewsImageWrapper.getHeight(): " + mTopNewsImageWrapper.getHeight());
-        NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
-        NLLog.now("mSwipeRefreshLayout.getHeight(): " + mSwipeRefreshLayout.getHeight());
-        NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
-        NLLog.now("childCount: " + mBottomNewsListRecyclerView.getChildCount());
+        final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mWindowInsetEnd;
+//        NLLog.now("maxY: " + maxY);
+//        NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
+//        NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
 
-        final int durationForOneItem = 7000;
-//        final int durationForOneItem = 400;
+//        final int durationForOneItem = 6200;
+        final int durationForOneItem = 400;
         final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
-        int startDelay = 3000;
-//        int startDelay = 1000;
+//        int startDelay = 3000;
+        int startDelay = 1000;
         final int middleDelay = 10;
         int startDuration = defaultDuration;
         if (mScrollView.getScrollY() != 0) {
@@ -1657,6 +1640,15 @@ public class NewsFeedDetailActivity extends Activity
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                NLLog.now("mScrollContentWrapper.getHeight(): " + mScrollContentWrapper.getHeight());
+                NLLog.now("mScrollView.getHeight(): " + mScrollView.getHeight());
+                NLLog.now("scrollY: " + mScrollView.getScrollY());
+                NLLog.now("mWindowInsetEnd: " + mWindowInsetEnd);
+                NLLog.now("offset: " + (maxY - mScrollView.getScrollY()));
+
+                NLLog.now("mBottomNewsListRecyclerView.getHeight(): " + mBottomNewsListRecyclerView.getHeight());
+                NLLog.now("mTopNewsImageWrapper.getHeight(): " + mTopNewsImageWrapper.getHeight());
+                NLLog.now("sum: " + (mBottomNewsListRecyclerView.getHeight() + mTopNewsImageWrapper.getHeight()));
 
                 mAutoScrollUpAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", maxY, 0);
                 mAutoScrollUpAnimator.setStartDelay(middleDelay);
@@ -1679,7 +1671,6 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     protected void onDestroy() {
-        NLLog.now("onDestroy");
         stopAutoScroll();
         super.onDestroy();
     }
