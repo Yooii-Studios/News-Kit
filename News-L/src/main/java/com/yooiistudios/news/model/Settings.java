@@ -13,6 +13,8 @@ public class Settings {
     private static final String SETTINGS_SHARED_PREFERENCES = "SETTINGS_SHARED_PREFERENCES";
     private static final String NEWS_FEED_AUTO_SCROLL_KEY = "NEWS_FEED_AUTO_SCROLL_KEY";
 
+    private Settings() { throw new AssertionError("You can't create this class!"); }
+
     public static void setNewsFeedAutoScroll(Context context, boolean isAutoScroll) {
         context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .edit().putBoolean(NEWS_FEED_AUTO_SCROLL_KEY, isAutoScroll).apply();
