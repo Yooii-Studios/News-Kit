@@ -3,6 +3,7 @@ package com.yooiistudios.news;
 import android.app.Application;
 import android.content.res.Configuration;
 
+import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.util.InterpolatorHelper;
@@ -31,6 +32,9 @@ public class NewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // start service on creating app
+        BackgroundServiceUtils.startService(getApplicationContext());
 
         InterpolatorHelper.saveDefaultSetting(getApplicationContext());
 
