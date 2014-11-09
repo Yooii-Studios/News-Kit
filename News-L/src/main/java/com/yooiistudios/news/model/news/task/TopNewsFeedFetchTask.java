@@ -15,7 +15,7 @@ import com.yooiistudios.news.model.news.NewsFeedUrl;
  */
 public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
-    public enum TaskType { INITIALIZE, SWIPE_REFRESH, REPLACE }
+    public enum TaskType { INITIALIZE, SWIPE_REFRESH, REPLACE, CACHE }
 
     public static final int FETCH_COUNT = 10;
 

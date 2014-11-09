@@ -41,16 +41,14 @@ public class BackgroundCacheJobService extends JobService {
         }
         NLLog.i("qwerasdfzxcv", "onStartJob");
 
-        // call this line after caching finished
         jobFinished(params, false);
-//        new TestAsync(new TestAsync.OnFinishListener() {
-//            @Override
-//            public void onFinish(String result) {
-//                SharedPrefsUtils.save(getApplicationContext(), result);
-//                Log.i(MyActivity.TAG, "onFinish : " + result);
-//                jobFinished(params, false);
-//            }
-//        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
+//                new BackgroundCacheUtils.OnCacheDoneListener() {
+//                    @Override
+//                    public void onDone() {
+//                        jobFinished(params, false);
+//                    }
+//                });
 
         return true;
     }

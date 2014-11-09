@@ -35,12 +35,6 @@ public class BackgroundCacheIntentService extends IntentService {
             return;
         }
         NLLog.i("qwerasdfzxcv", "onHandleIntent");
-//        new TestAsync(new TestAsync.OnFinishListener() {
-//            @Override
-//            public void onFinish(String result) {
-//                SharedPrefsUtils.save(getApplicationContext(), result);
-//                Log.i(MyActivity.TAG, "onFinish : " + result);
-//            }
-//        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        BackgroundCacheUtils.getInstance().cache(getApplicationContext());
     }
 }

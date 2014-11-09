@@ -23,7 +23,7 @@ public class NewsFeedArchiveUtils {
     private static final String KEY_NEWS_FEED_RECENT_REFRESH = "KEY_NEWS_FEED_RECENT_REFRESH";
 
     private static final String KEY_BOTTOM_NEWS_FEED = "KEY_BOTTOM_NEWS_FEED_";
-    private static final String KEY_BOTTOM_NEWS_FEED_COUNT = "KEY_BOTTOM_NEWS_FEED_COUNT";
+    private static final String KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX = "KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX";
 
     // 60 Min * 60 Sec * 1000 millisec = 1 Hour
     private static final long REFRESH_TERM_MILLISEC = 60 * 60 * 1000;
@@ -65,9 +65,10 @@ public class NewsFeedArchiveUtils {
     public static ArrayList<NewsFeed> loadBottomNews(Context context) {
         SharedPreferences prefs = getSharedPreferences(context);
 
-        int bottomNewsSize = prefs.getInt(KEY_BOTTOM_NEWS_FEED_COUNT, -1);
+        int bottomNewsFeedLargestIndex = prefs.getInt(KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX, -1);
+//        prefs.contains()
         ArrayList<NewsFeed> feedList = new ArrayList<NewsFeed>();
-        if (bottomNewsSize < 0) {
+        if (bottomNewsFeedLargestIndex < 0) {
             // cache된 내용 없는 경우. 새로 만들어서 리턴.
             ArrayList<NewsFeedUrl> urlList =
                     NewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
@@ -78,7 +79,7 @@ public class NewsFeedArchiveUtils {
             }
         } else {
             // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
-            for (int i = 0; i < bottomNewsSize; i++) {
+            for (int i = 0; i <= bottomNewsFeedLargestIndex; i++) {
                 NewsFeed newsFeed = loadBottomNewsFeedAt(prefs, i);
                 if (newsFeed != null) {
                     newsFeed.setDisplayingNewsIndex(0);
@@ -110,7 +111,7 @@ public class NewsFeedArchiveUtils {
         SharedPreferences.Editor editor = prefs.edit();
 
         putTopNewsFeed(editor, topNewsFeed);
-        putBottomNewsFeedList(editor, bottomNewsFeedList);
+        putBottomNewsFeedList(prefs, editor, bottomNewsFeedList);
 
         // save recent saved millisec
 //        editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
@@ -121,7 +122,9 @@ public class NewsFeedArchiveUtils {
         SharedPreferences prefs = getSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
 
-        putBottomNewsFeed(editor, bottomNewsFeed, position);
+        int largestIndex = prefs.getInt(KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX, -1);
+
+        putBottomNewsFeed(editor, bottomNewsFeed, largestIndex, position);
 
         editor.apply();
     }
@@ -151,26 +154,31 @@ public class NewsFeedArchiveUtils {
         SharedPreferences prefs = getSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
 
-        putBottomNewsFeedList(editor, bottomNewsFeedList);
+        putBottomNewsFeedList(prefs, editor, bottomNewsFeedList);
 
         editor.apply();
     }
 
-    private static void putBottomNewsFeedList(SharedPreferences.Editor editor,
+    private static void putBottomNewsFeedList(SharedPreferences pref,
+                                              SharedPreferences.Editor editor,
                                               ArrayList<NewsFeed> bottomNewsFeedList) {
         // save bottom news feed
         int size = bottomNewsFeedList.size();
+        int largestIndex = pref.getInt(KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX, -1);
         for (int i = 0; i < size; i++) {
-            putBottomNewsFeed(editor, bottomNewsFeedList.get(i), i);
+            putBottomNewsFeed(editor, bottomNewsFeedList.get(i), largestIndex, i);
         }
-        editor.putInt(KEY_BOTTOM_NEWS_FEED_COUNT, size);
     }
 
     private static void putBottomNewsFeed(SharedPreferences.Editor editor,
-                                          NewsFeed bottomNewsFeed, int position) {
+                                          NewsFeed bottomNewsFeed, int largestIndex, int position) {
         String bottomNewsFeedStr = new Gson().toJson(bottomNewsFeed);
 
         editor.putString(getBottomNewsFeedKey(position), bottomNewsFeedStr);
+
+        if (position > largestIndex) {
+            editor.putInt(KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX, position);
+        }
     }
 
     public static void saveRecentCacheMillisec(Context context) {
@@ -193,8 +201,7 @@ public class NewsFeedArchiveUtils {
     public static boolean newsNeedsToBeRefreshed(Context context) {
         long currentMillisec = System.currentTimeMillis();
 
-        SharedPreferences prefs = getSharedPreferences(context);
-        long recentRefreshMillisec = prefs.getLong(KEY_NEWS_FEED_RECENT_REFRESH, INVALID_REFRESH_TERM);
+        long recentRefreshMillisec = getRecentRefreshMillisec(context);
 
         if (recentRefreshMillisec == INVALID_REFRESH_TERM) {
             return true;
@@ -203,6 +210,11 @@ public class NewsFeedArchiveUtils {
         long gap = currentMillisec - recentRefreshMillisec;
 
         return gap > REFRESH_TERM_MILLISEC;
+    }
+
+    public static long getRecentRefreshMillisec(Context context) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getLong(KEY_NEWS_FEED_RECENT_REFRESH, INVALID_REFRESH_TERM);
     }
 
     public static void clearArchive(Context context) {

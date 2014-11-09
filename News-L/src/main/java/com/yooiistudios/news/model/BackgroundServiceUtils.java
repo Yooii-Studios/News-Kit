@@ -23,7 +23,7 @@ import com.yooiistudios.news.service.BackgroundCacheJobService;
  *  백그라운드 캐싱시 필요한 서비스 실행, 취소 로직 래핑한 클래스
  */
 public class BackgroundServiceUtils {
-    private static final long INTERVAL = 4 * DateUtils.HOUR_IN_MILLIS;
+    public static final long CACHE_INTERVAL = 4 * DateUtils.HOUR_IN_MILLIS;
 
     private static PendingIntent sPendingIntent;
 
@@ -34,7 +34,7 @@ public class BackgroundServiceUtils {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
             alarmManager.setRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime(), INTERVAL, makePendingIntent(context)
+                    SystemClock.elapsedRealtime(), CACHE_INTERVAL, makePendingIntent(context)
             );
         }
     }
@@ -53,7 +53,7 @@ public class BackgroundServiceUtils {
             // build job info
             JobInfo.Builder jobInfoBuilder = new JobInfo.Builder(0, componentName);
             jobInfoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
-            jobInfoBuilder.setPeriodic(INTERVAL);
+            jobInfoBuilder.setPeriodic(CACHE_INTERVAL);
             jobInfoBuilder.setPersisted(true);
             jobScheduler.schedule(jobInfoBuilder.build());
         }

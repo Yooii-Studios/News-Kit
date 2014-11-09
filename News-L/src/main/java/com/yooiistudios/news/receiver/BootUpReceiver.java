@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.yooiistudios.news.model.BackgroundServiceUtils;
 
@@ -15,11 +16,23 @@ import com.yooiistudios.news.model.BackgroundServiceUtils;
  */
 public class BootUpReceiver extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+    public void onReceive(final Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Toast.makeText(context, "Starting service...", Toast.LENGTH_LONG).show();
                 BackgroundServiceUtils.startService(context);
             }
         }
+//        else if (action.equals(Intent.ACTION_POWER_CONNECTED)) {
+//            Toast.makeText(context, "Starting Caching...", Toast.LENGTH_LONG).show();
+//            BackgroundCacheUtils.getInstance().cache(context, new BackgroundCacheUtils.OnCacheDoneListener() {
+//                @Override
+//                public void onDone() {
+//                    Toast.makeText(context, "Cache Done...", Toast.LENGTH_LONG).show();
+//                }
+//            });
+////            BackgroundServiceUtils.startService(context);
+//        }
     }
 }
