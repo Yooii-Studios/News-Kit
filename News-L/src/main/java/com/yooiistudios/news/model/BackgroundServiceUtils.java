@@ -24,7 +24,7 @@ import com.yooiistudios.news.util.NLLog;
  *  백그라운드 캐싱시 필요한 서비스 실행, 취소 로직 래핑한 클래스
  */
 public class BackgroundServiceUtils {
-    public static final long CACHE_INTERVAL = 3000;//4 * DateUtils.HOUR_IN_MILLIS;
+    public static final long CACHE_INTERVAL = 60 * 1000;//3000;//4 * DateUtils.HOUR_IN_MILLIS;
     private static final String TAG = BackgroundServiceUtils.class.getName();
     public static final String SP_NAME_SERVICE = "SP_NAME_SERVICE";
     public static final String SP_KEY_ALARM_SET = "SP_KEY_ALARM_SET";
@@ -55,7 +55,9 @@ public class BackgroundServiceUtils {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
                 alarmManager.setRepeating(
                         AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                        SystemClock.elapsedRealtime(), CACHE_INTERVAL, makePendingIntent(context)
+                        SystemClock.elapsedRealtime() + CACHE_INTERVAL,
+                        CACHE_INTERVAL,
+                        makePendingIntent(context)
                 );
             } else {
                 NLLog.i(TAG, "서비스가 알람 매니저에 이미 등록되어 있음");
@@ -74,12 +76,15 @@ public class BackgroundServiceUtils {
 
             ComponentName componentName = new ComponentName(context, BackgroundCacheJobService.class);
 
+            NLLog.i(TAG, "서비스를 JobScheduler에 등록함");
             // build job info
             JobInfo.Builder jobInfoBuilder = new JobInfo.Builder(0, componentName);
             jobInfoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
             jobInfoBuilder.setPeriodic(CACHE_INTERVAL);
             jobInfoBuilder.setPersisted(true);
             jobScheduler.schedule(jobInfoBuilder.build());
+        } else {
+            NLLog.i(TAG, "서비스가 JobScheduler에 이미 등록되어 있음");
         }
     }
 

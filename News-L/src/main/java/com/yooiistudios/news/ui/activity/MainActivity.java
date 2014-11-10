@@ -28,6 +28,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
+import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
@@ -114,6 +115,10 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        // start service on starting app
+        NLLog.i("BackgroundServiceUtils", "onCreate");
+        BackgroundServiceUtils.startService(getApplicationContext());
 
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getApplicationContext());
 

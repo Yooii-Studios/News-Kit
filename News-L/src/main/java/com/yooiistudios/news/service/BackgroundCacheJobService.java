@@ -39,7 +39,7 @@ public class BackgroundCacheJobService extends JobService {
             jobFinished(params, false);
             return true;
         }
-        NLLog.i("qwerasdfzxcv", "onStartJob");
+        NLLog.i("BackgroundServiceUtils", "onStartJob");
 
         jobFinished(params, false);
 //        BackgroundCacheUtils.getInstance().cache(getApplicationContext(),

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.yooiistudios.news.model.BackgroundServiceUtils;
+import com.yooiistudios.news.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong on in ServiceWithTaskTest from Yooii Studios Co., LTD. on 14. 11. 6.
@@ -20,6 +21,7 @@ public class BootUpReceiver extends BroadcastReceiver {
         if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 // 시스템이 재부팅된 경우 알람을 새로 등록해야 한다.
+                NLLog.i("BackgroundServiceUtils", "onReceive");
                 context.getSharedPreferences(
                                 BackgroundServiceUtils.SP_NAME_SERVICE,
                                 Context.MODE_PRIVATE)
