@@ -3,6 +3,7 @@ package com.yooiistudios.news.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.yooiistudios.news.model.BackgroundCacheUtils;
 import com.yooiistudios.news.util.ConnectivityUtils;
 import com.yooiistudios.news.util.NLLog;
 
@@ -35,6 +36,6 @@ public class BackgroundCacheIntentService extends IntentService {
             return;
         }
         NLLog.i("BackgroundServiceUtils", "onHandleIntent");
-//        BackgroundCacheUtils.getInstance().cache(getApplicationContext());
+        BackgroundCacheUtils.getInstance().cache(getApplicationContext());
     }
 }

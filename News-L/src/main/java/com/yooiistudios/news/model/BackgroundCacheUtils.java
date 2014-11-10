@@ -60,10 +60,13 @@ public class BackgroundCacheUtils implements
             NLLog.i(TAG, "Already caching...");
             return;
         }
-        if (System.currentTimeMillis() - NewsFeedArchiveUtils.getRecentRefreshMillisec(context)
-                < BackgroundServiceUtils.CACHE_INTERVAL) {
-            return;
-        }
+
+//        long recentRefreshMillisec = NewsFeedArchiveUtils.getRecentRefreshMillisec(context);
+//        if (recentRefreshMillisec != NewsFeedArchiveUtils.INVALID_REFRESH_TERM
+//                &&
+//                System.currentTimeMillis() - recentRefreshMillisec < BackgroundServiceUtils.CACHE_INTERVAL) {
+//            return;
+//        }
         NLLog.i(TAG, "Start caching...");
         mIsRunning = true;
 

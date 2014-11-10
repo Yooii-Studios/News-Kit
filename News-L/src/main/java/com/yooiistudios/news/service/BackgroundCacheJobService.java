@@ -6,6 +6,7 @@ import android.app.job.JobService;
 import android.content.Intent;
 import android.os.Build;
 
+import com.yooiistudios.news.model.BackgroundCacheUtils;
 import com.yooiistudios.news.util.ConnectivityUtils;
 import com.yooiistudios.news.util.NLLog;
 
@@ -42,13 +43,13 @@ public class BackgroundCacheJobService extends JobService {
         NLLog.i("BackgroundServiceUtils", "onStartJob");
 
         jobFinished(params, false);
-//        BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
-//                new BackgroundCacheUtils.OnCacheDoneListener() {
-//                    @Override
-//                    public void onDone() {
-//                        jobFinished(params, false);
-//                    }
-//                });
+        BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
+                new BackgroundCacheUtils.OnCacheDoneListener() {
+                    @Override
+                    public void onDone() {
+                        jobFinished(params, false);
+                    }
+                });
 
         return true;
     }
