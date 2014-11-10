@@ -23,6 +23,8 @@ public class NewsFeedFetchUtil {
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final String ILLEGAL_CHARACTER_OBJ = Character.toString((char) 65532);
 
+    private static final int TIMEOUT_MILLI = 5000;
+
     public static NewsFeed fetch(Context context, NewsFeedUrl feedUrl, int fetchLimit,
                                  boolean shuffle) {
 
@@ -37,6 +39,8 @@ public class NewsFeedFetchUtil {
             // 피드 주소로 커넥션 열기
             URL url = new URL(feedUrl.getUrl());
             URLConnection conn = url.openConnection();
+            conn.setConnectTimeout(TIMEOUT_MILLI);
+            conn.setReadTimeout(TIMEOUT_MILLI);
 
             // RSS 파싱
             feed = NewsFeedParser.read(conn.getInputStream());

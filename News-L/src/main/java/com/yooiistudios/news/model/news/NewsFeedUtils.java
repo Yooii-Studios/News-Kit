@@ -19,6 +19,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -43,6 +45,7 @@ public class NewsFeedUtils {
     private static final String KEY_HISTORY = "KEY_HISTORY";
     private static final int MAX_HISTORY_SIZE = 10;
     public static final String PREF_NEWS_FEED = "PREF_NEWS_FEED";
+    private static final int TIMEOUT_MILLI = 5000;
 
     private static final String NEWS_PROVIDER_YAHOO_JAPAN = "Yahoo!ニュース";
 
@@ -319,6 +322,9 @@ public class NewsFeedUtils {
     public static String requestHttpGet_(String url) throws Exception {
         // HttpClient 생성
         HttpClient httpclient = new DefaultHttpClient();
+        HttpParams params = httpclient.getParams();
+        HttpConnectionParams.setConnectionTimeout(params, TIMEOUT_MILLI);
+        HttpConnectionParams.setSoTimeout(params, TIMEOUT_MILLI);
         try {
             // HttpGet생성
             HttpGet httpget = new HttpGet(url);
@@ -348,6 +354,8 @@ public class NewsFeedUtils {
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             httpclient.getConnectionManager().shutdown();

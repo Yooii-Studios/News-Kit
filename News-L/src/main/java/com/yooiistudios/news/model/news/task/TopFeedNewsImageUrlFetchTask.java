@@ -13,7 +13,7 @@ import com.yooiistudios.news.model.news.NewsFeedImageUrlFetchUtil;
  */
 public class TopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
 
-    public enum TaskType { INITIALIZE, REFRESH, REPLACE }
+    public enum TaskType { INITIALIZE, REFRESH, REPLACE, CACHE }
 
     private News mNews;
     private int mPosition;
