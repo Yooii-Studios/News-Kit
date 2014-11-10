@@ -85,9 +85,11 @@ public class BackgroundServiceUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cancelServiceAfterLollipop(context);
         } else {
+            PendingIntent pendingIntent = makePendingIntent(context);
             AlarmManager alarmManager =
                     (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
-            alarmManager.cancel(makePendingIntent(context));
+            alarmManager.cancel(pendingIntent);
+            pendingIntent.cancel();
         }
     }
 
