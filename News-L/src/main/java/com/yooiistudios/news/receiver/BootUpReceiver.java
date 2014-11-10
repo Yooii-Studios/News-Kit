@@ -22,10 +22,6 @@ public class BootUpReceiver extends BroadcastReceiver {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 // 시스템이 재부팅된 경우 알람을 새로 등록해야 한다.
                 NLLog.i("BackgroundServiceUtils", "onReceive");
-                context.getSharedPreferences(
-                                BackgroundServiceUtils.SP_NAME_SERVICE,
-                                Context.MODE_PRIVATE)
-                        .edit().putBoolean(BackgroundServiceUtils.SP_KEY_ALARM_SET, false).apply();
                 BackgroundServiceUtils.startService(context);
             }
         }

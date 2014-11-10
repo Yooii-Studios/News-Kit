@@ -9,9 +9,9 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.SystemClock;
+import android.text.format.DateUtils;
 
 import com.yooiistudios.news.service.BackgroundCacheIntentService;
 import com.yooiistudios.news.service.BackgroundCacheJobService;
@@ -24,10 +24,9 @@ import com.yooiistudios.news.util.NLLog;
  *  백그라운드 캐싱시 필요한 서비스 실행, 취소 로직 래핑한 클래스
  */
 public class BackgroundServiceUtils {
-    public static final long CACHE_INTERVAL = 60 * 1000;//3000;//4 * DateUtils.HOUR_IN_MILLIS;
+    public static final long CACHE_INTERVAL = 4 * DateUtils.HOUR_IN_MILLIS;
+    private static final int RC_INTENT_SERVICE = 10004;
     private static final String TAG = BackgroundServiceUtils.class.getName();
-    public static final String SP_NAME_SERVICE = "SP_NAME_SERVICE";
-    public static final String SP_KEY_ALARM_SET = "SP_KEY_ALARM_SET";
 
     private static PendingIntent sPendingIntent;
 
@@ -40,17 +39,11 @@ public class BackgroundServiceUtils {
             // 위 두 상황에서만 알람을 등록하면 된다.
             // 아래는 위 1번 상황에 대응하기 위한 내용이다.
 
-            // 알람 메니저는 등록된 알람의 조회에 대한 API를 제공하지 않기 때문에,
-            // 시스템 설정에서 앱 캐시 삭제시에는 shared preferences도 날아가기 떄문에
-            // 새로 알람을 세팅할 수 밖에 없다.
-
-            SharedPreferences prefs =
-                    context.getSharedPreferences(SP_NAME_SERVICE, Context.MODE_PRIVATE);
-            boolean hasAlarmSet = prefs.getBoolean(SP_KEY_ALARM_SET, false);
-            if (!hasAlarmSet) {
-                prefs.edit().putBoolean(SP_KEY_ALARM_SET, true).apply();
-
-
+            // 알람 메니저는 등록된 알람의 조회에 대한 API를 제공하지 않음.
+            // 대신, 특정 PendingIntent가 예약되어 있는지는 확인할 수 있음.
+            boolean pendingIntentExists = isPendingIntentExists(context);
+            NLLog.i(TAG, "PendingIntent : " + (pendingIntentExists? "Exists" : "Does not exists"));
+            if (!pendingIntentExists) {
                 NLLog.i(TAG, "서비스를 알람 매니저에 등록함");
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
                 alarmManager.setRepeating(
@@ -108,12 +101,19 @@ public class BackgroundServiceUtils {
 
     private static PendingIntent makePendingIntent(Context context) {
         if (sPendingIntent == null) {
-            Intent serviceIntent = new Intent(context, BackgroundCacheIntentService.class);
-//            serviceIntent.putExtra("url", "working...");
-
-            sPendingIntent = PendingIntent.getService(context, 10004, serviceIntent, 0);
+            sPendingIntent =
+                    PendingIntent.getService(context, RC_INTENT_SERVICE, makeServiceIntent(context), 0);
         }
 
         return sPendingIntent;
+    }
+
+    private static boolean isPendingIntentExists(Context context) {
+        return PendingIntent.getService(context, RC_INTENT_SERVICE, makeServiceIntent(context),
+                        PendingIntent.FLAG_NO_CREATE) != null;
+    }
+
+    private static Intent makeServiceIntent(Context context) {
+        return new Intent(context, BackgroundCacheIntentService.class);
     }
 }

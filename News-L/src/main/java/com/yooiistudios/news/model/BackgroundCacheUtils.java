@@ -22,6 +22,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 7.
+ *
+ * BackgroundCacheUtils
+ *  모든 뉴스피드, 뉴스 이미지 캐싱을 담당하는 클래스
  */
 public class BackgroundCacheUtils implements
         TopNewsFeedFetchTask.OnFetchListener,
