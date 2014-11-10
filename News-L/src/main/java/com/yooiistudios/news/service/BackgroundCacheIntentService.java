@@ -34,7 +34,7 @@ public class BackgroundCacheIntentService extends IntentService {
         if (!ConnectivityUtils.isWifiAvailable(getApplicationContext())) {
             return;
         }
-        NLLog.i("qwerasdfzxcv", "onHandleIntent");
+        NLLog.i("BackgroundServiceUtils", "onHandleIntent");
 //        BackgroundCacheUtils.getInstance().cache(getApplicationContext());
     }
 }

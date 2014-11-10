@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.widget.Toast;
 
 import com.yooiistudios.news.model.BackgroundServiceUtils;
 
@@ -20,7 +19,11 @@ public class BootUpReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                Toast.makeText(context, "Starting service...", Toast.LENGTH_LONG).show();
+                // 시스템이 재부팅된 경우 알람을 새로 등록해야 한다.
+                context.getSharedPreferences(
+                                BackgroundServiceUtils.SP_NAME_SERVICE,
+                                Context.MODE_PRIVATE)
+                        .edit().putBoolean(BackgroundServiceUtils.SP_KEY_ALARM_SET, false).apply();
                 BackgroundServiceUtils.startService(context);
             }
         }
