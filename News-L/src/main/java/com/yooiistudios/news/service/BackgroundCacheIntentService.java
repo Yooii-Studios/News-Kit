@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.yooiistudios.news.model.BackgroundCacheUtils;
+import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.util.ConnectivityUtils;
 import com.yooiistudios.news.util.NLLog;
 
@@ -35,7 +36,9 @@ public class BackgroundCacheIntentService extends IntentService {
         if (!ConnectivityUtils.isWifiAvailable(getApplicationContext())) {
             return;
         }
-        NLLog.i("BackgroundServiceUtils", "onHandleIntent");
+        int uniqueKey = intent.getExtras().getInt(BackgroundServiceUtils.KEY_CACHE_TIME_ID);
+        BackgroundServiceUtils.CACHE_TIME cacheTime = BackgroundServiceUtils.CACHE_TIME.getByUniqueKey(uniqueKey);
+        NLLog.i("BackgroundServiceUtils", "onHandleIntent : " + cacheTime.name());
         BackgroundCacheUtils.getInstance().cache(getApplicationContext());
     }
 }

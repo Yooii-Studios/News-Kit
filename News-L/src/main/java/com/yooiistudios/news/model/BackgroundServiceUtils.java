@@ -28,8 +28,9 @@ import java.util.Calendar;
  */
 public class BackgroundServiceUtils {
     public static final long CACHE_INTERVAL_DAILY = 24 * DateUtils.HOUR_IN_MILLIS;
-    private static final int RC_INTENT_SERVICE = 10004;
     private static final String TAG = BackgroundServiceUtils.class.getName();
+
+    public static final String KEY_CACHE_TIME_ID = "KEY_CACHE_TIME_ID";
 
 //    public static final int JOB_PERIODIC = 0;
 //    public static final int JOB_LATENCY = 1;
@@ -41,7 +42,7 @@ public class BackgroundServiceUtils {
 //    @Retention(RetentionPolicy.SOURCE)
 //    public @interface JobName {}
 
-    private enum CACHE_TIME {
+    public enum CACHE_TIME {
         FOUR_THIRTY_AM(0, 4, 30),
         ELEVEN_AM(1, 11, 0),
         FOUR_PM(2, 16, 0);
@@ -67,8 +68,6 @@ public class BackgroundServiceUtils {
         }
     }
 
-    private static PendingIntent sPendingIntent;
-
     public static void startService(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startServiceAfterLollipop(context);
@@ -80,19 +79,24 @@ public class BackgroundServiceUtils {
 
             // 알람 메니저는 등록된 알람의 조회에 대한 API를 제공하지 않음.
             // 대신, 특정 PendingIntent가 예약되어 있는지는 확인할 수 있음.
-            boolean pendingIntentExists = isPendingIntentExists(context);
-            NLLog.i(TAG, "PendingIntent : " + (pendingIntentExists? "Exists" : "Does not exists"));
-            if (!pendingIntentExists) {
-                NLLog.i(TAG, "서비스를 알람 매니저에 등록함");
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
-                alarmManager.setRepeating(
-                        AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                        SystemClock.elapsedRealtime() + CACHE_INTERVAL_DAILY,
-                        CACHE_INTERVAL_DAILY,
-                        makePendingIntent(context)
-                );
-            } else {
-                NLLog.i(TAG, "서비스가 알람 매니저에 이미 등록되어 있음");
+
+            for (CACHE_TIME cacheTime : CACHE_TIME.values()) {
+                boolean pendingIntentExists = isPendingIntentExists(context, cacheTime);
+                NLLog.i(TAG, "PendingIntent for " + cacheTime.name() + " : " + (pendingIntentExists ? "Exists" : "Does not exists"));
+                if (!pendingIntentExists) {
+                    long delay = getDelay(cacheTime);
+                    NLLog.i(TAG, "서비스를 알람 매니저에 등록함. delay : " + delay);
+
+                    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
+                    alarmManager.setRepeating(
+                            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                            SystemClock.elapsedRealtime() + delay,
+                            CACHE_INTERVAL_DAILY,
+                            makePendingIntent(context, cacheTime)
+                    );
+                } else {
+                    NLLog.i(TAG, "서비스가 알람 매니저에 이미 등록되어 있음");
+                }
             }
         }
     }
@@ -138,17 +142,17 @@ public class BackgroundServiceUtils {
 //        jobScheduler.schedule(jobInfoBuilder.build());
 //    }
 
-    public static void cancelAllServices(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cancelAllServicesAfterLollipop(context);
-        } else {
-            PendingIntent pendingIntent = makePendingIntent(context);
-            AlarmManager alarmManager =
-                    (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
-            alarmManager.cancel(pendingIntent);
-            pendingIntent.cancel();
-        }
-    }
+//    public static void cancelAllServices(Context context) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            cancelAllServicesAfterLollipop(context);
+//        } else {
+//            PendingIntent pendingIntent = makePendingIntent(context);
+//            AlarmManager alarmManager =
+//                    (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
+//            alarmManager.cancel(pendingIntent);
+//            pendingIntent.cancel();
+//        }
+//    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static void cancelAllServicesAfterLollipop(Context context) {
@@ -162,41 +166,40 @@ public class BackgroundServiceUtils {
         tm.cancel(jobId);
     }
 
-    private static PendingIntent makePendingIntent(Context context) {
-        if (sPendingIntent == null) {
-            sPendingIntent =
-                    PendingIntent.getService(context, RC_INTENT_SERVICE, makeServiceIntent(context), 0);
+    private static PendingIntent makePendingIntent(Context context, CACHE_TIME cacheTime) {
+        return PendingIntent.getService(context, cacheTime.uniqueKey,
+                makeServiceIntent(context, cacheTime), 0);
+    }
+
+    private static boolean isPendingIntentExists(Context context, CACHE_TIME cacheTime) {
+        return PendingIntent.getService(context, cacheTime.uniqueKey,
+                makeServiceIntent(context, cacheTime), PendingIntent.FLAG_NO_CREATE) != null;
+    }
+
+    private static Intent makeServiceIntent(Context context, CACHE_TIME cacheTime) {
+        Intent intent = new Intent(context, BackgroundCacheIntentService.class);
+        intent.putExtra(KEY_CACHE_TIME_ID, cacheTime.uniqueKey);
+        return intent;
+    }
+
+    private static long getDelay(CACHE_TIME cacheTime) {
+        return getNextAlarmCalendar(cacheTime.hour, cacheTime.minute).getTimeInMillis()
+                - Calendar.getInstance().getTimeInMillis();
+    }
+
+    private static Calendar getNextAlarmCalendar(int hour, int minute) {
+        Calendar targetCalendar = Calendar.getInstance();
+        targetCalendar.set(Calendar.HOUR_OF_DAY, hour);
+        targetCalendar.set(Calendar.MINUTE, minute);
+        targetCalendar.set(Calendar.SECOND, 0);
+        targetCalendar.set(Calendar.MILLISECOND, 0);
+
+        if (targetCalendar.before(Calendar.getInstance())) {
+            targetCalendar.add(Calendar.DATE, 1);
         }
 
-        return sPendingIntent;
+        return targetCalendar;
     }
-
-    private static boolean isPendingIntentExists(Context context) {
-        return PendingIntent.getService(context, RC_INTENT_SERVICE, makeServiceIntent(context),
-                        PendingIntent.FLAG_NO_CREATE) != null;
-    }
-
-    private static Intent makeServiceIntent(Context context) {
-        return new Intent(context, BackgroundCacheIntentService.class);
-    }
-
-//    private static long getDelay(CACHE_TIME cacheTime) {
-//        return getAlarmCalendar(cacheTime.hour, cacheTime.minute).getTimeInMillis();
-//    }
-//
-//    private static Calendar getAlarmCalendar(int hour, int minute) {
-//        Calendar targetCalendar = Calendar.getInstance();
-//        targetCalendar.set(Calendar.HOUR_OF_DAY, hour);
-//        targetCalendar.set(Calendar.MINUTE, minute);
-//        targetCalendar.set(Calendar.SECOND, 0);
-//        targetCalendar.set(Calendar.MILLISECOND, 0);
-//
-//        if (targetCalendar.before(Calendar.getInstance())) {
-//            targetCalendar.add(Calendar.DATE, 1);
-//        }
-//
-//        return targetCalendar;
-//    }
 
     public static boolean isTimeToCache(Context context) {
         Calendar currentCalendar = Calendar.getInstance();
