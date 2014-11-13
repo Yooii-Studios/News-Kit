@@ -67,7 +67,7 @@ public class BackgroundCacheUtils implements
 //        long recentRefreshMillisec = NewsFeedArchiveUtils.getRecentRefreshMillisec(context);
 //        if (recentRefreshMillisec != NewsFeedArchiveUtils.INVALID_REFRESH_TERM
 //                &&
-//                System.currentTimeMillis() - recentRefreshMillisec < BackgroundServiceUtils.CACHE_INTERVAL) {
+//                System.currentTimeMillis() - recentRefreshMillisec < BackgroundServiceUtils.CACHE_INTERVAL_DAILY) {
 //            return;
 //        }
         NLLog.i(TAG, "Start caching...");

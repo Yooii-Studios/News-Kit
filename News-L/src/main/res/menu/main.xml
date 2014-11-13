@@ -35,6 +35,11 @@
                   android:showAsAction="never"
                   android:checkable="true" />
 
+            <item android:id="@+id/action_service_log"
+                  android:title="Show service log(Debug)"
+                  android:orderInCategory="100"
+                  android:showAsAction="never"/>
+
             <!--
 
                 <item android:id="@+id/action_edit_bezier"

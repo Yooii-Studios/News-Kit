@@ -31,6 +31,7 @@ import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.service.BackgroundCacheJobService;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
@@ -261,6 +262,8 @@ public class MainActivity extends Activity
             NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
                     1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
             item.setChecked(!item.isChecked());
+        } else if (id == R.id.action_service_log) {
+            BackgroundCacheJobService.showDialog(this);
         }
 //        else if (id == R.id.action_edit_bezier) {
 //            InterpolatorHelper.showDialog(MainActivity.this);
