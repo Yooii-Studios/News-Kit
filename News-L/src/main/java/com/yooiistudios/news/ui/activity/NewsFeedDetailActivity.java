@@ -23,6 +23,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.graphics.Palette;
@@ -91,6 +93,7 @@ import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Type;
+import java.util.Timer;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -287,19 +290,24 @@ public class NewsFeedDetailActivity extends Activity
             mAdUpperView.setVisibility(View.GONE);
         } else {
             mAdView.setVisibility(View.VISIBLE);
-            mAdUpperView.setVisibility(View.VISIBLE);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
             mAdView.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-                    mAdUpperView.setVisibility(View.VISIBLE);
-                    mAdUpperView.bringToFront();
+                    mAdUpperViewHandler.sendEmptyMessageDelayed(0, 100);
                 }
             });
         }
     }
+
+    public Handler mAdUpperViewHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            mAdUpperView.setVisibility(View.VISIBLE);
+            mAdUpperView.bringToFront();
+        }
+    };
 
     private void checkAdView() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
