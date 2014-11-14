@@ -20,7 +20,8 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
-import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
+import com.yooiistudios.news.ui.activity.MainActivity;
+import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter.OnItemClickListener;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import butterknife.ButterKnife;
@@ -43,8 +44,6 @@ public class MainNewsFeedFragment extends Fragment {
     private News mNews;
     private int mPosition;
     private boolean mRecycled;
-
-    private MainTopPagerAdapter.OnItemClickListener mOnItemClickListener;
 
     public static MainNewsFeedFragment newInstance(NewsFeed newsFeed, News news, int position) {
         MainNewsFeedFragment f = new MainNewsFeedFragment();
@@ -110,17 +109,18 @@ public class MainNewsFeedFragment extends Fragment {
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemViewHolder viewHolder = (ItemViewHolder)view.getTag();
-                mOnItemClickListener.onTopItemClick(viewHolder, mNewsFeed, mPosition);
+                ViewGroup parentView = ((MainActivity)getActivity()).getMainTopContainerLayout();
+                if (parentView instanceof OnItemClickListener) {
+                    OnItemClickListener listener = (OnItemClickListener) parentView;
+
+                    ItemViewHolder viewHolder = (ItemViewHolder) view.getTag();
+                    listener.onTopItemClick(viewHolder, mNewsFeed, mPosition);
+                }
             }
         });
         root.setTag(holder);
 
         return root;
-    }
-
-    public void setOnItemClickListener(MainTopPagerAdapter.OnItemClickListener listener) {
-        mOnItemClickListener = listener;
     }
 
     public void applyImage() {

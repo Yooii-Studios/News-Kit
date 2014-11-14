@@ -10,6 +10,7 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.ui.fragment.MainNewsFeedFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +26,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
     private OnItemClickListener mOnItemClickListener;
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener extends Serializable {
         public void onTopItemClick(MainNewsFeedFragment.ItemViewHolder viewHolder,
                                    NewsFeed newsFeed, int position);
     }
@@ -43,7 +44,6 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
         MainNewsFeedFragment item =
                 MainNewsFeedFragment.newInstance(mNewsFeed,
                         mNewsFeed.getNewsList().get(i), i);
-        item.setOnItemClickListener(mOnItemClickListener);
         mFragmentSparseArray.put(i, item);
 
         return item;

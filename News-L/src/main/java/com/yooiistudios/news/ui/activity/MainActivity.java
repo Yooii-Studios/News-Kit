@@ -188,6 +188,10 @@ public class MainActivity extends Activity
         }
     }
 
+    public ViewGroup getMainTopContainerLayout() {
+        return mMainTopContainerLayout;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applySystemWindowsBottomInset() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
