@@ -99,6 +99,9 @@ dependencies {
 
     // 이미지 디스크 캐시를 사용하기 위해 추가
     compile 'com.jakewharton:disklrucache:2.0.2'
+
+    // 상점에 사용되는 Toolbar를 위해 사용
+    compile 'com.android.support:appcompat-v7:21.0.0'
 }
 
 // release 시 비밀번호를 직접 입력하기 위한 코드

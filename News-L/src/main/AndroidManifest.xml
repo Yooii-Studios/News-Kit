@@ -46,7 +46,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection" />
 
         <activity
-            android:name=".ui.activity.StoreActivity"
+            android:name=".ui.activity.StoreTempActivity"
             android:label="@string/action_store"
             android:theme="@style/BaseAppTheme"
             android:screenOrientation="sensorPortrait"
@@ -76,6 +76,14 @@
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+
+        <activity
+            android:name=".ui.activity.StoreActivity"
+            android:label="@string/store"
+            android:theme="@style/StoreTheme"
+            android:screenOrientation="sensorPortrait"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
+        </activity>
 
         <service
             android:name=".service.BackgroundCacheIntentService"
