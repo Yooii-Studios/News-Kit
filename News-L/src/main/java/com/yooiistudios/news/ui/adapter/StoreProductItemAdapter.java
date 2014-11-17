@@ -159,7 +159,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
             }
         }
 
-        // price - purchase check from ownedSkus - 풀버전, 언락은 ownedSkus에서 체크
+        // price - purchase check from ownedSkus - 풀버전, 언락은 ownedSkus 에서 체크
         if (mOwnedSkus != null && mOwnedSkus.contains(sku)) {
             viewHolder.getPriceTextView().setText(R.string.store_purchased);
             viewHolder.getPriceImageView().setBackgroundResource(R.drawable.store_btn_raised_disable);

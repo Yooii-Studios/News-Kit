@@ -323,6 +323,7 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
                     mBannerImageView.setClickable(true);
                     mPriceImageView.setClickable(true);
+                    mProductListView.setAdapter(new StoreProductItemAdapter(this, inventory, this));
                 } else {
                     initUIOnQueryFinishedDebug();
                 }
