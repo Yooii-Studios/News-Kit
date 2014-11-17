@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
@@ -49,6 +50,12 @@ public class StoreProductItemAdapter extends BaseAdapter {
 
         // debug
         mListener = storeGridViewOnClickListener;
+    }
+
+    public void updateOnPurchase() {
+        Toast.makeText(mContext, "updateOnPurchase", Toast.LENGTH_SHORT).show();
+        mOwnedSkus = IabProducts.loadOwnedIabProducts(mContext);
+        notifyDataSetChanged();
     }
 
     @Override

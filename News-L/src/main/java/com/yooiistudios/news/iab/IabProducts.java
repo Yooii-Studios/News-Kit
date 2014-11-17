@@ -27,10 +27,12 @@ public class IabProducts {
 
     public static List<String> makeProductKeyList() {
         List<String> iabKeyList = new ArrayList<String>();
+        iabKeyList.add(SKU_FULL_VERSION_ORIGINAL);
         iabKeyList.add(SKU_FULL_VERSION);
-        iabKeyList.add(SKU_MORE_PANELS);
         iabKeyList.add(SKU_NO_ADS);
+        iabKeyList.add(SKU_MORE_PANELS);
         iabKeyList.add(SKU_TOPIC_SELECT);
+        iabKeyList.add(SKU_CUSTOM_RSS_URL);
         return iabKeyList;
     }
 

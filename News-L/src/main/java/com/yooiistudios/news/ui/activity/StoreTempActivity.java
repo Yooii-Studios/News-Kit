@@ -272,7 +272,7 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
                 showComplain("Payload problem");
             }
         } else {
-            showComplain("Purchase Failed");
+            showComplain("Purchase Failed: " + result.getMessage());
         }
     }
 

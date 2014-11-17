@@ -9,10 +9,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,11 +24,13 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabManager;
 import com.yooiistudios.news.iab.IabManagerListener;
 import com.yooiistudios.news.iab.IabProducts;
+import com.yooiistudios.news.iab.util.IabHelper;
 import com.yooiistudios.news.iab.util.IabResult;
 import com.yooiistudios.news.iab.util.Inventory;
+import com.yooiistudios.news.iab.util.Purchase;
 import com.yooiistudios.news.ui.adapter.StoreProductItemAdapter;
 import com.yooiistudios.news.ui.widget.AutoResize2TextView;
-import com.yooiistudios.news.ui.widget.AutoResizeTextView;
+import com.yooiistudios.news.util.Md5Utils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
 
@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class StoreActivity extends ActionBarActivity implements StoreProductItemAdapter.StoreItemOnClickListener, IabManagerListener {
+public class StoreActivity extends ActionBarActivity implements StoreProductItemAdapter.StoreItemOnClickListener, IabManagerListener, IabHelper.OnIabPurchaseFinishedListener {
     private static final String TAG = "StoreActivity";
     private IabManager iabManager;
 
@@ -218,7 +218,7 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     public void onPriceButtonClicked(View view) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            // process to google play
+            iabManager.processPurchase(IabProducts.SKU_FULL_VERSION, this);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_FULL_VERSION, this);
             initUI();
@@ -228,9 +228,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     @Override
     public void onItemPriceButtonClicked(String sku) {
-        Log.i(TAG, "onItemPriceButtonClicked: " + sku);
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            // process to google play
+            iabManager.processPurchase(sku, this);
         } else {
             IabProducts.saveIabProduct(sku, this);
             initUI();
@@ -303,6 +302,54 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
         hideStoreLoading();
     }
 
+    @Override
+    public void onIabPurchaseFinished(IabResult result, Purchase info) {
+        // 구매된 리스트를 확인해 SharedPreferences 에 적용하기
+        if (result.isSuccess()) {
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+
+            // 창하님 조언으로 수정: payload는 sku의 md5해시값으로 비교해 해킹을 방지
+            // 또한 orderId는 무조건 37자리여야 한다고 함. 프리덤같은 가짜 결제는 자릿수가 짧게 온다고 하심 -> 취소
+            if (info != null && info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
+                // 프레퍼런스에 저장
+                IabProducts.saveIabProduct(info.getSku(), this);
+                updateUIOnPurchase(info);
+            } else if (info == null) {
+                showComplain("No purchase info");
+            } else {
+                showComplain("Payload problem");
+                if (!info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
+                    Log.e("StoreActivity", "payload not equals to md5 hash of sku");
+                }
+            }
+
+            /*
+            if (info != null && info.getDeveloperPayload().equals(MNMd5Utils.getMd5String(info.getSku())) &&
+                    info.getOrderId().length() == 37) {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(MNFlurry.PURCHASE_ANALYSIS, MNFlurry.NORMAL_PURCHASE);
+                FlurryAgent.logEvent(MNFlurry.STORE, params);
+            } else if (info != null && info.getDeveloperPayload().equals(MNMd5Utils.getMd5String(info.getSku())) &&
+                    info.getOrderId().length() != 37) {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(MNFlurry.PURCHASE_ANALYSIS, MNFlurry.ORDER_ID_LENGTH_NOT_37);
+                FlurryAgent.logEvent(MNFlurry.STORE, params);
+            } else if (info != null && !info.getDeveloperPayload().equals(MNMd5Utils.getMd5String(info.getSku())) &&
+                    info.getOrderId().length() == 37) {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(MNFlurry.PURCHASE_ANALYSIS, MNFlurry.MD5_ERROR);
+                FlurryAgent.logEvent(MNFlurry.STORE, params);
+            }
+            */
+        } else {
+            showComplain("Purchase Failed: " + result.getMessage());
+        }
+    }
+
+    private void showComplain(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+    }
+
     private void initUIOnQueryFinished(Inventory inventory) {
         if (inventory.hasDetails(IabProducts.SKU_FULL_VERSION)) {
             // Full version
@@ -328,6 +375,19 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
                     initUIOnQueryFinishedDebug();
                 }
             }
+        }
+    }
+
+    private void updateUIOnPurchase(Purchase info) {
+        if (info.getSku().equals(IabProducts.SKU_FULL_VERSION)) {
+            // Full version
+            // TODO: purchase 스트링 처리 제대로 해주기
+            mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
+            mDiscountedPriceTextView.setText(R.string.store_purchased);
+            mBannerImageView.setClickable(false);
+            mPriceImageView.setClickable(false);
+        } else {
+            ((StoreProductItemAdapter)mProductListView.getAdapter()).updateOnPurchase();
         }
     }
 
