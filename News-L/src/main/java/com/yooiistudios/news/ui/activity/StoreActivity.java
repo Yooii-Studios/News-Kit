@@ -60,6 +60,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     @InjectView(R.id.store_discounted_price_text_view) AutoResize2TextView mDiscountedPriceTextView;
     @InjectView(R.id.store_original_price_text_view) AutoResize2TextView mOriginalPriceTextView;
+    @InjectView(R.id.store_thank_you_text_view) AutoResize2TextView mThankYouTextView;
+    @InjectView(R.id.store_purchase_text_view) AutoResize2TextView mPurchasedTextView;
     @InjectView(R.id.store_price_image_view) ImageView mPriceImageView;
     @InjectView(R.id.store_product_list_view) ListView mProductListView;
 
@@ -130,8 +132,10 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
         mTitleTextView2.setBackgroundColor(Color.TRANSPARENT);
         mDescriptionTextView1.setBackgroundColor(Color.TRANSPARENT);
         mDescriptionTextView2.setBackgroundColor(Color.TRANSPARENT);
-        mDiscountedPriceTextView.setBackgroundColor(Color.TRANSPARENT);
         mOriginalPriceTextView.setBackgroundColor(Color.TRANSPARENT);
+        mDiscountedPriceTextView.setBackgroundColor(Color.TRANSPARENT);
+        mPurchasedTextView.setBackgroundColor(Color.TRANSPARENT);
+        mThankYouTextView.setBackgroundColor(Color.TRANSPARENT);
 
         mRssImageView.setBackgroundColor(Color.TRANSPARENT);
         mMorePanelsImageView.setBackgroundColor(Color.TRANSPARENT);
@@ -354,9 +358,11 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
         if (inventory.hasDetails(IabProducts.SKU_FULL_VERSION)) {
             // Full version
             if (inventory.hasPurchase(IabProducts.SKU_FULL_VERSION)) {
-                // TODO: 나중에 Purchased 처리 다시 해 주기
                 mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-                mDiscountedPriceTextView.setText(R.string.store_purchased);
+                mOriginalPriceTextView.setVisibility(View.INVISIBLE);
+                mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
+                mPurchasedTextView.setVisibility(View.VISIBLE);
+                mThankYouTextView.setVisibility(View.VISIBLE);
             } else {
                 if (StoreDebugCheckUtils.isUsingStore(this)) {
                     if (inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL) != null) {
@@ -381,9 +387,11 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     private void updateUIOnPurchase(Purchase info) {
         if (info.getSku().equals(IabProducts.SKU_FULL_VERSION)) {
             // Full version
-            // TODO: purchase 스트링 처리 제대로 해주기
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-            mDiscountedPriceTextView.setText(R.string.store_purchased);
+            mOriginalPriceTextView.setVisibility(View.INVISIBLE);
+            mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
+            mPurchasedTextView.setVisibility(View.VISIBLE);
+            mThankYouTextView.setVisibility(View.VISIBLE);
             mBannerImageView.setClickable(false);
             mPriceImageView.setClickable(false);
         } else {
@@ -394,13 +402,19 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     private void initUIOnQueryFinishedDebug() {
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(this);
         if (ownedSkus.contains(IabProducts.SKU_FULL_VERSION)) {
-            // TODO: Purchased 처리 나중에 해 주기
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-            mDiscountedPriceTextView.setText(R.string.store_purchased);
+            mOriginalPriceTextView.setVisibility(View.INVISIBLE);
+            mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
+            mPurchasedTextView.setVisibility(View.VISIBLE);
+            mThankYouTextView.setVisibility(View.VISIBLE);
             mBannerImageView.setClickable(false);
             mPriceImageView.setClickable(false);
         } else {
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_price_selector);
+            mOriginalPriceTextView.setVisibility(View.VISIBLE);
+            mDiscountedPriceTextView.setVisibility(View.VISIBLE);
+            mPurchasedTextView.setVisibility(View.INVISIBLE);
+            mThankYouTextView.setVisibility(View.INVISIBLE);
             mOriginalPriceTextView.setText("$4.99");
             mDiscountedPriceTextView.setText("$2.99");
             mBannerImageView.setClickable(true);

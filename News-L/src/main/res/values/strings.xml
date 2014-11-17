@@ -68,6 +68,7 @@
     <string name="store_full_version_original_price">$4.99</string>
     <string name="store_full_version_discounted_price">$2.99</string>
     <string name="store_purchased">Purchased</string>
+    <string name="store_thank_you">Thank you!</string>
     <string name="store_item_price">$0.99</string>
     <string name="store_item_debug_title">Full version Tryout\nFull version Tryout</string>
     <string name="store_item_debug_description">Item description\nItem description</string>

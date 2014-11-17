@@ -104,6 +104,7 @@
         <!--android:background="#a0a"-->
         <com.yooiistudios.news.ui.widget.AutoResize2TextView
             android:id="@+id/store_discounted_price_text_view"
+            android:visibility="visible"
             android:layout_width="@dimen/store_price_discounted_price_width"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/store_price_discounted_price_text_margin_right"
@@ -121,6 +122,7 @@
 
         <com.yooiistudios.news.ui.widget.AutoResize2TextView
             android:id="@+id/store_original_price_text_view"
+            android:visibility="visible"
             android:layout_width="@dimen/store_price_original_price_width"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/store_price_discounted_price_text_margin_right"
@@ -132,6 +134,40 @@
             android:text="@string/store_full_version_original_price"
             android:textColor="@color/store_original_price_color"
             android:textSize="@dimen/store_price_original_price_font_size"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:includeFontPadding="false"/>
+
+        <com.yooiistudios.news.ui.widget.AutoResize2TextView
+            android:id="@+id/store_thank_you_text_view"
+            android:visibility="invisible"
+            android:layout_width="@dimen/store_price_thank_you_width"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/store_price_purchased_margin_right"
+            android:layout_marginBottom="@dimen/store_price_purchased_margin_bottom"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="#00f"
+            android:gravity="center|right"
+            android:text="@string/store_thank_you"
+            android:textColor="@color/store_purchased_thank_you_color"
+            android:textSize="@dimen/store_price_thank_you_font_size"
+            android:maxLines="1"
+            android:includeFontPadding="false"/>
+
+        <com.yooiistudios.news.ui.widget.AutoResize2TextView
+            android:id="@+id/store_purchase_text_view"
+            android:visibility="invisible"
+            android:layout_width="@dimen/store_price_purchased_width"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/store_price_purchased_margin_right"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/store_thank_you_text_view"
+            android:background="#faf"
+            android:gravity="center|right"
+            android:text="@string/store_purchased"
+            android:textColor="@color/store_purchased_color"
+            android:textSize="@dimen/store_price_purchased_font_size"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
             android:includeFontPadding="false"/>
