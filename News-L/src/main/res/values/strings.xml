@@ -67,7 +67,12 @@
     <string name="store_description_text_2_highlight">+ No Ads!</string>
     <string name="store_full_version_original_price">$4.99</string>
     <string name="store_full_version_discounted_price">$2.99</string>
+    <string name="store_purchased">Purchased</string>
     <string name="store_item_price">$0.99</string>
-    <string name="store_item_more_panel_title">Full version Tryout\nFull version Tryout</string>
-    <string name="store_item_more_panel_description">Item description\nItem description</string>
+    <string name="store_item_debug_title">Full version Tryout\nFull version Tryout</string>
+    <string name="store_item_debug_description">Item description\nItem description</string>
+    <string name="store_no_ads_title">No Ads</string>
+    <string name="store_more_panel_title">2x3 News panels</string>
+    <string name="store_topic_select">Topic select</string>
+    <string name="store_custom_rss_feed_title">Custom RSS url</string>
 </resources>

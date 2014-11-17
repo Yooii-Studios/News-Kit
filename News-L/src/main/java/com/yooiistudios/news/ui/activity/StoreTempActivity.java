@@ -82,8 +82,8 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
             fullVersionButton.setText("Purchased");
             fullVersionButton.setClickable(false);
             fullVersionButton.setEnabled(false);
-        } else if (inventory.hasDetails(IabProducts.SKU_MORE_NEWS) &&
-                inventory.hasPurchase(IabProducts.SKU_MORE_NEWS)) {
+        } else if (inventory.hasDetails(IabProducts.SKU_MORE_PANELS) &&
+                inventory.hasPurchase(IabProducts.SKU_MORE_PANELS)) {
             moreNewsButton.setText("Purchased");
             moreNewsButton.setClickable(false);
             moreNewsButton.setEnabled(false);
@@ -92,8 +92,8 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
             noAdButton.setText("Purchased");
             noAdButton.setClickable(false);
             noAdButton.setEnabled(false);
-        } else if (inventory.hasDetails(IabProducts.SKU_TEMP_FEATURE) &&
-                inventory.hasPurchase(IabProducts.SKU_TEMP_FEATURE)) {
+        } else if (inventory.hasDetails(IabProducts.SKU_TOPIC_SELECT) &&
+                inventory.hasPurchase(IabProducts.SKU_TOPIC_SELECT)) {
             feature1Button.setText("Purchased");
             feature1Button.setClickable(false);
             feature1Button.setEnabled(false);
@@ -112,7 +112,7 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
                 fullVersionButton.setClickable(true);
                 fullVersionButton.setEnabled(true);
             }
-            if (ownedSkus.contains(IabProducts.SKU_MORE_NEWS)) {
+            if (ownedSkus.contains(IabProducts.SKU_MORE_PANELS)) {
                 moreNewsButton.setText("Purchased");
                 moreNewsButton.setClickable(false);
                 moreNewsButton.setEnabled(false);
@@ -130,7 +130,7 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
                 noAdButton.setClickable(true);
                 noAdButton.setEnabled(true);
             }
-            if (ownedSkus.contains(IabProducts.SKU_TEMP_FEATURE)) {
+            if (ownedSkus.contains(IabProducts.SKU_TOPIC_SELECT)) {
                 feature1Button.setText("Purchased");
                 feature1Button.setClickable(false);
                 feature1Button.setEnabled(false);
@@ -163,7 +163,7 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
             fullVersionButton.setText("Purchased");
             fullVersionButton.setClickable(false);
             fullVersionButton.setEnabled(false);
-        } else if (info.getSku().equals(IabProducts.SKU_MORE_NEWS)) {
+        } else if (info.getSku().equals(IabProducts.SKU_MORE_PANELS)) {
             moreNewsButton.setText("Purchased");
             moreNewsButton.setClickable(false);
             moreNewsButton.setEnabled(false);
@@ -171,7 +171,7 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
             noAdButton.setText("Purchased");
             noAdButton.setClickable(false);
             noAdButton.setEnabled(false);
-        } else if (info.getSku().equals(IabProducts.SKU_TEMP_FEATURE)) {
+        } else if (info.getSku().equals(IabProducts.SKU_TOPIC_SELECT)) {
             feature1Button.setText("Purchased");
             feature1Button.setClickable(false);
             feature1Button.setEnabled(false);
@@ -329,18 +329,18 @@ public class StoreTempActivity extends Activity implements IabManagerListener, I
 
     public void onMoreNewsButtonClicked(View view) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            iabManager.processPurchase(IabProducts.SKU_MORE_NEWS, this);
+            iabManager.processPurchase(IabProducts.SKU_MORE_PANELS, this);
         } else {
-            IabProducts.saveIabProduct(IabProducts.SKU_MORE_NEWS, this);
+            IabProducts.saveIabProduct(IabProducts.SKU_MORE_PANELS, this);
             initUI();
         }
     }
 
     public void onFeature1ButtonClicked(View view) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            iabManager.processPurchase(IabProducts.SKU_TEMP_FEATURE, this);
+            iabManager.processPurchase(IabProducts.SKU_TOPIC_SELECT, this);
         } else {
-            IabProducts.saveIabProduct(IabProducts.SKU_TEMP_FEATURE, this);
+            IabProducts.saveIabProduct(IabProducts.SKU_TOPIC_SELECT, this);
             initUI();
         }
     }

@@ -12,6 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.iab.IabProducts;
+import com.yooiistudios.news.iab.util.Inventory;
+import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.util.StoreDebugCheckUtils;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +31,8 @@ import lombok.Getter;
 public class StoreProductItemAdapter extends BaseAdapter {
     private static final String TAG = "StoreItemAdapter";
     private Context mContext;
+    private List<String> mOwnedSkus;
+    private Inventory mInventory;
 
     private StoreItemOnClickListener mListener;
 
@@ -33,8 +41,11 @@ public class StoreProductItemAdapter extends BaseAdapter {
     }
 
     private StoreProductItemAdapter(){}
-    public StoreProductItemAdapter(Context context, StoreItemOnClickListener storeGridViewOnClickListener) {
+    public StoreProductItemAdapter(Context context, Inventory inventory,
+                                   StoreItemOnClickListener storeGridViewOnClickListener) {
         mContext = context;
+        mOwnedSkus = IabProducts.loadOwnedIabProducts(context);
+        mInventory = inventory;
 
         // debug
         mListener = storeGridViewOnClickListener;
@@ -42,7 +53,8 @@ public class StoreProductItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+//        return 4;
+        return 8;
     }
 
     @Override
@@ -63,36 +75,43 @@ public class StoreProductItemAdapter extends BaseAdapter {
             initLayout(viewHolder);
             switch (position) {
                 case 0:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_banner_noads);
-//                    viewHolder.getTitleTextView().setText();
+                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_noads);
+                    viewHolder.getTitleTextView().setText(R.string.store_no_ads_title);
 //                    viewHolder.getDescriptionTextView().setText();
-//                    viewHolder.getPriceButton().setTag("SKU");
+                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_NO_ADS);
                     break;
                 case 1:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_banner_panels);
-//                    viewHolder.getTitleTextView().setText();
+                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_panels);
+                    viewHolder.getTitleTextView().setText(R.string.store_more_panel_title);
 //                    viewHolder.getDescriptionTextView().setText();
-//                    viewHolder.getPriceButton().setTag("SKU");
+                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_MORE_PANELS);
                     break;
                 case 2:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_banner_topic);
-//                    viewHolder.getTitleTextView().setText();
+                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_topic);
+                    viewHolder.getTitleTextView().setText(R.string.store_topic_select);
 //                    viewHolder.getDescriptionTextView().setText();
-//                    viewHolder.getPriceButton().setTag("SKU");
+                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_TOPIC_SELECT);
                     break;
                 case 3:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_banner_rss);
-//                    viewHolder.getTitleTextView().setText();
+                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
+                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
 //                    viewHolder.getDescriptionTextView().setText();
-//                    viewHolder.getPriceButton().setTag("SKU");
+                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+                    break;
+                // test
+                default:
+                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
+                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
+//                    viewHolder.getDescriptionTextView().setText();
+                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
             }
             initPriceViews(viewHolder);
+
             // debug
 //            viewHolder.getLayout().setBackgroundColor(getToggledBackgroundColor(position));
             // release
             viewHolder.getTitleTextView().setBackgroundColor(Color.TRANSPARENT);
-            viewHolder.getDescriptionTextView().setBackgroundColor(Color.TRANSPARENT);
 //            viewHolder.getLayout().setBackgroundColor(Color.WHITE);
         }
         return convertView;
@@ -128,58 +147,41 @@ public class StoreProductItemAdapter extends BaseAdapter {
         // price - check from inventory
         String sku = (String) viewHolder.getPriceTextView().getTag();
 
-        /*
-        if (MNStoreFragment.IS_STORE_FOR_NAVER) {
-            // Naver
-            boolean hasDetails = false;
-            if (naverIabInventoryItemList != null) {
-                for (NaverIabInventoryItem naverIabInventoryItem : naverIabInventoryItemList) {
-                    if (naverIabInventoryItem.getKey().equals(
-                            NaverIabProductUtils.naverSkuMap.get(sku))) {
-                        hasDetails = true;
-
-                        if (naverIabInventoryItem.isAvailable()) {
-                            viewHolder.getPriceTextView().setText(R.string.store_purchased);
-                        } else {
-                            viewHolder.getPriceTextView().setText(
-                                    "₩" + MNDecimalFormatUtils.makeStringComma(naverIabInventoryItem.getPrice()));
-                        }
-                    }
-                }
-                if (!hasDetails) {
-                    viewHolder.getPriceTextView().setText(R.string.loading);
-                }
-            } else {
-                viewHolder.getPriceTextView().setText(R.string.loading);
-            }
-        } else {
-            // Google
-            if (inventory != null) {
-                if (inventory.hasDetails(sku)) {
-                    if (inventory.hasPurchase(sku)) {
-                        viewHolder.getPriceTextView().setText(R.string.store_purchased);
-                    } else {
-                        viewHolder.getPriceTextView().setText(inventory.getSkuDetails(sku).getPrice());
-                    }
+        // Google
+        if (mInventory != null) {
+            if (mInventory.hasDetails(sku)) {
+                if (mInventory.hasPurchase(sku)) {
+                    viewHolder.getPriceTextView().setText(R.string.store_purchased);
                 } else {
-                    viewHolder.getPriceTextView().setText(R.string.loading);
+                    viewHolder.getPriceTextView().setText(mInventory.getSkuDetails(sku).getPrice());
                 }
-            } else {
-                viewHolder.getPriceTextView().setText(R.string.loading);
             }
         }
-        */
 
-        /*
         // price - purchase check from ownedSkus - 풀버전, 언락은 ownedSkus에서 체크
-        if (ownedSkus != null && ownedSkus.contains(sku)) {
+        if (mOwnedSkus != null && mOwnedSkus.contains(sku)) {
             viewHolder.getPriceTextView().setText(R.string.store_purchased);
         } else {
-            if (!MNStoreDebugChecker.isUsingStore(mContext)) {
-                viewHolder.getPriceTextView().setText("$0.99");
+            if (!StoreDebugCheckUtils.isUsingStore(mContext)) {
+                if (sku.equals(IabProducts.SKU_NO_ADS)) {
+                    viewHolder.getPriceTextView().setText("$1.99");
+                } else {
+                    viewHolder.getPriceTextView().setText("$0.99");
+                }
             }
         }
-        */
+
+        // set clickable
+        if (viewHolder.getPriceTextView().getText().toString().equals(
+                mContext.getResources().getText(R.string.store_purchased))) {
+            viewHolder.getPriceTextView().setClickable(false);
+            viewHolder.getPriceTextView().setBackgroundColor(Color.TRANSPARENT);
+            viewHolder.getLayout().setClickable(false);
+            viewHolder.getLayout().setBackgroundColor(Color.WHITE);
+        } else {
+            viewHolder.getPriceTextView().setClickable(true);
+            viewHolder.getLayout().setFocusable(true);
+        }
 
         // onClick
         viewHolder.getPriceTextView().setOnClickListener(new View.OnClickListener() {
@@ -188,23 +190,6 @@ public class StoreProductItemAdapter extends BaseAdapter {
                 mListener.onItemPriceButtonClicked((String) v.getTag());
             }
         });
-
-        // set clickable
-        /*
-        if (viewHolder.getPriceTextView().getText().toString().equals(mContext.getResources().getText(R.string.store_purchased))) {
-            viewHolder.getPriceTextView().setClickable(false);
-            viewHolder.getInnerLayout().setFocusable(false);
-            viewHolder.getInnerLayout().setClickable(false);
-            viewHolder.getInnerLayout().setBackgroundResource(
-                    R.drawable.shape_rounded_view_classic_gray_normal);
-        } else {
-            viewHolder.getPriceTextView().setClickable(true);
-            viewHolder.getInnerLayout().setFocusable(true);
-            viewHolder.getInnerLayout().setClickable(true);
-            viewHolder.getInnerLayout().setBackgroundResource(
-                    R.drawable.shape_rounded_view_classic_gray);
-        }
-        */
     }
 
     /**
@@ -214,7 +199,6 @@ public class StoreProductItemAdapter extends BaseAdapter {
         @Getter @InjectView(R.id.store_item_layout) RelativeLayout layout;
         @Getter @InjectView(R.id.store_item_image_view) ImageView imageView;
         @Getter @InjectView(R.id.store_item_title_text_view) TextView titleTextView;
-        @Getter @InjectView(R.id.store_item_description_text_view) TextView descriptionTextView;
         @Getter @InjectView(R.id.store_item_price_image_view) ImageView priceImageView;
         @Getter @InjectView(R.id.store_item_price_text_view) TextView priceTextView;
 

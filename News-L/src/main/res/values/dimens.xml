@@ -78,13 +78,14 @@
     <dimen name="store_price_original_price_margin_bottom">-3dp</dimen>
     <dimen name="store_price_original_price_font_size">14sp</dimen>
     <dimen name="store_item_list_view_margin_top">8dp</dimen>
-    <dimen name="store_item_height">108dp</dimen>
+    <dimen name="store_item_height">56dp</dimen>
+    <dimen name="store_item_height_with_description">108dp</dimen>
     <dimen name="store_item_base_margin">16dp</dimen>
     <dimen name="store_item_text_margin">13dp</dimen>
     <dimen name="store_item_text_margin_mid">2dp</dimen>
     <dimen name="store_item_title_text_size">16sp</dimen>
     <dimen name="store_item_description_text_size">14sp</dimen>
-    <dimen name="store_item_price_button_width">98dp</dimen>
+    <dimen name="store_item_price_button_width">92dp</dimen>
     <dimen name="store_item_price_button_height">36dp</dimen>
     <dimen name="store_item_price_button_elevation">2dp</dimen>
 </resources>
