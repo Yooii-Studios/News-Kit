@@ -152,6 +152,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
             if (mInventory.hasDetails(sku)) {
                 if (mInventory.hasPurchase(sku)) {
                     viewHolder.getPriceTextView().setText(R.string.store_purchased);
+                    viewHolder.getPriceImageView().setBackgroundResource(R.drawable.store_btn_raised_disable);
                 } else {
                     viewHolder.getPriceTextView().setText(mInventory.getSkuDetails(sku).getPrice());
                 }
@@ -161,6 +162,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
         // price - purchase check from ownedSkus - 풀버전, 언락은 ownedSkus에서 체크
         if (mOwnedSkus != null && mOwnedSkus.contains(sku)) {
             viewHolder.getPriceTextView().setText(R.string.store_purchased);
+            viewHolder.getPriceImageView().setBackgroundResource(R.drawable.store_btn_raised_disable);
         } else {
             if (!StoreDebugCheckUtils.isUsingStore(mContext)) {
                 if (sku.equals(IabProducts.SKU_NO_ADS)) {
@@ -170,6 +172,14 @@ public class StoreProductItemAdapter extends BaseAdapter {
                 }
             }
         }
+
+        // onClick
+        viewHolder.getPriceTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemPriceButtonClicked((String) v.getTag());
+            }
+        });
 
         // set clickable
         if (viewHolder.getPriceTextView().getText().toString().equals(
@@ -182,14 +192,6 @@ public class StoreProductItemAdapter extends BaseAdapter {
             viewHolder.getPriceTextView().setClickable(true);
             viewHolder.getLayout().setFocusable(true);
         }
-
-        // onClick
-        viewHolder.getPriceTextView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onItemPriceButtonClicked((String) v.getTag());
-            }
-        });
     }
 
     /**

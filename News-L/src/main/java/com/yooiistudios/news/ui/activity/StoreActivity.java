@@ -9,8 +9,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,8 @@ import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.iab.util.IabResult;
 import com.yooiistudios.news.iab.util.Inventory;
 import com.yooiistudios.news.ui.adapter.StoreProductItemAdapter;
+import com.yooiistudios.news.ui.widget.AutoResize2TextView;
+import com.yooiistudios.news.ui.widget.AutoResizeTextView;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
 
@@ -54,8 +58,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     @InjectView(R.id.store_icon_banner_no_ads_image_view) ImageView mNoAdsImageView;
     @InjectView(R.id.store_icon_banner_discount_image_view) ImageView mDiscountImageView;
 
-    @InjectView(R.id.store_discounted_price_text_view) TextView mDiscountedPriceTextView;
-    @InjectView(R.id.store_original_price_text_view) TextView mOriginalPriceTextView;
+    @InjectView(R.id.store_discounted_price_text_view) AutoResize2TextView mDiscountedPriceTextView;
+    @InjectView(R.id.store_original_price_text_view) AutoResize2TextView mOriginalPriceTextView;
     @InjectView(R.id.store_price_image_view) ImageView mPriceImageView;
     @InjectView(R.id.store_product_list_view) ListView mProductListView;
 
@@ -100,7 +104,6 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
                 getString(R.string.store_description_text_2_highlight));
         mOriginalPriceTextView.setPaintFlags(mOriginalPriceTextView.getPaintFlags() |
                 Paint.STRIKE_THRU_TEXT_FLAG);
-
         // release
         /*
         int[] attrs = new int[] { android.R.attr.selectableItemBackground };
@@ -123,7 +126,7 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
         mTitleTextView1.setBackground(drawableFromTheme);
         */
 
-//        mTitleTextView1.setBackgroundColor(Color.TRANSPARENT);
+        mTitleTextView1.setBackgroundColor(Color.TRANSPARENT);
         mTitleTextView2.setBackgroundColor(Color.TRANSPARENT);
         mDescriptionTextView1.setBackgroundColor(Color.TRANSPARENT);
         mDescriptionTextView2.setBackgroundColor(Color.TRANSPARENT);
@@ -312,12 +315,12 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
                     if (inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL) != null) {
                         mOriginalPriceTextView.setText(
                                 inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL).getPrice());
+                    } else {
+                        mOriginalPriceTextView.setText("$4.99");
                     }
-                    if (inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION) != null) {
-                        mDiscountedPriceTextView.setText(
-                                inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION).getPrice()
-                        );
-                    }
+                    mDiscountedPriceTextView.setText(
+                            inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION).getPrice());
+
                     mBannerImageView.setClickable(true);
                     mPriceImageView.setClickable(true);
                 } else {
@@ -336,8 +339,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
             mBannerImageView.setClickable(false);
             mPriceImageView.setClickable(false);
         } else {
-            NLLog.now("initUIOnQueryFinishedDebug");
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_price_selector);
+            mOriginalPriceTextView.setText("$4.99");
             mDiscountedPriceTextView.setText("$2.99");
             mBannerImageView.setClickable(true);
             mPriceImageView.setClickable(true);
