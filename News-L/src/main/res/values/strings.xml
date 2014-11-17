@@ -9,7 +9,7 @@
     <string name="action_remove_archive">Remove archive</string>
     <string name="action_slow_anim">Slow act trans</string>
     <string name="action_edit_bezier">Edit bezier</string>
-    <string name="image_view_content_description">Loading…</string>
+    <string name="content_description">Loading…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
@@ -57,4 +57,23 @@
 
     <!-- Ad -->
     <string name="ad_dialog_title_text">Do you want to quit News L?</string>
+
+    <!-- Store -->
+    <string name="store">Store</string>
+    <string name="store_title_text_1">Buy</string>
+    <string name="store_title_text_2">the full version!</string>
+    <string name="store_description_text_1">Upgrade to unlock all Functions and Features</string>
+    <string name="store_description_text_2">+ No Ads!</string>
+    <string name="store_description_text_2_highlight">+ No Ads!</string>
+    <string name="store_full_version_original_price">$4.99</string>
+    <string name="store_full_version_discounted_price">$2.99</string>
+    <string name="store_purchased">Purchased</string>
+    <string name="store_thank_you">Thank you!</string>
+    <string name="store_item_price">$0.99</string>
+    <string name="store_item_debug_title">Full version Tryout\nFull version Tryout</string>
+    <string name="store_item_debug_description">Item description\nItem description</string>
+    <string name="store_no_ads_title">No Ads</string>
+    <string name="store_more_panel_title">2x3 News panels</string>
+    <string name="store_topic_select">Topic select</string>
+    <string name="store_custom_rss_feed_title">Custom RSS url</string>
 </resources>

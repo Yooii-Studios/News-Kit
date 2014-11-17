@@ -15,20 +15,24 @@ import java.util.List;
  * SKIabProducts
  */
 public class IabProducts {
+    public static final String SKU_FULL_VERSION_ORIGINAL = "full_version_original";
     public static final String SKU_FULL_VERSION = "test_full_version"; // "full_version"
-    public static final String SKU_MORE_NEWS = "test_more_news"; // "more_news"
     public static final String SKU_NO_ADS = "test_no_ad"; // "no_ad"
-    public static final String SKU_TEMP_FEATURE = "test_temp1"; // "test_temp1"
+    public static final String SKU_MORE_PANELS = "test_more_news"; // "more_news"
+    public static final String SKU_TOPIC_SELECT = "test_temp1"; // "topic_select"
+    public static final String SKU_CUSTOM_RSS_URL = "test_custom_rss_feed"; // custom_rss_feed
 
     private static final String SHARED_PREFERENCES_IAB = "SHARED_PREFERENCES_IAB";
     private static final String SHARED_PREFERENCES_IAB_DEBUG = "SHARED_PREFERENCES_IAB_DEBUG";
 
     public static List<String> makeProductKeyList() {
         List<String> iabKeyList = new ArrayList<String>();
+        iabKeyList.add(SKU_FULL_VERSION_ORIGINAL);
         iabKeyList.add(SKU_FULL_VERSION);
-        iabKeyList.add(SKU_MORE_NEWS);
         iabKeyList.add(SKU_NO_ADS);
-        iabKeyList.add(SKU_TEMP_FEATURE);
+        iabKeyList.add(SKU_MORE_PANELS);
+        iabKeyList.add(SKU_TOPIC_SELECT);
+        iabKeyList.add(SKU_CUSTOM_RSS_URL);
         return iabKeyList;
     }
 
@@ -76,18 +80,22 @@ public class IabProducts {
         }
         if (prefs.getBoolean(SKU_FULL_VERSION, false)) {
             ownedSkus.add(SKU_FULL_VERSION);
-            ownedSkus.add(SKU_MORE_NEWS);
             ownedSkus.add(SKU_NO_ADS);
-            ownedSkus.add(SKU_TEMP_FEATURE);
+            ownedSkus.add(SKU_MORE_PANELS);
+            ownedSkus.add(SKU_TOPIC_SELECT);
+            ownedSkus.add(SKU_CUSTOM_RSS_URL);
         } else {
-            if (prefs.getBoolean(SKU_MORE_NEWS, false)) {
-                ownedSkus.add(SKU_MORE_NEWS);
-            }
             if (prefs.getBoolean(SKU_NO_ADS, false)) {
                 ownedSkus.add(SKU_NO_ADS);
             }
-            if (prefs.getBoolean(SKU_TEMP_FEATURE, false)) {
-                ownedSkus.add(SKU_TEMP_FEATURE);
+            if (prefs.getBoolean(SKU_MORE_PANELS, false)) {
+                ownedSkus.add(SKU_MORE_PANELS);
+            }
+            if (prefs.getBoolean(SKU_TOPIC_SELECT, false)) {
+                ownedSkus.add(SKU_TOPIC_SELECT);
+            }
+            if (prefs.getBoolean(SKU_CUSTOM_RSS_URL, false)) {
+                ownedSkus.add(SKU_CUSTOM_RSS_URL);
             }
             // 추가: 언락화면에서 리뷰로 사용한 아이템도 체크
 //            SharedPreferences unlockPrefs = context.getSharedPreferences(MNUnlockActivity.SHARED_PREFS, Context.MODE_PRIVATE);

@@ -34,7 +34,7 @@
             android:src="@drawable/icon_internet"
             android:layout_gravity="center"
             android:duplicateParentState="true"
-            android:contentDescription="@string/image_view_content_description"/>
+            android:contentDescription="@string/content_description"/>
 
     </com.yooiistudios.news.ui.widget.FloatingActionButton>
 

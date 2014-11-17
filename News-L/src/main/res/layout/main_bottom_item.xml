@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:contentDescription="@string/image_view_content_description"/>
+        android:contentDescription="@string/content_description"/>
 
     <ProgressBar
         android:id="@+id/main_bottom_item_progress"

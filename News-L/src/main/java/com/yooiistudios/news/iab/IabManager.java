@@ -29,11 +29,16 @@ public class IabManager {
     private Activity activity;
     private String base64EncodedPublicKey;
 
+    public static final String piece1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMMT4wCvf12zdFIIBCgKCAQEAm4R/S6QfFgGTlnX/jZSdSj8svHYhcp+im7VI3uLfXA5oHZPYdXbpE6";
+    public static final String piece2 = "DeEnrKEbVGYU1FEMKNaBTRRwKztdffmfj1z8d9ogk+F+BmNU+1IdUEqygQfIzNohvmuTEKXCTBMSP3iaImTamH8bTkJhCRaBO8cz13FfhDgPeio6NmGhz9oB0RSFVlp4";
+    public static final String piece3 = "ZFC4oVM2if7BYWBWF3xS3VhiiURNuXOvyGPynUPb+EoK9pn/3LGIjbGCxdRciARkBW3GMhsA19fjaLezwo3qc29grTlenXtWiFM7T/V3h2rKJUyUPV6pj8Nb0OcW9fv9Y1Nh";
+    public static final String piece4 = "oFitbTxgoz+FBQ/E3fEsch9Bvjv9AIni9d2vQ0DKWbclFankV44k1jFZb1jQIDAQAB";
+
     private IabManager() {}
     public IabManager(Activity activity, IabManagerListener iapManagerListener) {
         this.activity = activity;
         this.iapManagerListener = iapManagerListener;
-        this.base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm4R/S6QfFgGTlnX/jZSdSj8svHYhcp+im7VI3uLfXA5oHZPYdXbpE6DeEnrKEbVGYU1FEMKNaBTRRw9ogk+F+BmNU+1IdUEqygQfIzNohvmuTEKXCTBMSP3iaImTamH8bTkJhCRaBO8cz13FfhDgPeio6NmGhz9oB0RSFVlp4ZFC4oVM2if7BYWBWF3xS3VhiiURNuXOvyGPynUPb+EoK9pn/3LGIjbGCxdRciARkBW3GMhsqc29grTlenXtWiFM7T/V3h2rKJUyUPV6pj8Nb0OcW9fv9Y1NhoFitbTxgoz+FBQ/E3fEsch9Bvjv9AIni9d2vQ0DKWbclFankVb1jQIDAQAB";
+        this.base64EncodedPublicKey = piece1.replaceAll("MT4wCvf12zdF", "") + piece2.replaceAll("Kztdffmfj1z8d", "") + piece3.replaceAll("A19fjaLezwo3", "") + piece4.replaceAll("44k1jFZ", "");
     }
 
     public void loadWithAllItems() {

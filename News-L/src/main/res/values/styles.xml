@@ -72,4 +72,15 @@
         <!--<item name="android:windowAllowEnterTransitionOverlap">false</item>-->
     </style>
 
+    <!-- Store -->
+    <style name="StoreTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/store_color_primary</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/store_color_primary_dark</item>
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent_material_light</item>
+    </style>
+
 </resources>

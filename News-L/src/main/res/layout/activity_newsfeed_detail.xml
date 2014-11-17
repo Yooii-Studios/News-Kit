@@ -56,7 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:contentDescription="@string/image_view_content_description"/>
+                        android:contentDescription="@string/content_description"/>
 
                     <View
                         android:id="@+id/detail_top_news_image_ripple_view"
