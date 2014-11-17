@@ -61,6 +61,9 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
         mDeviceWidth = displayMetrics.widthPixels;
 
         // indicator
+        if (mIndicatorView != null) {
+            removeView(mIndicatorView);
+        }
         mIndicatorView = new View(getContext());
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
                 DipToPixel.dpToPixel(getContext(), INDICATOR_WIDTH_DP),
