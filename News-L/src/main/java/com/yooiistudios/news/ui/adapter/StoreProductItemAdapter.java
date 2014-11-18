@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.iab.util.Inventory;
+import com.yooiistudios.news.ui.widget.AutoResizeTextView;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
 
 import java.util.List;
@@ -84,32 +85,32 @@ public class StoreProductItemAdapter extends BaseAdapter {
                 case 0:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_noads);
                     viewHolder.getTitleTextView().setText(R.string.store_no_ads_title);
-//                    viewHolder.getDescriptionTextView().setText();
+                    viewHolder.getDescriptionTextView().setText(R.string.store_no_ads_description);
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_NO_ADS);
                     break;
                 case 1:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_panels);
                     viewHolder.getTitleTextView().setText(R.string.store_more_panel_title);
-//                    viewHolder.getDescriptionTextView().setText();
+                    viewHolder.getDescriptionTextView().setText(R.string.store_more_panel_description);
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_MORE_PANELS);
                     break;
                 case 2:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_topic);
-                    viewHolder.getTitleTextView().setText(R.string.store_topic_select);
-//                    viewHolder.getDescriptionTextView().setText();
+                    viewHolder.getTitleTextView().setText(R.string.store_topic_select_title);
+                    viewHolder.getDescriptionTextView().setText(R.string.store_topic_select_description);
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_TOPIC_SELECT);
                     break;
                 case 3:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
                     viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
-//                    viewHolder.getDescriptionTextView().setText();
+                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
                 // test
                 default:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
                     viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
-//                    viewHolder.getDescriptionTextView().setText();
+                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
             }
@@ -119,12 +120,13 @@ public class StoreProductItemAdapter extends BaseAdapter {
 //            viewHolder.getLayout().setBackgroundColor(getToggledBackgroundColor(position));
             // release
             viewHolder.getTitleTextView().setBackgroundColor(Color.TRANSPARENT);
-//            viewHolder.getLayout().setBackgroundColor(Color.WHITE);
+            viewHolder.getDescriptionTextView().setBackgroundColor(Color.TRANSPARENT);
         }
         return convertView;
     }
 
     // debug용으로 컬러를 얻어내기
+    /*
     private int getToggledBackgroundColor(int index) {
         if (index % 2 == 0) {
             return Color.parseColor("#cc00cc");
@@ -132,6 +134,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
             return Color.parseColor("#ff66ff");
         }
     }
+    */
 
     private void initLayout(final StoreItemViewHolder viewHolder) {
         viewHolder.getLayout().setOnClickListener(new View.OnClickListener() {
@@ -146,7 +149,6 @@ public class StoreProductItemAdapter extends BaseAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             float elevation =
                     mContext.getResources().getDimension(R.dimen.store_item_price_button_elevation);
-//            viewHolder.getPriceImageView().setElevation(elevation);
             viewHolder.getPriceButton().setElevation(elevation);
         }
         viewHolder.getPriceButton().setSelected(true);
@@ -207,9 +209,8 @@ public class StoreProductItemAdapter extends BaseAdapter {
     static class StoreItemViewHolder {
         @Getter @InjectView(R.id.store_item_layout) RelativeLayout layout;
         @Getter @InjectView(R.id.store_item_image_view) ImageView imageView;
-        @Getter @InjectView(R.id.store_item_title_text_view) TextView titleTextView;
-//        @Getter @InjectView(R.id.store_item_price_image_view) ImageView priceImageView;
-//        @Getter @InjectView(R.id.store_item_price_text_view) TextView priceTextView;
+        @Getter @InjectView(R.id.store_item_title_text_view) AutoResizeTextView titleTextView;
+        @Getter @InjectView(R.id.store_item_description_text_view) TextView descriptionTextView;
         @Getter @InjectView(R.id.store_item_price_button) Button priceButton;
 
         public StoreItemViewHolder(View view) {

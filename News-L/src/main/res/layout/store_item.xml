@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/store_item_layout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/store_item_height"
+    android:layout_height="wrap_content"
     android:background="?android:selectableItemBackground">
     <!--android:background="#c0c"-->
 
@@ -21,33 +21,53 @@
         android:layout_width="@dimen/store_item_price_button_width"
         android:layout_height="@dimen/store_item_price_button_height"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/store_item_base_margin"
+        android:layout_centerVertical="true"
         android:background="@drawable/store_btn_raised_selector"
         android:text="@string/store_item_price"
         android:textColor="@android:color/white"
         android:textSize="@dimen/store_item_description_text_size"
-        android:textStyle="bold"
         android:textAllCaps="false"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"/>
 
-    <TextView
+    <com.yooiistudios.news.ui.widget.AutoResizeTextView
         android:id="@+id/store_item_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/store_item_base_margin"
         android:layout_marginLeft="@dimen/store_item_base_margin"
+        android:layout_marginRight="@dimen/store_item_base_margin"
+        android:layout_marginTop="@dimen/store_item_text_margin"
         android:layout_toRightOf="@id/store_item_image_view"
         android:layout_toLeftOf="@id/store_item_price_button"
-        android:layout_centerVertical="true"
         android:background="#0a0"
         android:text="@string/store_item_debug_title"
         android:textSize="@dimen/store_item_title_text_size"
         android:textColor="@android:color/black"
-        android:gravity="center_vertical"
         android:includeFontPadding="false"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:lineSpacingExtra="@dimen/store_item_text_margin_mid"/>
+
+    <TextView
+        android:id="@+id/store_item_description_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/store_item_base_margin"
+        android:layout_marginRight="@dimen/store_item_base_margin"
+        android:layout_marginTop="@dimen/store_item_text_margin_mid"
+        android:layout_marginBottom="@dimen/store_item_base_margin"
+        android:layout_toRightOf="@id/store_item_image_view"
+        android:layout_toLeftOf="@id/store_item_price_button"
+        android:layout_below="@id/store_item_title_text_view"
+        android:background="#00a"
+        android:text="@string/store_item_debug_description"
+        android:textSize="@dimen/store_item_description_text_size"
+        android:textColor="@color/store_item_description_color"
         android:ellipsize="end"
-        android:lines="2"
+        android:includeFontPadding="false"
+        android:gravity="center_vertical"
+        android:maxLines="2"
         android:lineSpacingExtra="@dimen/store_item_text_margin_mid"/>
 
 </RelativeLayout>

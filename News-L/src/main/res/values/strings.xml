@@ -70,10 +70,14 @@
     <string name="store_purchased">Purchased</string>
     <string name="store_thank_you">Thank you!</string>
     <string name="store_item_price">$0.99</string>
-    <string name="store_item_debug_title">Full version Tryout\nFull version Tryout</string>
+    <string name="store_item_debug_title">Item title</string>
     <string name="store_item_debug_description">Item description\nItem description</string>
     <string name="store_no_ads_title">No Ads</string>
+    <string name="store_no_ads_description">Remove all ads of the app</string>
     <string name="store_more_panel_title">2x3 News panels</string>
-    <string name="store_topic_select">Topic select</string>
+    <string name="store_more_panel_description">Use 4 to 8 bottom news panels</string>
+    <string name="store_topic_select_title">Topic select</string>
+    <string name="store_topic_select_description">You can select detail category of the news</string>
     <string name="store_custom_rss_feed_title">Custom RSS url</string>
+    <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
 </resources>
