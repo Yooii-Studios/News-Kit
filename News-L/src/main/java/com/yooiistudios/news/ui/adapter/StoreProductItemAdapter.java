@@ -54,7 +54,6 @@ public class StoreProductItemAdapter extends BaseAdapter {
     }
 
     public void updateOnPurchase() {
-        Toast.makeText(mContext, "updateOnPurchase", Toast.LENGTH_SHORT).show();
         mOwnedSkus = IabProducts.loadOwnedIabProducts(mContext);
         notifyDataSetChanged();
     }

@@ -17,7 +17,7 @@ import java.util.List;
 public class IabProducts {
     public static final String SKU_FULL_VERSION_ORIGINAL = "full_version_original";
     public static final String SKU_FULL_VERSION = "test_full_version"; // "full_version"
-    public static final String SKU_NO_ADS = "no_ads"; // "test_no_ad"
+    public static final String SKU_NO_ADS = "test_no_ad"; // "no_ads"
     public static final String SKU_MORE_PANELS = "test_more_news"; // "more_news"
     public static final String SKU_TOPIC_SELECT = "test_topic_select"; // "topic_select"
     public static final String SKU_CUSTOM_RSS_URL = "test_custom_rss_feed"; // custom_rss_feed

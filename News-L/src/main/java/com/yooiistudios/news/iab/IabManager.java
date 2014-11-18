@@ -39,6 +39,7 @@ public class IabManager {
         this.activity = activity;
         this.iapManagerListener = iapManagerListener;
         this.base64EncodedPublicKey = piece1.replaceAll("MT4wCvf12zdF", "") + piece2.replaceAll("Kztdffmfj1z8d", "") + piece3.replaceAll("A19fjaLezwo3", "") + piece4.replaceAll("44k1jFZ", "");
+        NLLog.now(this.base64EncodedPublicKey);
     }
 
     public void loadWithAllItems() {
@@ -52,7 +53,7 @@ public class IabManager {
     private void load(final boolean isOwnItemsOnly) {
         // compute your public key and store it in base64EncodedPublicKey
         helper = new IabHelper(activity, base64EncodedPublicKey);
-//        helper.enableDebugLogging(true); // You shoud off this when you publish
+        helper.enableDebugLogging(true); // You should off this when you publish
 
         helper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {

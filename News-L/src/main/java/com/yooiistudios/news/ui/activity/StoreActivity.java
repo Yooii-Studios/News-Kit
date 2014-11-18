@@ -42,7 +42,7 @@ import butterknife.InjectView;
 
 public class StoreActivity extends ActionBarActivity implements StoreProductItemAdapter.StoreItemOnClickListener, IabManagerListener, IabHelper.OnIabPurchaseFinishedListener {
     private static final String TAG = "StoreActivity";
-    private IabManager iabManager;
+    private IabManager mIabManager;
 
     @InjectView(R.id.store_toolbar) Toolbar mToolbar;
 
@@ -84,8 +84,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     }
 
     private void initIab() {
-        iabManager = new IabManager(this, this);
-        iabManager.loadWithAllItems();
+        mIabManager = new IabManager(this, this);
+        mIabManager.loadWithAllItems();
     }
 
     private void initToolbar() {
@@ -197,11 +197,11 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (iabManager != null) {
-            if (iabManager.getHelper() == null) return;
+        if (mIabManager != null) {
+            if (mIabManager.getHelper() == null) return;
 
             // Pass on the activity result to the helper for handling
-            if (!iabManager.getHelper().handleActivityResult(requestCode, requestCode, data)) {
+            if (!mIabManager.getHelper().handleActivityResult(requestCode, resultCode, data)) {
                 // not handled, so handle it ourselves (here's where you'd
                 // perform any handling of activity results not related to in-app
                 // billing...
@@ -215,14 +215,14 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (iabManager != null) {
-            iabManager.dispose();
+        if (mIabManager != null) {
+            mIabManager.dispose();
         }
     }
 
     public void onPriceButtonClicked(View view) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            iabManager.processPurchase(IabProducts.SKU_FULL_VERSION, this);
+            mIabManager.processPurchase(IabProducts.SKU_FULL_VERSION, this);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_FULL_VERSION, this);
             initUI();
@@ -233,7 +233,7 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     @Override
     public void onItemPriceButtonClicked(String sku) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            iabManager.processPurchase(sku, this);
+            mIabManager.processPurchase(sku, this);
         } else {
             IabProducts.saveIabProduct(sku, this);
             initUI();
@@ -262,8 +262,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
     public void onResetButtonClicked(View view) {
         // 디버그 상태에서 구매했던 아이템들을 리셋
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            if (iabManager != null) {
-                iabManager.loadWithAllItems();
+            if (mIabManager != null) {
+                mIabManager.loadWithAllItems();
             }
             initUI();
         } else {
@@ -290,7 +290,11 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     @Override
     public void onIabSetupFailed(IabResult result) {
-        Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         hideStoreLoading();
     }
 
@@ -302,7 +306,11 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     @Override
     public void onQueryFailed(IabResult result) {
-        Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         hideStoreLoading();
     }
 
@@ -313,7 +321,6 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
             Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
             // 창하님 조언으로 수정: payload는 sku의 md5해시값으로 비교해 해킹을 방지
-            // 또한 orderId는 무조건 37자리여야 한다고 함. 프리덤같은 가짜 결제는 자릿수가 짧게 온다고 하심 -> 취소
             if (info != null && info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
                 // 프레퍼런스에 저장
                 IabProducts.saveIabProduct(info.getSku(), this);
@@ -394,9 +401,8 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
             mThankYouTextView.setVisibility(View.VISIBLE);
             mBannerImageView.setClickable(false);
             mPriceImageView.setClickable(false);
-        } else {
-            ((StoreProductItemAdapter)mProductListView.getAdapter()).updateOnPurchase();
         }
+        ((StoreProductItemAdapter)mProductListView.getAdapter()).updateOnPurchase();
     }
 
     private void initUIOnQueryFinishedDebug() {
