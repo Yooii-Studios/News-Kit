@@ -85,7 +85,7 @@
     <dimen name="store_item_height">56dp</dimen>
     <dimen name="store_item_height_with_description">108dp</dimen>
     <dimen name="store_item_base_margin">16dp</dimen>
-    <dimen name="store_item_text_margin">13dp</dimen>
+    <dimen name="store_item_text_margin">14dp</dimen>
     <dimen name="store_item_text_margin_mid">2dp</dimen>
     <dimen name="store_item_title_text_size">16sp</dimen>
     <dimen name="store_item_description_text_size">14sp</dimen>

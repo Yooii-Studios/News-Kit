@@ -11,12 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.iab.util.Inventory;
-import com.yooiistudios.news.ui.widget.AutoResizeTextView;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
 
 import java.util.List;
@@ -211,7 +209,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
     static class StoreItemViewHolder {
         @Getter @InjectView(R.id.store_item_layout) RelativeLayout layout;
         @Getter @InjectView(R.id.store_item_image_view) ImageView imageView;
-        @Getter @InjectView(R.id.store_item_title_text_view) AutoResizeTextView titleTextView;
+        @Getter @InjectView(R.id.store_item_title_text_view) TextView titleTextView;
         @Getter @InjectView(R.id.store_item_description_text_view) TextView descriptionTextView;
         @Getter @InjectView(R.id.store_item_price_button) Button priceButton;
 
