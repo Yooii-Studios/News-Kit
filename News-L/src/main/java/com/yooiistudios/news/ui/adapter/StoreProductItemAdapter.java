@@ -137,6 +137,9 @@ public class StoreProductItemAdapter extends BaseAdapter {
     */
 
     private void initLayout(final StoreItemViewHolder viewHolder) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.getLayout().setBackgroundResource(R.drawable.store_item_layout_background);
+        }
         viewHolder.getLayout().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
