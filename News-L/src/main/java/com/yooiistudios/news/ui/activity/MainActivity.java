@@ -37,6 +37,7 @@ import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
+import com.yooiistudios.news.util.AppValidationChecker;
 import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.NLLog;
 
@@ -116,6 +117,10 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        if (NLLog.isDebug) {
+            AppValidationChecker.validationCheck(this);
+        }
 
         // start service on starting app
         NLLog.i("BackgroundServiceUtils", "onCreate");
