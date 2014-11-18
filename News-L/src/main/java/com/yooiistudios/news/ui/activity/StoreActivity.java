@@ -363,15 +363,17 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
     private void initUIOnQueryFinished(Inventory inventory) {
         if (inventory.hasDetails(IabProducts.SKU_FULL_VERSION)) {
-            // Full version
-            if (inventory.hasPurchase(IabProducts.SKU_FULL_VERSION)) {
-                mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-                mOriginalPriceTextView.setVisibility(View.INVISIBLE);
-                mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
-                mPurchasedTextView.setVisibility(View.VISIBLE);
-                mThankYouTextView.setVisibility(View.VISIBLE);
-            } else {
-                if (StoreDebugCheckUtils.isUsingStore(this)) {
+            if (StoreDebugCheckUtils.isUsingStore(this)) {
+                // Full version
+                if (inventory.hasPurchase(IabProducts.SKU_FULL_VERSION)) {
+                    mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
+                    mOriginalPriceTextView.setVisibility(View.INVISIBLE);
+                    mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
+                    mPurchasedTextView.setVisibility(View.VISIBLE);
+                    mThankYouTextView.setVisibility(View.VISIBLE);
+                    mBannerImageView.setClickable(false);
+                    mPriceImageView.setClickable(false);
+                } else {
                     if (inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL) != null) {
                         mOriginalPriceTextView.setText(
                                 inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL).getPrice());
@@ -383,10 +385,10 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
 
                     mBannerImageView.setClickable(true);
                     mPriceImageView.setClickable(true);
-                    mProductListView.setAdapter(new StoreProductItemAdapter(this, inventory, this));
-                } else {
-                    initUIOnQueryFinishedDebug();
                 }
+                mProductListView.setAdapter(new StoreProductItemAdapter(this, inventory, this));
+            } else {
+                initUIOnQueryFinishedDebug();
             }
         }
     }
@@ -421,8 +423,6 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
             mDiscountedPriceTextView.setVisibility(View.VISIBLE);
             mPurchasedTextView.setVisibility(View.INVISIBLE);
             mThankYouTextView.setVisibility(View.INVISIBLE);
-            mOriginalPriceTextView.setText("$4.99");
-            mDiscountedPriceTextView.setText("$2.99");
             mBannerImageView.setClickable(true);
             mPriceImageView.setClickable(true);
         }

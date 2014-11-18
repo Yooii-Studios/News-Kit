@@ -39,7 +39,6 @@ public class IabManager {
         this.activity = activity;
         this.iapManagerListener = iapManagerListener;
         this.base64EncodedPublicKey = piece1.replaceAll("MT4wCvf12zdF", "") + piece2.replaceAll("Kztdffmfj1z8d", "") + piece3.replaceAll("A19fjaLezwo3", "") + piece4.replaceAll("44k1jFZ", "");
-        NLLog.now(this.base64EncodedPublicKey);
     }
 
     public void loadWithAllItems() {
