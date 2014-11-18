@@ -28,7 +28,7 @@ public class NewsFeedUrlProvider {
                 NewsFeedUrlType.GENERAL);
 
         mBottomNewsFeedUrlList = new ArrayList<NewsFeedUrl>();
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://feeds2.feedburner.com/time/topstories",
+        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://www.nikkei.com/news/category/?at=ALL",
                 NewsFeedUrlType.GENERAL));
         mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.cnn.com/rss/edition.rss",
                 NewsFeedUrlType.GENERAL));

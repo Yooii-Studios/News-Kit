@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.iab.util.Inventory;
-import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
 
 import java.util.List;
@@ -85,32 +85,32 @@ public class StoreProductItemAdapter extends BaseAdapter {
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_noads);
                     viewHolder.getTitleTextView().setText(R.string.store_no_ads_title);
 //                    viewHolder.getDescriptionTextView().setText();
-                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_NO_ADS);
+                    viewHolder.getPriceButton().setTag(IabProducts.SKU_NO_ADS);
                     break;
                 case 1:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_panels);
                     viewHolder.getTitleTextView().setText(R.string.store_more_panel_title);
 //                    viewHolder.getDescriptionTextView().setText();
-                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_MORE_PANELS);
+                    viewHolder.getPriceButton().setTag(IabProducts.SKU_MORE_PANELS);
                     break;
                 case 2:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_topic);
                     viewHolder.getTitleTextView().setText(R.string.store_topic_select);
 //                    viewHolder.getDescriptionTextView().setText();
-                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_TOPIC_SELECT);
+                    viewHolder.getPriceButton().setTag(IabProducts.SKU_TOPIC_SELECT);
                     break;
                 case 3:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
                     viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
 //                    viewHolder.getDescriptionTextView().setText();
-                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
                 // test
                 default:
                     viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
                     viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
 //                    viewHolder.getDescriptionTextView().setText();
-                    viewHolder.getPriceTextView().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
             }
             initPriceViews(viewHolder);
@@ -137,7 +137,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
         viewHolder.getLayout().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onItemPriceButtonClicked((String) viewHolder.getPriceTextView().getTag());
+                mListener.onItemPriceButtonClicked((String) viewHolder.getPriceButton().getTag());
             }
         });
     }
@@ -146,42 +146,42 @@ public class StoreProductItemAdapter extends BaseAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             float elevation =
                     mContext.getResources().getDimension(R.dimen.store_item_price_button_elevation);
-            viewHolder.getPriceImageView().setElevation(elevation);
-            viewHolder.getPriceTextView().setElevation(elevation);
+//            viewHolder.getPriceImageView().setElevation(elevation);
+            viewHolder.getPriceButton().setElevation(elevation);
         }
-        viewHolder.getPriceTextView().setSelected(true);
+        viewHolder.getPriceButton().setSelected(true);
 
         // price - check from inventory
-        String sku = (String) viewHolder.getPriceTextView().getTag();
+        String sku = (String) viewHolder.getPriceButton().getTag();
 
         // Google
         if (mInventory != null) {
             if (mInventory.hasDetails(sku)) {
                 if (mInventory.hasPurchase(sku)) {
-                    viewHolder.getPriceTextView().setText(R.string.store_purchased);
-                    viewHolder.getPriceImageView().setBackgroundResource(R.drawable.store_btn_raised_disable);
+                    viewHolder.getPriceButton().setText(R.string.store_purchased);
+                    viewHolder.getPriceButton().setBackgroundResource(R.drawable.store_btn_raised_disable_drawable);
                 } else {
-                    viewHolder.getPriceTextView().setText(mInventory.getSkuDetails(sku).getPrice());
+                    viewHolder.getPriceButton().setText(mInventory.getSkuDetails(sku).getPrice());
                 }
             }
         }
 
         // price - purchase check from ownedSkus - 풀버전, 언락은 ownedSkus 에서 체크
         if (mOwnedSkus != null && mOwnedSkus.contains(sku)) {
-            viewHolder.getPriceTextView().setText(R.string.store_purchased);
-            viewHolder.getPriceImageView().setBackgroundResource(R.drawable.store_btn_raised_disable);
+            viewHolder.getPriceButton().setText(R.string.store_purchased);
+            viewHolder.getPriceButton().setBackgroundResource(R.drawable.store_btn_raised_disable_drawable);
         } else {
             if (!StoreDebugCheckUtils.isUsingStore(mContext)) {
                 if (sku.equals(IabProducts.SKU_NO_ADS)) {
-                    viewHolder.getPriceTextView().setText("$1.99");
+                    viewHolder.getPriceButton().setText("$1.99");
                 } else {
-                    viewHolder.getPriceTextView().setText("$0.99");
+                    viewHolder.getPriceButton().setText("$0.99");
                 }
             }
         }
 
         // onClick
-        viewHolder.getPriceTextView().setOnClickListener(new View.OnClickListener() {
+        viewHolder.getPriceButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onItemPriceButtonClicked((String) v.getTag());
@@ -189,14 +189,14 @@ public class StoreProductItemAdapter extends BaseAdapter {
         });
 
         // set clickable
-        if (viewHolder.getPriceTextView().getText().toString().equals(
+        if (viewHolder.getPriceButton().getText().toString().equals(
                 mContext.getResources().getText(R.string.store_purchased))) {
-            viewHolder.getPriceTextView().setClickable(false);
-            viewHolder.getPriceTextView().setBackgroundColor(Color.TRANSPARENT);
+            viewHolder.getPriceButton().setClickable(false);
+            viewHolder.getPriceButton().setBackgroundResource(R.drawable.store_btn_raised_disable_drawable);
             viewHolder.getLayout().setClickable(false);
             viewHolder.getLayout().setBackgroundColor(Color.WHITE);
         } else {
-            viewHolder.getPriceTextView().setClickable(true);
+            viewHolder.getPriceButton().setClickable(true);
             viewHolder.getLayout().setFocusable(true);
         }
     }
@@ -208,8 +208,9 @@ public class StoreProductItemAdapter extends BaseAdapter {
         @Getter @InjectView(R.id.store_item_layout) RelativeLayout layout;
         @Getter @InjectView(R.id.store_item_image_view) ImageView imageView;
         @Getter @InjectView(R.id.store_item_title_text_view) TextView titleTextView;
-        @Getter @InjectView(R.id.store_item_price_image_view) ImageView priceImageView;
-        @Getter @InjectView(R.id.store_item_price_text_view) TextView priceTextView;
+//        @Getter @InjectView(R.id.store_item_price_image_view) ImageView priceImageView;
+//        @Getter @InjectView(R.id.store_item_price_text_view) TextView priceTextView;
+        @Getter @InjectView(R.id.store_item_price_button) Button priceButton;
 
         public StoreItemViewHolder(View view) {
             ButterKnife.inject(this, view);

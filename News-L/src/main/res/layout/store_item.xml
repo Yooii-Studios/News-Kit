@@ -16,28 +16,19 @@
         android:background="@drawable/store_icon_banner_topic"
         android:contentDescription="@string/content_description"/>
 
-    <ImageView
-        android:id="@+id/store_item_price_image_view"
+    <Button
+        android:id="@+id/store_item_price_button"
         android:layout_width="@dimen/store_item_price_button_width"
         android:layout_height="@dimen/store_item_price_button_height"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/store_item_base_margin"
-        android:background="@drawable/store_btn_raised_normal"
-        android:contentDescription="@string/content_description"/>
-
-    <TextView
-        android:id="@+id/store_item_price_text_view"
-        android:layout_width="@dimen/store_item_price_button_width"
-        android:layout_height="@dimen/store_item_price_button_height"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/store_item_base_margin"
-        android:background="?android:selectableItemBackground"
+        android:background="@drawable/store_btn_raised_selector"
         android:text="@string/store_item_price"
         android:textColor="@android:color/white"
         android:textSize="@dimen/store_item_description_text_size"
         android:textStyle="bold"
+        android:textAllCaps="false"
         android:gravity="center"/>
 
     <TextView
@@ -47,7 +38,7 @@
         android:layout_marginRight="@dimen/store_item_base_margin"
         android:layout_marginLeft="@dimen/store_item_base_margin"
         android:layout_toRightOf="@id/store_item_image_view"
-        android:layout_toLeftOf="@id/store_item_price_image_view"
+        android:layout_toLeftOf="@id/store_item_price_button"
         android:layout_centerVertical="true"
         android:background="#0a0"
         android:text="@string/store_item_debug_title"
