@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
@@ -90,7 +91,6 @@ public class NewsDetailActivity extends Activity {
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportZoom(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
@@ -108,6 +108,11 @@ public class NewsDetailActivity extends Activity {
                 getWindow().setTitle(title);
             }
         });
+
+        // 웹뷰 퍼포먼스 향상을 위한 코드들
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setJavaScriptEnabled(false);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
         mWebView.loadUrl(mNews.getLink());
 
@@ -199,6 +204,8 @@ public class NewsDetailActivity extends Activity {
     // onProgressChanged 에서 progress 가 업데이트됨
     private class NewsWebViewClient extends WebViewClient {
         private boolean mIsRedirected = false;
+        private long mStartTimeMilli;
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
@@ -211,6 +218,7 @@ public class NewsDetailActivity extends Activity {
             if (!mIsRedirected) {
                 //Do something you want when starts loading
                 mProgressBar.setVisibility(View.VISIBLE);
+                mStartTimeMilli = System.currentTimeMillis();
             }
             mIsRedirected = false;
         }
@@ -230,6 +238,9 @@ public class NewsDetailActivity extends Activity {
             if (!mIsRedirected) {
                 //Do something you want when finished loading
                 mProgressBar.setVisibility(View.INVISIBLE);
+
+                long timeTaken = System.currentTimeMillis() - mStartTimeMilli;
+                Log.i("webViewPerformance", "time taken : " + timeTaken);
             }
 
         }
