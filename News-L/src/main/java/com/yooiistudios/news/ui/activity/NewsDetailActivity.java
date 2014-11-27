@@ -111,7 +111,6 @@ public class NewsDetailActivity extends Activity {
 
         // 웹뷰 퍼포먼스 향상을 위한 코드들
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webSettings.setJavaScriptEnabled(false);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
         mWebView.loadUrl(mNews.getLink());
