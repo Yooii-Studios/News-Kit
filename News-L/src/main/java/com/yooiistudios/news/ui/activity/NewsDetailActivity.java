@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.webkit.WebBackForwardList;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,6 +23,7 @@ import android.widget.RelativeLayout;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.FloatingActionButton;
+import com.yooiistudios.news.ui.widget.HTML5WebView;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.WebUtils;
 
@@ -33,7 +33,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends Activity
+        implements HTML5WebView.HTML5WebViewCallback {
     private static final String TAG = NewsDetailActivity.class.getName();
 
     @InjectView(R.id.news_detail_root)              RelativeLayout mRootContainer;
@@ -41,8 +42,11 @@ public class NewsDetailActivity extends Activity {
 //    @InjectView(R.id.news_detail_loading_container) FrameLayout mLoadingLayout;
     @InjectView(R.id.news_detail_progress_bar)      ProgressBar mProgressBar;
 
-    private WebView mWebView;
+    private HTML5WebView mWebView;
     private News mNews;
+
+//    private boolean mIsRedirected = false;
+    private long mStartTimeMilli;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,31 +87,33 @@ public class NewsDetailActivity extends Activity {
     }
 
     private void initWebView() {
-        mWebView = new WebView(getApplicationContext());
-        mRootContainer.addView(mWebView,
+        mWebView = new HTML5WebView(this);
+        mRootContainer.addView(mWebView.getLayout(),
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
 
         WebSettings webSettings = mWebView.getSettings();
-        webSettings.setBuiltInZoomControls(true);
+//        webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
         webSettings.setSupportZoom(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
-        mWebView.setWebViewClient(new NewsWebViewClient());
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                mProgressBar.setProgress(newProgress);
-            }
-
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                getWindow().setTitle(title);
-            }
-        });
+//        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setUseWideViewPort(true);
+//        mWebView.setWebViewClient(new NewsWebViewClient());
+//        mWebView.setWebChromeClient(new WebChromeClient() {
+//            @Override
+//            public void onProgressChanged(WebView view, int newProgress) {
+//                super.onProgressChanged(view, newProgress);
+//                mProgressBar.setProgress(newProgress);
+//            }
+//
+//            @Override
+//            public void onReceivedTitle(WebView view, String title) {
+//                super.onReceivedTitle(view, title);
+//                getWindow().setTitle(title);
+//            }
+//        });
+        mWebView.setHTML5WebViewCallback(this);
 
         // 웹뷰 퍼포먼스 향상을 위한 코드들
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -168,6 +174,38 @@ public class NewsDetailActivity extends Activity {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        return false;
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap facIcon) {
+        //Do something you want when starts loading
+        mProgressBar.setVisibility(View.VISIBLE);
+        mStartTimeMilli = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        //Do something you want when finished loading
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        long timeTaken = System.currentTimeMillis() - mStartTimeMilli;
+        Log.i("webViewPerformance", "time taken : " + timeTaken);
+    }
+
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+        mProgressBar.setProgress(newProgress);
+        NLLog.i("webview progress", "progress : " + newProgress);
+    }
+
+    @Override
+    public void onReceivedTitle(WebView view, String title) {
+        getWindow().setTitle(title);
     }
 
     /*
