@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -135,8 +134,8 @@ public class MainActivity extends Activity
         mMainTopContainerLayout.init(this, needsRefresh);
         mMainBottomContainerLayout.init(this, needsRefresh);
         showMainContentIfReady();
-        applySystemWindowsBottomInset();
         initAdView();
+        applySystemWindowsBottomInset();
     }
 
     private void initRefreshLayout() {
@@ -184,7 +183,9 @@ public class MainActivity extends Activity
             mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
             mAdView.setVisibility(View.GONE);
 
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
         } else {
             int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
             mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
@@ -194,7 +195,9 @@ public class MainActivity extends Activity
             adViewLp.bottomMargin = mSystemWindowInset;
 
             // 네비게이션바에 색상 입히기
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
 //            getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_background));
 
             mAdView.resume();
@@ -202,32 +205,35 @@ public class MainActivity extends Activity
         }
     }
 
-    private void asdf() {
-        getWindow().setNavigationBarColor(Color.RED);
-    }
-
     public ViewGroup getMainTopContainerLayout() {
         return mMainTopContainerLayout;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applySystemWindowsBottomInset() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mScrollingContent.setFitsSystemWindows(true);
-            mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    DisplayMetrics metrics = getResources().getDisplayMetrics();
-                    if (metrics.widthPixels < metrics.heightPixels) {
-                        mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
-                    } else {
-                        mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
-                    }
-                    checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
-                    return windowInsets.consumeSystemWindowInsets();
-                }
-            });
+            applySystemWindowsBottomInsetAfterLollipop();
+        } else {
+            mSystemWindowInset = 0;
+            checkAdView();
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void applySystemWindowsBottomInsetAfterLollipop() {
+        mScrollingContent.setFitsSystemWindows(true);
+        mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
+                } else {
+                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
+                }
+                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
     }
 
     @Override
