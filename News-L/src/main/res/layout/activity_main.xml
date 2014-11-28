@@ -39,17 +39,10 @@
         android:id="@+id/main_adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/main_bottom_button_view"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-2310680050309555/9954673820" />
-
-    <View
-        android:id="@+id/main_bottom_button_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/black" />
 
     <RelativeLayout
         android:id="@+id/main_loading_container"

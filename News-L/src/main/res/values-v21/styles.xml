@@ -47,6 +47,7 @@
     </style>
 
     <style name="MainActivityTheme" parent="MainTheme">
+        <item name="android:navigationBarColor">@color/theme_background</item>
     </style>
 
     <!-- Detail -->

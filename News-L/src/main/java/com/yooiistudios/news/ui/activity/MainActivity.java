@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -60,7 +62,6 @@ public class MainActivity extends Activity
 
     // Ad
     @InjectView(R.id.main_adView)                   AdView mAdView;
-    @InjectView(R.id.main_bottom_button_view)       View mBottomButtonView;
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
@@ -182,15 +183,27 @@ public class MainActivity extends Activity
         if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
             mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
             mAdView.setVisibility(View.GONE);
-            mBottomButtonView.setVisibility(View.GONE);
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         } else {
             int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
             mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
             mAdView.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams adViewLp =
+                    (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
+            adViewLp.bottomMargin = mSystemWindowInset;
+
+            // 네비게이션바에 색상 입히기
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_background));
+
             mAdView.resume();
             mQuitAdView.resume();
-            mBottomButtonView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void asdf() {
+        getWindow().setNavigationBarColor(Color.RED);
     }
 
     public ViewGroup getMainTopContainerLayout() {
@@ -210,7 +223,6 @@ public class MainActivity extends Activity
                     } else {
                         mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
                     }
-                    mBottomButtonView.getLayoutParams().height = mSystemWindowInset;
                     checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                     return windowInsets.consumeSystemWindowInsets();
                 }
