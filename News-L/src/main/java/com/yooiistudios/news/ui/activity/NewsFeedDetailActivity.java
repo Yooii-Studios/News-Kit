@@ -43,6 +43,7 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.PathInterpolator;
@@ -196,7 +197,6 @@ public class NewsFeedDetailActivity extends Activity
 
     @InjectView(R.id.newsfeed_detail_ad_upper_view) View mAdUpperView;
     @InjectView(R.id.newsfeed_detail_adView) AdView mAdView;
-    @InjectView(R.id.newsfeed_detail_button_view) View mBottomView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +219,7 @@ public class NewsFeedDetailActivity extends Activity
             mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
         }
 
-        applySystemWindowsBottomInset(R.id.detail_scroll_content_wrapper);
+        applySystemWindowsBottomInset();
         initRootLayout();
         initActionBar();
         initSwipeRefreshView();
@@ -304,16 +304,28 @@ public class NewsFeedDetailActivity extends Activity
     private void checkAdView() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
         if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            mScrollView.setPadding(0, 0, 0, mWindowInsetEnd);
+            mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd);
             mAdUpperView.setVisibility(View.GONE);
             mAdView.setVisibility(View.GONE);
-            mBottomView.setVisibility(View.GONE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
         } else {
             int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
-            mScrollView.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
+            mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
+            mAdUpperView.setVisibility(View.VISIBLE);
             mAdView.setVisibility(View.VISIBLE);
             mAdView.resume();
-            mBottomView.setVisibility(View.VISIBLE);
+
+            RelativeLayout.LayoutParams adViewLp =
+                    (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
+            adViewLp.bottomMargin = mWindowInsetEnd;
+
+            // 네비게이션바에 색상 입히기
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
         }
     }
 
@@ -473,7 +485,6 @@ public class NewsFeedDetailActivity extends Activity
                 mTopNewsTextLayout.bringToFront();
                 mBottomNewsListRecyclerView.bringToFront();
                 mLoadingCoverView.bringToFront();
-                mBottomView.bringToFront();
 
                 mIsAnimatingActivityTransitionAnimation = false;
             }
@@ -1465,27 +1476,36 @@ public class NewsFeedDetailActivity extends Activity
 //        NLWebUtils.openLink(this, news.getLink());
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applySystemWindowsBottomInset(int container) {
+    private void applySystemWindowsBottomInset() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            View containerView = findViewById(container);
-            containerView.setFitsSystemWindows(true);
-            containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    DisplayMetrics metrics = getResources().getDisplayMetrics();
-                    if (metrics.widthPixels < metrics.heightPixels) {
-                        mWindowInsetEnd = windowInsets.getSystemWindowInsetBottom();
-                        view.setPadding(0, 0, 0, mWindowInsetEnd);
-                    } else {
-                        mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
-                        view.setPadding(0, 0, mWindowInsetEnd, 0);
-                    }
-                    mBottomView.getLayoutParams().height = mWindowInsetEnd;
-                    return windowInsets.consumeSystemWindowInsets();
-                }
-            });
+            applySystemWindowsBottomInsetAfterLollipop();
+        } else {
+            mWindowInsetEnd = 0;
+
+            checkAdView();
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void applySystemWindowsBottomInsetAfterLollipop() {
+        mScrollContentWrapper.setFitsSystemWindows(true);
+        mScrollContentWrapper.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                if (metrics.widthPixels < metrics.heightPixels) {
+                    mWindowInsetEnd = windowInsets.getSystemWindowInsetBottom();
+                    view.setPadding(0, 0, 0, mWindowInsetEnd);
+                } else {
+                    mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
+                    view.setPadding(0, 0, mWindowInsetEnd, 0);
+                }
+
+                checkAdView();
+
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
     }
 
     /**
