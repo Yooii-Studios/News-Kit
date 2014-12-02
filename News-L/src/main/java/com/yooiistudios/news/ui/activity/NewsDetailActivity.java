@@ -200,7 +200,6 @@ public class NewsDetailActivity extends Activity
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         mProgressBar.setProgress(newProgress);
-        NLLog.i("webview progress", "progress : " + newProgress);
     }
 
     @Override

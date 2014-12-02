@@ -22,7 +22,6 @@
 
         <!-- 액션바, 상태바 투명하게 만듦 -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="MainActionBar" parent="android:Widget.Holo.Light.ActionBar">

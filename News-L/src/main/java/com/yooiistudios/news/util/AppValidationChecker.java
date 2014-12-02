@@ -13,29 +13,22 @@ public class AppValidationChecker {
 
     private AppValidationChecker() { throw new AssertionError(); } // You must not create instance
 
-    public static void validationCheck(Activity c)
-    {
+    public static void validationCheck(Activity c) {
         Calendar calendarForCheck = Calendar.getInstance();
         
         boolean isValidate = true;
         
-        if (calendarForCheck.get(Calendar.YEAR) >= VALIDATE_YEAR)
-        {
-            if (calendarForCheck.get(Calendar.MONTH) > VALIDATE_MONTH)
-            {
+        if (calendarForCheck.get(Calendar.YEAR) >= VALIDATE_YEAR) {
+            if (calendarForCheck.get(Calendar.MONTH) > VALIDATE_MONTH) {
                 isValidate = false;
-            }
-            else if (calendarForCheck.get(Calendar.MONTH) == VALIDATE_MONTH)
-            {
-                if (calendarForCheck.get(Calendar.DAY_OF_MONTH) > VALIDATE_DAY)
-                {
+            } else if (calendarForCheck.get(Calendar.MONTH) == VALIDATE_MONTH) {
+                if (calendarForCheck.get(Calendar.DAY_OF_MONTH) > VALIDATE_DAY) {
                     isValidate = false;
                 }
             }
         }
         
-        if (!isValidate)
-        {
+        if (!isValidate) {
             Toast.makeText(c.getApplicationContext(), "News L is over the validation date. Please request to the developer.", Toast.LENGTH_SHORT).show();
             c.finish();
         }
