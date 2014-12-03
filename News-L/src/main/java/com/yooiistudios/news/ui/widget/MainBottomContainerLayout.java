@@ -1,5 +1,6 @@
 package com.yooiistudios.news.ui.widget;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -65,6 +66,11 @@ public class MainBottomContainerLayout extends FrameLayout
     private static final String TAG = MainBottomContainerLayout.class.getName();
     private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
 
+    // 패널 갯수 관련 상수
+    public static final String PANEL_COUNT_SHARED_PREFERENCES = "PANEL_COUNT_SHARED_PREFERENCES";
+    public static final String PANEL_COUNT_KEY = "PANEL_COUNT_KEY";
+    public static final int PANEL_COUNT_VALUE = 6;
+
 //    private ArrayList<NewsFeed> mBottomNewsFeedList;
 
     private MainBottomAdapter mBottomNewsFeedAdapter;
@@ -102,6 +108,7 @@ public class MainBottomContainerLayout extends FrameLayout
         init(context);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MainBottomContainerLayout(Context context, AttributeSet attrs, int defStyleAttr,
                                      int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

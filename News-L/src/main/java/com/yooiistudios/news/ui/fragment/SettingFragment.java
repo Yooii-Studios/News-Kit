@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -23,6 +24,7 @@ import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
@@ -43,6 +45,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         LANGUAGE(R.string.setting_language),
         NEWSFEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
+        PANEL_COUNT(R.string.setting_panel_count),
         SHARE_APP(R.string.setting_share_this_app),
         RATE(R.string.setting_rate_this_app),
         TUTORIAL(R.string.setting_tutorial),
@@ -110,6 +113,8 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
+        final Context context = getActivity().getApplicationContext();
+        SharedPreferences preferences;
         switch (item) {
             case LANGUAGE:
                 showLanguageDialog();
@@ -120,13 +125,48 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case KEEP_SCREEN_ON:
-                Context context = getActivity().getApplicationContext();
-                SharedPreferences preferences = context.getSharedPreferences(
+                preferences = context.getSharedPreferences(
                         KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
                 preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
 
                 mSettingAdapter.notifyDataSetChanged();
+                break;
+
+            case PANEL_COUNT:
+                preferences = context.getSharedPreferences(
+                        MainBottomContainerLayout.PANEL_COUNT_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                int currentPanelCount = preferences.getInt(MainBottomContainerLayout.PANEL_COUNT_KEY,
+                                MainBottomContainerLayout.PANEL_COUNT_VALUE);
+
+                final NumberPicker numberPicker = new NumberPicker(getActivity());
+                numberPicker.setMinValue(1);
+                numberPicker.setMaxValue(6);
+                numberPicker.setValue(currentPanelCount);
+                numberPicker.setWrapSelectorWheel(false);
+                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.setting_panel_count)
+                        .setView(numberPicker)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences preferences = context.getSharedPreferences(
+                                        MainBottomContainerLayout.PANEL_COUNT_SHARED_PREFERENCES,
+                                        Context.MODE_PRIVATE);
+                                preferences.edit()
+                                        .putInt(MainBottomContainerLayout.PANEL_COUNT_KEY,
+                                                numberPicker.getValue())
+                                        .apply();
+
+                                mSettingAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override public void onClick(DialogInterface dialog, int which) {}
+                        })
+                        .show();
                 break;
 
             case SHARE_APP:

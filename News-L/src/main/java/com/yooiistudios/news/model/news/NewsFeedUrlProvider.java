@@ -27,7 +27,7 @@ public class NewsFeedUrlProvider {
         mTopNewsFeedUrl = new NewsFeedUrl("http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
                 NewsFeedUrlType.GENERAL);
 
-        mBottomNewsFeedUrlList = new ArrayList<NewsFeedUrl>();
+        mBottomNewsFeedUrlList = new ArrayList<>();
         mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://feeds2.feedburner.com/time/topstories",
                 NewsFeedUrlType.GENERAL));
         mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.cnn.com/rss/edition.rss",

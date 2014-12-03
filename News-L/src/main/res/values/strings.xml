@@ -33,6 +33,8 @@
     <string name="setting_newsfeed_auto_scroll">News list auto scroll</string>
     <string name="setting_keep_screen_on">Keep screen on</string>
     <string name="setting_keep_screen_on_description">test</string>
+    <string name="setting_panel_count">Panel count</string>
+    <string name="setting_panel_count_description">%1$d panels</string>
     <string name="setting_share_this_app">Share this app</string>
     <string name="setting_rate_this_app">Rate this app</string>
     <string name="setting_tutorial">Tutorial</string>
