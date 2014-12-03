@@ -1,5 +1,6 @@
 package com.yooiistudios.news.model.debug;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,8 @@ public class DebugSettingDialogFactory {
 
     public static void showAutoScrollSettingDialog(final Context context,
                                                    final DebugSettingListener listener) {
+
+        @SuppressLint("InflateParams")
         final View dialogContent = LayoutInflater.from(context).inflate(R.layout
                 .dialog_auto_scroll_setting, null);
 

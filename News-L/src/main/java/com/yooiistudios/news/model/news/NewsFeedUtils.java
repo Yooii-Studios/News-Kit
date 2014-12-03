@@ -145,15 +145,13 @@ public class NewsFeedUtils {
             urlList.remove(urlList.size()-1);
         }
 
-        SharedPreferences prefs = context.getSharedPreferences(
-                PREF_NEWS_FEED, Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NEWS_FEED, Context.MODE_PRIVATE);
 
         prefs.edit().putString(KEY_HISTORY, new Gson().toJson(urlList)).apply();
     }
 
     public static ArrayList<String> getUrlHistory(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(
-                PREF_NEWS_FEED, Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NEWS_FEED, Context.MODE_PRIVATE);
         String historyJsonStr = prefs.getString(KEY_HISTORY, null);
 
         if (historyJsonStr != null) {

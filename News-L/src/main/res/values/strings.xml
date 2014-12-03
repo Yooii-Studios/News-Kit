@@ -25,6 +25,7 @@
     <!-- News Select -->
     <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
     <string name="title_activity_news">Select News</string>
+    <string name="custom_news_feed_dialog_title">Enter RSS URL</string>
 
     <!-- Setting -->
     <string name="title_activity_setting">Setting</string>

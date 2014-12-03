@@ -1,5 +1,6 @@
 package com.yooiistudios.news.ui.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -173,6 +174,7 @@ public class HTML5WebView extends WebView {
             return mDefaultVideoPoster;
         }
 
+        @SuppressLint("InflateParams")
         @Override
         public View getVideoLoadingProgressView() {
             //Log.i(LOGTAG, "here in on getVideoLoadingPregressView");

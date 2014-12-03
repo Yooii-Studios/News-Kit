@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/custom_news_feed_dialog_height"
+              android:padding="@dimen/custom_news_feed_dialog_padding">
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="@dimen/custom_news_feed_dialog_clear_btn_size"
+        android:layout_height="@dimen/custom_news_feed_dialog_clear_btn_size"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/custom_news_feed_dialog_padding"
+        android:background="@drawable/ic_action_cancel" />
+    <AutoCompleteTextView xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="LabelFor,RtlSymmetry"
+        android:id="@+id/urlEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingEnd="@dimen/custom_news_feed_dialog_clear_btn_left_margin"
+        android:longClickable="false"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/custom_news_feed_dialog_edittext_text_size"/>
+</RelativeLayout>

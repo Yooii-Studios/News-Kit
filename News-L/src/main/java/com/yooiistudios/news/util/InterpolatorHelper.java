@@ -1,6 +1,7 @@
 package com.yooiistudios.news.util;
 
 import android.animation.TimeInterpolator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +47,7 @@ public class InterpolatorHelper {
     }
     
     public static void showDialog(final Context context) {
+        @SuppressLint("InflateParams")
         final View dialogContent = LayoutInflater.from(context).inflate(R.layout
                 .dialog_bezier, null);
         AlertDialog dialog = new AlertDialog.Builder(context)

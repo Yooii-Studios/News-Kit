@@ -28,11 +28,11 @@ public class NewsFeedFetchUtil {
     public static NewsFeed fetch(Context context, NewsFeedUrl feedUrl, int fetchLimit,
                                  boolean shuffle) {
 
-        if (!feedUrl.getType().equals(NewsFeedUrlType.GENERAL)) {
-            // 디폴트 세팅을 사용할 경우 패널단에서 언어설정을 감지 못하므로 무조건 현재 언어의
-            // 디폴트 url을 가져온다.
-            feedUrl = NewsFeedUtils.getDefaultFeedUrl(context);
-        }
+//        if (!feedUrl.getType().equals(NewsFeedUrlType.GENERAL)) {
+//            // 디폴트 세팅을 사용할 경우 패널단에서 언어설정을 감지 못하므로 무조건 현재 언어의
+//            // 디폴트 url을 가져온다.
+//            feedUrl = NewsFeedUtils.getDefaultFeedUrl(context);
+//        }
 
         NewsFeed feed = null;
         try {

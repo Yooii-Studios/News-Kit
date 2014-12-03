@@ -46,4 +46,5 @@
 
     <!-- News Select -->
     <dimen name="news_select_row_padding">15dp</dimen>
+    <!--<dimen name="custom_news_feed_dialog_clear_btn_size">45dp</dimen>-->
 </resources>

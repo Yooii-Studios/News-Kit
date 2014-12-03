@@ -10,4 +10,5 @@ public enum NewsFeedUrlType {
     GENERAL,
     GOOGLE,
     YAHOO,
+    CUSTOM,
 }
