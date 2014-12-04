@@ -10,6 +10,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
+
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 25.
  *
@@ -63,11 +67,14 @@ public class NewsFeedArchiveUtils {
     }
 
     public static ArrayList<NewsFeed> loadBottomNews(Context context) {
-        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences prefs = context.getSharedPreferences(
+                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        int panelMatrixUniqueKey = prefs.getInt(PANEL_MATRIX_KEY, PANEL_MATRIX.getDefault().uniqueKey);
+        PANEL_MATRIX panelMatrix = PANEL_MATRIX.getByUniqueKey(panelMatrixUniqueKey);
 
+        prefs = getSharedPreferences(context);
         int bottomNewsFeedLargestIndex = prefs.getInt(KEY_BOTTOM_NEWS_FEED_LARGEST_INDEX, -1);
-//        prefs.contains()
-        ArrayList<NewsFeed> feedList = new ArrayList<NewsFeed>();
+        ArrayList<NewsFeed> feedList = new ArrayList<>();
         if (bottomNewsFeedLargestIndex < 0) {
             // cache된 내용 없는 경우. 새로 만들어서 리턴.
             ArrayList<NewsFeedUrl> urlList =
@@ -76,6 +83,10 @@ public class NewsFeedArchiveUtils {
                 NewsFeed newsFeed = new NewsFeed();
                 newsFeed.setNewsFeedUrl(newsFeedUrl);
                 feedList.add(newsFeed);
+
+                if (feedList.size() >= panelMatrix.panelCount) {
+                    break;
+                }
             }
         } else {
             // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
@@ -86,6 +97,10 @@ public class NewsFeedArchiveUtils {
                     Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
                 }
                 feedList.add(newsFeed);
+
+                if (feedList.size() >= panelMatrix.panelCount) {
+                    break;
+                }
             }
         }
         return feedList;

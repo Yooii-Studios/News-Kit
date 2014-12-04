@@ -87,6 +87,7 @@ public class MainActivity extends Activity
             "INTENT_KEY_TRANSITION_PROPERTY";
 
     public static final int RC_NEWS_FEED_DETAIL = 10001;
+    public static final int RC_SETTING = 10002;
 
     /**
      * Auto Refresh Handler
@@ -126,13 +127,11 @@ public class MainActivity extends Activity
         NLLog.i("BackgroundServiceUtils", "onCreate");
         BackgroundServiceUtils.startService(getApplicationContext());
 
-        boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getApplicationContext());
-
         // TODO off-line configuration
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initRefreshLayout();
-        mMainTopContainerLayout.init(this, needsRefresh);
-        mMainBottomContainerLayout.init(this, needsRefresh);
+        mMainTopContainerLayout.init(this);
+        mMainBottomContainerLayout.init(this);
         showMainContentIfReady();
         initAdView();
         applySystemWindowsBottomInset();
@@ -274,7 +273,7 @@ public class MainActivity extends Activity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingActivity.class));
+            startActivityForResult(new Intent(MainActivity.this, SettingActivity.class), RC_SETTING);
             return true;
         } else if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
@@ -467,6 +466,13 @@ public class MainActivity extends Activity
                         }
                     }
 
+                    break;
+                case RC_SETTING:
+//                    boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);
+
+//                    if (panelMatrixChanged) {
+//                        mMainBottomContainerLayout.loadNewsFeed();
+//                    }
                     break;
             }
         }

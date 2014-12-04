@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
+
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 3.
@@ -88,12 +91,15 @@ public class SettingAdapter extends BaseAdapter {
                 descriptionTextView.setVisibility(View.VISIBLE);
 
                 preferences = mContext.getSharedPreferences(
-                        MainBottomContainerLayout.PANEL_COUNT_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                int currentPanelCount = preferences.getInt(MainBottomContainerLayout.PANEL_COUNT_KEY,
-                        MainBottomContainerLayout.PANEL_COUNT_VALUE);
+                        PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                int currentPanelUniqueKey = preferences.getInt(PANEL_MATRIX_KEY,
+                        PANEL_MATRIX.getDefault().uniqueKey);
 
-                descriptionTextView.setText(mContext.getString(R.string
-                        .setting_panel_count_description, currentPanelCount));
+                PANEL_MATRIX currentPanelMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelUniqueKey);
+
+                descriptionTextView.setText(
+                        mContext.getString(R.string.setting_panel_count_description,
+                                currentPanelMatrix.displayName));
                 break;
             default:
                 descriptionTextView.setVisibility(View.GONE);

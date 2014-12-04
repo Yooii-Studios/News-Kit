@@ -24,7 +24,6 @@ import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
@@ -32,6 +31,11 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
+
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 3.
@@ -69,11 +73,40 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     private static final String LINK_APP_PREFIX = "fb://profile/";
     private static final String FB_YOOII_ID = "652380814790935";
 
+    private static final String SI_PANEL_MATRIX_KEY = "SI_PANEL_MATRIX_KEY";
+
     @InjectView(R.id.setting_list_view) ListView mListView;
     @InjectView(R.id.setting_adView) AdView mAdView;
     private SettingAdapter mSettingAdapter;
 
+    private int mPreviousPanelMatrixKey = -1;
+
+    public interface OnSettingChangedListener {
+        public void onPanelMatrixChanged(boolean changed);
+    }
+
     public SettingFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            SharedPreferences preferences = getActivity().getSharedPreferences(
+                    PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            mPreviousPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
+                    PANEL_MATRIX.getDefault().uniqueKey);
+        } else {
+            mPreviousPanelMatrixKey = savedInstanceState.getInt(SI_PANEL_MATRIX_KEY);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(SI_PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
     }
 
     @Override
@@ -106,11 +139,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
         final Context context = getActivity().getApplicationContext();
@@ -135,14 +163,16 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
             case PANEL_COUNT:
                 preferences = context.getSharedPreferences(
-                        MainBottomContainerLayout.PANEL_COUNT_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                int currentPanelCount = preferences.getInt(MainBottomContainerLayout.PANEL_COUNT_KEY,
-                                MainBottomContainerLayout.PANEL_COUNT_VALUE);
+                        PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                int currentPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
+                        PANEL_MATRIX.getDefault().uniqueKey);
 
                 final NumberPicker numberPicker = new NumberPicker(getActivity());
-                numberPicker.setMinValue(1);
-                numberPicker.setMaxValue(6);
-                numberPicker.setValue(currentPanelCount);
+                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
+                numberPicker.setDisplayedValues(panelMatrixArr);
+                numberPicker.setMinValue(0);
+                numberPicker.setMaxValue(panelMatrixArr.length - 1);
+                numberPicker.setValue(PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
                 numberPicker.setWrapSelectorWheel(false);
                 numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
@@ -152,15 +182,23 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                int idx = numberPicker.getValue();
+                                PANEL_MATRIX selectedPanelMatrix = PANEL_MATRIX.values()[idx];
+
                                 SharedPreferences preferences = context.getSharedPreferences(
-                                        MainBottomContainerLayout.PANEL_COUNT_SHARED_PREFERENCES,
+                                        PANEL_MATRIX_SHARED_PREFERENCES,
                                         Context.MODE_PRIVATE);
                                 preferences.edit()
-                                        .putInt(MainBottomContainerLayout.PANEL_COUNT_KEY,
-                                                numberPicker.getValue())
+                                        .putInt(PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
                                         .apply();
 
                                 mSettingAdapter.notifyDataSetChanged();
+
+                                if (getActivity() instanceof OnSettingChangedListener) {
+                                    ((OnSettingChangedListener)getActivity()).onPanelMatrixChanged(
+                                            selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
+                                    );
+                                }
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
