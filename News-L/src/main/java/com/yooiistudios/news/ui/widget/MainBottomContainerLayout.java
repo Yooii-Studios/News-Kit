@@ -273,7 +273,7 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void loadNewsFeed() {
-        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNews(getContext()));
+        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext()));
 
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext());
         if (needsRefresh) {
