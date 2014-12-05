@@ -162,6 +162,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case PANEL_COUNT:
+                if (!IabProducts.containsSku(getActivity(), IabProducts.SKU_MORE_PANELS)) {
+                    break;
+                }
                 preferences = context.getSharedPreferences(
                         PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 int currentPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,

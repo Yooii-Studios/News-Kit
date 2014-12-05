@@ -26,6 +26,9 @@
 
     <color name="theme_detail_selected_background">#339e9e9e</color>
 
+    <!-- Setting -->
+    <color name="setting_locked_item_background">#c1c1c1</color>
+
     <!-- Store -->
     <color name="store_color_primary">#e0e0e0</color>
     <color name="store_color_primary_dark">#757575</color>
