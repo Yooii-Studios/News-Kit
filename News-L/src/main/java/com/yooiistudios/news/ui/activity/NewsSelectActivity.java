@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -72,6 +73,10 @@ public class NewsSelectActivity extends Activity
         int id = item.getItemId();
         switch (id) {
             case R.id.action_custom_news_feed:
+                if (!IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_CUSTOM_RSS_URL)) {
+                    Toast.makeText(this, R.string.iab_item_unavailable, Toast.LENGTH_LONG).show();
+                    return true;
+                }
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                 if (prev != null) {

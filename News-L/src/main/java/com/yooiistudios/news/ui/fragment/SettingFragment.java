@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -163,6 +164,8 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
             case PANEL_COUNT:
                 if (!IabProducts.containsSku(getActivity(), IabProducts.SKU_MORE_PANELS)) {
+                    Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG)
+                            .show();
                     break;
                 }
                 preferences = context.getSharedPreferences(
