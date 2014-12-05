@@ -45,14 +45,14 @@ public class BottomNewsImageFetchManager
     }
 
     private BottomNewsImageFetchManager() {
-        mBottomNewsFeedNewsToImageTaskMap = new HashMap<News, BottomNewsImageFetchTask>();
-        mNewsToFetchMap = new HashMap<News, Pair<Boolean, Integer>>();
+        mBottomNewsFeedNewsToImageTaskMap = new HashMap<>();
+        mNewsToFetchMap = new HashMap<>();
     }
 
     public void fetchAllDisplayingNewsImageList(ImageLoader imageLoader,
                                                 ArrayList<NewsFeed> newsFeedList,
                                                 OnFetchListener listener, int taskType) {
-        SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<NewsFeed>();
+        SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
         for (int i = 0; i < newsFeedList.size(); i++) {
             newsFeedToIndexSparseArray.put(i, newsFeedList.get(i));
         }
@@ -70,7 +70,7 @@ public class BottomNewsImageFetchManager
                                          OnFetchListener listener, int newsFeedIndex,
                                          int taskType) {
 
-        SparseArray<NewsFeed> list = new SparseArray<NewsFeed>();
+        SparseArray<NewsFeed> list = new SparseArray<>();
         list.put(newsFeedIndex, newsFeed);
 
         fetch(imageLoader, list, listener, taskType, false);
@@ -78,7 +78,7 @@ public class BottomNewsImageFetchManager
 
     public void fetchAllNextNewsImageList(ImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                           OnFetchListener listener, int taskType) {
-        SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<NewsFeed>();
+        SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
         for (int i = 0; i < newsFeedList.size(); i++) {
             newsFeedToIndexSparseArray.put(i, newsFeedList.get(i));
         }
@@ -88,7 +88,7 @@ public class BottomNewsImageFetchManager
     public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
                                    OnFetchListener listener, int newsFeedIndex, int taskType) {
 
-        SparseArray<NewsFeed> list = new SparseArray<NewsFeed>();
+        SparseArray<NewsFeed> list = new SparseArray<>();
         list.put(newsFeedIndex, newsFeed);
 
         fetch(imageLoader, list, listener, taskType, true);
@@ -105,9 +105,9 @@ public class BottomNewsImageFetchManager
         }
 
         mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()),
-                new Pair<Boolean, Integer>(false, newsFeedIndex));
+                new Pair<>(false, newsFeedIndex));
         mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
-                new Pair<Boolean, Integer>(false, newsFeedIndex));
+                new Pair<>(false, newsFeedIndex));
 
         _fetch(imageLoader);
     }
@@ -126,10 +126,8 @@ public class BottomNewsImageFetchManager
                 return;
             }
 
-            mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()),
-                    new Pair<Boolean, Integer>(false, i));
-            mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
-                    new Pair<Boolean, Integer>(false, i));
+            mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()), new Pair<>(false, i));
+            mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()), new Pair<>(false, i));
         }
 
         _fetch(imageLoader);
@@ -162,7 +160,7 @@ public class BottomNewsImageFetchManager
 
             News news = newsList.get(indexToFetch);
 
-            mNewsToFetchMap.put(news, new Pair<Boolean, Integer>(false, newsFeedMap.keyAt(i)));
+            mNewsToFetchMap.put(news, new Pair<>(false, newsFeedMap.keyAt(i)));
         }
 
         _fetch(imageLoader);
@@ -222,10 +220,7 @@ public class BottomNewsImageFetchManager
             mListener.onBottomNewsImageFetch(position);
         }
 
-        mNewsToFetchMap.put(
-                news,
-                new Pair<Boolean, Integer>(true, newsFetchedToIndexPair.second)
-        );
+        mNewsToFetchMap.put(news, new Pair<>(true, newsFetchedToIndexPair.second));
 
         boolean allFetched = true;
         for (Map.Entry<News, Pair<Boolean, Integer>> entry : mNewsToFetchMap.entrySet()) {

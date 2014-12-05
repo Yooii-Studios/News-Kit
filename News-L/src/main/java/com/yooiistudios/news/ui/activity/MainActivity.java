@@ -329,12 +329,18 @@ public class MainActivity extends Activity
         startNewsAutoRefreshIfReady();
     }
 
+    @Override
+    public void onMainBottomMatrixChanged() {
+        startNewsAutoRefreshIfReady();
+    }
+
     private void startNewsAutoRefreshIfReady() {
         if (mMainTopContainerLayout.isReady()
                 && mMainBottomContainerLayout.isInitialized()
                 && mMainBottomContainerLayout.isInitializedFirstImages()
                 && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()
-                && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
+                && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()
+                && !mMainBottomContainerLayout.isFetchingAddedBottomNewsFeeds()) {
             startNewsAutoRefresh();
         }
     }
@@ -468,11 +474,11 @@ public class MainActivity extends Activity
 
                     break;
                 case RC_SETTING:
-//                    boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);
+                    boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);
 
-//                    if (panelMatrixChanged) {
-//                        mMainBottomContainerLayout.loadNewsFeed();
-//                    }
+                    if (panelMatrixChanged) {
+                        mMainBottomContainerLayout.notifyPanelMatrixChanged();
+                    }
                     break;
             }
         }
