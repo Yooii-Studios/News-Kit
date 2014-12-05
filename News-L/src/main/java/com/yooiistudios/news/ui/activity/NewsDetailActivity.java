@@ -1,17 +1,12 @@
 package com.yooiistudios.news.ui.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
@@ -24,7 +19,6 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.FloatingActionButton;
 import com.yooiistudios.news.ui.widget.HTML5WebView;
-import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.WebUtils;
 
 import java.lang.reflect.Field;
@@ -121,60 +115,49 @@ public class NewsDetailActivity extends Activity
 
         mWebView.loadUrl(mNews.getLink());
 
-        applySystemWindowsBottomInset(mRootContainer);
+//        applySystemWindowsBottomInset(mRootContainer);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applySystemWindowsBottomInset(View containerView) {
-        NLLog.now("applySystemWindowsBottomInset");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            containerView.setFitsSystemWindows(true);
-            containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    Resources resources = getResources();
-                    DisplayMetrics metrics = resources.getDisplayMetrics();
-                    ViewGroup.MarginLayoutParams fabLayoutParams =
-                            (RelativeLayout.LayoutParams)mFab.getLayoutParams();
-//                ViewGroup.MarginLayoutParams lp =
-//                        (ViewGroup.MarginLayoutParams)mRootContainer.getLayoutParams();
-                    ViewGroup.MarginLayoutParams webViewLayoutParams =
-                            (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
-                    int progressMarginOffset = resources.getDimensionPixelSize(R.dimen.progress_margin_offset);
-
-                    if (metrics.widthPixels < metrics.heightPixels) {
-                        NLLog.now("Portrait");
-//                    lp.bottomMargin += windowInsets.getSystemWindowInsetBottom();
-
-//                    webViewLayoutParams.topMargin += windowInsets.getSystemWindowInsetTop();
-//                    webViewLayoutParams.bottomMargin += windowInsets.getSystemWindowInsetBottom();
-//                    mFab.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
-                        fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom() +
-                                resources.getDimensionPixelSize(R.dimen.fab_margin);
-//                    mWebView.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
-//                            windowInsets.getSystemWindowInsetBottom());
-                        mProgressBar.setPadding(0,
-                                windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
-                        view.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
-                                windowInsets.getSystemWindowInsetBottom());
-                    } else {
-                        NLLog.now("Landscape");
-//                    lp.rightMargin += windowInsets.getSystemWindowInsetRight();
-//                    mFab.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
-                        fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom() +
-                                resources.getDimensionPixelSize(R.dimen.fab_margin);
-//                    webViewLayoutParams.topMargin += windowInsets.getSystemWindowInsetTop();
-//                    webViewLayoutParams.rightMargin += windowInsets.getSystemWindowInsetRight();
-                        mProgressBar.setPadding(0,
-                                windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
-                        view.setPadding(0, windowInsets.getSystemWindowInsetTop(),
-                                windowInsets.getSystemWindowInsetRight(), 0);
-                    }
-                    return windowInsets.consumeSystemWindowInsets();
-                }
-            });
-        }
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    private void applySystemWindowsBottomInset(View containerView) {
+//        NLLog.now("applySystemWindowsBottomInset");
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            containerView.setFitsSystemWindows(true);
+//            containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+//                @Override
+//                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+//                    Resources resources = getResources();
+//                    DisplayMetrics metrics = resources.getDisplayMetrics();
+//                    ViewGroup.MarginLayoutParams fabLayoutParams =
+//                            (RelativeLayout.LayoutParams)mFab.getLayoutParams();
+////                ViewGroup.MarginLayoutParams lp =
+////                        (ViewGroup.MarginLayoutParams)mRootContainer.getLayoutParams();
+//                    ViewGroup.MarginLayoutParams webViewLayoutParams =
+//                            (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
+//                    int progressMarginOffset = resources.getDimensionPixelSize(R.dimen.progress_margin_offset);
+//
+//                    if (metrics.widthPixels < metrics.heightPixels) {
+//                        NLLog.now("Portrait");
+//                        fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom() +
+//                                resources.getDimensionPixelSize(R.dimen.fab_margin);
+//                        mProgressBar.setPadding(0,
+//                                windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
+//                        view.setPadding(0, windowInsets.getSystemWindowInsetTop(), 0,
+//                                windowInsets.getSystemWindowInsetBottom());
+//                    } else {
+//                        NLLog.now("Landscape");
+//                        fabLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom() +
+//                                resources.getDimensionPixelSize(R.dimen.fab_margin);
+//                        mProgressBar.setPadding(0,
+//                                windowInsets.getSystemWindowInsetTop() - progressMarginOffset, 0, 0);
+//                        view.setPadding(0, windowInsets.getSystemWindowInsetTop(),
+//                                windowInsets.getSystemWindowInsetRight(), 0);
+//                    }
+//                    return windowInsets.consumeSystemWindowInsets();
+//                }
+//            });
+//        }
+//    }
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {

@@ -72,6 +72,9 @@
 
     <!-- News Detail -->
     <style name="NewsDetailActivityTheme" parent="MainTheme">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
 

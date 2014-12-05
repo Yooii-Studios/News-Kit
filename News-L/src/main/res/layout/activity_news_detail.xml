@@ -17,16 +17,18 @@
         android:indeterminate="false"/>
 
     <com.yooiistudios.news.ui.widget.FloatingActionButton
+        tools:ignore="UnusedAttribute"
         android:id="@+id/news_detail_fab"
         android:layout_width="@dimen/fab_size_small"
         android:layout_height="@dimen/fab_size_small"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:background="@drawable/fab_background"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/fab_background"
+        android:elevation="@dimen/fab_elevation"
+        android:stateListAnimator="@animator/fab_anim">
 
-        <!--<com.yooiistudios.news.ui.widget.RoundedImageView-->
         <ImageView
             android:layout_width="@dimen/fab_icon_size"
             android:layout_height="@dimen/fab_icon_size"
