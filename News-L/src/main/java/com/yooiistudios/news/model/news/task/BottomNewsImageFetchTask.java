@@ -27,6 +27,7 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
     public static final int TASK_SWIPE_REFRESH = 2;
     public static final int TASK_AUTO_REFRESH = 3;
     public static final int TASK_CACHE = 4;
+    public static final int TASK_MATRIX_CHANGED = 5;
 
     public BottomNewsImageFetchTask(ImageLoader imageLoader, News news, int position,
                                     int taskType, OnBottomImageUrlFetchListener listener) {

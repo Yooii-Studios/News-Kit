@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
+
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 3.
  *
@@ -57,6 +61,8 @@ public class SettingAdapter extends BaseAdapter {
         TextView descriptionTextView =
                 (TextView)convertView.findViewById(R.id.setting_row_description);
         Switch optionalSwitch = (Switch)convertView.findViewById(R.id.setting_switch);
+
+        SharedPreferences preferences;
         switch(item) {
             case KEEP_SCREEN_ON:
                 // 필요한 뷰 보여주기
@@ -69,7 +75,7 @@ public class SettingAdapter extends BaseAdapter {
                 descriptionTextView.setText(R.string.setting_keep_screen_on_description);
 
                 // on/off 체크
-                SharedPreferences preferences = mContext.getSharedPreferences(
+                preferences = mContext.getSharedPreferences(
                         SettingFragment.KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 optionalSwitch.setChecked(preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false));
                 optionalSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -80,6 +86,20 @@ public class SettingAdapter extends BaseAdapter {
                         preferences.edit().putBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, isChecked).apply();
                     }
                 });
+                break;
+            case PANEL_COUNT:
+                descriptionTextView.setVisibility(View.VISIBLE);
+
+                preferences = mContext.getSharedPreferences(
+                        PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                int currentPanelUniqueKey = preferences.getInt(PANEL_MATRIX_KEY,
+                        PANEL_MATRIX.getDefault().uniqueKey);
+
+                PANEL_MATRIX currentPanelMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelUniqueKey);
+
+                descriptionTextView.setText(
+                        mContext.getString(R.string.setting_panel_count_description,
+                                currentPanelMatrix.displayName));
                 break;
             default:
                 descriptionTextView.setVisibility(View.GONE);
