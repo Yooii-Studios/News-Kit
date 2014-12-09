@@ -59,13 +59,8 @@ public class IabProducts {
         edit.apply();
     }
 
-    public static boolean isIabProductBought(String sku, Context context) {
-        return loadOwnedIabProducts(context).contains(sku);
-    }
-
     public static boolean containsSku(Context context, String sku) {
-        List<String> ownedSkus = IabProducts.loadOwnedIabProducts(context);
-        return ownedSkus.contains(sku);
+        return loadOwnedIabProducts(context).contains(sku);
     }
 
     // 구매된 아이템들을 로드
