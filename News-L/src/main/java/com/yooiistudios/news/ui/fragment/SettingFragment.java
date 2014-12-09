@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,6 +22,7 @@ import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
 import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
@@ -142,7 +141,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
-        final Context context = getActivity().getApplicationContext();
         SharedPreferences preferences;
         switch (item) {
             case LANGUAGE:
@@ -154,7 +152,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case KEEP_SCREEN_ON:
-                preferences = context.getSharedPreferences(
+                preferences = getActivity().getSharedPreferences(
                         KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
                 preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
@@ -163,54 +161,60 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case PANEL_COUNT:
-                if (!IabProducts.containsSku(getActivity(), IabProducts.SKU_MORE_PANELS)) {
-                    Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG)
-                            .show();
-                    break;
-                }
-                preferences = context.getSharedPreferences(
+                preferences = getActivity().getSharedPreferences(
                         PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 int currentPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
                         PANEL_MATRIX.getDefault().uniqueKey);
+                PANEL_MATRIX currentPanelMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelMatrixKey);
 
-                final NumberPicker numberPicker = new NumberPicker(getActivity());
-                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
-                numberPicker.setDisplayedValues(panelMatrixArr);
-                numberPicker.setMinValue(0);
-                numberPicker.setMaxValue(panelMatrixArr.length - 1);
-                numberPicker.setValue(PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
-                numberPicker.setWrapSelectorWheel(false);
-                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+//                final NumberPicker numberPicker = new NumberPicker(getActivity());
+//                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
+//                numberPicker.setDisplayedValues(panelMatrixArr);
+//                numberPicker.setMinValue(0);
+//                numberPicker.setMaxValue(panelMatrixArr.length - 1);
+//                numberPicker.setValue(PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
+//                numberPicker.setWrapSelectorWheel(false);
+//                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-                new AlertDialog.Builder(getActivity())
+                ListView panelMatrixListView = new ListView(getActivity());
+                panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
+
+                final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.setting_panel_count)
-                        .setView(numberPicker)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                int idx = numberPicker.getValue();
-                                PANEL_MATRIX selectedPanelMatrix = PANEL_MATRIX.values()[idx];
-
-                                SharedPreferences preferences = context.getSharedPreferences(
-                                        PANEL_MATRIX_SHARED_PREFERENCES,
-                                        Context.MODE_PRIVATE);
-                                preferences.edit()
-                                        .putInt(PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
-                                        .apply();
-
-                                mSettingAdapter.notifyDataSetChanged();
-
-                                if (getActivity() instanceof OnSettingChangedListener) {
-                                    ((OnSettingChangedListener)getActivity()).onPanelMatrixChanged(
-                                            selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
-                                    );
-                                }
-                            }
-                        })
+                        .setView(panelMatrixListView)
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override public void onClick(DialogInterface dialog, int which) {}
                         })
-                        .show();
+                        .create();
+                panelMatrixSelectDialog.show();
+
+                panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        PANEL_MATRIX selectedPanelMatrix = PANEL_MATRIX.values()[position];
+                        if (!selectedPanelMatrix.isUsable(getActivity())) {
+                            return;
+                        }
+
+                        SharedPreferences preferences = getActivity().getSharedPreferences(
+                                PANEL_MATRIX_SHARED_PREFERENCES,
+                                Context.MODE_PRIVATE);
+                        preferences.edit()
+                                .putInt(PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
+                                .apply();
+
+                        mSettingAdapter.notifyDataSetChanged();
+
+                        if (getActivity() instanceof OnSettingChangedListener) {
+                            ((OnSettingChangedListener)getActivity()).onPanelMatrixChanged(
+                                    selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
+                            );
+                        }
+
+                        panelMatrixSelectDialog.dismiss();
+                    }
+                });
+
                 break;
 
             case SHARE_APP:

@@ -2,7 +2,6 @@ package com.yooiistudios.news.ui.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
@@ -103,14 +101,6 @@ public class SettingAdapter extends BaseAdapter {
                         mContext.getString(R.string.setting_panel_count_description,
                                 currentPanelMatrix.displayName));
 
-                // background
-                if (IabProducts.containsSku(mContext, IabProducts.SKU_MORE_PANELS)) {
-                    convertView.setBackgroundColor(Color.TRANSPARENT);
-                } else {
-                    convertView.setBackgroundColor(
-                            mContext.getResources().getColor(R.color.setting_locked_item_background)
-                    );
-                }
                 break;
             default:
                 descriptionTextView.setVisibility(View.GONE);

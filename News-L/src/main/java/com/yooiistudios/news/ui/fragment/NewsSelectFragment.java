@@ -37,7 +37,8 @@ import butterknife.InjectView;
  * NewsSelectFragment
  *  뉴스 선택화면의 한 페이지의 컨텐츠.
  */
-public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
+public class NewsSelectFragment extends Fragment
+        implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
     public static final String KEY_SELECTED_NEWS_FEED = "KEY_SELECTED_NEWS_FEED";
@@ -105,16 +106,14 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
 
     @Override
     public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final ArrayList<NewsTopic> newsTopicList = newsPublisher.getNewsTopicList();
 
-        NewsCategorySelectAdapter adapter =
-                new NewsCategorySelectAdapter(getActivity(), newsTopicList);
+        NewsCategorySelectAdapter adapter = new NewsCategorySelectAdapter(getActivity(), newsTopicList);
 
         ListView newsTopicListView = new ListView(getActivity());
         newsTopicListView.setAdapter(adapter);
 
-        final AlertDialog alertDialog = builder
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
             .setView(newsTopicListView)
             .setTitle(newsPublisher.getName()).create();
 

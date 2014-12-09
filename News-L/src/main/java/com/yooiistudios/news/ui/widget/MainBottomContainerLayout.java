@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
@@ -72,7 +73,8 @@ public class MainBottomContainerLayout extends FrameLayout
     public static final String PANEL_MATRIX_KEY = "PANEL_MATRIX_KEY";
     public enum PANEL_MATRIX {
         TWO_BY_TWO(0, 4, "2X2"),
-        THREE_BY_TWO(1, 6, "3X2");
+        THREE_BY_TWO(1, 6, "3X2"),
+        FOUR_BY_TWO(2, 8, "4X2");
 
         public int uniqueKey;
         public int panelCount;
@@ -120,6 +122,25 @@ public class MainBottomContainerLayout extends FrameLayout
 
         public static PANEL_MATRIX getDefault() {
             return TWO_BY_TWO;
+        }
+
+        public boolean isUsable(Context context) {
+            return isPanelMatrixUsable(context, this);
+        }
+
+        public static boolean isPanelMatrixUsable(Context context, PANEL_MATRIX panelMatrix) {
+            if (IabProducts.containsSku(context, IabProducts.SKU_MORE_PANELS)) {
+                return true;
+            } else {
+                switch(panelMatrix) {
+                    case TWO_BY_TWO:
+                        return true;
+                    case THREE_BY_TWO:
+                    case FOUR_BY_TWO:
+                    default:
+                        return false;
+                }
+            }
         }
     }
 
