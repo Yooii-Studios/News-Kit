@@ -9,7 +9,8 @@
             "categories": [
                 {
                     "category_name": "주요 뉴스",
-                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss"
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "연예",
@@ -54,7 +55,8 @@
                 },
                 {
                     "category_name": "오늘의 주요뉴스",
-                    "url": "http://myhome.chosun.com/rss/www_section_rss.xml"
+                    "url": "http://myhome.chosun.com/rss/www_section_rss.xml",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "정치",
@@ -99,7 +101,8 @@
                 },
                 {
                     "category_name": "주요기사",
-                    "url": "http://rss.joins.com/joins_homenews_list.xml"
+                    "url": "http://rss.joins.com/joins_homenews_list.xml",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "경제",
@@ -140,7 +143,8 @@
             "categories": [
                 {
                     "category_name": "전체기사",
-                    "url": "http://rss.donga.com/total.xml"
+                    "url": "http://rss.donga.com/total.xml",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "정치",
@@ -185,7 +189,8 @@
                 },
                 {
                     "category_name": "주요기사",
-                    "url": "http://www.hani.co.kr/rss/lead/"
+                    "url": "http://www.hani.co.kr/rss/lead/",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "인기기사",
@@ -226,7 +231,8 @@
             "categories": [
                 {
                     "category_name": "헤드라인",
-                    "url": "http://file.mk.co.kr/news/rss/rss_30000001.xml"
+                    "url": "http://file.mk.co.kr/news/rss/rss_30000001.xml",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "전체뉴스",
@@ -275,7 +281,8 @@
                 },
                 {
                     "category_name": "경제/금융",
-                    "url": "http://rss.hankyung.com/new/news_economy.xml"
+                    "url": "http://rss.hankyung.com/new/news_economy.xml",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "부동산",

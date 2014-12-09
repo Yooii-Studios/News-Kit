@@ -97,4 +97,9 @@
     <dimen name="store_item_price_button_width">92dp</dimen>
     <dimen name="store_item_price_button_height">36dp</dimen>
     <dimen name="store_item_price_button_elevation">2dp</dimen>
+
+    <!-- Setting -->
+    <dimen name="setting_item_imageview_size">30dp</dimen>
+    <dimen name="setting_item_imageview_end_margin">10dp</dimen>
+
 </resources>

@@ -100,6 +100,7 @@ public class SettingAdapter extends BaseAdapter {
                 descriptionTextView.setText(
                         mContext.getString(R.string.setting_panel_count_description,
                                 currentPanelMatrix.displayName));
+
                 break;
             default:
                 descriptionTextView.setVisibility(View.GONE);

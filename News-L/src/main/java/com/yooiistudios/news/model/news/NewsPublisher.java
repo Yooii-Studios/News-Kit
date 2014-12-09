@@ -10,25 +10,25 @@ import java.util.ArrayList;
  */
 public class NewsPublisher {
     private String mName;
-    private ArrayList<NewsFeed> mNewsFeedList;
+    private ArrayList<NewsTopic> mNewsTopicList;
 
     public NewsPublisher() {
-        mNewsFeedList = new ArrayList<NewsFeed>();
+        mNewsTopicList = new ArrayList<>();
     }
 
     public void setName(String name) {
         mName = name;
     }
 
-    public void addNewsFeed(NewsFeed newsFeed) {
-        mNewsFeedList.add(newsFeed);
+    public void addNewsTopic(NewsTopic newsTopic) {
+        mNewsTopicList.add(newsTopic);
     }
 
     public String getName() {
         return mName;
     }
 
-    public ArrayList<NewsFeed> getNewsFeedList() {
-        return mNewsFeedList;
+    public ArrayList<NewsTopic> getNewsTopicList() {
+        return mNewsTopicList;
     }
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,17 +12,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.NewsPublisher;
 import com.yooiistudios.news.model.news.NewsPublisherList;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
+import com.yooiistudios.news.model.news.NewsTopic;
+import com.yooiistudios.news.ui.adapter.NewsCategorySelectAdapter;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
-import com.yooiistudios.news.util.NLLog;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,8 @@ import butterknife.InjectView;
  * NewsSelectFragment
  *  뉴스 선택화면의 한 페이지의 컨텐츠.
  */
-public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
+public class NewsSelectFragment extends Fragment
+        implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
     public static final String KEY_SELECTED_NEWS_FEED = "KEY_SELECTED_NEWS_FEED";
@@ -104,24 +106,33 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
 
     @Override
     public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final ArrayList<NewsTopic> newsTopicList = newsPublisher.getNewsTopicList();
 
-        // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> newsFeedTitleList = new ArrayList<String>();
-        for (NewsFeed newsFeed : newsPublisher.getNewsFeedList()) {
-            newsFeedTitleList.add(newsFeed.getTitle());
-        }
+        NewsCategorySelectAdapter adapter = new NewsCategorySelectAdapter(getActivity(), newsTopicList);
 
-        String[] titles = newsFeedTitleList.toArray(new String[newsFeedTitleList.size()]);
-        AlertDialog alertDialog = builder.setItems(titles, new DialogInterface.OnClickListener() {
+        ListView newsTopicListView = new ListView(getActivity());
+        newsTopicListView.setAdapter(adapter);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+            .setView(newsTopicListView)
+            .setTitle(newsPublisher.getName()).create();
+
+        newsTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsFeedList().get(i));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!newsTopicList.get(position).isDefault() &&
+                        !IabProducts.containsSku(getActivity(), IabProducts.SKU_TOPIC_SELECT)) {
+                    Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                alertDialog.dismiss();
+                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED,
+                        newsPublisher.getNewsTopicList().get(position));
                 getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }
-        }).setTitle(newsPublisher.getName()).create();
+        });
+
         alertDialog.show();
     }
 

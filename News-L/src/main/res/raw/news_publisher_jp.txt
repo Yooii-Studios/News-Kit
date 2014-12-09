@@ -5,11 +5,12 @@
     "region_code": "null",
     "news_publishers": [
         {
-            "publisher_name": "구글(임시)",
+            "publisher_name": "구글(X)",
             "categories": [
                 {
                     "category_name": "주요 뉴스",
-                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss"
+                    "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "연예",
@@ -50,19 +51,134 @@
             "categories": [
                 {
                     "category_name": "ニュース速報（総合）",
-                    "url": "http://rss.rssad.jp/rss/mainichi/flash.rss?rss"
+                    "url": "http://mainichi.jp/rss/",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "スポーツ",
-                    "url": "http://rss.rssad.jp/rss/mainichi/sports.rss?rss"
+                    "url": "http://mainichi.jp/rss/etc/sports.rss"
                 },
                 {
                     "category_name": "エンタメ",
-                    "url": "http://rss.rssad.jp/rss/mainichi/enta.rss?rss"
+                    "url": "http://mainichi.jp/rss/etc/enta.rss"
                 },
                 {
                     "category_name": "社説・解説・コラム",
                     "url": "http://mainichi.jp/rss/etc/opinion.rss"
+                }
+            ]
+        },
+        {
+            "publisher_name": "アサヒ",
+            "categories": [
+                {
+                    "category_name": "速報ニュース",
+                    "url": "http://www3.asahi.com/rss/index.rdf",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "社会",
+                    "url": "http://www3.asahi.com/rss/national.rdf"
+                },
+                {
+                    "category_name": "政治",
+                    "url": "http://www3.asahi.com/rss/politics.rdf"
+                },
+                {
+                    "category_name": "スポーツ",
+                    "url": "http://www3.asahi.com/rss/sports.rdf"
+                },
+                {
+                    "category_name": "ビジネス",
+                    "url": "http://www3.asahi.com/rss/business.rdf"
+                },
+                {
+                    "category_name": "国際",
+                    "url": "http://www3.asahi.com/rss/international.rdf"
+                },
+                {
+                    "category_name": "文化",
+                    "url": "http://www3.asahi.com/rss/culture.rdf"
+                }
+            ]
+        },
+        {
+            "publisher_name": "MSN産経ニュース",
+            "categories": [
+                {
+                    "category_name": "注目ニュース",
+                    "url": "http://sankei.jp.msn.com/rss/news/points.xml",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "事件",
+                    "url": "http://sankei.jp.msn.com/rss/news/affairs.xml"
+                },
+                {
+                    "category_name": "政治",
+                    "url": "http://sankei.jp.msn.com/rss/news/politics.xml"
+                },
+                {
+                    "category_name": "経済・IT",
+                    "url": "http://sankei.jp.msn.com/rss/news/economy.xml"
+                },
+                {
+                    "category_name": "国際",
+                    "url": "http://sankei.jp.msn.com/rss/news/world.xml"
+                },
+                {
+                    "category_name": "スポーツ",
+                    "url": "http://sankei.jp.msn.com/rss/news/sports.xml"
+                },
+                {
+                    "category_name": "エンタメ",
+                    "url": "http://sankei.jp.msn.com/rss/news/entertainments.xml"
+                },
+                {
+                    "category_name": "文化",
+                    "url": "http://sankei.jp.msn.com/rss/news/culture.xml"
+                }
+            ]
+        },
+        {
+            "publisher_name": "Yahoo Japan",
+            "categories": [
+                {
+                    "category_name": "トピックストップ",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/rss.xml",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "国内",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/domestic/rss.xml"
+                },
+                {
+                    "category_name": "海外",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/world/rss.xml"
+                },
+                {
+                    "category_name": "経済",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/economy/rss.xml"
+                },
+                {
+                    "category_name": "エンターテインメント",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/entertainment/rss.xml"
+                },
+                {
+                    "category_name": "スポーツ",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/sports/rss.xml"
+                },
+                {
+                    "category_name": "コンピュータ",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/computer/rss.xml"
+                },
+                {
+                    "category_name": "サイエンス",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/science/rss.xml"
+                },
+                {
+                    "category_name": "地域",
+                    "url": "http://rss.dailynews.yahoo.co.jp/fc/local/rss.xml"
                 }
             ]
         }
