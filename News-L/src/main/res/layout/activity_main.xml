@@ -48,7 +48,7 @@
         android:id="@+id/main_loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
+        android:background="#6fff">
         <!-- android:background="#6fff"> -->
 
         <ImageView

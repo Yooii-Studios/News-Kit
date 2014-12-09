@@ -27,6 +27,7 @@ import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 19.
@@ -276,6 +277,12 @@ public class MainBottomAdapter extends
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
 
+    public void addNewsFeedList(List<NewsFeed> newsFeedListToAdd) {
+        int notifyStartIdx = mNewsFeedList.size();
+        mNewsFeedList.addAll(newsFeedListToAdd);
+        notifyItemRangeInserted(notifyStartIdx, newsFeedListToAdd.size());
+    }
+
     public void replaceNewsFeedAt(int idx, NewsFeed newsFeed) {
         if (idx < mNewsFeedList.size()) {
             mNewsFeedList.set(idx, newsFeed);
@@ -286,6 +293,10 @@ public class MainBottomAdapter extends
     public void setNewsFeedList(ArrayList<NewsFeed> newsFeedList) {
         mNewsFeedList = newsFeedList;
         notifyDataSetChanged();
+    }
+
+    public void removeNewsFeedAt(int idx) {
+        mNewsFeedList.remove(idx);
     }
 
     public ArrayList<NewsFeed> getNewsFeedList() {

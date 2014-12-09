@@ -1,0 +1,88 @@
+{
+    "lang_name_english": "Russian",
+    "lang_name_regional": "русский язык",
+    "lang_code": "ru",
+    "region_code": "null",
+    "news_publishers": [
+        {
+            "publisher_name": "Google",
+            "categories": [
+                {
+                    "category_name": "Главные новости",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&output=rss",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "В мире",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=w&output=rss"
+                },
+                {
+                    "category_name": "Россия",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=n&output=rss"
+                },
+                {
+                    "category_name": "Бизнес",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=b&output=rss"
+                },
+                {
+                    "category_name": "Наука и техника",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=t&output=rss"
+                },
+                {
+                    "category_name": "Культура",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=e&output=rss"
+                },
+                {
+                    "category_name": "Спорт",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=s&output=rss"
+                },
+                {
+                    "category_name": "Здоровье",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=m&output=rss"
+                },
+                {
+                    "category_name": "Другие новости",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=h&output=rss"
+                }
+            ]
+        },
+        {
+            "publisher_name": "pravda",
+            "categories": [
+                {
+                    "category_name": "world",
+                    "url": "http://english.pravda.ru/world/export.xml",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "russia",
+                    "url": "http://english.pravda.ru/russia/export.xml"
+                },
+                {
+                    "category_name": "society",
+                    "url": "http://english.pravda.ru/society/export.xml"
+                },
+                {
+                    "category_name": "opinion",
+                    "url": "http://english.pravda.ru/opinion/export.xml"
+                },
+                {
+                    "category_name": "science",
+                    "url": "http://english.pravda.ru/science/export.xml"
+                },
+                {
+                    "category_name": "business",
+                    "url": "http://english.pravda.ru/business/export.xml"
+                },
+                {
+                    "category_name": "sports",
+                    "url": "http://english.pravda.ru/sports/export.xml"
+                },
+                {
+                    "category_name": "health",
+                    "url": "http://english.pravda.ru/health/export.xml"
+                }
+            ]
+        }
+    ]
+}

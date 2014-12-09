@@ -28,6 +28,7 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
     public static final int TASK_REFRESH = 1;
     public static final int TASK_REPLACE = 2;
     public static final int TASK_CACHE = 3;
+    public static final int TASK_MATRIX_CHANGED = 4;
 
     public interface OnFetchListener {
         public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position, int taskType);

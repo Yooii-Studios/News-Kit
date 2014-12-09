@@ -85,8 +85,8 @@ public class BackgroundCacheUtils implements
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         // cache bottom news feed list
-        mBottomImageFetchMap = new ArrayList<Integer>();
-        ArrayList<NewsFeed> bottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNews(mContext);
+        mBottomImageFetchMap = new ArrayList<>();
+        ArrayList<NewsFeed> bottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNewsFeedList(mContext);
         int count = bottomNewsFeedList.size();
         for (int i = 0; i < count; i++) {
             NewsFeed bottomNewsFeed = bottomNewsFeedList.get(i);

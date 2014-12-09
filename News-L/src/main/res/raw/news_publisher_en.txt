@@ -9,7 +9,8 @@
             "categories": [
                 {
                     "category_name": "Top Stories",
-                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss"
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "World",
@@ -50,7 +51,8 @@
             "categories": [
                 {
                     "category_name": "Top Stories",
-                    "url": "http://rss.cnn.com/rss/edition.rss"
+                    "url": "http://rss.cnn.com/rss/edition.rss",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "World",
@@ -87,43 +89,40 @@
             "categories": [
                 {
                     "category_name": "Top Stories",
-                    "url": "http://feeds.feedburner.com/time/topstories?format=xml"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Ftopstories&t1=",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "U.S.",
-                    "url": "http://feeds.feedburner.com/time/nation?format=xml"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fnation&t1="
                 },
                 {
                     "category_name": "World",
-                    "url": "http://feeds.feedburner.com/time/world?format=xml"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fworld&t1="
                 },
                 {
                     "category_name": "Politics",
-                    "url": "http://feeds.feedburner.com/time/politics?format=xml"
+                    "url": "http://swampland.time.com/feed/"
                 },
                 {
                     "category_name": "Business",
-                    "url": "http://feeds.feedburner.com/time/business?format=xml"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fbusiness&t1="
                 },
                 {
                     "category_name": "Technology",
-                    "url": "http://time.com/tech/feed/"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http://techland.time.com/feed/&t1="
                 },
                 {
                     "category_name": "Health",
-                    "url": "http://time.com/health/feed/"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http://healthland.time.com/feed/rss/&t1="
                 },
                 {
                     "category_name": "Science",
-                    "url": "http://feeds.feedburner.com/time/scienceandhealth?format=xml"
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fscienceandhealth&t1="
                 },
                 {
                     "category_name": "Entertainment",
-                    "url": "http://feeds.feedburner.com/time/entertainment?format=xml"
-                },
-                {
-                    "category_name": "test",
-                    "url": ""
+                    "url": "http://www.addthis.com/feed.php?pub=timecom&h1=http%3A%2F%2Ffeeds2.feedburner.com%2Ftime%2Fentertainment&t1="
                 }
             ]
         },
@@ -136,7 +135,8 @@
                 },
                 {
                     "category_name": "Home Page (International)",
-                    "url": "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml"
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
+                    "isDefault": "true"
                 },
                 {
                     "category_name": "World",

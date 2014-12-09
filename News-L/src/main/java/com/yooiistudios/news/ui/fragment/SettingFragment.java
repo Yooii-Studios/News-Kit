@@ -22,6 +22,7 @@ import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
 import com.yooiistudios.news.util.RecommendUtils;
 import com.yooiistudios.news.util.ReviewUtils;
@@ -30,6 +31,11 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
+
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 3.
@@ -43,6 +49,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         LANGUAGE(R.string.setting_language),
         NEWSFEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
+        PANEL_COUNT(R.string.setting_panel_count),
         SHARE_APP(R.string.setting_share_this_app),
         RATE(R.string.setting_rate_this_app),
         TUTORIAL(R.string.setting_tutorial),
@@ -66,11 +73,40 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     private static final String LINK_APP_PREFIX = "fb://profile/";
     private static final String FB_YOOII_ID = "652380814790935";
 
+    private static final String SI_PANEL_MATRIX_KEY = "SI_PANEL_MATRIX_KEY";
+
     @InjectView(R.id.setting_list_view) ListView mListView;
     @InjectView(R.id.setting_adView) AdView mAdView;
     private SettingAdapter mSettingAdapter;
 
+    private int mPreviousPanelMatrixKey = -1;
+
+    public interface OnSettingChangedListener {
+        public void onPanelMatrixChanged(boolean changed);
+    }
+
     public SettingFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            SharedPreferences preferences = getActivity().getSharedPreferences(
+                    PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            mPreviousPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
+                    PANEL_MATRIX.getDefault().uniqueKey);
+        } else {
+            mPreviousPanelMatrixKey = savedInstanceState.getInt(SI_PANEL_MATRIX_KEY);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(SI_PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
     }
 
     @Override
@@ -103,13 +139,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
+        SharedPreferences preferences;
         switch (item) {
             case LANGUAGE:
                 showLanguageDialog();
@@ -120,13 +152,69 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case KEEP_SCREEN_ON:
-                Context context = getActivity().getApplicationContext();
-                SharedPreferences preferences = context.getSharedPreferences(
+                preferences = getActivity().getSharedPreferences(
                         KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
                 boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
                 preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
 
                 mSettingAdapter.notifyDataSetChanged();
+                break;
+
+            case PANEL_COUNT:
+                preferences = getActivity().getSharedPreferences(
+                        PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                int currentPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
+                        PANEL_MATRIX.getDefault().uniqueKey);
+                PANEL_MATRIX currentPanelMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelMatrixKey);
+
+//                final NumberPicker numberPicker = new NumberPicker(getActivity());
+//                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
+//                numberPicker.setDisplayedValues(panelMatrixArr);
+//                numberPicker.setMinValue(0);
+//                numberPicker.setMaxValue(panelMatrixArr.length - 1);
+//                numberPicker.setValue(PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
+//                numberPicker.setWrapSelectorWheel(false);
+//                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+                ListView panelMatrixListView = new ListView(getActivity());
+                panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
+
+                final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.setting_panel_count)
+                        .setView(panelMatrixListView)
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override public void onClick(DialogInterface dialog, int which) {}
+                        })
+                        .create();
+                panelMatrixSelectDialog.show();
+
+                panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        PANEL_MATRIX selectedPanelMatrix = PANEL_MATRIX.values()[position];
+                        if (!selectedPanelMatrix.isUsable(getActivity())) {
+                            return;
+                        }
+
+                        SharedPreferences preferences = getActivity().getSharedPreferences(
+                                PANEL_MATRIX_SHARED_PREFERENCES,
+                                Context.MODE_PRIVATE);
+                        preferences.edit()
+                                .putInt(PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
+                                .apply();
+
+                        mSettingAdapter.notifyDataSetChanged();
+
+                        if (getActivity() instanceof OnSettingChangedListener) {
+                            ((OnSettingChangedListener)getActivity()).onPanelMatrixChanged(
+                                    selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
+                            );
+                        }
+
+                        panelMatrixSelectDialog.dismiss();
+                    }
+                });
+
                 break;
 
             case SHARE_APP:

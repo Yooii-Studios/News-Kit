@@ -1,0 +1,118 @@
+{
+    "lang_name_english": "German",
+    "lang_name_regional": "Deutsch",
+    "lang_code": "de",
+    "region_code": "null",
+    "news_publishers": [
+        {
+            "publisher_name": "google",
+            "categories": [
+                {
+                    "category_name": "Schlagzeilen",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&output=rss",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "International",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=w&output=rss"
+                },
+                {
+                    "category_name": "Deutschland",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=n&output=rss"
+                },
+                {
+                    "category_name": "Wirtschaft",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=b&output=rss"
+                },
+                {
+                    "category_name": "Wissen/Technik",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=t&output=rss"
+                },
+                {
+                    "category_name": "Unterhaltung",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=e&output=rss"
+                },
+                {
+                    "category_name": "Sport",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=s&output=rss"
+                },
+                {
+                    "category_name": "Gesundheit",
+                    "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=m&output=rss"
+                }
+            ]
+        },
+        {
+            "publisher_name": "DIE WELT",
+            "categories": [
+                {
+                    "category_name": "politik",
+                    "url": "http://www.welt.de/politik/?service=Rss"
+                },
+                {
+                    "category_name": "kultur",
+                    "url": "http://www.welt.de/kultur/?service=Rss"
+                },
+                {
+                    "category_name": "wirtschaft",
+                    "url": "http://www.welt.de/wirtschaft/?service=Rss"
+                },
+                {
+                    "category_name": "vermischtes",
+                    "url": "http://www.welt.de/vermischtes/?service=Rss",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "regionales",
+                    "url": "http://www.welt.de/regionales/?service=Rss"
+                },
+                {
+                    "category_name": "debatte",
+                    "url": "http://www.welt.de/debatte/?service=Rss"
+                },
+                {
+                    "category_name": "Sport",
+                    "url": "http://www.welt.de/sport/?service=Rss"
+                },
+                {
+                    "category_name": "wissenschaft",
+                    "url": "http://www.welt.de/wissenschaft/?service=Rss"
+                }
+            ]
+        },
+        {
+            "publisher_name": "FAZ",
+            "categories": [
+                {
+                    "category_name": "politik",
+                    "url": "http://www.faz.net/rss/aktuell/politik/"
+                },
+                {
+                    "category_name": "Wirtschaft",
+                    "url": "http://www.faz.net/rss/aktuell/wirtschaft/"
+                },
+                {
+                    "category_name": "Sport",
+                    "url": "http://www.faz.net/rss/aktuell/sport/"
+                },
+                {
+                    "category_name": "aktuell",
+                    "url": "http://www.faz.net/rss/aktuell/reise/",
+                    "isDefault": "true"
+                },
+                {
+                    "category_name": "finanzen",
+                    "url": "http://www.faz.net/rss/aktuell/finanzen/"
+                },
+                {
+                    "category_name": "stil",
+                    "url": "http://www.faz.net/rss/aktuell/stil/"
+                },
+                {
+                    "category_name": "feuilleton",
+                    "url": "http://www.faz.net/rss/aktuell/feuilleton/"
+                }
+            ]
+        }
+    ]
+}

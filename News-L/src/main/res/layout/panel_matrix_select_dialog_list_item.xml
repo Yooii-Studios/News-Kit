@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/setting_item_check_imageview"
+        android:layout_width="@dimen/setting_item_imageview_size"
+        android:layout_height="@dimen/setting_item_imageview_size"
+        android:background="@drawable/setting_check"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/setting_item_imageview_end_margin"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        android:layout_centerVertical="true"
+        tools:ignore="ContentDescription"/>
+
+    <ImageView
+        android:id="@+id/setting_item_lock_imageview"
+        android:layout_width="@dimen/setting_item_imageview_size"
+        android:layout_height="@dimen/setting_item_imageview_size"
+        android:background="@drawable/setting_lock"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/setting_item_imageview_end_margin"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        android:layout_centerVertical="true"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/panel_matrix_name"
+        style="?android:attr/dropDownItemStyle"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:ellipsize="marquee"
+        android:layout_toStartOf="@id/setting_item_check_imageview"/>
+
+</RelativeLayout>

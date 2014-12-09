@@ -100,6 +100,19 @@ public class NewsFeedUtils {
         return new NewsFeedUrl(feedUrl, urlType);
     }
 
+    public static ArrayList<NewsFeed> getDefaultBottomNewsFeedList() {
+        ArrayList<NewsFeed> feedList = new ArrayList<>();
+        ArrayList<NewsFeedUrl> urlList =
+                NewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
+        for (NewsFeedUrl newsFeedUrl : urlList) {
+            NewsFeed newsFeed = new NewsFeed();
+            newsFeed.setNewsFeedUrl(newsFeedUrl);
+            feedList.add(newsFeed);
+        }
+
+        return feedList;
+    }
+
 //    public static String getRssFeedJsonString(RssFeed feed) {
 //        return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy
 //                () {

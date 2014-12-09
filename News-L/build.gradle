@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.1'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
@@ -101,7 +101,7 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
 
     // 상점에 사용되는 Toolbar를 위해 사용
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.2'
 }
 
 // release 시 비밀번호를 직접 입력하기 위한 코드

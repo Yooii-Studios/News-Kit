@@ -165,7 +165,7 @@ public class MainTopContainerLayout extends FrameLayout
         }
     }
 
-    public void init(Activity activity, boolean refresh) {
+    public void init(Activity activity) {
         if (!(activity instanceof MainActivity)) {
             throw new IllegalArgumentException("activity MUST BE an instance of MainActivity");
         }
@@ -179,7 +179,9 @@ public class MainTopContainerLayout extends FrameLayout
 
         // Fetch
         mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(context));
-        if (refresh) {
+
+        boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(context);
+        if (needsRefresh) {
             mIsReady = false;
             fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
         } else {
