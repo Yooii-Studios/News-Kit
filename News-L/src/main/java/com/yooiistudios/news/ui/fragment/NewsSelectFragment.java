@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,11 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.NewsPublisher;
 import com.yooiistudios.news.model.news.NewsPublisherList;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
+import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.ui.adapter.NewsCategorySelectAdapter;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
@@ -102,28 +106,34 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
     @Override
     public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final ArrayList<NewsTopic> newsTopicList = newsPublisher.getNewsTopicList();
 
-//        String[] titles = newsFeedTitleList.toArray(new String[newsFeedTitleList.size()]);
-//        AlertDialog alertDialog = builder.setItems(titles, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsFeedList().get(i));
-//                getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
-//                getActivity().finish();
-//            }
-//        }).setTitle(newsPublisher.getName()).create();
         NewsCategorySelectAdapter adapter =
-                new NewsCategorySelectAdapter(getActivity(), newsPublisher.getNewsTopicList());
-        AlertDialog alertDialog = builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                new NewsCategorySelectAdapter(getActivity(), newsTopicList);
+
+        ListView newsTopicListView = new ListView(getActivity());
+        newsTopicListView.setAdapter(adapter);
+
+        final AlertDialog alertDialog = builder
+            .setView(newsTopicListView)
+            .setTitle(newsPublisher.getName()).create();
+
+        newsTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsTopicList().get(i));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!newsTopicList.get(position).isDefault() &&
+                        !IabProducts.containsSku(getActivity(), IabProducts.SKU_TOPIC_SELECT)) {
+                    Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                alertDialog.dismiss();
+                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED,
+                        newsPublisher.getNewsTopicList().get(position));
                 getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }
-        }).setTitle(newsPublisher.getName()).create();
+        });
+
         alertDialog.show();
     }
 
