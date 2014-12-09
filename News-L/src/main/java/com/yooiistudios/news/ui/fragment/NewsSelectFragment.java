@@ -19,11 +19,9 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsPublisher;
 import com.yooiistudios.news.model.news.NewsPublisherList;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
+import com.yooiistudios.news.ui.adapter.NewsCategorySelectAdapter;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
-import com.yooiistudios.news.util.NLLog;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -107,13 +105,24 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> newsFeedTitleList = new ArrayList<String>();
+        ArrayList<String> newsFeedTitleList = new ArrayList<>();
         for (NewsFeed newsFeed : newsPublisher.getNewsFeedList()) {
             newsFeedTitleList.add(newsFeed.getTitle());
         }
 
-        String[] titles = newsFeedTitleList.toArray(new String[newsFeedTitleList.size()]);
-        AlertDialog alertDialog = builder.setItems(titles, new DialogInterface.OnClickListener() {
+//        String[] titles = newsFeedTitleList.toArray(new String[newsFeedTitleList.size()]);
+//        AlertDialog alertDialog = builder.setItems(titles, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.dismiss();
+//                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsFeedList().get(i));
+//                getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
+//                getActivity().finish();
+//            }
+//        }).setTitle(newsPublisher.getName()).create();
+        NewsCategorySelectAdapter adapter =
+                new NewsCategorySelectAdapter(getActivity(), newsFeedTitleList);
+        AlertDialog alertDialog = builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
