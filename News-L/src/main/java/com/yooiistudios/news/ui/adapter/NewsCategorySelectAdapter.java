@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
+import com.yooiistudios.news.model.news.NewsTopic;
 
 import java.util.ArrayList;
 
@@ -22,21 +23,21 @@ import java.util.ArrayList;
  */
 public class NewsCategorySelectAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> mNewsCategoryStrArr;
+    private ArrayList<NewsTopic> mNewsTopicArr;
 
-    public NewsCategorySelectAdapter(Context context, ArrayList<String> newsCategoryStrArr) {
+    public NewsCategorySelectAdapter(Context context, ArrayList<NewsTopic> newsTopicArr) {
         mContext = context;
-        mNewsCategoryStrArr = newsCategoryStrArr;
+        mNewsTopicArr = newsTopicArr;
     }
 
     @Override
     public int getCount() {
-        return mNewsCategoryStrArr.size();
+        return mNewsTopicArr.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mNewsCategoryStrArr.get(position);
+        return mNewsTopicArr.get(position);
     }
 
     @Override
@@ -51,12 +52,13 @@ public class NewsCategorySelectAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.news_category_select_dialog_list_item, null);
         }
+        NewsTopic newsTopic = mNewsTopicArr.get(position);
 
         TextView categoryNameTextView = (TextView)convertView.findViewById(R.id.news_category_name);
-        categoryNameTextView.setText(mNewsCategoryStrArr.get(position));
+        categoryNameTextView.setText(newsTopic.getTitle());
 
         // background
-        if (position == 0 || position == 1) {
+        if (newsTopic.isDefault()) {
             convertView.setBackgroundColor(Color.TRANSPARENT);
         } else {
             if (IabProducts.containsSku(mContext, IabProducts.SKU_TOPIC_SELECT)) {

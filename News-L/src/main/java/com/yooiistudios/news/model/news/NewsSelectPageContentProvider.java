@@ -5,21 +5,12 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 11.
@@ -69,13 +60,17 @@ public class NewsSelectPageContentProvider {
                 for (int j = 0; j < categoriesArray.length(); j++) {
                     JSONObject categoryObject = categoriesArray.getJSONObject(j);
 
-                    NewsFeed newsFeed = new NewsFeed();
-                    newsFeed.setTitle(categoryObject.getString("category_name"));
+                    NewsTopic newsTopic = new NewsTopic();
+                    newsTopic.setTitle(categoryObject.getString("category_name"));
 
                     String url = categoryObject.getString("url");
-                    newsFeed.setNewsFeedUrl(new NewsFeedUrl(url, NewsFeedUrlType.GENERAL));
+                    newsTopic.setNewsFeedUrl(new NewsFeedUrl(url, NewsFeedUrlType.GENERAL));
 
-                    newsPublisher.addNewsFeed(newsFeed);
+                    if (categoryObject.has("isDefault")) {
+                        newsTopic.setDefault(Boolean.valueOf(categoryObject.getString("isDefault")));
+                    }
+
+                    newsPublisher.addNewsTopic(newsTopic);
                 }
 
                 newsPublisherList.newsPublishers.add(newsPublisher);

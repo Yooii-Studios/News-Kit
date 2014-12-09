@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsPublisher;
 import com.yooiistudios.news.model.news.NewsPublisherList;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
@@ -104,12 +103,6 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
     public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> newsFeedTitleList = new ArrayList<>();
-        for (NewsFeed newsFeed : newsPublisher.getNewsFeedList()) {
-            newsFeedTitleList.add(newsFeed.getTitle());
-        }
-
 //        String[] titles = newsFeedTitleList.toArray(new String[newsFeedTitleList.size()]);
 //        AlertDialog alertDialog = builder.setItems(titles, new DialogInterface.OnClickListener() {
 //            @Override
@@ -121,12 +114,12 @@ public class NewsSelectFragment extends Fragment implements NewsSelectRecyclerVi
 //            }
 //        }).setTitle(newsPublisher.getName()).create();
         NewsCategorySelectAdapter adapter =
-                new NewsCategorySelectAdapter(getActivity(), newsFeedTitleList);
+                new NewsCategorySelectAdapter(getActivity(), newsPublisher.getNewsTopicList());
         AlertDialog alertDialog = builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsFeedList().get(i));
+                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED, newsPublisher.getNewsTopicList().get(i));
                 getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }
