@@ -40,7 +40,7 @@ public class AdDialogFactory {
         } else {
             builder = new AlertDialog.Builder(activity);
         }
-        builder.setTitle(R.string.ad_dialog_title_text);
+        builder.setTitle(R.string.quit_ad_dialog_title_text);
         builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
