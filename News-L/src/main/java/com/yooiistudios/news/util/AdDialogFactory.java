@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 
@@ -19,6 +20,17 @@ public class AdDialogFactory {
     private AdDialogFactory() { throw new AssertionError("Must not create this class!"); }
 
     public static final String AD_UNIT_ID = "ca-app-pub-2310680050309555/2431407023";
+
+    public static AdView initAdView(Context context,
+                                    final com.google.android.gms.ads.AdRequest adRequest) {
+        // make AdView again for next quit dialog
+        // prevent child reference
+        AdView adView = new AdView(context);
+        adView.setAdSize(AdSize.MEDIUM_RECTANGLE);
+        adView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
+        adView.loadAd(adRequest);
+        return adView;
+    }
 
     public static AlertDialog makeAdDialog(final Activity activity, final AdView adView) {
         Context context = activity.getApplicationContext();
@@ -43,25 +55,13 @@ public class AdDialogFactory {
             }
         });
 
-        AlertDialog wakeDialog = builder.create();
-        /*
-        // 이렇게 하면 한 광고로 계속 보여줄 수 있지만 새 광고를 계속 새로 띄우기 위해 일부러 구현 안함
-        wakeDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                ((ViewGroup) adView.getParent()).removeView(adView);
-            }
-        });
-        */
+        AlertDialog dialog = builder.create();
 
-        wakeDialog.setView(adView); // Android L 에서 윗 공간이 좀 이상하긴 하지만 기본으로 가야할듯
-//        wakeDialog.setView(adView, 0, 0, 0, 0);
-//        wakeDialog.setView(adView, 0,
-//                context.getResources().getDimensionPixelSize(R.dimen.ad_dialog_top_margin), 0, 0);
+        dialog.setView(adView); // Android L 에서 윗 공간이 좀 이상하긴 하지만 기본으로 가야할듯
 
         // 기타 필요한 설정
-        wakeDialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(false);
 
-        return wakeDialog;
+        return dialog;
     }
 }

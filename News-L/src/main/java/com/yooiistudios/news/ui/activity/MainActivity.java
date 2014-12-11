@@ -25,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
@@ -169,11 +168,7 @@ public class MainActivity extends Activity
         // quit
         // make AdView earlier for showing ad fast in the quit dialog
         mQuitAdRequest = new AdRequest.Builder().build();
-
-        mQuitAdView = new AdView(this);
-        mQuitAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
-        mQuitAdView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
-        mQuitAdView.loadAd(mQuitAdRequest);
+        mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
     }
 
     private void checkAdView() {
@@ -492,10 +487,7 @@ public class MainActivity extends Activity
                 adDialog.show();
                 // make AdView again for next quit dialog
                 // prevent child reference
-                mQuitAdView = new AdView(this);
-                mQuitAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
-                mQuitAdView.setAdUnitId(AdDialogFactory.AD_UNIT_ID);
-                mQuitAdView.loadAd(mQuitAdRequest);
+                mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
             } else {
                 // just finish activity when dialog is null
                 super.onBackPressed();
