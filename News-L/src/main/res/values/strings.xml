@@ -60,7 +60,7 @@
     <string name="feedback_description">How can we improve News L?</string>
 
     <!-- Ad -->
-    <string name="ad_dialog_title_text">Do you want to quit News L?</string>
+    <string name="ad_dialog_title_text">Do you want to quit this app?</string>
 
     <!-- Store -->
     <string name="store">Store</string>

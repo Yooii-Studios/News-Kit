@@ -56,6 +56,6 @@
     <string name="feedback_description">뉴스 L을 개선하기 위한 의견을 들려주세요^^</string>
 
     <!-- Ad -->
-    <string name="ad_dialog_title_text">뉴스 L을 종료하시겠습니까?</string>
+    <string name="ad_dialog_title_text">이 앱을 종료하시겠습니까?</string>
 
 </resources>
