@@ -18,14 +18,14 @@ import java.util.ArrayList;
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 12. 5.
  *
- * NewsCategorySelectAdapter
- *  뉴스사의 카테고리 선택 다이얼로그에 쓰이는 어댑터
+ * NewsTopicSelectAdapter
+ *  뉴스사의 토픽 선택 다이얼로그에 쓰이는 어댑터
  */
-public class NewsCategorySelectAdapter extends BaseAdapter {
+public class NewsTopicSelectAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<NewsTopic> mNewsTopicArr;
 
-    public NewsCategorySelectAdapter(Context context, ArrayList<NewsTopic> newsTopicArr) {
+    public NewsTopicSelectAdapter(Context context, ArrayList<NewsTopic> newsTopicArr) {
         mContext = context;
         mNewsTopicArr = newsTopicArr;
     }
@@ -50,12 +50,12 @@ public class NewsCategorySelectAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.news_category_select_dialog_list_item, null);
+                    R.layout.news_topic_select_dialog_list_item, null);
         }
         NewsTopic newsTopic = mNewsTopicArr.get(position);
 
-        TextView categoryNameTextView = (TextView)convertView.findViewById(R.id.news_category_name);
-        categoryNameTextView.setText(newsTopic.getTitle());
+        TextView topicNameTextView = (TextView)convertView.findViewById(R.id.news_topic_name);
+        topicNameTextView.setText(newsTopic.getTitle());
 
         // background
         if (newsTopic.isDefault()) {

@@ -181,14 +181,14 @@ public class NewsFeedUtils {
      * @param type NLNewsFeedUrlType
      * @return retval
      * retval[0] : title.
-     * retval[1] : publisher or null if there's no publisher info.
+     * retval[1] : provider or null if there's no provider info.
      *
      */
-    public static String[] getTitleAndPublisherName(News news,
-                                          NewsFeedUrlType type) {
+    public static String[] getTitleAndProviderName(News news,
+                                                   NewsFeedUrlType type) {
         String title = news.getTitle();
         String newTitle;
-        String publisher;
+        String provider;
         switch (type) {
             case GOOGLE:
                 final String delim = " - ";
@@ -203,26 +203,26 @@ public class NewsFeedUtils {
                         pubEndIdx >= pubStartIdx) {
                 // title.length() >= delim.length()
                     newTitle = title.substring(titleStartIdx, idx);
-                    publisher = "- " + title.substring(pubStartIdx, pubEndIdx);
+                    provider = "- " + title.substring(pubStartIdx, pubEndIdx);
                 } else {
                     newTitle = title;
-                    publisher = null;
+                    provider = null;
                 }
                 break;
 
             case YAHOO:
                 newTitle = title;
-                publisher = NEWS_PROVIDER_YAHOO_JAPAN;
+                provider = NEWS_PROVIDER_YAHOO_JAPAN;
                 break;
 
             case GENERAL:
             default:
                 newTitle = title;
-                publisher = null;
+                provider = null;
                 break;
         }
 
-        return new String[]{newTitle, publisher};
+        return new String[]{newTitle, provider};
     }
 
     public static String getFeedTitle(Context context) {

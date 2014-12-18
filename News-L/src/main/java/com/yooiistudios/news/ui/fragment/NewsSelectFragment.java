@@ -18,11 +18,11 @@ import android.widget.Toast;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.model.news.NewsPublisher;
-import com.yooiistudios.news.model.news.NewsPublisherList;
+import com.yooiistudios.news.model.news.NewsProvider;
+import com.yooiistudios.news.model.news.NewsRegion;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.model.news.NewsTopic;
-import com.yooiistudios.news.ui.adapter.NewsCategorySelectAdapter;
+import com.yooiistudios.news.ui.adapter.NewsTopicSelectAdapter;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 
@@ -38,14 +38,14 @@ import butterknife.InjectView;
  *  뉴스 선택화면의 한 페이지의 컨텐츠.
  */
 public class NewsSelectFragment extends Fragment
-        implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
+        implements NewsSelectRecyclerViewAdapter.OnNewsProviderClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
     public static final String KEY_SELECTED_NEWS_FEED = "KEY_SELECTED_NEWS_FEED";
 
     private ViewHolder mViewHolder;
-    private ArrayList<NewsPublisher> mNewsProviderList;
-    private NewsPublisherList mNewsPublisherList;
+    private ArrayList<NewsProvider> mNewsProviderList;
+    private NewsRegion mNewsRegion;
     private int mPosition;
 
     public static NewsSelectFragment newInstance(int pageNum) {
@@ -75,9 +75,9 @@ public class NewsSelectFragment extends Fragment
 //                NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
 
         // 새 메서드
-        // 추후 mNewsProviderList는 삭제하고 publisherList에서만 사용하게 리팩토링이 필요
-        mNewsPublisherList = NewsSelectPageContentProvider.getNewsProviders(context, mPosition);
-        mNewsProviderList = mNewsPublisherList.getNewsPublishers();
+        // 추후 mNewsProviderList는 삭제하고 providerList에서만 사용하게 리팩토링이 필요
+        mNewsRegion = NewsSelectPageContentProvider.getNewsProviders(context, mPosition);
+        mNewsProviderList = mNewsRegion.getNewsProviders();
     }
 
     @Nullable
@@ -96,7 +96,7 @@ public class NewsSelectFragment extends Fragment
                 new LinearLayoutManager(context));
 
         NewsSelectRecyclerViewAdapter adapter = new NewsSelectRecyclerViewAdapter(mNewsProviderList);
-        adapter.setOnNewsPublisherClickListener(this);
+        adapter.setOnNewsProviderClickListener(this);
         mViewHolder.mRecyclerView.setAdapter(adapter);
         mViewHolder.mRecyclerView.addItemDecoration(new DividerItemDecoration(context,
                 DividerItemDecoration.VERTICAL_LIST));
@@ -105,17 +105,17 @@ public class NewsSelectFragment extends Fragment
     }
 
     @Override
-    public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
-        final ArrayList<NewsTopic> newsTopicList = newsPublisher.getNewsTopicList();
+    public void onNewsProviderClick(final NewsProvider newsProvider) {
+        final ArrayList<NewsTopic> newsTopicList = newsProvider.getNewsTopicList();
 
-        NewsCategorySelectAdapter adapter = new NewsCategorySelectAdapter(getActivity(), newsTopicList);
+        NewsTopicSelectAdapter adapter = new NewsTopicSelectAdapter(getActivity(), newsTopicList);
 
         ListView newsTopicListView = new ListView(getActivity());
         newsTopicListView.setAdapter(adapter);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
             .setView(newsTopicListView)
-            .setTitle(newsPublisher.getName()).create();
+            .setTitle(newsProvider.getName()).create();
 
         newsTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -126,8 +126,23 @@ public class NewsSelectFragment extends Fragment
                     return;
                 }
                 alertDialog.dismiss();
+
+                // region Test log
+                /*
+                if (true) {
+                    NewsTopic topic = newsProvider.getNewsTopicList().get(position);
+                    NLLog.now("topic    language    : " + topic.getLanguageCode());
+                    NLLog.now("topic    region      : " + topic.getRegionCode());
+                    NLLog.now("topic    providerId  : " + topic.getNewsProviderId());
+                    NLLog.now("topic    id          : " + topic.getId());
+
+                    return;
+                }
+                */
+                // endregion
+
                 getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED,
-                        newsPublisher.getNewsTopicList().get(position));
+                        newsProvider.getNewsTopicList().get(position));
                 getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }

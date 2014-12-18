@@ -3,181 +3,223 @@
     "lang_name_regional": "日本語",
     "lang_code": "jp",
     "region_code": "null",
-    "news_publishers": [
+    "news_providers": [
         {
-            "publisher_name": "구글(X)",
-            "categories": [
+            "provider_name": "구글(X)",
+            "provider_id": "1",
+            "topics": [
                 {
-                    "category_name": "주요 뉴스",
+                    "topic_name": "주요 뉴스",
+                    "topic_id": "1",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "연예",
+                    "topic_name": "연예",
+                    "topic_id": "2",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=e"
                 },
                 {
-                    "category_name": "스포츠",
+                    "topic_name": "스포츠",
+                    "topic_id": "3",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=s"
                 },
                 {
-                    "category_name": "문화/생활",
+                    "topic_name": "문화/생활",
+                    "topic_id": "4",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=l"
                 },
                 {
-                    "category_name": "경제",
+                    "topic_name": "경제",
+                    "topic_id": "5",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=b"
                 },
                 {
-                    "category_name": "사회",
+                    "topic_name": "사회",
+                    "topic_id": "6",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=y"
                 },
                 {
-                    "category_name": "국제",
+                    "topic_name": "국제",
+                    "topic_id": "7",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=w"
                 },
                 {
-                    "category_name": "과학기술",
+                    "topic_name": "과학기술",
+                    "topic_id": "8",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=t"
                 },
                 {
-                    "category_name": "정치",
+                    "topic_name": "정치",
+                    "topic_id": "9",
                     "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=p"
                 }
             ]
         },
         {
-            "publisher_name": "毎日新聞",
-            "categories": [
+            "provider_name": "毎日新聞",
+            "provider_id": "2",
+            "topics": [
                 {
-                    "category_name": "ニュース速報（総合）",
+                    "topic_name": "ニュース速報（総合）",
+                    "topic_id": "1",
                     "url": "http://mainichi.jp/rss/",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "スポーツ",
+                    "topic_name": "スポーツ",
+                    "topic_id": "2",
                     "url": "http://mainichi.jp/rss/etc/sports.rss"
                 },
                 {
-                    "category_name": "エンタメ",
+                    "topic_name": "エンタメ",
+                    "topic_id": "3",
                     "url": "http://mainichi.jp/rss/etc/enta.rss"
                 },
                 {
-                    "category_name": "社説・解説・コラム",
+                    "topic_name": "社説・解説・コラム",
+                    "topic_id": "4",
                     "url": "http://mainichi.jp/rss/etc/opinion.rss"
                 }
             ]
         },
         {
-            "publisher_name": "アサヒ",
-            "categories": [
+            "provider_name": "アサヒ",
+            "provider_id": "3",
+            "topics": [
                 {
-                    "category_name": "速報ニュース",
+                    "topic_name": "速報ニュース",
+                    "topic_id": "1",
                     "url": "http://www3.asahi.com/rss/index.rdf",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "社会",
+                    "topic_name": "社会",
+                    "topic_id": "2",
                     "url": "http://www3.asahi.com/rss/national.rdf"
                 },
                 {
-                    "category_name": "政治",
+                    "topic_name": "政治",
+                    "topic_id": "3",
                     "url": "http://www3.asahi.com/rss/politics.rdf"
                 },
                 {
-                    "category_name": "スポーツ",
+                    "topic_name": "スポーツ",
+                    "topic_id": "4",
                     "url": "http://www3.asahi.com/rss/sports.rdf"
                 },
                 {
-                    "category_name": "ビジネス",
+                    "topic_name": "ビジネス",
+                    "topic_id": "5",
                     "url": "http://www3.asahi.com/rss/business.rdf"
                 },
                 {
-                    "category_name": "国際",
+                    "topic_name": "国際",
+                    "topic_id": "6",
                     "url": "http://www3.asahi.com/rss/international.rdf"
                 },
                 {
-                    "category_name": "文化",
+                    "topic_name": "文化",
+                    "topic_id": "7",
                     "url": "http://www3.asahi.com/rss/culture.rdf"
                 }
             ]
         },
         {
-            "publisher_name": "MSN産経ニュース",
-            "categories": [
+            "provider_name": "MSN産経ニュース",
+            "provider_id": "4",
+            "topics": [
                 {
-                    "category_name": "注目ニュース",
+                    "topic_name": "注目ニュース",
+                    "topic_id": "1",
                     "url": "http://sankei.jp.msn.com/rss/news/points.xml",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "事件",
+                    "topic_name": "事件",
+                    "topic_id": "2",
                     "url": "http://sankei.jp.msn.com/rss/news/affairs.xml"
                 },
                 {
-                    "category_name": "政治",
+                    "topic_name": "政治",
+                    "topic_id": "3",
                     "url": "http://sankei.jp.msn.com/rss/news/politics.xml"
                 },
                 {
-                    "category_name": "経済・IT",
+                    "topic_name": "経済・IT",
+                    "topic_id": "4",
                     "url": "http://sankei.jp.msn.com/rss/news/economy.xml"
                 },
                 {
-                    "category_name": "国際",
+                    "topic_name": "国際",
+                    "topic_id": "5",
                     "url": "http://sankei.jp.msn.com/rss/news/world.xml"
                 },
                 {
-                    "category_name": "スポーツ",
+                    "topic_name": "スポーツ",
+                    "topic_id": "6",
                     "url": "http://sankei.jp.msn.com/rss/news/sports.xml"
                 },
                 {
-                    "category_name": "エンタメ",
+                    "topic_name": "エンタメ",
+                    "topic_id": "7",
                     "url": "http://sankei.jp.msn.com/rss/news/entertainments.xml"
                 },
                 {
-                    "category_name": "文化",
+                    "topic_name": "文化",
+                    "topic_id": "8",
                     "url": "http://sankei.jp.msn.com/rss/news/culture.xml"
                 }
             ]
         },
         {
-            "publisher_name": "Yahoo Japan",
-            "categories": [
+            "provider_name": "Yahoo Japan",
+            "provider_id": "5",
+            "topics": [
                 {
-                    "category_name": "トピックストップ",
+                    "topic_name": "トピックストップ",
+                    "topic_id": "1",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/rss.xml",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "国内",
+                    "topic_name": "国内",
+                    "topic_id": "2",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/domestic/rss.xml"
                 },
                 {
-                    "category_name": "海外",
+                    "topic_name": "海外",
+                    "topic_id": "3",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/world/rss.xml"
                 },
                 {
-                    "category_name": "経済",
+                    "topic_name": "経済",
+                    "topic_id": "4",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/economy/rss.xml"
                 },
                 {
-                    "category_name": "エンターテインメント",
+                    "topic_name": "エンターテインメント",
+                    "topic_id": "5",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/entertainment/rss.xml"
                 },
                 {
-                    "category_name": "スポーツ",
+                    "topic_name": "スポーツ",
+                    "topic_id": "6",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/sports/rss.xml"
                 },
                 {
-                    "category_name": "コンピュータ",
+                    "topic_name": "コンピュータ",
+                    "topic_id": "7",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/computer/rss.xml"
                 },
                 {
-                    "category_name": "サイエンス",
+                    "topic_name": "サイエンス",
+                    "topic_id": "8",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/science/rss.xml"
                 },
                 {
-                    "category_name": "地域",
+                    "topic_name": "地域",
+                    "topic_id": "9",
                     "url": "http://rss.dailynews.yahoo.co.jp/fc/local/rss.xml"
                 }
             ]

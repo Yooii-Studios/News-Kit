@@ -20,9 +20,9 @@ import java.io.UnsupportedEncodingException;
  */
 public class NewsSelectPageContentProvider {
 
-    public static NewsPublisherList getNewsProviders(Context context, int position) {
+    public static NewsRegion getNewsProviders(Context context, int position) {
         // int를 raw id로 변환
-        int resourceId = NewsPublisherLangType.valueOf(position).getResourceId();
+        int resourceId = NewsProviderLangType.valueOf(position).getResourceId();
 
         // raw id 에서 json 스트링을 만들고 JSONObject 로 변환
         try {
@@ -35,65 +35,89 @@ public class NewsSelectPageContentProvider {
 
             String content = new String(tC);
 
-            // 변환한 JSONObject 를 NewsPublishers 로 변환
+            // 변환한 JSONObject 를 NewsProviders 로 변환
             JSONObject newsData = new JSONObject(content);
 
             // lang info
-            NewsPublisherList newsPublisherList = new NewsPublisherList();
-            newsPublisherList.englishLanguageName = newsData.getString("lang_name_english");
-            newsPublisherList.regionalLanguageName = newsData.getString("lang_name_regional");
-            newsPublisherList.languageCode = newsData.getString("lang_code");
+            NewsRegion newsRegion = new NewsRegion();
+            newsRegion.englishLanguageName = newsData.getString("lang_name_english");
+            newsRegion.regionalLanguageName = newsData.getString("lang_name_regional");
+            newsRegion.languageCode = newsData.getString("lang_code");
             String regionCode = newsData.getString("region_code");
             if (!regionCode.equals("null")) {
-                newsPublisherList.regionCode = regionCode;
+                newsRegion.regionCode = regionCode;
             }
 
-            // publishers
-            JSONArray providersArray = newsData.getJSONArray("news_publishers");
+            // providers
+            JSONArray providersArray = newsData.getJSONArray("news_providers");
             for (int i = 0; i < providersArray.length(); i++) {
                 JSONObject newsProviderObject = providersArray.getJSONObject(i);
 
-                NewsPublisher newsPublisher = new NewsPublisher();
-                newsPublisher.setName(newsProviderObject.getString("publisher_name"));
+                NewsProvider newsProvider = new NewsProvider();
+                newsProvider.setName(newsProviderObject.getString("provider_name"));
+                newsProvider.setId(newsProviderObject.getInt("provider_id"));
 
-                JSONArray categoriesArray = newsProviderObject.getJSONArray("categories");
-                for (int j = 0; j < categoriesArray.length(); j++) {
-                    JSONObject categoryObject = categoriesArray.getJSONObject(j);
+                newsProvider.setLanguageCode(newsRegion.languageCode);
+                newsProvider.setRegionCode(newsRegion.regionCode);
+
+                JSONArray topicArray = newsProviderObject.getJSONArray("topics");
+                for (int j = 0; j < topicArray.length(); j++) {
+                    JSONObject topicObject = topicArray.getJSONObject(j);
 
                     NewsTopic newsTopic = new NewsTopic();
-                    newsTopic.setTitle(categoryObject.getString("category_name"));
+                    newsTopic.setTitle(topicObject.getString("topic_name"));
+                    newsTopic.setId(topicObject.getInt("topic_id"));
 
-                    String url = categoryObject.getString("url");
+                    newsTopic.setLanguageCode(newsRegion.languageCode);
+                    newsTopic.setRegionCode(newsRegion.regionCode);
+                    newsTopic.setNewsProviderId(newsProvider.getId());
+
+                    String url = topicObject.getString("url");
                     newsTopic.setNewsFeedUrl(new NewsFeedUrl(url, NewsFeedUrlType.GENERAL));
 
-                    if (categoryObject.has("isDefault")) {
-                        newsTopic.setDefault(Boolean.valueOf(categoryObject.getString("isDefault")));
+                    if (topicObject.has("isDefault")) {
+                        newsTopic.setDefault(Boolean.valueOf(topicObject.getString("isDefault")));
                     }
 
-                    newsPublisher.addNewsTopic(newsTopic);
+                    newsProvider.addNewsTopic(newsTopic);
                 }
 
-                newsPublisherList.newsPublishers.add(newsPublisher);
+                newsRegion.newsProviders.add(newsProvider);
             }
 
             /*
             // Test
-            NLLog.now("lang: " + newsPublisherList.englishLanguageName);
-            NLLog.now("lang_region: " + newsPublisherList.regionalLanguageName);
-            NLLog.now("lang_code: " + newsPublisherList.languageCode);
-            NLLog.now("region_code: " + newsPublisherList.languageCode);
+            NLLog.now("lang: " + newsProviderList.englishLanguageName);
+            NLLog.now("lang_region: " + newsProviderList.regionalLanguageName);
+            NLLog.now("lang_code: " + newsProviderList.languageCode);
+            NLLog.now("region_code: " + newsProviderList.languageCode);
             NLLog.now("newsProviders");
 
-            for (NewsPublisher newsPublisher : newsPublisherList.newsPublishers) {
-                NLLog.now("provider name: " + newsPublisher.getName());
-                for (NewsFeed newsFeed : newsPublisher.getNewsFeedList()) {
+            for (NewsProvider newsProvider : newsProviderList.newsProviders) {
+                NLLog.now("provider name: " + newsProvider.getName());
+                for (NewsFeed newsFeed : newsProvider.getNewsFeedList()) {
                     NLLog.now("newsFeed name: " + newsFeed.getTitle());
                     NLLog.now("newsFeed url: " + newsFeed.getNewsFeedUrl().getUrl());
                 }
             }
             */
 
-            return newsPublisherList;
+            /*
+            for (NewsProvider provider : newsRegion.getNewsProviders()) {
+                NLLog.now("provider     language    : " + provider.getLanguageCode());
+                NLLog.now("provider     region      : " + provider.getRegionCode());
+                NLLog.now("provider     id          : " + provider.getId());
+
+                for (NewsTopic topic : provider.getNewsTopicList()) {
+                    NLLog.now("topic    language    : " + topic.getLanguageCode());
+                    NLLog.now("topic    region      : " + topic.getRegionCode());
+                    NLLog.now("topic    providerId  : " + topic.getNewsProviderId());
+                    NLLog.now("topic    id          : " + topic.getId());
+                }
+            }
+            */
+
+            return newsRegion;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
