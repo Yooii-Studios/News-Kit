@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import com.yooiistudios.news.model.news.NewsPublisherLangType;
+import com.yooiistudios.news.model.news.NewsProviderLangType;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 
 /**
@@ -29,11 +29,11 @@ public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return NewsPublisherLangType.values().length;
+        return NewsProviderLangType.values().length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return NewsPublisherLangType.valueOf(position).getTitle();
+        return NewsProviderLangType.valueOf(position).getTitle();
     }
 }

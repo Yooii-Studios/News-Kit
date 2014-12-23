@@ -3,133 +3,164 @@
     "lang_name_regional": "Français",
     "lang_code": "fr",
     "region_code": "null",
-    "news_publishers": [
+    "news_providers": [
         {
-            "publisher_name": "Le Pigaro",
-            "categories": [
+            "provider_name": "Le Pigaro",
+            "provider_id": "1",
+            "topics": [
                 {
-                    "category_name": "A la une",
+                    "topic_name": "A la une",
+                    "topic_id": "1",
                     "url": "http://rss.lefigaro.fr/lefigaro/laune",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "Culture",
+                    "topic_name": "Culture",
+                    "topic_id": "2",
                     "url": "http://www.lefigaro.fr/rss/figaro_culture.xml"
                 },
                 {
-                    "category_name": "Médias",
+                    "topic_name": "Médias",
+                    "topic_id": "3",
                     "url": "http://www.lefigaro.fr/rss/figaro_medias.xml"
                 },
                 {
-                    "category_name": "Technologies",
+                    "topic_name": "Technologies",
+                    "topic_id": "4",
                     "url": "http://www.lefigaro.fr/rss/figaro_hightech.xml"
                 },
                 {
-                    "category_name": "Politique",
+                    "topic_name": "Politique",
+                    "topic_id": "5",
                     "url": "http://www.lefigaro.fr/rss/figaro_politique.xml"
                 },
                 {
-                    "category_name": "Santé",
+                    "topic_name": "Santé",
+                    "topic_id": "6",
                     "url": "http://www.lefigaro.fr/rss/figaro_sante.xml"
                 },
                 {
-                    "category_name": "Sciences",
+                    "topic_name": "Sciences",
+                    "topic_id": "7",
                     "url": "http://www.lefigaro.fr/rss/figaro_sciences.xml"
                 },
                 {
-                    "category_name": "Sport",
+                    "topic_name": "Sport",
+                    "topic_id": "8",
                     "url": "http://www.lefigaro.fr/rss/figaro_sport.xml"
                 },
                 {
-                    "category_name": "Économie",
+                    "topic_name": "Économie",
+                    "topic_id": "9",
                     "url": "http://www.lefigaro.fr/rss/figaro_economie.xml"
                 }
             ]
         },
         {
-            "publisher_name": "Le monde",
-            "categories": [
+            "provider_name": "Le monde",
+            "provider_id": "2",
+            "topics": [
                 {
-                    "category_name": "A la une",
+                    "topic_name": "A la une",
+                    "topic_id": "1",
                     "url": "http://www.lemonde.fr/rss/une.xml",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "Culture",
+                    "topic_name": "Culture",
+                    "topic_id": "2",
                     "url": "http://www.lemonde.fr/culture/rss_full.xml"
                 },
                 {
-                    "category_name": "Finances",
+                    "topic_name": "Finances",
+                    "topic_id": "3",
                     "url": "http://www.lemonde.fr/finance/rss_full.xml"
                 },
                 {
-                    "category_name": "International",
+                    "topic_name": "International",
+                    "topic_id": "4",
                     "url": "http://www.lemonde.fr/international/rss_full.xml"
                 },
                 {
-                    "category_name": "Paris",
+                    "topic_name": "Paris",
+                    "topic_id": "5",
                     "url": "http://www.lemonde.fr/paris/rss_full.xml"
                 },
                 {
-                    "category_name": "Politique",
+                    "topic_name": "Politique",
+                    "topic_id": "6",
                     "url": "http://www.lemonde.fr/politique/rss_full.xml"
                 },
                 {
-                    "category_name": "Santé",
+                    "topic_name": "Santé",
+                    "topic_id": "7",
                     "url": "http://www.lemonde.fr/sante/rss_full.xml"
                 },
                 {
-                    "category_name": "Sciences",
+                    "topic_name": "Sciences",
+                    "topic_id": "8",
                     "url": "http://www.lemonde.fr/sciences/rss_full.xml"
                 },
                 {
-                    "category_name": "Sport",
+                    "topic_name": "Sport",
+                    "topic_id": "9",
                     "url": "http://www.lemonde.fr/sport/rss_full.xml"
                 },
                 {
-                    "category_name": "Technologies",
+                    "topic_name": "Technologies",
+                    "topic_id": "10",
                     "url": "http://www.lemonde.fr/technologies/rss_full.xml"
                 },
                 {
-                    "category_name": "Économie",
+                    "topic_name": "Économie",
+                    "topic_id": "11",
                     "url": "http://www.lemonde.fr/economie/rss_full.xml"
                 }
             ]
         },
         {
-            "publisher_name": "Google",
-            "categories": [
+            "provider_name": "Google",
+            "provider_id": "3",
+            "topics": [
                 {
-                    "category_name": "A la une",
+                    "topic_name": "A la une",
+                    "topic_id": "1",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&output=rss",
                     "isDefault": "true"
                 },
                 {
-                    "category_name": "International",
+                    "topic_name": "International",
+                    "topic_id": "2",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=w&output=rss"
                 },
                 {
-                    "category_name": "France",
+                    "topic_name": "France",
+                    "topic_id": "3",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=n&output=rss"
                 },
                 {
-                    "category_name": "Économie",
+                    "topic_name": "Économie",
+                    "topic_id": "4",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=b&output=rss"
                 },
                 {
-                    "category_name": "Science/High-Tech",
+                    "topic_name": "Science/High-Tech",
+                    "topic_id": "5",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=t&output=rss"
                 },
                 {
-                    "category_name": "Culture",
+                    "topic_name": "Culture",
+                    "topic_id": "6",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=e&output=rss"
                 },
                 {
-                    "category_name": "Sport",
+                    "topic_name": "Sport",
+                    "topic_id": "7",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=s&output=rss"
                 },
                 {
-                    "category_name": "Santé",
+                    "topic_name": "Santé",
+                    "topic_id": "8",
                     "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=m&output=rss"
                 }
             ]

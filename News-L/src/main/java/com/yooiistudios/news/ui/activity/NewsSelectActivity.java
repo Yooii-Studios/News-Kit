@@ -16,7 +16,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.news.ui.fragment.CustomNewsFeedDialogFragment;
@@ -95,9 +94,7 @@ public class NewsSelectActivity extends Activity
 
     @Override
     public void onConfirm(NewsFeedUrl feedUrl) {
-        NewsFeed newsFeed = new NewsFeed();
-        newsFeed.setNewsFeedUrl(feedUrl);
-        getIntent().putExtra(NewsSelectFragment.KEY_SELECTED_NEWS_FEED, newsFeed);
+        getIntent().putExtra(NewsSelectFragment.KEY_CUSTOM_RSS_URL, feedUrl);
         setResult(Activity.RESULT_OK, getIntent());
         finish();
     }

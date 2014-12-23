@@ -1,5 +1,7 @@
 package com.yooiistudios.news.model.news;
 
+import com.yooiistudios.news.util.RssFetchable;
+
 import java.io.Serializable;
 
 /**
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * MNNewsFeedUrl
  *  뉴스피드 url 을 가지고 있는 자료구조
  */
-public class NewsFeedUrl implements Serializable {
+public class NewsFeedUrl implements Serializable, RssFetchable {
     private String mUrl;
     private NewsFeedUrlType mType;
 

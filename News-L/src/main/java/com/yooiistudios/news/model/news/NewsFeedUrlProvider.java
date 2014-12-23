@@ -1,5 +1,8 @@
 package com.yooiistudios.news.model.news;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 
 /**
@@ -10,43 +13,60 @@ import java.util.ArrayList;
  */
 public class NewsFeedUrlProvider {
 
-    private NewsFeedUrl mTopNewsFeedUrl;
-    private ArrayList<NewsFeedUrl> mBottomNewsFeedUrlList;
+    private NewsTopic mTopNewsTopic;
+    private ArrayList<NewsTopic> mBottomNewsTopicList;
 
     private static NewsFeedUrlProvider instance;
 
-    public static NewsFeedUrlProvider getInstance() {
+    public static NewsFeedUrlProvider getInstance(Context context) {
         if (instance == null) {
-            instance = new NewsFeedUrlProvider();
+            instance = new NewsFeedUrlProvider(context);
         }
 
         return instance;
     }
 
-    private NewsFeedUrlProvider() {
-        mTopNewsFeedUrl = new NewsFeedUrl("http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
-                NewsFeedUrlType.GENERAL);
+    private NewsFeedUrlProvider(Context context) {
+        mTopNewsTopic = getNewsTopic(context, "en", null, 4, 2);
 
-        mBottomNewsFeedUrlList = new ArrayList<>();
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://feeds2.feedburner.com/time/topstories",
-                NewsFeedUrlType.GENERAL));
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.cnn.com/rss/edition.rss",
-                NewsFeedUrlType.GENERAL));
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.rssad.jp/rss/mainichi/flash.rss",
-                NewsFeedUrlType.GENERAL));
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://myhome.chosun.com/rss/www_section_rss.xml",
-                NewsFeedUrlType.GENERAL));
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://rss.lemonde.fr/c/205/f/3050/index.rss",
-                NewsFeedUrlType.GENERAL));
-        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://estaticos.elmundo.es/elmundo/rss/portada.xml",
-                NewsFeedUrlType.GENERAL));
+        mBottomNewsTopicList = new ArrayList<>();
+        mBottomNewsTopicList.add(getNewsTopic(context, "en", null, 3, 1));
+        mBottomNewsTopicList.add(getNewsTopic(context, "en", null, 2, 1));
+        mBottomNewsTopicList.add(getNewsTopic(context, "jp", null, 2, 1));
+        mBottomNewsTopicList.add(getNewsTopic(context, "ko", null, 2, 2));
+        mBottomNewsTopicList.add(getNewsTopic(context, "fr", null, 2, 1));
+        mBottomNewsTopicList.add(getNewsTopic(context, "en", null, 3, 1));
+//        mBottomNewsFeedUrlList.add(new NewsFeedUrl("http://estaticos.elmundo.es/elmundo/rss/portada.xml",
+//                NewsFeedUrlType.GENERAL));
     }
 
-    public NewsFeedUrl getTopNewsFeedUrl() {
-        return mTopNewsFeedUrl;
+    private static NewsTopic getNewsTopic(Context context,
+                                          String languageCode, @Nullable String regionCode,
+                                          int newsProviderId, int newsTopicId) {
+        NewsTopic newsTopic = NewsContentProvider.getInstance(context).getNewsTopic(
+                languageCode, regionCode, newsProviderId, newsTopicId);
+        if (newsTopic == null) {
+            NewsProvider newsProvider =
+                    NewsContentProvider.getInstance(context).getNewsProvider(
+                            languageCode, regionCode, newsProviderId
+                    );
+
+            newsTopic = newsProvider.getDefaultNewsTopic();
+            if (newsTopic == null) {
+                if (newsProvider.getNewsTopicList().size() == 0) {
+                    throw new IllegalStateException("INVALID News provider resource!!!");
+                }
+                newsTopic = newsProvider.getNewsTopicList().get(0);
+            }
+        }
+        return newsTopic;
     }
-    public ArrayList<NewsFeedUrl> getBottomNewsFeedUrlList() {
-        return mBottomNewsFeedUrlList;
+
+    public NewsTopic getTopNewsTopic() {
+        return mTopNewsTopic;
+    }
+    public ArrayList<NewsTopic> getBottomNewsTopicList() {
+        return mBottomNewsTopicList;
     }
 //    public static int getSelectNewsFeedCountryCount() {
 //        return sSelectNewsFeedList.size();

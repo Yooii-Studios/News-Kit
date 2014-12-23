@@ -1,0 +1,221 @@
+{
+    "lang_name_english": "English",
+    "lang_name_regional": "English",
+    "lang_code": "en",
+    "region_code": "null",
+    "news_providers": [
+        {
+            "provider_name": "Google",
+            "provider_id": "1",
+            "topics": [
+                {
+                    "topic_name": "Top Stories",
+                    "topic_id": "1",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss",
+                    "isDefault": "true"
+                },
+                {
+                    "topic_name": "World",
+                    "topic_id": "2",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=w"
+                },
+                {
+                    "topic_name": "U.S.",
+                    "topic_id": "3",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=n"
+                },
+                {
+                    "topic_name": "Business",
+                    "topic_id": "4",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=b"
+                },
+                {
+                    "topic_name": "Technology",
+                    "topic_id": "5",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=tc"
+                },
+                {
+                    "topic_name": "Entertainment",
+                    "topic_id": "6",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=e"
+                },
+                {
+                    "topic_name": "Sports",
+                    "topic_id": "7",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=s"
+                },
+                {
+                    "topic_name": "Science",
+                    "topic_id": "8",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=snc"
+                },
+                {
+                    "topic_name": "Health",
+                    "topic_id": "9",
+                    "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=m"
+                }
+            ]
+        },
+        {
+            "provider_name": "CNN",
+            "provider_id": "2",
+            "topics": [
+                {
+                    "topic_name": "Top Stories",
+                    "topic_id": "1",
+                    "url": "http://rss.cnn.com/rss/edition.rss",
+                    "isDefault": "true"
+                },
+                {
+                    "topic_name": "World",
+                    "topic_id": "2",
+                    "url": "http://rss.cnn.com/rss/edition_world.rss"
+                },
+                {
+                    "topic_name": "U.S.",
+                    "topic_id": "3",
+                    "url": "http://rss.cnn.com/rss/edition_us.rss"
+                },
+                {
+                    "topic_name": "World Business",
+                    "topic_id": "4",
+                    "url": "http://rss.cnn.com/rss/edition_business.rss"
+                },
+                {
+                    "topic_name": "Technology",
+                    "topic_id": "5",
+                    "url": "http://rss.cnn.com/rss/edition_technology.rss"
+                },
+                {
+                    "topic_name": "Science & Space",
+                    "topic_id": "6",
+                    "url": "http://rss.cnn.com/rss/edition_space.rss"
+                },
+                {
+                    "topic_name": "Entertainment",
+                    "topic_id": "7",
+                    "url": "http://rss.cnn.com/rss/edition_entertainment.rss"
+                },
+                {
+                    "topic_name": "World Sport",
+                    "topic_id": "8",
+                    "url": "http://rss.cnn.com/rss/edition_sport.rss"
+                }
+            ]
+        },
+        {
+            "provider_name": "TIME",
+            "provider_id": "3",
+            "topics": [
+                {
+                    "topic_name": "Top Stories",
+                    "topic_id": "1",
+                    "url": "http://feeds2.feedburner.com/time/topstories",
+                    "isDefault": "true"
+                },
+                {
+                    "topic_name": "U.S.",
+                    "topic_id": "2",
+                    "url": "http://feeds2.feedburner.com/time/nation"
+                },
+                {
+                    "topic_name": "World",
+                    "topic_id": "3",
+                    "url": "http://feeds2.feedburner.com/time/world"
+                },
+                {
+                    "topic_name": "Politics",
+                    "topic_id": "4",
+                    "url": "http://time.com/politics/feed/"
+                },
+                {
+                    "topic_name": "Business",
+                    "topic_id": "5",
+                    "url": "http://feeds2.feedburner.com/time/business"
+                },
+                {
+                    "topic_name": "Technology",
+                    "topic_id": "6",
+                    "url": "http://time.com/tech/feed/"
+                },
+                {
+                    "topic_name": "Health",
+                    "topic_id": "7",
+                    "url": "http://time.com/health/feed/"
+                },
+                {
+                    "topic_name": "Science",
+                    "topic_id": "8",
+                    "url": "http://feeds2.feedburner.com/time/scienceandhealth"
+                },
+                {
+                    "topic_name": "Entertainment",
+                    "topic_id": "9",
+                    "url": "http://feeds2.feedburner.com/time/entertainment"
+                }
+            ]
+        },
+        {
+            "provider_name": "New York Times",
+            "provider_id": "4",
+            "topics": [
+                {
+                    "topic_name": "Home Page (U.S.)",
+                    "topic_id": "1",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+                },
+                {
+                    "topic_name": "Home Page (International)",
+                    "topic_id": "2",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
+                    "isDefault": "true"
+                },
+                {
+                    "topic_name": "World",
+                    "topic_id": "3",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/World.xml"
+                },
+                {
+                    "topic_name": "U.S.",
+                    "topic_id": "4",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/US.xml"
+                },
+                {
+                    "topic_name": "Politics",
+                    "topic_id": "5",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/Politics.xml"
+                },
+                {
+                    "topic_name": "N.Y./Region",
+                    "topic_id": "6",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/NYRegion.xml"
+                },
+                {
+                    "topic_name": "Business",
+                    "topic_id": "7",
+                    "url": "http://feeds.nytimes.com/nyt/rss/Business"
+                },
+                {
+                    "topic_name": "Technology",
+                    "topic_id": "8",
+                    "url": "http://feeds.nytimes.com/nyt/rss/Technology"
+                },
+                {
+                    "topic_name": "Sports",
+                    "topic_id": "9",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/Sports.xml"
+                },
+                {
+                    "topic_name": "Science",
+                    "topic_id": "10",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/Science.xml"
+                },
+                {
+                    "topic_name": "Health",
+                    "topic_id": "11",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/Health.xml"
+                }
+            ]
+        }
+    ]
+}

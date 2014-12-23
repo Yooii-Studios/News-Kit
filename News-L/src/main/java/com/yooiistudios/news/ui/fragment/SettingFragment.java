@@ -104,9 +104,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         outState.putInt(SI_PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
