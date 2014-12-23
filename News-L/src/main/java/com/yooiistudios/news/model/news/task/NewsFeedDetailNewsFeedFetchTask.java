@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedFetchUtil;
-import com.yooiistudios.news.model.news.NewsFeedUrl;
+import com.yooiistudios.news.model.news.NewsTopic;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -18,7 +18,7 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
     public static final int FETCH_COUNT = 10;
 
     private Context mContext;
-    private NewsFeedUrl mNewsFeedUrl;
+    private NewsTopic mNewsTopic;
     private OnFetchListener mListener;
     private boolean mShuffle;
 
@@ -27,14 +27,14 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
         public void onNewsFeedFetchFail();
     }
 
-    public NewsFeedDetailNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
+    public NewsFeedDetailNewsFeedFetchTask(Context context, NewsTopic newsTopic,
                                            OnFetchListener listener) {
-        this(context, newsFeedUrl, listener, true);
+        this(context, newsTopic, listener, true);
     }
-    public NewsFeedDetailNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
+    public NewsFeedDetailNewsFeedFetchTask(Context context, NewsTopic newsTopic,
                                            OnFetchListener listener, boolean shuffle) {
         mContext = context;
-        mNewsFeedUrl = newsFeedUrl;
+        mNewsTopic = newsTopic;
         mListener = listener;
         mShuffle = shuffle;
     }
@@ -49,8 +49,15 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
 //            }
 //            return null;
 //        }
+        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(mContext, mNewsTopic.getNewsFeedUrl(),
+                FETCH_COUNT, mShuffle);
+        newsFeed.setTopicLanguageCode(mNewsTopic.getLanguageCode());
+        newsFeed.setTopicRegionCode(mNewsTopic.getRegionCode());
+        newsFeed.setTopicProviderId(mNewsTopic.getNewsProviderId());
+        newsFeed.setTopicId(mNewsTopic.getId());
 
-        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT, mShuffle);
+
+        return newsFeed;
     }
 
     @Override

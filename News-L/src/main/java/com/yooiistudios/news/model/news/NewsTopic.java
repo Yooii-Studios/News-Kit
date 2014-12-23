@@ -1,12 +1,14 @@
 package com.yooiistudios.news.model.news;
 
+import java.io.Serializable;
+
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 12. 9.
  *
  * NewsTopic
  *  뉴스 피드에 default로 제공되어야 하는지의 정보를 추가한 클래스
  */
-public class NewsTopic extends NewsFeed {
+public class NewsTopic implements Serializable {
 
     // identifiers
     private String mLanguageCode;
@@ -14,7 +16,25 @@ public class NewsTopic extends NewsFeed {
     private int mNewsProviderId;
     private int mId;
 
+    private String mTitle;
+    private NewsFeedUrl mNewsFeedUrl;
     private boolean mIsDefault;
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public NewsFeedUrl getNewsFeedUrl() {
+        return mNewsFeedUrl;
+    }
+
+    public void setNewsFeedUrl(NewsFeedUrl newsFeedUrl) {
+        mNewsFeedUrl = newsFeedUrl;
+    }
 
     public boolean isDefault() {
         return mIsDefault;

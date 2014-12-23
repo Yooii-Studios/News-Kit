@@ -22,8 +22,8 @@ import com.yooiistudios.news.model.news.NewsProvider;
 import com.yooiistudios.news.model.news.NewsRegion;
 import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
 import com.yooiistudios.news.model.news.NewsTopic;
-import com.yooiistudios.news.ui.adapter.NewsTopicSelectAdapter;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
+import com.yooiistudios.news.ui.adapter.NewsTopicSelectAdapter;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class NewsSelectFragment extends Fragment
         implements NewsSelectRecyclerViewAdapter.OnNewsProviderClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
-    public static final String KEY_SELECTED_NEWS_FEED = "KEY_SELECTED_NEWS_FEED";
+    public static final String KEY_SELECTED_NEWS_TOPIC = "KEY_SELECTED_NEWS_TOPIC";
 
     private ViewHolder mViewHolder;
     private ArrayList<NewsProvider> mNewsProviderList;
@@ -141,8 +141,9 @@ public class NewsSelectFragment extends Fragment
                 */
                 // endregion
 
-                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED,
-                        newsProvider.getNewsTopicList().get(position));
+                NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
+
+                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_TOPIC, selectedTopic);
                 getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
                 getActivity().finish();
             }

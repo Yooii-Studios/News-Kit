@@ -73,9 +73,9 @@ import com.yooiistudios.news.model.debug.DebugSettings;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
-import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
+import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
@@ -1164,6 +1164,7 @@ public class NewsFeedDetailActivity extends Activity
         subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, 0, R.string.action_newsfeed);
         subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
         subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
+        subMenu.add(Menu.NONE, R.id.action_test, 3, "Show topics(Debug)");
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
@@ -1213,6 +1214,15 @@ public class NewsFeedDetailActivity extends Activity
                                 startAutoScroll();
                             }
                         });
+                return true;
+            case R.id.action_test:
+                String languageCode = mNewsFeed.getTopicLanguageCode();
+                String regionCode = mNewsFeed.getTopicRegionCode();
+                NLLog.now("languageCode : " + (languageCode != null ? languageCode : "null"));
+                NLLog.now("regionCode : " + (regionCode != null ? regionCode : "null"));
+                NLLog.now("TopicProviderId : " + mNewsFeed.getTopicProviderId());
+                NLLog.now("TopicId : " + mNewsFeed.getTopicId());
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -1294,8 +1304,8 @@ public class NewsFeedDetailActivity extends Activity
         }
     }
 
-    private void fetchNewsFeed(NewsFeedUrl newsFeedUrl) {
-        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsFeedUrl, this,
+    private void fetchNewsFeed(NewsTopic newsTopic) {
+        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsTopic, this,
                 false);
         mNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -1621,12 +1631,14 @@ public class NewsFeedDetailActivity extends Activity
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
-                    NewsFeed newsFeed = data.getExtras().getParcelable(
-                            NewsSelectFragment.KEY_SELECTED_NEWS_FEED);
+                    NewsTopic newNewsTopic = (NewsTopic)data.getExtras().getSerializable(
+                            NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC);
+//                    NewsFeed newsFeed = data.getExtras().getParcelable(
+//                            NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC);
 
-                    archiveNewsFeed(newsFeed);
+                    archiveNewsFeed(new NewsFeed(newNewsTopic));
 
-                    fetchNewsFeed(newsFeed.getNewsFeedUrl());
+                    fetchNewsFeed(newNewsTopic);
 
                     getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
                     setResult(RESULT_OK, getIntent());

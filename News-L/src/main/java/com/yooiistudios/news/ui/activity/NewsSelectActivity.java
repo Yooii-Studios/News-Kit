@@ -97,7 +97,7 @@ public class NewsSelectActivity extends Activity
     public void onConfirm(NewsFeedUrl feedUrl) {
         NewsFeed newsFeed = new NewsFeed();
         newsFeed.setNewsFeedUrl(feedUrl);
-        getIntent().putExtra(NewsSelectFragment.KEY_SELECTED_NEWS_FEED, newsFeed);
+        getIntent().putExtra(NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC, newsFeed);
         setResult(Activity.RESULT_OK, getIntent());
         finish();
     }

@@ -22,8 +22,14 @@ public class NewsFeed implements Parcelable {
     private boolean mIsValid;
     private int mDisplayingNewsIndex;
 
+    // topic id
+    private String mTopicLanguageCode = null;
+    private String mTopicRegionCode = null;
+    private int mTopicProviderId = -1;
+    private int mTopicId = -1;
+
     public NewsFeed() {
-        mNewsList = new ArrayList<News>();
+        mNewsList = new ArrayList<>();
         mIsValid = false;
         mDisplayingNewsIndex = 0;
     }
@@ -37,6 +43,22 @@ public class NewsFeed implements Parcelable {
         mLanguage = source.readString();
         source.readTypedList(mNewsList, News.CREATOR);
         mIsValid = source.readInt() == 1;
+
+        mTopicLanguageCode = source.readString();
+        mTopicRegionCode = source.readString();
+        mTopicProviderId = source.readInt();
+        mTopicId = source.readInt();
+    }
+
+    public NewsFeed(NewsTopic newsTopic) {
+        this();
+        mTitle = newsTopic.getTitle();
+        mNewsFeedUrl = newsTopic.getNewsFeedUrl();
+
+        mTopicLanguageCode = newsTopic.getLanguageCode();
+        mTopicRegionCode = newsTopic.getRegionCode();
+        mTopicProviderId = newsTopic.getNewsProviderId();
+        mTopicId = newsTopic.getId();
     }
 
     @Override
@@ -48,6 +70,10 @@ public class NewsFeed implements Parcelable {
         dest.writeString(mLanguage);
         dest.writeTypedList(mNewsList);
         dest.writeInt(mIsValid ? 1 : 0);
+        dest.writeString(mTopicLanguageCode);
+        dest.writeString(mTopicRegionCode);
+        dest.writeInt(mTopicProviderId);
+        dest.writeInt(mTopicId);
     }
 
     public static final Parcelable.Creator<NewsFeed> CREATOR = new Parcelable.Creator<NewsFeed>() {
@@ -134,6 +160,39 @@ public class NewsFeed implements Parcelable {
     }
     public void setDisplayingNewsIndex(int index) {
         this.mDisplayingNewsIndex = index;
+    }
+
+    // Topic ids
+    public String getTopicLanguageCode() {
+        return mTopicLanguageCode;
+    }
+
+    public void setTopicLanguageCode(String topicLanguageCode) {
+        mTopicLanguageCode = topicLanguageCode;
+    }
+
+    public String getTopicRegionCode() {
+        return mTopicRegionCode;
+    }
+
+    public void setTopicRegionCode(String topicRegionCode) {
+        mTopicRegionCode = topicRegionCode;
+    }
+
+    public int getTopicProviderId() {
+        return mTopicProviderId;
+    }
+
+    public void setTopicProviderId(int topicProviderId) {
+        mTopicProviderId = topicProviderId;
+    }
+
+    public int getTopicId() {
+        return mTopicId;
+    }
+
+    public void setTopicId(int topicId) {
+        mTopicId = topicId;
     }
 
     public int getNextNewsIndex() {
