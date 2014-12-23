@@ -9,7 +9,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
-import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
@@ -80,8 +79,7 @@ public class BackgroundCacheUtils implements
 
         // cache top news feed
         NewsFeed topNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(mContext);
-        new TopNewsFeedFetchTask(mContext, topNewsFeed.getNewsFeedUrl(),
-                this, TopNewsFeedFetchTask.TaskType.CACHE, true)
+        new TopNewsFeedFetchTask(topNewsFeed, this, TopNewsFeedFetchTask.TaskType.CACHE, true)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         // cache bottom news feed list
@@ -94,8 +92,7 @@ public class BackgroundCacheUtils implements
                 continue;
             }
 
-            NewsFeedUrl url = bottomNewsFeed.getNewsFeedUrl();
-            new BottomNewsFeedFetchTask(mContext, url, i, BottomNewsFeedFetchTask.TASK_CACHE, this)
+            new BottomNewsFeedFetchTask(bottomNewsFeed, i, BottomNewsFeedFetchTask.TASK_CACHE, this)
                     .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             // map for image fetch

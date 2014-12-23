@@ -9,6 +9,7 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -52,6 +53,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -71,10 +73,13 @@ import com.yooiistudios.news.model.activitytransition.ActivityTransitionTextView
 import com.yooiistudios.news.model.debug.DebugSettingDialogFactory;
 import com.yooiistudios.news.model.debug.DebugSettings;
 import com.yooiistudios.news.model.news.News;
+import com.yooiistudios.news.model.news.NewsContentProvider;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
+import com.yooiistudios.news.model.news.NewsProvider;
 import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
@@ -86,9 +91,11 @@ import com.yooiistudios.news.ui.animation.curvemotion.PathEvaluator;
 import com.yooiistudios.news.ui.animation.curvemotion.PathPoint;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
+import com.yooiistudios.news.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.util.RssFetchable;
 import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Type;
@@ -101,7 +108,8 @@ import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TRANSITI
 public class NewsFeedDetailActivity extends Activity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
-        NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener {
+        NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener,
+        NewsTopicSelectDialogFactory.OnItemClickListener {
     @InjectView(R.id.detail_content_layout)                     RelativeLayout mRootLayout;
     @InjectView(R.id.detail_transition_content_layout)          FrameLayout mTransitionLayout;
     @InjectView(R.id.detail_actionbar_overlay_view)             View mActionBarOverlayView;
@@ -1223,6 +1231,17 @@ public class NewsFeedDetailActivity extends Activity
                 NLLog.now("TopicProviderId : " + mNewsFeed.getTopicProviderId());
                 NLLog.now("TopicId : " + mNewsFeed.getTopicId());
 
+                NewsProvider newsProvider = NewsContentProvider.getInstance(getApplicationContext()).
+                                getNewsProvider(mNewsFeed);
+
+                if (newsProvider != null) {
+                    final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeDialog(
+                            this, newsProvider, this);
+                    alertDialog.show();
+                } else {
+                    Toast.makeText(this, "No topic info...", Toast.LENGTH_SHORT).show();
+                }
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -1304,9 +1323,8 @@ public class NewsFeedDetailActivity extends Activity
         }
     }
 
-    private void fetchNewsFeed(NewsTopic newsTopic) {
-        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(getApplicationContext(), newsTopic, this,
-                false);
+    private void fetchNewsFeed(RssFetchable fetchable) {
+        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(fetchable, this, false);
         mNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         configBeforeRefresh();
@@ -1594,6 +1612,14 @@ public class NewsFeedDetailActivity extends Activity
         applyImage();
     }
 
+    @Override
+    public void onSelectNewsTopic(AlertDialog dialog, NewsProvider newsProvider, int position) {
+        dialog.dismiss();
+
+        NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
+        replaceNewsFeed(selectedTopic);
+    }
+
     private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
         private final ImageView mHeroImageView;
 
@@ -1631,22 +1657,34 @@ public class NewsFeedDetailActivity extends Activity
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
-                    NewsTopic newNewsTopic = (NewsTopic)data.getExtras().getSerializable(
+                    NewsTopic newsTopic = (NewsTopic)data.getExtras().getSerializable(
                             NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC);
-//                    NewsFeed newsFeed = data.getExtras().getParcelable(
-//                            NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC);
+                    if (newsTopic != null) {
+                        replaceNewsFeed(newsTopic);
+                    } else {
+                        NewsFeedUrl newsFeedUrl = (NewsFeedUrl)data.getExtras().getSerializable(
+                                NewsSelectFragment.KEY_CUSTOM_RSS_URL);
 
-                    archiveNewsFeed(new NewsFeed(newNewsTopic));
-
-                    fetchNewsFeed(newNewsTopic);
-
-                    getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
-                    setResult(RESULT_OK, getIntent());
+                        replaceNewsFeed(newsFeedUrl);
+                    }
 
                     break;
             }
         }
 //        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
+    }
+
+    private void replaceNewsFeed(RssFetchable fetchable) {
+        if (fetchable instanceof NewsTopic) {
+            archiveNewsFeed(new NewsFeed((NewsTopic)fetchable));
+        } else if (fetchable instanceof NewsFeedUrl) {
+            archiveNewsFeed(new NewsFeed((NewsFeedUrl)fetchable));
+        }
+
+        fetchNewsFeed(fetchable);
+
+        getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
+        setResult(RESULT_OK, getIntent());
     }
 
     private void startAutoScroll() {

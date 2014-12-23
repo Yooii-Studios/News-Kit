@@ -1,5 +1,7 @@
 package com.yooiistudios.news.model.news;
 
+import com.yooiistudios.news.util.RssFetchable;
+
 import java.io.Serializable;
 
 /**
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * NewsTopic
  *  뉴스 피드에 default로 제공되어야 하는지의 정보를 추가한 클래스
  */
-public class NewsTopic implements Serializable {
+public class NewsTopic implements Serializable, RssFetchable {
 
     // identifiers
     private String mLanguageCode;

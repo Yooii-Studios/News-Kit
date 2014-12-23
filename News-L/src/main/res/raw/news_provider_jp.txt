@@ -63,7 +63,7 @@
                 {
                     "topic_name": "ニュース速報（総合）",
                     "topic_id": "1",
-                    "url": "http://mainichi.jp/rss/",
+                    "url": "http://rss.rssad.jp/rss/mainichi/flash.rss",
                     "isDefault": "true"
                 },
                 {

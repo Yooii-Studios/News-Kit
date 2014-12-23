@@ -33,6 +33,10 @@ public class NewsFeed implements Parcelable {
         mIsValid = false;
         mDisplayingNewsIndex = 0;
     }
+    public NewsFeed(NewsFeedUrl newsFeedUrl) {
+        this();
+        mNewsFeedUrl = newsFeedUrl;
+    }
 
     public NewsFeed(Parcel source) {
         this();
@@ -220,6 +224,20 @@ public class NewsFeed implements Parcelable {
         }
 
         return containingList;
+    }
+
+    public void setTopicIdInfo(NewsTopic newsTopic) {
+        setTopicLanguageCode(newsTopic.getLanguageCode());
+        setTopicRegionCode(newsTopic.getRegionCode());
+        setTopicProviderId(newsTopic.getNewsProviderId());
+        setTopicId(newsTopic.getId());
+    }
+
+    public void setTopicIdInfo(NewsFeed newsFeed) {
+        setTopicLanguageCode(newsFeed.getTopicLanguageCode());
+        setTopicRegionCode(newsFeed.getTopicRegionCode());
+        setTopicProviderId(newsFeed.getTopicProviderId());
+        setTopicId(newsFeed.getTopicId());
     }
 
 }

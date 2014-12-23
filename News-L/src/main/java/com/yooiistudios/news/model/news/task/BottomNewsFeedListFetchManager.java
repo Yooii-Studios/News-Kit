@@ -6,7 +6,6 @@ import android.util.Pair;
 import android.util.SparseArray;
 
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedUrl;
 
 import java.util.ArrayList;
 
@@ -84,9 +83,8 @@ public class BottomNewsFeedListFetchManager
                 continue;
             }
 
-            NewsFeedUrl url = newsFeed.getNewsFeedUrl();
             BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
-                    context, url, element.second, mTaskType, this);
+                    newsFeed, element.second, mTaskType, this);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mBottomNewsFeedIndexToNewsFetchTaskMap.put(element.second, task);
         }

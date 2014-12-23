@@ -1,6 +1,7 @@
 package com.yooiistudios.news.model.news;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 11.
@@ -18,12 +20,71 @@ import java.io.UnsupportedEncodingException;
  * NewsSelectPageUrlProvider
  *  뉴스 선택 화면에서 탭의 국가 및 뉴스피드 목록을 제공함
  */
-public class NewsSelectPageContentProvider {
+public class NewsContentProvider {
 
-    public static NewsRegion getNewsProviders(Context context, int position) {
-        // int를 raw id로 변환
-        int resourceId = NewsProviderLangType.valueOf(position).getResourceId();
+    private static NewsContentProvider instance;
+    private ArrayList<NewsRegion> mNewsRegionList;
 
+    public static NewsContentProvider getInstance(Context context) {
+        if (instance == null) {
+            instance = new NewsContentProvider(context);
+        }
+
+        return instance;
+    }
+
+    private NewsContentProvider(Context context) {
+        mNewsRegionList = new ArrayList<>();
+        for (int i = 0; i < NewsProviderLangType.values().length; i++) {
+            // int를 raw id로 변환
+            mNewsRegionList.add(getNewsProvidersByResource(context,
+                    NewsProviderLangType.valueOf(i).getResourceId()));
+        }
+    }
+
+    public NewsTopic getNewsTopic(String languageCode, @Nullable String regionCode,
+                                         int newsProviderId, int newsTopicId) {
+        NewsProvider newsProvider = getNewsProvider(languageCode, regionCode, newsProviderId);
+        return newsProvider.getNewsTopic(newsTopicId);
+    }
+
+    public NewsProvider getNewsProvider(NewsFeed newsFeed) {
+        return getNewsProvider(newsFeed.getTopicLanguageCode(), newsFeed.getTopicRegionCode(),
+                newsFeed.getTopicProviderId());
+    }
+
+
+    public NewsProvider getNewsProvider(String languageCodeToCompare,
+                                        @Nullable String regionCodeToCompare,
+                                        int providerIdToCompare) {
+        for (NewsRegion newsRegion : mNewsRegionList) {
+            String languageCode = newsRegion.getLanguageCode();
+            String regionCode = newsRegion.getRegionCode();
+            if (languageCode.equalsIgnoreCase(languageCodeToCompare)
+                    && (regionCode == null
+                        || regionCodeToCompare == null
+                        || regionCode.equalsIgnoreCase(regionCodeToCompare))) {
+
+                for (NewsProvider newsProvider : newsRegion.getNewsProviders()) {
+                    if (newsProvider.getId() == providerIdToCompare) {
+                        return newsProvider;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public NewsRegion getNewsRegion(int position) {
+        if (position < mNewsRegionList.size()) {
+            return mNewsRegionList.get(position);
+        } else {
+            return null;
+        }
+    }
+
+    private static NewsRegion getNewsProvidersByResource(Context context, int resourceId) {
         // raw id 에서 json 스트링을 만들고 JSONObject 로 변환
         try {
             InputStream file;

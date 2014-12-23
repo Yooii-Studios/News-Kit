@@ -100,14 +100,12 @@ public class NewsFeedUtils {
         return new NewsFeedUrl(feedUrl, urlType);
     }
 
-    public static ArrayList<NewsFeed> getDefaultBottomNewsFeedList() {
+    public static ArrayList<NewsFeed> getDefaultBottomNewsFeedList(Context context) {
         ArrayList<NewsFeed> feedList = new ArrayList<>();
-        ArrayList<NewsFeedUrl> urlList =
-                NewsFeedUrlProvider.getInstance().getBottomNewsFeedUrlList();
-        for (NewsFeedUrl newsFeedUrl : urlList) {
-            NewsFeed newsFeed = new NewsFeed();
-            newsFeed.setNewsFeedUrl(newsFeedUrl);
-            feedList.add(newsFeed);
+        ArrayList<NewsTopic> topicList =
+                NewsFeedUrlProvider.getInstance(context).getBottomNewsTopicList();
+        for (NewsTopic newsTopic : topicList) {
+            feedList.add(new NewsFeed(newsTopic));
         }
 
         return feedList;

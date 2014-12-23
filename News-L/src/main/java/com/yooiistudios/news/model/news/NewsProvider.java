@@ -60,4 +60,22 @@ public class NewsProvider {
     public void setRegionCode(String regionCode) {
         mRegionCode = regionCode;
     }
+
+    public NewsTopic getNewsTopic(int newsTopicId) {
+        for (NewsTopic newsTopic : mNewsTopicList) {
+            if (newsTopic.getId() == newsTopicId) {
+                return newsTopic;
+            }
+        }
+        return null;
+    }
+
+    public NewsTopic getDefaultNewsTopic() {
+        for (NewsTopic newsTopic : mNewsTopicList) {
+            if (newsTopic.isDefault()) {
+                return newsTopic;
+            }
+        }
+        return null;
+    }
 }
