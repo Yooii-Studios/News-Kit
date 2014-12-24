@@ -60,9 +60,8 @@ public class NewsFeedArchiveUtils {
             }
         } else {
             // cache된 내용 없는 경우. 새로 만들어서 리턴.
-            NewsFeedUrl url = NewsFeedUrlProvider.getInstance().getTopNewsFeedUrl();
-            newsFeed = new NewsFeed();
-            newsFeed.setNewsFeedUrl(url);
+            NewsTopic newsTopic = NewsFeedUrlProvider.getInstance(context).getTopNewsTopic();
+            newsFeed = new NewsFeed(newsTopic);
         }
         return newsFeed;
     }
@@ -80,7 +79,7 @@ public class NewsFeedArchiveUtils {
         ArrayList<NewsFeed> feedList;
         if (newsFeedListStr == null) {
             // cache된 내용 없는 경우. 새로 만들어서 리턴.
-            feedList = NewsFeedUtils.getDefaultBottomNewsFeedList();
+            feedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
             saveBottomNewsFeedList(context, feedList);
         } else {
             // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
@@ -101,7 +100,7 @@ public class NewsFeedArchiveUtils {
         if (newsFeedCount > panelMatrix.panelCount) {
             feedList = new ArrayList<>(feedList.subList(0, panelMatrix.panelCount));
         } else if (newsFeedCount < panelMatrix.panelCount) {
-            ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList();
+            ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
             for (int idx = newsFeedCount; idx < panelMatrix.panelCount; idx++) {
                 feedList.add(defaultNewsFeedList.get(idx));
             }
@@ -157,7 +156,7 @@ public class NewsFeedArchiveUtils {
             Type gsonType = new TypeToken<ArrayList<NewsFeed>>() {}.getType();
             newsFeedList = new Gson().fromJson(newsFeedListStr, gsonType);
         } else {
-            newsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList();
+            newsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
         }
 
         // replace

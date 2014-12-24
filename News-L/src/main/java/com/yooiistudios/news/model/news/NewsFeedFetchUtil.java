@@ -1,6 +1,5 @@
 package com.yooiistudios.news.model.news;
 
-import android.content.Context;
 import android.text.Html;
 
 import org.xml.sax.SAXException;
@@ -25,8 +24,7 @@ public class NewsFeedFetchUtil {
 
     private static final int TIMEOUT_MILLI = 5000;
 
-    public static NewsFeed fetch(Context context, NewsFeedUrl feedUrl, int fetchLimit,
-                                 boolean shuffle) {
+    public static NewsFeed fetch(NewsFeedUrl feedUrl, int fetchLimit, boolean shuffle) {
 
 //        if (!feedUrl.getType().equals(NewsFeedUrlType.GENERAL)) {
 //            // 디폴트 세팅을 사용할 경우 패널단에서 언어설정을 감지 못하므로 무조건 현재 언어의

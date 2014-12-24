@@ -1,11 +1,12 @@
 package com.yooiistudios.news.model.news.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedFetchUtil;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
+import com.yooiistudios.news.model.news.NewsTopic;
+import com.yooiistudios.news.util.RssFetchable;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -17,8 +18,7 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
 
     public static final int FETCH_COUNT = 10;
 
-    private Context mContext;
-    private NewsFeedUrl mNewsFeedUrl;
+    private RssFetchable mFetchable;
     private OnFetchListener mListener;
     private boolean mShuffle;
 
@@ -27,14 +27,9 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
         public void onNewsFeedFetchFail();
     }
 
-    public NewsFeedDetailNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
-                                           OnFetchListener listener) {
-        this(context, newsFeedUrl, listener, true);
-    }
-    public NewsFeedDetailNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
+    public NewsFeedDetailNewsFeedFetchTask(RssFetchable fetchable,
                                            OnFetchListener listener, boolean shuffle) {
-        mContext = context;
-        mNewsFeedUrl = newsFeedUrl;
+        mFetchable = fetchable;
         mListener = listener;
         mShuffle = shuffle;
     }
@@ -49,8 +44,19 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
 //            }
 //            return null;
 //        }
+        NewsFeedUrl newsFeedUrl = null;
+        if (mFetchable instanceof NewsTopic) {
+            newsFeedUrl = ((NewsTopic)mFetchable).getNewsFeedUrl();
+        } else if (mFetchable instanceof NewsFeedUrl) {
+            newsFeedUrl = (NewsFeedUrl) mFetchable;
+        }
+        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(newsFeedUrl, FETCH_COUNT, mShuffle);
 
-        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT, mShuffle);
+        if (mFetchable instanceof NewsTopic) {
+            newsFeed.setTopicIdInfo(((NewsTopic)mFetchable));
+        }
+
+        return newsFeed;
     }
 
     @Override

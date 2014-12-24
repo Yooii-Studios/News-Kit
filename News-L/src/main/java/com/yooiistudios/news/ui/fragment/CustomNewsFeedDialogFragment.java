@@ -64,7 +64,7 @@ public class CustomNewsFeedDialogFragment extends DialogFragment {
                                 Activity activity = getActivity();
                                 if (activity != null && activity instanceof OnClickListener) {
                                     String url = mFeedUrlEditText.getText()
-                                            .toString();
+                                            .toString().replaceAll("\\s+","");
 
                                     // add "http://" if it's not entered.
                                     if (!url.toLowerCase().matches("^\\w+://.*")) {

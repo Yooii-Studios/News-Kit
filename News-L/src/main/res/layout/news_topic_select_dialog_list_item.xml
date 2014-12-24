@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
     <TextView
-        android:id="@+id/news_category_name"
+        android:id="@+id/news_topic_name"
         style="?android:attr/dropDownItemStyle"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:singleLine="true"

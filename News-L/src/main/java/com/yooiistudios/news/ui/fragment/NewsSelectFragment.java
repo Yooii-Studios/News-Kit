@@ -12,18 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.model.news.NewsPublisher;
-import com.yooiistudios.news.model.news.NewsPublisherList;
-import com.yooiistudios.news.model.news.NewsSelectPageContentProvider;
+import com.yooiistudios.news.model.news.NewsContentProvider;
+import com.yooiistudios.news.model.news.NewsProvider;
+import com.yooiistudios.news.model.news.NewsRegion;
 import com.yooiistudios.news.model.news.NewsTopic;
-import com.yooiistudios.news.ui.adapter.NewsCategorySelectAdapter;
 import com.yooiistudios.news.ui.adapter.NewsSelectRecyclerViewAdapter;
+import com.yooiistudios.news.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.news.ui.widget.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
@@ -38,14 +36,16 @@ import butterknife.InjectView;
  *  뉴스 선택화면의 한 페이지의 컨텐츠.
  */
 public class NewsSelectFragment extends Fragment
-        implements NewsSelectRecyclerViewAdapter.OnNewsPublisherClickListener {
+        implements NewsSelectRecyclerViewAdapter.OnNewsProviderClickListener,
+        NewsTopicSelectDialogFactory.OnItemClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
-    public static final String KEY_SELECTED_NEWS_FEED = "KEY_SELECTED_NEWS_FEED";
+    public static final String KEY_SELECTED_NEWS_TOPIC = "KEY_SELECTED_NEWS_TOPIC";
+    public static final String KEY_CUSTOM_RSS_URL = "KEY_CUSTOM_RSS_URL";
 
     private ViewHolder mViewHolder;
-    private ArrayList<NewsPublisher> mNewsProviderList;
-    private NewsPublisherList mNewsPublisherList;
+    private ArrayList<NewsProvider> mNewsProviderList;
+    private NewsRegion mNewsRegion;
     private int mPosition;
 
     public static NewsSelectFragment newInstance(int pageNum) {
@@ -75,9 +75,9 @@ public class NewsSelectFragment extends Fragment
 //                NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
 
         // 새 메서드
-        // 추후 mNewsProviderList는 삭제하고 publisherList에서만 사용하게 리팩토링이 필요
-        mNewsPublisherList = NewsSelectPageContentProvider.getNewsProviders(context, mPosition);
-        mNewsProviderList = mNewsPublisherList.getNewsPublishers();
+        // 추후 mNewsProviderList는 삭제하고 providerList에서만 사용하게 리팩토링이 필요
+        mNewsRegion = NewsContentProvider.getInstance(context).getNewsRegion(mPosition);
+        mNewsProviderList = mNewsRegion.getNewsProviders();
     }
 
     @Nullable
@@ -96,7 +96,7 @@ public class NewsSelectFragment extends Fragment
                 new LinearLayoutManager(context));
 
         NewsSelectRecyclerViewAdapter adapter = new NewsSelectRecyclerViewAdapter(mNewsProviderList);
-        adapter.setOnNewsPublisherClickListener(this);
+        adapter.setOnNewsProviderClickListener(this);
         mViewHolder.mRecyclerView.setAdapter(adapter);
         mViewHolder.mRecyclerView.addItemDecoration(new DividerItemDecoration(context,
                 DividerItemDecoration.VERTICAL_LIST));
@@ -105,35 +105,28 @@ public class NewsSelectFragment extends Fragment
     }
 
     @Override
-    public void onNewsPublisherClick(final NewsPublisher newsPublisher) {
-        final ArrayList<NewsTopic> newsTopicList = newsPublisher.getNewsTopicList();
-
-        NewsCategorySelectAdapter adapter = new NewsCategorySelectAdapter(getActivity(), newsTopicList);
-
-        ListView newsTopicListView = new ListView(getActivity());
-        newsTopicListView.setAdapter(adapter);
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-            .setView(newsTopicListView)
-            .setTitle(newsPublisher.getName()).create();
-
-        newsTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!newsTopicList.get(position).isDefault() &&
-                        !IabProducts.containsSku(getActivity(), IabProducts.SKU_TOPIC_SELECT)) {
-                    Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG).show();
-                    return;
-                }
-                alertDialog.dismiss();
-                getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_FEED,
-                        newsPublisher.getNewsTopicList().get(position));
-                getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
-                getActivity().finish();
-            }
-        });
+    public void onNewsProviderClick(NewsProvider newsProvider) {
+        final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeDialog(
+                getActivity(), newsProvider, this);
 
         alertDialog.show();
+    }
+
+    @Override
+    public void onSelectNewsTopic(AlertDialog dialog, NewsProvider newsProvider, int position) {
+        final ArrayList<NewsTopic> newsTopicList = newsProvider.getNewsTopicList();
+        if (!newsTopicList.get(position).isDefault() &&
+                !IabProducts.containsSku(getActivity(), IabProducts.SKU_TOPIC_SELECT)) {
+            Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG).show();
+            return;
+        }
+        dialog.dismiss();
+
+        NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
+
+        getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_TOPIC, selectedTopic);
+        getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
+        getActivity().finish();
     }
 
     static class ViewHolder {

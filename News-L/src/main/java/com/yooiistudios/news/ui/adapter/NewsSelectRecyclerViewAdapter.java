@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.news.NewsPublisher;
+import com.yooiistudios.news.model.news.NewsProvider;
 
 import java.util.ArrayList;
 
@@ -24,14 +24,14 @@ import butterknife.InjectView;
 public class NewsSelectRecyclerViewAdapter extends
         RecyclerView.Adapter<NewsSelectRecyclerViewAdapter.NewsSelectViewHolder> {
 
-    private ArrayList<NewsPublisher> mNewsProviderList;
-    private OnNewsPublisherClickListener mOnNewsPublisherClickListener;
+    private ArrayList<NewsProvider> mNewsProviderList;
+    private OnNewsProviderClickListener mOnNewsProviderClickListener;
 
-    public interface OnNewsPublisherClickListener {
-        public void onNewsPublisherClick(NewsPublisher newsPublisher);
+    public interface OnNewsProviderClickListener {
+        public void onNewsProviderClick(NewsProvider newsProvider);
     }
 
-    public NewsSelectRecyclerViewAdapter(ArrayList<NewsPublisher> presetList) {
+    public NewsSelectRecyclerViewAdapter(ArrayList<NewsProvider> presetList) {
         mNewsProviderList = presetList;
     }
 
@@ -46,13 +46,13 @@ public class NewsSelectRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(NewsSelectViewHolder newsSelectViewHolder, int i) {
-        final NewsPublisher newsPublisher = mNewsProviderList.get(i);
+        final NewsProvider newsProvider = mNewsProviderList.get(i);
 
-        newsSelectViewHolder.mFeedNameTextView.setText(newsPublisher.getName());
+        newsSelectViewHolder.mFeedNameTextView.setText(newsProvider.getName());
         newsSelectViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnNewsPublisherClickListener.onNewsPublisherClick(newsPublisher);
+                mOnNewsProviderClickListener.onNewsProviderClick(newsProvider);
             }
         });
     }
@@ -76,7 +76,7 @@ public class NewsSelectRecyclerViewAdapter extends
         }
     }
 
-    public void setOnNewsPublisherClickListener(OnNewsPublisherClickListener onNewsPublisherClickListener) {
-        mOnNewsPublisherClickListener = onNewsPublisherClickListener;
+    public void setOnNewsProviderClickListener(OnNewsProviderClickListener onNewsProviderClickListener) {
+        mOnNewsProviderClickListener = onNewsProviderClickListener;
     }
 }

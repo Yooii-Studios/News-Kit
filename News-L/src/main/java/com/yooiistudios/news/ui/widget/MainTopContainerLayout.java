@@ -252,8 +252,7 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     private void fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType taskType, boolean shuffle) {
-        NewsFeedUrl newsFeedUrl = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsFeedUrl();
-        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(getContext(), newsFeedUrl,
+        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(mTopNewsFeedPagerAdapter.getNewsFeed(),
                 this, taskType, shuffle);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

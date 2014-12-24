@@ -1,11 +1,9 @@
 package com.yooiistudios.news.model.news.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedFetchUtil;
-import com.yooiistudios.news.model.news.NewsFeedUrl;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -19,8 +17,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     public static final int FETCH_COUNT = 10;
 
-    private Context mContext;
-    private NewsFeedUrl mNewsFeedUrl;
+    private NewsFeed mNewsFeed;
     private OnFetchListener mListener;
     private TaskType mTaskType;
     private boolean mShuffle;
@@ -33,10 +30,9 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
         public void onTopNewsFeedFetch(NewsFeed newsFeed, TaskType taskType);
     }
 
-    public TopNewsFeedFetchTask(Context context, NewsFeedUrl newsFeedUrl,
+    public TopNewsFeedFetchTask(NewsFeed newsFeed,
                                 OnFetchListener listener, TaskType taskType, boolean shuffle) {
-        mContext = context;
-        mNewsFeedUrl = newsFeedUrl;
+        mNewsFeed = newsFeed;
         mListener = listener;
         mTaskType = taskType;
         mShuffle = shuffle;
@@ -44,7 +40,10 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-        return NewsFeedFetchUtil.fetch(mContext, mNewsFeedUrl, FETCH_COUNT, mShuffle);
+        NewsFeed newsFeed =
+                NewsFeedFetchUtil.fetch(mNewsFeed.getNewsFeedUrl(), FETCH_COUNT, mShuffle);
+        newsFeed.setTopicIdInfo(mNewsFeed);
+        return newsFeed;
     }
 
     @Override
