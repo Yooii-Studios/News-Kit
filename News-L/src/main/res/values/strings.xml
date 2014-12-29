@@ -12,7 +12,7 @@
     <string name="content_description">Loading…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="iab_item_unavailable">You have to purchase...</string>
+    <string name="iab_item_unavailable">You have to purchase…</string>
 
     <!-- Main -->
     <string name="splash_loading_title">News L</string>
