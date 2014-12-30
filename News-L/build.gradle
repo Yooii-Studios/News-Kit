@@ -38,6 +38,7 @@ android {
         }
     }
 
+    /*
     signingConfigs {
         release {
             storeFile file("/Development/Android/keystore/news-l.jks")
@@ -50,6 +51,7 @@ android {
             keyPassword "tempPassword"
         }
     }
+    */
 
     lintOptions {
         checkReleaseBuilds false
@@ -107,6 +109,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.2'
 }
 
+/*
 // release 시 비밀번호를 직접 입력하기 위한 코드
 task askForPasswords << {
     // Must create String because System.readPassword() returns char[]
@@ -126,3 +129,4 @@ tasks.whenTaskAdded { theTask ->
         theTask.dependsOn "askForPasswords"
     }
 }
+*/
