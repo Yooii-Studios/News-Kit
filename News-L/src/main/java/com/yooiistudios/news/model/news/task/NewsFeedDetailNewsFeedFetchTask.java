@@ -3,7 +3,7 @@ package com.yooiistudios.news.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedFetchUtil;
+import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.util.RssFetchable;

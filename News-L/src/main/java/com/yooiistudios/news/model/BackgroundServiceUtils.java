@@ -13,7 +13,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.text.format.DateUtils;
 
-import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.service.BackgroundCacheIntentService;
 import com.yooiistudios.news.service.BackgroundCacheJobService;
 import com.yooiistudios.news.util.NLLog;

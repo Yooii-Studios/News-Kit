@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.model.news.News;
-import com.yooiistudios.news.model.news.NewsFeedImageUrlFetchUtil;
+import com.yooiistudios.news.model.news.util.NewsFeedImageUrlFetchUtil;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.

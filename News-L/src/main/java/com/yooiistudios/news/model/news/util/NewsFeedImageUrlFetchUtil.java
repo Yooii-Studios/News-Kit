@@ -1,6 +1,6 @@
-package com.yooiistudios.news.model.news;
+package com.yooiistudios.news.model.news.util;
 
-import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.model.news.News;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 21.

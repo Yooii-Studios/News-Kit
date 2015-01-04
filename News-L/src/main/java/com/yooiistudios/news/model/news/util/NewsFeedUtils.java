@@ -1,4 +1,4 @@
-package com.yooiistudios.news.model.news;
+package com.yooiistudios.news.model.news.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,12 @@ import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.model.news.News;
+import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedUrl;
+import com.yooiistudios.news.model.news.NewsFeedUrlProvider;
+import com.yooiistudios.news.model.news.NewsFeedUrlType;
+import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.util.NLLog;
 
 import org.apache.http.HttpEntity;

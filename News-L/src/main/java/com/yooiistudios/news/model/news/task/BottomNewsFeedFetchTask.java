@@ -3,7 +3,7 @@ package com.yooiistudios.news.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedFetchUtil;
+import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.

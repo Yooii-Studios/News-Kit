@@ -1,10 +1,13 @@
-package com.yooiistudios.news.model.news;
+package com.yooiistudios.news.model.news.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedUrlProvider;
+import com.yooiistudios.news.model.news.NewsTopic;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
