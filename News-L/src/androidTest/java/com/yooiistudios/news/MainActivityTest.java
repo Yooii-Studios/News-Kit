@@ -18,11 +18,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     Instrumentation mInstrumentation;
 
     public MainActivityTest() {
-        super("com.example.android.activityinstrumentation", MainActivity.class);
-    }
-
-    public MainActivityTest(Class<MainActivity> activityClass) {
-        super(activityClass);
+        super(MainActivity.class);
     }
 
     @Override
