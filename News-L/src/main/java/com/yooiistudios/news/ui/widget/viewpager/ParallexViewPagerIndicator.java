@@ -3,7 +3,6 @@ package com.yooiistudios.news.ui.widget.viewpager;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -16,8 +15,6 @@ import android.widget.RelativeLayout;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.util.DipToPixel;
-
-import java.util.Random;
 
 /**
  * Created by Wooseong Kim in ViewPagerIndicatorTest from Yooii Studios Co., LTD. on 14. 11. 4.
