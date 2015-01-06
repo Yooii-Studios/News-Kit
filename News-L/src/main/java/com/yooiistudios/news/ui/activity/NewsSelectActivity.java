@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
@@ -21,12 +23,14 @@ import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.news.ui.fragment.CustomNewsFeedDialogFragment;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.widget.viewpager.SlidingTabLayout;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewsSelectActivity extends Activity
         implements CustomNewsFeedDialogFragment.OnClickListener {
+    private static final String TAG = NewsSelectActivity.class.getName();
 
     @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
     @InjectView(R.id.news_select_sliding_tabs)      SlidingTabLayout mSlidingTabLayout;
@@ -46,6 +50,7 @@ public class NewsSelectActivity extends Activity
         mSlidingTabLayout.setViewPager(mViewPager);
 
         initAdView();
+        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initAdView() {
@@ -102,5 +107,19 @@ public class NewsSelectActivity extends Activity
     @Override
     public void onCancel() {
 
+    }
+
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

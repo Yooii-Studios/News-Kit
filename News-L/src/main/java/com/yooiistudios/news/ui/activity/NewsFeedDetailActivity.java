@@ -60,8 +60,10 @@ import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.AlphaForegroundColorSpan;
@@ -94,6 +96,7 @@ import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.RssFetchable;
 import com.yooiistudios.news.util.ScreenUtils;
@@ -269,6 +272,7 @@ public class NewsFeedDetailActivity extends Activity
                 showLoadingCover();
             }
         }
+        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     @Override
@@ -1740,5 +1744,19 @@ public class NewsFeedDetailActivity extends Activity
     protected void onDestroy() {
         stopAutoScroll();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

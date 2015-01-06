@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:ignore="TypographyDashes">
+    <integer name="ga_sessionTimeout">300</integer>
+
+    <!-- catch and report uncaught exceptions from the app -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <!-- Enable automatic Activity measurement -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- Global Configure -->
+    <!-- true 면 애널리틱스 서버로 데이터를 보내지 않음 -->
+    <!--<bool name="ga_dryRun">false</bool>-->
+    <!--<string name="ga_logLevel">verbose</string>-->
+
+    <!-- The screen names that will appear in reports -->
+    <screenName name="com.yooiistudios.news.ui.activity.MainActivity">
+        MainActivity
+    </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.NewsDetailActivity">
+        NewsDetailActivity
+    </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.NewsFeedDetailActivity">
+        NewsFeedDetailActivity
+    </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.NewsSelectActivity">
+        NewsSelectActivity
+    </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.SettingActivity">
+        SettingActivity
+    </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.StoreActivity">
+        StoreActivity
+    </screenName>
+    <!--  The following value should be replaced with correct property id. -->
+    <string name="ga_trackingId">UA-50855812-18</string>
+</resources>

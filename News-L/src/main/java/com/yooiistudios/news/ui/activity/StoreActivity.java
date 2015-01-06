@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabManager;
 import com.yooiistudios.news.iab.IabManagerListener;
@@ -30,6 +32,7 @@ import com.yooiistudios.news.iab.util.Inventory;
 import com.yooiistudios.news.iab.util.Purchase;
 import com.yooiistudios.news.ui.adapter.StoreProductItemAdapter;
 import com.yooiistudios.news.ui.widget.AutoResize2TextView;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.Md5Utils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
@@ -40,8 +43,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class StoreActivity extends ActionBarActivity implements StoreProductItemAdapter.StoreItemOnClickListener, IabManagerListener, IabHelper.OnIabPurchaseFinishedListener {
-    private static final String TAG = "StoreActivity";
+public class StoreActivity extends ActionBarActivity implements IabManagerListener,
+        StoreProductItemAdapter.StoreItemOnClickListener, IabHelper.OnIabPurchaseFinishedListener {
+    private static final String TAG = StoreActivity.class.getName();
     private IabManager mIabManager;
 
     @InjectView(R.id.store_toolbar) Toolbar mToolbar;
@@ -81,6 +85,7 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
         initToolbar();
         initUI();
         checkDebug();
+        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initIab() {
@@ -426,5 +431,19 @@ public class StoreActivity extends ActionBarActivity implements StoreProductItem
             mBannerImageView.setClickable(true);
             mPriceImageView.setClickable(true);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

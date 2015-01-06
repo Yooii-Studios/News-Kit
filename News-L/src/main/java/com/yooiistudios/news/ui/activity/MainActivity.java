@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.BackgroundServiceUtils;
@@ -39,6 +41,7 @@ import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.AppValidationChecker;
 import com.yooiistudios.news.util.FeedbackUtils;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.NLLog;
 
 import butterknife.ButterKnife;
@@ -134,6 +137,8 @@ public class MainActivity extends Activity
         showMainContentIfReady();
         initAdView();
         applySystemWindowsBottomInset();
+
+        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initRefreshLayout() {
@@ -496,5 +501,19 @@ public class MainActivity extends Activity
             // just finish activity when no ad item is bought
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

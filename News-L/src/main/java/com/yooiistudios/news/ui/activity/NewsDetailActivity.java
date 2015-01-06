@@ -15,10 +15,13 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.FloatingActionButton;
 import com.yooiistudios.news.ui.widget.HTML5WebView;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.WebUtils;
 
 import java.lang.reflect.Field;
@@ -62,6 +65,8 @@ public class NewsDetailActivity extends Activity
                 WebUtils.openLink(NewsDetailActivity.this, mNews.getLink());
             }
         });
+
+        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     @Override
@@ -293,5 +298,19 @@ public class NewsDetailActivity extends Activity
 
         setConfigCallback(null);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

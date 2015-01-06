@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 
 /**
  * Created by Wooseong Kim on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 9.
@@ -15,7 +18,7 @@ import com.yooiistudios.news.ui.fragment.SettingFragment;
  */
 public class SettingActivity extends Activity
         implements SettingFragment.OnSettingChangedListener {
-
+    private static final String TAG = SettingActivity.class.getName();
     private static final String SI_PANEL_MATRIX_CHANGED = "SI_PANEL_MATRIX_CHANGED";
     public static final String PANEL_MATRIX_CHANGED = "PANEL_MATRIX_CHANGED";
 
@@ -32,6 +35,7 @@ public class SettingActivity extends Activity
         } else {
             mPanelMatrixChanged = savedInstanceState.getBoolean(SI_PANEL_MATRIX_CHANGED);
         }
+        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     @Override
@@ -55,4 +59,17 @@ public class SettingActivity extends Activity
         super.finish();
     }
 
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
 }
