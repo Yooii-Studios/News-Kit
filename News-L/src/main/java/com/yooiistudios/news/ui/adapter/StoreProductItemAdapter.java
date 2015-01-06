@@ -58,8 +58,8 @@ public class StoreProductItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-//        return 4;
-        return 8;
+        return 4;
+//        return 8;
     }
 
     @Override
@@ -104,12 +104,12 @@ public class StoreProductItemAdapter extends BaseAdapter {
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
                 // test
-                default:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
-                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
-                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
-                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
-                    break;
+//                default:
+//                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
+//                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
+//                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
+//                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+//                    break;
             }
             initPriceViews(viewHolder);
 
