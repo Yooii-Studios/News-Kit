@@ -1,6 +1,7 @@
 package com.yooiistudios.news.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -85,6 +86,7 @@ public class InfoActivity extends Activity implements AdapterView.OnItemClickLis
                 break;
 
             case CREDIT:
+                startActivity(new Intent(this, CreditActivity.class));
                 break;
 
             default:

@@ -32,6 +32,12 @@
     <screenName name="com.yooiistudios.news.ui.activity.StoreActivity">
         StoreActivity
     </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.InfoActivity">
+        InfoActivity
+    </screenName>
+    <screenName name="com.yooiistudios.news.ui.activity.CreditActivity">
+        CreditActivity
+    </screenName>
     <!--  The following value should be replaced with correct property id. -->
     <string name="ga_trackingId">UA-50855812-18</string>
 </resources>

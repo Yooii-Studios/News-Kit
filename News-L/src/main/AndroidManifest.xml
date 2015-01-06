@@ -69,6 +69,13 @@
             android:theme="@style/BaseAppTheme" >
         </activity>
         <activity
+            android:name=".ui.activity.CreditActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
+            android:label="@string/info_credit"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/BaseAppTheme" >
+        </activity>
+        <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity
