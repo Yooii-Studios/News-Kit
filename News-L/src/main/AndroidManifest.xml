@@ -70,7 +70,7 @@
             android:name=".ui.activity.SettingActivity"
             android:label="@string/title_activity_setting"
             android:screenOrientation="sensorPortrait"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:theme="@style/BaseAppTheme" />
 
         <activity
@@ -82,7 +82,7 @@
             android:label="@string/store"
             android:theme="@style/StoreTheme"
             android:screenOrientation="sensorPortrait"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection">
         </activity>
 
         <service
