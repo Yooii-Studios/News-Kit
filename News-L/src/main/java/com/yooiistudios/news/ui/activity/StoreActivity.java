@@ -249,7 +249,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
      * Debug
      */
     private void checkDebug() {
-        if (NLLog.isDebug) {
+        if (NLLog.isDebug()) {
             mResetButton.setVisibility(View.VISIBLE);
             mDebugButton.setVisibility(View.VISIBLE);
             if (StoreDebugCheckUtils.isUsingStore(this)) {

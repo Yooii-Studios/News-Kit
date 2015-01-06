@@ -10,20 +10,24 @@ import android.util.Log;
  */
 public class NLLog {
     private NLLog() { throw new AssertionError("You MUST not create this class!"); }
-    public static final boolean isDebug = true;
+    private static final boolean mIsDebug = true;
+
+    public static boolean isDebug() {
+        return mIsDebug;
+    }
 
     public static void now(String message) {
-        if (isDebug) {
+        if (mIsDebug) {
             Log.i("NLLog", message);
         }
     }
     public static void i(String TAG, String message) {
-        if (isDebug) {
+        if (mIsDebug) {
             Log.i(TAG, message);
         }
     }
     public static void e(String TAG, String message) {
-        if (isDebug) {
+        if (mIsDebug) {
             Log.e(TAG, message);
         }
     }

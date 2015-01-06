@@ -11,28 +11,33 @@
         tools:ignore="AlwaysShowAction">
 
         <menu>
+            <item android:id="@+id/action_store"
+                android:title="@string/store"
+                android:orderInCategory="100"
+                android:showAsAction="never" />
+
             <item android:id="@+id/action_settings"
                   android:title="@string/action_settings"
                   android:orderInCategory="100"
                   android:showAsAction="never" />
 
-            <item android:id="@+id/action_store"
-                  android:title="@string/action_store"
-                  android:orderInCategory="100"
-                  android:showAsAction="never" />
+            <item android:id="@+id/action_info"
+                android:title="@string/action_info"
+                android:orderInCategory="100"
+                android:showAsAction="never" />
 
-            <item android:id="@+id/action_send_feedback"
-                  android:title="@string/action_send_feedback"
+            <item android:id="@+id/action_recommend"
+                  android:title="@string/recommend_to_friends"
                   android:orderInCategory="100"
                   android:showAsAction="never" />
 
             <item android:id="@+id/action_remove_archive"
-                  android:title="@string/action_remove_archive"
+                  android:title="Remove Archives"
                   android:orderInCategory="100"
                   android:showAsAction="never" />
 
             <item android:id="@+id/action_slow_anim"
-                  android:title="@string/action_slow_anim"
+                  android:title="Slow Activity Transition"
                   android:orderInCategory="100"
                   android:showAsAction="never"
                   android:checkable="true" />
@@ -41,15 +46,6 @@
                   android:title="Show service log(Debug)"
                   android:orderInCategory="100"
                   android:showAsAction="never"/>
-
-            <!--
-
-                <item android:id="@+id/action_edit_bezier"
-                      android:title="@string/action_edit_bezier"
-                      android:orderInCategory="100"
-                      android:showAsAction="ifRoom"
-                      android:checkable="true" />
-            -->
         </menu>
     </item>
 </menu>

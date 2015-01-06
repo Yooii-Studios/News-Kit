@@ -3,12 +3,9 @@
 
     <string name="app_name">뉴스 L</string>
     <string name="action_settings">설정</string>
+    <string name="action_info">정보</string>
     <string name="action_newsfeed">뉴스피드 교체</string>
-    <string name="action_store">상점</string>
     <string name="action_send_feedback">의견 보내기</string>
-    <string name="action_remove_archive">뉴스 캐시 삭제</string>
-    <string name="action_slow_anim">느린 전환</string>
-    <string name="action_edit_bezier">베지어 수정</string>
     <string name="content_description">로딩 중…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -27,7 +24,6 @@
     <string name="title_activity_news">뉴스 선택</string>
 
     <!-- Setting -->
-    <string name="title_activity_setting">설정</string>
     <string name="setting_language">언어</string>
     <string name="setting_newsfeed_auto_scroll">뉴스 리스트 자동 스크롤</string>
     <string name="setting_keep_screen_on">화면 켜짐 유지</string>
@@ -47,7 +43,7 @@
     <string name="setting_language_russian">Русский</string>
 
     <!-- Recommend -->
-    <string name="recommend_to_friends">Recommend Morning Kit to your friends</string>
+    <string name="recommend_to_friends">친구에게 추천하기</string>
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>
     <string name="recommend_description">Click the link and take it for a spin</string>
     <string name="recommend_app_full_name">News L</string>

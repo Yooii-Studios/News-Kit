@@ -3,12 +3,9 @@
 
     <string name="app_name">News</string>
     <string name="action_settings">Settings</string>
+    <string name="action_info">Info</string>
     <string name="action_newsfeed">Replace a NewsFeed</string>
-    <string name="action_store">Store</string>
     <string name="action_send_feedback">Send feedback</string>
-    <string name="action_remove_archive">Remove archive</string>
-    <string name="action_slow_anim">Slow act trans</string>
-    <string name="action_edit_bezier">Edit bezier</string>
     <string name="content_description">Loading…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -29,7 +26,6 @@
     <string name="custom_news_feed_dialog_title">Enter RSS URL</string>
 
     <!-- Setting -->
-    <string name="title_activity_setting">Setting</string>
     <string name="setting_language">Language</string>
     <string name="setting_newsfeed_auto_scroll">News list auto scroll</string>
     <string name="setting_keep_screen_on">Keep screen on</string>
@@ -51,7 +47,7 @@
     <string name="setting_language_russian">Русский</string>
 
     <!-- Recommend -->
-    <string name="recommend_to_friends">Recommend Morning Kit to your friends</string>
+    <string name="recommend_to_friends">Recommend this to your friends</string>
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>
     <string name="recommend_description">Click the link and take it for a spin</string>
     <string name="recommend_app_full_name">News L</string>
@@ -84,4 +80,5 @@
     <string name="store_topic_select_description">You can select detail category of the news</string>
     <string name="store_custom_rss_feed_title">Custom RSS url</string>
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
+
 </resources>

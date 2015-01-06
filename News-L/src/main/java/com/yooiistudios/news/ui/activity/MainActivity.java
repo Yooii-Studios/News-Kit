@@ -11,10 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
@@ -40,9 +42,9 @@ import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.AppValidationChecker;
-import com.yooiistudios.news.util.FeedbackUtils;
 import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.util.RecommendUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -121,7 +123,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        if (NLLog.isDebug) {
+        if (NLLog.isDebug()) {
             AppValidationChecker.validationCheck(this);
         }
 
@@ -262,7 +264,20 @@ public class MainActivity extends Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
+        subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
+
+        subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
+        subMenu.add(Menu.NONE, R.id.action_settings, 1, R.string.action_settings);
+        subMenu.add(Menu.NONE, R.id.action_settings, 2, R.string.action_info);
+        subMenu.add(Menu.NONE, R.id.action_recommend, 3, R.string.recommend_to_friends);
+
+        if (NLLog.isDebug()) {
+            subMenu.add(Menu.NONE, R.id.action_remove_archive, 4, "Remove archive(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_slow_anim, 5, "Slow Activity Transition(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_service_log, 6, "Show service log(Debug)");
+        }
+        MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -272,18 +287,21 @@ public class MainActivity extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivityForResult(new Intent(MainActivity.this, SettingActivity.class), RC_SETTING);
-            return true;
-        } else if (id == R.id.action_store) {
+        if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
             return true;
-        } else if (id == R.id.action_send_feedback) {
-            FeedbackUtils.sendFeedback(this);
+        } else if (id == R.id.action_settings) {
+            startActivityForResult(new Intent(MainActivity.this, SettingActivity.class), RC_SETTING);
             return true;
+        } else if (id == R.id.action_info) {
+            startActivity(new Intent(MainActivity.this, InfoActivity.class));
+            return true;
+        } else if (id == R.id.action_recommend) {
+            RecommendUtils.showRecommendDialog(this);
+            return true;
+        // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
-//            getSharedPreferences("bezier", MODE_PRIVATE).edit().clear().apply();
         } else if (id == R.id.action_slow_anim) {
             NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
                     1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
@@ -291,9 +309,6 @@ public class MainActivity extends Activity
         } else if (id == R.id.action_service_log) {
             BackgroundCacheJobService.showDialog(this);
         }
-//        else if (id == R.id.action_edit_bezier) {
-//            InterpolatorHelper.showDialog(MainActivity.this);
-//        }
         return super.onOptionsItemSelected(item);
     }
 
