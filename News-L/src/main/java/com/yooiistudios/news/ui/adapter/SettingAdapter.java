@@ -50,7 +50,7 @@ public class SettingAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext)
-                    .inflate(R.layout.setting_row, parent, false);
+                    .inflate(R.layout.setting_item, parent, false);
         }
 
         SettingFragment.SettingItem item = SettingFragment.SettingItem.values()[position];

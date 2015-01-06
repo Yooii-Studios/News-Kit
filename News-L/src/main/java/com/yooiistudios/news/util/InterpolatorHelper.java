@@ -51,7 +51,7 @@ public class InterpolatorHelper {
         final View dialogContent = LayoutInflater.from(context).inflate(R.layout
                 .dialog_bezier, null);
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle(R.string.action_edit_bezier)
+                .setTitle("Edit Bezier")
                 .setView(dialogContent)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override

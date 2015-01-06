@@ -8,6 +8,8 @@
     <!-- General -->
     <dimen name="admob_smart_banner_height">90dp</dimen>                <!--Done-->
     <dimen name="admob_upper_divider_height">1.5dp</dimen>
+    <dimen name="margin_inner">4.5dp</dimen>
+    <dimen name="margin_outer">9dp</dimen>
 
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
@@ -51,4 +53,11 @@
     <!-- Setting -->
     <dimen name="setting_item_imageview_size">45dp</dimen>
     <dimen name="setting_item_imageview_end_margin">15dp</dimen>
+
+    <!-- Credit -->
+    <dimen name="info_credit_title_font_size">17sp</dimen>          <!--Done-->
+    <dimen name="info_credit_name_font_size">24sp</dimen>           <!--Done-->
+    <dimen name="info_credit_name_left_margin">18dp</dimen>
+    <dimen name="info_credit_padding">15dp</dimen>
+
 </resources>
