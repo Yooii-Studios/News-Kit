@@ -1,15 +1,42 @@
 package com.yooiistudios.news.ui.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.ui.adapter.SettingAdapter;
+import com.yooiistudios.news.ui.adapter.InfoAdapter;
+import com.yooiistudios.news.util.FacebookUtils;
+import com.yooiistudios.news.util.ReviewUtils;
 
-public class InfoActivity extends ActionBarActivity {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class InfoActivity extends Activity implements AdapterView.OnItemClickListener {
+    public enum InfoItem {
+        MORE_INFO(R.string.info_news_info),
+        RATE(R.string.info_rate_this_app),
+        LIKE_FACEBOOK(R.string.info_facebook_like),
+        CREDIT(R.string.info_credit);
+
+        private int mTitleResId;
+
+        private InfoItem(int titleResId) {
+            mTitleResId = titleResId;
+        }
+
+        public int getTitleResId() {
+            return mTitleResId;
+        }
+    }
+
+    @InjectView(R.id.info_list_view) ListView mListView;
+    @InjectView(R.id.info_adView)    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +47,14 @@ public class InfoActivity extends ActionBarActivity {
             return;
         }
         setContentView(R.layout.activity_info);
+        ButterKnife.inject(this);
+        initListView();
+        initAdView();
     }
 
     private void initAdView() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (IabProducts.containsSku(getActivity().getApplicationContext(), IabProducts.SKU_NO_ADS)) {
+        if (IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)) {
             mAdView.setVisibility(View.GONE);
         } else {
             mAdView.setVisibility(View.VISIBLE);
@@ -34,8 +64,30 @@ public class InfoActivity extends ActionBarActivity {
     }
 
     private void initListView() {
-        mSettingAdapter = new SettingAdapter(getActivity().getApplicationContext());
-        mListView.setAdapter(mSettingAdapter);
+        InfoAdapter mInfoAdapter = new InfoAdapter(this);
+        mListView.setAdapter(mInfoAdapter);
         mListView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        InfoItem item = InfoItem.values()[position];
+        switch (item) {
+            case MORE_INFO:
+                break;
+
+            case RATE:
+                ReviewUtils.showReviewActivity(this);
+                break;
+
+            case LIKE_FACEBOOK:
+                FacebookUtils.openYooiiPage(this);
+                break;
+
+            case CREDIT:
+                break;
+
+            default:
+        }
     }
 }

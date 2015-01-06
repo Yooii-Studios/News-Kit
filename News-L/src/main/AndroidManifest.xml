@@ -62,6 +62,13 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/BaseAppTheme" />
         <activity
+            android:name=".ui.activity.InfoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
+            android:label="@string/action_info"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/BaseAppTheme" >
+        </activity>
+        <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity
@@ -92,10 +99,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".ui.activity.InfoActivity"
-            android:label="@string/action_info" >
-        </activity>
     </application>
 
 </manifest>

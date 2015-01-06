@@ -4,10 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +21,6 @@ import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
-import com.yooiistudios.news.util.RecommendUtils;
-import com.yooiistudios.news.util.ReviewUtils;
 
 import java.util.ArrayList;
 
@@ -50,11 +45,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         NEWSFEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
         PANEL_COUNT(R.string.setting_panel_count),
-        SHARE_APP(R.string.setting_share_this_app),
-        RATE(R.string.setting_rate_this_app),
-        TUTORIAL(R.string.setting_tutorial),
-        CREDIT(R.string.setting_credit),
-        LIKE_ON_FACEBOOK(R.string.setting_like_facebook);
+        TUTORIAL(R.string.setting_tutorial);
 
         private int mTitleResId;
 
@@ -69,9 +60,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     public static final String KEEP_SCREEN_ON_SHARED_PREFERENCES = "KEEP_SCREEN_ON_SHARED_PREFERENCES";
     public static final String KEEP_SCREEN_ON_KEY = "KEEP_SCREEN_ON_KEY";
-
-    private static final String LINK_APP_PREFIX = "fb://profile/";
-    private static final String FB_YOOII_ID = "652380814790935";
 
     private static final String SI_PANEL_MATRIX_KEY = "SI_PANEL_MATRIX_KEY";
 
@@ -217,38 +205,14 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
                 break;
 
-            case SHARE_APP:
-                RecommendUtils.showRecommendDialog(getActivity());
-                break;
-
-            case RATE:
-                ReviewUtils.showReviewActivity(getActivity());
-                break;
-
             case TUTORIAL:
                 break;
-
-            case CREDIT:
-                break;
-
-            case LIKE_ON_FACEBOOK:
-                try {
-                    PackageManager packageManager = getActivity().getPackageManager();
-                    if (packageManager != null) {
-                        packageManager.getPackageInfo("com.facebook.katana", 0);
-                    }
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(LINK_APP_PREFIX + FB_YOOII_ID)));
-                } catch (Exception e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/YooiiMooii")));
-                }
-                break;
-            default:
         }
     }
 
     private void showLanguageDialog() {
         // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> languageList = new ArrayList<String>();
+        ArrayList<String> languageList = new ArrayList<>();
         for (int i = 0; i < LanguageType.values().length; i++) {
             languageList.add(LanguageType.toTranselatedString(i, getActivity()));
         }
@@ -272,7 +236,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     private void showNewsFeedAutoScrollDialog() {
         // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         list.add(getString(R.string.on));
         list.add(getString(R.string.off));
 

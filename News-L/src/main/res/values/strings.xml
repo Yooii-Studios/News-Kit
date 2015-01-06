@@ -33,9 +33,7 @@
     <string name="setting_panel_count">Panel count</string>
     <string name="setting_panel_count_description">%1$s panels</string>
     <string name="setting_share_this_app">Share this app</string>
-    <string name="setting_rate_this_app">Rate this app</string>
     <string name="setting_tutorial">Tutorial</string>
-    <string name="setting_credit">Credit</string>
     <string name="setting_like_facebook">Like us on facebook</string>
 
     <!-- Setting (Language) -->
@@ -80,5 +78,17 @@
     <string name="store_topic_select_description">You can select detail category of the news</string>
     <string name="store_custom_rss_feed_title">Custom RSS url</string>
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
+
+    <!-- Info-->
+    <string name="info_news_info">News Info</string>
+    <string name="info_rate_this_app">앱 평가하기</string>
+    <string name="info_facebook_like">페이스북 좋아요</string>
+    <string name="info_credit">Credit</string>
+
+    <!-- More Info -->
+    <string name="more_info_yooii_studios">Yooii Studios</string>
+    <string name="more_info_news_help">News Help</string>
+    <string name="more_info_version">Version</string>
+    <string name="more_info_license">License</string>
 
 </resources>

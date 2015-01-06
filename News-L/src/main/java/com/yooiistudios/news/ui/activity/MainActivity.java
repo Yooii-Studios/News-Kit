@@ -269,7 +269,7 @@ public class MainActivity extends Activity
 
         subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
         subMenu.add(Menu.NONE, R.id.action_settings, 1, R.string.action_settings);
-        subMenu.add(Menu.NONE, R.id.action_settings, 2, R.string.action_info);
+        subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
         subMenu.add(Menu.NONE, R.id.action_recommend, 3, R.string.recommend_to_friends);
 
         if (NLLog.isDebug()) {
