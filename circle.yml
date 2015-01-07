@@ -1,6 +1,4 @@
 machine:
-  python:
-    version: pypy-2.2.1
   environment:
     ANDROID_HOME: /home/ubuntu/android
 dependencies:
@@ -16,6 +14,7 @@ test:
     - $ANDROID_HOME/tools/emulator -avd device-v21 -no-window -no-boot-anim -no-audio:
         background: true
         parallel: true
+    - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
     - circleci/android-wait-for-emulator.sh:
         parallel: true
     - adb wait-for-device
