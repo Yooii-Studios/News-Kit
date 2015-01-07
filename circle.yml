@@ -14,7 +14,7 @@ test:
         background: true
         parallel: true
     - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
-    - circleci/android-wait-for-emulator
+    - circleci/android-wait-for-emulator.sh
         parallel: true
     - adb uninstall com.yooiistudios.news.test
     - adb uninstall com.yooiistudios.news
