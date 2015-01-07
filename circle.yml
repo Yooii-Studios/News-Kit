@@ -15,7 +15,7 @@ test:
         parallel: true
     - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
     - circleci/android-wait-for-emulator
-	parallel: true
+        parallel: true
     - adb uninstall com.yooiistudios.news.test
     - adb uninstall com.yooiistudios.news
     - adb install News-L/build/outputs/apk/News-L-debug.apk
