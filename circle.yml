@@ -5,6 +5,7 @@ dependencies:
   cache_directories:
     - ~/.android
     - ~/android
+    - ~/ubuntu/.gradle
   override:
     - ./circleci/install-dependencies.sh
 
@@ -14,7 +15,10 @@ test:
         background: true
         parallel: true
     - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
-    - circleci/android-wait-for-emulator.sh
+    - circleci/android-wait-for-emulator:
+        parallel: true
+    - adb logcat &
+    - adb wait-for-device
     - adb uninstall com.yooiistudios.news.test
     - adb uninstall com.yooiistudios.news
     - adb install News-L/build/outputs/apk/News-L-debug.apk
