@@ -1,0 +1,18 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yooiistudios.news.ui.activity.LicenseActivity">
+
+    <ListView
+        android:id="@+id/more_info_license_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:dividerHeight="0dp"
+        android:divider="#ffffffff"
+        android:paddingTop="@dimen/margin_inner"
+        android:paddingBottom="@dimen/margin_inner"
+        tools:listitem="@layout/more_info_license_item"/>
+
+</RelativeLayout>

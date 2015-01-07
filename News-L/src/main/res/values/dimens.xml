@@ -104,10 +104,17 @@
     <dimen name="setting_item_imageview_size">30dp</dimen>
     <dimen name="setting_item_imageview_end_margin">10dp</dimen>
 
+    <!-- Info -->
+    <dimen name="info_item_text_size">18sp</dimen>
+
     <!-- Credit -->
     <dimen name="info_credit_title_font_size">14sp</dimen>
     <dimen name="info_credit_name_font_size">19sp</dimen>
     <dimen name="info_credit_name_left_margin">12dp</dimen>
     <dimen name="info_credit_padding">10dp</dimen>
+
+    <!-- License -->
+    <dimen name="more_info_license_title_text_size">26sp</dimen>
+    <dimen name="more_info_license_description_text_size">16sp</dimen>
 
 </resources>

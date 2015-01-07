@@ -79,10 +79,10 @@
     <string name="store_custom_rss_feed_title">Custom RSS url</string>
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
 
-    <!-- Info-->
+    <!-- Info -->
     <string name="info_news_info">News Info</string>
-    <string name="info_rate_this_app">앱 평가하기</string>
-    <string name="info_facebook_like">페이스북 좋아요</string>
+    <string name="info_rate_this_app">Rate News L</string>
+    <string name="info_facebook_like">Like us on Facebook</string>
     <string name="info_credit">Credit</string>
 
     <!-- More Info -->

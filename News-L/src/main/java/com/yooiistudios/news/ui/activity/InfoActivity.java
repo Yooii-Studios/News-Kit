@@ -9,16 +9,21 @@ import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.ui.adapter.InfoAdapter;
 import com.yooiistudios.news.util.FacebookUtils;
+import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class InfoActivity extends Activity implements AdapterView.OnItemClickListener {
+    private static final String TAG = "InfoActivity";
+
     public enum InfoItem {
         MORE_INFO(R.string.info_news_info),
         RATE(R.string.info_rate_this_app),
@@ -45,12 +50,13 @@ public class InfoActivity extends Activity implements AdapterView.OnItemClickLis
         // OS에 의해서 kill 당할 경우 복구하지 말고 메인 액티비티를 새로 띄워줌
         if (savedInstanceState != null) {
             finish();
-            return;
+        } else {
+            setContentView(R.layout.activity_info);
+            ButterKnife.inject(this);
+            initListView();
+            initAdView();
+            MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
         }
-        setContentView(R.layout.activity_info);
-        ButterKnife.inject(this);
-        initListView();
-        initAdView();
     }
 
     private void initAdView() {
@@ -75,6 +81,7 @@ public class InfoActivity extends Activity implements AdapterView.OnItemClickLis
         InfoItem item = InfoItem.values()[position];
         switch (item) {
             case MORE_INFO:
+                startActivity(new Intent(this, MoreInfoActivity.class));
                 break;
 
             case RATE:
@@ -91,5 +98,19 @@ public class InfoActivity extends Activity implements AdapterView.OnItemClickLis
 
             default:
         }
+    }
+
+    @Override
+    protected void onStart() {
+        // Activity visible to user
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // Activity no longer visible
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }
