@@ -47,7 +47,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(false, false);
     }
 
-    public void testTrueFalse() {
-        assertEquals(true, false);
-    }
+//    public void testTrueFalse() {
+//        assertEquals(true, false);
+//    }
 }
