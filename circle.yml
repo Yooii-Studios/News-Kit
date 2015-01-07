@@ -16,7 +16,6 @@ test:
     - $ANDROID_HOME/tools/emulator -avd device-v21 -no-window -no-boot-anim -no-audio:
         background: true
         parallel: true
-    - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
     - circleci/android-wait-for-emulator.sh:
         parallel: true
     - adb wait-for-device
