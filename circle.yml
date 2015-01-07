@@ -14,13 +14,8 @@ test:
     - $ANDROID_HOME/tools/emulator -avd device-v21 -no-window -no-boot-anim -no-audio:
         background: true
         parallel: true
-    - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
     - circleci/android-wait-for-emulator.sh:
         parallel: true
     - adb logcat &
     - adb wait-for-device
-    - adb uninstall com.yooiistudios.news.test
-    - adb uninstall com.yooiistudios.news
-    - adb install News-L/build/outputs/apk/News-L-debug.apk
-    - adb install News-L/build/outputs/apk/News-L-debug-test-unaligned.apk
-    - circleci/android-run-instrumentation-tests.sh
+    - ./gradlew connectedAndroidTest -PdisablePreDex
