@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:text="@string/more_info_license"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textSize="@dimen/info_item_text_size"
         android:textStyle="bold"/>
 
 </RelativeLayout>

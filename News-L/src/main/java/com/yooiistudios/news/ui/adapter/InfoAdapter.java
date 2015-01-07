@@ -42,8 +42,7 @@ public class InfoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext)
-                    .inflate(R.layout.info_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.info_item, parent, false);
         }
 
         InfoActivity.InfoItem item = InfoActivity.InfoItem.values()[position];

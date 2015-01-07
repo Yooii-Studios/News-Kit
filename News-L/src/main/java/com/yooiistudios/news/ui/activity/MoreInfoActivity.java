@@ -74,6 +74,7 @@ public class MoreInfoActivity extends Activity implements AdapterView.OnItemClic
                 break;
             }
             case LICENSE:
+                startActivity(new Intent(this, LicenseActivity.class));
                 break;
 
             case VERSION:
