@@ -2,8 +2,6 @@
 
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 
-pushd News
-
 # clear the logs
 adb logcat -c
 
@@ -51,5 +49,4 @@ RETVAL=$?
 # dump the logs
 adb logcat -d
 
-popd
 exit $RETVAL
