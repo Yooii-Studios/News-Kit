@@ -69,6 +69,13 @@
             android:theme="@style/BaseAppTheme" >
         </activity>
         <activity
+            android:name=".ui.activity.MoreInfoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
+            android:label="@string/info_news_info"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/BaseAppTheme" >
+        </activity>
+        <activity
             android:name=".ui.activity.CreditActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/info_credit"
@@ -105,7 +112,5 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
     </application>
-
 </manifest>
