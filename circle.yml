@@ -1,4 +1,6 @@
 machine:
+  python:
+    version: pypy-2.2.1
   environment:
     ANDROID_HOME: /home/ubuntu/android
 dependencies:
@@ -17,10 +19,9 @@ test:
     - ./gradlew assembleDebug assembleDebugTest -PdisablePreDex
     - circleci/android-wait-for-emulator.sh:
         parallel: true
-    - adb logcat &
     - adb wait-for-device
     - adb uninstall com.yooiistudios.news.test
     - adb uninstall com.yooiistudios.news
     - adb install News-L/build/outputs/apk/News-L-debug.apk
     - adb install News-L/build/outputs/apk/News-L-debug-test-unaligned.apk
-    - adb shell am instrument -w -r  -e debug false com.yooiistudios.news.test/android.test.InstrumentationTestRunner
+    - circleci/android-run-instrumentation-tests.sh
