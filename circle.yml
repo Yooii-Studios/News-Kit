@@ -23,4 +23,4 @@ test:
     - adb uninstall com.yooiistudios.news
     - adb install News-L/build/outputs/apk/News-L-debug.apk
     - adb install News-L/build/outputs/apk/News-L-debug-test-unaligned.apk
-    - adb shell am instrument -w com.yooiistudios.news.test/android.test.InstrumentationTestRunner
+    - circleci/android-run-instrumentation-tests.sh

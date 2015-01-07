@@ -27,7 +27,7 @@ t.start()
 
 def run():
   sp.Popen(['adb', 'wait-for-device']).communicate()
-  p = sp.Popen('adb shell am instrument -w com.yooiistudios.news/android.test.InstrumentationTestRunner',
+  p = sp.Popen('adb shell am instrument -w com.yooiistudios.news.test/android.test.InstrumentationTestRunner',
                shell=True, stdout=sp.PIPE, stderr=sp.PIPE, stdin=sp.PIPE)
   return p.communicate()
 
