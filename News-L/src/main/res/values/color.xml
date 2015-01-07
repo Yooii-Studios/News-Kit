@@ -38,4 +38,7 @@
     <color name="store_purchased_color">#80cbc4</color>
     <color name="store_purchased_thank_you_color">#878787</color>
     <color name="store_item_description_color">#9a9a9a</color>
+
+    <!-- In house Store Ad -->
+    <color name="store_ad_layout_divider_color">#797979</color>
 </resources>

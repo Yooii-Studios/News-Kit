@@ -41,6 +41,7 @@ import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
+import com.yooiistudios.news.util.AdUtils;
 import com.yooiistudios.news.util.AppValidationChecker;
 import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.NLLog;
@@ -72,7 +73,7 @@ public class MainActivity extends Activity
 
     private int mSystemWindowInset;
 
-    private static final String TAG = MainActivity.class.getName();
+    public static final String TAG = MainActivity.class.getName();
     public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
     public static final String VIEW_NAME_TITLE_PREFIX = "topTitle_";
     public static final String INTENT_KEY_VIEW_NAME_IMAGE = "INTENT_KEY_VIEW_NAME_IMAGE";
@@ -140,6 +141,7 @@ public class MainActivity extends Activity
         initAdView();
         applySystemWindowsBottomInset();
 
+        AdUtils.showPopupAdIfSatisfied(this);
         MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 

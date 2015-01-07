@@ -60,4 +60,18 @@
     <dimen name="info_credit_name_left_margin">18dp</dimen>
     <dimen name="info_credit_padding">15dp</dimen>
 
+    <!-- Store Ad Dialog * 1.5 -->
+    <dimen name="store_ad_dialog_layout_width">448.5dp</dimen>
+    <dimen name="store_ad_dialog_title_text_size">28.5sp</dimen>
+    <dimen name="store_ad_dialog_title_padding_top_bottom">16.5dp</dimen>
+    <dimen name="store_ad_dialog_title_padding_left_right">22.5dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_height">0.75dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_margin_left_right">12dp</dimen>
+    <dimen name="store_ad_dialog_image_layout_padding">4.5dp</dimen>
+    <dimen name="store_ad_dialog_image_width">444dp</dimen>
+    <dimen name="store_ad_dialog_image_text_margin_top">1.5dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">93dp</dimen>
+    <dimen name="store_ad_dialog_button_layout_height">65.5dp</dimen>
+    <dimen name="store_ad_dialog_button_text_size">22.5sp</dimen>
+
 </resources>
