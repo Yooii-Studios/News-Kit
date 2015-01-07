@@ -2,6 +2,8 @@
 
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 
+pushd News
+
 # clear the logs
 adb logcat -c
 
@@ -27,7 +29,7 @@ t.start()
 
 def run():
   sp.Popen(['adb', 'wait-for-device']).communicate()
-  p = sp.Popen('adb shell am instrument -w com.yooiistudios.news/android.test.InstrumentationTestRunner',
+  p = sp.Popen('adb shell am instrument -w com.yooiistudios.news.test/android.test.InstrumentationTestRunner',
                shell=True, stdout=sp.PIPE, stderr=sp.PIPE, stdin=sp.PIPE)
   return p.communicate()
 
@@ -49,4 +51,5 @@ RETVAL=$?
 # dump the logs
 adb logcat -d
 
+popd
 exit $RETVAL
