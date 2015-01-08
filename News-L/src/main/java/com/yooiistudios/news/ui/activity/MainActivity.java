@@ -42,8 +42,8 @@ import com.yooiistudios.news.ui.widget.MainRefreshLayout;
 import com.yooiistudios.news.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.AdUtils;
+import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.AppValidationChecker;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.RecommendUtils;
 
@@ -142,7 +142,7 @@ public class MainActivity extends Activity
         applySystemWindowsBottomInset();
 
         AdUtils.showPopupAdIfSatisfied(this);
-        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initRefreshLayout() {

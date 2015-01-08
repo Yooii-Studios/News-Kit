@@ -14,8 +14,8 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.ui.adapter.InfoAdapter;
+import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.FacebookUtils;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.ReviewUtils;
 
 import butterknife.ButterKnife;
@@ -55,7 +55,7 @@ public class InfoActivity extends Activity implements AdapterView.OnItemClickLis
             ButterKnife.inject(this);
             initListView();
             initAdView();
-            MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+            AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
         }
     }
 

@@ -10,13 +10,13 @@ import com.yooiistudios.news.iab.IabProducts;
 import java.util.List;
 
 /**
- * Created by Wooseong Kim in MorningKit from Yooii Studios Co., LTD. on 14. 12. 2.
+ * Created by Wooseong Kim in News from Yooii Studios Co., LTD. on 14. 12. 2.
  *
- * MNAnalyticsUtils
+ * AnalyticsUtils
  *  Google Analytics 를 사용하기 위한 클래스
  */
-public class MNAnalyticsUtils {
-    private MNAnalyticsUtils() { throw new AssertionError("You must not create this class!"); }
+public class AnalyticsUtils {
+    private AnalyticsUtils() { throw new AssertionError("You must not create this class!"); }
 
     public static void startAnalytics(NewsApplication application, String screenName) {
         // Get tracker.

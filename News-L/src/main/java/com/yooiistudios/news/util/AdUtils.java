@@ -53,7 +53,7 @@ public class AdUtils {
             if (shouldShowAd(prefs, launchCount)) {
 
                 // 풀버전이 나올 때 아이템들을 체크
-                MNAnalyticsUtils.trackInterstitialAd(
+                AnalyticsUtils.trackInterstitialAd(
                         (NewsApplication) context.getApplicationContext(),
                         MainActivity.TAG);
 

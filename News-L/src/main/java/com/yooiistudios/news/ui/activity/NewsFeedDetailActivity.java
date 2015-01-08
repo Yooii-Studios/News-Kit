@@ -95,8 +95,8 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.news.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.news.ui.widget.ObservableScrollView;
+import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.RssFetchable;
 import com.yooiistudios.news.util.ScreenUtils;
@@ -272,7 +272,7 @@ public class NewsFeedDetailActivity extends Activity
                 showLoadingCover();
             }
         }
-        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     @Override

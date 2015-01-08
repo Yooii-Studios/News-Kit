@@ -9,7 +9,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.adapter.LicenseListAdapter;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
+import com.yooiistudios.news.util.AnalyticsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,7 +28,7 @@ public class LicenseActivity extends Activity {
             setContentView(R.layout.activity_license);
             ButterKnife.inject(this);
             mListView.setAdapter(new LicenseListAdapter(this));
-            MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+            AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
         }
     }
 

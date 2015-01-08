@@ -21,7 +21,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.FloatingActionButton;
 import com.yooiistudios.news.ui.widget.HTML5WebView;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
+import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.WebUtils;
 
 import java.lang.reflect.Field;
@@ -66,7 +66,7 @@ public class NewsDetailActivity extends Activity
             }
         });
 
-        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     @Override

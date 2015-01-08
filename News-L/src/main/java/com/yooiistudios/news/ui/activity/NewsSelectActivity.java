@@ -23,7 +23,7 @@ import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.news.ui.fragment.CustomNewsFeedDialogFragment;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.widget.viewpager.SlidingTabLayout;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
+import com.yooiistudios.news.util.AnalyticsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,7 +50,7 @@ public class NewsSelectActivity extends Activity
         mSlidingTabLayout.setViewPager(mViewPager);
 
         initAdView();
-        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initAdView() {

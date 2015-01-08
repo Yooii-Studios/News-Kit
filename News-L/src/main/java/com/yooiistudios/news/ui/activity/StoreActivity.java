@@ -32,7 +32,7 @@ import com.yooiistudios.news.iab.util.Inventory;
 import com.yooiistudios.news.iab.util.Purchase;
 import com.yooiistudios.news.ui.adapter.StoreProductItemAdapter;
 import com.yooiistudios.news.ui.widget.AutoResize2TextView;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
+import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.Md5Utils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.StoreDebugCheckUtils;
@@ -85,7 +85,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
         initToolbar();
         initUI();
         checkDebug();
-        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initIab() {

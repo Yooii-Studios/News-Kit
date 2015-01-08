@@ -12,7 +12,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.adapter.MoreInfoListAdapter;
-import com.yooiistudios.news.util.MNAnalyticsUtils;
+import com.yooiistudios.news.util.AnalyticsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,7 +50,7 @@ public class MoreInfoActivity extends Activity implements AdapterView.OnItemClic
         setContentView(R.layout.activity_more_info);
         ButterKnife.inject(this);
         initListView();
-        MNAnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     private void initListView() {
