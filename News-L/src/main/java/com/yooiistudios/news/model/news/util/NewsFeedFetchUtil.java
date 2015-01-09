@@ -1,6 +1,11 @@
-package com.yooiistudios.news.model.news;
+package com.yooiistudios.news.model.news.util;
 
 import android.text.Html;
+
+import com.yooiistudios.news.model.news.News;
+import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedParser;
+import com.yooiistudios.news.model.news.NewsFeedUrl;
 
 import org.xml.sax.SAXException;
 

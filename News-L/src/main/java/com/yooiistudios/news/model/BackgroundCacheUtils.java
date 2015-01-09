@@ -6,9 +6,10 @@ import android.util.SparseArray;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
@@ -78,13 +79,15 @@ public class BackgroundCacheUtils implements
         mTopNewsImageFetchTaskMap = new SparseArray<AsyncTask>();
 
         // cache top news feed
-        NewsFeed topNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(mContext);
+        NewsFeed topNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext);
+//        NewsFeed topNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(mContext);
         new TopNewsFeedFetchTask(topNewsFeed, this, TopNewsFeedFetchTask.TaskType.CACHE, true)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         // cache bottom news feed list
         mBottomImageFetchMap = new ArrayList<>();
-        ArrayList<NewsFeed> bottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNewsFeedList(mContext);
+        ArrayList<NewsFeed> bottomNewsFeedList = NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext);
+//        ArrayList<NewsFeed> bottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNewsFeedList(mContext);
         int count = bottomNewsFeedList.size();
         for (int i = 0; i < count; i++) {
             NewsFeed bottomNewsFeed = bottomNewsFeedList.get(i);
@@ -135,7 +138,8 @@ public class BackgroundCacheUtils implements
     public void onTopNewsFeedFetch(final NewsFeed newsFeed,
                                    TopNewsFeedFetchTask.TaskType taskType) {
         NLLog.i(TAG, "T NF");
-        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
+        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
+//        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
 
         if (newsFeed == null) {
             checkAllFetched();
@@ -153,7 +157,8 @@ public class BackgroundCacheUtils implements
                     mTopNewsImageFetchTaskMap.delete(position);
 
                     if (checkAllImageUrlFetched(newsFeed)) {
-                        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
+                        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
+//                        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
                     }
 
                     checkAllFetched();
@@ -206,7 +211,8 @@ public class BackgroundCacheUtils implements
     public void onBottomNewsFeedFetch(final NewsFeed newsFeed, final int newsFeedPosition,
                                       int taskType) {
         NLLog.i(TAG, "B NF " + newsFeedPosition);
-        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext, newsFeed, newsFeedPosition);
+        NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
+//        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext, newsFeed, newsFeedPosition);
 
         if (newsFeed == null) {
             mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
@@ -226,10 +232,13 @@ public class BackgroundCacheUtils implements
                     if (url != null) {
                         news.setImageUrl(url);
                     }
+
                     if (checkAllImageUrlFetched(newsFeed)) {
                         // archive
-                        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext,
-                                newsFeed, newsFeedPosition);
+
+                        NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
+//                        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext,
+//                                newsFeed, newsFeedPosition);
                         mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
 
                         checkAllFetched();

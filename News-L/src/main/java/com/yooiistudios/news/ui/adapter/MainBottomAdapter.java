@@ -21,7 +21,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.util.ImageMemoryCache;

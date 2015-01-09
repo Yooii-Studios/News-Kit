@@ -17,7 +17,7 @@ import android.widget.AutoCompleteTextView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUrlType;
-import com.yooiistudios.news.model.news.NewsFeedUtils;
+import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 5.

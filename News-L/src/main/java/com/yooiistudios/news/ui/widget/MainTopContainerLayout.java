@@ -19,9 +19,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
@@ -178,7 +179,10 @@ public class MainTopContainerLayout extends FrameLayout
         initViewPager(context);
 
         // Fetch
-        mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(context));
+
+        NewsFeed topNewsFeed = NewsDb.getInstance(context).loadTopNewsFeed(context);
+        mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
+//        mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(context));
 
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(context);
         if (needsRefresh) {
@@ -356,8 +360,9 @@ public class MainTopContainerLayout extends FrameLayout
 
     public void configOnNewsFeedReplaced() {
         mIsReady = false;
-        mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(getContext(), false));
-//        mTopNewsFeed = NewsFeedArchiveUtils.loadTopNewsFeed(getContext(), false);
+        NewsFeed topNewsFeed = NewsDb.getInstance(getContext()).loadTopNewsFeed(getContext(), false);
+        mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
+//        mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(getContext(), false));
         if (mTopNewsFeedPagerAdapter.getNewsFeed().isValid()) {
             notifyNewTopNewsFeedSet();
             fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.REPLACE);
@@ -412,7 +417,9 @@ public class MainTopContainerLayout extends FrameLayout
     @Override
     public void onTopNewsFeedFetch(NewsFeed newsFeed, TopNewsFeedFetchTask.TaskType taskType) {
         mTopNewsFeedPagerAdapter.setNewsFeed(newsFeed);
-        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), newsFeed);
+        NewsDb.getInstance(getContext()).saveTopNewsFeed(newsFeed);
+
+//        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), newsFeed);
 
         if (taskType.equals(TopNewsFeedFetchTask.TaskType.INITIALIZE)) {
             if (newsFeed != null) {
@@ -446,7 +453,8 @@ public class MainTopContainerLayout extends FrameLayout
         if (url != null) {
             news.setImageUrl(url);
             applyImage(url, position, taskType);
-            NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeedPagerAdapter.getNewsFeed());
+            NewsDb.getInstance(getContext()).saveTopNewsFeed(mTopNewsFeedPagerAdapter.getNewsFeed());
+//            NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeedPagerAdapter.getNewsFeed());
         } else {
             mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 

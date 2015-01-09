@@ -33,8 +33,9 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.BackgroundServiceUtils;
+import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
-import com.yooiistudios.news.model.news.NewsFeedArchiveUtils;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.service.BackgroundCacheJobService;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
@@ -303,6 +304,7 @@ public class MainActivity extends Activity
             return true;
         // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
+            NewsDb.getInstance(getApplicationContext()).clearArchive();
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_slow_anim) {
             NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
