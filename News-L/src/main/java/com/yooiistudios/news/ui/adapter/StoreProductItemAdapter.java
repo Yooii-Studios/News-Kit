@@ -1,5 +1,6 @@
 package com.yooiistudios.news.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -29,7 +30,7 @@ import lombok.Getter;
  * MNStoreGridViewAdapter
  */
 public class StoreProductItemAdapter extends BaseAdapter {
-    private static final String TAG = "StoreItemAdapter";
+    public static final int NUM_OF_PRODUCT = 4;
     private Context mContext;
     private List<String> mOwnedSkus;
     private Inventory mInventory;
@@ -40,6 +41,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
         public void onItemPriceButtonClicked(String sku);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     private StoreProductItemAdapter(){}
     public StoreProductItemAdapter(Context context, Inventory inventory,
                                    StoreItemOnClickListener storeGridViewOnClickListener) {
@@ -58,8 +60,7 @@ public class StoreProductItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
-//        return 8;
+        return NUM_OF_PRODUCT;
     }
 
     @Override
@@ -72,9 +73,10 @@ public class StoreProductItemAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(mContext).inflate(R.layout.store_item, parent, false);
+        convertView = LayoutInflater.from(mContext).inflate(R.layout.store_item, null, true);
         if (convertView != null) {
             StoreItemViewHolder viewHolder = new StoreItemViewHolder(convertView);
             initLayout(viewHolder);
@@ -104,12 +106,12 @@ public class StoreProductItemAdapter extends BaseAdapter {
                     viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
                     break;
                 // test
-//                default:
-//                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
-//                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
-//                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
-//                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
-//                    break;
+                default:
+                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
+                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
+                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
+                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+                    break;
             }
             initPriceViews(viewHolder);
 
@@ -122,8 +124,8 @@ public class StoreProductItemAdapter extends BaseAdapter {
         return convertView;
     }
 
-    // debug용으로 컬러를 얻어내기
     /*
+    // debug용으로 컬러를 얻어내기
     private int getToggledBackgroundColor(int index) {
         if (index % 2 == 0) {
             return Color.parseColor("#cc00cc");

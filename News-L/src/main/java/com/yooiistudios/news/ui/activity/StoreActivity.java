@@ -13,10 +13,15 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewManager;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +55,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
 
     @InjectView(R.id.store_toolbar) Toolbar mToolbar;
 
+    @InjectView(R.id.store_banner_layout_wrapper) LinearLayout mBannerLayoutWrapper;
     @InjectView(R.id.store_banner_image_view) ImageView mBannerImageView;
     @InjectView(R.id.store_title_text_view_1) TextView mTitleTextView1;
     @InjectView(R.id.store_title_text_view_2) TextView mTitleTextView2;
@@ -81,11 +87,21 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
         setContentView(R.layout.activity_store);
         ButterKnife.inject(this);
         showStoreLoading();
+        initLayout();
         initIab();
         initToolbar();
         initUI();
         checkDebug();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initLayout() {
+        ((ViewManager)mBannerLayoutWrapper.getParent()).removeView(mBannerLayoutWrapper);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mProductListView.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.BELOW, R.id.store_toolbar);
+        mBannerLayoutWrapper.setLayoutParams(new AbsListView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mProductListView.addHeaderView(mBannerLayoutWrapper);
     }
 
     private void initIab() {
