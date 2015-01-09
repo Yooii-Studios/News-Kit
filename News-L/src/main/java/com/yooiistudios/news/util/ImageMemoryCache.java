@@ -18,6 +18,7 @@ package com.yooiistudios.news.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -153,6 +154,16 @@ public class ImageMemoryCache extends LruCache<String, Bitmap> implements ImageL
 
     @Override
     protected int sizeOf(String key, Bitmap value) {
-        return value.getAllocationByteCount();
+//        return value.getAllocationByteCount();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // Workaround for KitKat initial release NPE in Bitmap, fixed in MR1. See issue #148.
+            try {
+                return value.getAllocationByteCount();
+            } catch (NullPointerException e) {
+                // Do nothing.
+            }
+        }
+        return value.getHeight() * value.getRowBytes();
     }
 }
