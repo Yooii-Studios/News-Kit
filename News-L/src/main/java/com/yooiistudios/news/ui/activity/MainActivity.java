@@ -304,6 +304,7 @@ public class MainActivity extends Activity
             return true;
         // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
+            // 젠킨스 한글 설정 테스트용 주석
             NewsDb.getInstance(getApplicationContext()).clearArchive();
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_slow_anim) {
