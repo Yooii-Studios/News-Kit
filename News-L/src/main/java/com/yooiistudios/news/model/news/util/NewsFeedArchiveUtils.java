@@ -3,20 +3,6 @@ package com.yooiistudios.news.model.news.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.NewsFeedUrlProvider;
-import com.yooiistudios.news.model.news.NewsTopic;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
-
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 25.
  *
@@ -43,83 +29,82 @@ public class NewsFeedArchiveUtils {
         throw new AssertionError("You MUST not create this class!");
     }
 
-    public static NewsFeed loadTopNewsFeed(Context context) {
-        return loadTopNewsFeed(context, true);
-    }
+//    public static NewsFeed loadTopNewsFeed(Context context) {
+//        return loadTopNewsFeed(context, true);
+//    }
+//
+//    public static NewsFeed loadTopNewsFeed(Context context, boolean shuffle) {
+//        SharedPreferences prefs = getSharedPreferences(context);
+//
+//        String newsFeedStr = prefs.getString(KEY_TOP_NEWS_FEED, null);
+//
+//        Type feedType = new TypeToken<NewsFeed>(){}.getType();
+//        NewsFeed newsFeed;
+//        if (newsFeedStr != null) {
+//            // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
+//            newsFeed = new Gson().fromJson(newsFeedStr, feedType);
+//            newsFeed.setDisplayingNewsIndex(0);
+//            if (shuffle){
+//                Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
+//            }
+//        } else {
+//            // cache된 내용 없는 경우. 새로 만들어서 리턴.
+//            newsFeed = NewsFeedUtils.getDefaultTopNewsFeed(context);
+//        }
+//        return newsFeed;
+//    }
 
-    public static NewsFeed loadTopNewsFeed(Context context, boolean shuffle) {
-        SharedPreferences prefs = getSharedPreferences(context);
+//    public static ArrayList<NewsFeed> loadBottomNewsFeedList(Context context) {
+//        SharedPreferences prefs = context.getSharedPreferences(
+//                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//        int panelMatrixUniqueKey = prefs.getInt(PANEL_MATRIX_KEY, PANEL_MATRIX.getDefault().uniqueKey);
+//        PANEL_MATRIX panelMatrix = PANEL_MATRIX.getByUniqueKey(panelMatrixUniqueKey);
+//
+//        prefs = getSharedPreferences(context);
+//
+//        String newsFeedListStr = prefs.getString(KEY_BOTTOM_NEWS_FEED_LIST, null);
+//
+//        ArrayList<NewsFeed> feedList;
+//        if (newsFeedListStr == null) {
+//            // cache된 내용 없는 경우. 새로 만들어서 리턴.
+//            feedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+//            saveBottomNewsFeedList(context, feedList);
+//        } else {
+//            // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
+//            Type gsonType = new TypeToken<ArrayList<NewsFeed>>(){}.getType();
+//            feedList = new Gson().fromJson(newsFeedListStr, gsonType);
+//        }
+//
+//        for (NewsFeed newsFeed : feedList) {
+//            if (newsFeed != null) {
+//                newsFeed.setDisplayingNewsIndex(0);
+//                if (newsFeed.getNewsList() != null && newsFeed.getNewsList().size() > 0) {
+//                    Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
+//                }
+//            }
+//        }
+//
+//        int newsFeedCount = feedList.size();
+//        if (newsFeedCount > panelMatrix.panelCount) {
+//            feedList = new ArrayList<>(feedList.subList(0, panelMatrix.panelCount));
+//        } else if (newsFeedCount < panelMatrix.panelCount) {
+//            ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+//            for (int idx = newsFeedCount; idx < panelMatrix.panelCount; idx++) {
+//                feedList.add(defaultNewsFeedList.get(idx));
+//            }
+//        }
+//
+//        return feedList;
+//    }
 
-        String newsFeedStr = prefs.getString(KEY_TOP_NEWS_FEED, null);
-
-        Type feedType = new TypeToken<NewsFeed>(){}.getType();
-        NewsFeed newsFeed;
-        if (newsFeedStr != null) {
-            // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
-            newsFeed = new Gson().fromJson(newsFeedStr, feedType);
-            newsFeed.setDisplayingNewsIndex(0);
-            if (shuffle){
-                Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
-            }
-        } else {
-            // cache된 내용 없는 경우. 새로 만들어서 리턴.
-            NewsTopic newsTopic = NewsFeedUrlProvider.getInstance(context).getTopNewsTopic();
-            newsFeed = new NewsFeed(newsTopic);
-        }
-        return newsFeed;
-    }
-
-    public static ArrayList<NewsFeed> loadBottomNewsFeedList(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(
-                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int panelMatrixUniqueKey = prefs.getInt(PANEL_MATRIX_KEY, PANEL_MATRIX.getDefault().uniqueKey);
-        PANEL_MATRIX panelMatrix = PANEL_MATRIX.getByUniqueKey(panelMatrixUniqueKey);
-
-        prefs = getSharedPreferences(context);
-
-        String newsFeedListStr = prefs.getString(KEY_BOTTOM_NEWS_FEED_LIST, null);
-
-        ArrayList<NewsFeed> feedList;
-        if (newsFeedListStr == null) {
-            // cache된 내용 없는 경우. 새로 만들어서 리턴.
-            feedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
-            saveBottomNewsFeedList(context, feedList);
-        } else {
-            // cache된 내용 있는 경우. Gson으로 디코드 해서 사용.
-            Type gsonType = new TypeToken<ArrayList<NewsFeed>>(){}.getType();
-            feedList = new Gson().fromJson(newsFeedListStr, gsonType);
-        }
-
-        for (NewsFeed newsFeed : feedList) {
-            if (newsFeed != null) {
-                newsFeed.setDisplayingNewsIndex(0);
-                if (newsFeed.getNewsList() != null && newsFeed.getNewsList().size() > 0) {
-                    Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
-                }
-            }
-        }
-
-        int newsFeedCount = feedList.size();
-        if (newsFeedCount > panelMatrix.panelCount) {
-            feedList = new ArrayList<>(feedList.subList(0, panelMatrix.panelCount));
-        } else if (newsFeedCount < panelMatrix.panelCount) {
-            ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
-            for (int idx = newsFeedCount; idx < panelMatrix.panelCount; idx++) {
-                feedList.add(defaultNewsFeedList.get(idx));
-            }
-        }
-
-        return feedList;
-    }
-
-    public static NewsFeed loadBottomNewsFeedAt(Context context, int position) {
-        ArrayList<NewsFeed> newsFeedlist = loadBottomNewsFeedList(context);
-        if (position < newsFeedlist.size()) {
-            return newsFeedlist.get(position);
-        }
-
-        return null;
-    }
+//    public static NewsFeed loadBottomNewsFeedAt(Context context, int position) {
+//        ArrayList<NewsFeed> newsFeedlist = loadBottomNewsFeedList(context);
+//        if (position < newsFeedlist.size()) {
+//            return newsFeedlist.get(position);
+//        }
+//
+//        return null;
+//    }
 //    public static NewsFeed loadBottomNewsFeedAt(Context context, int position) {
 //        return loadBottomNewsFeedAt(getSharedPreferences(context), position);
 //    }
@@ -134,79 +119,79 @@ public class NewsFeedArchiveUtils {
 //        return new Gson().fromJson(bottomNewsFeedStr, feedType);
 //    }
 
-    public static void save(Context context, NewsFeed topNewsFeed,
-                            ArrayList<NewsFeed> bottomNewsFeedList) {
-        SharedPreferences prefs = getSharedPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
+//    public static void save(Context context, NewsFeed topNewsFeed,
+//                            ArrayList<NewsFeed> bottomNewsFeedList) {
+//        SharedPreferences prefs = getSharedPreferences(context);
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        putTopNewsFeed(editor, topNewsFeed);
+//        putBottomNewsFeedList(editor, bottomNewsFeedList);
+//
+//        // save recent saved millisec
+////        editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
+//        editor.apply();
+//    }
 
-        putTopNewsFeed(editor, topNewsFeed);
-        putBottomNewsFeedList(editor, bottomNewsFeedList);
+//    public static void saveBottomNewsFeedAt(Context context, NewsFeed bottomNewsFeed, int position) {
+//        SharedPreferences prefs = getSharedPreferences(context);
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        // load news feed list.
+//        // if it doesn't exists, get default list.
+//        String newsFeedListStr = prefs.getString(KEY_BOTTOM_NEWS_FEED_LIST, null);
+//        ArrayList<NewsFeed> newsFeedList;
+//        if (newsFeedListStr != null) {
+//            Type gsonType = new TypeToken<ArrayList<NewsFeed>>() {}.getType();
+//            newsFeedList = new Gson().fromJson(newsFeedListStr, gsonType);
+//        } else {
+//            newsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+//        }
+//
+//        // replace
+//        if (position < newsFeedList.size()) {
+//            newsFeedList.set(position, bottomNewsFeed);
+//        }
+//
+//        // save
+//        putBottomNewsFeedList(editor, newsFeedList);
+//
+//        editor.apply();
+//    }
 
-        // save recent saved millisec
-//        editor.putLong(KEY_NEWS_FEED_RECENT_REFRESH, System.currentTimeMillis());
-        editor.apply();
-    }
+//    public static void saveTopNewsFeed(Context context, NewsFeed newsFeed) {
+//        SharedPreferences prefs = getSharedPreferences(context);
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        putTopNewsFeed(editor, newsFeed);
+//
+//        editor.apply();
+//    }
 
-    public static void saveBottomNewsFeedAt(Context context, NewsFeed bottomNewsFeed, int position) {
-        SharedPreferences prefs = getSharedPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
+//    private static void putTopNewsFeed(SharedPreferences.Editor editor, NewsFeed topNewsFeed) {
+//        String topNewsFeedStr = topNewsFeed != null ? new Gson().toJson(topNewsFeed) : null;
+//
+//        // save top news feed
+//        if (topNewsFeedStr != null) {
+//            editor.putString(KEY_TOP_NEWS_FEED, topNewsFeedStr);
+//        } else {
+//            editor.remove(KEY_TOP_NEWS_FEED);
+//        }
+//    }
 
-        // load news feed list.
-        // if it doesn't exists, get default list.
-        String newsFeedListStr = prefs.getString(KEY_BOTTOM_NEWS_FEED_LIST, null);
-        ArrayList<NewsFeed> newsFeedList;
-        if (newsFeedListStr != null) {
-            Type gsonType = new TypeToken<ArrayList<NewsFeed>>() {}.getType();
-            newsFeedList = new Gson().fromJson(newsFeedListStr, gsonType);
-        } else {
-            newsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
-        }
+//    public static void saveBottomNewsFeedList(Context context,
+//                                           ArrayList<NewsFeed> bottomNewsFeedList) {
+//        SharedPreferences prefs = getSharedPreferences(context);
+//        SharedPreferences.Editor editor = prefs.edit();
+//
+//        putBottomNewsFeedList(editor, bottomNewsFeedList);
+//
+//        editor.apply();
+//    }
 
-        // replace
-        if (position < newsFeedList.size()) {
-            newsFeedList.set(position, bottomNewsFeed);
-        }
-
-        // save
-        putBottomNewsFeedList(editor, newsFeedList);
-
-        editor.apply();
-    }
-
-    public static void saveTopNewsFeed(Context context, NewsFeed newsFeed) {
-        SharedPreferences prefs = getSharedPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        putTopNewsFeed(editor, newsFeed);
-
-        editor.apply();
-    }
-
-    private static void putTopNewsFeed(SharedPreferences.Editor editor, NewsFeed topNewsFeed) {
-        String topNewsFeedStr = topNewsFeed != null ? new Gson().toJson(topNewsFeed) : null;
-
-        // save top news feed
-        if (topNewsFeedStr != null) {
-            editor.putString(KEY_TOP_NEWS_FEED, topNewsFeedStr);
-        } else {
-            editor.remove(KEY_TOP_NEWS_FEED);
-        }
-    }
-
-    public static void saveBottomNewsFeedList(Context context,
-                                           ArrayList<NewsFeed> bottomNewsFeedList) {
-        SharedPreferences prefs = getSharedPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        putBottomNewsFeedList(editor, bottomNewsFeedList);
-
-        editor.apply();
-    }
-
-    private static void putBottomNewsFeedList(SharedPreferences.Editor editor,
-                                              ArrayList<NewsFeed> bottomNewsFeedList) {
-        editor.putString(KEY_BOTTOM_NEWS_FEED_LIST, new Gson().toJson(bottomNewsFeedList));
-    }
+//    private static void putBottomNewsFeedList(SharedPreferences.Editor editor,
+//                                              ArrayList<NewsFeed> bottomNewsFeedList) {
+//        editor.putString(KEY_BOTTOM_NEWS_FEED_LIST, new Gson().toJson(bottomNewsFeedList));
+//    }
 
     public static void saveRecentCacheMillisec(Context context) {
         SharedPreferences prefs = getSharedPreferences(context);

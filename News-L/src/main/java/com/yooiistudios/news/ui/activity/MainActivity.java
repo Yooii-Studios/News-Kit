@@ -29,6 +29,7 @@ import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.BackgroundServiceUtils;
+import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.service.BackgroundCacheJobService;
@@ -277,7 +278,8 @@ public class MainActivity extends Activity
             FeedbackUtils.sendFeedback(this);
             return true;
         } else if (id == R.id.action_remove_archive) {
-            NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+            NewsDb.getInstance(getApplicationContext()).clearArchive();
+//            NewsFeedArchiveUtils.clearArchive(getApplicationContext());
 //            getSharedPreferences("bezier", MODE_PRIVATE).edit().clear().apply();
         } else if (id == R.id.action_slow_anim) {
             NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?

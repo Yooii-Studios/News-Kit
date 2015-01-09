@@ -17,6 +17,7 @@ import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUrlProvider;
 import com.yooiistudios.news.model.news.NewsFeedUrlType;
 import com.yooiistudios.news.model.news.NewsTopic;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.util.NLLog;
 
 import org.apache.http.HttpEntity;
@@ -40,6 +41,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
 
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 3.
@@ -106,15 +110,36 @@ public class NewsFeedUtils {
         return new NewsFeedUrl(feedUrl, urlType);
     }
 
+    public static NewsFeed getDefaultTopNewsFeed(Context context) {
+        NewsTopic defaultNewsTopic = NewsFeedUrlProvider.getInstance(context).getTopNewsTopic();
+        return new NewsFeed(defaultNewsTopic);
+    }
+
     public static ArrayList<NewsFeed> getDefaultBottomNewsFeedList(Context context) {
-        ArrayList<NewsFeed> feedList = new ArrayList<>();
+        ArrayList<NewsFeed> newsFeedList = new ArrayList<>();
         ArrayList<NewsTopic> topicList =
                 NewsFeedUrlProvider.getInstance(context).getBottomNewsTopicList();
         for (NewsTopic newsTopic : topicList) {
-            feedList.add(new NewsFeed(newsTopic));
+            newsFeedList.add(new NewsFeed(newsTopic));
         }
 
-        return feedList;
+        SharedPreferences prefs = context.getSharedPreferences(
+                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        int panelMatrixUniqueKey = prefs.getInt(PANEL_MATRIX_KEY, MainBottomContainerLayout.PANEL_MATRIX.getDefault().uniqueKey);
+        MainBottomContainerLayout.PANEL_MATRIX panelMatrix = MainBottomContainerLayout.PANEL_MATRIX.getByUniqueKey(panelMatrixUniqueKey);
+
+        int newsFeedCount = newsFeedList.size();
+
+        if (newsFeedCount > panelMatrix.panelCount) {
+            newsFeedList = new ArrayList<>(newsFeedList.subList(0, panelMatrix.panelCount));
+        } else if (newsFeedCount < panelMatrix.panelCount) {
+            ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+            for (int idx = newsFeedCount; idx < panelMatrix.panelCount; idx++) {
+                newsFeedList.add(defaultNewsFeedList.get(idx));
+            }
+        }
+
+        return newsFeedList;
     }
 
 //    public static String getRssFeedJsonString(RssFeed feed) {

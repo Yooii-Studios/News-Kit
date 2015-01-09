@@ -23,6 +23,7 @@ import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
@@ -293,7 +294,9 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
-        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext()));
+        ArrayList<NewsFeed> bottomNewsFeedList = NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext());
+        mBottomNewsFeedAdapter.setNewsFeedList(bottomNewsFeedList);
+//        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext()));
 
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext());
         if (needsRefresh) {
@@ -348,8 +351,9 @@ public class MainBottomContainerLayout extends FrameLayout
             }
             mBottomNewsFeedAdapter.notifyDataSetChanged();
         } else if (currentNewsFeedList.size() < currentMatrix.panelCount) {
-            ArrayList<NewsFeed> savedNewsFeedList =
-                    NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext());
+            ArrayList<NewsFeed> savedNewsFeedList = NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext());
+//            ArrayList<NewsFeed> savedNewsFeedList =
+//                    NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext());
             int maxCount = savedNewsFeedList.size() > currentMatrix.panelCount
                     ? currentMatrix.panelCount : savedNewsFeedList.size();
             ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairListToFetch = new ArrayList<>();
@@ -363,8 +367,9 @@ public class MainBottomContainerLayout extends FrameLayout
                 }
             }
 
-            NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-                    mBottomNewsFeedAdapter.getNewsFeedList());
+            NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
+//            NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+//                    mBottomNewsFeedAdapter.getNewsFeedList());
 
             mIsFetchingAddedBottomNewsFeeds = true;
             if (newsFeedToIndexPairListToFetch.size() == 0) {
@@ -454,7 +459,8 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public void reloadNewsFeedAt(int idx) {
         //read from cache
-        NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(getContext(), idx);
+        NewsFeed newsFeed = NewsDb.getInstance(getContext()).loadBottomNewsFeedAt(getContext(), idx, false);
+//        NewsFeed newsFeed = NewsFeedArchiveUtils.loadBottomNewsFeedAt(getContext(), idx);
 
         mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
 
@@ -567,15 +573,17 @@ public class MainBottomContainerLayout extends FrameLayout
             case BottomNewsFeedFetchTask.TASK_INITIALIZE:
                 mBottomNewsFeedAdapter.notifyDataSetChanged();
 
-                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-                        mBottomNewsFeedAdapter.getNewsFeedList());
+                NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
+//                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+//                        mBottomNewsFeedAdapter.getNewsFeedList());
                 if (!mIsInitialized) {
                     notifyOnInitialized();
                 }
                 break;
             case BottomNewsFeedFetchTask.TASK_REFRESH:
-                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-                        mBottomNewsFeedAdapter.getNewsFeedList());
+                NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
+//                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+//                        mBottomNewsFeedAdapter.getNewsFeedList());
 
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
@@ -587,8 +595,9 @@ public class MainBottomContainerLayout extends FrameLayout
                     Pair<NewsFeed, Integer> newsFeedPair = newsFeedPairList.get(0);
 
                     NewsFeed newsFeed = newsFeedPair.first;
-                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed,
-                            newsFeedPair.second);
+                    NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, newsFeedPair.second);
+//                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed,
+//                            newsFeedPair.second);
 
                     BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
                             mImageLoader, newsFeed, this, newsFeedPair.second,
@@ -600,8 +609,9 @@ public class MainBottomContainerLayout extends FrameLayout
 //                ArrayList<NewsFeed>
                 for (Pair<NewsFeed, Integer> newsFeedToIndexPair : newsFeedPairList) {
                     NewsFeed newsFeed = newsFeedToIndexPair.first;
-                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed,
-                            newsFeedToIndexPair.second);
+                    NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, newsFeedToIndexPair.second);
+//                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed,
+//                            newsFeedToIndexPair.second);
                 }
 
                 BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
@@ -616,12 +626,15 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onBottomNewsImageUrlFetch(News news, String url, int index, int taskType) {
+        news.setImageUrlChecked(true);
         if (url != null) {
             news.setImageUrl(url);
 
             // archive
-            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
-                    mBottomNewsFeedAdapter.getNewsFeedList().get(index), index);
+            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);
+            NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, index);
+//            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
+//                    mBottomNewsFeedAdapter.getNewsFeedList().get(index), index);
         } else {
             // 이미지 url이 없는 경우. 바로 notify 해서 더미 이미지 보여줌.
             mBottomNewsFeedAdapter.notifyItemChanged(index);

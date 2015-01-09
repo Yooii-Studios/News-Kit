@@ -70,20 +70,20 @@ import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionTextViewProperty;
+import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.debug.DebugSettingDialogFactory;
 import com.yooiistudios.news.model.debug.DebugSettings;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsContentProvider;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
-import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.NewsProvider;
 import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
+import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.animation.curvemotion.AnimatorPath;
@@ -1642,11 +1642,13 @@ public class NewsFeedDetailActivity extends Activity
         if (newsLocation != null) {
             Context context = getApplicationContext();
             if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
-                NewsFeedArchiveUtils.saveTopNewsFeed(context, newsFeed);
+                NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
+//                NewsFeedArchiveUtils.saveTopNewsFeed(context, newsFeed);
             } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
                 int idx = getIntent().getExtras().getInt(
                         MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
-                NewsFeedArchiveUtils.saveBottomNewsFeedAt(context, newsFeed, idx);
+                NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, idx);
+//                NewsFeedArchiveUtils.saveBottomNewsFeedAt(context, newsFeed, idx);
             }
         }
     }

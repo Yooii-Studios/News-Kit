@@ -18,6 +18,12 @@ public class NewsFeedUrl implements Serializable, RssFetchable {
         mUrl = url;
         mType = type;
     }
+
+    public NewsFeedUrl(String url, int urlTypeUniqueKey) {
+        mUrl = url;
+        mType = NewsFeedUrlType.getByUniqueKey(urlTypeUniqueKey);
+    }
+
     public NewsFeedUrl(NewsFeedUrl feedUrl) {
         this.mUrl = feedUrl.getUrl();
         this.mType = feedUrl.getType();
@@ -26,6 +32,7 @@ public class NewsFeedUrl implements Serializable, RssFetchable {
     public String getUrl() {
         return mUrl;
     }
+
     public NewsFeedUrlType getType() {
         return mType;
     }
