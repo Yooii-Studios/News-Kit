@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 
 import com.flurry.android.FlurryAgent;
 import com.yooiistudios.news.util.FlurryUtils;
+import com.yooiistudios.news.util.NLLog;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -27,7 +28,8 @@ public class Language {
     /**
      * Singleton
      */
-    private Language(){}
+    @SuppressWarnings("UnusedDeclaration")
+    private Language() {}
     private Language(Context context) {
         int uniqueId = context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .getInt(LANGUAGE_MATRIX_KEY, -1);
@@ -35,6 +37,8 @@ public class Language {
         // 최초 설치시 디바이스의 언어와 비교해 앱이 지원하는 언어면 해당 언어로 설정, 아닐 경우 영어로 첫 언어 설정
         if (uniqueId == -1) {
             Locale locale = Locale.getDefault();
+            NLLog.now(locale.getLanguage());
+            NLLog.now(locale.getCountry());
             currentLanguageType = LanguageType.valueOfCodeAndRegion(locale.getLanguage(), locale.getCountry());
             // 아카이브
             context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
@@ -74,7 +78,7 @@ public class Language {
         activity.getResources().updateConfiguration(config, activity.getResources().getDisplayMetrics());
 
         // 플러리
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(FlurryUtils.LANGUAGE, newLanguage.toString());
         FlurryAgent.logEvent(FlurryUtils.ON_SETTING_THEME, params);
     }

@@ -214,7 +214,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         // 뉴스피드들의 타이틀을 CharSequence 로 변경
         ArrayList<String> languageList = new ArrayList<>();
         for (int i = 0; i < LanguageType.values().length; i++) {
-            languageList.add(LanguageType.toTranselatedString(i, getActivity()));
+            languageList.add(getString(LanguageType.valueOf(i).getLocalNotationStringId()));
         }
 
         String[] languages = languageList.toArray(new String[languageList.size()]);
