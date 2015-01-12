@@ -132,6 +132,8 @@ public class NewsFeedDetailAdapter extends
 
         NewsFeedDetailAdapter.configView(viewHolder, news, null);
 
+        viewHolder.itemView.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         viewHolder.itemView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         return viewHolder.itemView.getMeasuredHeight();
     }
