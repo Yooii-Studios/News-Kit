@@ -26,13 +26,13 @@ import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchManager;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
@@ -72,26 +72,26 @@ public class MainBottomContainerLayout extends FrameLayout
     // 패널 갯수 관련 상수
     public static final String PANEL_MATRIX_SHARED_PREFERENCES = "PANEL_MATRIX_SHARED_PREFERENCES";
     public static final String PANEL_MATRIX_KEY = "PANEL_MATRIX_KEY";
-    public enum PANEL_MATRIX {
-        TWO_BY_TWO(0, 4, "2X2"),
-        THREE_BY_TWO(1, 6, "3X2"),
-        FOUR_BY_TWO(2, 8, "4X2");
+    public enum PanelMatrixType {
+        TWO_BY_TWO(0, 4, "2 X 2"),
+        THREE_BY_TWO(1, 6, "3 X 2"),
+        FOUR_BY_TWO(2, 8, "4 X 2");
 
         public int uniqueKey;
         public int panelCount;
         public String displayName;
 
-        private PANEL_MATRIX(int uniqueKey, int panelCount, String displayName) {
+        private PanelMatrixType(int uniqueKey, int panelCount, String displayName) {
             this.uniqueKey = uniqueKey;
             this.panelCount = panelCount;
             this.displayName = displayName;
         }
 
         public static String[] getDisplayNameStringArr() {
-            int itemCount = PANEL_MATRIX.values().length;
+            int itemCount = PanelMatrixType.values().length;
             String[] retArr = new String[itemCount];
             for (int i = 0; i < itemCount; i++) {
-                PANEL_MATRIX item = PANEL_MATRIX.values()[i];
+                PanelMatrixType item = PanelMatrixType.values()[i];
                 retArr[i] = item.displayName;
             }
 
@@ -99,8 +99,8 @@ public class MainBottomContainerLayout extends FrameLayout
         }
 
         public static int getIndexByUniqueKey(int uniqueKey) {
-            for (int i = 0; i < PANEL_MATRIX.values().length; i++) {
-                PANEL_MATRIX item = PANEL_MATRIX.values()[i];
+            for (int i = 0; i < PanelMatrixType.values().length; i++) {
+                PanelMatrixType item = PanelMatrixType.values()[i];
 
                 if (item.uniqueKey == uniqueKey) {
                     return i;
@@ -110,8 +110,8 @@ public class MainBottomContainerLayout extends FrameLayout
             return -1;
         }
 
-        public static PANEL_MATRIX getByUniqueKey(int uniqueKey) {
-            for (PANEL_MATRIX item : PANEL_MATRIX.values()) {
+        public static PanelMatrixType getByUniqueKey(int uniqueKey) {
+            for (PanelMatrixType item : PanelMatrixType.values()) {
 
                 if (item.uniqueKey == uniqueKey) {
                     return item;
@@ -121,7 +121,7 @@ public class MainBottomContainerLayout extends FrameLayout
             return getDefault();
         }
 
-        public static PANEL_MATRIX getDefault() {
+        public static PanelMatrixType getDefault() {
             return TWO_BY_TWO;
         }
 
@@ -129,7 +129,7 @@ public class MainBottomContainerLayout extends FrameLayout
             return isPanelMatrixUsable(context, this);
         }
 
-        public static boolean isPanelMatrixUsable(Context context, PANEL_MATRIX panelMatrix) {
+        public static boolean isPanelMatrixUsable(Context context, PanelMatrixType panelMatrix) {
             if (IabProducts.containsSku(context, IabProducts.SKU_MORE_PANELS)) {
                 return true;
             } else {
@@ -142,6 +142,18 @@ public class MainBottomContainerLayout extends FrameLayout
                         return false;
                 }
             }
+        }
+
+        public static int getCurrentPanelMatrixIndex(Context context) {
+            SharedPreferences preferences = context.getSharedPreferences(
+                    PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            return preferences.getInt(PANEL_MATRIX_KEY,
+                    PanelMatrixType.getDefault().uniqueKey);
+        }
+
+        public static PanelMatrixType getCurrentPanelMatrix(Context context) {
+            int currentPanelMatrixKey = getCurrentPanelMatrixIndex(context);
+            return PanelMatrixType.getByUniqueKey(currentPanelMatrixKey);
         }
     }
 
@@ -294,7 +306,10 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
-        ArrayList<NewsFeed> bottomNewsFeedList = NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext());
+        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
+
+        ArrayList<NewsFeed> bottomNewsFeedList =
+                NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.panelCount);
         mBottomNewsFeedAdapter.setNewsFeedList(bottomNewsFeedList);
 //        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext()));
 
@@ -339,11 +354,7 @@ public class MainBottomContainerLayout extends FrameLayout
     public void notifyPanelMatrixChanged() {
         ArrayList<NewsFeed> currentNewsFeedList = mBottomNewsFeedAdapter.getNewsFeedList();
 
-        SharedPreferences preferences = getContext().getSharedPreferences(
-                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int currentPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
-                PANEL_MATRIX.getDefault().uniqueKey);
-        PANEL_MATRIX currentMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelMatrixKey);
+        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
 
         if (currentNewsFeedList.size() > currentMatrix.panelCount) {
             for (int idx = currentNewsFeedList.size() - 1; idx >= currentMatrix.panelCount; idx--) {
@@ -351,7 +362,8 @@ public class MainBottomContainerLayout extends FrameLayout
             }
             mBottomNewsFeedAdapter.notifyDataSetChanged();
         } else if (currentNewsFeedList.size() < currentMatrix.panelCount) {
-            ArrayList<NewsFeed> savedNewsFeedList = NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext());
+            ArrayList<NewsFeed> savedNewsFeedList =
+                    NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.panelCount);
 //            ArrayList<NewsFeed> savedNewsFeedList =
 //                    NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext());
             int maxCount = savedNewsFeedList.size() > currentMatrix.panelCount

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 12. 9.
@@ -23,21 +23,21 @@ import com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
 public class PanelMatrixSelectAdapter extends BaseAdapter {
 
     private Context mContext;
-    private PANEL_MATRIX mCurrentPanelMatrix;
+    private MainBottomContainerLayout.PanelMatrixType mCurrentPanelMatrix;
 
-    public PanelMatrixSelectAdapter(Context context, PANEL_MATRIX currentPanelMatrix) {
+    public PanelMatrixSelectAdapter(Context context, MainBottomContainerLayout.PanelMatrixType currentPanelMatrix) {
         mContext = context;
         mCurrentPanelMatrix = currentPanelMatrix;
     }
 
     @Override
     public int getCount() {
-        return PANEL_MATRIX.values().length;
+        return MainBottomContainerLayout.PanelMatrixType.values().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return PANEL_MATRIX.values()[position];
+        return MainBottomContainerLayout.PanelMatrixType.values()[position];
     }
 
     @Override
@@ -53,7 +53,7 @@ public class PanelMatrixSelectAdapter extends BaseAdapter {
                     R.layout.panel_matrix_select_dialog_list_item, null);
         }
 
-        PANEL_MATRIX panelMatrix = PANEL_MATRIX.values()[position];
+        MainBottomContainerLayout.PanelMatrixType panelMatrix = MainBottomContainerLayout.PanelMatrixType.values()[position];
 
         TextView panelMatrixNameTextView = (TextView)convertView.findViewById(R.id.panel_matrix_name);
         panelMatrixNameTextView.setText(panelMatrix.displayName);

@@ -42,9 +42,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
-
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 3.
  *
@@ -123,10 +120,7 @@ public class NewsFeedUtils {
             newsFeedList.add(new NewsFeed(newsTopic));
         }
 
-        SharedPreferences prefs = context.getSharedPreferences(
-                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int panelMatrixUniqueKey = prefs.getInt(PANEL_MATRIX_KEY, MainBottomContainerLayout.PANEL_MATRIX.getDefault().uniqueKey);
-        MainBottomContainerLayout.PANEL_MATRIX panelMatrix = MainBottomContainerLayout.PANEL_MATRIX.getByUniqueKey(panelMatrixUniqueKey);
+        MainBottomContainerLayout.PanelMatrixType panelMatrix = MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(context);
 
         int newsFeedCount = newsFeedList.size();
 

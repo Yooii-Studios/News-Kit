@@ -2,7 +2,6 @@ package com.yooiistudios.news.model.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,15 +10,12 @@ import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.util.NewsFeedUtils;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.yooiistudios.news.model.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.news.model.database.NewsDbContract.NewsFeedEntry;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 15. 1. 4.
@@ -28,7 +24,6 @@ import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MA
  *  쿼리, 삽입, 삭제, 업데이트 기능 래핑
  */
 public class NewsDb {
-    private static final String TAG = "NewsDB";
     private static final int TOP_NEWS_FEED_INDEX = -1;
     private static final int BOTTOM_NEWS_FEED_INITIAL_INDEX = 0;
 
@@ -62,6 +57,8 @@ public class NewsDb {
         return this;
     }
 
+    /*
+    // close 를 굳이 하지 않아도 open 만 사용해도 될 것으로 판단해 일단 사용하지 않음
     private void close() {
         if (isOpen()) {
             mDatabase.close();
@@ -70,16 +67,10 @@ public class NewsDb {
             mHelper.close();
         }
     }
+    */
 
     private boolean isOpen() {
         return mDatabase != null && mDatabase.isOpen();
-    }
-
-    private void checkDBStatus() {
-        if (!isOpen()) {
-            throw new IllegalStateException("You MUST open database with NewsArchiveDB.open() " +
-                    "before database operations.");
-        }
     }
 
     public NewsFeed loadTopNewsFeed(Context context) {
@@ -95,18 +86,14 @@ public class NewsDb {
         }
     }
 
-    public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context) {
-        return loadBottomNewsFeedList(context, true);
+    public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, int panelCount) {
+        return loadBottomNewsFeedList(context, panelCount, true);
     }
-    public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, boolean shuffle) {
-        SharedPreferences prefs = context.getSharedPreferences(
-                PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int panelMatrixUniqueKey = prefs.getInt(PANEL_MATRIX_KEY, MainBottomContainerLayout.PANEL_MATRIX.getDefault().uniqueKey);
-        MainBottomContainerLayout.PANEL_MATRIX panelMatrix = MainBottomContainerLayout.PANEL_MATRIX.getByUniqueKey(panelMatrixUniqueKey);
 
+    public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, int panelCount, boolean shuffle) {
         String[] newsFeedWhereArgs = {
                 String.valueOf(BOTTOM_NEWS_FEED_INITIAL_INDEX),
-                String.valueOf(panelMatrix.panelCount)
+                String.valueOf(panelCount)
         };
 
         Cursor newsFeedCursor = mDatabase.query(
@@ -127,7 +114,7 @@ public class NewsDb {
             return defaultNewsFeedList;
         }
         while (!newsFeedCursor.isAfterLast()) {
-            NewsFeed newsFeed = cursorToNewsFeed(newsFeedCursor, shuffle);
+            NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor, shuffle);
 
             int newsFeedPosition = newsFeedCursor.getInt(
                     newsFeedCursor.getColumnIndex(NewsFeedEntry.COLUMN_NAME_POSITION));
@@ -146,11 +133,11 @@ public class NewsDb {
         newsFeedCursor.close();
 
         int newsFeedCount = newsFeedList.size();
-        if (newsFeedCount > panelMatrix.panelCount) {
-            newsFeedList = new ArrayList<>(newsFeedList.subList(0, panelMatrix.panelCount));
-        } else if (newsFeedCount < panelMatrix.panelCount) {
+        if (newsFeedCount > panelCount) {
+            newsFeedList = new ArrayList<>(newsFeedList.subList(0, panelCount));
+        } else if (newsFeedCount < panelCount) {
             ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
-            for (int idx = newsFeedCount; idx < panelMatrix.panelCount; idx++) {
+            for (int idx = newsFeedCount; idx < panelCount; idx++) {
                 newsFeedList.add(defaultNewsFeedList.get(idx));
             }
         }
@@ -162,7 +149,7 @@ public class NewsDb {
         NewsFeed newsFeed = queryNewsFeed(position, shuffle);
 
         if (newsFeed == null) {
-            // cache된 내용 없는 경우. 새로 만들어서 리턴.
+            // cache 된 내용 없는 경우 새로 만들어서 리턴
             ArrayList<NewsFeed> newsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
             if (position < newsFeedList.size()) {
                 newsFeed = newsFeedList.get(position);
@@ -268,10 +255,10 @@ public class NewsDb {
         newsFeedCursor.moveToFirst();
 
         if (newsFeedCursor.getCount() <= 0) {
-            // no saved top news feed
+            // no saved news feed
             return null;
         }
-        NewsFeed newsFeed = cursorToNewsFeed(newsFeedCursor, shuffle);
+        NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor, shuffle);
         newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition));
 
         newsFeedCursor.close();
@@ -279,7 +266,7 @@ public class NewsDb {
         return newsFeed;
     }
 
-    private NewsFeed cursorToNewsFeed(Cursor newsFeedCursor, boolean shuffle) {
+    private NewsFeed convertCursorToNewsFeed(Cursor newsFeedCursor, boolean shuffle) {
         String title = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_TITLE));
         String newsFeedUrl = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
@@ -319,26 +306,26 @@ public class NewsDb {
     private ArrayList<News> queryNewsFromNewsFeedPosition(int newsFeedPosition) {
         String[] newsListWhereArgs = { String.valueOf(newsFeedPosition) };
 
-        Cursor topNewsListCursor = mDatabase.query(
+        Cursor newsListCursor = mDatabase.query(
                 NewsEntry.TABLE_NAME,
                 null,
                 NewsEntry.COLUMN_NAME_FEED_POSITION + "=?",
                 newsListWhereArgs,
                 null, null, NewsEntry.COLUMN_NAME_INDEX);
-        topNewsListCursor.moveToFirst();
+        newsListCursor.moveToFirst();
 
         ArrayList<News> newsList = new ArrayList<>();
-        while (!topNewsListCursor.isAfterLast()) {
-            String newsTitle = topNewsListCursor.getString(
-                    topNewsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_TITLE));
-            String newsLink = topNewsListCursor.getString(
-                    topNewsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_LINK));
-            String newsDescription = topNewsListCursor.getString(
-                    topNewsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_DESCRIPTION));
-            String newsImageUrl = topNewsListCursor.getString(
-                    topNewsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL));
-            int newsImageUrlCheckedInt = topNewsListCursor.getInt(
-                    topNewsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED));
+        while (!newsListCursor.isAfterLast()) {
+            String newsTitle = newsListCursor.getString(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_TITLE));
+            String newsLink = newsListCursor.getString(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_LINK));
+            String newsDescription = newsListCursor.getString(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_DESCRIPTION));
+            String newsImageUrl = newsListCursor.getString(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL));
+            int newsImageUrlCheckedInt = newsListCursor.getInt(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED));
             boolean newsImageUrlChecked = newsImageUrlCheckedInt == 1;
 
             News news = new News();
@@ -350,10 +337,10 @@ public class NewsDb {
 
             newsList.add(news);
 
-            topNewsListCursor.moveToNext();
+            newsListCursor.moveToNext();
         }
 
-        topNewsListCursor.close();
+        newsListCursor.close();
 
         return newsList;
     }
@@ -361,7 +348,5 @@ public class NewsDb {
     public void clearArchive() {
         mDatabase.execSQL("DELETE FROM " + NewsFeedEntry.TABLE_NAME);
         mDatabase.execSQL("DELETE FROM " + NewsEntry.TABLE_NAME);
-//        mDatabase.execSQL(NewsDbHelper.SQL_DROP_NEWSFEED_ENTRY);
-//        mDatabase.execSQL(NewsDbHelper.SQL_DROP_NEWS_ENTRY);
     }
 }

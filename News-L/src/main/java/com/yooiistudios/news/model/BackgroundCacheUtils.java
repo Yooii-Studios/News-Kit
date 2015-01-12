@@ -9,12 +9,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
@@ -86,8 +87,13 @@ public class BackgroundCacheUtils implements
 
         // cache bottom news feed list
         mBottomImageFetchMap = new ArrayList<>();
-        ArrayList<NewsFeed> bottomNewsFeedList = NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext);
-//        ArrayList<NewsFeed> bottomNewsFeedList = NewsFeedArchiveUtils.loadBottomNewsFeedList(mContext);
+
+        MainBottomContainerLayout.PanelMatrixType currentMatrix =
+                MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(context);
+
+        ArrayList<NewsFeed> bottomNewsFeedList =
+                NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext, currentMatrix.panelCount);
+
         int count = bottomNewsFeedList.size();
         for (int i = 0; i < count; i++) {
             NewsFeed bottomNewsFeed = bottomNewsFeedList.get(i);

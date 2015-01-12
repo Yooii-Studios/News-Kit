@@ -12,10 +12,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
-
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 3.
@@ -90,12 +87,7 @@ public class SettingAdapter extends BaseAdapter {
             case PANEL_COUNT:
                 descriptionTextView.setVisibility(View.VISIBLE);
 
-                preferences = mContext.getSharedPreferences(
-                        PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                int currentPanelUniqueKey = preferences.getInt(PANEL_MATRIX_KEY,
-                        PANEL_MATRIX.getDefault().uniqueKey);
-
-                PANEL_MATRIX currentPanelMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelUniqueKey);
+                MainBottomContainerLayout.PanelMatrixType currentPanelMatrix = MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(mContext);
 
                 descriptionTextView.setText(
                         mContext.getString(R.string.setting_panel_count_description,

@@ -21,13 +21,13 @@ import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX;
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
 
@@ -81,10 +81,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            SharedPreferences preferences = getActivity().getSharedPreferences(
-                    PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-            mPreviousPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
-                    PANEL_MATRIX.getDefault().uniqueKey);
+            mPreviousPanelMatrixKey = MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrixIndex(getActivity().getApplicationContext());
         } else {
             mPreviousPanelMatrixKey = savedInstanceState.getInt(SI_PANEL_MATRIX_KEY);
         }
@@ -149,11 +146,8 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case PANEL_COUNT:
-                preferences = getActivity().getSharedPreferences(
-                        PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                int currentPanelMatrixKey = preferences.getInt(PANEL_MATRIX_KEY,
-                        PANEL_MATRIX.getDefault().uniqueKey);
-                PANEL_MATRIX currentPanelMatrix = PANEL_MATRIX.getByUniqueKey(currentPanelMatrixKey);
+                MainBottomContainerLayout.PanelMatrixType currentPanelMatrix =
+                        MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
 
 //                final NumberPicker numberPicker = new NumberPicker(getActivity());
 //                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
@@ -179,7 +173,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        PANEL_MATRIX selectedPanelMatrix = PANEL_MATRIX.values()[position];
+                        MainBottomContainerLayout.PanelMatrixType selectedPanelMatrix = MainBottomContainerLayout.PanelMatrixType.values()[position];
                         if (!selectedPanelMatrix.isUsable(getActivity())) {
                             return;
                         }
