@@ -286,6 +286,7 @@ public class NewsDetailActivity extends Activity
             field.setAccessible(true);
             field.set(configCallback, windowManager);
         } catch(Exception ignored) {
+            ignored.printStackTrace();
         }
     }
 
