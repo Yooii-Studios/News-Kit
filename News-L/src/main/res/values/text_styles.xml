@@ -94,10 +94,17 @@
     <style name="DetailDescriptionStyle" parent="DetailDescriptionTextBaseStyle">
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:paddingStart">@dimen/detail_text_wide_padding</item>
+        <item name="android:paddingLeft">@dimen/detail_text_wide_padding</item>
         <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
-        <item name="android:paddingEnd">@dimen/detail_text_wide_padding</item>
+        <item name="android:paddingRight">@dimen/detail_text_wide_padding</item>
         <item name="android:paddingBottom">@dimen/detail_text_wide_padding</item>
+    </style>
+
+    <style name="NewsFeedReplaceTextStyle" parent="DetailDescriptionTextBaseStyle">
+        <item name="android:paddingLeft">@dimen/detail_text_inner_padding</item>
+        <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
+        <item name="android:paddingRight">@dimen/detail_text_inner_padding</item>
+        <item name="android:paddingBottom">@dimen/detail_text_inner_padding</item>
     </style>
 
     <!-- Debug -->

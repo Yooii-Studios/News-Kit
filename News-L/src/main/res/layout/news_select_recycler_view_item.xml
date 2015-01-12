@@ -10,5 +10,5 @@
         android:id="@+id/news_select_item_feed_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"/>
+        style="@style/NewsFeedReplaceTextStyle"/>
 </LinearLayout>
