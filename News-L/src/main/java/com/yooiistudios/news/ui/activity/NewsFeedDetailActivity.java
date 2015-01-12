@@ -1411,19 +1411,23 @@ public class NewsFeedDetailActivity extends Activity
                     MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
 
             if (newsLocation != null) {
-                if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
-                    // 메인 상단에서 온 경우
-                    mTintType = TintType.GRAYSCALE;
-                } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                    // 메인 하단에서 온 경우
-                    int filterColor = getTopImageFilterColorPaletteItem();
-                    if (filterColor != Color.TRANSPARENT) {
-                        mTintType = TintType.PALETTE;
-                    } else {
+                switch (newsLocation) {
+                    case MainActivity.INTENT_VALUE_TOP_NEWS_FEED:
+                        // 메인 상단에서 온 경우
                         mTintType = TintType.GRAYSCALE;
-                    }
-                } else {
-                    mTintType = TintType.GRAYSCALE;
+                        break;
+                    case MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED:
+                        // 메인 하단에서 온 경우
+                        int filterColor = getTopImageFilterColorPaletteItem();
+                        if (filterColor != Color.TRANSPARENT) {
+                            mTintType = TintType.PALETTE;
+                        } else {
+                            mTintType = TintType.GRAYSCALE;
+                        }
+                        break;
+                    default:
+                        mTintType = TintType.GRAYSCALE;
+                        break;
                 }
             } else {
                 mTintType = TintType.GRAYSCALE;
