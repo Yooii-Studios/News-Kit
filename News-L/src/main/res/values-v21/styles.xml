@@ -50,24 +50,20 @@
         <item name="android:navigationBarColor">@color/theme_background</item>
     </style>
 
-    <!-- Detail -->
-    <style name="DetailActivityTheme" parent="MainTheme">
-        <item name="android:actionBarStyle">@style/DetailActionBar</item>
-        <item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>
+    <!-- NewsFeed Detail -->
+    <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
+        <!-- ripple touch feedback color 를 변경 -->
+        <item name="android:colorControlHighlight">@color/newsfeed_detail_highlight_color</item>
 
-        <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임. -->
+        <!-- 투명 상태바 -->
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임 -->
         <item name="android:windowContentTransitions">false</item>
 
+        <!-- 트랜지션시 뒷배경을 투명하게 만들기 위한 property -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/theme_background</item>
-    </style>
-
-    <style name="DetailActionBar" parent="android:Widget.Material.Light.ActionBar">
-        <item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>
-        <item name="android:background">@null</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_white</item>
-        <item name="android:displayOptions">homeAsUp|showTitle</item>
     </style>
 
     <!-- News Detail -->

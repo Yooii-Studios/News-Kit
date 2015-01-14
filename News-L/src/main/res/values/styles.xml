@@ -17,11 +17,11 @@
     <style name="MainTheme" parent="BaseAppTheme">
         <!--<item name="android:actionBarTheme">@style/MainActionBarThemeOverlay</item>-->
         <item name="android:actionBarStyle">@style/MainActionBar</item>
-        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
 
         <!-- 액션바, 상태바 투명하게 만듦 -->
-        <item name="android:windowTranslucentStatus">true</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 
     <style name="MainActionBar" parent="android:Widget.Holo.Light.ActionBar">
@@ -42,25 +42,9 @@
     <style name="MainActivityTheme" parent="MainTheme">
     </style>
 
-    <!-- Detail -->
-    <style name="DetailActivityTheme" parent="MainTheme">
-        <item name="android:actionBarStyle">@style/DetailActionBar</item>
-        <!--<item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>-->
-
-        <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임. -->
-        <!--<item name="android:windowContentTransitions">false</item>-->
-
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+    <!-- NewsFeed Detail -->
+    <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
     </style>
-
-    <style name="DetailActionBar" parent="android:Widget.Holo.Light.ActionBar">
-        <item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>
-        <item name="android:background">@null</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_white</item>
-        <item name="android:displayOptions">homeAsUp|showTitle</item>
-    </style>
-
 
     <!-- News Detail -->
     <style name="NewsDetailActivityTheme" parent="MainTheme">
