@@ -42,7 +42,7 @@
             android:name=".ui.activity.NewsFeedDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/DetailActivityTheme" />
+            android:theme="@style/NewsFeedDetailTheme" />
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"

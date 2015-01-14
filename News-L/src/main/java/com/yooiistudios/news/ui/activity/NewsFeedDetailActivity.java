@@ -8,7 +8,6 @@ import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,9 +25,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -108,11 +109,15 @@ import butterknife.InjectView;
 
 import static com.yooiistudios.news.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 
-public class NewsFeedDetailActivity extends Activity
+public class NewsFeedDetailActivity extends ActionBarActivity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener,
         NewsTopicSelectDialogFactory.OnItemClickListener {
+    private static final String TAG = NewsFeedDetailActivity.class.getName();
+
+    @InjectView(R.id.newsfeed_detail_toolbar)                   Toolbar mToolbar;
+
     @InjectView(R.id.detail_content_layout)                     RelativeLayout mRootLayout;
     @InjectView(R.id.detail_transition_content_layout)          FrameLayout mTransitionLayout;
     @InjectView(R.id.detail_actionbar_overlay_view)             View mActionBarOverlayView;
@@ -143,7 +148,6 @@ public class NewsFeedDetailActivity extends Activity
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
-    private static final String TAG = NewsFeedDetailActivity.class.getName();
     public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
     public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
     public static final String INTENT_KEY_IMAGE_LOADED = "INTENT_KEY_IMAGE_LOADED";
@@ -211,6 +215,8 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 오버레이 액션바 요청은 setContentView 앞에 위치할 것
+//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_newsfeed_detail);
@@ -720,6 +726,7 @@ public class NewsFeedDetailActivity extends Activity
      * @param newLoc 계산된 위치
      */
     @SuppressWarnings("UnusedDeclaration")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void setRootClipBoundTranslation(PathPoint newLoc) {
         mRootClipBound.left = (int)newLoc.mX;
         mRootClipBound.top = (int)newLoc.mY;
@@ -731,6 +738,7 @@ public class NewsFeedDetailActivity extends Activity
      * @param scale 계산된 사이즈
      */
     @SuppressWarnings("UnusedDeclaration")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void setRootClipBoundSize(PointF scale) {
         mRootClipBound.right = mRootClipBound.left +
                 (int)(mTransImageViewProperty.getWidth() * scale.x);
@@ -739,17 +747,23 @@ public class NewsFeedDetailActivity extends Activity
         mRootLayout.setClipBounds(mRootClipBound);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void setRootVerticalClipBoundSize(int height) {
         mRootClipBound.bottom = mRootClipBound.top + height;
         mRootLayout.setClipBounds(mRootClipBound);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void setRootWidthClipBoundSize(float scale) {
         mRootClipBound.right = mRootClipBound.left +
                 (int)(mTransImageViewProperty.getWidth() * scale);
         mRootLayout.setClipBounds(mRootClipBound);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void setRootHeightClipBoundSize(float scale) {
         mRootClipBound.bottom = mRootClipBound.top +
                 (int)(mTransImageViewProperty.getHeight() * scale);
@@ -779,6 +793,8 @@ public class NewsFeedDetailActivity extends Activity
         mTopNewsImageWrapper.setTranslationY((int) newLoc.mY);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void setRootLayoutClipBound(Rect clipBound) {
         mRootLayout.setClipBounds(clipBound);
     }
@@ -827,6 +843,7 @@ public class NewsFeedDetailActivity extends Activity
         color.start();
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     private void runExitAnimation() {
         mIsAnimatingActivityTransitionAnimation = true;
 
@@ -958,11 +975,22 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void initActionBar() {
-
+        initToolbar();
         initActionBarGradientView();
         initActionBarIcon();
         initActionBarTitle();
-        //@drawable/ic_ab_up_white
+    }
+
+    private void initToolbar() {
+        mToolbar.bringToFront();
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
+            if (statusBarHeight > 0) {
+                ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
+            }
+        }
     }
 
     private void initActionBarTitle() {
@@ -977,11 +1005,11 @@ public class NewsFeedDetailActivity extends Activity
     }
 
     private void applyActionBarTitle() {
-        if (getActionBar() != null && mNewsFeed != null) {
+        if (getSupportActionBar() != null && mNewsFeed != null) {
             mActionBarTitle = new SpannableString(mNewsFeed.getTitle());
             mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            getActionBar().setTitle(mActionBarTitle);
+            getSupportActionBar().setTitle(mActionBarTitle);
         }
     }
 
@@ -994,17 +1022,18 @@ public class NewsFeedDetailActivity extends Activity
         mColorSpan.setAlpha(value);
         mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (getActionBar() != null) {
-            getActionBar().setTitle(mActionBarTitle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(mActionBarTitle);
         }
     }
 
     private void initActionBarIcon() {
-        if (getActionBar() != null) {
+        if (getSupportActionBar() != null) {
             Bitmap upIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_ab_up_white);
             mActionBarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
-            getActionBar().setHomeAsUpIndicator(mActionBarHomeIcon);
+            getSupportActionBar().setHomeAsUpIndicator(mActionBarHomeIcon);
+            NLLog.now(mActionBarHomeIcon.toString());
 
             Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_menu_moreoverflow_mtrl_alpha);
@@ -1014,13 +1043,7 @@ public class NewsFeedDetailActivity extends Activity
 
     private void initActionBarGradientView() {
         int actionBarSize = ScreenUtils.calculateActionBarSize(this);
-        int statusBarSize = 0;
-
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarSize = getResources().getDimensionPixelSize(resourceId);
-        }
-
+        int statusBarSize = ScreenUtils.calculateStatusBarHeight(this);
         if (actionBarSize != 0) {
             mTopOverlayView.getLayoutParams().height = (actionBarSize + statusBarSize) * 2;
             mActionBarOverlayView.getLayoutParams().height = actionBarSize + statusBarSize;
@@ -1160,9 +1183,6 @@ public class NewsFeedDetailActivity extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-//        getMenuInflater().inflate(R.menu.news_feed, menu);
         SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
         subMenu.setIcon(mActionBarOverflowIcon);
 
@@ -1175,8 +1195,10 @@ public class NewsFeedDetailActivity extends Activity
 
         subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, 0, R.string.action_newsfeed);
         subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
-        subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
-        subMenu.add(Menu.NONE, R.id.action_test, 3, "Show topics(Debug)");
+        if (NLLog.isDebug()) {
+            subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_test, 3, "Show topics(Debug)");
+        }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
@@ -1517,7 +1539,6 @@ public class NewsFeedDetailActivity extends Activity
             applySystemWindowsBottomInsetAfterLollipop();
         } else {
             mWindowInsetEnd = 0;
-
             checkAdView();
         }
     }
@@ -1536,9 +1557,7 @@ public class NewsFeedDetailActivity extends Activity
                     mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
                     view.setPadding(0, 0, mWindowInsetEnd, 0);
                 }
-
                 checkAdView();
-
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
@@ -1547,7 +1566,6 @@ public class NewsFeedDetailActivity extends Activity
     /**
      * Custom Scrolling
      */
-
     @Override
     public void onScrollChanged(int deltaX, int deltaY) {
         // Reposition the header bar -- it's normally anchored to the top of the content,

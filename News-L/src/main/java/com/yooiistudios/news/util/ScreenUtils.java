@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Rect;
-import android.view.Window;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 24.
@@ -45,6 +43,8 @@ public class ScreenUtils {
         return (int) size;
     }
 
+    /*
+    // 제대로 결과가 안나와서 아래 메서드로 대체
     public static int calculateStatusBarSize(Window window) {
         Rect rectangle= new Rect();
         window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
@@ -54,6 +54,16 @@ public class ScreenUtils {
 
         NLLog.i("*** Jorgesys :: ", "StatusBar Height= " + statusBarHeight + " , TitleBar Height = " + titleBarHeight);
 
+        return statusBarHeight;
+    }
+    */
+
+    public static int calculateStatusBarHeight(final Context context) {
+        int statusBarHeight = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
+        }
         return statusBarHeight;
     }
 }

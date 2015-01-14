@@ -17,11 +17,11 @@
     <style name="MainTheme" parent="BaseAppTheme">
         <!--<item name="android:actionBarTheme">@style/MainActionBarThemeOverlay</item>-->
         <item name="android:actionBarStyle">@style/MainActionBar</item>
-        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
 
         <!-- 액션바, 상태바 투명하게 만듦 -->
-        <item name="android:windowTranslucentStatus">true</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 
     <style name="MainActionBar" parent="android:Widget.Holo.Light.ActionBar">
@@ -42,14 +42,17 @@
     <style name="MainActivityTheme" parent="MainTheme">
     </style>
 
-    <!-- Detail -->
-    <style name="DetailActivityTheme" parent="MainTheme">
+    <!-- NewsFeed Detail -->
+    <style name="DetailActivityTheme" parent="Theme.AppCompat">
         <item name="android:actionBarStyle">@style/DetailActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <!--<item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>-->
 
         <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임. -->
         <!--<item name="android:windowContentTransitions">false</item>-->
 
+        <!-- 메인->디테일 트랜지션시 사용되는 property, 전환 시 액티비티를 투명하게 만들어준다 -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
@@ -59,6 +62,35 @@
         <item name="android:background">@null</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_ab_up_white</item>
         <item name="android:displayOptions">homeAsUp|showTitle</item>
+    </style>
+
+    <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
+
+    </style>
+
+    <!-- Transparent with black text -->
+    <!-- ThemeOverlay.AppCompat.ActionBar -->
+    <style name="TransparentToolbar" parent="Widget.AppCompat.ActionBar">
+        <!-- colorPrimary is used for the default action bar background -->
+        <!--<item name="colorPrimary">#f0f</item>-->
+        <item name="colorPrimary">#2000ff00</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">#0f0</item>
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent_material_light</item>
+    </style>
+
+    <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@android:color/transparent</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
 
