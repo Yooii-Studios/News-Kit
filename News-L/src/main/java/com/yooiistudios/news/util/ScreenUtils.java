@@ -38,7 +38,7 @@ public class ScreenUtils {
             return 0;
         }
 
-        float size = att.getDimension(0, 0);
+        float size = att.getDimensionPixelSize(0, 0);
         att.recycle();
         return (int) size;
     }

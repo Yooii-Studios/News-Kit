@@ -50,7 +50,7 @@
         <item name="android:navigationBarColor">@color/theme_background</item>
     </style>
 
-    <!-- Detail -->
+    <!-- NewsFeed Detail -->
     <style name="DetailActivityTheme" parent="MainTheme">
         <item name="android:actionBarStyle">@style/DetailActionBar</item>
         <item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>
@@ -70,7 +70,6 @@
         <item name="android:displayOptions">homeAsUp|showTitle</item>
     </style>
 
-    <!-- android:Theme.Material.Light.NoActionBar -->
     <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
         <!--<item name="android:actionBarStyle">@style/NewsFeedDetailActionBar</item>-->
         <item name="android:colorControlHighlight">@color/theme_detail_selected_background</item>
@@ -84,26 +83,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/theme_background</item>
 
-
         <item name="android:windowActionBarOverlay">true</item> <!-- 16에서는 안먹힘, 코드로 작성 필요 -->
         <item name="android:displayOptions">homeAsUp|showTitle</item>
 
         <!-- colorPrimary is used for the default action bar background -->
         <!--<item name="colorPrimary">@android:color/transparent</item>-->
         <item name="colorPrimary">?android:colorPrimary</item>
-        <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">?android:colorPrimaryDark</item>
-        <!-- colorAccent is used as the default value for colorControlActivated
-             which is used to tint widgets -->
-        <item name="colorAccent">?android:colorAccent</item>
-
-    </style>
-
-    <style name="NewsFeedDetailActionBar" parent="@style/Widget.AppCompat.ActionBar">
-        <!--<item name="android:background">@android:color/transparent</item>-->
-        <!--<item name="android:displayOptions">homeAsUp|showTitle</item>-->
-        <!--<item name="colorPrimary">?android:colorPrimary</item>-->
-        <item name="colorPrimary">@android:color/transparent</item>
         <!-- colorPrimaryDark is used for the status bar -->
         <item name="colorPrimaryDark">?android:colorPrimaryDark</item>
         <!-- colorAccent is used as the default value for colorControlActivated

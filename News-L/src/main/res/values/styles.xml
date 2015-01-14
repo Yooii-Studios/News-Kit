@@ -65,7 +65,6 @@
     </style>
 
     <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
-
     </style>
 
     <!-- Transparent with black text -->

@@ -137,7 +137,8 @@
     <View
         android:id="@+id/detail_actionbar_overlay_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         android:background="@android:color/black"
         android:alpha="0"
         android:layout_gravity="top" />

@@ -1033,7 +1033,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     R.drawable.ic_ab_up_white);
             mActionBarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
             getSupportActionBar().setHomeAsUpIndicator(mActionBarHomeIcon);
-            NLLog.now(mActionBarHomeIcon.toString());
 
             Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_menu_moreoverflow_mtrl_alpha);
@@ -1042,12 +1041,22 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initActionBarGradientView() {
-        int actionBarSize = ScreenUtils.calculateActionBarSize(this);
-        int statusBarSize = ScreenUtils.calculateStatusBarHeight(this);
-        if (actionBarSize != 0) {
-            mTopOverlayView.getLayoutParams().height = (actionBarSize + statusBarSize) * 2;
-            mActionBarOverlayView.getLayoutParams().height = actionBarSize + statusBarSize;
-        }
+        // 기존의 계산된 ActionBar 높이와 Toolbar 의 실제가 높이가 달라 측정해서 적용하게 변경
+        final int statusBarSize = ScreenUtils.calculateStatusBarHeight(this);
+        mToolbar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mToolbar.getViewTreeObserver().removeOnPreDrawListener(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mTopOverlayView.getLayoutParams().height = (mToolbar.getHeight() + statusBarSize) * 2;
+                    mActionBarOverlayView.getLayoutParams().height = mToolbar.getHeight() + statusBarSize;
+                } else {
+                    mTopOverlayView.getLayoutParams().height = mToolbar.getHeight() * 2;
+                    mActionBarOverlayView.getLayoutParams().height = mToolbar.getHeight();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
