@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 
 import com.flurry.android.FlurryAgent;
 import com.yooiistudios.news.util.FlurryUtils;
-import com.yooiistudios.news.util.NLLog;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -15,7 +14,7 @@ import java.util.Map;
 /**
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 15.
  *
- * NLLanguage
+ * Language
  *  언어 설정을 관리
  */
 public class Language {
@@ -37,8 +36,6 @@ public class Language {
         // 최초 설치시 디바이스의 언어와 비교해 앱이 지원하는 언어면 해당 언어로 설정, 아닐 경우 영어로 첫 언어 설정
         if (uniqueId == -1) {
             Locale locale = Locale.getDefault();
-            NLLog.now(locale.getLanguage());
-            NLLog.now(locale.getCountry());
             currentLanguageType = LanguageType.valueOfCodeAndRegion(locale.getLanguage(), locale.getCountry());
             // 아카이브
             context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
