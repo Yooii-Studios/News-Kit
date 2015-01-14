@@ -125,17 +125,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- Top 부분 Overlay 용 뷰 -->
+    <!-- Top 부분 Shadow 용 뷰 -->
     <View
-        android:id="@+id/detail_top_overlay_view"
+        android:id="@+id/detail_top_gradient_shadow_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="?attr/actionBarSize"
         android:background="@drawable/detail_actionbar_gradient"
         android:layout_gravity="top" />
 
     <!-- 스크롤에 따라 액션바의 색을 변환 -->
     <View
-        android:id="@+id/detail_actionbar_overlay_view"
+        android:id="@+id/detail_toolbar_overlay_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"

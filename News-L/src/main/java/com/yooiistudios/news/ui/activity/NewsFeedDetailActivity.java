@@ -120,8 +120,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     @InjectView(R.id.detail_content_layout)                     RelativeLayout mRootLayout;
     @InjectView(R.id.detail_transition_content_layout)          FrameLayout mTransitionLayout;
-    @InjectView(R.id.detail_actionbar_overlay_view)             View mActionBarOverlayView;
-    @InjectView(R.id.detail_top_overlay_view)                   View mTopOverlayView;
+    @InjectView(R.id.detail_toolbar_overlay_view)               View mToolbarOverlayView;
+    @InjectView(R.id.detail_top_gradient_shadow_view)           View mTopGradientShadowView;
     @InjectView(R.id.detail_scrollView)                         ObservableScrollView mScrollView;
     @InjectView(R.id.detail_scroll_content_wrapper)             RelativeLayout mScrollContentWrapper;
     @InjectView(R.id.newsfeed_detail_swipe_refresh_layout)      SwipeRefreshLayout mSwipeRefreshLayout;
@@ -168,11 +168,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private TintType mTintType;
     private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
-    private BitmapDrawable mActionBarHomeIcon;
-    private BitmapDrawable mActionBarOverflowIcon;
-    private SpannableString mActionBarTitle;
+    private BitmapDrawable mToolbarHomeIcon;
+    private BitmapDrawable mToolbarOverflowIcon;
+    private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mColorSpan;
-    private int mActionTextColor;
+    private int mToolbarTextColor;
 
     private NewsFeedDetailNewsFeedFetchTask mNewsFeedFetchTask;
     private NewsFeedDetailNewsImageUrlFetchTask mTopNewsImageFetchTask;
@@ -202,8 +202,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private long mRootViewVerticalScaleAnimationDuration;
     private long mRootViewTranslationAnimationDuration;
     private long mThumbnailTextAnimationDuration;
-    private long mActionBarIconAnimationDuration;
-    private long mActionBarBgAnimationDuration;
+    private long mToolbarIconAnimationDuration;
+    private long mToolbarBgAnimationDuration;
 
     private int mWindowInsetEnd;
 
@@ -215,8 +215,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // 오버레이 액션바 요청은 setContentView 앞에 위치할 것
-//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_newsfeed_detail);
@@ -238,7 +236,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         applySystemWindowsBottomInset();
         initRootLayout();
-        initActionBar();
+        initToolbar();
         initSwipeRefreshView();
         initCustomScrollView();
         initTopNews();
@@ -392,9 +390,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 R.integer.news_feed_detail_root_translation_duration_milli) * sAnimatorScale;
         mThumbnailTextAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_thumbnail_text_duration_milli) * sAnimatorScale;
-        mActionBarIconAnimationDuration = getResources().getInteger(
+        mToolbarIconAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_action_bar_content_duration_milli) * sAnimatorScale;
-        mActionBarBgAnimationDuration = getResources().getInteger(
+        mToolbarBgAnimationDuration = getResources().getInteger(
                 R.integer.news_feed_detail_action_bar_bg_duration_milli) * sAnimatorScale;
     }
 
@@ -555,25 +553,25 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                // 액션바 텍스트 페이드인
-                ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
-                        NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 0.0f, 1.0f);
-                actionBarTitleAnimator.setDuration(mActionBarIconAnimationDuration);
-                actionBarTitleAnimator.setInterpolator(commonInterpolator);
-                actionBarTitleAnimator.start();
+                // 툴바 텍스트 페이드인
+                ObjectAnimator toolbarTitleAnimator = ObjectAnimator.ofFloat(
+                        NewsFeedDetailActivity.this, "toolbarTitleAlpha", 0.0f, 1.0f);
+                toolbarTitleAnimator.setDuration(mToolbarIconAnimationDuration);
+                toolbarTitleAnimator.setInterpolator(commonInterpolator);
+                toolbarTitleAnimator.start();
 
                 // 액션바 아이콘 페이드인
-                ObjectAnimator actionBarHomeIconAnimator =
-                        ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 0, 255);
-                actionBarHomeIconAnimator.setDuration(mActionBarIconAnimationDuration);
-                actionBarHomeIconAnimator.setInterpolator(commonInterpolator);
-                actionBarHomeIconAnimator.start();
+                ObjectAnimator toolbarHomeIconAnimator =
+                        ObjectAnimator.ofInt(mToolbarHomeIcon, "alpha", 0, 255);
+                toolbarHomeIconAnimator.setDuration(mToolbarIconAnimationDuration);
+                toolbarHomeIconAnimator.setInterpolator(commonInterpolator);
+                toolbarHomeIconAnimator.start();
 
-                ObjectAnimator actionBarOverflowIconAnimator =
-                        ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 0, 255);
-                actionBarOverflowIconAnimator.setDuration(mActionBarIconAnimationDuration);
-                actionBarOverflowIconAnimator.setInterpolator(commonInterpolator);
-                actionBarOverflowIconAnimator.start();
+                ObjectAnimator toolbarOverflowIconAnimator =
+                        ObjectAnimator.ofInt(mToolbarOverflowIcon, "alpha", 0, 255);
+                toolbarOverflowIconAnimator.setDuration(mToolbarIconAnimationDuration);
+                toolbarOverflowIconAnimator.setInterpolator(commonInterpolator);
+                toolbarOverflowIconAnimator.start();
 
                 animateTopOverlayFadeIn();
             }
@@ -706,19 +704,19 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         animateTopItems();
 
         // 액션바 내용물 우선 숨겨두도록
-        mActionBarHomeIcon.setAlpha(0);
+        mToolbarHomeIcon.setAlpha(0);
         mColorSpan.setAlpha(0.0f);
-        mActionBarOverflowIcon.setAlpha(0);
+        mToolbarOverflowIcon.setAlpha(0);
 
         //　액션바 배경, 오버레이 페이드 인
         saveTopOverlayAlphaState();
-        mTopOverlayView.setAlpha(0);
-        mActionBarOverlayView.setAlpha(0);
+        mTopGradientShadowView.setAlpha(0);
+        mToolbarOverlayView.setAlpha(0);
     }
 
     private void saveTopOverlayAlphaState() {
-        mTopOverlayView.setTag(mTopOverlayView.getAlpha());
-        mActionBarOverlayView.setTag(mActionBarOverlayView.getAlpha());
+        mTopGradientShadowView.setTag(mTopGradientShadowView.getAlpha());
+        mToolbarOverlayView.setTag(mToolbarOverlayView.getAlpha());
     }
 
     /**
@@ -934,31 +932,31 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         feedTitleThumbnailAlphaAnimator.setInterpolator(interpolator);
         feedTitleThumbnailAlphaAnimator.start();
 
-        // 액션바 홈버튼 페이드인
-//        mActionBarHomeIcon.setAlpha(1);
-        ObjectAnimator actionBarHomeIconAnimator =
-                ObjectAnimator.ofInt(mActionBarHomeIcon, "alpha", 255, 0);
-        actionBarHomeIconAnimator.setDuration(mExitAnimationDuration);
-        actionBarHomeIconAnimator.setInterpolator(interpolator);
-        actionBarHomeIconAnimator.start();
+        // 툴바 홈버튼 페이드인
+//        mToolbarHomeIcon.setAlpha(1);
+        ObjectAnimator toolbarHomeIconAnimator =
+                ObjectAnimator.ofInt(mToolbarHomeIcon, "alpha", 255, 0);
+        toolbarHomeIconAnimator.setDuration(mExitAnimationDuration);
+        toolbarHomeIconAnimator.setInterpolator(interpolator);
+        toolbarHomeIconAnimator.start();
 
-        // 액션바 텍스트 페이드인
+        // 툴바 텍스트 페이드인
 //        mColorSpan.setAlpha(1.0f);
-        ObjectAnimator actionBarTitleAnimator = ObjectAnimator.ofFloat(
+        ObjectAnimator toolbarTitleAnimator = ObjectAnimator.ofFloat(
                 NewsFeedDetailActivity.this, "ActionBarTitleAlpha", 1.0f, 0.0f);
-        actionBarTitleAnimator.setDuration(mExitAnimationDuration);
-        actionBarTitleAnimator.setInterpolator(interpolator);
-        actionBarTitleAnimator.start();
+        toolbarTitleAnimator.setDuration(mExitAnimationDuration);
+        toolbarTitleAnimator.setInterpolator(interpolator);
+        toolbarTitleAnimator.start();
 
-        // 액션바 오버플로우 페이드인
-//        mActionBarOverflowIcon.setAlpha(1);
-        ObjectAnimator actionBarOverflowIconAnimator =
-                ObjectAnimator.ofInt(mActionBarOverflowIcon, "alpha", 255, 0);
-        actionBarOverflowIconAnimator.setDuration(mExitAnimationDuration);
-        actionBarOverflowIconAnimator.setInterpolator(interpolator);
-        actionBarOverflowIconAnimator.start();
+        // 툴바 오버플로우 페이드인
+//        mToolbarOverflowIcon.setAlpha(1);
+        ObjectAnimator toolbarOverflowIconAnimator =
+                ObjectAnimator.ofInt(mToolbarOverflowIcon, "alpha", 255, 0);
+        toolbarOverflowIconAnimator.setDuration(mExitAnimationDuration);
+        toolbarOverflowIconAnimator.setInterpolator(interpolator);
+        toolbarOverflowIconAnimator.start();
 
-        //　액션바 배경, 오버레이 페이드 인
+        //　툴바 배경, 오버레이 페이드 인
         animateTopOverlayFadeOut();
     }
 
@@ -974,17 +972,18 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    private void initActionBar() {
-        initToolbar();
-        initActionBarGradientView();
-        initActionBarIcon();
-        initActionBarTitle();
-    }
-
     private void initToolbar() {
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        adjustToolbarTopMargin();
+        initToolbarGradientView();
+        initToolbarIcon();
+        initToolbarTitle();
+    }
+
+    private void adjustToolbarTopMargin() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
             if (statusBarHeight > 0) {
@@ -993,23 +992,23 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    private void initActionBarTitle() {
+    private void initToolbarTitle() {
         TypedArray typedArray = getTheme().obtainStyledAttributes(
-                R.style.MainThemeActionBarTitleTextStyle, new int[]{android.R.attr.textColor});
-        mActionTextColor = typedArray.getColor(0, Color.WHITE);
+                R.style.MainThemeActionBarTitleTextStyle, new int[]{ android.R.attr.textColor });
+        mToolbarTextColor = typedArray.getColor(0, Color.WHITE);
         typedArray.recycle();
 
-        mColorSpan = new AlphaForegroundColorSpan(mActionTextColor);
+        mColorSpan = new AlphaForegroundColorSpan(mToolbarTextColor);
 
-        applyActionBarTitle();
+        applyToolbarTitle();
     }
 
-    private void applyActionBarTitle() {
+    private void applyToolbarTitle() {
         if (getSupportActionBar() != null && mNewsFeed != null) {
-            mActionBarTitle = new SpannableString(mNewsFeed.getTitle());
-            mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
+            mToolbarTitle = new SpannableString(mNewsFeed.getTitle());
+            mToolbarTitle.setSpan(mColorSpan, 0, mToolbarTitle.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            getSupportActionBar().setTitle(mActionBarTitle);
+            getSupportActionBar().setTitle(mToolbarTitle);
         }
     }
 
@@ -1018,29 +1017,29 @@ public class NewsFeedDetailActivity extends ActionBarActivity
      * @param value 계산된 알파값
      */
     @SuppressWarnings("UnusedDeclaration")
-    private void setActionBarTitleAlpha(float value) {
+    private void setToolbarTitleAlpha(float value) {
         mColorSpan.setAlpha(value);
-        mActionBarTitle.setSpan(mColorSpan, 0, mActionBarTitle.length(),
+        mToolbarTitle.setSpan(mColorSpan, 0, mToolbarTitle.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(mActionBarTitle);
+            getSupportActionBar().setTitle(mToolbarTitle);
         }
     }
 
-    private void initActionBarIcon() {
+    private void initToolbarIcon() {
         if (getSupportActionBar() != null) {
             Bitmap upIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_ab_up_white);
-            mActionBarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
-            getSupportActionBar().setHomeAsUpIndicator(mActionBarHomeIcon);
+            mToolbarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
+            getSupportActionBar().setHomeAsUpIndicator(mToolbarHomeIcon);
 
             Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_menu_moreoverflow_mtrl_alpha);
-            mActionBarOverflowIcon = new BitmapDrawable(getResources(), overflowIconBitmap);
+            mToolbarOverflowIcon = new BitmapDrawable(getResources(), overflowIconBitmap);
         }
     }
 
-    private void initActionBarGradientView() {
+    private void initToolbarGradientView() {
         // 기존의 계산된 ActionBar 높이와 Toolbar 의 실제가 높이가 달라 측정해서 적용하게 변경
         final int statusBarSize = ScreenUtils.calculateStatusBarHeight(this);
         mToolbar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -1048,11 +1047,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             public boolean onPreDraw() {
                 mToolbar.getViewTreeObserver().removeOnPreDrawListener(this);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mTopOverlayView.getLayoutParams().height = (mToolbar.getHeight() + statusBarSize) * 2;
-                    mActionBarOverlayView.getLayoutParams().height = mToolbar.getHeight() + statusBarSize;
+                    mTopGradientShadowView.getLayoutParams().height = (mToolbar.getHeight() + statusBarSize) * 2;
+                    mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight() + statusBarSize;
                 } else {
-                    mTopOverlayView.getLayoutParams().height = mToolbar.getHeight() * 2;
-                    mActionBarOverlayView.getLayoutParams().height = mToolbar.getHeight();
+                    mTopGradientShadowView.getLayoutParams().height = mToolbar.getHeight() * 2;
+                    mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight();
                 }
                 return false;
             }
@@ -1193,7 +1192,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
-        subMenu.setIcon(mActionBarOverflowIcon);
+        subMenu.setIcon(mToolbarOverflowIcon);
 
         String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
         if (Settings.isNewsFeedAutoScroll(this)) {
@@ -1293,7 +1292,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void notifyTopNewsChanged() {
         // set action bar title
-        applyActionBarTitle();
+        applyToolbarTitle();
 
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
@@ -1385,28 +1384,28 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void animateTopOverlayFadeIn() {
-        if (mTopOverlayView.getTag() == null || mActionBarOverlayView.getTag() == null
-                || mTopOverlayView.getAlpha() > 0 || mActionBarOverlayView.getAlpha() > 0) {
+        if (mTopGradientShadowView.getTag() == null || mToolbarOverlayView.getTag() == null
+                || mTopGradientShadowView.getAlpha() > 0 || mToolbarOverlayView.getAlpha() > 0) {
             return;
         }
-        mTopOverlayView.animate()
-                .setDuration(mActionBarBgAnimationDuration)
-                .alpha((Float)mTopOverlayView.getTag())
+        mTopGradientShadowView.animate()
+                .setDuration(mToolbarBgAnimationDuration)
+                .alpha((Float) mTopGradientShadowView.getTag())
                 .setInterpolator(new DecelerateInterpolator());
-        mActionBarOverlayView.animate()
-                .setDuration(mActionBarBgAnimationDuration)
-                .alpha((Float) mActionBarOverlayView.getTag())
+        mToolbarOverlayView.animate()
+                .setDuration(mToolbarBgAnimationDuration)
+                .alpha((Float) mToolbarOverlayView.getTag())
                 .setInterpolator(new DecelerateInterpolator());
     }
 
     private void animateTopOverlayFadeOut() {
         saveTopOverlayAlphaState();
-        mTopOverlayView.animate()
-                .setDuration(mActionBarBgAnimationDuration)
+        mTopGradientShadowView.animate()
+                .setDuration(mToolbarBgAnimationDuration)
                 .alpha(0f)
                 .setInterpolator(new DecelerateInterpolator());
-        mActionBarOverlayView.animate()
-                .setDuration(mActionBarBgAnimationDuration)
+        mToolbarOverlayView.animate()
+                .setDuration(mToolbarBgAnimationDuration)
                 .alpha(0f)
                 .setInterpolator(new DecelerateInterpolator());
     }
@@ -1585,14 +1584,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (scrollY >= 0) {
             mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
 
-            mActionBarOverlayView.setAlpha(scrollY * 0.0005f);
-            if (mActionBarOverlayView.getAlpha() >= 0.6f) {
-                mActionBarOverlayView.setAlpha(0.6f);
+            mToolbarOverlayView.setAlpha(scrollY * 0.0005f);
+            if (mToolbarOverlayView.getAlpha() >= 0.6f) {
+                mToolbarOverlayView.setAlpha(0.6f);
             }
         } else {
             mTopNewsImageWrapper.setTranslationY(0);
-            if (mActionBarOverlayView.getAlpha() != 0) {
-                mActionBarOverlayView.setAlpha(0);
+            if (mToolbarOverlayView.getAlpha() != 0) {
+                mToolbarOverlayView.setAlpha(0);
             }
         }
     }
