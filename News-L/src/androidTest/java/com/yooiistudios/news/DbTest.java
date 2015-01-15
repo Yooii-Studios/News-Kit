@@ -9,6 +9,7 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUrlType;
 import com.yooiistudios.news.model.news.util.NewsFeedUtils;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMatrixType;
 
 import java.util.ArrayList;
 
@@ -195,15 +196,20 @@ public class DbTest extends AndroidTestCase {
         assertNotNull(dummyNewsFeedList);
 
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
-        ArrayList<NewsFeed> loadedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext);
+
+        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
+        ArrayList<NewsFeed> loadedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedList(
+                mContext, currentMatrix.panelCount);
         assertNotNull(loadedNewsFeed);
     }
 
     public void testBottomNewsFeedQuery() {
         NewsDb.getInstance(mContext).clearArchive();
+        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
 
         // Retrieve from empty table
-        ArrayList<NewsFeed> loadedDefaultNewsFeedList = NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext, false);
+        ArrayList<NewsFeed> loadedDefaultNewsFeedList = NewsDb.getInstance(mContext)
+                .loadBottomNewsFeedList(mContext, currentMatrix.panelCount, false);
         assertNotNull(loadedDefaultNewsFeedList);
 
         // Make default news feed list.
@@ -223,7 +229,8 @@ public class DbTest extends AndroidTestCase {
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
 
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
-        ArrayList<NewsFeed> loadedNewsFeedList = NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext, false);
+        ArrayList<NewsFeed> loadedNewsFeedList = NewsDb.getInstance(mContext)
+                .loadBottomNewsFeedList(mContext, currentMatrix.panelCount, false);
         assertNotNull(loadedNewsFeedList);
 
         assertEquals(
@@ -241,7 +248,10 @@ public class DbTest extends AndroidTestCase {
 
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
-        ArrayList<NewsFeed> loadedNewsFeedList = NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext, false);
+
+        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
+        ArrayList<NewsFeed> loadedNewsFeedList = NewsDb.getInstance(mContext)
+                .loadBottomNewsFeedList(mContext, currentMatrix.panelCount, false);
 
         int targetNewsFeedIdx = loadedNewsFeedList.size() - 1;
         NewsFeed targetNewsFeed = loadedNewsFeedList.get(targetNewsFeedIdx);
