@@ -36,6 +36,7 @@ public class AnalyticsUtils {
         t.send(new HitBuilders.AppViewBuilder().build());
     }
 
+    // 메인화면 회전 체크
     public static void trackMainOrientation(NewsApplication application, String TAG, int orientation) {
         // Get tracker.
         Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
@@ -60,6 +61,19 @@ public class AnalyticsUtils {
                 .setCategory(TAG)
                 .setAction("Showing Ad when have PRO version")
                 .setLabel(ownedSkus.contains(IabProducts.SKU_FULL_VERSION) ? "YES" : "NO")
+                .build());
+    }
+
+    // 뉴스피드 디테일에서 뒤로 나가는 것을 up 버튼으로 하는지 back 버튼으로 하는지 조사하기 위해서 도입
+    public static void trackNewsFeedDetailQuitAction(NewsApplication application, String TAG, String quitViewName) {
+        // Get tracker.
+        Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(TAG)
+                .setAction("Quit NewsFeedDetailActivity with")
+                .setLabel(quitViewName)
                 .build());
     }
 }

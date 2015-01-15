@@ -1216,6 +1216,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
+                AnalyticsUtils.trackNewsFeedDetailQuitAction((NewsApplication) getApplication(), TAG,
+                        "Home Button");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     finishAfterTransition();
                 } else {
@@ -1790,5 +1792,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         // Activity no longer visible
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AnalyticsUtils.trackNewsFeedDetailQuitAction((NewsApplication) getApplication(), TAG,
+                "Back Button");
     }
 }
