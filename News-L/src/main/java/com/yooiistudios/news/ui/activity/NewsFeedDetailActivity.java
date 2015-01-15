@@ -142,9 +142,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     // Auto Scroll
     public static final int START_DELAY = 3000;
     public static final int MIDDLE_DELAY = 1500;
-    public static final int DURATION_FOR_EACH_ITEM = 6000;
+    public static final int DURATION_FOR_EACH_ITEM = 3000;
     ObjectAnimator mAutoScrollDownAnimator;
     ObjectAnimator mAutoScrollUpAnimator;
+
+    // Overlay & Shadow
+    private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.6f;
+    private static final float TOP_SCROLL_PARALLAX_RATIO = 0.4f;
 
     private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
     private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
@@ -1584,11 +1588,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         // Move background photo (parallax effect)
         if (scrollY >= 0) {
-            mTopNewsImageWrapper.setTranslationY(scrollY * 0.4f);
+            mTopNewsImageWrapper.setTranslationY(scrollY * TOP_SCROLL_PARALLAX_RATIO);
 
             mToolbarOverlayView.setAlpha(scrollY * 0.0005f);
-            if (mToolbarOverlayView.getAlpha() >= 0.6f) {
-                mToolbarOverlayView.setAlpha(0.6f);
+            if (mToolbarOverlayView.getAlpha() >= TOP_OVERLAY_ALPHA_LIMIT) {
+                mToolbarOverlayView.setAlpha(TOP_OVERLAY_ALPHA_LIMIT);
             }
         } else {
             mTopNewsImageWrapper.setTranslationY(0);
