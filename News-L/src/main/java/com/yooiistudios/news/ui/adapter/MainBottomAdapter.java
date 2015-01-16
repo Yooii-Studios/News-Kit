@@ -4,13 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.support.annotation.IntDef;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,11 +20,15 @@ import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
+import com.yooiistudios.news.model.news.util.NewsFeedUtils;
+import com.yooiistudios.news.ui.widget.RatioFrameLayout;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.ScreenUtils;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,19 +42,33 @@ public class MainBottomAdapter extends
         RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
     private static final String TAG = MainBottomAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
+    private static final float HEIGHT_OVER_WIDTH_RATIO = 3.3f / 4.0f;
+    public static final int VERTICAL = 0;
+    public static final int HORIZONTAL = 1;
 
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
+
+    private int mOrientation = VERTICAL;
+
+    @IntDef(value = { VERTICAL, HORIZONTAL })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Orientation {}
 
     public interface OnItemClickListener {
         public void onBottomItemClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
     }
 
     public MainBottomAdapter(Context context, OnItemClickListener listener) {
+        this(context, listener, VERTICAL);
+    }
+
+    public MainBottomAdapter(Context context, OnItemClickListener listener, @Orientation int orientation) {
         mContext = context;
-        mNewsFeedList = new ArrayList<NewsFeed>();
+        mNewsFeedList = new ArrayList<>();
         mOnItemClickListener = listener;
+        mOrientation = orientation;
     }
 
     @Override
@@ -69,6 +86,11 @@ public class MainBottomAdapter extends
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
+        RatioFrameLayout itemView = (RatioFrameLayout)viewHolder.itemView;
+        itemView.setBaseAxis(
+                mOrientation == VERTICAL ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
+        );
+
         TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
@@ -238,11 +260,7 @@ public class MainBottomAdapter extends
 //        NLLog.i(TAG, "columnCount : " + columnCount);
 
         // get display width
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-
-        Point displaySize = new Point();
-        display.getSize(displaySize);
+        Point displaySize = ScreenUtils.getDisplaySize(context);
         int displayWidth = displaySize.x;
 
         // main_bottom_margin_small : item padding = recyclerView margin
@@ -264,7 +282,11 @@ public class MainBottomAdapter extends
     }
 
     public static float getRowHeight(float width) {
-        return width * 3.3f / 4.0f;
+        return width * (HEIGHT_OVER_WIDTH_RATIO);
+    }
+
+    public static float getRowWidth(float height) {
+        return height * (1 / HEIGHT_OVER_WIDTH_RATIO);
     }
 
     @Override
@@ -301,6 +323,10 @@ public class MainBottomAdapter extends
 
     public ArrayList<NewsFeed> getNewsFeedList() {
         return mNewsFeedList;
+    }
+
+    public void setOrientation(@Orientation int orientation) {
+        mOrientation = orientation;
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView.ViewHolder {

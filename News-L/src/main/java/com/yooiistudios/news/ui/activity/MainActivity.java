@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -437,6 +438,13 @@ public class MainActivity extends Activity
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
             startNewsAutoRefresh();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        mMainBottomContainerLayout.configOnOrientationChange(newConfig.orientation);
     }
 
     @Override

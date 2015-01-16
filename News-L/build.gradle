@@ -14,6 +14,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 android {
@@ -107,6 +108,10 @@ dependencies {
 
     // 상점에 사용되는 Toolbar를 위해 사용
     compile 'com.android.support:appcompat-v7:21.0.2'
+
+    // 메인화면 가로모드에 사용될 리사이클러뷰 레이아웃 매니저
+    compile 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'
+    compile 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar'
 }
 
 /*

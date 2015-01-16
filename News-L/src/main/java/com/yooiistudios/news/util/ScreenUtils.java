@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 24.
@@ -65,5 +68,15 @@ public class ScreenUtils {
             statusBarHeight = context.getResources().getDimensionPixelSize(resourceId);
         }
         return statusBarHeight;
+    }
+
+    public static Point getDisplaySize(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+
+        Point displaySize = new Point();
+        display.getSize(displaySize);
+
+        return displaySize;
     }
 }
