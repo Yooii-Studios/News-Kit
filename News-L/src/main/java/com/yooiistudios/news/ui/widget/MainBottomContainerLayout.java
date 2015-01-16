@@ -40,6 +40,7 @@ import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.news.util.ScreenUtils;
 
 import org.lucasr.twowayview.TwoWayLayoutManager;
 import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
@@ -314,7 +315,7 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
-        configOnOrientationChange(getResources().getConfiguration().orientation);
+        configOnOrientationChange();
 
         PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
 
@@ -350,14 +351,25 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
 
-        adjustSizeOnNewsFeedCountChanged();
+        adjustSize();
     }
 
-    private void adjustSizeOnNewsFeedCountChanged() {
-        // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
+    private void adjustSize() {
+        int orientation = getResources().getConfiguration().orientation;
         ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
-        recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getContext(),
-                mBottomNewsFeedAdapter.getNewsFeedList().size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
+            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getContext(),
+                    mBottomNewsFeedAdapter.getNewsFeedList().size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
+        } else {
+            Context context = getContext().getApplicationContext();
+            recyclerViewLp.height = ScreenUtils.getDisplaySize(context).y
+                    - ScreenUtils.calculateStatusBarHeight(context);
+            if (recyclerViewLp instanceof MarginLayoutParams) {
+                MarginLayoutParams marginLayoutParams = (MarginLayoutParams)recyclerViewLp;
+                recyclerViewLp.height -= (marginLayoutParams.topMargin + marginLayoutParams.bottomMargin);
+            }
+        }
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
     }
 
@@ -406,7 +418,7 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
 
-        adjustSizeOnNewsFeedCountChanged();
+        adjustSize();
     }
 
     private void notifyOnInitialized() {
@@ -508,7 +520,8 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
     }
 
-    public void configOnOrientationChange(int orientation) {
+    public void configOnOrientationChange() {
+        int orientation = getResources().getConfiguration().orientation;
         SpannableGridLayoutManager layoutManager =
                 (SpannableGridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
 
@@ -523,7 +536,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.HORIZONTAL);
         }
+        adjustSize();
         mBottomNewsFeedAdapter.notifyDataSetChanged();
+
+        invalidate();
     }
 
     public boolean isInitialized() {

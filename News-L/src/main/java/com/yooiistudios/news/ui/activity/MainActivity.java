@@ -61,7 +61,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
     @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
-    @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
+    @InjectView(R.id.main_scrolling_content)        ViewGroup mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
@@ -109,7 +109,10 @@ public class MainActivity extends Activity
         @Override
         public void handleMessage( Message msg ){
             // 갱신
-            mMainTopContainerLayout.autoRefreshTopNewsFeed();
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mMainTopContainerLayout.autoRefreshTopNewsFeed();
+            }
             mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
 
             // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
@@ -244,6 +247,8 @@ public class MainActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
+        onConfigurationChanged(getResources().getConfiguration());
+
         startNewsAutoRefreshIfReady();
         checkAdView();
 
@@ -444,7 +449,16 @@ public class MainActivity extends Activity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        mMainBottomContainerLayout.configOnOrientationChange(newConfig.orientation);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mMainTopContainerLayout.setVisibility(View.VISIBLE);
+            mMainTopContainerLayout.getLayoutParams().height =
+                    getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+        } else {
+            mMainTopContainerLayout.setVisibility(View.INVISIBLE);
+            mMainTopContainerLayout.getLayoutParams().height = 0;
+        }
+
+        mMainBottomContainerLayout.configOnOrientationChange();
     }
 
     @Override
