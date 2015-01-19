@@ -77,9 +77,9 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
         imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
 
-        if (newsFeed == null || newsFeed.getNewsList().size() == 0) {
+        if (newsFeed == null || !newsFeed.isValid()) {
             newsFeedTitleView.setText("");
-            titleView.setText("");
+            titleView.setText(newsFeed != null ? newsFeed.getFetchStateMessage(mContext) : "");
             viewHolder.progressBar.setVisibility(View.INVISIBLE);
             showDummyImage(viewHolder);
             return;

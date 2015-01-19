@@ -3,7 +3,15 @@ package com.yooiistudios.news.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedFetchState;
 import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -40,17 +48,28 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-        NewsFeed newsFeed =
-                NewsFeedFetchUtil.fetch(mNewsFeed.getNewsFeedUrl(), FETCH_COUNT, mShuffle);
-        newsFeed.setTopicIdInfo(mNewsFeed);
-        return newsFeed;
+        try {
+            NewsFeed newsFeed =
+                    NewsFeedFetchUtil.fetch(mNewsFeed.getNewsFeedUrl(), FETCH_COUNT, mShuffle);
+            newsFeed.setTopicIdInfo(mNewsFeed);
+
+            return newsFeed;
+        } catch(MalformedURLException | UnknownHostException e) {
+            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
+        } catch(SocketTimeoutException e) {
+            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
+        } catch(IOException | SAXException e) {
+            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
+        }
+
+        return null;
     }
 
     @Override
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            mListener.onTopNewsFeedFetch(newsFeed, mTaskType);
+            mListener.onTopNewsFeedFetch(newsFeed != null ? newsFeed : mNewsFeed, mTaskType);
         }
     }
 }

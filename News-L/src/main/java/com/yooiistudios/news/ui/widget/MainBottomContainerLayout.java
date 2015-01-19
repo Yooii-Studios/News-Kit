@@ -237,7 +237,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-        if (newsFeed == null) {
+        if (newsFeed == null || !newsFeed.isValid()) {
             return;
         }
 
