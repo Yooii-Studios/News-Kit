@@ -27,6 +27,8 @@ import com.yooiistudios.news.ui.widget.RatioFrameLayout;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.ScreenUtils;
 
+import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -86,10 +88,34 @@ public class MainBottomAdapter extends
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
+        boolean isVertical = mOrientation == VERTICAL;
+
         RatioFrameLayout itemView = (RatioFrameLayout)viewHolder.itemView;
         itemView.setBaseAxis(
-                mOrientation == VERTICAL ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
+                isVertical ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
         );
+
+        final SpannableGridLayoutManager.LayoutParams lp =
+                (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+
+        final int columnSpan;
+        final int rowSpan;
+        if (isVertical) {
+            rowSpan = 1;
+            columnSpan = 1;
+        } else {
+            rowSpan = 1;
+            columnSpan = (position == 0 ? 2 : 1);
+        }
+        if (lp.rowSpan != rowSpan || lp.colSpan != columnSpan) {
+            lp.rowSpan = rowSpan;
+            lp.colSpan = columnSpan;
+            itemView.setLayoutParams(lp);
+        }
+
+//        if (!isVertical) {
+//            itemView.set
+//        }
 
         TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
@@ -299,10 +325,19 @@ public class MainBottomAdapter extends
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
 
+    public void addNewsFeedAt(NewsFeed newsFeed, int idx) {
+        mNewsFeedList.add(idx, newsFeed);
+        notifyItemInserted(idx);
+    }
+
     public void addNewsFeedList(List<NewsFeed> newsFeedListToAdd) {
         int notifyStartIdx = mNewsFeedList.size();
         mNewsFeedList.addAll(newsFeedListToAdd);
         notifyItemRangeInserted(notifyStartIdx, newsFeedListToAdd.size());
+    }
+
+    public boolean contains(NewsFeed newsFeed) {
+        return mNewsFeedList.contains(newsFeed);
     }
 
     public void replaceNewsFeedAt(int idx, NewsFeed newsFeed) {

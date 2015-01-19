@@ -458,7 +458,7 @@ public class MainActivity extends Activity
             mMainTopContainerLayout.getLayoutParams().height = 0;
         }
 
-        mMainBottomContainerLayout.configOnOrientationChange();
+        mMainBottomContainerLayout.configOnOrientationChange(mMainTopContainerLayout.getNewsFeed());
     }
 
     @Override

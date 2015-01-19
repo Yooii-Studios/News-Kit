@@ -32,6 +32,7 @@ public class RectangleFrameLayout extends RatioFrameLayout {
             return MainBottomAdapter.getRowHeight(baseAxisLength);
         } else {
             return MainBottomAdapter.getRowWidth(baseAxisLength);
+//            return baseAxisLength;
         }
     }
 }

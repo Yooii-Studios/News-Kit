@@ -124,6 +124,10 @@ public class MainTopContainerLayout extends FrameLayout
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
     }
 
+    public NewsFeed getNewsFeed() {
+        return mTopNewsFeedPagerAdapter.getNewsFeed();
+    }
+
     public void animateOnInit() {
 //        final View view = findViewById(R.id.main_top_root);
         getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {

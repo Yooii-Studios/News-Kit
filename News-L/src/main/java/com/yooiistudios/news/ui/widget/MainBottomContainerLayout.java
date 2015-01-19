@@ -315,7 +315,7 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
-        configOnOrientationChange();
+        configOnOrientationChange(null);
 
         PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
 
@@ -520,21 +520,28 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
     }
 
-    public void configOnOrientationChange() {
+    public void configOnOrientationChange(NewsFeed topNewsFeed) {
         int orientation = getResources().getConfiguration().orientation;
         SpannableGridLayoutManager layoutManager =
                 (SpannableGridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
 
+        final int topNewsFeedIndex = 0;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             layoutManager.setOrientation(TwoWayLayoutManager.Orientation.VERTICAL);
             layoutManager.setNumColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.VERTICAL);
+            if (mBottomNewsFeedAdapter.contains(topNewsFeed)) {
+                mBottomNewsFeedAdapter.removeNewsFeedAt(topNewsFeedIndex);
+            }
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             layoutManager.setOrientation(TwoWayLayoutManager.Orientation.HORIZONTAL);
             layoutManager.setNumRows(BOTTOM_NEWS_FEED_ROW_COUNT);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.HORIZONTAL);
+            if (!mBottomNewsFeedAdapter.contains(topNewsFeed)) {
+                mBottomNewsFeedAdapter.addNewsFeedAt(topNewsFeed, topNewsFeedIndex);
+            }
         }
         adjustSize();
         mBottomNewsFeedAdapter.notifyDataSetChanged();
