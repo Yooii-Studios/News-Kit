@@ -65,6 +65,13 @@ public class BackgroundCacheUtils implements
             return;
         }
 
+        if (BackgroundServiceUtils.DEBUG) {
+            if (mOnCacheDoneListener != null) {
+                mOnCacheDoneListener.onDone();
+            }
+            return;
+        }
+
 //        long recentRefreshMillisec = NewsFeedArchiveUtils.getRecentRefreshMillisec(context);
 //        if (recentRefreshMillisec != NewsFeedArchiveUtils.INVALID_REFRESH_TERM
 //                &&
