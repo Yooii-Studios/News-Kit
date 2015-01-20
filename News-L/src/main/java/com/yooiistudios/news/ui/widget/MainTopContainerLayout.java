@@ -181,7 +181,7 @@ public class MainTopContainerLayout extends FrameLayout
         initViewPager(context);
 
         // Fetch
-
+//        showTopNewsFeedUnavailable(newsFeed.getFetchStateMessage(context));
         NewsFeed topNewsFeed = NewsDb.getInstance(context).loadTopNewsFeed(context);
         mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
 //        mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(context));

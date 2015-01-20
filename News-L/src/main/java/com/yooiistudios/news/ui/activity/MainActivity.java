@@ -312,7 +312,7 @@ public class MainActivity extends Activity
                     1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
             item.setChecked(!item.isChecked());
         } else if (id == R.id.action_service_log) {
-            BackgroundCacheJobService.showDialog(this);
+            BackgroundServiceUtils.showDialog(this);
         }
         return super.onOptionsItemSelected(item);
     }

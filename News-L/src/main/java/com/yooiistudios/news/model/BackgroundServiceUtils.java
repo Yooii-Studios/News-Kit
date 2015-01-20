@@ -3,15 +3,21 @@ package com.yooiistudios.news.model;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.format.DateUtils;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.service.BackgroundCacheIntentService;
@@ -19,6 +25,7 @@ import com.yooiistudios.news.service.BackgroundCacheJobService;
 import com.yooiistudios.news.util.NLLog;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Dongheyon Jeong on in ServiceWithTaskTest from Yooii Studios Co., LTD. on 14. 11. 7.
@@ -29,8 +36,9 @@ import java.util.Calendar;
 public class BackgroundServiceUtils {
     public static final long CACHE_INTERVAL_DAILY = 24 * DateUtils.HOUR_IN_MILLIS;
     private static final String TAG = BackgroundServiceUtils.class.getName();
-
     public static final String KEY_CACHE_TIME_ID = "KEY_CACHE_TIME_ID";
+
+    public static final boolean DEBUG = false;
 
 //    public static final int JOB_PERIODIC = 0;
 //    public static final int JOB_LATENCY = 1;
@@ -42,23 +50,34 @@ public class BackgroundServiceUtils {
 //    @Retention(RetentionPolicy.SOURCE)
 //    public @interface JobName {}
 
-    public enum CACHE_TIME {
-        FOUR_THIRTY_AM(0, 4, 30),
-        ELEVEN_AM(1, 11, 0),
-        FOUR_PM(2, 16, 0);
+
+    /**
+     * 기획이 바껴 캐시 타임이 바뀐 경우
+     * 새로 추가된 시간 정보를 밑에 붙이고 uniqueKey 를 증가하게 붙인다.
+     * 서비스를 등록할 때에는 현재 있는 시간정보 중 가장 낮은 uniqueKey 를 기준으로
+     * 그 보다 낮은 uniqueKey 로 등록된 스케쥴을 cancel 하도록 한다.
+     */
+    public enum CacheTime {
+//        FOUR_THIRTY_AM  (0,  4, 30),
+//        ELEVEN_AM       (1, 11,  0),
+//        FOUR_PM         (2, 16,  0),
+        MIDNIGHT        ( 3,  0,  0),
+        SIX_AM          ( 4,  6,  0),
+        NOON            ( 5, 12,  0),
+        SIX_PM          ( 6, 18,  0);
 
         private int uniqueKey;
         private int hour;
         private int minute;
 
-        private CACHE_TIME(int uniqueKey, int hour, int minute) {
+        private CacheTime(int uniqueKey, int hour, int minute) {
             this.uniqueKey = uniqueKey;
             this.hour = hour;
             this.minute = minute;
         }
 
-        public static CACHE_TIME getByUniqueKey(int uniqueKey) {
-            for (CACHE_TIME cacheTime : CACHE_TIME.values()) {
+        public static CacheTime getByUniqueKey(int uniqueKey) {
+            for (CacheTime cacheTime : CacheTime.values()) {
                 if (cacheTime.uniqueKey == uniqueKey) {
                     return cacheTime;
                 }
@@ -80,12 +99,30 @@ public class BackgroundServiceUtils {
             // 알람 메니저는 등록된 알람의 조회에 대한 API를 제공하지 않음.
             // 대신, 특정 PendingIntent가 예약되어 있는지는 확인할 수 있음.
 
-            for (CACHE_TIME cacheTime : CACHE_TIME.values()) {
+            // 알람 등록 이전에 필요 없는 알람은 모두 cancel 하자.
+            /**
+             * @see CacheTime
+             */
+            int minUniqueKey = CacheTime.values()[0].uniqueKey;
+            for (int cacheTimeUniqueKey = 0; cacheTimeUniqueKey < minUniqueKey; cacheTimeUniqueKey++) {
+                if (isPendingIntentExists(context, cacheTimeUniqueKey)) {
+                    NLLog.i(TAG, cacheTimeUniqueKey + "에 해당하는 PendingIntent cancel 함.");
+
+                    // Cancel
+                    PendingIntent pendingIntent = makePendingIntent(context, cacheTimeUniqueKey);
+                    AlarmManager alarmManager =
+                            (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
+                    pendingIntent.cancel();
+                }
+            }
+            for (CacheTime cacheTime : CacheTime.values()) {
                 boolean pendingIntentExists = isPendingIntentExists(context, cacheTime);
-                NLLog.i(TAG, "PendingIntent for " + cacheTime.name() + " : " + (pendingIntentExists ? "Exists" : "Does not exists"));
+
+                // Register alarm
                 if (!pendingIntentExists) {
                     long delay = getDelay(cacheTime);
-                    NLLog.i(TAG, "서비스를 알람 매니저에 등록함. delay : " + delay);
+                    NLLog.i(TAG, "서비스를 알람 매니저에 등록함. Enum name : " + cacheTime.name());
 
                     AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
                     alarmManager.setRepeating(
@@ -95,7 +132,7 @@ public class BackgroundServiceUtils {
                             makePendingIntent(context, cacheTime)
                     );
                 } else {
-                    NLLog.i(TAG, "서비스가 알람 매니저에 이미 등록되어 있음");
+                    NLLog.i(TAG, "서비스가 알람 매니저에 이미 등록되어 있음. Enum name : " + cacheTime.name());
                 }
             }
         }
@@ -107,18 +144,33 @@ public class BackgroundServiceUtils {
 
         ComponentName componentName = new ComponentName(context, BackgroundCacheJobService.class);
 
+        // Version code 5부터 스케쥴링 정책 바뀜.
+//        if (previousVersionCode < 5) {
+//            NLLog.i(TAG, "앱 버전이 업데이트됨. JobScheduler 를 cancel 함.");
+//            cancelJobSchedulerAfterLollipop(context);
+//        }
         if (jobScheduler.getAllPendingJobs().size() == 0) {
             Intent jobServiceIntent = new Intent(context, BackgroundCacheJobService.class);
             context.startService(jobServiceIntent);
 
-            NLLog.i(TAG, "서비스를 JobScheduler에 등록함.");
+            String debugMessage = "서비스를 JobScheduler 에 등록함.";
+            NLLog.i(TAG, debugMessage);
+
             // build job info
             JobInfo.Builder jobInfoBuilder = new JobInfo.Builder(0, componentName);
             jobInfoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
-            jobInfoBuilder.setPeriodic(20 * DateUtils.MINUTE_IN_MILLIS);
-//            jobInfoBuilder.setPeriodic(5 * DateUtils.MINUTE_IN_MILLIS);
+            if (DEBUG) {
+                // 30초
+                jobInfoBuilder.setPeriodic(30 * DateUtils.SECOND_IN_MILLIS);
+            } else {
+                // 20분
+                jobInfoBuilder.setPeriodic(20 * DateUtils.MINUTE_IN_MILLIS);
+            }
             jobInfoBuilder.setPersisted(true);
             jobScheduler.schedule(jobInfoBuilder.build());
+        } else {
+            String debugMessage = "서비스가 JobScheduler 에 이미 등록되어 있음.";
+            NLLog.i(TAG, debugMessage);
         }
     }
 
@@ -155,34 +207,46 @@ public class BackgroundServiceUtils {
 //    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static void cancelAllServicesAfterLollipop(Context context) {
+    private static void cancelJobSchedulerAfterLollipop(Context context) {
         JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         tm.cancelAll();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void cancelServiceAfterLollipop(Context context, int jobId) {
-        JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        tm.cancel(jobId);
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    public static void cancelServiceAfterLollipop(Context context, int jobId) {
+//        JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+//        tm.cancel(jobId);
+//    }
+
+    private static PendingIntent makePendingIntent(Context context, CacheTime cacheTime) {
+        return makePendingIntent(context, cacheTime.uniqueKey);
     }
 
-    private static PendingIntent makePendingIntent(Context context, CACHE_TIME cacheTime) {
-        return PendingIntent.getService(context, cacheTime.uniqueKey,
-                makeServiceIntent(context, cacheTime), 0);
+    private static PendingIntent makePendingIntent(Context context, int cacheTimeUniqueKey) {
+        return PendingIntent.getService(context, cacheTimeUniqueKey,
+                makeServiceIntent(context, cacheTimeUniqueKey), 0);
     }
 
-    private static boolean isPendingIntentExists(Context context, CACHE_TIME cacheTime) {
-        return PendingIntent.getService(context, cacheTime.uniqueKey,
-                makeServiceIntent(context, cacheTime), PendingIntent.FLAG_NO_CREATE) != null;
+    private static boolean isPendingIntentExists(Context context, CacheTime cacheTime) {
+        return isPendingIntentExists(context, cacheTime.uniqueKey);
     }
 
-    private static Intent makeServiceIntent(Context context, CACHE_TIME cacheTime) {
+    private static boolean isPendingIntentExists(Context context, int cacheTimeUniqueKey) {
+        return PendingIntent.getService(context, cacheTimeUniqueKey,
+                makeServiceIntent(context, cacheTimeUniqueKey), PendingIntent.FLAG_NO_CREATE) != null;
+    }
+
+    private static Intent makeServiceIntent(Context context, CacheTime cacheTime) {
+        return makeServiceIntent(context, cacheTime.uniqueKey);
+    }
+
+    private static Intent makeServiceIntent(Context context, int cacheTimeUniqueKey) {
         Intent intent = new Intent(context, BackgroundCacheIntentService.class);
-        intent.putExtra(KEY_CACHE_TIME_ID, cacheTime.uniqueKey);
+        intent.putExtra(KEY_CACHE_TIME_ID, cacheTimeUniqueKey);
         return intent;
     }
 
-    private static long getDelay(CACHE_TIME cacheTime) {
+    private static long getDelay(CacheTime cacheTime) {
         return getNextAlarmCalendar(cacheTime.hour, cacheTime.minute).getTimeInMillis()
                 - Calendar.getInstance().getTimeInMillis();
     }
@@ -208,7 +272,7 @@ public class BackgroundServiceUtils {
         Calendar recentCacheCalendar = Calendar.getInstance();
         recentCacheCalendar.setTimeInMillis(recentRefreshMillisec);
 
-        for (CACHE_TIME cacheTime : CACHE_TIME.values()) {
+        for (CacheTime cacheTime : CacheTime.values()) {
             Calendar toCalendar = Calendar.getInstance();
             toCalendar.set(Calendar.HOUR_OF_DAY, cacheTime.hour);
             toCalendar.set(Calendar.MINUTE, cacheTime.minute);
@@ -216,22 +280,68 @@ public class BackgroundServiceUtils {
             toCalendar.set(Calendar.MILLISECOND, 0);
 
             Calendar fromCalendar = (Calendar)toCalendar.clone();
-            // 20분 전 달력 만들어 현재 시간이 목표시간에서 그 20분 전 사이에 들어가는지 체크
-            fromCalendar.add(Calendar.HOUR, -1);
+            // 30분 전 달력 만들어 현재 시간이 목표시간에서 그 30분 전 사이에 들어가는지 체크
+            if (DEBUG) {
+                fromCalendar.add(Calendar.SECOND, -30);
+            } else {
+                fromCalendar.add(Calendar.MINUTE, -30);
+            }
 
             if (compareCalendar(currentCalendar, fromCalendar, toCalendar)) {
 
-                // 해당 범위(-20 ~ 해당 시간) 안에서 캐시한 적이 있으면 캐시 안함.
-                if (compareCalendar(recentCacheCalendar, fromCalendar, toCalendar)) {
-                    NLLog.i(TAG, "Cache exists");
-                    return false;
-                } else {
-                    return true;
-                }
+                // 해당 범위(-30 ~ 해당 시간) 안에서 캐시한 적이 있으면 캐시 안함.
+                return !compareCalendar(recentCacheCalendar, fromCalendar, toCalendar);
             }
         }
 
         return false;
+    }
+
+    public static void saveMessageAndPrintLogDebug(Context context, String message) {
+        if (DEBUG) {
+            NLLog.i(TAG, message);
+        }
+            saveMessage(context, message);
+    }
+    public static void saveMessage(Context context, String message) {
+        SharedPreferences sharedPreferences
+                = context.getSharedPreferences("DEBUG_SERVICE", Context.MODE_PRIVATE);
+        String prevMessage = sharedPreferences.getString("message", "");
+
+        String newMessage = " [ " + new Date(System.currentTimeMillis()).toString() + "\n\n"
+                + message + " ]\n\n\n\n";
+
+        message = prevMessage + newMessage;
+
+        sharedPreferences.edit().putString("message", message).apply();
+    }
+
+    public static void showDialog(Context context) {
+        SharedPreferences sharedPreferences
+                = context.getSharedPreferences("DEBUG_SERVICE", Context.MODE_PRIVATE);
+        String message = sharedPreferences.getString("message", "");
+
+        TextView logView = new TextView(context);
+        logView.setText(message);
+
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
+        );
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+        ScrollView scrollContainer = new ScrollView(context);
+        scrollContainer.addView(logView, lp);
+
+        new AlertDialog.Builder(context)
+                .setTitle("Service log")
+                .setView(scrollContainer)
+                .setNeutralButton("dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private static boolean compareCalendar(Calendar calToCompare, Calendar fromCal, Calendar toCal) {
