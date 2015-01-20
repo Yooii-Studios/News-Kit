@@ -13,53 +13,49 @@ import android.util.TypedValue;
 
 public class DipToPixel {
 
-    private DipToPixel() { throw new AssertionError(); } // You must not create instance
-    public static float getDisplayMetricsDensity(Context context)
-    {
+    private DipToPixel() {
+        throw new AssertionError();
+    } // You must not create instance
+
+    public static float getDisplayMetricsDensity(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }
 
-    public static int getPixel(Context context, int dp)
-    {
+    public static int getPixel(Context context, int dp) {
         double density = getDisplayMetricsDensity(context);
-        if(density != 1)
-        {
-            return (int)(dp * density + 0.5);
+        if (density != 1) {
+            return (int) (dp * density + 0.5);
         }
         return dp;
     }
 
-    public static double getPixel(Context context, double dp)
-    {
+    public static double getPixel(Context context, double dp) {
         double density = getDisplayMetricsDensity(context);
-        if(density != 1)
-        {
-            return (double) (dp * density + 0.5);
+        if (density != 1) {
+            return (dp * density + 0.5);
         }
         return dp;
     }
 
-    public static float getPixel(Context context, float dp)
-    {
+    public static float getPixel(Context context, float dp) {
         float density = getDisplayMetricsDensity(context);
-        if(density != 1)
-        {
+        if (density != 1) {
             return (float) (dp * density + 0.5);
         }
         return dp;
     }
 
-    public static int dpToPixel(Context c, float dp){
+    public static int dpToPixel(Context c, float dp) {
         int result = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, c.getResources().getDisplayMetrics());
         if (result < 1)
             result = 1;
         return result;
     }
 
-    public static int pixelToDP(Context c, int pixel){
+    public static int pixelToDP(Context c, int pixel) {
         float scale = c.getResources().getDisplayMetrics().density;
 
-        return (int)(pixel * scale);
+        return (int) (pixel * scale);
     }
 }
 

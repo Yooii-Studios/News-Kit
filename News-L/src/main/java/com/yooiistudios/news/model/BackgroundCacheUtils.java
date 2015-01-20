@@ -84,7 +84,7 @@ public class BackgroundCacheUtils implements
         mContext = context;
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
-        mTopNewsImageFetchTaskMap = new SparseArray<AsyncTask>();
+        mTopNewsImageFetchTaskMap = new SparseArray<>();
 
         // cache top news feed
         NewsFeed topNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext);

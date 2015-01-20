@@ -75,16 +75,6 @@ public class BackgroundServiceUtils {
             this.hour = hour;
             this.minute = minute;
         }
-
-        public static CacheTime getByUniqueKey(int uniqueKey) {
-            for (CacheTime cacheTime : CacheTime.values()) {
-                if (cacheTime.uniqueKey == uniqueKey) {
-                    return cacheTime;
-                }
-            }
-
-            return null;
-        }
     }
 
     public static void startService(Context context) {
@@ -206,11 +196,11 @@ public class BackgroundServiceUtils {
 //        }
 //    }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static void cancelJobSchedulerAfterLollipop(Context context) {
-        JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        tm.cancelAll();
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    private static void cancelJobSchedulerAfterLollipop(Context context) {
+//        JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+//        tm.cancelAll();
+//    }
 
 //    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 //    public static void cancelServiceAfterLollipop(Context context, int jobId) {

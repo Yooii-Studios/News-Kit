@@ -19,8 +19,7 @@ import java.net.UnknownHostException;
  * NLBottomNewsFeedFetchTask
  *  메인 화면 하단 뉴스피드 로딩을 담당
  **/
-public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
-        NewsFeed> {
+public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     private NewsFeed mNewsFeed;
     private OnFetchListener mListener;

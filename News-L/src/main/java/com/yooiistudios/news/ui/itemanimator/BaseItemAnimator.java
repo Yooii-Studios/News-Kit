@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseItemAnimator extends RecyclerView.ItemAnimator {
-    private List<PendingAnimator> pendingAnimations = new ArrayList<PendingAnimator>();
-    private List<PendingAnimator> runningAnimations = new ArrayList<PendingAnimator>();
+    private List<PendingAnimator> pendingAnimations = new ArrayList<>();
+    private List<PendingAnimator> runningAnimations = new ArrayList<>();
     private int removePendingCount;
     private int movePendingCount;
 

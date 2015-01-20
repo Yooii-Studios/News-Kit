@@ -1,6 +1,7 @@
 package com.yooiistudios.news.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 12.
@@ -10,10 +11,8 @@ import java.util.ArrayList;
  */
 public class ArrayUtils {
     public static <T> ArrayList<T> toArrayList(T[] array) {
-        ArrayList<T> returnList = new ArrayList<T>(array.length);
-        for (T item : array) {
-            returnList.add(item);
-        }
+        ArrayList<T> returnList = new ArrayList<>(array.length);
+        Collections.addAll(returnList, array);
 
         return returnList;
     }

@@ -7,7 +7,7 @@ import com.yooiistudios.news.model.news.NewsFeedFetchState;
 import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsTopic;
-import com.yooiistudios.news.util.RssFetchable;
+import com.yooiistudios.news.model.RssFetchable;
 
 import org.xml.sax.SAXException;
 

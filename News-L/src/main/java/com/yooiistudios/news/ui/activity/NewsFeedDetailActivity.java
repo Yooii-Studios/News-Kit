@@ -99,7 +99,7 @@ import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
-import com.yooiistudios.news.util.RssFetchable;
+import com.yooiistudios.news.model.RssFetchable;
 import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Type;
@@ -849,7 +849,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private void runExitAnimation() {
         mIsAnimatingActivityTransitionAnimation = true;
 
-        final TimeInterpolator interpolator = AnimationFactory.makeNewsFeedReverseTransitionInterpolator(this);
+        final TimeInterpolator interpolator = AnimationFactory.makeNewsFeedReverseTransitionInterpolator();
 
         // 곡선 이동 PropertyValuesHolder 준비
         AnimatorPath path = new AnimatorPath();
@@ -1143,7 +1143,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void notifyBottomNewsChanged() {
-        mAdapter = new NewsFeedDetailAdapter(this, this);
+        mAdapter = new NewsFeedDetailAdapter(this);
 
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
 
@@ -1437,10 +1437,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         } else if (mTintType == null) {
             // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null이다.
             // 그러므로 이 상황에서 이미지가 set 된다면
-            // 1. 메인 상단에서 들어온 경우 : TintType.GRAYSCALE
+            // 1. 메인 상단에서 들어온 경우 : TintType.GRAY_SCALE
             // 2. 메인 하단에서 들어온 경우 :
             // 2.1 palette에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
-            // 2.2 palette에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAYSCALE(default)
+            // 2.2 palette에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAY_SCALE(default)
 
             // 상단 뉴스피드인지 하단 뉴스피드인지 구분
             String newsLocation = getIntent().getExtras().getString(
@@ -1450,7 +1450,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 switch (newsLocation) {
                     case MainActivity.INTENT_VALUE_TOP_NEWS_FEED:
                         // 메인 상단에서 온 경우
-                        mTintType = TintType.GRAYSCALE;
+                        mTintType = TintType.GRAY_SCALE;
                         break;
                     case MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED:
                         // 메인 하단에서 온 경우
@@ -1458,15 +1458,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                         if (filterColor != Color.TRANSPARENT) {
                             mTintType = TintType.PALETTE;
                         } else {
-                            mTintType = TintType.GRAYSCALE;
+                            mTintType = TintType.GRAY_SCALE;
                         }
                         break;
                     default:
-                        mTintType = TintType.GRAYSCALE;
+                        mTintType = TintType.GRAY_SCALE;
                         break;
                 }
             } else {
-                mTintType = TintType.GRAYSCALE;
+                mTintType = TintType.GRAY_SCALE;
             }
         }
         applyPalette();
@@ -1508,7 +1508,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private int getFilterColor() {
         int color;
         int alpha;
-        TintType tintType = mTintType != null ? mTintType : TintType.GRAYSCALE;
+        TintType tintType = mTintType != null ? mTintType : TintType.GRAY_SCALE;
 
         switch(tintType) {
             case DUMMY:
@@ -1523,7 +1523,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     break;
                 }
                 // darkVibrantColor == null 이라면 아래의 구문으로 넘어간다.
-            case GRAYSCALE:
+            case GRAY_SCALE:
             default:
                 color = NewsFeedUtils.getGrayFilterColor();
                 alpha = Color.alpha(color);

@@ -147,7 +147,7 @@ public class MainTopContainerLayout extends FrameLayout
                 animate()
                     .setDuration(duration)
                     .translationY(0)
-                    .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator(getContext()))
+                    .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator())
                     .start();
 
                 return false;
@@ -211,14 +211,14 @@ public class MainTopContainerLayout extends FrameLayout
             mScroller.setAccessible(true);
             android.view.animation.Interpolator interpolator =
                     (android.view.animation.Interpolator)
-                        AnimationFactory.makeViewPagerScrollInterpolator(getContext());
+                        AnimationFactory.makeViewPagerScrollInterpolator();
             SlowSpeedScroller scroller = new SlowSpeedScroller(context, interpolator, true);
             mScroller.set(mTopNewsFeedViewPager, scroller);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager(), this);
+        mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager());
     }
 
     public boolean isReady() {
@@ -353,7 +353,7 @@ public class MainTopContainerLayout extends FrameLayout
         topNewsFeed.getNewsList().add(null);
 
 //        mTopViewPagerIndicator.setCurrentItem(0);
-        mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager(), this);
+        mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager());
         mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
         mTopNewsFeedViewPager.setAdapter(mTopNewsFeedPagerAdapter);
         mTopViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mTopNewsFeedViewPager);

@@ -26,7 +26,7 @@ public class BackgroundCacheJobService extends JobService {
     private LinkedList<JobParameters> mJobParamsMap;
 
     public BackgroundCacheJobService() {
-        mJobParamsMap = new LinkedList<JobParameters>();
+        mJobParamsMap = new LinkedList<>();
     }
 
     @Override

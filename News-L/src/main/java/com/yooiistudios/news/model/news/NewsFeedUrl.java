@@ -1,6 +1,6 @@
 package com.yooiistudios.news.model.news;
 
-import com.yooiistudios.news.util.RssFetchable;
+import com.yooiistudios.news.model.RssFetchable;
 
 import java.io.Serializable;
 

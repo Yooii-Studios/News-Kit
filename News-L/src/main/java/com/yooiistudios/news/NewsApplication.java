@@ -34,11 +34,10 @@ public class NewsApplication extends Application {
         ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
     }
 
-    HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
+    HashMap<TrackerName, Tracker> mTrackers = new HashMap<>();
 
     public synchronized Tracker getTracker(TrackerName trackerId) {
         if (!mTrackers.containsKey(trackerId)) {
-
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             Tracker t = (trackerId == TrackerName.APP_TRACKER) ? analytics.newTracker(PROPERTY_ID)
                     : (trackerId == TrackerName.GLOBAL_TRACKER) ? analytics.newTracker(R.xml.global_tracker)
@@ -79,8 +78,8 @@ public class NewsApplication extends Application {
                 getApplicationContext().getResources().getDisplayMetrics());
 
         // https://gist.github.com/benelog/5954649
-        // AsyncTask가 UI 스레드가 아닌 곳에서 처음으로 호출된다면 에러스택이 발생할 수 있습니다.
-        // 이 때 메인스레드에서 단순히 클래스 로딩을 한번만 해도 AsyncTask내의 static 멤버 변수가 정상적으로 초기화됩니다.
+        // AsyncTask 가 UI 스레드가 아닌 곳에서 처음으로 호출된다면 에러스택이 발생할 수 있습니다.
+        // 이 때 메인스레드에서 단순히 클래스 로딩을 한번만 해도 AsyncTask 내의 static 멤버 변수가 정상적으로 초기화됩니다.
         try {
             Class.forName("android.os.AsyncTask");
         } catch (ClassNotFoundException e) {

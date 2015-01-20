@@ -60,21 +60,21 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, false);
     }
 
-    public void fetchDisplayingNewsImageList(ImageLoader imageLoader,
-                                             SparseArray<NewsFeed> newsFeedMap,
-                                             OnFetchListener listener, int taskType) {
-        fetch(imageLoader, newsFeedMap, listener, taskType, false);
-    }
-
-    public void fetchDisplayingNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
-                                         OnFetchListener listener, int newsFeedIndex,
-                                         int taskType) {
-
-        SparseArray<NewsFeed> list = new SparseArray<>();
-        list.put(newsFeedIndex, newsFeed);
-
-        fetch(imageLoader, list, listener, taskType, false);
-    }
+//    public void fetchDisplayingNewsImageList(ImageLoader imageLoader,
+//                                             SparseArray<NewsFeed> newsFeedMap,
+//                                             OnFetchListener listener, int taskType) {
+//        fetch(imageLoader, newsFeedMap, listener, taskType, false);
+//    }
+//
+//    public void fetchDisplayingNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
+//                                         OnFetchListener listener, int newsFeedIndex,
+//                                         int taskType) {
+//
+//        SparseArray<NewsFeed> list = new SparseArray<>();
+//        list.put(newsFeedIndex, newsFeed);
+//
+//        fetch(imageLoader, list, listener, taskType, false);
+//    }
 
     public void fetchAllNextNewsImageList(ImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                           OnFetchListener listener, int taskType) {
@@ -85,14 +85,14 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, true);
     }
 
-    public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
-                                   OnFetchListener listener, int newsFeedIndex, int taskType) {
-
-        SparseArray<NewsFeed> list = new SparseArray<>();
-        list.put(newsFeedIndex, newsFeed);
-
-        fetch(imageLoader, list, listener, taskType, true);
-    }
+//    public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
+//                                   OnFetchListener listener, int newsFeedIndex, int taskType) {
+//
+//        SparseArray<NewsFeed> list = new SparseArray<>();
+//        list.put(newsFeedIndex, newsFeed);
+//
+//        fetch(imageLoader, list, listener, taskType, true);
+//    }
 
     public void fetchDisplayingAndNextImage(ImageLoader imageLoader, NewsFeed newsFeed,
                                             OnFetchListener listener, int newsFeedIndex,

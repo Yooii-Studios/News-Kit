@@ -31,7 +31,7 @@ import java.util.ArrayList;
  *  Google I/O 2014 에서 가져온 스크롤 할 경우 callback 을 시켜주는 스크롤뷰 클래스
  */
 public class ObservableScrollView extends ScrollView {
-    private ArrayList<Callbacks> mCallbacks = new ArrayList<Callbacks>();
+    private ArrayList<Callbacks> mCallbacks = new ArrayList<>();
 
     public ObservableScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -25,16 +25,16 @@ import java.io.File;
 
 public class HTML5WebView extends WebView {
 
-    private Context 							mContext;
+    private Context mContext;
     private HTML5WebChromeClient mWebChromeClient;
-    private View								mCustomView;
-    private FrameLayout							mCustomViewContainer;
-    private WebChromeClient.CustomViewCallback 	mCustomViewCallback;
-    private HTML5WebViewCallback                mHTML5WebViewCallback;
+    private View mCustomView;
+    private FrameLayout mCustomViewContainer;
+    private WebChromeClient.CustomViewCallback mCustomViewCallback;
+    private HTML5WebViewCallback mHTML5WebViewCallback;
 
-    private FrameLayout							mContentView;
-    private FrameLayout							mBrowserFrameLayout;
-    private FrameLayout							mLayout;
+    private FrameLayout mContentView;
+    private FrameLayout mBrowserFrameLayout;
+    private FrameLayout mLayout;
 
     static final String LOGTAG = "HTML5WebView";
 
@@ -71,7 +71,7 @@ public class HTML5WebView extends WebView {
         String dummyDbName = "qwerasdf";
         File dbFilePath = context.getDatabasePath(dummyDbName);
         String dbPath = dbFilePath.toString().substring(0, dbFilePath.toString().length()
-                -dummyDbName.length());
+                - dummyDbName.length());
         s.setGeolocationDatabasePath(dbPath);
 
         // enable Web Storage: localStorage, sessionStorage
@@ -114,7 +114,7 @@ public class HTML5WebView extends WebView {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((mCustomView == null) && canGoBack()){
+            if ((mCustomView == null) && canGoBack()) {
                 goBack();
                 return true;
             }
@@ -123,12 +123,11 @@ public class HTML5WebView extends WebView {
     }
 
     public class HTML5WebChromeClient extends WebChromeClient {
-        private Bitmap 		mDefaultVideoPoster;
-        private View 		mVideoProgressView;
+        private Bitmap mDefaultVideoPoster;
+        private View mVideoProgressView;
 
         @Override
-        public void onShowCustomView(View view, CustomViewCallback callback)
-        {
+        public void onShowCustomView(View view, CustomViewCallback callback) {
             //Log.i(LOGTAG, "here in on ShowCustomView");
             HTML5WebView.this.setVisibility(View.GONE);
 
@@ -195,7 +194,7 @@ public class HTML5WebView extends WebView {
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            ((Activity) mContext).getWindow().setFeatureInt(Window.FEATURE_PROGRESS, newProgress*100);
+            ((Activity) mContext).getWindow().setFeatureInt(Window.FEATURE_PROGRESS, newProgress * 100);
             mHTML5WebViewCallback.onProgressChanged(view, newProgress);
         }
 
@@ -208,7 +207,7 @@ public class HTML5WebView extends WebView {
     public class HTML5WebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i(LOGTAG, "shouldOverrideUrlLoading: "+url);
+            Log.i(LOGTAG, "shouldOverrideUrlLoading: " + url);
             // don't override URL so that stuff within iframe can work properly
             // view.loadUrl(url);
             return mHTML5WebViewCallback.shouldOverrideUrlLoading(view, url);
@@ -228,13 +227,17 @@ public class HTML5WebView extends WebView {
     }
 
     static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS =
-            new FrameLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
     public interface HTML5WebViewCallback {
         public boolean shouldOverrideUrlLoading(WebView view, String url);
+
         public void onPageStarted(WebView view, String url, Bitmap facIcon);
+
         public void onPageFinished(WebView view, String url);
+
         public void onProgressChanged(WebView view, int newProgress);
+
         public void onReceivedTitle(WebView view, String title);
     }
 }

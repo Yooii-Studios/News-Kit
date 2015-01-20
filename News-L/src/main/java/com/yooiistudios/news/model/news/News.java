@@ -2,6 +2,7 @@ package com.yooiistudios.news.model.news;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,7 +121,7 @@ public class News implements Comparable<News>, Parcelable {
     }
 
     @Override
-    public int compareTo(News another) {
+    public int compareTo(@NonNull News another) {
         if(getPubDate() != null && another.getPubDate() != null) {
             return getPubDate().compareTo(another.getPubDate());
         } else {
@@ -145,10 +146,6 @@ public class News implements Comparable<News>, Parcelable {
     }
     public void setImageUrlChecked(boolean checked) {
         mImageUrlChecked = checked;
-    }
-
-    public String getOriginalDescription() {
-        return mOriginalDescription;
     }
 
     public void setOriginalDescription(String originalDescription) {

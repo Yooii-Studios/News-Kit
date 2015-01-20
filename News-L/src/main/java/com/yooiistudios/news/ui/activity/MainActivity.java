@@ -23,7 +23,6 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -36,7 +35,6 @@ import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.news.service.BackgroundCacheJobService;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
@@ -59,7 +57,6 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
-    @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
@@ -75,10 +72,6 @@ public class MainActivity extends Activity
     private int mSystemWindowInset;
 
     public static final String TAG = MainActivity.class.getName();
-    public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
-    public static final String VIEW_NAME_TITLE_PREFIX = "topTitle_";
-    public static final String INTENT_KEY_VIEW_NAME_IMAGE = "INTENT_KEY_VIEW_NAME_IMAGE";
-    public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
     // 뉴스 새로고침시 사용할 인텐트 변수
@@ -456,17 +449,17 @@ public class MainActivity extends Activity
                         return;
                     }
                     if (hasNewsFeedReplaced) {
-                        // 교체된게 top news feed인지 bottom news feed인지 구분
+                        // 교체된게 top news feed 인지 bottom news feed 인지 구분
                         if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            // bottom news feed중 하나가 교체됨
+                            // bottom news feed 중 하나가 교체됨
 
-                            // bottom news feed의 index를 가져옴
+                            // bottom news feed 의 index 를 가져옴
                             int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
                             if (idx >= 0) {
                                 mMainBottomContainerLayout.reloadNewsFeedAt(idx);
                             }
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            // top news feed가 교체됨
+                            // top news feed 가 교체됨
                             mMainTopContainerLayout.configOnNewsFeedReplaced();
                         }
                     } else if (newImageLoaded) {

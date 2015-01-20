@@ -341,7 +341,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
         if (result.isSuccess()) {
             Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
-            // 창하님 조언으로 수정: payload는 sku의 md5해시값으로 비교해 해킹을 방지
+            // 창하님 조언으로 수정: payload 는 sku 의 md5해시값으로 비교해 해킹을 방지
             if (info != null && info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
                 // 프레퍼런스에 저장
                 IabProducts.saveIabProduct(info.getSku(), this);

@@ -1,4 +1,4 @@
-package com.yooiistudios.news.util;
+package com.yooiistudios.news.model;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 12. 23.

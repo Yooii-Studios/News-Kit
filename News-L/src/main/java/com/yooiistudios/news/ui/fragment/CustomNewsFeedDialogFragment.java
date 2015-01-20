@@ -68,7 +68,7 @@ public class CustomNewsFeedDialogFragment extends DialogFragment {
 
                                     // add "http://" if it's not entered.
                                     if (!url.toLowerCase().matches("^\\w+://.*")) {
-                                        // "http://" 안붙은 url도 저장
+                                        // "http://" 안붙은 url 도 저장
                                         NewsFeedUtils.addUrlToHistory(getActivity(), url);
 
                                         url = "http://" + url;

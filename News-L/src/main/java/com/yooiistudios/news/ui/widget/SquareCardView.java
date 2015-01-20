@@ -12,9 +12,7 @@ import com.yooiistudios.news.ui.adapter.MainBottomAdapter;
  * NLSquareCardView
  *  카드뷰의 긴 변의 길이에 맞게 뷰의 크기를 변형해주는 클래스
  */
-public class SquareCardView extends FrameLayout /*CardView*/ {
-    private static final String TAG = SquareCardView.class.getName();
-
+public class SquareCardView extends FrameLayout {
     public SquareCardView(Context context) {
         super(context);
     }

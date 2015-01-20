@@ -77,7 +77,7 @@ public class NewsDetailActivity extends Activity
             // 처음 들어온 페이지이거나, history가 없는경우
             super.onBackPressed();
         } else {
-            // history가 있는 경우
+            // history 가 있는 경우
             // 현재 페이지로 부터 history 수 만큼 뒷 페이지로 이동
             mWebView.goBackOrForward(-(list.getCurrentIndex()));
             // history 삭제

@@ -22,8 +22,8 @@ public class ActivityTransitionHelper {
     private HashMap<String, ActivityTransitionTextViewProperty> mTextViewPropertyMap;
 
     public ActivityTransitionHelper() {
-        mImageViewPropertyMap = new HashMap<String, ActivityTransitionImageViewProperty>();
-        mTextViewPropertyMap = new HashMap<String, ActivityTransitionTextViewProperty>();
+        mImageViewPropertyMap = new HashMap<>();
+        mTextViewPropertyMap = new HashMap<>();
     }
 
     public ActivityTransitionImageViewProperty getImageViewProperty(String key) {

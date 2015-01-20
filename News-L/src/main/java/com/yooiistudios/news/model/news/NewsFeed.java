@@ -5,14 +5,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.util.RssFetchable;
+import com.yooiistudios.news.model.RssFetchable;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 16.
  *
- * Rss Feed의 Feed를 표현하는 클래스
+ * Rss Feed 의 Feed 를 표현하는 클래스
  */
 public class NewsFeed implements Parcelable {
     public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
@@ -208,10 +208,6 @@ public class NewsFeed implements Parcelable {
         mTopicId = topicId;
     }
 
-    public NewsFeedFetchState getNewsFeedFetchState() {
-        return mNewsFeedFetchState;
-    }
-
     public void setNewsFeedFetchState(NewsFeedFetchState newsFeedFetchState) {
         mNewsFeedFetchState = newsFeedFetchState;
     }
@@ -225,22 +221,6 @@ public class NewsFeed implements Parcelable {
         }
 
         return displayingNewsIndex;
-    }
-
-    /**
-     * 이미지 url을 포함하고 있는 뉴스만 반환한다.
-     * @return ArrayList of NLNews which has image url.
-     */
-    public ArrayList<News> getNewsListContainsImageUrl() {
-        ArrayList<News> containingList = new ArrayList<News>();
-
-        for (News news : mNewsList) {
-            if (news.getImageUrl() != null) {
-                containingList.add(news);
-            }
-        }
-
-        return containingList;
     }
 
     public void setTopicIdInfo(NewsTopic newsTopic) {
