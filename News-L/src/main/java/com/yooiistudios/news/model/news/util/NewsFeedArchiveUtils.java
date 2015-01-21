@@ -14,10 +14,10 @@ public class NewsFeedArchiveUtils {
 
     private static final String KEY_NEWS_FEED_RECENT_REFRESH = "KEY_NEWS_FEED_RECENT_REFRESH";
 
-    // 60 Min * 60 Sec * 1000 millisec = 1 Hour
-    private static final long REFRESH_TERM_MILLISEC = 60 * 60 * 1000;
-//    private static final long REFRESH_TERM_MILLISEC = 10 * 1000;
-//    private static final long REFRESH_TERM_MILLISEC = 24 * 60 * 60 * 1000;
+    // 6 Hours * 60 Min * 60 Sec * 1000 millisec = 6 Hours
+    private static final long CACHE_EXPIRATION_LIMIT = 6 * 60 * 60 * 1000;
+//    private static final long CACHE_EXPIRATION_LIMIT = 10 * 1000;
+//    private static final long CACHE_EXPIRATION_LIMIT = 24 * 60 * 60 * 1000;
     private static final long INVALID_REFRESH_TERM = -1;
 
     private NewsFeedArchiveUtils() {
@@ -48,7 +48,7 @@ public class NewsFeedArchiveUtils {
 
         long gap = currentMillisec - recentRefreshMillisec;
 
-        return gap > REFRESH_TERM_MILLISEC;
+        return gap > CACHE_EXPIRATION_LIMIT;
     }
 
     public static long getRecentRefreshMillisec(Context context) {
