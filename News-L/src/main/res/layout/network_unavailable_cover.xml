@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/network_unavailable_wrapper">
+
+    <TextView
+        android:id="@+id/network_unavailable_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/network_unavailable_message"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/black"/>
+    <Button
+        android:id="@+id/network_unavailable_reload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/network_unavailable_message"
+        android:text="@string/network_unavailable_reload"/>
+
+</RelativeLayout>

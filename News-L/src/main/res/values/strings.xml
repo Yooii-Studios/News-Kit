@@ -79,6 +79,10 @@
     <string name="store_custom_rss_feed_title">Custom RSS url</string>
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
 
+    <!-- Network Unavailable -->
+    <string name="network_unavailable_message">Network unavailable.</string>
+    <string name="network_unavailable_reload">Reload</string>
+
     <!-- Info -->
     <string name="info_news_info">News Info</string>
     <string name="info_rate_this_app">Rate News L</string>
@@ -99,5 +103,6 @@
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url.</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
     <string name="news_feed_fetch_error_unknown">Unknown error. Please try later.</string>
+    <string name="title_activity_network_unavailable">NetworkUnavailableActivity</string>
 
 </resources>

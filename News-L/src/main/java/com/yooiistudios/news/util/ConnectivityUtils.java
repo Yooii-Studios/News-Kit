@@ -15,8 +15,14 @@ public class ConnectivityUtils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo();
     }
+
     public static boolean isWifiAvailable(Context context) {
         NetworkInfo info = ConnectivityUtils.getNetworkInfo(context);
         return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        NetworkInfo info = ConnectivityUtils.getNetworkInfo(context);
+        return (info != null && info.isConnected());
     }
 }
