@@ -46,15 +46,14 @@
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
-            android:label="@string/title_activity_news"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/NewsDetailActivityTheme" />
         <activity
             android:name=".ui.activity.NewsSelectActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
-            android:label="@string/title_activity_news"
+            android:label="@string/select_news_select_newsfeed_dialog_title"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/BaseAppTheme" />
+            android:theme="@style/NewsSelectTheme" />
         <activity
             android:name=".ui.activity.SettingActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"

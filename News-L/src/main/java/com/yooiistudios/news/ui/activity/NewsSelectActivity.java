@@ -5,8 +5,11 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,12 +31,13 @@ import com.yooiistudios.news.util.AnalyticsUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class NewsSelectActivity extends Activity
+public class NewsSelectActivity extends ActionBarActivity
         implements CustomNewsFeedDialogFragment.OnClickListener {
     private static final String TAG = NewsSelectActivity.class.getName();
 
-    @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
+    @InjectView(R.id.news_select_toolbar)           Toolbar mToolbar;
     @InjectView(R.id.news_select_sliding_tabs)      SlidingTabLayout mSlidingTabLayout;
+    @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
     @InjectView(R.id.news_select_adView)            AdView mAdView;
 
     @Override
@@ -49,8 +53,30 @@ public class NewsSelectActivity extends Activity
 
         mSlidingTabLayout.setViewPager(mViewPager);
 
+        initToolbar();
+        initSlidingTab();
         initAdView();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initToolbar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_sliding_tab_elevation));
+        }
+        mToolbar.bringToFront();
+        setSupportActionBar(mToolbar);
+        // sans-serif-medium, 20sp
+        mToolbar.setTitleTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Title);
+    }
+
+    private void initSlidingTab() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mSlidingTabLayout.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_sliding_tab_elevation));
+        }
+        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.news_select_color_primary));
     }
 
     private void initAdView() {

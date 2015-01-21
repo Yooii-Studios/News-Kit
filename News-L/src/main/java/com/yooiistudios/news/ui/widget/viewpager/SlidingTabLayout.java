@@ -17,7 +17,6 @@
 package com.yooiistudios.news.ui.widget.viewpager;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -26,8 +25,12 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+
+import com.yooiistudios.news.R;
+import com.yooiistudios.news.util.FontUtils;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -66,8 +69,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     private static final int TITLE_OFFSET_DIPS = 24;
-    private static final int TAB_VIEW_PADDING_DIPS = 16;
-    private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
+    private static final int TAB_VIEW_PADDING_DIPS = 12;
+//    private static final int TAB_VIEW_TEXT_SIZE_SP = 14;
 
     private int mTitleOffset;
 
@@ -169,10 +172,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
      * {@link #setCustomTabView(int, int)}.
      */
     protected TextView createDefaultTabView(Context context) {
+        // 탭 높이는 48dp로 고정
         TextView textView = new TextView(context);
+        textView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                getResources().getDimensionPixelSize(R.dimen.news_select_sliding_tab_height)));
         textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
-        textView.setTypeface(Typeface.DEFAULT_BOLD);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // If we're running on Honeycomb or newer, then we can use the Theme's
@@ -183,13 +188,14 @@ public class SlidingTabLayout extends HorizontalScrollView {
             textView.setBackgroundResource(outValue.resourceId);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
-            textView.setAllCaps(true);
-        }
+        // TextAppearance_Body2 -> sans-serif-medium, 14sp
+        // 이후 크기와 색만큼은 변경
+        textView.setTextAppearance(getContext(), R.style.Base_TextAppearance_AppCompat_Body2);
+        textView.setTypeface(FontUtils.getMediumTypeface(getContext())); // 모든 API, 언어에 적용하기 위해 강제로 설정
+        textView.setTextColor(getResources().getColor(R.color.news_select_disabled_text_color)); // black with opacity 54%
 
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-        textView.setPadding(padding, padding, padding, padding);
+        textView.setPadding(padding, 0, padding, 0);
 
         return textView;
     }
@@ -211,13 +217,19 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
             if (tabView == null) {
                 tabView = createDefaultTabView(getContext());
+                // 최초 추가 시 텍스트 색을 선택됨으로 강제 변경
+                if (i == 0) {
+                    ((TextView) tabView).setTextColor(getResources().getColor(R.color.news_select_color_accent));
+                }
             }
 
             if (tabTitleView == null && TextView.class.isInstance(tabView)) {
                 tabTitleView = (TextView) tabView;
             }
 
-            tabTitleView.setText(adapter.getPageTitle(i));
+            if (tabTitleView != null) {
+                tabTitleView.setText(adapter.getPageTitle(i));
+            }
             tabView.setOnClickListener(tabClickListener);
 
             mTabStrip.addView(tabView);
@@ -230,6 +242,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         if (mViewPager != null) {
             scrollToTab(mViewPager.getCurrentItem(), 0);
+            applyTitleTextColor(mViewPager.getCurrentItem());
         }
     }
 
@@ -290,13 +303,28 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
                 mTabStrip.onViewPagerPageChanged(position, 0f);
                 scrollToTab(position, 0);
+            } else {
+                // apply colors
+                applyTitleTextColor(position);
             }
 
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
             }
         }
+    }
 
+    private void applyTitleTextColor(int currentIndex) {
+        for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+            View view = mTabStrip.getChildAt(i);
+            if (view instanceof TextView) {
+                if (currentIndex == i) {
+                    ((TextView) view).setTextColor(getResources().getColor(R.color.news_select_color_accent));
+                } else {
+                    ((TextView) view).setTextColor(getResources().getColor(R.color.news_select_disabled_text_color));
+                }
+            }
+        }
     }
 
     private class TabClickListener implements OnClickListener {
@@ -310,5 +338,4 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
         }
     }
-
 }

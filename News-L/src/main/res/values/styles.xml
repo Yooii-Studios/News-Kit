@@ -46,6 +46,24 @@
     <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
     </style>
 
+    <!-- NewsFeed Select -->
+    <style name="NewsSelectTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/news_select_color_primary</item>
+        <item name="colorPrimaryDark">@color/news_select_color_primary_dark</item>
+        <item name="colorAccent">@color/news_select_color_accent</item>
+        <item name="android:textColorPrimary">@color/news_select_text_color_primary</item>
+
+        <!-- colorControlNormal, colorControlActivated, colorControlHighlight,
+            colorButtonNormal, colorSwitchThumbNormal, colorEdgeEffect, statusBarColor and navigationBarColor -->
+
+        <item name="android:selectableItemBackground">@drawable/news_select_selectable_item_background</item>
+        <item name="selectableItemBackgroundBorderless">@drawable/news_select_selectable_item_background</item>
+    </style>
+
+    <style name="NewsSelectTheme.Tab" parent="NewsSelectTheme">
+        <item name="colorPrimary">@color/news_select_color_primary_dark</item>
+    </style>
+
     <!-- News Detail -->
     <style name="NewsDetailActivityTheme" parent="MainTheme">
         <item name="android:windowTranslucentStatus">false</item>
