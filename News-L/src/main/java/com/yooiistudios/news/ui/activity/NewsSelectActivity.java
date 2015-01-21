@@ -62,7 +62,7 @@ public class NewsSelectActivity extends ActionBarActivity
     private void initToolbar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mToolbar.setElevation(getResources()
-                    .getDimensionPixelSize(R.dimen.news_select_sliding_tab_elevation));
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
         }
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
@@ -73,7 +73,7 @@ public class NewsSelectActivity extends ActionBarActivity
     private void initSlidingTab() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mSlidingTabLayout.setElevation(getResources()
-                    .getDimensionPixelSize(R.dimen.news_select_sliding_tab_elevation));
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
         }
         mSlidingTabLayout.setViewPager(mViewPager);
         mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.news_select_color_primary));

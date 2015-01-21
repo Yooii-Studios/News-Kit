@@ -14,7 +14,8 @@
         android:minHeight="?attr/actionBarSize"
         android:background="@color/news_select_color_primary"
         android:layout_alignParentTop="true"
-        app:title="@string/select_news_select_newsfeed_dialog_title"/>
+        app:title="@string/select_news_select_newsfeed_dialog_title"
+        app:popupTheme="@style/Theme.AppCompat.Light"/>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

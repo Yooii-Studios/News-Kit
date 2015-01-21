@@ -47,7 +47,7 @@
 
     <!-- News Select -->
     <dimen name="news_select_sliding_tab_height">48dp</dimen>
-    <dimen name="news_select_sliding_tab_elevation">2dp</dimen>
+    <dimen name="news_select_elevation">2dp</dimen>
     <dimen name="news_select_sliding_tab_horizontal_margin">8dp</dimen>
 
     <dimen name="news_select_row_padding">10dp</dimen>
