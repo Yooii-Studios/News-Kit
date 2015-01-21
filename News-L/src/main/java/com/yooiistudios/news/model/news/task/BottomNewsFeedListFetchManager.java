@@ -1,6 +1,5 @@
 package com.yooiistudios.news.model.news.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -17,8 +16,6 @@ import java.util.ArrayList;
  */
 public class BottomNewsFeedListFetchManager
         implements BottomNewsFeedFetchTask.OnFetchListener {
-
-    private static final String TAG = "BottomNewsFeedListFetchManager";
     private static BottomNewsFeedListFetchManager instance;
 
     private SparseArray<BottomNewsFeedFetchTask> mBottomNewsFeedIndexToNewsFetchTaskMap;
@@ -41,37 +38,37 @@ public class BottomNewsFeedListFetchManager
     }
 
     private BottomNewsFeedListFetchManager() {
-        mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<BottomNewsFeedFetchTask>();
-        mNewsFeedToIndexPairList = new ArrayList<Pair<NewsFeed, Integer>>();
+        mBottomNewsFeedIndexToNewsFetchTaskMap = new SparseArray<>();
+        mNewsFeedToIndexPairList = new ArrayList<>();
     }
 
-    public void fetchNewsFeed(Context context, NewsFeed newsFeed, int index,
+    public void fetchNewsFeed(NewsFeed newsFeed, int index,
                               OnFetchListener listener, int taskType) {
         ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList =
-                new ArrayList<Pair<NewsFeed, Integer>>();
+                new ArrayList<>();
 
-        newsFeedToIndexPairList.add(new Pair<NewsFeed, Integer>(newsFeed, index));
+        newsFeedToIndexPairList.add(new Pair<>(newsFeed, index));
 
-        fetch(context, newsFeedToIndexPairList, listener, taskType);
+        fetch(newsFeedToIndexPairList, listener, taskType);
     }
-    public void fetchNewsFeedList(Context context, ArrayList<NewsFeed> newsFeedList,
+    public void fetchNewsFeedList(ArrayList<NewsFeed> newsFeedList,
                                   OnFetchListener listener, int taskType) {
         int count = newsFeedList.size();
         ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList =
-                new ArrayList<Pair<NewsFeed, Integer>>();
+                new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            newsFeedToIndexPairList.add(new Pair<NewsFeed, Integer>(newsFeedList.get(i), i));
+            newsFeedToIndexPairList.add(new Pair<>(newsFeedList.get(i), i));
         }
 
-        fetch(context, newsFeedToIndexPairList, listener, taskType);
+        fetch(newsFeedToIndexPairList, listener, taskType);
     }
     public void fetchNewsFeedPairList(
-            Context context, ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairList,
+            ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairList,
             OnFetchListener listener, int taskType) {
-        fetch(context, newsFeedToIndexPairList, listener, taskType);
+        fetch(newsFeedToIndexPairList, listener, taskType);
     }
 
-    private void fetch(Context context, ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairList,
+    private void fetch(ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairList,
                        OnFetchListener listener, int taskType) {
         cancelBottomNewsFetchTasks();
         mListener = listener;
@@ -113,7 +110,7 @@ public class BottomNewsFeedListFetchManager
     @Override
     public void onBottomNewsFeedFetch(NewsFeed newsFeed, int position, int taskType) {
         mBottomNewsFeedIndexToNewsFetchTaskMap.delete(position);
-        mNewsFeedToIndexPairList.add(new Pair<NewsFeed, Integer>(newsFeed, position));
+        mNewsFeedToIndexPairList.add(new Pair<>(newsFeed, position));
 
         if (mListener != null && mTaskType != BottomNewsFeedFetchTask.TASK_INVALID) {
             mListener.onBottomNewsFeedFetch(newsFeed, position ,taskType);

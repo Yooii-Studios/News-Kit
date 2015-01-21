@@ -114,7 +114,7 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
                     ObjectAnimator.ofFloat(mIndicatorView, "translationX", transitionX);
             translationAnim.setDuration(ANIMATION_DURATION);
             translationAnim.setInterpolator(
-                    AnimationFactory.makeDefaultReversePathInterpolator(getContext()));
+                    AnimationFactory.makeDefaultReversePathInterpolator());
             translationAnim.start();
         }
     }

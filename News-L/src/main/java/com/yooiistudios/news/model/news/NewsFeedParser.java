@@ -6,7 +6,6 @@ import org.xml.sax.XMLReader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -18,9 +17,9 @@ import javax.xml.parsers.SAXParserFactory;
  * NLNewsFeedParseHandler 클래스를 사용해 파싱 결과를 리턴하는 인터페이스 격의 클래스.
  */
 public class NewsFeedParser {
-    public static NewsFeed read(URL url) throws SAXException, IOException {
-        return read(url.openStream());
-    }
+//    public static NewsFeed read(URL url) throws SAXException, IOException {
+//        return read(url.openStream());
+//    }
 
     public static NewsFeed read(InputStream stream) throws SAXException, IOException {
         try {

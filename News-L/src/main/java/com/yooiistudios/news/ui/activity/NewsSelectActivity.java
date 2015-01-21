@@ -44,7 +44,7 @@ public class NewsSelectActivity extends Activity
 
         Context context = getApplicationContext();
 
-        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), context));
+        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
 //        mViewPager.setOnPageChangeListener(mSimpleOnPageChangeListener);
 
         mSlidingTabLayout.setViewPager(mViewPager);

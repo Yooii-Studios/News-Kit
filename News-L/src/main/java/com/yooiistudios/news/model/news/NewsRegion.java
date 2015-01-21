@@ -20,6 +20,6 @@ public class NewsRegion {
     @Getter ArrayList<NewsProvider> newsProviders;
 
     NewsRegion() {
-        newsProviders = new ArrayList<NewsProvider>();
+        newsProviders = new ArrayList<>();
     }
 }

@@ -2,7 +2,6 @@ package com.yooiistudios.news.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.yooiistudios.news.model.news.NewsProviderLangType;
@@ -17,9 +16,8 @@ import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
 //    private Context mContext;
 
-    public NewsSelectPagerAdapter(FragmentManager fm, Context context) {
+    public NewsSelectPagerAdapter(FragmentManager fm) {
         super(fm);
-//        mContext = context;
     }
 
     @Override

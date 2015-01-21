@@ -65,6 +65,13 @@ public class BackgroundCacheUtils implements
             return;
         }
 
+        if (BackgroundServiceUtils.DEBUG) {
+            if (mOnCacheDoneListener != null) {
+                mOnCacheDoneListener.onDone();
+            }
+            return;
+        }
+
 //        long recentRefreshMillisec = NewsFeedArchiveUtils.getRecentRefreshMillisec(context);
 //        if (recentRefreshMillisec != NewsFeedArchiveUtils.INVALID_REFRESH_TERM
 //                &&
@@ -77,7 +84,7 @@ public class BackgroundCacheUtils implements
         mContext = context;
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
-        mTopNewsImageFetchTaskMap = new SparseArray<AsyncTask>();
+        mTopNewsImageFetchTaskMap = new SparseArray<>();
 
         // cache top news feed
         NewsFeed topNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext);
@@ -147,7 +154,7 @@ public class BackgroundCacheUtils implements
         NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
 //        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
 
-        if (newsFeed == null) {
+        if (newsFeed == null || !newsFeed.isValid()) {
             checkAllFetched();
             return;
         }
@@ -220,7 +227,7 @@ public class BackgroundCacheUtils implements
         NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
 //        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext, newsFeed, newsFeedPosition);
 
-        if (newsFeed == null) {
+        if (newsFeed == null || !newsFeed.isValid()) {
             mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
 
             checkAllFetched();

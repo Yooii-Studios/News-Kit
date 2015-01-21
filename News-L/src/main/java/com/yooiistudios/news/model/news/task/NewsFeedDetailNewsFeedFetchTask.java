@@ -3,10 +3,18 @@ package com.yooiistudios.news.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedFetchState;
 import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsTopic;
-import com.yooiistudios.news.util.RssFetchable;
+import com.yooiistudios.news.model.RssFetchable;
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -36,27 +44,36 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-//        if (true) {
-//            try {
-//                Thread.sleep(1000 * 100);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
         NewsFeedUrl newsFeedUrl = null;
         if (mFetchable instanceof NewsTopic) {
             newsFeedUrl = ((NewsTopic)mFetchable).getNewsFeedUrl();
         } else if (mFetchable instanceof NewsFeedUrl) {
             newsFeedUrl = (NewsFeedUrl) mFetchable;
         }
-        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(newsFeedUrl, FETCH_COUNT, mShuffle);
+        try {
+            NewsFeed newsFeed = NewsFeedFetchUtil.fetch(newsFeedUrl, FETCH_COUNT, mShuffle);
 
-        if (mFetchable instanceof NewsTopic) {
-            newsFeed.setTopicIdInfo(((NewsTopic)mFetchable));
+            if (mFetchable instanceof NewsTopic) {
+                newsFeed.setTopicIdInfo(((NewsTopic) mFetchable));
+            }
+
+            return newsFeed;
+        } catch(MalformedURLException | UnknownHostException e) {
+            NewsFeed newsFeed = new NewsFeed(mFetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
+
+            return newsFeed;
+        } catch(SocketTimeoutException e) {
+            NewsFeed newsFeed = new NewsFeed(mFetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
+
+            return newsFeed;
+        } catch(IOException | SAXException e) {
+            NewsFeed newsFeed = new NewsFeed(mFetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
+
+            return newsFeed;
         }
-
-        return newsFeed;
     }
 
     @Override

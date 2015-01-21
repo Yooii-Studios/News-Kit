@@ -9,7 +9,7 @@ import com.yooiistudios.news.model.news.util.NewsFeedImageUrlFetchUtil;
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
  *
  * NLNewsImageUrlFetchTask
- *  뉴스의 이미지 url을 뽑아내는 태스크
+ *  뉴스의 이미지 url 을 뽑아내는 태스크
  */
 public class TopFeedNewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
 

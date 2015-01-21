@@ -28,7 +28,7 @@ import java.util.Collection;
 public class AnimatorPath {
     
     // The points in the path
-    ArrayList<PathPoint> mPoints = new ArrayList<PathPoint>();
+    ArrayList<PathPoint> mPoints = new ArrayList<>();
 
 
     /**

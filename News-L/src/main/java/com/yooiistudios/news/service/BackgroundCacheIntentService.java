@@ -6,7 +6,6 @@ import android.content.Intent;
 import com.yooiistudios.news.model.BackgroundCacheUtils;
 import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.util.ConnectivityUtils;
-import com.yooiistudios.news.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong on in ServiceWithTaskTest from Yooii Studios Co., LTD. on 14. 11. 6.
@@ -14,7 +13,8 @@ import com.yooiistudios.news.util.NLLog;
  * BackgroundCacheIntentService
  *  롤리팝 이전 버전용 백그라운드 캐시 서비스
  */
-public class BackgroundCacheIntentService extends IntentService {
+public class BackgroundCacheIntentService extends IntentService
+        implements BackgroundCacheUtils.OnCacheDoneListener {
 
     private static final String NAME = "TaskIntentService";
 
@@ -34,11 +34,19 @@ public class BackgroundCacheIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         // intent.getExtras().getString("url")
         if (!ConnectivityUtils.isWifiAvailable(getApplicationContext())) {
+            BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Wifi unavailable.");
             return;
         }
-        int uniqueKey = intent.getExtras().getInt(BackgroundServiceUtils.KEY_CACHE_TIME_ID);
-        BackgroundServiceUtils.CACHE_TIME cacheTime = BackgroundServiceUtils.CACHE_TIME.getByUniqueKey(uniqueKey);
-        NLLog.i("BackgroundServiceUtils", "onHandleIntent : " + cacheTime.name());
-        BackgroundCacheUtils.getInstance().cache(getApplicationContext());
+        BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Start caching.");
+        BackgroundCacheUtils.getInstance().cache(getApplicationContext(), this);
+
+//        int uniqueKey = intent.getExtras().getInt(BackgroundServiceUtils.KEY_CACHE_TIME_ID);
+//        BackgroundServiceUtils.CacheTime cacheTime = BackgroundServiceUtils.CacheTime.getByUniqueKey(uniqueKey);
+//        NLLog.i("BackgroundServiceUtils", "onHandleIntent : " + cacheTime.name());
+    }
+
+    @Override
+    public void onDone() {
+        BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Cache done.");
     }
 }

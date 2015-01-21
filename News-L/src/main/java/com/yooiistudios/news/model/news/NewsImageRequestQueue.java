@@ -9,7 +9,7 @@ import com.android.volley.toolbox.Volley;
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 19.
  *
  * NewsImageRequestQueue
- *  Volley의 이미지 리퀘스트 인스턴스를 가짐
+ *  Volley 의 이미지 리퀘스트 인스턴스를 가짐
  */
 public class NewsImageRequestQueue {
 

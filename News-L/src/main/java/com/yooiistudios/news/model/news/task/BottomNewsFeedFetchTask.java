@@ -3,7 +3,15 @@ package com.yooiistudios.news.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedFetchState;
 import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -11,8 +19,7 @@ import com.yooiistudios.news.model.news.util.NewsFeedFetchUtil;
  * NLBottomNewsFeedFetchTask
  *  메인 화면 하단 뉴스피드 로딩을 담당
  **/
-public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
-        NewsFeed> {
+public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     private NewsFeed mNewsFeed;
     private OnFetchListener mListener;
@@ -46,19 +53,27 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void,
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(mNewsFeed.getNewsFeedUrl(), 10, mShuffle);
-        if (newsFeed != null) {
+        try {
+            NewsFeed newsFeed = NewsFeedFetchUtil.fetch(mNewsFeed.getNewsFeedUrl(), 10, mShuffle);
             newsFeed.setTopicIdInfo(mNewsFeed);
+
+            return newsFeed;
+        } catch(MalformedURLException | UnknownHostException e) {
+            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
+        } catch(SocketTimeoutException e) {
+            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
+        } catch(IOException | SAXException e) {
+            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
         }
 
-        return newsFeed;
+        return null;
     }
 
     @Override
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            mListener.onBottomNewsFeedFetch(newsFeed, mPosition, mTaskType);
+            mListener.onBottomNewsFeedFetch(newsFeed != null ? newsFeed : mNewsFeed, mPosition, mTaskType);
         }
     }
 }

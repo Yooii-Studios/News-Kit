@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-// 윤승용 제작. 김우성 감수 (특정 날짜를 지정해놓고 메인 액티비티의 onCreate에서 사용하면 날짜에 따라 알아서 죽음)
+// 윤승용 제작. 김우성 감수 (특정 날짜를 지정해놓고 메인 액티비티의 onCreate 에서 사용하면 날짜에 따라 알아서 죽음)
 public class AppValidationChecker {
     private static final int VALIDATE_YEAR = 2014;
     private static final int VALIDATE_MONTH = Calendar.DECEMBER;

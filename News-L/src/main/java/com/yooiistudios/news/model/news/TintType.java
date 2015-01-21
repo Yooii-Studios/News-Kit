@@ -8,6 +8,6 @@ package com.yooiistudios.news.model.news;
  */
 public enum TintType {
     DUMMY,
-    GRAYSCALE,
+    GRAY_SCALE,
     PALETTE
 }

@@ -21,24 +21,21 @@ import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
+import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 19.
  *
  * MainBottomAdapter
- *  메인 화면 하단 뉴스피드 리스트의 RecyclerView에 쓰일 어뎁터
+ *  메인 화면 하단 뉴스피드 리스트의 RecyclerView 에 쓰일 어뎁터
  */
 public class MainBottomAdapter extends
         RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
-    private static final String TAG = MainBottomAdapter.class.getName();
-    private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
@@ -50,7 +47,7 @@ public class MainBottomAdapter extends
 
     public MainBottomAdapter(Context context, OnItemClickListener listener) {
         mContext = context;
-        mNewsFeedList = new ArrayList<NewsFeed>();
+        mNewsFeedList = new ArrayList<>();
         mOnItemClickListener = listener;
     }
 
@@ -77,9 +74,9 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
         imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
 
-        if (newsFeed == null || newsFeed.getNewsList().size() == 0) {
+        if (newsFeed == null || !newsFeed.isValid()) {
             newsFeedTitleView.setText("");
-            titleView.setText("");
+            titleView.setText(newsFeed != null ? newsFeed.getFetchStateMessage(mContext) : "");
             viewHolder.progressBar.setVisibility(View.INVISIBLE);
             showDummyImage(viewHolder);
             return;
@@ -153,7 +150,7 @@ public class MainBottomAdapter extends
                 final Bitmap bitmap = response.getBitmap();
 
                 if (bitmap == null && isImmediate) {
-                    // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                    // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
 //                    viewHolder.progressBar.setVisibility(View.GONE);
                     return;
                 }
@@ -181,11 +178,11 @@ public class MainBottomAdapter extends
                         viewHolder.imageView.setTag(TintType.PALETTE);
                     } else {
                         viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
-                        viewHolder.imageView.setTag(TintType.GRAYSCALE);
+                        viewHolder.imageView.setTag(TintType.GRAY_SCALE);
                     }
                 } else {
                     if (!displayingNews.isImageUrlChecked()) {
-                        // 뉴스의 이미지 url이 있는지 체크가 안된 경우는 아직 기다려야 함.
+                        // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
                         showLoading(viewHolder);
                     } else {
                         showDummyImage(viewHolder);
@@ -277,11 +274,11 @@ public class MainBottomAdapter extends
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
 
-    public void addNewsFeedList(List<NewsFeed> newsFeedListToAdd) {
-        int notifyStartIdx = mNewsFeedList.size();
-        mNewsFeedList.addAll(newsFeedListToAdd);
-        notifyItemRangeInserted(notifyStartIdx, newsFeedListToAdd.size());
-    }
+//    public void addNewsFeedList(List<NewsFeed> newsFeedListToAdd) {
+//        int notifyStartIdx = mNewsFeedList.size();
+//        mNewsFeedList.addAll(newsFeedListToAdd);
+//        notifyItemRangeInserted(notifyStartIdx, newsFeedListToAdd.size());
+//    }
 
     public void replaceNewsFeedAt(int idx, NewsFeed newsFeed) {
         if (idx < mNewsFeedList.size()) {

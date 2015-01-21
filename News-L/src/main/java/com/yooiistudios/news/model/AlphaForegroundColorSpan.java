@@ -1,6 +1,7 @@
 package com.yooiistudios.news.model;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 
@@ -19,8 +20,8 @@ public class AlphaForegroundColorSpan extends ForegroundColorSpan {
     }
 
     @Override
-    public void updateDrawState(TextPaint ds) {
-        ds.setColor(getAlphaColor());
+    public void updateDrawState(@NonNull TextPaint drawState) {
+        drawState.setColor(getAlphaColor());
     }
 
     public void setAlpha(float alpha) {

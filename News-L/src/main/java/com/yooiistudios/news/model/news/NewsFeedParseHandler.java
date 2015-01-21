@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 16.
  *
  * NLNewsFeedParseHandler
- *  xml 형태의 rss를 파싱하는 클래스
+ *  xml 형태의 rss 를 파싱하는 클래스
  */
 public class NewsFeedParseHandler extends DefaultHandler {
     private NewsFeed rssFeed;
@@ -50,8 +50,6 @@ public class NewsFeedParseHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) {
 
         if (rssFeed != null && rssItem == null) {
-            // Parse feed properties
-
             try {
                 if (qName != null && qName.length() > 0) {
                     String methodName = "set" + qName.substring(0, 1).toUpperCase() + qName.substring(1);
@@ -59,21 +57,11 @@ public class NewsFeedParseHandler extends DefaultHandler {
                             (methodName, String.class);
                     method.invoke(rssFeed, stringBuilder.toString());
                 }
-            } catch (SecurityException e) {
-//                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-//                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         } else if (rssItem != null) {
-            // Parse item properties
-
             try {
                 if (qName.equals("content:encoded"))
                     qName = "content";
@@ -81,16 +69,8 @@ public class NewsFeedParseHandler extends DefaultHandler {
                 Method method = ((Object)rssItem).getClass().getMethod
                         (methodName, String.class);
                 method.invoke(rssItem, stringBuilder.toString());
-            } catch (SecurityException e) {
-//                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-//                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

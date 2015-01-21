@@ -24,18 +24,14 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     private SparseArray<MainNewsFeedFragment> mFragmentSparseArray;
     private NewsFeed mNewsFeed;
 
-    private OnItemClickListener mOnItemClickListener;
-
     public interface OnItemClickListener extends Serializable {
         public void onTopItemClick(MainNewsFeedFragment.ItemViewHolder viewHolder,
                                    NewsFeed newsFeed, int position);
     }
 
-    public MainTopPagerAdapter(FragmentManager fm, OnItemClickListener listener) {
+    public MainTopPagerAdapter(FragmentManager fm) {
         super(fm);
-        mFragmentSparseArray = new SparseArray<MainNewsFeedFragment>();
-
-        mOnItemClickListener = listener;
+        mFragmentSparseArray = new SparseArray<>();
     }
 
     @Override
