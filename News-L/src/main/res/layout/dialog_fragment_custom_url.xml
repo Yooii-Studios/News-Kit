@@ -14,7 +14,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
     <EditText
-        android:id="@+id/news_select_custom_url_edit_text"
+        android:id="@+id/custom_rss_dialog_url_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:longClickable="false"
@@ -26,5 +26,21 @@
         android:textSize="@dimen/custom_news_feed_dialog_edit_text_size"
         android:textColor="@android:color/black"
         android:textAppearance="@style/Base.TextAppearance.AppCompat"/>
+
+    <!--
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/custom_rss_dialog_clear_btn"
+            android:layout_width="@dimen/custom_news_feed_dialog_clear_btn_size"
+            android:layout_height="@dimen/custom_news_feed_dialog_clear_btn_size"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/base_margin_small"
+            android:layout_marginRight="@dimen/base_margin_half"
+            android:background="@drawable/ic_action_cancel"/>
+    </RelativeLayout>
+    -->
 
 </LinearLayout>

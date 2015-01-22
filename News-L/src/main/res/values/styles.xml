@@ -47,7 +47,7 @@
     </style>
 
     <!-- NewsFeed Select -->
-    <style name="NewsSelectTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="NewsSelectTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/news_select_color_primary</item>
         <item name="colorPrimaryDark">@color/news_select_color_primary_dark</item>
         <item name="colorAccent">@color/news_select_color_accent</item>

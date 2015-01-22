@@ -118,7 +118,7 @@ public class CustomRssDialogFragment extends DialogFragment {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         EditText urlEditText =
-                                (EditText) dialog.getCustomView().findViewById(R.id.news_select_custom_url_edit_text);
+                                (EditText) dialog.getCustomView().findViewById(R.id.custom_rss_dialog_url_edit);
                         String url = urlEditText.getText()
                                 .toString().replaceAll("\\s+", "");
 
@@ -137,7 +137,7 @@ public class CustomRssDialogFragment extends DialogFragment {
 
         final View positiveAction = materialDialog.getActionButton(DialogAction.POSITIVE);
         final EditText urlEditText =
-                (EditText) materialDialog.getCustomView().findViewById(R.id.news_select_custom_url_edit_text);
+                (EditText) materialDialog.getCustomView().findViewById(R.id.custom_rss_dialog_url_edit);
         urlEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
