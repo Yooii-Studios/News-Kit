@@ -1233,6 +1233,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             case R.id.action_replace_newsfeed:
                 startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
                         REQ_SELECT_NEWS_FEED);
+                // 교체화면으로 가면 무조건 자동스크롤은 멈춰주기 - 교체하고 돌아올 경우 꼬인다
+                stopAutoScroll();
                 return true;
 
             case R.id.action_auto_scroll:
