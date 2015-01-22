@@ -30,7 +30,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.util.FontUtils;
+import com.yooiistudios.news.util.TypefaceUtils;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -191,7 +191,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         // TextAppearance_Body2 -> sans-serif-medium, 14sp
         // 이후 크기와 색만큼은 변경
         textView.setTextAppearance(getContext(), R.style.Base_TextAppearance_AppCompat_Body2);
-        textView.setTypeface(FontUtils.getMediumTypeface(getContext())); // 모든 API, 언어에 적용하기 위해 강제로 설정
+        textView.setTypeface(TypefaceUtils.getMediumTypeface(getContext())); // 모든 API, 언어에 적용하기 위해 강제로 설정
         textView.setTextColor(getResources().getColor(R.color.news_select_disabled_text_color)); // black with opacity 54%
 
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);

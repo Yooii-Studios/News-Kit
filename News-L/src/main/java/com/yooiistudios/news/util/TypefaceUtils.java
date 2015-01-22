@@ -6,23 +6,23 @@ import android.graphics.Typeface;
 /**
  * Created by Wooseong Kim in News L from Yooii Studios Co., LTD. on 15. 1. 21.
  *
- * FontUtils
+ * TypefaceUtils
  *  폰트들을 싱글톤으로 관리
  */
-public class FontUtils {
+public class TypefaceUtils {
     Typeface mNotoSansMediumTypeface;
     Typeface mNotoSansRegularTypeface;
 
     /**
      * SingletonClass
      */
-    private volatile static FontUtils instance;
-    private FontUtils() {}
-    private static FontUtils getInstance() {
+    private volatile static TypefaceUtils instance;
+    private TypefaceUtils() {}
+    private static TypefaceUtils getInstance() {
         if (instance == null) {
-            synchronized (FontUtils.class) {
+            synchronized (TypefaceUtils.class) {
                 if (instance == null) {
-                    instance = new FontUtils();
+                    instance = new TypefaceUtils();
                 }
             }
         }

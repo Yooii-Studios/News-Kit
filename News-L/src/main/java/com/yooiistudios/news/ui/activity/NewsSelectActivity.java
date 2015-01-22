@@ -23,7 +23,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
-import com.yooiistudios.news.ui.fragment.CustomNewsFeedDialogFragment;
+import com.yooiistudios.news.ui.fragment.CustomRssDialogFragment;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.widget.viewpager.SlidingTabLayout;
 import com.yooiistudios.news.util.AnalyticsUtils;
@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewsSelectActivity extends ActionBarActivity
-        implements CustomNewsFeedDialogFragment.OnClickListener {
+        implements CustomRssDialogFragment.OnActionListener {
     private static final String TAG = NewsSelectActivity.class.getName();
 
     @InjectView(R.id.news_select_toolbar)           Toolbar mToolbar;
@@ -114,25 +114,18 @@ public class NewsSelectActivity extends ActionBarActivity
                 ft.addToBackStack(null);
 
                 // Create and show the dialog.
-                DialogFragment newFragment = CustomNewsFeedDialogFragment.newInstance();
+                DialogFragment newFragment = CustomRssDialogFragment.newInstance();
                 newFragment.show(ft, "dialog");
-
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onConfirm(NewsFeedUrl feedUrl) {
+    public void onPositive(NewsFeedUrl feedUrl) {
         getIntent().putExtra(NewsSelectFragment.KEY_CUSTOM_RSS_URL, feedUrl);
         setResult(Activity.RESULT_OK, getIntent());
         finish();
-    }
-
-    @Override
-    public void onCancel() {
-
     }
 
     @Override
