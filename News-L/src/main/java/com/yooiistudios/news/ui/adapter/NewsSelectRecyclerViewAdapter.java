@@ -26,10 +26,10 @@ public class NewsSelectRecyclerViewAdapter extends
         RecyclerView.Adapter<NewsSelectRecyclerViewAdapter.NewsSelectViewHolder> {
 
     private ArrayList<NewsProvider> mNewsProviderList;
-    private OnNewsProviderClickListener mOnNewsProviderClickListener;
+    private OnSelectionListener mListener;
 
-    public interface OnNewsProviderClickListener {
-        public void onNewsProviderClick(NewsProvider newsProvider);
+    public interface OnSelectionListener {
+        public void onSelectNewsProvider(NewsProvider newsProvider);
     }
 
     public NewsSelectRecyclerViewAdapter(ArrayList<NewsProvider> presetList) {
@@ -53,7 +53,7 @@ public class NewsSelectRecyclerViewAdapter extends
         newsSelectViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnNewsProviderClickListener.onNewsProviderClick(newsProvider);
+                mListener.onSelectNewsProvider(newsProvider);
             }
         });
     }
@@ -78,7 +78,7 @@ public class NewsSelectRecyclerViewAdapter extends
         }
     }
 
-    public void setOnNewsProviderClickListener(OnNewsProviderClickListener onNewsProviderClickListener) {
-        mOnNewsProviderClickListener = onNewsProviderClickListener;
+    public void setOnNewsProviderClickListener(OnSelectionListener onNewsProviderClickListener) {
+        mListener = onNewsProviderClickListener;
     }
 }

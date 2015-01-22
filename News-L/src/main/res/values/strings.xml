@@ -75,7 +75,7 @@
     <string name="store_more_panel_description">Use 4 to 8 bottom news panels</string>
     <string name="store_topic_select_title">Topic select</string>
     <string name="store_topic_select_description">You can select detail category of the news</string>
-    <string name="store_custom_rss_feed_title">Custom RSS url</string>
+    <string name="store_custom_rss_feed_title">Custom Rss Url</string>
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
 
     <!-- Info -->
