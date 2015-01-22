@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -45,8 +44,6 @@ public class NewsSelectActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_select);
         ButterKnife.inject(this);
-
-        Context context = getApplicationContext();
 
         mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
 //        mViewPager.setOnPageChangeListener(mSimpleOnPageChangeListener);

@@ -37,78 +37,6 @@ public class CustomRssDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        /*
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        @SuppressLint("InflateParams")
-        View root = inflater.inflate(R.layout.dialog_fragment_custom_news_feed, null, false);
-        mFeedUrlEditText = (AutoCompleteTextView)root.findViewById(R.id.urlEditText);
-
-        // config adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line,
-                NewsFeedUtils.getUrlHistory(getActivity()));
-        mFeedUrlEditText.setAdapter(adapter);
-
-        View clearButton = root.findViewById(R.id.clear);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFeedUrlEditText.setText("");
-            }
-        });
-        clearButton.bringToFront();
-
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.Base_Theme_AppCompat_Light_Dialog)
-                .setTitle(R.string.custom_news_feed_dialog_title)
-                .setView(root)
-                .setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Activity activity = getActivity();
-                                if (activity != null && activity instanceof OnClickListener) {
-                                    String url = mFeedUrlEditText.getText()
-                                            .toString().replaceAll("\\s+","");
-
-                                    // add "http://" if it's not entered.
-                                    if (!url.toLowerCase().matches("^\\w+://.*")) {
-                                        // "http://" 안붙은 url 도 저장
-                                        NewsFeedUtils.addUrlToHistory(getActivity(), url);
-
-                                        url = "http://" + url;
-                                    }
-                                    NewsFeedUtils.addUrlToHistory(getActivity(), url);
-
-                                    ((OnClickListener) activity).onConfirm(
-                                            new NewsFeedUrl(url, NewsFeedUrlType.CUSTOM)
-                                    );
-                                }
-                            }
-                        }
-                )
-                .setNegativeButton(R.string.cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Activity activity = getActivity();
-                                if (activity != null && activity instanceof OnClickListener) {
-                                    ((OnClickListener) activity).onCancel();
-                                }
-                            }
-                        }
-                ).create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                mFeedUrlEditText.requestFocus();
-                mFeedUrlEditText.setSelection(mFeedUrlEditText.length());
-                InputMethodManager imm =
-                        (InputMethodManager)getActivity().getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(mFeedUrlEditText, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-        */
-
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.custom_news_feed_dialog_title)
                 .customView(R.layout.dialog_fragment_custom_url, true)
@@ -136,12 +64,13 @@ public class CustomRssDialogFragment extends DialogFragment {
         materialDialog.setCanceledOnTouchOutside(false);
 
         final View positiveAction = materialDialog.getActionButton(DialogAction.POSITIVE);
+        positiveAction.setEnabled(false); // disabled by default
+
         final EditText urlEditText =
                 (EditText) materialDialog.getCustomView().findViewById(R.id.custom_rss_dialog_url_edit);
         urlEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -149,9 +78,9 @@ public class CustomRssDialogFragment extends DialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
+
         materialDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -162,8 +91,6 @@ public class CustomRssDialogFragment extends DialogFragment {
                 imm.showSoftInput(urlEditText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
-        positiveAction.setEnabled(false); // disabled by default
-
         return materialDialog;
     }
 
