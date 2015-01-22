@@ -154,7 +154,7 @@ public class BackgroundCacheUtils implements
         NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
 //        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
 
-        if (newsFeed == null || !newsFeed.isValid()) {
+        if (newsFeed == null || !newsFeed.containsNews()) {
             checkAllFetched();
             return;
         }
@@ -227,7 +227,7 @@ public class BackgroundCacheUtils implements
         NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
 //        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext, newsFeed, newsFeedPosition);
 
-        if (newsFeed == null || !newsFeed.isValid()) {
+        if (newsFeed == null || !newsFeed.containsNews()) {
             mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
 
             checkAllFetched();

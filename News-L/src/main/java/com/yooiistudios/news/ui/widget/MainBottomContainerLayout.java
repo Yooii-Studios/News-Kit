@@ -237,7 +237,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-        if (newsFeed == null || !newsFeed.isValid()) {
+        if (newsFeed == null || !newsFeed.containsNews()) {
             return;
         }
 
@@ -326,7 +326,7 @@ public class MainBottomContainerLayout extends FrameLayout
             int count = list.size();
             for (int i = 0; i < count; i++) {
                 NewsFeed newsFeed = list.get(i);
-                if (newsFeed != null && !newsFeed.isValid()) {
+                if (newsFeed != null && !newsFeed.containsNews()) {
                     isValid = false;
                     newsFeedListToFetch.add(new Pair<>(newsFeed, i));
                 }
@@ -374,7 +374,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 NewsFeed newsFeed = savedNewsFeedList.get(idx);
                 mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
 
-                if (!newsFeed.isValid()) {
+                if (!newsFeed.containsNews()) {
                     newsFeedToIndexPairListToFetch.add(new Pair<>(newsFeed, idx));
                 }
             }
@@ -477,7 +477,7 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
 
         mIsReplacingBottomNewsFeed = true;
-        if (newsFeed.isValid()) {
+        if (newsFeed.containsNews()) {
             BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
                     mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
             );

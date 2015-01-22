@@ -24,7 +24,6 @@ public class NewsFeed implements Parcelable {
     private String mLanguage;
     private ArrayList<News> mNewsList;
     private NewsFeedFetchState mNewsFeedFetchState;
-    private boolean mIsValid;
     private int mDisplayingNewsIndex;
 
     // topic id
@@ -35,7 +34,6 @@ public class NewsFeed implements Parcelable {
 
     public NewsFeed() {
         mNewsList = new ArrayList<>();
-        mIsValid = false;
         mDisplayingNewsIndex = 0;
         mNewsFeedFetchState = NewsFeedFetchState.NOT_FETCHED_YET;
     }
@@ -48,7 +46,6 @@ public class NewsFeed implements Parcelable {
         mDescription = source.readString();
         mLanguage = source.readString();
         source.readTypedList(mNewsList, News.CREATOR);
-        mIsValid = source.readInt() == 1;
 
         mTopicLanguageCode = source.readString();
         mTopicRegionCode = source.readString();
@@ -82,7 +79,6 @@ public class NewsFeed implements Parcelable {
         dest.writeString(mDescription);
         dest.writeString(mLanguage);
         dest.writeTypedList(mNewsList);
-        dest.writeInt(mIsValid ? 1 : 0);
         dest.writeString(mTopicLanguageCode);
         dest.writeString(mTopicRegionCode);
         dest.writeInt(mTopicProviderId);
@@ -148,12 +144,8 @@ public class NewsFeed implements Parcelable {
         return mNewsList;
     }
 
-    public void setValid(boolean isValid) {
-        mIsValid = isValid;
-    }
-
-    public boolean isValid() {
-        return mIsValid;
+    public boolean containsNews() {
+        return getNewsList().size() > 0;
     }
 
     public void addNews(News news) {
@@ -210,6 +202,10 @@ public class NewsFeed implements Parcelable {
 
     public void setNewsFeedFetchState(NewsFeedFetchState newsFeedFetchState) {
         mNewsFeedFetchState = newsFeedFetchState;
+    }
+
+    public NewsFeedFetchState getNewsFeedFetchState() {
+        return mNewsFeedFetchState;
     }
 
     public int getNextNewsIndex() {

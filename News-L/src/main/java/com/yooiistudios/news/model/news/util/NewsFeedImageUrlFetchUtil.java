@@ -24,7 +24,7 @@ public class NewsFeedImageUrlFetchUtil {
             originalLinkSource = NewsFeedUtils.requestHttpGet_(news.getLink());
 
         } catch(Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         String imgUrl = null;

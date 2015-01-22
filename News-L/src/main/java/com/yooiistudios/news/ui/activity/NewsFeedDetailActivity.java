@@ -1611,6 +1611,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     public void onNewsFeedFetchSuccess(NewsFeed newsFeed) {
         mNewsFeed = newsFeed;
 
+        getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
+        setResult(RESULT_OK, getIntent());
+
         // cache
         archiveNewsFeed(newsFeed);
 
@@ -1635,7 +1638,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         news.setImageUrl(url);
         news.setImageUrlChecked(true);
 
-        // 아카이빙을 위해 임시로 top news를 news feed에 추가.
+        // 아카이빙을 위해 임시로 top news 를 news feed 에 추가.
         mNewsFeed.addNewsAt(0, news);
         archiveNewsFeed(mNewsFeed);
         mNewsFeed.removeNewsAt(0);
@@ -1674,7 +1677,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void archiveNewsFeed(NewsFeed newsFeed) {
-        // 이전 intent를 사용, 상단 뉴스피드인지 하단 뉴스피드인지 구분
+        // 이전 intent 를 사용, 상단 뉴스피드인지 하단 뉴스피드인지 구분
         String newsLocation = getIntent().getExtras().getString(
                 MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
 
@@ -1717,16 +1720,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void replaceNewsFeed(RssFetchable fetchable) {
-        if (fetchable instanceof NewsTopic) {
-            archiveNewsFeed(new NewsFeed((NewsTopic)fetchable));
-        } else if (fetchable instanceof NewsFeedUrl) {
-            archiveNewsFeed(new NewsFeed((NewsFeedUrl)fetchable));
-        }
-
+//        archiveNewsFeed(new NewsFeed(fetchable));
         fetchNewsFeed(fetchable);
-
-        getIntent().putExtra(INTENT_KEY_NEWSFEED_REPLACED, true);
-        setResult(RESULT_OK, getIntent());
     }
 
     private void startAutoScroll() {

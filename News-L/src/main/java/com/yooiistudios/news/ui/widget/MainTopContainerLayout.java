@@ -157,7 +157,7 @@ public class MainTopContainerLayout extends FrameLayout
 
     public void autoRefreshTopNewsFeed() {
         NewsFeed newsFeed = mTopNewsFeedPagerAdapter.getNewsFeed();
-        if (newsFeed == null || !newsFeed.isValid()) {
+        if (newsFeed == null || !newsFeed.containsNews()) {
             // 네트워크도 없고 캐시 정보도 없는 경우
             return;
         }
@@ -191,7 +191,7 @@ public class MainTopContainerLayout extends FrameLayout
             mIsReady = false;
             fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
         } else {
-            if (mTopNewsFeedPagerAdapter.getNewsFeed().isValid()) {
+            if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
 //                notifyIfInitialized();
@@ -367,7 +367,7 @@ public class MainTopContainerLayout extends FrameLayout
         NewsFeed topNewsFeed = NewsDb.getInstance(getContext()).loadTopNewsFeed(getContext(), false);
         mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
 //        mTopNewsFeedPagerAdapter.setNewsFeed(NewsFeedArchiveUtils.loadTopNewsFeed(getContext(), false));
-        if (mTopNewsFeedPagerAdapter.getNewsFeed().isValid()) {
+        if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
             notifyNewTopNewsFeedSet();
             fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.REPLACE);
         } else {
@@ -428,7 +428,7 @@ public class MainTopContainerLayout extends FrameLayout
 //        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), newsFeed);
 
         if (taskType.equals(TopNewsFeedFetchTask.TaskType.INITIALIZE)) {
-            if (newsFeed.isValid()) {
+            if (newsFeed.containsNews()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
             } else {
@@ -441,7 +441,7 @@ public class MainTopContainerLayout extends FrameLayout
                         ? TopFeedNewsImageUrlFetchTask.TaskType.REFRESH
                         : TopFeedNewsImageUrlFetchTask.TaskType.REPLACE;
 
-            if (newsFeed.isValid()) {
+            if (newsFeed.containsNews()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(imageFetchTaskType);
             } else {
@@ -473,7 +473,7 @@ public class MainTopContainerLayout extends FrameLayout
 
     @Override
     public void onTopItemClick(MainNewsFeedFragment.ItemViewHolder viewHolder, NewsFeed newsFeed, int position) {
-        if (!newsFeed.isValid()) {
+        if (!newsFeed.containsNews()) {
             return;
         }
 

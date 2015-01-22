@@ -74,7 +74,7 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
         imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
 
-        if (newsFeed == null || !newsFeed.isValid()) {
+        if (newsFeed == null || !newsFeed.containsNews()) {
             newsFeedTitleView.setText("");
             titleView.setText(newsFeed != null ? newsFeed.getFetchStateMessage(mContext) : "");
             viewHolder.progressBar.setVisibility(View.INVISIBLE);
@@ -98,7 +98,7 @@ public class MainBottomAdapter extends
                         NewsFeed newsFeed = mNewsFeedList.get(position);
 
                         if (mOnItemClickListener != null &&
-                                newsFeed != null && newsFeed.isValid()) {
+                                newsFeed != null && newsFeed.containsNews()) {
                             mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
                         }
                     }
@@ -222,7 +222,7 @@ public class MainBottomAdapter extends
 //                    public void onClick(View view) {
 //                        NewsFeed newsFeed = mNewsFeedList.get(position);
 //
-//                        if (mOnItemClickListener != null && newsFeed.isValid()) {
+//                        if (mOnItemClickListener != null && newsFeed.containsNews()) {
 //                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
 //                        }
 //                    }

@@ -4,6 +4,7 @@ import android.text.Html;
 
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
+import com.yooiistudios.news.model.news.NewsFeedFetchState;
 import com.yooiistudios.news.model.news.NewsFeedParser;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 
@@ -39,7 +40,7 @@ public class NewsFeedFetchUtil {
         // RSS 파싱
         NewsFeed feed = NewsFeedParser.read(conn.getInputStream());
         feed.setNewsFeedUrl(feedUrl);
-        feed.setValid(feed.getNewsList().size() > 0);
+        feed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
         // 퍼포먼스 개선 여지 있음.
         // 로컬 테스트를 위한 코드
 //            feed = NLNewsFeedParser.read(mContext.getResources().getAssets().open("feeds.xml"));

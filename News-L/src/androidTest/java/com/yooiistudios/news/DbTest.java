@@ -303,7 +303,7 @@ public class DbTest extends AndroidTestCase {
         assertEquals(expectedNewsFeed.getTitle(), actualNewsFeed.getTitle());
         assertEquals(expectedNewsFeed.getNewsFeedUrl().getUrl(), actualNewsFeed.getNewsFeedUrl().getUrl());
         assertEquals(expectedNewsFeed.getNewsFeedUrl().getType(), actualNewsFeed.getNewsFeedUrl().getType());
-        assertEquals(expectedNewsFeed.isValid(), actualNewsFeed.isValid());
+        assertEquals(expectedNewsFeed.containsNews(), actualNewsFeed.containsNews());
         // MUST BE 0 when loaded.(or, should not saved.)
         assertEquals(0, actualNewsFeed.getDisplayingNewsIndex());
         assertEquals(expectedNewsFeed.getTopicRegionCode(), actualNewsFeed.getTopicRegionCode());

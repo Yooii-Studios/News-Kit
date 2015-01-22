@@ -80,7 +80,7 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            if (newsFeed != null) {
+            if (newsFeed.containsNews() && newsFeed.getNewsFeedFetchState().equals(NewsFeedFetchState.SUCCESS)) {
                 mListener.onNewsFeedFetchSuccess(newsFeed);
             } else {
                 mListener.onNewsFeedFetchFail();

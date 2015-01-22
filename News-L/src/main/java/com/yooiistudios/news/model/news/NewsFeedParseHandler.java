@@ -3,7 +3,6 @@ package com.yooiistudios.news.model.news;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -58,7 +57,7 @@ public class NewsFeedParseHandler extends DefaultHandler {
                     method.invoke(rssFeed, stringBuilder.toString());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else if (rssItem != null) {
@@ -70,7 +69,7 @@ public class NewsFeedParseHandler extends DefaultHandler {
                         (methodName, String.class);
                 method.invoke(rssItem, stringBuilder.toString());
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
 

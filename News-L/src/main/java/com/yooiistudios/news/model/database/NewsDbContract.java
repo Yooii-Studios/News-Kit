@@ -21,7 +21,7 @@ public class NewsDbContract {
         public static final String COLUMN_NAME_FEED_URL_TYPE_KEY = "news_feed_url_type_key";
         public static final String COLUMN_NAME_LINK = "link";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
-        public static final String COLUMN_NAME_IS_VALID = "is_valid";
+//        public static final String COLUMN_NAME_IS_VALID = "is_valid";
 
         public static final String COLUMN_NAME_TOPIC_REGION_CODE = "topic_region_code";
         public static final String COLUMN_NAME_TOPIC_LANGUAGE_CODE = "topic_language_code";
