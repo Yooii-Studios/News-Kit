@@ -9,11 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsProvider;
 import com.yooiistudios.news.model.news.NewsTopic;
 import com.yooiistudios.news.ui.adapter.NewsTopicSelectAdapter;
-import com.yooiistudios.news.util.TypefaceUtils;
 
 import java.util.ArrayList;
 
@@ -63,8 +61,9 @@ public class NewsTopicSelectDialogFactory {
         CharSequence[] newsTopicTitles =
                 newsTopicTitleList.toArray(new CharSequence[newsTopicTitleList.size()]);
 
+        // 추후 유료관련 토픽을 막을 경우를 생각해서 SingleChoice 를 취소하고 List 방식으로 변경
         return new MaterialDialog.Builder(context)
-                .title(R.string.store_topic_select_title)
+                .title(newsProvider.getName())
                 .items(newsTopicTitles)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
@@ -78,8 +77,6 @@ public class NewsTopicSelectDialogFactory {
 //                        listener.onSelectNewsTopic(dialog, newsProvider, which);
 //                    }
 //                })
-                .positiveText(R.string.choose)
-                .typeface(TypefaceUtils.getMediumTypeface(context), TypefaceUtils.getRegularTypeface(context))
                 .build();
     }
 
