@@ -36,7 +36,7 @@
     <color name="news_select_color_accent">#01bcd4</color>
 
     <color name="news_select_disabled_text_color">#89000000</color> <!-- opacity 54% of black color -->
-    <color name="news_select_selectable_item_background">#a0ffffff</color>
+    <color name="news_select_selectable_item_background">#aabdbdbd</color> <!-- 66% of material grey 400 -->
 
     <!-- Setting -->
     <color name="setting_locked_item_background">#c1c1c1</color>

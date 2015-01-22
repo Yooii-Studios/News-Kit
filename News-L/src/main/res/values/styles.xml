@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <declare-styleable name="BaseAppTheme">
         <attr name="actionBarIconColor" format="color" />
@@ -51,18 +51,28 @@
         <item name="colorPrimary">@color/news_select_color_primary</item>
         <item name="colorPrimaryDark">@color/news_select_color_primary_dark</item>
         <item name="colorAccent">@color/news_select_color_accent</item>
-        <item name="colorControlNormal">@android:color/black</item>
         <item name="android:textColorPrimary">@android:color/black</item>
 
+        <!--<item name="colorControlNormal">@android:color/black</item>-->
         <!-- colorControlNormal, colorControlActivated, colorControlHighlight,
             colorButtonNormal, colorSwitchThumbNormal, colorEdgeEffect, statusBarColor and navigationBarColor -->
 
+        <!-- 탭, 클릭 아이템 배경색들을 정해주기 위한 property -->
+        <item name="selectableItemBackground">@drawable/news_select_selectable_item_background</item>
         <item name="android:selectableItemBackground">@drawable/news_select_selectable_item_background</item>
-        <item name="selectableItemBackgroundBorderless">@drawable/news_select_selectable_item_background</item>
+        <!-- Cusrom Rss 버튼 Ripple 색상 변경하지만 v21에서 사각형으로 변해서 일단 주석처리 -->
+        <!--<item name="selectableItemBackgroundBorderless">@drawable/news_select_selectable_item_background</item>-->
+        <!--<item name="android:selectableItemBackgroundBorderless" tools:ignore="NewApi">@drawable/news_select_selectable_item_background</item>-->
     </style>
 
+    <!-- SlidingTabLayout 전용 -->
     <style name="NewsSelectTheme.Tab" parent="NewsSelectTheme">
+        <!-- 좌우 스크롤 잔상 색을 위한 property -->
         <item name="colorPrimary">@color/news_select_color_primary_dark</item>
+
+        <!-- 탭의 색상들을 정해주기 위한 property -->
+        <item name="selectableItemBackground">@drawable/news_select_tab_selectable_item_background</item>
+        <item name="android:selectableItemBackground">@drawable/news_select_tab_selectable_item_background</item>
     </style>
 
     <!-- News Detail -->
