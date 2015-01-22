@@ -9,6 +9,7 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -68,6 +69,7 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.AlphaForegroundColorSpan;
+import com.yooiistudios.news.model.RssFetchable;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionImageViewProperty;
@@ -99,7 +101,6 @@ import com.yooiistudios.news.ui.widget.ObservableScrollView;
 import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
-import com.yooiistudios.news.model.RssFetchable;
 import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Type;
@@ -1275,7 +1276,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                                 getNewsProvider(mNewsFeed);
 
                 if (newsProvider != null) {
-                    final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeDialog(
+                    final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeAlertDialog(
                             this, newsProvider, this);
                     alertDialog.show();
                 } else {
@@ -1656,7 +1657,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     @Override
-    public void onSelectNewsTopic(AlertDialog dialog, NewsProvider newsProvider, int position) {
+    public void onSelectNewsTopic(Dialog dialog, NewsProvider newsProvider, int position) {
         dialog.dismiss();
 
         NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);

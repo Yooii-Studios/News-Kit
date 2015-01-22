@@ -16,7 +16,6 @@
 
 package com.yooiistudios.news.ui.widget.viewpager;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -27,13 +26,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 class SlidingTabStrip extends LinearLayout {
-
-    private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 2;
+    private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 0;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
-    private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 8;
-    private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
+    private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 2;
+    private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xff01bcd4;
 
-    private static final int DEFAULT_DIVIDER_THICKNESS_DIPS = 1;
+    private static final int DEFAULT_DIVIDER_THICKNESS_DIPS = 0;
     private static final byte DEFAULT_DIVIDER_COLOR_ALPHA = 0x20;
     private static final float DEFAULT_DIVIDER_HEIGHT = 0.5f;
 
@@ -65,7 +63,7 @@ class SlidingTabStrip extends LinearLayout {
         final float density = getResources().getDisplayMetrics().density;
 
         TypedValue outValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorForeground, outValue, true);
+        context.getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
         final int themeForegroundColor =  outValue.data;
 
         mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
@@ -150,15 +148,19 @@ class SlidingTabStrip extends LinearLayout {
         }
 
         // Thin underline along the entire bottom edge
-        canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
+        if (mBottomBorderThickness != 0) {
+            canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
+        }
 
-        // Vertical separators between the titles
-        int separatorTop = (height - dividerHeightPx) / 2;
-        for (int i = 0; i < childCount - 1; i++) {
-            View child = getChildAt(i);
-            mDividerPaint.setColor(tabColorizer.getDividerColor(i));
-            canvas.drawLine(child.getRight(), separatorTop, child.getRight(),
-                    separatorTop + dividerHeightPx, mDividerPaint);
+        // Vertical separators between the titles, draw if thickness isn't 0
+        if (DEFAULT_DIVIDER_THICKNESS_DIPS != 0) {
+            int separatorTop = (height - dividerHeightPx) / 2;
+            for (int i = 0; i < childCount - 1; i++) {
+                View child = getChildAt(i);
+                mDividerPaint.setColor(tabColorizer.getDividerColor(i));
+                canvas.drawLine(child.getRight(), separatorTop, child.getRight(),
+                        separatorTop + dividerHeightPx, mDividerPaint);
+            }
         }
     }
 

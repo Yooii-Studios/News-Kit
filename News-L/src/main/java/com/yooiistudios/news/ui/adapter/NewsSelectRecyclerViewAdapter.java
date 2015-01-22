@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsProvider;
+import com.yooiistudios.news.util.TypefaceUtils;
 
 import java.util.ArrayList;
 
@@ -25,10 +26,10 @@ public class NewsSelectRecyclerViewAdapter extends
         RecyclerView.Adapter<NewsSelectRecyclerViewAdapter.NewsSelectViewHolder> {
 
     private ArrayList<NewsProvider> mNewsProviderList;
-    private OnNewsProviderClickListener mOnNewsProviderClickListener;
+    private OnSelectionListener mListener;
 
-    public interface OnNewsProviderClickListener {
-        public void onNewsProviderClick(NewsProvider newsProvider);
+    public interface OnSelectionListener {
+        public void onSelectNewsProvider(NewsProvider newsProvider);
     }
 
     public NewsSelectRecyclerViewAdapter(ArrayList<NewsProvider> presetList) {
@@ -48,11 +49,11 @@ public class NewsSelectRecyclerViewAdapter extends
     public void onBindViewHolder(NewsSelectViewHolder newsSelectViewHolder, int i) {
         final NewsProvider newsProvider = mNewsProviderList.get(i);
 
-        newsSelectViewHolder.mFeedNameTextView.setText(newsProvider.getName());
+        newsSelectViewHolder.feedNameTextView.setText(newsProvider.getName());
         newsSelectViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnNewsProviderClickListener.onNewsProviderClick(newsProvider);
+                mListener.onSelectNewsProvider(newsProvider);
             }
         });
     }
@@ -63,11 +64,12 @@ public class NewsSelectRecyclerViewAdapter extends
     }
 
     protected static class NewsSelectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @InjectView(R.id.news_select_item_feed_name) TextView mFeedNameTextView;
+        @InjectView(R.id.news_select_item_feed_name) TextView feedNameTextView;
 
         public NewsSelectViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
+            feedNameTextView.setTypeface(TypefaceUtils.getRegularTypeface(itemView.getContext()));
         }
 
         @Override
@@ -76,7 +78,7 @@ public class NewsSelectRecyclerViewAdapter extends
         }
     }
 
-    public void setOnNewsProviderClickListener(OnNewsProviderClickListener onNewsProviderClickListener) {
-        mOnNewsProviderClickListener = onNewsProviderClickListener;
+    public void setOnNewsProviderClickListener(OnSelectionListener onNewsProviderClickListener) {
+        mListener = onNewsProviderClickListener;
     }
 }

@@ -30,6 +30,16 @@
     <!-- NewsFeed Detail -->
     <color name="newsfeed_detail_highlight_color">#9e9e9e</color>
 
+    <!-- NewsFeed Select -->
+    <color name="news_select_color_primary">#e0e0e0</color>
+    <color name="news_select_color_primary_dark">#9e9e9e</color>
+    <color name="news_select_color_accent">#01bcd4</color>
+
+    <color name="news_select_disabled_text_color">#89000000</color> <!-- opacity 54% of black color -->
+    <color name="news_select_selectable_item_background">#aabdbdbd</color> <!-- 66% of material grey 400 -->
+
+    <color name="news_select_item_text_color">#dd000000</color> <!-- 66% of material grey 400 -->
+
     <!-- Setting -->
     <color name="setting_locked_item_background">#c1c1c1</color>
 

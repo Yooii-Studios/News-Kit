@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.ui.adapter.NewsSelectPagerAdapter;
-import com.yooiistudios.news.ui.fragment.CustomNewsFeedDialogFragment;
+import com.yooiistudios.news.ui.fragment.CustomRssDialogFragment;
 import com.yooiistudios.news.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.news.ui.widget.viewpager.SlidingTabLayout;
 import com.yooiistudios.news.util.AnalyticsUtils;
@@ -28,12 +30,13 @@ import com.yooiistudios.news.util.AnalyticsUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class NewsSelectActivity extends Activity
-        implements CustomNewsFeedDialogFragment.OnClickListener {
+public class NewsSelectActivity extends ActionBarActivity
+        implements CustomRssDialogFragment.OnActionListener {
     private static final String TAG = NewsSelectActivity.class.getName();
 
-    @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
+    @InjectView(R.id.news_select_toolbar)           Toolbar mToolbar;
     @InjectView(R.id.news_select_sliding_tabs)      SlidingTabLayout mSlidingTabLayout;
+    @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
     @InjectView(R.id.news_select_adView)            AdView mAdView;
 
     @Override
@@ -42,15 +45,35 @@ public class NewsSelectActivity extends Activity
         setContentView(R.layout.activity_news_select);
         ButterKnife.inject(this);
 
-        Context context = getApplicationContext();
-
         mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
 //        mViewPager.setOnPageChangeListener(mSimpleOnPageChangeListener);
 
         mSlidingTabLayout.setViewPager(mViewPager);
 
+        initToolbar();
+        initSlidingTab();
         initAdView();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initToolbar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
+        }
+        mToolbar.bringToFront();
+        setSupportActionBar(mToolbar);
+        // sans-serif-medium, 20sp
+        mToolbar.setTitleTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Title);
+    }
+
+    private void initSlidingTab() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mSlidingTabLayout.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
+        }
+        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.news_select_color_primary));
     }
 
     private void initAdView() {
@@ -88,25 +111,18 @@ public class NewsSelectActivity extends Activity
                 ft.addToBackStack(null);
 
                 // Create and show the dialog.
-                DialogFragment newFragment = CustomNewsFeedDialogFragment.newInstance();
+                DialogFragment newFragment = CustomRssDialogFragment.newInstance();
                 newFragment.show(ft, "dialog");
-
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onConfirm(NewsFeedUrl feedUrl) {
+    public void onPositive(NewsFeedUrl feedUrl) {
         getIntent().putExtra(NewsSelectFragment.KEY_CUSTOM_RSS_URL, feedUrl);
         setResult(Activity.RESULT_OK, getIntent());
         finish();
-    }
-
-    @Override
-    public void onCancel() {
-
     }
 
     @Override
