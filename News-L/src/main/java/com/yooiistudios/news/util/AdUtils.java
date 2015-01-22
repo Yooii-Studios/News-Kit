@@ -64,7 +64,7 @@ public class AdUtils {
                     showInHouseStoreAd(context);
                 } else {
                     prefs.edit().putInt(EACH_AD_COUNT, ++eachAdCount).apply();
-                    showInterstitialAd(context);
+//                    showInterstitialAd(context);
                 }
             }
             if (launchCount < 55) {
