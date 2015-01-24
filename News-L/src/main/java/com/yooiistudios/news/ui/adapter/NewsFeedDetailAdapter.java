@@ -20,13 +20,10 @@ import java.util.ArrayList;
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 19.
  *
  * NewsFeedDetailAdapter
- *  뉴스 피드 디테일 화면 하단 뉴스 리스트의 RecyclerView에 쓰일 어뎁터
+ *  뉴스 피드 디테일 화면 하단 뉴스 리스트의 RecyclerView 에 쓰일 어뎁터
  */
 public class NewsFeedDetailAdapter extends
         RecyclerView.Adapter<NewsFeedDetailAdapter.ViewHolder> {
-    private static final String TAG = NewsFeedDetailAdapter.class.getName();
-
-    private Context mContext;
     private ArrayList<News> mNewsList;
     private OnItemClickListener mOnItemClickListener;
 
@@ -34,9 +31,8 @@ public class NewsFeedDetailAdapter extends
         public void onItemClick(ViewHolder viewHolder, News news);
     }
 
-    public NewsFeedDetailAdapter(Context context, OnItemClickListener onItemClickListener) {
-        mContext = context;
-        mNewsList = new ArrayList<News>();
+    public NewsFeedDetailAdapter(OnItemClickListener onItemClickListener) {
+        mNewsList = new ArrayList<>();
         mOnItemClickListener = onItemClickListener;
     }
 
@@ -97,7 +93,6 @@ public class NewsFeedDetailAdapter extends
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         if (listener != null) {
                             listener.onItemClick(viewHolder, news);
                         }

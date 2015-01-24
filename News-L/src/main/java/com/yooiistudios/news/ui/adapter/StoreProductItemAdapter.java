@@ -76,56 +76,57 @@ public class StoreProductItemAdapter extends BaseAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(mContext).inflate(R.layout.store_item, null, true);
-        if (convertView != null) {
-            StoreItemViewHolder viewHolder = new StoreItemViewHolder(convertView);
-            initLayout(viewHolder);
-            switch (position) {
-                case 0:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_noads);
-                    viewHolder.getTitleTextView().setText(R.string.store_no_ads_title);
-                    viewHolder.getDescriptionTextView().setText(R.string.store_no_ads_description);
-                    viewHolder.getPriceButton().setTag(IabProducts.SKU_NO_ADS);
-                    break;
-                case 1:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_panels);
-                    viewHolder.getTitleTextView().setText(R.string.store_more_panel_title);
-                    viewHolder.getDescriptionTextView().setText(R.string.store_more_panel_description);
-                    viewHolder.getPriceButton().setTag(IabProducts.SKU_MORE_PANELS);
-                    break;
-                case 2:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_topic);
-                    viewHolder.getTitleTextView().setText(R.string.store_topic_select_title);
-                    viewHolder.getDescriptionTextView().setText(R.string.store_topic_select_description);
-                    viewHolder.getPriceButton().setTag(IabProducts.SKU_TOPIC_SELECT);
-                    break;
-                case 3:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
-                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
-                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
-                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
-                    break;
-                // test
-                default:
-                    viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
-                    viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
-                    viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
-                    viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
-                    break;
-            }
-            initPriceViews(viewHolder);
-
-            // debug
-//            viewHolder.getLayout().setBackgroundColor(getToggledBackgroundColor(position));
-            // release
-            viewHolder.getTitleTextView().setBackgroundColor(Color.TRANSPARENT);
-            viewHolder.getDescriptionTextView().setBackgroundColor(Color.TRANSPARENT);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.store_item, null, true);
         }
+        StoreItemViewHolder viewHolder = new StoreItemViewHolder(convertView);
+        initLayout(viewHolder);
+        switch (position) {
+            case 0:
+                viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_noads);
+                viewHolder.getTitleTextView().setText(R.string.store_no_ads_title);
+                viewHolder.getDescriptionTextView().setText(R.string.store_no_ads_description);
+                viewHolder.getPriceButton().setTag(IabProducts.SKU_NO_ADS);
+                break;
+            case 1:
+                viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_panels);
+                viewHolder.getTitleTextView().setText(R.string.store_more_panel_title);
+                viewHolder.getDescriptionTextView().setText(R.string.store_more_panel_description);
+                viewHolder.getPriceButton().setTag(IabProducts.SKU_MORE_PANELS);
+                break;
+            case 2:
+                viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_topic);
+                viewHolder.getTitleTextView().setText(R.string.store_topic_select_title);
+                viewHolder.getDescriptionTextView().setText(R.string.store_topic_select_description);
+                viewHolder.getPriceButton().setTag(IabProducts.SKU_TOPIC_SELECT);
+                break;
+            case 3:
+                viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
+                viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
+                viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
+                viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+                break;
+            // test
+            default:
+                viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
+                viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
+                viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
+                viewHolder.getPriceButton().setTag(IabProducts.SKU_CUSTOM_RSS_URL);
+                break;
+        }
+        initPriceViews(viewHolder);
+
+        // debug
+//            viewHolder.getLayout().setBackgroundColor(getToggledBackgroundColor(position));
+        // release
+        viewHolder.getTitleTextView().setBackgroundColor(Color.TRANSPARENT);
+        viewHolder.getDescriptionTextView().setBackgroundColor(Color.TRANSPARENT);
+
         return convertView;
     }
 
     /*
-    // debug용으로 컬러를 얻어내기
+    // debug 용으로 컬러를 얻어내기
     private int getToggledBackgroundColor(int index) {
         if (index % 2 == 0) {
             return Color.parseColor("#cc00cc");

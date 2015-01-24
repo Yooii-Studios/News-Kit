@@ -92,28 +92,28 @@ public class MainBottomContainerLayout extends FrameLayout
             this.displayName = displayName;
         }
 
-        public static String[] getDisplayNameStringArr() {
-            int itemCount = PanelMatrixType.values().length;
-            String[] retArr = new String[itemCount];
-            for (int i = 0; i < itemCount; i++) {
-                PanelMatrixType item = PanelMatrixType.values()[i];
-                retArr[i] = item.displayName;
-            }
-
-            return retArr;
-        }
-
-        public static int getIndexByUniqueKey(int uniqueKey) {
-            for (int i = 0; i < PanelMatrixType.values().length; i++) {
-                PanelMatrixType item = PanelMatrixType.values()[i];
-
-                if (item.uniqueKey == uniqueKey) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
+//        public static String[] getDisplayNameStringArr() {
+//            int itemCount = PanelMatrixType.values().length;
+//            String[] retArr = new String[itemCount];
+//            for (int i = 0; i < itemCount; i++) {
+//                PanelMatrixType item = PanelMatrixType.values()[i];
+//                retArr[i] = item.displayName;
+//            }
+//
+//            return retArr;
+//        }
+//
+//        public static int getIndexByUniqueKey(int uniqueKey) {
+//            for (int i = 0; i < PanelMatrixType.values().length; i++) {
+//                PanelMatrixType item = PanelMatrixType.values()[i];
+//
+//                if (item.uniqueKey == uniqueKey) {
+//                    return i;
+//                }
+//            }
+//
+//            return -1;
+//        }
 
         public static PanelMatrixType getByUniqueKey(int uniqueKey) {
             for (PanelMatrixType item : PanelMatrixType.values()) {
@@ -242,7 +242,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
         NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-        if (newsFeed == null) {
+        if (newsFeed == null || !newsFeed.containsNews()) {
             return;
         }
 
@@ -327,7 +327,7 @@ public class MainBottomContainerLayout extends FrameLayout
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext());
         if (needsRefresh) {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
-                    getContext(), mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                    mBottomNewsFeedAdapter.getNewsFeedList(), this,
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
             boolean isValid = true;
@@ -337,7 +337,7 @@ public class MainBottomContainerLayout extends FrameLayout
             int count = list.size();
             for (int i = 0; i < count; i++) {
                 NewsFeed newsFeed = list.get(i);
-                if (newsFeed != null && !newsFeed.isValid()) {
+                if (newsFeed != null && !newsFeed.containsNews()) {
                     isValid = false;
                     newsFeedListToFetch.add(new Pair<>(newsFeed, i));
                 }
@@ -346,7 +346,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 notifyOnInitialized();
             } else {
                 BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
-                        getContext(), newsFeedListToFetch, this,
+                        newsFeedListToFetch, this,
                         BottomNewsFeedFetchTask.TASK_INITIALIZE);
             }
         }
@@ -396,7 +396,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 NewsFeed newsFeed = savedNewsFeedList.get(idx);
                 mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
 
-                if (!newsFeed.isValid()) {
+                if (!newsFeed.containsNews()) {
                     newsFeedToIndexPairListToFetch.add(new Pair<>(newsFeed, idx));
                 }
             }
@@ -413,7 +413,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 );
             } else {
                 BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
-                        getContext(), newsFeedToIndexPairListToFetch, this,
+                        newsFeedToIndexPairListToFetch, this,
                         BottomNewsFeedFetchTask.TASK_MATRIX_CHANGED);
             }
         }
@@ -464,7 +464,7 @@ public class MainBottomContainerLayout extends FrameLayout
                             .setStartDelay(startDelay)
                             .setDuration(duration)
                             .setInterpolator(
-                                    AnimationFactory.makeDefaultReversePathInterpolator(getContext()))
+                                    AnimationFactory.makeDefaultReversePathInterpolator())
                             .start();
                 }
                 return true;
@@ -487,7 +487,7 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.setNewsFeedList(newBottomNewsFeedList);
 
         BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
-                getContext(), mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                mBottomNewsFeedAdapter.getNewsFeedList(), this,
                 BottomNewsFeedFetchTask.TASK_REFRESH);
     }
 
@@ -499,13 +499,13 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.replaceNewsFeedAt(idx, newsFeed);
 
         mIsReplacingBottomNewsFeed = true;
-        if (newsFeed.isValid()) {
+        if (newsFeed.containsNews()) {
             BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
                     mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
             );
         } else {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeed(
-                    getContext(), newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
+                    newsFeed, idx, this, BottomNewsFeedFetchTask.TASK_REPLACE);
         }
     }
 

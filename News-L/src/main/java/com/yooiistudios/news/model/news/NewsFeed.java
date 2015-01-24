@@ -1,14 +1,18 @@
 package com.yooiistudios.news.model.news;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.RssFetchable;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 16.
  *
- * Rss Feed의 Feed를 표현하는 클래스
+ * Rss Feed 의 Feed 를 표현하는 클래스
  */
 public class NewsFeed implements Parcelable {
     public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
@@ -19,7 +23,7 @@ public class NewsFeed implements Parcelable {
     private String mDescription;
     private String mLanguage;
     private ArrayList<News> mNewsList;
-    private boolean mIsValid;
+    private NewsFeedFetchState mNewsFeedFetchState;
     private int mDisplayingNewsIndex;
 
     // topic id
@@ -30,12 +34,8 @@ public class NewsFeed implements Parcelable {
 
     public NewsFeed() {
         mNewsList = new ArrayList<>();
-        mIsValid = false;
         mDisplayingNewsIndex = 0;
-    }
-    public NewsFeed(NewsFeedUrl newsFeedUrl) {
-        this();
-        mNewsFeedUrl = newsFeedUrl;
+        mNewsFeedFetchState = NewsFeedFetchState.NOT_FETCHED_YET;
     }
 
     public NewsFeed(Parcel source) {
@@ -46,7 +46,6 @@ public class NewsFeed implements Parcelable {
         mDescription = source.readString();
         mLanguage = source.readString();
         source.readTypedList(mNewsList, News.CREATOR);
-        mIsValid = source.readInt() == 1;
 
         mTopicLanguageCode = source.readString();
         mTopicRegionCode = source.readString();
@@ -54,15 +53,22 @@ public class NewsFeed implements Parcelable {
         mTopicId = source.readInt();
     }
 
-    public NewsFeed(NewsTopic newsTopic) {
+    public NewsFeed(RssFetchable fetchable) {
         this();
-        mTitle = newsTopic.getTitle();
-        mNewsFeedUrl = newsTopic.getNewsFeedUrl();
+        if (fetchable instanceof NewsFeedUrl) {
+            mNewsFeedUrl = (NewsFeedUrl)fetchable;
+        } else if (fetchable instanceof NewsTopic) {
+            NewsTopic newsTopic = (NewsTopic)fetchable;
+            mTitle = newsTopic.getTitle();
+            mNewsFeedUrl = newsTopic.getNewsFeedUrl();
 
-        mTopicLanguageCode = newsTopic.getLanguageCode();
-        mTopicRegionCode = newsTopic.getRegionCode();
-        mTopicProviderId = newsTopic.getNewsProviderId();
-        mTopicId = newsTopic.getId();
+            mTopicLanguageCode = newsTopic.getLanguageCode();
+            mTopicRegionCode = newsTopic.getRegionCode();
+            mTopicProviderId = newsTopic.getNewsProviderId();
+            mTopicId = newsTopic.getId();
+        } else {
+            throw new IllegalArgumentException("Unsupported RssFetchable.");
+        }
     }
 
     @Override
@@ -73,7 +79,6 @@ public class NewsFeed implements Parcelable {
         dest.writeString(mDescription);
         dest.writeString(mLanguage);
         dest.writeTypedList(mNewsList);
-        dest.writeInt(mIsValid ? 1 : 0);
         dest.writeString(mTopicLanguageCode);
         dest.writeString(mTopicRegionCode);
         dest.writeInt(mTopicProviderId);
@@ -139,12 +144,8 @@ public class NewsFeed implements Parcelable {
         return mNewsList;
     }
 
-    public void setValid(boolean isValid) {
-        mIsValid = isValid;
-    }
-
-    public boolean isValid() {
-        return mIsValid;
+    public boolean containsNews() {
+        return getNewsList().size() > 0;
     }
 
     public void addNews(News news) {
@@ -199,6 +200,14 @@ public class NewsFeed implements Parcelable {
         mTopicId = topicId;
     }
 
+    public void setNewsFeedFetchState(NewsFeedFetchState newsFeedFetchState) {
+        mNewsFeedFetchState = newsFeedFetchState;
+    }
+
+    public NewsFeedFetchState getNewsFeedFetchState() {
+        return mNewsFeedFetchState;
+    }
+
     public int getNextNewsIndex() {
         int displayingNewsIndex = getDisplayingNewsIndex();
         if (displayingNewsIndex < getNewsList().size() - 1) {
@@ -208,22 +217,6 @@ public class NewsFeed implements Parcelable {
         }
 
         return displayingNewsIndex;
-    }
-
-    /**
-     * 이미지 url을 포함하고 있는 뉴스만 반환한다.
-     * @return ArrayList of NLNews which has image url.
-     */
-    public ArrayList<News> getNewsListContainsImageUrl() {
-        ArrayList<News> containingList = new ArrayList<News>();
-
-        for (News news : mNewsList) {
-            if (news.getImageUrl() != null) {
-                containingList.add(news);
-            }
-        }
-
-        return containingList;
     }
 
     public void setTopicIdInfo(NewsTopic newsTopic) {
@@ -238,6 +231,29 @@ public class NewsFeed implements Parcelable {
         setTopicRegionCode(newsFeed.getTopicRegionCode());
         setTopicProviderId(newsFeed.getTopicProviderId());
         setTopicId(newsFeed.getTopicId());
+    }
+
+    private boolean hasTopicInfo() {
+        return getTopicLanguageCode() != null
+                && getTopicProviderId() >= 0
+                && getTopicId() >= 0;
+    }
+
+    public String getFetchStateMessage(Context context) {
+        switch (mNewsFeedFetchState) {
+            case NOT_FETCHED_YET:
+            case SUCCESS:
+            default:
+                return "";
+            case ERROR_INVALID_URL:
+                return hasTopicInfo()
+                        ? context.getString(R.string.news_feed_fetch_error_invalid_topic_url)
+                        : context.getString(R.string.news_feed_fetch_error_invalid_custom_url);
+            case ERROR_TIMEOUT:
+                return context.getString(R.string.news_feed_fetch_error_timeout);
+            case ERROR_UNKNOWN:
+                return context.getString(R.string.news_feed_fetch_error_unknown);
+        }
     }
 
 }

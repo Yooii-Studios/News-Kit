@@ -158,9 +158,9 @@ public class MainNewsFeedFragment extends Fragment {
                     if (bitmap != null && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
                         viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
-                        viewHolder.imageView.setTag(TintType.GRAYSCALE);
+                        viewHolder.imageView.setTag(TintType.GRAY_SCALE);
                     } else {
-                        // TODO cache에 비트맵이 없는 경우. 기본적으로 없어야 할 상황.
+                        // TODO cache 에 비트맵이 없는 경우. 기본적으로 없어야 할 상황.
                     }
                 }
 

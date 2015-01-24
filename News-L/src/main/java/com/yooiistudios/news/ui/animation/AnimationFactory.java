@@ -46,7 +46,7 @@ public class AnimationFactory {
         return fadeOutAnim;
     }
 
-    public static TimeInterpolator makeDefaultPathInterpolator(Context context) {
+    public static TimeInterpolator makeDefaultPathInterpolator() {
         TimeInterpolator interpolator;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.4f, .0f, 1.f, .2f);
@@ -56,7 +56,7 @@ public class AnimationFactory {
         return interpolator;
     }
 
-    public static TimeInterpolator makeDefaultReversePathInterpolator(Context context) {
+    public static TimeInterpolator makeDefaultReversePathInterpolator() {
         TimeInterpolator interpolator;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.0f, .4f, .2f, 1.f);
@@ -85,7 +85,7 @@ public class AnimationFactory {
         return InterpolatorHelper.makeRootHeightScaleInterpolator(context);
     }
 
-    public static TimeInterpolator makeNewsFeedReverseTransitionInterpolator(Context context) {
+    public static TimeInterpolator makeNewsFeedReverseTransitionInterpolator() {
         TimeInterpolator interpolator;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(.52f, .22f, 1.f, .21f);
@@ -95,7 +95,7 @@ public class AnimationFactory {
         return interpolator;
     }
 
-    public static TimeInterpolator makeViewPagerScrollInterpolator(Context context) {
+    public static TimeInterpolator makeViewPagerScrollInterpolator() {
         TimeInterpolator interpolator;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             interpolator = new PathInterpolator(0.15f, 0.12f, 0.24f, 1.0f);

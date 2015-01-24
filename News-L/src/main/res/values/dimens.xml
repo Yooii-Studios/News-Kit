@@ -10,6 +10,12 @@
     <dimen name="margin_inner">3dp</dimen>
     <dimen name="margin_outer">6dp</dimen>
 
+    <dimen name="base_margin">16dp</dimen>
+    <dimen name="base_margin_half">8dp</dimen>
+    <dimen name="base_margin_small">4dp</dimen>
+
+    <dimen name="edit_text_cursor_width">2dp</dimen>
+
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">280dp</dimen>      <!-- 56 * 5 -->
     <dimen name="main_top_view_pager_title_padding">30dp</dimen>
@@ -46,12 +52,18 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- News Select -->
+    <dimen name="news_select_sliding_tab_height">48dp</dimen>
+    <dimen name="news_select_elevation">2dp</dimen>
+    <dimen name="news_select_sliding_tab_horizontal_margin">8dp</dimen>
+
     <dimen name="news_select_row_padding">10dp</dimen>
-    <dimen name="custom_news_feed_dialog_clear_btn_size">30dp</dimen>
-    <dimen name="custom_news_feed_dialog_clear_btn_left_margin">33dp</dimen>
-    <dimen name="custom_news_feed_dialog_height">65dp</dimen>
-    <dimen name="custom_news_feed_dialog_padding">5dp</dimen>
-    <dimen name="custom_news_feed_dialog_edittext_text_size">18sp</dimen>
+    <!--<dimen name="custom_news_feed_dialog_clear_btn_size">25dp</dimen>-->
+    <!--<dimen name="custom_news_feed_dialog_clear_btn_right_padding">38dp</dimen>-->
+    <!--<dimen name="custom_news_feed_dialog_height">65dp</dimen>-->
+    <!--<dimen name="custom_news_feed_dialog_padding">10dp</dimen>-->
+    <dimen name="custom_news_feed_dialog_edit_text_size">18sp</dimen>
+
+    <dimen name="news_select_item_height">56dp</dimen>
 
     <!-- Debug -->
     <dimen name="dialog_bezier_label_width">100dp</dimen>

@@ -58,7 +58,9 @@ public class LicenseListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.more_info_license_item, parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.more_info_license_item, parent, false);
+        }
 
         LicenseItemViewHolder viewHolder = new LicenseItemViewHolder(convertView);
 

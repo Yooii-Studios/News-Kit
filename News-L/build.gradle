@@ -107,7 +107,10 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
 
     // 상점에 사용되는 Toolbar를 위해 사용
-    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+
+    // Lollipop style Dialog at pre-Lollipop device
+    compile 'com.afollestad:material-dialogs:0.6.1.2'
 
     // 메인화면 가로모드에 사용될 리사이클러뷰 레이아웃 매니저
     compile 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'

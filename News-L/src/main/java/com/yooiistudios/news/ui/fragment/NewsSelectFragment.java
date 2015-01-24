@@ -1,7 +1,7 @@
 package com.yooiistudios.news.ui.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ import butterknife.InjectView;
  *  뉴스 선택화면의 한 페이지의 컨텐츠.
  */
 public class NewsSelectFragment extends Fragment
-        implements NewsSelectRecyclerViewAdapter.OnNewsProviderClickListener,
+        implements NewsSelectRecyclerViewAdapter.OnSelectionListener,
         NewsTopicSelectDialogFactory.OnItemClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
@@ -105,15 +105,17 @@ public class NewsSelectFragment extends Fragment
     }
 
     @Override
-    public void onNewsProviderClick(NewsProvider newsProvider) {
-        final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeDialog(
-                getActivity(), newsProvider, this);
+    public void onSelectNewsProvider(NewsProvider newsProvider) {
+//        final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeAlertDialog(
+//                getActivity(), newsProvider, this);
+//
+//        alertDialog.show();
 
-        alertDialog.show();
+        NewsTopicSelectDialogFactory.makeDialog(getActivity(), newsProvider, this).show();
     }
 
     @Override
-    public void onSelectNewsTopic(AlertDialog dialog, NewsProvider newsProvider, int position) {
+    public void onSelectNewsTopic(Dialog dialog, NewsProvider newsProvider, int position) {
         final ArrayList<NewsTopic> newsTopicList = newsProvider.getNewsTopicList();
         if (!newsTopicList.get(position).isDefault() &&
                 !IabProducts.containsSku(getActivity(), IabProducts.SKU_TOPIC_SELECT)) {

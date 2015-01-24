@@ -67,7 +67,7 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
                 ViewGroup.LayoutParams.MATCH_PARENT
         );
         mIndicatorView.setLayoutParams(layoutParams);
-        mIndicatorView.setBackgroundColor(getResources().getColor(R.color.theme_default_accent));
+        mIndicatorView.setBackgroundColor(getResources().getColor(R.color.main_top_indicator));
         addView(mIndicatorView);
 
         // indicator width
@@ -114,7 +114,7 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
                     ObjectAnimator.ofFloat(mIndicatorView, "translationX", transitionX);
             translationAnim.setDuration(ANIMATION_DURATION);
             translationAnim.setInterpolator(
-                    AnimationFactory.makeDefaultReversePathInterpolator(getContext()));
+                    AnimationFactory.makeDefaultReversePathInterpolator());
             translationAnim.start();
         }
     }

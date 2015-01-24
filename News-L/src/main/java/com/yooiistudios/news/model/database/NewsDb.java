@@ -114,16 +114,11 @@ public class NewsDb {
             return defaultNewsFeedList;
         }
         while (!newsFeedCursor.isAfterLast()) {
-            NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor, shuffle);
+            NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor);
 
             int newsFeedPosition = newsFeedCursor.getInt(
                     newsFeedCursor.getColumnIndex(NewsFeedEntry.COLUMN_NAME_POSITION));
-            newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition));
-
-            newsFeed.setDisplayingNewsIndex(0);
-            if (shuffle && newsFeed.getNewsList() != null && newsFeed.getNewsList().size() > 0) {
-                Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
-            }
+            newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition, shuffle));
 
             newsFeedList.add(newsFeed);
 
@@ -209,7 +204,7 @@ public class NewsDb {
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FEED_URL, newsFeed.getNewsFeedUrl().getUrl());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FEED_URL_TYPE_KEY,
                 newsFeed.getNewsFeedUrl().getType().getUniqueKey());
-        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_IS_VALID, newsFeed.isValid());
+//        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_IS_VALID, newsFeed.containsNews());
 
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE, newsFeed.getTopicRegionCode());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_LANGUAGE_CODE, newsFeed.getTopicLanguageCode());
@@ -258,24 +253,21 @@ public class NewsDb {
             // no saved news feed
             return null;
         }
-        NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor, shuffle);
-        newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition));
+        NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor);
+        newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition, shuffle));
 
         newsFeedCursor.close();
 
         return newsFeed;
     }
 
-    private NewsFeed convertCursorToNewsFeed(Cursor newsFeedCursor, boolean shuffle) {
+    private NewsFeed convertCursorToNewsFeed(Cursor newsFeedCursor) {
         String title = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_TITLE));
         String newsFeedUrl = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_FEED_URL));
         int newsFeedUrlTypeKey = newsFeedCursor.getInt(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_FEED_URL_TYPE_KEY));
-        int isValidInt = newsFeedCursor.getInt(newsFeedCursor.getColumnIndex(
-                NewsFeedEntry.COLUMN_NAME_IS_VALID));
-        boolean isValid = isValidInt == 1;
 
         String topicRegionCode = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE));
@@ -290,20 +282,15 @@ public class NewsDb {
         newsFeed.setTitle(title);
         newsFeed.setNewsFeedUrl(new NewsFeedUrl(newsFeedUrl, newsFeedUrlTypeKey));
         newsFeed.setDisplayingNewsIndex(0);
-        newsFeed.setValid(isValid);
         newsFeed.setTopicRegionCode(topicRegionCode);
         newsFeed.setTopicLanguageCode(topicLanguageCode);
         newsFeed.setTopicProviderId(topicProviderId);
         newsFeed.setTopicId(topicId);
 
-        if (shuffle) {
-            Collections.shuffle(newsFeed.getNewsList()); // 캐쉬된 뉴스들도 무조건 셔플
-        }
-
         return newsFeed;
     }
 
-    private ArrayList<News> queryNewsFromNewsFeedPosition(int newsFeedPosition) {
+    private ArrayList<News> queryNewsFromNewsFeedPosition(int newsFeedPosition, boolean shuffle) {
         String[] newsListWhereArgs = { String.valueOf(newsFeedPosition) };
 
         Cursor newsListCursor = mDatabase.query(
@@ -341,6 +328,10 @@ public class NewsDb {
         }
 
         newsListCursor.close();
+
+        if (shuffle) {
+            Collections.shuffle(newsList); // 캐쉬된 뉴스들도 무조건 셔플
+        }
 
         return newsList;
     }

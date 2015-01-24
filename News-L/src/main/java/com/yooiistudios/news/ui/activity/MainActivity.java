@@ -1,5 +1,6 @@
 package com.yooiistudios.news.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -24,7 +26,6 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -37,7 +38,6 @@ import com.yooiistudios.news.model.BackgroundServiceUtils;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.news.service.BackgroundCacheJobService;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.news.ui.widget.MainRefreshLayout;
@@ -46,6 +46,7 @@ import com.yooiistudios.news.util.AdDialogFactory;
 import com.yooiistudios.news.util.AdUtils;
 import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.AppValidationChecker;
+import com.yooiistudios.news.util.ConnectivityUtils;
 import com.yooiistudios.news.util.NLLog;
 import com.yooiistudios.news.util.RecommendUtils;
 
@@ -56,42 +57,17 @@ import butterknife.InjectView;
 public class MainActivity extends Activity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener {
-
-    @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
-    @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
-    @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
-    @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
-    @InjectView(R.id.main_scrolling_content)        ViewGroup mScrollingContent;
-    @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
-    @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
-    @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
-
-    // Ad
-    @InjectView(R.id.main_adView)                   AdView mAdView;
-
-    // Quit Ad Dialog
-    private AdRequest mQuitAdRequest;
-    private AdView mQuitAdView;
-
-    private int mSystemWindowInset;
-
     public static final String TAG = MainActivity.class.getName();
-    public static final String VIEW_NAME_IMAGE_PREFIX = "topImage_";
-    public static final String VIEW_NAME_TITLE_PREFIX = "topTitle_";
-    public static final String INTENT_KEY_VIEW_NAME_IMAGE = "INTENT_KEY_VIEW_NAME_IMAGE";
-    public static final String INTENT_KEY_VIEW_NAME_TITLE = "INTENT_KEY_VIEW_NAME_TITLE";
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
     // 뉴스 새로고침시 사용할 인텐트 변수
     public static final String INTENT_KEY_NEWS_FEED_LOCATION = "INTENT_KEY_NEWS_FEED_LOCATION";
     public static final String INTENT_VALUE_TOP_NEWS_FEED = "INTENT_VALUE_TOP_NEWS_FEED";
     public static final String INTENT_VALUE_BOTTOM_NEWS_FEED = "INTENT_VALUE_BOTTOM_NEWS_FEED";
-    public static final String INTENT_KEY_BOTTOM_NEWS_FEED_INDEX =
-                                                            "INTENT_KEY_BOTTOM_NEWS_FEED_INDEX";
+    public static final String INTENT_KEY_BOTTOM_NEWS_FEED_INDEX = "INTENT_KEY_BOTTOM_NEWS_FEED_INDEX";
 
     // 액티비티 트랜지션시 이미지뷰 애니메이트를 위한 변수를 넘길 인텐트 변수
-    public static final String INTENT_KEY_TRANSITION_PROPERTY =
-            "INTENT_KEY_TRANSITION_PROPERTY";
+    public static final String INTENT_KEY_TRANSITION_PROPERTY = "INTENT_KEY_TRANSITION_PROPERTY";
 
     public static final int RC_NEWS_FEED_DETAIL = 10001;
     public static final int RC_SETTING = 10002;
@@ -104,6 +80,22 @@ public class MainActivity extends Activity
     private static final int AUTO_REFRESH_HANDLER_DELAY = 7 * 1000; // finally to be 10 secs
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
+
+    @InjectView(R.id.main_root_layout)              View mRootView;
+    @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
+    @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
+    @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
+    @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
+    @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
+    @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
+    @InjectView(R.id.main_adView)                   AdView mAdView;
+
+    // Quit Ad Dialog
+    private AdRequest mQuitAdRequest;
+    private AdView mQuitAdView;
+
+    private int mSystemWindowInset;
 
     private class NewsAutoRefreshHandler extends Handler {
         @Override
@@ -126,9 +118,6 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
-
         if (NLLog.isDebug()) {
             AppValidationChecker.validationCheck(this);
         }
@@ -138,6 +127,20 @@ public class MainActivity extends Activity
         BackgroundServiceUtils.startService(getApplicationContext());
 
         // TODO off-line configuration
+        boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getApplicationContext());
+        boolean isOnline = ConnectivityUtils.isNetworkAvailable(getApplicationContext());
+        if (needsRefresh && !isOnline) {
+            initNetworkUnavailableCoverLayout();
+            return;
+        }
+
+        init();
+    }
+
+    private void init() {
+        setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
+
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initRefreshLayout();
         mMainTopContainerLayout.init(this);
@@ -172,6 +175,55 @@ public class MainActivity extends Activity
 
         // 초기 로딩시 swipe refresh 가 되지 않도록 설정
         mSwipeRefreshLayout.setEnabled(false);
+    }
+
+    private void initNetworkUnavailableCoverLayout() {
+        @SuppressLint("InflateParams")
+        View networkUnavailableCoverLayout = LayoutInflater.from(getApplicationContext())
+                .inflate(R.layout.network_unavailable_cover, null);
+        setContentView(networkUnavailableCoverLayout);
+
+        findViewById(R.id.network_unavailable_reload).setOnClickListener(new View.OnClickListener() {
+            private int mPressCount = 0;
+            @Override
+            public void onClick(View v) {
+                mPressCount++;
+                boolean isNetworkAvailable = ConnectivityUtils.isNetworkAvailable(getApplicationContext());
+                if (isNetworkAvailable) {
+                    init();
+                } else {
+                    if (mPressCount > 5) {
+                        TextView networkUnavailableMessageTextView
+                                = (TextView) findViewById(R.id.network_unavailable_message);
+                        int lineCount = networkUnavailableMessageTextView.getLineCount();
+                        String messageToAppend = "\n";
+                        switch (lineCount % 9) {
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                                messageToAppend += "안돼";
+                                break;
+                            case 6:
+                                messageToAppend += "(｀Д´#)";
+                                break;
+                            case 7:
+                                messageToAppend += "(#｀Д´)";
+                                break;
+                            case 8:
+                                messageToAppend += "(#`・д・)";
+                                break;
+                            case 0:
+                            default:
+                                messageToAppend += "(´ﾟДﾟ`)";
+                                break;
+                        }
+                        networkUnavailableMessageTextView.append(messageToAppend);
+                    }
+                }
+            }
+        });
     }
 
     private void initAdView() {
@@ -247,10 +299,12 @@ public class MainActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        onConfigurationChanged(getResources().getConfiguration());
 
-        startNewsAutoRefreshIfReady();
-        checkAdView();
+        if (mRootView != null) {
+            onConfigurationChanged(getResources().getConfiguration());
+            startNewsAutoRefreshIfReady();
+            checkAdView();
+        }
 
         // 화면 켜짐 유지 설정
         SharedPreferences preferences = getSharedPreferences(
@@ -264,10 +318,12 @@ public class MainActivity extends Activity
 
     @Override
     protected void onPause() {
-        mAdView.pause();
-        mQuitAdView.pause();
+        if (mRootView != null) {
+            mAdView.pause();
+            mQuitAdView.pause();
+            stopNewsAutoRefresh();
+        }
         super.onPause();
-        stopNewsAutoRefresh();
     }
 
     @Override
@@ -318,7 +374,7 @@ public class MainActivity extends Activity
                     1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
             item.setChecked(!item.isChecked());
         } else if (id == R.id.action_service_log) {
-            BackgroundCacheJobService.showDialog(this);
+            BackgroundServiceUtils.showDialog(this);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -478,17 +534,17 @@ public class MainActivity extends Activity
                         return;
                     }
                     if (hasNewsFeedReplaced) {
-                        // 교체된게 top news feed인지 bottom news feed인지 구분
+                        // 교체된게 top news feed 인지 bottom news feed 인지 구분
                         if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            // bottom news feed중 하나가 교체됨
+                            // bottom news feed 중 하나가 교체됨
 
-                            // bottom news feed의 index를 가져옴
+                            // bottom news feed 의 index 를 가져옴
                             int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
                             if (idx >= 0) {
                                 mMainBottomContainerLayout.reloadNewsFeedAt(idx);
                             }
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            // top news feed가 교체됨
+                            // top news feed 가 교체됨
                             mMainTopContainerLayout.configOnNewsFeedReplaced();
                         }
                     } else if (newImageLoaded) {
@@ -528,7 +584,9 @@ public class MainActivity extends Activity
 
     @Override
     public void onBackPressed() {
-        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)) {
+        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
+                && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
+                && mRootView != null) {
             AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);
             if (adDialog != null) {
                 adDialog.show();
