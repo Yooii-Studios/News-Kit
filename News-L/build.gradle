@@ -113,8 +113,8 @@ dependencies {
     compile 'com.afollestad:material-dialogs:0.6.1.2'
 
     // 메인화면 가로모드에 사용될 리사이클러뷰 레이아웃 매니저
-    compile 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'
-    compile 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar'
+//    compile 'org.lucasr.twowayview:core:1.0.0-SNAPSHOT@aar'
+//    compile 'org.lucasr.twowayview:layouts:1.0.0-SNAPSHOT@aar'
 }
 
 /*

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -40,10 +41,6 @@ import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
-import com.yooiistudios.news.util.ScreenUtils;
-
-import org.lucasr.twowayview.TwoWayLayoutManager;
-import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
 import java.util.ArrayList;
 
@@ -71,8 +68,8 @@ public class MainBottomContainerLayout extends FrameLayout
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
-    private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
-    private static final int BOTTOM_NEWS_FEED_ROW_COUNT = 2;
+    private static final int COLUMN_COUNT_PORTRAIT = 2;
+    private static final int COLUMN_COUNT_LANDSCAPE = 1;
 
     // 패널 갯수 관련 상수
     public static final String PANEL_MATRIX_SHARED_PREFERENCES = "PANEL_MATRIX_SHARED_PREFERENCES";
@@ -305,9 +302,10 @@ public class MainBottomContainerLayout extends FrameLayout
         //init ui
         mBottomNewsFeedRecyclerView.setHasFixedSize(true);
 //        GridLayoutManager layoutManager = new GridLayoutManager(getContext());
-//        layoutManager.setColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
-        SpannableGridLayoutManager layoutManager = new SpannableGridLayoutManager(getContext());
-//        layoutManager.setOrientation(TwoWayLayoutManager.Orientation.VERTICAL);
+//        layoutManager.setColumns(COLUMN_COUNT_PORTRAIT);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
+                COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
+//        layoutManager.setOrientation(TwoWayLayoutManager.Orientation.PORTRAIT);
 //        layoutManager.setNumColumns(2);
 //        layoutManager.setNumRows(2);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
@@ -315,7 +313,7 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
-        configOnOrientationChange(null);
+        configOnOrientationChange();
 
         PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
 
@@ -357,18 +355,15 @@ public class MainBottomContainerLayout extends FrameLayout
     private void adjustSize() {
         int orientation = getResources().getConfiguration().orientation;
         ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
+        Context context = getContext().getApplicationContext();
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
-            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getContext(),
-                    mBottomNewsFeedAdapter.getNewsFeedList().size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
+
+            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnPortrait(context,
+                    mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
         } else {
-            Context context = getContext().getApplicationContext();
-            recyclerViewLp.height = ScreenUtils.getDisplaySize(context).y
-                    - ScreenUtils.calculateStatusBarHeight(context);
-            if (recyclerViewLp instanceof MarginLayoutParams) {
-                MarginLayoutParams marginLayoutParams = (MarginLayoutParams)recyclerViewLp;
-                recyclerViewLp.height -= (marginLayoutParams.topMargin + marginLayoutParams.bottomMargin);
-            }
+            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnLandscape(context,
+                    recyclerViewLp);
         }
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
     }
@@ -520,28 +515,19 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
     }
 
-    public void configOnOrientationChange(NewsFeed topNewsFeed) {
+    public void configOnOrientationChange() {
         int orientation = getResources().getConfiguration().orientation;
-        SpannableGridLayoutManager layoutManager =
-                (SpannableGridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
+        GridLayoutManager layoutManager =
+                (GridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
 
-        final int topNewsFeedIndex = 0;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            layoutManager.setOrientation(TwoWayLayoutManager.Orientation.VERTICAL);
-            layoutManager.setNumColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
+            layoutManager.setSpanCount(COLUMN_COUNT_PORTRAIT);
 
-            mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.VERTICAL);
-            if (mBottomNewsFeedAdapter.contains(topNewsFeed)) {
-                mBottomNewsFeedAdapter.removeNewsFeedAt(topNewsFeedIndex);
-            }
+            mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.PORTRAIT);
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            layoutManager.setOrientation(TwoWayLayoutManager.Orientation.HORIZONTAL);
-            layoutManager.setNumRows(BOTTOM_NEWS_FEED_ROW_COUNT);
+            layoutManager.setSpanCount(COLUMN_COUNT_LANDSCAPE);
 
-            mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.HORIZONTAL);
-            if (!mBottomNewsFeedAdapter.contains(topNewsFeed)) {
-                mBottomNewsFeedAdapter.addNewsFeedAt(topNewsFeed, topNewsFeedIndex);
-            }
+            mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);
         }
         adjustSize();
         mBottomNewsFeedAdapter.notifyDataSetChanged();

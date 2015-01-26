@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/main_top_feed_image_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_top_view_pager_height"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:contentDescription="@string/content_description"/>
 

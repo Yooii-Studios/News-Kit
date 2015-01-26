@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +25,9 @@ import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.util.NewsFeedUtils;
 import com.yooiistudios.news.ui.widget.RatioFrameLayout;
+import com.yooiistudios.news.ui.widget.MainBottomItemLayout;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.ScreenUtils;
-
-import org.lucasr.twowayview.widget.SpannableGridLayoutManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,16 +44,16 @@ public class MainBottomAdapter extends
     private static final String TAG = MainBottomAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
     private static final float HEIGHT_OVER_WIDTH_RATIO = 3.3f / 4.0f;
-    public static final int VERTICAL = 0;
-    public static final int HORIZONTAL = 1;
+    public static final int PORTRAIT = 0;
+    public static final int LANDSCAPE = 1;
 
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
 
-    private int mOrientation = VERTICAL;
+    private int mOrientation = PORTRAIT;
 
-    @IntDef(value = { VERTICAL, HORIZONTAL })
+    @IntDef(value = {PORTRAIT, LANDSCAPE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
 
@@ -62,7 +62,7 @@ public class MainBottomAdapter extends
     }
 
     public MainBottomAdapter(Context context, OnItemClickListener listener) {
-        this(context, listener, VERTICAL);
+        this(context, listener, PORTRAIT);
     }
 
     public MainBottomAdapter(Context context, OnItemClickListener listener, @Orientation int orientation) {
@@ -73,48 +73,43 @@ public class MainBottomAdapter extends
     }
 
     @Override
-    public BottomNewsFeedViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+    public BottomNewsFeedViewHolder onCreateViewHolder(final ViewGroup parent, int i) {
         Context context = parent.getContext();
-        View v = LayoutInflater.from(context).inflate(R.layout.main_bottom_item, parent, false);
+        MainBottomItemLayout itemLayout = (MainBottomItemLayout)
+                LayoutInflater.from(context).inflate(R.layout.main_bottom_item, parent, false);
 //        v.setElevation(DipToPixel.dpToPixel(context,
 //                context.getResources().getDimension(
 //                        R.dimen.main_bottom_card_view_elevation)
 //        ));
 //        ((ViewGroup)v).setTransitionGroup(false);
+        itemLayout.setOnSupplyTargetAxisLengthListener(new MainBottomItemLayout.OnSupplyTargetAxisLengthListener() {
+            @Override
+            public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
+                if (axis == RatioFrameLayout.AXIS_WIDTH && orientation == MainBottomItemLayout.LANDSCAPE) {
+                    ViewGroup.LayoutParams lp = parent.getLayoutParams();
+                    return MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp)/4;
+//                    return parentHeight/4;
+                } else {
+                    return -1;
+                }
+            }
+        });
 
-        return new BottomNewsFeedViewHolder(v);
+        return new BottomNewsFeedViewHolder(itemLayout);
     }
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
-        boolean isVertical = mOrientation == VERTICAL;
+        boolean isVertical = mOrientation == PORTRAIT;
 
-        RatioFrameLayout itemView = (RatioFrameLayout)viewHolder.itemView;
-        itemView.setBaseAxis(
-                isVertical ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
+        MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
+//        itemView.setBaseAxis(
+//                isVertical ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
+//        );
+        itemView.setBaseAxis(RatioFrameLayout.AXIS_WIDTH);
+        itemView.setOrientation(
+                isVertical ? MainBottomItemLayout.PORTRAIT : MainBottomItemLayout.LANDSCAPE
         );
-
-        final SpannableGridLayoutManager.LayoutParams lp =
-                (SpannableGridLayoutManager.LayoutParams) itemView.getLayoutParams();
-
-        final int columnSpan;
-        final int rowSpan;
-        if (isVertical) {
-            rowSpan = 1;
-            columnSpan = 1;
-        } else {
-            rowSpan = 1;
-            columnSpan = (position == 0 ? 2 : 1);
-        }
-        if (lp.rowSpan != rowSpan || lp.colSpan != columnSpan) {
-            lp.rowSpan = rowSpan;
-            lp.colSpan = columnSpan;
-            itemView.setLayoutParams(lp);
-        }
-
-//        if (!isVertical) {
-//            itemView.set
-//        }
 
         TextView titleView = viewHolder.newsTitleTextView;
         ImageView imageView = viewHolder.imageView;
@@ -280,10 +275,7 @@ public class MainBottomAdapter extends
 //        );
 //    }
 
-    public static int measureMaximumHeight(Context context, int itemCount, int columnCount) {
-//        NLLog.i(TAG, "itemCount : " + itemCount);
-//        NLLog.i(TAG, "columnCount : " + columnCount);
-
+    public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
         // get display width
         Point displaySize = ScreenUtils.getDisplaySize(context);
         int displayWidth = displaySize.x;
@@ -293,10 +285,7 @@ public class MainBottomAdapter extends
                 getDimension(R.dimen.main_bottom_margin_small);
 
         float rowWidth = (displayWidth - (recyclerViewMargin * 2)) / columnCount;
-
         float rowHeight = getRowHeight(rowWidth);
-
-//        NLLog.i(TAG, "rowHeight : " + rowHeight);
 
         int rowCount = itemCount / columnCount;
         if (itemCount % columnCount != 0) {
@@ -304,6 +293,20 @@ public class MainBottomAdapter extends
         }
 
         return Math.round(rowHeight * rowCount);
+    }
+
+    public static int measureMaximumHeightOnLandscape(Context context, ViewGroup.LayoutParams lp) {
+        int height = ScreenUtils.getDisplaySize(context).y;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
+            height -= ScreenUtils.calculateStatusBarHeight(context);
+        }
+        if (lp instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)lp;
+            height -= (marginLayoutParams.topMargin + marginLayoutParams.bottomMargin);
+        }
+
+        return height;
     }
 
     public static float getRowHeight(float width) {

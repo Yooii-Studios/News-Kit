@@ -21,6 +21,7 @@ public abstract class RatioFrameLayout extends FrameLayout {
     public static final int AXIS_HEIGHT = 1;
 
     private int mBaseAxis = AXIS_WIDTH;
+    private boolean mIgnoreHeightAdjustment = false;
 
     public RatioFrameLayout(Context context) {
         super(context);
@@ -48,12 +49,20 @@ public abstract class RatioFrameLayout extends FrameLayout {
         mBaseAxis = axis;
     }
 
-    public int getBaseAxis() {
+    public @Axis int getBaseAxis() {
         return mBaseAxis;
+    }
+
+    public void setIgnoreHeightAdjustment(boolean ignoreHeightAdjustment) {
+        mIgnoreHeightAdjustment = ignoreHeightAdjustment;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (mIgnoreHeightAdjustment) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
         int measuredWidth;
         int measuredHeight;
 
