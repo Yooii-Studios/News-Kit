@@ -190,7 +190,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         // TextAppearance_Body2 -> sans-serif-medium, 14sp
         // 이후 크기와 색만큼은 변경
-        textView.setTextAppearance(getContext(), R.style.Base_TextAppearance_AppCompat_Body2);
+        textView.setTextAppearance(getContext(), R.style.TextAppearance_AppCompat_Body2);
         textView.setTypeface(TypefaceUtils.getMediumTypeface(getContext())); // 모든 API, 언어에 적용하기 위해 강제로 설정
         textView.setTextColor(getResources().getColor(R.color.news_select_disabled_text_color)); // black with opacity 54%
 

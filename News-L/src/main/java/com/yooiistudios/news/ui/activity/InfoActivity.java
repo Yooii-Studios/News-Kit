@@ -76,7 +76,7 @@ public class InfoActivity extends ActionBarActivity implements AdapterView.OnIte
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // sans-serif-medium, 20sp
-        mToolbar.setTitleTextAppearance(this, R.style.ActionBarTitleStyle);
+        mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
 
         // typeface 는 따로 설정 필요
         SpannableString titleString = new SpannableString(mToolbar.getTitle());

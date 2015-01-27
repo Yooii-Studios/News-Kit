@@ -1,9 +1,15 @@
 package com.yooiistudios.news.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TypefaceSpan;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,7 +23,7 @@ import com.yooiistudios.news.util.AnalyticsUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MoreInfoActivity extends Activity implements AdapterView.OnItemClickListener {
+public class MoreInfoActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "MoreInfoActivity";
 
     public enum MoreInfoItem {
@@ -38,6 +44,7 @@ public class MoreInfoActivity extends Activity implements AdapterView.OnItemClic
     }
 
     @InjectView(R.id.more_info_list_view) ListView mListView;
+    @InjectView(R.id.more_info_toolbar)   Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +56,28 @@ public class MoreInfoActivity extends Activity implements AdapterView.OnItemClic
         }
         setContentView(R.layout.activity_more_info);
         ButterKnife.inject(this);
+        initToolbar();
         initListView();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initToolbar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
+        }
+        mToolbar.bringToFront();
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // sans-serif-medium, 20sp
+        mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
+
+        // typeface 는 따로 설정 필요
+        SpannableString titleString = new SpannableString(mToolbar.getTitle());
+        titleString.setSpan(new TypefaceSpan(getString(R.string.noto_sans_medium)), 0,
+                titleString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        mToolbar.setTitle(titleString);
     }
 
     private void initListView() {
@@ -96,5 +123,16 @@ public class MoreInfoActivity extends Activity implements AdapterView.OnItemClic
         // Activity no longer visible
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

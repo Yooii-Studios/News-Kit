@@ -104,8 +104,9 @@
         <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 
-    <style name="ActionBarTitleStyle" parent="Base.TextAppearance.AppCompat.Title">
+    <!-- Toolbar TitleStyle: 나중에 승용에게 배워서 사용하자 -->
+    <!--<style name="ActionBarTitleStyle" parent="Base.TextAppearance.AppCompat.Title">-->
         <!--<item name="android:typeface">@string/noto_sans_medium</item>-->
-    </style>
+    <!--</style>-->
 
 </resources>

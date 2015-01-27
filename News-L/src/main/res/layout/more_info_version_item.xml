@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setting_info_item_outer_layout"
     android:layout_width="match_parent"
-    android:layout_height="71sp"
+    android:layout_height="@dimen/news_select_item_height"
     android:layout_alignParentLeft="true"
     android:clickable="false"
     android:focusable="false"
     android:orientation="vertical"
-    android:padding="@dimen/base_margin"
+    android:paddingLeft="@dimen/base_margin"
+    android:paddingRight="@dimen/base_margin"
     android:background="@android:color/white">
 
     <TextView
