@@ -1,12 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.yooiistudios.news.ui.activity.MoreInfoActivity">
 
     <ListView
         android:id="@+id/more_info_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/info_adView"/>
+        android:layout_above="@id/info_adView"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        tools:listitem="@layout/info_item"/>
 
 </RelativeLayout>

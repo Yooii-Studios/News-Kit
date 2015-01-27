@@ -96,4 +96,16 @@
         <item name="colorAccent">@color/accent_material_light</item>
     </style>
 
+    <!-- Info -->
+    <style name="InfoTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/news_select_color_primary</item>
+        <item name="colorPrimaryDark">@color/news_select_color_primary_dark</item>
+        <item name="colorAccent">@color/news_select_color_accent</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
+    <style name="ActionBarTitleStyle" parent="Base.TextAppearance.AppCompat.Title">
+        <!--<item name="android:typeface">@string/noto_sans_medium</item>-->
+    </style>
+
 </resources>
