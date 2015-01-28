@@ -42,10 +42,10 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
-        NEWSFEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
+        TUTORIAL(R.string.setting_tutorial),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
-        PANEL_COUNT(R.string.setting_panel_count),
-        TUTORIAL(R.string.setting_tutorial);
+        NEWS_FEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
+        PANEL_COUNT(R.string.setting_panel_count);
 
         private int mTitleResId;
 
@@ -132,7 +132,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 showLanguageDialog();
                 break;
 
-            case NEWSFEED_AUTO_SCROLL:
+            case NEWS_FEED_AUTO_SCROLL:
                 showNewsFeedAutoScrollDialog();
                 break;
 
