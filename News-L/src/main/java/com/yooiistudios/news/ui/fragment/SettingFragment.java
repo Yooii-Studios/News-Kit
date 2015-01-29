@@ -70,7 +70,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     private int mPreviousPanelMatrixKey = -1;
 
     public interface OnSettingChangedListener {
-        public void onPanelMatrixChanged(boolean changed);
+        public void onPanelMatrixSelect(boolean changed);
     }
 
     public SettingFragment() {
@@ -188,7 +188,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                         mSettingAdapter.notifyDataSetChanged();
 
                         if (getActivity() instanceof OnSettingChangedListener) {
-                            ((OnSettingChangedListener)getActivity()).onPanelMatrixChanged(
+                            ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
                                     selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
                             );
                         }

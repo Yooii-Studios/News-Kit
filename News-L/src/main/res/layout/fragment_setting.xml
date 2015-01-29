@@ -17,6 +17,8 @@
         android:id="@+id/setting_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/setting_adView"/>
+        android:layout_below="@id/setting_toolbar"
+        android:layout_above="@id/setting_adView"
+        tools:listitem="@layout/setting_item"/>
 
 </RelativeLayout>
