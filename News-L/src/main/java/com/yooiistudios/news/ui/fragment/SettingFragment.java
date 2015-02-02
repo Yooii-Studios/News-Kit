@@ -5,12 +5,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -21,7 +23,6 @@ import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ import butterknife.InjectView;
 
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
+import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMatrixType;
 
 
 /**
@@ -39,20 +41,20 @@ import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MA
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener {
-
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
-        TUTORIAL(R.string.setting_tutorial),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
-        NEWS_FEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
-        PANEL_COUNT(R.string.setting_panel_count);
+        TUTORIAL(R.string.setting_tutorial),
+
+        MAIN_SUB_HEADER(R.string.setting_main_sub_header),
+        MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_offset),
+        MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
+        MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix);
 
         private int mTitleResId;
-
         private SettingItem(int titleResId) {
             mTitleResId = titleResId;
         }
-
         public int getTitleResId() {
             return mTitleResId;
         }
@@ -73,15 +75,14 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         public void onPanelMatrixSelect(boolean changed);
     }
 
-    public SettingFragment() {
-    }
+    public SettingFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            mPreviousPanelMatrixKey = MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrixIndex(getActivity().getApplicationContext());
+            mPreviousPanelMatrixKey = PanelMatrixType.getCurrentPanelMatrixIndex(getActivity().getApplicationContext());
         } else {
             mPreviousPanelMatrixKey = savedInstanceState.getInt(SI_PANEL_MATRIX_KEY);
         }
@@ -132,9 +133,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 showLanguageDialog();
                 break;
 
-            case NEWS_FEED_AUTO_SCROLL:
-                showNewsFeedAutoScrollDialog();
-                break;
+//            case NEWS_FEED_AUTO_SCROLL_START_OFFSET:
+//                showNewsFeedAutoScrollDialog();
+//                break;
 
             case KEEP_SCREEN_ON:
                 preferences = getActivity().getSharedPreferences(
@@ -142,27 +143,33 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
                 preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
 
-                mSettingAdapter.notifyDataSetChanged();
+                Switch keepScreenSwitch = (Switch) view.findViewById(R.id.setting_item_switch);
+                keepScreenSwitch.setChecked(!isChecked);
                 break;
 
-            case PANEL_COUNT:
-                MainBottomContainerLayout.PanelMatrixType currentPanelMatrix =
-                        MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
+            case MAIN_AUTO_REFRESH_INTERVAL:
+                break;
+
+            case MAIN_PANEL_MATRIX:
+                PanelMatrixType currentPanelMatrix =
+                        PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
 
 //                final NumberPicker numberPicker = new NumberPicker(getActivity());
-//                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
+//                String[] panelMatrixArr = MAIN_PANEL_MATRIX.getDisplayNameStringArr();
 //                numberPicker.setDisplayedValues(panelMatrixArr);
 //                numberPicker.setMinValue(0);
 //                numberPicker.setMaxValue(panelMatrixArr.length - 1);
-//                numberPicker.setValue(PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
+//                numberPicker.setValue(MAIN_PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
 //                numberPicker.setWrapSelectorWheel(false);
 //                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
                 ListView panelMatrixListView = new ListView(getActivity());
+                panelMatrixListView.setDivider(new ColorDrawable(android.R.color.transparent));
+                panelMatrixListView.setDividerHeight(0);
                 panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
 
                 final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.setting_panel_count)
+                        .setTitle(R.string.setting_main_panel_matrix)
                         .setView(panelMatrixListView)
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override public void onClick(DialogInterface dialog, int which) {}
@@ -173,7 +180,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MainBottomContainerLayout.PanelMatrixType selectedPanelMatrix = MainBottomContainerLayout.PanelMatrixType.values()[position];
+                        PanelMatrixType selectedPanelMatrix = PanelMatrixType.values()[position];
                         if (!selectedPanelMatrix.isUsable(getActivity())) {
                             return;
                         }
@@ -196,7 +203,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                         panelMatrixSelectDialog.dismiss();
                     }
                 });
-
                 break;
 
             case TUTORIAL:
@@ -222,7 +228,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 Language.setLanguageType(LanguageType.valueOf(i), getActivity());
 
 //                    getActivity().finish();
-                initListView();
+                mSettingAdapter.notifyDataSetChanged();
             }
         }).setTitle(R.string.setting_language).create();
         alertDialog.show();
@@ -249,7 +255,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 }
                 initListView();
             }
-        }).setTitle(R.string.setting_newsfeed_auto_scroll).create();
+        }).setTitle(R.string.setting_news_feed_auto_scroll_start_offset).create();
         alertDialog.show();
     }
 }

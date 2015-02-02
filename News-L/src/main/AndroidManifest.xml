@@ -59,20 +59,20 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/action_settings"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/SettingTheme" />
+            android:theme="@style/NewsAppTheme" />
         <activity
             android:name=".ui.activity.InfoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/action_info"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/InfoTheme" >
+            android:theme="@style/NewsAppTheme" >
         </activity>
         <activity
             android:name=".ui.activity.MoreInfoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/info_news_info"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/InfoTheme" >
+            android:theme="@style/NewsAppTheme" >
         </activity>
         <activity
             android:name=".ui.activity.CreditActivity"

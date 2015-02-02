@@ -13,6 +13,14 @@
         <!--<item name="android:windowAllowEnterTransitionOverlap">true</item>-->
     </style>
 
+    <!-- Default Theme : Material AppCompat 스타일로 새로 개정 중 -->
+    <style name="NewsAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/material_grey_300</item>
+        <item name="colorPrimaryDark">@color/material_grey_500</item>
+        <item name="colorAccent">@color/material_cyan_500</item>
+        <item name="android:textColorPrimary">@color/material_black_primary_text</item>
+    </style>
+
     <!-- Main -->
     <style name="MainTheme" parent="BaseAppTheme">
         <!--<item name="android:actionBarTheme">@style/MainActionBarThemeOverlay</item>-->
@@ -94,22 +102,6 @@
         <!-- colorAccent is used as the default value for colorControlActivated
              which is used to tint widgets -->
         <item name="colorAccent">@color/accent_material_light</item>
-    </style>
-
-    <!-- Setting -->
-    <style name="SettingTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/news_select_color_primary</item>
-        <item name="colorPrimaryDark">@color/news_select_color_primary_dark</item>
-        <item name="colorAccent">@color/news_select_color_accent</item>
-        <item name="android:textColorPrimary">@android:color/black</item>
-    </style>
-
-    <!-- Info -->
-    <style name="InfoTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/news_select_color_primary</item>
-        <item name="colorPrimaryDark">@color/news_select_color_primary_dark</item>
-        <item name="colorAccent">@color/news_select_color_accent</item>
-        <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 
     <!-- Toolbar TitleStyle: 나중에 승용에게 배워서 사용하자 -->

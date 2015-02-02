@@ -19,6 +19,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/setting_toolbar"
         android:layout_above="@id/setting_adView"
-        tools:listitem="@layout/setting_item"/>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        tools:listitem="@layout/setting_item_base"/>
 
 </RelativeLayout>

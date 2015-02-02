@@ -27,14 +27,17 @@
 
     <!-- Setting -->
     <string name="setting_language">Language</string>
-    <string name="setting_newsfeed_auto_scroll">News list auto scroll</string>
     <string name="setting_keep_screen_on">Keep screen on</string>
-    <string name="setting_keep_screen_on_description">test</string>
-    <string name="setting_panel_count">Panel count</string>
-    <string name="setting_panel_count_description">%1$s panels</string>
-    <string name="setting_share_this_app">Share this app</string>
     <string name="setting_tutorial">Tutorial</string>
-    <string name="setting_like_facebook">Like us on facebook</string>
+    <string name="setting_main_sub_header">Main Screen</string>
+    <string name="setting_main_auto_refresh_offset">Auto refresh offset</string>
+    <string name="setting_main_auto_refresh_speed">Auto refresh speed</string>
+    <string name="setting_item_sec_description">%1$s sec</string> <!-- 14 sec -->
+    <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
+    <string name="setting_main_panel_matrix_description">%1$s panels</string>
+    <string name="setting_news_feed_sub_header">News Feed Screen</string>
+    <string name="setting_news_feed_auto_scroll_start_offset">Auto scroll start delay</string>
+    <string name="setting_news_feed_auto_scroll_speed">Auto scroll speed</string>
 
     <!-- Setting (Language) -->
     <string name="setting_language_korean">한국어</string>
