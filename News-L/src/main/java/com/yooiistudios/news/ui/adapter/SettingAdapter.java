@@ -2,12 +2,12 @@ package com.yooiistudios.news.ui.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
@@ -69,7 +69,7 @@ public class SettingAdapter extends BaseAdapter {
 
                 case KEEP_SCREEN_ON:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_switch, parent, false);
-                    initKeepScreenOnItem(context, item, view);
+                    initKeepScreenOnItem(context, view);
                     break;
 
                 case MAIN_AUTO_REFRESH_SPEED:
@@ -122,8 +122,8 @@ public class SettingAdapter extends BaseAdapter {
         }
     }
 
-    private static void initKeepScreenOnItem(Context context, SettingItem item, View view) {
-        Switch keepScreenSwitch = (Switch) view.findViewById(R.id.setting_item_switch);
+    private static void initKeepScreenOnItem(Context context, View view) {
+        SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
         final SharedPreferences preferences = context.getSharedPreferences(
                 SettingFragment.KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         keepScreenSwitch.setChecked(preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false));

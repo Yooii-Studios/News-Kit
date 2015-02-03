@@ -59,7 +59,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/action_settings"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/NewsAppTheme" />
+            android:theme="@style/SettingTheme" />
         <activity
             android:name=".ui.activity.InfoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"

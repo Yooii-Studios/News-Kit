@@ -7,12 +7,12 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Switch;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -119,7 +119,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void initListView() {
-        mSettingAdapter = new SettingAdapter(getActivity().getApplicationContext());
+        mSettingAdapter = new SettingAdapter(getActivity());
         mListView.setAdapter(mSettingAdapter);
         mListView.setOnItemClickListener(this);
     }
@@ -127,7 +127,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
-        SharedPreferences preferences;
         switch (item) {
             case LANGUAGE:
                 showLanguageDialog();
@@ -138,13 +137,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 //                break;
 
             case KEEP_SCREEN_ON:
-                preferences = getActivity().getSharedPreferences(
-                        KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
-                preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
-
-                Switch keepScreenSwitch = (Switch) view.findViewById(R.id.setting_item_switch);
-                keepScreenSwitch.setChecked(!isChecked);
+                toggleKeepScreenOption(view);
                 break;
 
             case MAIN_AUTO_REFRESH_INTERVAL:
@@ -232,6 +225,16 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             }
         }).setTitle(R.string.setting_language).create();
         alertDialog.show();
+    }
+
+    private void toggleKeepScreenOption(View view) {
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
+        preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
+
+        SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
+        keepScreenSwitch.setChecked(!isChecked);
     }
 
     private void showNewsFeedAutoScrollDialog() {

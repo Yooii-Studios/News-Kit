@@ -104,6 +104,11 @@
         <item name="colorAccent">@color/accent_material_light</item>
     </style>
 
+    <style name="SettingTheme" parent="NewsAppTheme">
+        <!-- SwitchCompat 과 Seekbar 색의 변경을 위한 property -->
+        <item name="colorAccent">@color/material_teal_500</item>
+    </style>
+
     <!-- Toolbar TitleStyle: 나중에 승용에게 배워서 사용하자 -->
     <!--<style name="ActionBarTitleStyle" parent="Base.TextAppearance.AppCompat.Title">-->
         <!--<item name="android:typeface">@string/noto_sans_medium</item>-->
