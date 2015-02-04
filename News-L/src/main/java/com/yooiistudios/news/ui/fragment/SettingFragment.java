@@ -1,11 +1,9 @@
 package com.yooiistudios.news.ui.fragment;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,15 +19,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
+import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.news.ui.activity.StoreActivity;
-import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,7 +45,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         TUTORIAL(R.string.setting_tutorial),
 
         MAIN_SUB_HEADER(R.string.setting_main_sub_header),
-        MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_offset),
+        MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
         MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
         MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix);
 
@@ -132,15 +127,12 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 showLanguageSelectDialog();
                 break;
 
-//            case NEWS_FEED_AUTO_SCROLL_START_OFFSET:
-//                showNewsFeedAutoScrollDialog();
-//                break;
-
             case KEEP_SCREEN_ON:
                 toggleKeepScreenOption(view);
                 break;
 
             case MAIN_AUTO_REFRESH_INTERVAL:
+                showAutoRefreshInterval();
                 break;
 
             case MAIN_PANEL_MATRIX:
@@ -148,6 +140,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case TUTORIAL:
+                showTutorial();
                 break;
         }
     }
@@ -181,6 +174,15 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         keepScreenSwitch.setChecked(!isChecked);
     }
 
+    private void showTutorial() {
+        // TODO 나중에 튜토리얼이 개발된 뒤 boolean 값으로 메인에서 볼 수 있게 해 주자
+        Toast.makeText(getActivity(), "In developing...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showAutoRefreshInterval() {
+
+    }
+
     private void showPanelMatrixSelectDialog() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("panel_matrix_dialog");
@@ -210,30 +212,5 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             startActivity(new Intent(getActivity(), StoreActivity.class));
             Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showNewsFeedAutoScrollDialog() {
-        // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> list = new ArrayList<>();
-        list.add(getString(R.string.on));
-        list.add(getString(R.string.off));
-
-        String[] booleanList = list.toArray(new String[list.size()]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog alertDialog = builder.setItems(booleanList, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                // archive selection
-                if (i == 0) {
-                    Settings.setNewsFeedAutoScroll(getActivity(), true);
-                } else {
-                    Settings.setNewsFeedAutoScroll(getActivity(), false);
-                }
-                initListView();
-            }
-        }).setTitle(R.string.setting_news_feed_auto_scroll_start_offset).create();
-        alertDialog.show();
     }
 }

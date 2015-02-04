@@ -56,7 +56,7 @@ public class LanguageSelectDialog extends DialogFragment {
                         if (mListener != null) {
                             mListener.onSelectLanguage(which);
                         }
-                    }
+    }
                 })
                 .negativeText(R.string.cancel)
                 .build();

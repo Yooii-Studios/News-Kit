@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
@@ -75,7 +77,7 @@ public class SettingAdapter extends BaseAdapter {
 
                 case MAIN_AUTO_REFRESH_SPEED:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_seekbar, parent, false);
-                    // TODO 자동 스크롤 시작 시간 구현 필요
+                    initAutoRefreshSpeedItem(context, view);
                     break;
 
                 case TUTORIAL:
@@ -132,6 +134,25 @@ public class SettingAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 preferences.edit().putBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, isChecked).apply();
             }
+        });
+    }
+
+    private static void initAutoRefreshSpeedItem(final Context context, View view) {
+        int previousSpeed = Settings.getAutoRefreshSpeed(context);
+
+        SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
+        seekBar.setProgress(previousSpeed);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Settings.setAutoRefreshSpeed(context, progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 }
