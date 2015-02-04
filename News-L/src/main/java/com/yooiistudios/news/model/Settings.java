@@ -27,12 +27,15 @@ public class Settings {
                 .getBoolean(NEWS_FEED_AUTO_SCROLL_KEY, true);
     }
 
-    public static void setAutoRefreshInterval(Context context, int offset) {
-
+    public static void setAutoRefreshInterval(Context context, int interval) {
+        context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .edit().putInt(AUTO_REFRESH_INTERVAL_KEY, interval).apply();
     }
 
+    // available interval value is over 0
     public static int getAutoRefreshInterval(Context context) {
-        return 0;
+        return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getInt(AUTO_REFRESH_INTERVAL_KEY, 7);
     }
 
     public static void setAutoRefreshSpeed(Context context, int speed) {

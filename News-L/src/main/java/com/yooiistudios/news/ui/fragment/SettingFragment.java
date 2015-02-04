@@ -19,6 +19,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
@@ -37,8 +38,7 @@ import butterknife.InjectView;
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener {
-
+        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener, AutoRefreshIntervalDialogFragment.OnActionListener {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -152,16 +152,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void showLanguageSelectDialog() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("language_dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog
-        DialogFragment newFragment = LanguageSelectDialog.newInstance(this);
-        newFragment.show(ft, "language_dialog");
+        showDialogFragment("language_dialog", LanguageSelectDialog.newInstance(this));
     }
 
     private void toggleKeepScreenOption(View view) {
@@ -180,20 +171,17 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void showAutoRefreshInterval() {
+        showDialogFragment("auto_refresh_interval", AutoRefreshIntervalDialogFragment.newInstance(this));
+    }
 
+    @Override
+    public void onTypeAutoRefreshInterval(int interval) {
+        Settings.setAutoRefreshInterval(getActivity(), interval);
+        mSettingAdapter.notifyDataSetChanged();
     }
 
     private void showPanelMatrixSelectDialog() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("panel_matrix_dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog
-        DialogFragment newFragment = PanelMatrixSelectDialog.newInstance(this);
-        newFragment.show(ft, "panel_matrix_dialog");
+        showDialogFragment("panel_matrix_dialog", PanelMatrixSelectDialog.newInstance(this));
     }
 
     @Override
@@ -212,5 +200,17 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             startActivity(new Intent(getActivity(), StoreActivity.class));
             Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showDialogFragment(String tag, DialogFragment dialogFragment) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag(tag);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog
+        dialogFragment.show(ft, tag);
     }
 }

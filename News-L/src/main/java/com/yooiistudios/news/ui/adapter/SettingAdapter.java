@@ -114,13 +114,13 @@ public class SettingAdapter extends BaseAdapter {
             descriptionTextView.setText(
                     LanguageUtils.getCurrentLanguageType(context).getLocalNotationStringId());
         } else if (item == SettingItem.MAIN_AUTO_REFRESH_INTERVAL) {
-            // TODO 초 설정 기능 구현 필요
-            descriptionTextView.setText("5 sec");
+            int autoRefreshInterval = Settings.getAutoRefreshInterval(context);
+            descriptionTextView.setText(
+                    context.getString(R.string.setting_item_sec_description, autoRefreshInterval));
         } else if (item == SettingItem.MAIN_PANEL_MATRIX) {
             PanelMatrix currentPanelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
-            descriptionTextView.setText(
-                    context.getString(R.string.setting_main_panel_matrix_description,
-                            currentPanelMatrix.getDisplayName()));
+            descriptionTextView.setText(context.getString(
+                    R.string.setting_main_panel_matrix_description, currentPanelMatrix.getDisplayName()));
         }
     }
 
@@ -149,10 +149,12 @@ public class SettingAdapter extends BaseAdapter {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 }

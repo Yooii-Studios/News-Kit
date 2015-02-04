@@ -24,6 +24,7 @@
     <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
     <string name="custom_news_feed_dialog_title">Enter RSS URL</string>
     <string name="custom_news_feed_menu_item_title">Type RSS</string>
+    <string name="custom_news_feed_url">Url</string>
 
     <!-- Setting -->
     <string name="setting_language">Language</string>
@@ -31,10 +32,12 @@
     <string name="setting_tutorial">Tutorial</string>
     <string name="setting_main_sub_header">Main Screen</string>
     <string name="setting_main_auto_refresh_interval">Auto refresh interval</string>
+    <string name="setting_main_auto_refresh_interval_caption">Interval</string>
     <string name="setting_main_auto_refresh_speed">Auto refresh speed</string>
     <string name="setting_item_sec_description">%1$s sec</string> <!-- 14 sec -->
     <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s panels</string>
+
     <string name="setting_news_feed_sub_header">News Feed Screen</string>
     <string name="setting_news_feed_auto_scroll_start_offset">Auto scroll start delay</string>
     <string name="setting_news_feed_auto_scroll_speed">Auto scroll speed</string>
