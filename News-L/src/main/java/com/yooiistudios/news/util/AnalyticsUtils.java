@@ -76,4 +76,17 @@ public class AnalyticsUtils {
                 .setLabel(quitViewName)
                 .build());
     }
+
+    // 패널 매트릭스 선택을 트래킹
+    public static void trackNewsPanelMatrixSelection(NewsApplication application, String TAG, String panelMatrix) {
+        // Get tracker.
+        Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(TAG)
+                .setAction("Newsfeed Panel Matrix Selection")
+                .setLabel(panelMatrix)
+                .build());
+    }
 }

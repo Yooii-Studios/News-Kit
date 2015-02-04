@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 12. 9.
@@ -23,21 +24,21 @@ import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 public class PanelMatrixSelectAdapter extends BaseAdapter {
 
     private Context mContext;
-    private MainBottomContainerLayout.PanelMatrixType mCurrentPanelMatrix;
+    private PanelMatrix mCurrentPanelMatrix;
 
-    public PanelMatrixSelectAdapter(Context context, MainBottomContainerLayout.PanelMatrixType currentPanelMatrix) {
+    public PanelMatrixSelectAdapter(Context context, PanelMatrix currentPanelMatrix) {
         mContext = context;
         mCurrentPanelMatrix = currentPanelMatrix;
     }
 
     @Override
     public int getCount() {
-        return MainBottomContainerLayout.PanelMatrixType.values().length;
+        return PanelMatrix.values().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return MainBottomContainerLayout.PanelMatrixType.values()[position];
+        return PanelMatrix.values()[position];
     }
 
     @Override
@@ -53,14 +54,14 @@ public class PanelMatrixSelectAdapter extends BaseAdapter {
                     R.layout.panel_matrix_select_dialog_list_item, null);
         }
 
-        MainBottomContainerLayout.PanelMatrixType panelMatrix = MainBottomContainerLayout.PanelMatrixType.values()[position];
+        PanelMatrix panelMatrix = PanelMatrix.values()[position];
 
         TextView panelMatrixNameTextView = (TextView)convertView.findViewById(R.id.panel_matrix_name);
-        panelMatrixNameTextView.setText(panelMatrix.displayName);
+        panelMatrixNameTextView.setText(panelMatrix.getDisplayName());
 
         ImageView lockImageView = (ImageView)convertView.findViewById(R.id.setting_item_lock_imageview);
         if (IabProducts.containsSku(mContext, IabProducts.SKU_MORE_PANELS)
-                || panelMatrix.isUsable(mContext)) {
+                || PanelMatrixUtils.isMatrixAvailable(mContext, panelMatrix)) {
             lockImageView.setVisibility(View.INVISIBLE);
             convertView.setBackgroundColor(Color.TRANSPARENT);
         } else {

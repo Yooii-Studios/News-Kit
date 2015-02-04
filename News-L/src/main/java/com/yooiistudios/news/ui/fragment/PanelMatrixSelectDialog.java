@@ -7,26 +7,26 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.language.Language;
-import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 
 import java.util.ArrayList;
 
 /**
- * Created by Wooseong Kim on in News Flow from Yooii Studios Co., LTD. on 2015. 2. 4.
+ * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 15. 2. 4.
  *
- * LanguageSelectDialog
- *  언어를 선택하는 DialogFragment
+ * PanelMatrixSelectDialog
+ *  뉴스피드 패널 매트릭스를 선택하는 다이얼로그 프래그먼트
  */
-public class LanguageSelectDialog extends DialogFragment {
+public class PanelMatrixSelectDialog extends DialogFragment {
     private OnActionListener mListener;
 
     public interface OnActionListener {
-        public void onSelectLanguage(int position);
+        public void onSelectMatrix(int position);
     }
 
-    public static LanguageSelectDialog newInstance(OnActionListener listener) {
-        LanguageSelectDialog fragment = new LanguageSelectDialog();
+    public static PanelMatrixSelectDialog newInstance(OnActionListener listener) {
+        PanelMatrixSelectDialog fragment = new PanelMatrixSelectDialog();
         fragment.setListener(listener);
         return fragment;
     }
@@ -38,23 +38,23 @@ public class LanguageSelectDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        ArrayList<String> languageList = new ArrayList<>();
-        for (int i = 0; i < LanguageType.values().length; i++) {
-            LanguageType languageType = LanguageType.valueOf(i);
-            languageList.add(getString(languageType.getLocalNotationStringId()));
+        ArrayList<String> matrixTypeList = new ArrayList<>();
+        for (int i = 0; i < PanelMatrix.values().length; i++) {
+            PanelMatrix panelMatrixType = PanelMatrix.getByUniqueKey(i);
+            matrixTypeList.add(panelMatrixType.getDisplayName());
         }
-        String[] languages = languageList.toArray(new String[languageList.size()]);
+        String[] matrixArr = matrixTypeList.toArray(new String[matrixTypeList.size()]);
 
-        LanguageType currentLanguageType = Language.getCurrentLanguageType(getActivity());
+        PanelMatrix matrixType = PanelMatrixUtils.getCurrentPanelMatrix(getActivity());
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.setting_language)
-                .items(languages)
-                .itemsCallbackSingleChoice(currentLanguageType.getIndex(), new MaterialDialog.ListCallback() {
+                .title(R.string.setting_main_panel_matrix)
+                .items(matrixArr)
+                .itemsCallbackSingleChoice(matrixType.getUniqueId(), new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         if (mListener != null) {
-                            mListener.onSelectLanguage(which);
+                            mListener.onSelectMatrix(which);
                         }
                     }
                 })

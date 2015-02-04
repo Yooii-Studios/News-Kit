@@ -12,10 +12,11 @@ import android.widget.TextView;
 
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.language.Language;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
 
 import static com.yooiistudios.news.ui.fragment.SettingFragment.SettingItem;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMatrixType;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 3.
@@ -114,18 +115,17 @@ public class SettingAdapter extends BaseAdapter {
             // TODO 초 설정 기능 구현 필요
             descriptionTextView.setText("5 sec");
         } else if (item == SettingItem.MAIN_PANEL_MATRIX) {
-            PanelMatrixType currentPanelMatrix =
-                    PanelMatrixType.getCurrentPanelMatrix(context);
+            PanelMatrix currentPanelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
             descriptionTextView.setText(
                     context.getString(R.string.setting_main_panel_matrix_description,
-                            currentPanelMatrix.displayName));
+                            currentPanelMatrix.getDisplayName()));
         }
     }
 
     private static void initKeepScreenOnItem(Context context, View view) {
         SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
         final SharedPreferences preferences = context.getSharedPreferences(
-                SettingFragment.KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                SettingFragment.KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
         keepScreenSwitch.setChecked(preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false));
         keepScreenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -6,8 +6,8 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -23,17 +24,15 @@ import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
-import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.news.ui.activity.StoreActivity;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMatrixType;
 
 
 /**
@@ -43,7 +42,8 @@ import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMat
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LanguageSelectDialog.OnActionListener {
+        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener {
+
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -63,7 +63,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         }
     }
 
-    public static final String KEEP_SCREEN_ON_SHARED_PREFERENCES = "KEEP_SCREEN_ON_SHARED_PREFERENCES";
+    public static final String KEEP_SCREEN_ON_PREFS = "KEEP_SCREEN_ON_PREFS";
     public static final String KEEP_SCREEN_ON_KEY = "KEEP_SCREEN_ON_KEY";
     private static final String PANEL_MATRIX_KEY = "PANEL_MATRIX_KEY";
 
@@ -71,7 +71,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @InjectView(R.id.setting_adView) AdView mAdView;
 
     private SettingAdapter mSettingAdapter;
-    private int mPreviousPanelMatrixKey = -1;
+    private int mPreviousPanelMatrixUniqueId = -1;
 
     public interface OnSettingChangedListener {
         public void onPanelMatrixSelect(boolean changed);
@@ -83,15 +83,15 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            mPreviousPanelMatrixKey = PanelMatrixType.getCurrentPanelMatrixIndex(getActivity().getApplicationContext());
+            mPreviousPanelMatrixUniqueId = PanelMatrixUtils.getCurrentPanelMatrix(getActivity()).getUniqueId();
         } else {
-            mPreviousPanelMatrixKey = savedInstanceState.getInt(PANEL_MATRIX_KEY);
+            mPreviousPanelMatrixUniqueId = savedInstanceState.getInt(PANEL_MATRIX_KEY);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
+        outState.putInt(PANEL_MATRIX_KEY, mPreviousPanelMatrixUniqueId);
         super.onSaveInstanceState(outState);
     }
 
@@ -129,7 +129,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         SettingItem item = SettingItem.values()[position];
         switch (item) {
             case LANGUAGE:
-                showLanguageDialog();
+                showLanguageSelectDialog();
                 break;
 
 //            case NEWS_FEED_AUTO_SCROLL_START_OFFSET:
@@ -144,58 +144,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 break;
 
             case MAIN_PANEL_MATRIX:
-                PanelMatrixType currentPanelMatrix =
-                        PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
-
-//                final NumberPicker numberPicker = new NumberPicker(getActivity());
-//                String[] panelMatrixArr = MAIN_PANEL_MATRIX.getDisplayNameStringArr();
-//                numberPicker.setDisplayedValues(panelMatrixArr);
-//                numberPicker.setMinValue(0);
-//                numberPicker.setMaxValue(panelMatrixArr.length - 1);
-//                numberPicker.setValue(MAIN_PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
-//                numberPicker.setWrapSelectorWheel(false);
-//                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-                ListView panelMatrixListView = new ListView(getActivity());
-                panelMatrixListView.setDivider(new ColorDrawable(android.R.color.transparent));
-                panelMatrixListView.setDividerHeight(0);
-                panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
-
-                final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.setting_main_panel_matrix)
-                        .setView(panelMatrixListView)
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialog, int which) {}
-                        })
-                        .create();
-                panelMatrixSelectDialog.show();
-
-                panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        PanelMatrixType selectedPanelMatrix = PanelMatrixType.values()[position];
-                        if (!selectedPanelMatrix.isUsable(getActivity())) {
-                            return;
-                        }
-
-                        SharedPreferences preferences = getActivity().getSharedPreferences(
-                                PANEL_MATRIX_SHARED_PREFERENCES,
-                                Context.MODE_PRIVATE);
-                        preferences.edit()
-                                .putInt(MainBottomContainerLayout.PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
-                                .apply();
-
-                        mSettingAdapter.notifyDataSetChanged();
-
-                        if (getActivity() instanceof OnSettingChangedListener) {
-                            ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
-                                    selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
-                            );
-                        }
-
-                        panelMatrixSelectDialog.dismiss();
-                    }
-                });
+                showPanelMatrixSelectDialog();
                 break;
 
             case TUTORIAL:
@@ -209,7 +158,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         mSettingAdapter.notifyDataSetChanged();
     }
 
-    private void showLanguageDialog() {
+    private void showLanguageSelectDialog() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("language_dialog");
         if (prev != null) {
@@ -218,19 +167,104 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         ft.addToBackStack(null);
 
         // Create and show the dialog
-        DialogFragment newFragment = LanguageSelectDialog.newInstance(
-                Language.getCurrentLanguageType(getActivity()).getUniqueId(), this);
+        DialogFragment newFragment = LanguageSelectDialog.newInstance(this);
         newFragment.show(ft, "language_dialog");
     }
 
     private void toggleKeepScreenOption(View view) {
         SharedPreferences preferences = getActivity().getSharedPreferences(
-                KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
         boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
         preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
 
         SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
         keepScreenSwitch.setChecked(!isChecked);
+    }
+
+    private void showPanelMatrixSelectDialog() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("panel_matrix_dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog
+        DialogFragment newFragment = PanelMatrixSelectDialog.newInstance(this);
+        newFragment.show(ft, "panel_matrix_dialog");
+
+        /*
+        PanelMatrixType currentPanelMatrix =
+                PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
+
+//                final NumberPicker numberPicker = new NumberPicker(getActivity());
+//                String[] panelMatrixArr = MAIN_PANEL_MATRIX.getDisplayNameStringArr();
+//                numberPicker.setDisplayedValues(panelMatrixArr);
+//                numberPicker.setMinValue(0);
+//                numberPicker.setMaxValue(panelMatrixArr.length - 1);
+//                numberPicker.setValue(MAIN_PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
+//                numberPicker.setWrapSelectorWheel(false);
+//                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        ListView panelMatrixListView = new ListView(getActivity());
+        panelMatrixListView.setDivider(new ColorDrawable(android.R.color.transparent));
+        panelMatrixListView.setDividerHeight(0);
+        panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
+
+        final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.setting_main_panel_matrix)
+                .setView(panelMatrixListView)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {}
+                })
+                .create();
+        panelMatrixSelectDialog.show();
+
+        panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PanelMatrixType selectedPanelMatrix = PanelMatrixType.values()[position];
+                if (!selectedPanelMatrix.isUsable(getActivity())) {
+                    return;
+                }
+
+                SharedPreferences preferences = getActivity().getSharedPreferences(
+                        PANEL_MATRIX_SHARED_PREFERENCES,
+                        Context.MODE_PRIVATE);
+                preferences.edit()
+                        .putInt(MainBottomContainerLayout.PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
+                        .apply();
+
+                mSettingAdapter.notifyDataSetChanged();
+
+                if (getActivity() instanceof OnSettingChangedListener) {
+                    ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
+                            selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixUniqueId
+                    );
+                }
+
+                panelMatrixSelectDialog.dismiss();
+            }
+        });
+        */
+    }
+
+    @Override
+    public void onSelectMatrix(int position) {
+        PanelMatrix selectedPanelMatrix = PanelMatrix.getByUniqueKey(position);
+        if (PanelMatrixUtils.isMatrixAvailable(getActivity(), selectedPanelMatrix)) {
+            PanelMatrixUtils.setCurrentPanelMatrix(selectedPanelMatrix, getActivity());
+            mSettingAdapter.notifyDataSetChanged();
+
+            // 패널이 변경되었으면 메인에서 구조 변경을 할 수 있게 콜백으로 알림
+            if (getActivity() instanceof OnSettingChangedListener) {
+                ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
+                        selectedPanelMatrix.getUniqueId() != mPreviousPanelMatrixUniqueId);
+            }
+        } else {
+            startActivity(new Intent(getActivity(), StoreActivity.class));
+            Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showNewsFeedAutoScrollDialog() {
