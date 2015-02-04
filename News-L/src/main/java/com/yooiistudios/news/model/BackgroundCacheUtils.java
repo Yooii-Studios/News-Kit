@@ -15,7 +15,8 @@ import com.yooiistudios.news.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
 
@@ -95,11 +96,10 @@ public class BackgroundCacheUtils implements
         // cache bottom news feed list
         mBottomImageFetchMap = new ArrayList<>();
 
-        MainBottomContainerLayout.PanelMatrixType currentMatrix =
-                MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(context);
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
 
         ArrayList<NewsFeed> bottomNewsFeedList =
-                NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext, currentMatrix.panelCount);
+                NewsDb.getInstance(mContext).loadBottomNewsFeedList(mContext, currentMatrix.getPanelCount());
 
         int count = bottomNewsFeedList.size();
         for (int i = 0; i < count; i++) {

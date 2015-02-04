@@ -302,7 +302,7 @@ public class MainActivity extends Activity
 
         // 화면 켜짐 유지 설정
         SharedPreferences preferences = getSharedPreferences(
-                SettingFragment.KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                SettingFragment.KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
         if (preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {

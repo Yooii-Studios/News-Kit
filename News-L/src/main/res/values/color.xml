@@ -14,6 +14,10 @@
     <color name="refresh_color_scheme_3">#FFBB33</color>
     <color name="refresh_color_scheme_4">#FF4444</color>
 
+    <!-- General -->
+    <color name="toolbar_background">@color/material_grey_300</color>
+    <color name="toolbar_title_color">@color/material_black_primary_text</color>
+
     <!-- from style -->
     <color name="main_top_indicator">#666</color>
     <color name="theme_default_accent_light">#33e0e0e0</color>
@@ -39,7 +43,7 @@
     <color name="setting_locked_item_background">#c1c1c1</color>
     <color name="setting_header_text_color">@color/material_teal_500</color>
     <color name="setting_title_text_color">@color/material_black_primary_text</color>
-    <color name="setting_description_text_color">@color/material_grey_500</color>
+    <color name="setting_description_text_color">@color/store_item_description_color</color>
 
     <!-- Store -->
     <color name="store_color_primary">@color/material_grey_300</color>
