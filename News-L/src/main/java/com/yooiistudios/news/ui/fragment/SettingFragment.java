@@ -192,15 +192,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         // Create and show the dialog
         DialogFragment newFragment = PanelMatrixSelectDialog.newInstance(this);
         newFragment.show(ft, "panel_matrix_dialog");
-
-//                final NumberPicker numberPicker = new NumberPicker(getActivity());
-//                String[] panelMatrixArr = MAIN_PANEL_MATRIX.getDisplayNameStringArr();
-//                numberPicker.setDisplayedValues(panelMatrixArr);
-//                numberPicker.setMinValue(0);
-//                numberPicker.setMaxValue(panelMatrixArr.length - 1);
-//                numberPicker.setValue(MAIN_PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
-//                numberPicker.setWrapSelectorWheel(false);
-//                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
     @Override
