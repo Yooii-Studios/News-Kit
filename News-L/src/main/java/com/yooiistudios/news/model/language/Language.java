@@ -1,82 +1,84 @@
 package com.yooiistudios.news.model.language;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
-
-import com.flurry.android.FlurryAgent;
-import com.yooiistudios.news.util.FlurryUtils;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import com.yooiistudios.news.R;
 
 /**
- * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 15.
+ * Created by StevenKim in MorningKit from Yooii Studios Co., LTD. on 2013. 12. 4.
  *
- * Language
- *  언어 설정을 관리
+ * LanguageType
+ *  뉴스 L의 언어를 enum 으로 표현
+ *  index = 설정 창에서 순서를 표현
+ *  uniqueId = 이 테마의 고유 id를 표시
  */
-public class Language {
-    private static final String LANGUAGE_SHARED_PREFERENCES = "LANGUAGE_SHARED_PREFERENCES";
-    private static final String LANGUAGE_MATRIX_KEY= "LANGUAGE_MATRIX_KEY";
+public enum Language {
+    ENGLISH(0, 0, "en", "",
+            "English", R.string.setting_language_english),
+    KOREAN(1, 1, "ko", "",
+            "Korean", R.string.setting_language_korean),
+    JAPANESE(2, 2, "ja", "",
+            "Japanese", R.string.setting_language_japanese),
+    SIMPLIFIED_CHINESE(3, 3, "zh", "CN",
+            "Chinese (Simplified)", R.string.setting_language_simplified_chinese),
+    TRADITIONAL_CHINESE(4, 4, "zh", "TW",
+            "Chinese (Traditional)", R.string.setting_language_traditional_chinese),
+    RUSSIAN(5, 5, "ru", "",
+            "Russian", R.string.setting_language_russian);
 
-    private volatile static Language instance;
-    private LanguageType currentLanguageType;
+    private final int index; // 리스트뷰에 표시할 용도의 index
+    private final int uniqueId; // SharedPreferences 에 저장될 용도의 unique id
+    private final String code;
+    private final String region;
+    private final String englishNotation;
+    private final int localNotationStringId;
 
-    /**
-     * Singleton
-     */
-    @SuppressWarnings("UnusedDeclaration")
-    private Language() {}
-    private Language(Context context) {
-        int uniqueId = context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getInt(LANGUAGE_MATRIX_KEY, -1);
-
-        // 최초 설치시 디바이스의 언어와 비교해 앱이 지원하는 언어면 해당 언어로 설정, 아닐 경우 영어로 첫 언어 설정
-        if (uniqueId == -1) {
-            Locale locale = Locale.getDefault();
-            currentLanguageType = LanguageType.valueOfCodeAndRegion(locale.getLanguage(), locale.getCountry());
-            // 아카이브
-            context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                    .edit().putInt(LANGUAGE_MATRIX_KEY, currentLanguageType.getUniqueId()).commit();
-        } else {
-            currentLanguageType = LanguageType.valueOfUniqueId(uniqueId);
-        }
+    private Language(int index, int uniqueId, String code, String region,
+                     String englishNotation, int localNotationStringId) {
+        this.index = index;
+        this.uniqueId = uniqueId;
+        this.code = code;
+        this.region = region;
+        this.englishNotation = englishNotation;
+        this.localNotationStringId = localNotationStringId;
     }
 
-    public static Language getInstance(Context context) {
-        if (instance == null) {
-            synchronized (Language.class) {
-                if (instance == null) {
-                    instance = new Language(context);
-                }
+    public static Language valueOf(int index) {
+        for (Language language : Language.values()) {
+            if (language.getIndex() == index) {
+                return language;
             }
         }
-        return instance;
+        throw new IndexOutOfBoundsException("Undefined Enumeration Index");
     }
 
-    public static LanguageType getCurrentLanguageType(Context context) { return Language.getInstance(context).currentLanguageType; }
-
-    public static void setLanguageType(LanguageType newLanguage, Activity activity) {
-        Context context = activity.getApplicationContext();
-
-        // archive selection
-        Language.getInstance(context).currentLanguageType = newLanguage;
-        context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .edit().putInt(LANGUAGE_MATRIX_KEY, newLanguage.getUniqueId()).commit();
-
-        // update locale
-        LanguageType currentLanguageType = Language.getCurrentLanguageType(activity);
-        Locale locale = new Locale(currentLanguageType.getCode(), currentLanguageType.getRegion());
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        activity.getResources().updateConfiguration(config, activity.getResources().getDisplayMetrics());
-
-        // 플러리
-        Map<String, String> params = new HashMap<>();
-        params.put(FlurryUtils.LANGUAGE, newLanguage.toString());
-        FlurryAgent.logEvent(FlurryUtils.ON_SETTING_THEME, params);
+    public static Language valueOfUniqueId(int uniqueId) {
+        for (Language language : Language.values()) {
+            if (language.getUniqueId() == uniqueId) {
+                return language;
+            }
+        }
+        throw new IndexOutOfBoundsException("Undefined Enumeration Index");
     }
+
+    public static Language valueOfCodeAndRegion(String code, String region) {
+        for (Language language : Language.values()) {
+            if (language.getCode().equals(code)) {
+                if (language.getCode().equals("zh") || language.getCode().equals("pt")) {
+                    if (language.getRegion().equals(region)) {
+                        return language;
+                    }
+                } else {
+                    return language;
+                }
+            }
+
+        }
+        return ENGLISH;
+    }
+
+    public int getIndex() { return index; }
+    public int getUniqueId() { return uniqueId; }
+    public String getCode() { return code; }
+    public String getRegion() { return region; }
+    public String getEnglishNotation() { return englishNotation; }
+    public int getLocalNotationStringId() { return localNotationStringId; }
 }

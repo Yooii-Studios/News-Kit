@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.yooiistudios.news.model.language.Language;
-import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.util.InterpolatorHelper;
 
 import java.util.HashMap;
@@ -68,10 +68,10 @@ public class NewsApplication extends Application {
         Configuration config = getApplicationContext().getResources().getConfiguration();
 
         // load language from MNLanguage
-        LanguageType currentLanguageType = Language.getCurrentLanguageType(getApplicationContext());
+        Language currentLanguage = LanguageUtils.getCurrentLanguageType(getApplicationContext());
 
         // update locale to current language
-        mLocale = new Locale(currentLanguageType.getCode(), currentLanguageType.getRegion());
+        mLocale = new Locale(currentLanguage.getCode(), currentLanguage.getRegion());
         Locale.setDefault(mLocale);
         config.locale = mLocale;
         getApplicationContext().getResources().updateConfiguration(config,

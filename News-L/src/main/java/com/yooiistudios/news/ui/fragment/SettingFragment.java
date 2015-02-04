@@ -18,7 +18,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
-import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
 import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
@@ -207,8 +207,8 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     private void showLanguageDialog() {
         // 뉴스피드들의 타이틀을 CharSequence 로 변경
         ArrayList<String> languageList = new ArrayList<>();
-        for (int i = 0; i < LanguageType.values().length; i++) {
-            languageList.add(getString(LanguageType.valueOf(i).getLocalNotationStringId()));
+        for (int i = 0; i < Language.values().length; i++) {
+            languageList.add(getString(Language.valueOf(i).getLocalNotationStringId()));
         }
 
         String[] languages = languageList.toArray(new String[languageList.size()]);
@@ -219,7 +219,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 dialogInterface.dismiss();
 
                 // archive selection
-                Language.setLanguageType(LanguageType.valueOf(i), getActivity());
+                LanguageUtils.setLanguageType(Language.valueOf(i), getActivity());
 
 //                    getActivity().finish();
                 initListView();
