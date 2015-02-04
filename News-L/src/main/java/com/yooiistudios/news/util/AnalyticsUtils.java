@@ -77,7 +77,20 @@ public class AnalyticsUtils {
                 .build());
     }
 
-    // 패널 매트릭스 선택을 트래킹
+    // 세팅화면에서 뒤로 나가는 것을 up 버튼으로 하는지 back 버튼으로 하는지 조사하기 위해서 도입
+    public static void trackSettingsQuitAction(NewsApplication application, String TAG, String quitViewName) {
+        // Get tracker.
+        Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(TAG)
+                .setAction("Quit SettingActivity with")
+                .setLabel(quitViewName)
+                .build());
+    }
+
+    // 세팅 - 패널 매트릭스 선택을 트래킹
     public static void trackNewsPanelMatrixSelection(NewsApplication application, String TAG, String panelMatrix) {
         // Get tracker.
         Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);

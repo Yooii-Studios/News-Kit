@@ -102,9 +102,21 @@ public class SettingActivity extends ActionBarActivity
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                finish();
+                AnalyticsUtils.trackSettingsQuitAction((NewsApplication) getApplication(), TAG,
+                        "Home Button");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    finishAfterTransition();
+                } else {
+                    finish();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AnalyticsUtils.trackSettingsQuitAction((NewsApplication) getApplication(), TAG, "Back Button");
     }
 }
