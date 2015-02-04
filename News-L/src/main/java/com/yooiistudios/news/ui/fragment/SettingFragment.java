@@ -1,7 +1,9 @@
 package com.yooiistudios.news.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -23,13 +25,13 @@ import com.yooiistudios.news.model.language.Language;
 import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
+import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
 import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMatrixType;
 
@@ -40,7 +42,8 @@ import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMat
  * SettingFragment
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
-public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
+        LanguageSelectDialog.OnActionListener {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -62,13 +65,12 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     public static final String KEEP_SCREEN_ON_SHARED_PREFERENCES = "KEEP_SCREEN_ON_SHARED_PREFERENCES";
     public static final String KEEP_SCREEN_ON_KEY = "KEEP_SCREEN_ON_KEY";
-
-    private static final String SI_PANEL_MATRIX_KEY = "SI_PANEL_MATRIX_KEY";
+    private static final String PANEL_MATRIX_KEY = "PANEL_MATRIX_KEY";
 
     @InjectView(R.id.setting_list_view) ListView mListView;
     @InjectView(R.id.setting_adView) AdView mAdView;
-    private SettingAdapter mSettingAdapter;
 
+    private SettingAdapter mSettingAdapter;
     private int mPreviousPanelMatrixKey = -1;
 
     public interface OnSettingChangedListener {
@@ -80,18 +82,16 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (savedInstanceState == null) {
             mPreviousPanelMatrixKey = PanelMatrixType.getCurrentPanelMatrixIndex(getActivity().getApplicationContext());
         } else {
-            mPreviousPanelMatrixKey = savedInstanceState.getInt(SI_PANEL_MATRIX_KEY);
+            mPreviousPanelMatrixKey = savedInstanceState.getInt(PANEL_MATRIX_KEY);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SI_PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
-
+        outState.putInt(PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
         super.onSaveInstanceState(outState);
     }
 
@@ -182,7 +182,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                                 PANEL_MATRIX_SHARED_PREFERENCES,
                                 Context.MODE_PRIVATE);
                         preferences.edit()
-                                .putInt(PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
+                                .putInt(MainBottomContainerLayout.PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
                                 .apply();
 
                         mSettingAdapter.notifyDataSetChanged();
@@ -203,28 +203,24 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         }
     }
 
+    @Override
+    public void onSelectLanguage(int index) {
+        Language.setLanguageType(LanguageType.valueOf(index), getActivity());
+        mSettingAdapter.notifyDataSetChanged();
+    }
+
     private void showLanguageDialog() {
-        // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> languageList = new ArrayList<>();
-        for (int i = 0; i < LanguageType.values().length; i++) {
-            languageList.add(getString(LanguageType.valueOf(i).getLocalNotationStringId()));
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("language_dialog");
+        if (prev != null) {
+            ft.remove(prev);
         }
+        ft.addToBackStack(null);
 
-        String[] languages = languageList.toArray(new String[languageList.size()]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog alertDialog = builder.setItems(languages, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                // archive selection
-                Language.setLanguageType(LanguageType.valueOf(i), getActivity());
-
-//                    getActivity().finish();
-                mSettingAdapter.notifyDataSetChanged();
-            }
-        }).setTitle(R.string.setting_language).create();
-        alertDialog.show();
+        // Create and show the dialog
+        DialogFragment newFragment = LanguageSelectDialog.newInstance(
+                Language.getCurrentLanguageType(getActivity()).getUniqueId(), this);
+        newFragment.show(ft, "language_dialog");
     }
 
     private void toggleKeepScreenOption(View view) {

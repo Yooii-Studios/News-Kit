@@ -106,6 +106,4 @@
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url.</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
     <string name="news_feed_fetch_error_unknown">Unknown error. Please try later.</string>
-    <string name="title_activity_network_unavailable">NetworkUnavailableActivity</string>
-
 </resources>
