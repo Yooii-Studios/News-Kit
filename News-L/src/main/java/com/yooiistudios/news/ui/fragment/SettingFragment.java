@@ -23,10 +23,10 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
-import com.yooiistudios.news.model.language.LanguageType;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.news.ui.activity.StoreActivity;
+import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
 
 import java.util.ArrayList;
@@ -154,7 +154,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onSelectLanguage(int index) {
-        Language.setLanguageType(LanguageType.valueOf(index), getActivity());
+        LanguageUtils.setLanguageType(Language.valueOf(index), getActivity());
         mSettingAdapter.notifyDataSetChanged();
     }
 
@@ -193,10 +193,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         DialogFragment newFragment = PanelMatrixSelectDialog.newInstance(this);
         newFragment.show(ft, "panel_matrix_dialog");
 
-        /*
-        PanelMatrixType currentPanelMatrix =
-                PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
-
 //                final NumberPicker numberPicker = new NumberPicker(getActivity());
 //                String[] panelMatrixArr = MAIN_PANEL_MATRIX.getDisplayNameStringArr();
 //                numberPicker.setDisplayedValues(panelMatrixArr);
@@ -205,48 +201,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 //                numberPicker.setValue(MAIN_PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
 //                numberPicker.setWrapSelectorWheel(false);
 //                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-        ListView panelMatrixListView = new ListView(getActivity());
-        panelMatrixListView.setDivider(new ColorDrawable(android.R.color.transparent));
-        panelMatrixListView.setDividerHeight(0);
-        panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
-
-        final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.setting_main_panel_matrix)
-                .setView(panelMatrixListView)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {}
-                })
-                .create();
-        panelMatrixSelectDialog.show();
-
-        panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PanelMatrixType selectedPanelMatrix = PanelMatrixType.values()[position];
-                if (!selectedPanelMatrix.isUsable(getActivity())) {
-                    return;
-                }
-
-                SharedPreferences preferences = getActivity().getSharedPreferences(
-                        PANEL_MATRIX_SHARED_PREFERENCES,
-                        Context.MODE_PRIVATE);
-                preferences.edit()
-                        .putInt(MainBottomContainerLayout.PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
-                        .apply();
-
-                mSettingAdapter.notifyDataSetChanged();
-
-                if (getActivity() instanceof OnSettingChangedListener) {
-                    ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
-                            selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixUniqueId
-                    );
-                }
-
-                panelMatrixSelectDialog.dismiss();
-            }
-        });
-        */
     }
 
     @Override

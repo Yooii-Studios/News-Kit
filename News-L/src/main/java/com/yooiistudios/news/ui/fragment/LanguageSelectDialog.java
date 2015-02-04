@@ -8,7 +8,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.language.Language;
-import com.yooiistudios.news.model.language.LanguageType;
+import com.yooiistudios.news.model.language.LanguageUtils;
 
 import java.util.ArrayList;
 
@@ -39,13 +39,13 @@ public class LanguageSelectDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         ArrayList<String> languageList = new ArrayList<>();
-        for (int i = 0; i < LanguageType.values().length; i++) {
-            LanguageType languageType = LanguageType.valueOf(i);
+        for (int i = 0; i < Language.values().length; i++) {
+            Language languageType = Language.valueOf(i);
             languageList.add(getString(languageType.getLocalNotationStringId()));
         }
         String[] languages = languageList.toArray(new String[languageList.size()]);
 
-        LanguageType currentLanguageType = Language.getCurrentLanguageType(getActivity());
+        Language currentLanguageType = LanguageUtils.getCurrentLanguageType(getActivity());
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.setting_language)

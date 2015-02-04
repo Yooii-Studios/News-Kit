@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.yooiistudios.news.R;
-import com.yooiistudios.news.model.language.Language;
+import com.yooiistudios.news.model.language.LanguageUtils;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
 import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.news.ui.fragment.SettingFragment;
@@ -110,7 +110,7 @@ public class SettingAdapter extends BaseAdapter {
 
         if (item == SettingItem.LANGUAGE) {
             descriptionTextView.setText(
-                    Language.getCurrentLanguageType(context).getLocalNotationStringId());
+                    LanguageUtils.getCurrentLanguageType(context).getLocalNotationStringId());
         } else if (item == SettingItem.MAIN_AUTO_REFRESH_INTERVAL) {
             // TODO 초 설정 기능 구현 필요
             descriptionTextView.setText("5 sec");
