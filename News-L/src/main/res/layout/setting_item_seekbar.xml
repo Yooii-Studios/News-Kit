@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,13 +12,25 @@
         android:id="@+id/setting_item_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/setting_item_status_textview"
+        android:layout_marginRight="@dimen/base_margin_small"
         android:text="@string/setting_main_auto_refresh_speed"
         android:textColor="@color/material_black_primary_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+    <TextView
+        android:id="@+id/setting_item_status_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/setting_news_feed_auto_scroll_very_slow"
+        android:textColor="@color/material_black_secondary_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <SeekBar
         android:id="@+id/setting_item_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/setting_item_title_textview"
         android:layout_marginTop="@dimen/base_margin_half"/>
-</LinearLayout>
+</RelativeLayout>

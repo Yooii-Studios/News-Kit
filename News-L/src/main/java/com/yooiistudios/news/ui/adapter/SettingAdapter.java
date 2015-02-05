@@ -137,14 +137,20 @@ public class SettingAdapter extends BaseAdapter {
         });
     }
 
-    private static void initAutoRefreshSpeedItem(final Context context, View view) {
+    private static void initAutoRefreshSpeedItem(final Context context, final View view) {
         int previousSpeed = Settings.getAutoRefreshSpeed(context);
+
+        final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
+        setStatusTextView(statusTextView, previousSpeed, previousSpeed);
 
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
         seekBar.setProgress(previousSpeed);
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int previousSpeed = Settings.getAutoRefreshSpeed(context);
+                setStatusTextView(statusTextView, previousSpeed, progress);
                 Settings.setAutoRefreshSpeed(context, progress);
             }
 
@@ -156,5 +162,30 @@ public class SettingAdapter extends BaseAdapter {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    // 텍스트를 한 번만 바꿔주게 예외처리
+    private static void setStatusTextView(TextView textView, int previousSpeed, int speed) {
+        if (speed < 20) {
+            if (previousSpeed >= 20) {
+                textView.setText(R.string.setting_news_feed_auto_scroll_very_slow);
+            }
+        } else if (speed >= 20 && speed < 40) {
+            if (previousSpeed < 20 || previousSpeed >= 40) {
+                textView.setText(R.string.setting_news_feed_auto_scroll_slow);
+            }
+        } else if (speed >= 40 && speed < 60) {
+            if (previousSpeed < 40 || previousSpeed >= 60) {
+                textView.setText(R.string.setting_news_feed_auto_scroll_normal);
+            }
+        } else if (speed >= 60 && speed < 80) {
+            if (previousSpeed < 60 || previousSpeed >= 80) {
+                textView.setText(R.string.setting_news_feed_auto_scroll_fast);
+            }
+        } else {
+            if (previousSpeed < 80) {
+                textView.setText(R.string.setting_news_feed_auto_scroll_very_fast);
+            }
+        }
     }
 }
