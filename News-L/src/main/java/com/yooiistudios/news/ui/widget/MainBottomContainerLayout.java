@@ -144,7 +144,7 @@ public class MainBottomContainerLayout extends FrameLayout
                     }, idx * getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli));
                 }
             }
-        }, SlowSpeedScroller.SWIPE_DURATION);
+        }, SlowSpeedScroller.SWIPE_DURATION); // 탑 스와이프가 진행된 뒤 애니메이션
     }
 
     private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
