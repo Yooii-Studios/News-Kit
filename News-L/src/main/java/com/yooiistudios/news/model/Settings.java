@@ -32,7 +32,8 @@ public class Settings {
                 .edit().putInt(AUTO_REFRESH_INTERVAL_KEY, interval).apply();
     }
 
-    // available interval value is over 0
+    // TODO 나중에 정확한 속도값을 넣어줄 것 현재 속도의 1/2값 ~ 5배 값
+    // available interval value is between 0 and 100(SeekBar), it will converted XX ~ XX seconds
     public static int getAutoRefreshInterval(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .getInt(AUTO_REFRESH_INTERVAL_KEY, 7);
@@ -43,7 +44,7 @@ public class Settings {
                 .edit().putInt(AUTO_REFRESH_SPEED_KEY, speed).apply();
     }
 
-    // available speed value is between 0 and 100
+    // available speed value is between 0 and 100(SeekBar), it will converted 0 ~ 60 seconds
     public static int getAutoRefreshSpeed(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .getInt(AUTO_REFRESH_SPEED_KEY, 50);

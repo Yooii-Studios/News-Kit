@@ -64,7 +64,6 @@ public class SettingAdapter extends BaseAdapter {
                     break;
 
                 case LANGUAGE:
-                case MAIN_AUTO_REFRESH_INTERVAL:
                 case MAIN_PANEL_MATRIX:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_base, parent, false);
                     initBaseItem(context, item, view);
@@ -76,8 +75,9 @@ public class SettingAdapter extends BaseAdapter {
                     break;
 
                 case MAIN_AUTO_REFRESH_SPEED:
+                case MAIN_AUTO_REFRESH_INTERVAL:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_seekbar, parent, false);
-                    initAutoRefreshSpeedItem(context, view);
+                    initSeekBarItem(context, item, view);
                     break;
 
                 case TUTORIAL:
@@ -137,53 +137,79 @@ public class SettingAdapter extends BaseAdapter {
         });
     }
 
-    private static void initAutoRefreshSpeedItem(final Context context, final View view) {
-        int previousSpeed = Settings.getAutoRefreshSpeed(context);
+    private static void initSeekBarItem(final Context context, SettingItem item, final View view) {
+        if (item == SettingItem.MAIN_AUTO_REFRESH_INTERVAL) {
+            initAutoRefreshIntervalItem(context, view);
+        } else {
+            initAutoRefreshSpeedItem(context, view);
+        }
+    }
 
+    private static void initAutoRefreshIntervalItem(final Context context, View view) {
+        TextView titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
         final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
-        setStatusTextView(statusTextView, previousSpeed, previousSpeed);
-
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
-        seekBar.setProgress(previousSpeed);
 
+        titleTextView.setText(R.string.setting_main_auto_refresh_interval);
+        int oldInterval = Settings.getAutoRefreshInterval(context);
+        statusTextView.setText(context.getString(R.string.setting_item_sec_description, oldInterval));
+        seekBar.setProgress(oldInterval);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int previousSpeed = Settings.getAutoRefreshSpeed(context);
-                setStatusTextView(statusTextView, previousSpeed, progress);
+                statusTextView.setText(context.getString(R.string.setting_item_sec_description, progress * 60 / 100));
+                Settings.setAutoRefreshInterval(context, progress);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+
+    private static void initAutoRefreshSpeedItem(final Context context, View view) {
+        TextView titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
+        final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
+        SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
+
+        titleTextView.setText(R.string.setting_main_auto_refresh_speed);
+        int oldSpeed = Settings.getAutoRefreshSpeed(context);
+        setAutoRefreshSpeedTextView(statusTextView, oldSpeed, oldSpeed);
+        seekBar.setProgress(oldSpeed);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int oldSpeed = Settings.getAutoRefreshSpeed(context);
+                setAutoRefreshSpeedTextView(statusTextView, oldSpeed, progress);
                 Settings.setAutoRefreshSpeed(context, progress);
             }
-
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
+            public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
     }
 
     // 텍스트를 한 번만 바꿔주게 예외처리
-    private static void setStatusTextView(TextView textView, int previousSpeed, int speed) {
-        if (speed < 20) {
-            if (previousSpeed >= 20) {
+    private static void setAutoRefreshSpeedTextView(TextView textView, int oldSpeed, int newSpeed) {
+        if (newSpeed < 20) {
+            if (oldSpeed >= 20) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_slow);
             }
-        } else if (speed >= 20 && speed < 40) {
-            if (previousSpeed < 20 || previousSpeed >= 40) {
+        } else if (newSpeed >= 20 && newSpeed < 40) {
+            if (oldSpeed < 20 || oldSpeed >= 40) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_slow);
             }
-        } else if (speed >= 40 && speed < 60) {
-            if (previousSpeed < 40 || previousSpeed >= 60) {
+        } else if (newSpeed >= 40 && newSpeed < 60) {
+            if (oldSpeed < 40 || oldSpeed >= 60) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_normal);
             }
-        } else if (speed >= 60 && speed < 80) {
-            if (previousSpeed < 60 || previousSpeed >= 80) {
+        } else if (newSpeed >= 60 && newSpeed < 80) {
+            if (oldSpeed < 60 || oldSpeed >= 80) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_fast);
             }
         } else {
-            if (previousSpeed < 80) {
+            if (oldSpeed < 80) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_fast);
             }
         }
