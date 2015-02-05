@@ -151,14 +151,16 @@ public class SettingAdapter extends BaseAdapter {
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
 
         titleTextView.setText(R.string.setting_main_auto_refresh_interval);
-        int oldInterval = Settings.getAutoRefreshInterval(context);
-        statusTextView.setText(context.getString(R.string.setting_item_sec_description, oldInterval));
+        int oldInterval = Settings.getAutoRefreshIntervalProgress(context);
+        statusTextView.setText(context.getString(R.string.setting_item_sec_description,
+                Settings.getAutoRefreshInterval(context)));
         seekBar.setProgress(oldInterval);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                statusTextView.setText(context.getString(R.string.setting_item_sec_description, progress * 60 / 100));
-                Settings.setAutoRefreshInterval(context, progress);
+                Settings.setAutoRefreshIntervalProgress(context, progress);
+                statusTextView.setText(context.getString(R.string.setting_item_sec_description,
+                        Settings.getAutoRefreshInterval(context)));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -173,15 +175,15 @@ public class SettingAdapter extends BaseAdapter {
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
 
         titleTextView.setText(R.string.setting_main_auto_refresh_speed);
-        int oldSpeed = Settings.getAutoRefreshSpeed(context);
+        int oldSpeed = Settings.getAutoRefreshSpeedProgress(context);
         setAutoRefreshSpeedTextView(statusTextView, oldSpeed, oldSpeed);
         seekBar.setProgress(oldSpeed);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int oldSpeed = Settings.getAutoRefreshSpeed(context);
+                int oldSpeed = Settings.getAutoRefreshSpeedProgress(context);
                 setAutoRefreshSpeedTextView(statusTextView, oldSpeed, progress);
-                Settings.setAutoRefreshSpeed(context, progress);
+                Settings.setAutoRefreshSpeedProgress(context, progress);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
