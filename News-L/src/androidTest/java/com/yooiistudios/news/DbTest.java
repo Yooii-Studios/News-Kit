@@ -9,7 +9,8 @@ import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsFeedUrlType;
 import com.yooiistudios.news.model.news.util.NewsFeedUtils;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PanelMatrixType;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,7 @@ public class DbTest extends AndroidTestCase {
         dummyNewsFeed.setTitle("New York Times - Top Stories");
         dummyNewsFeed.setNewsFeedUrl(new NewsFeedUrl("http://sweetpjy.tistory.com/rss/",
                 NewsFeedUrlType.CUSTOM));
-        dummyNewsFeed.setValid(true);
+//        dummyNewsFeed.setValid(true);
         dummyNewsFeed.setDisplayingNewsIndex(9); // default or > 0
         dummyNewsFeed.setTopicRegionCode("some region code");
         dummyNewsFeed.setTopicLanguageCode("some language code");
@@ -84,7 +85,7 @@ public class DbTest extends AndroidTestCase {
             dummyNewsFeed.setTitle("NewsFeed " + newsFeedIndex);
             NewsFeedUrlType urlType = NewsFeedUrlType.values()[newsFeedIndex % NewsFeedUrlType.values().length];
             dummyNewsFeed.setNewsFeedUrl(new NewsFeedUrl("NewsFeedUrl " + newsFeedIndex, urlType));
-            dummyNewsFeed.setValid(newsFeedIndex % 2 == 0);
+//            dummyNewsFeed.setValid(newsFeedIndex % 2 == 0);
             dummyNewsFeed.setDisplayingNewsIndex(newsFeedIndex%2);
             dummyNewsFeed.setTopicRegionCode("NewsFeed " + newsFeedIndex + " region code");
             dummyNewsFeed.setTopicLanguageCode("NewsFeed " + newsFeedIndex + " language code");
@@ -153,7 +154,7 @@ public class DbTest extends AndroidTestCase {
         NewsFeed newNewsFeed = new NewsFeed();
         newNewsFeed.setTitle("CNN - Health");
         newNewsFeed.setNewsFeedUrl(new NewsFeedUrl("http://www.google.com/", NewsFeedUrlType.CUSTOM));
-        newNewsFeed.setValid(false);
+//        newNewsFeed.setValid(false);
         newNewsFeed.setDisplayingNewsIndex(0); // default or > 0
         newNewsFeed.setTopicRegionCode("some region code");
         newNewsFeed.setTopicLanguageCode("some language code");
@@ -197,19 +198,19 @@ public class DbTest extends AndroidTestCase {
 
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
 
-        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
         ArrayList<NewsFeed> loadedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedList(
-                mContext, currentMatrix.panelCount);
+                mContext, currentMatrix.getPanelCount());
         assertNotNull(loadedNewsFeed);
     }
 
     public void testBottomNewsFeedQuery() {
         NewsDb.getInstance(mContext).clearArchive();
-        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
 
         // Retrieve from empty table
         ArrayList<NewsFeed> loadedDefaultNewsFeedList = NewsDb.getInstance(mContext)
-                .loadBottomNewsFeedList(mContext, currentMatrix.panelCount, false);
+                .loadBottomNewsFeedList(mContext, currentMatrix.getPanelCount(), false);
         assertNotNull(loadedDefaultNewsFeedList);
 
         // Make default news feed list.
@@ -230,7 +231,7 @@ public class DbTest extends AndroidTestCase {
 
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
         ArrayList<NewsFeed> loadedNewsFeedList = NewsDb.getInstance(mContext)
-                .loadBottomNewsFeedList(mContext, currentMatrix.panelCount, false);
+                .loadBottomNewsFeedList(mContext, currentMatrix.getPanelCount(), false);
         assertNotNull(loadedNewsFeedList);
 
         assertEquals(
@@ -249,15 +250,15 @@ public class DbTest extends AndroidTestCase {
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
 
-        PanelMatrixType currentMatrix = PanelMatrixType.getCurrentPanelMatrix(getContext());
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
         ArrayList<NewsFeed> loadedNewsFeedList = NewsDb.getInstance(mContext)
-                .loadBottomNewsFeedList(mContext, currentMatrix.panelCount, false);
+                .loadBottomNewsFeedList(mContext, currentMatrix.getPanelCount(), false);
 
         int targetNewsFeedIdx = loadedNewsFeedList.size() - 1;
         NewsFeed targetNewsFeed = loadedNewsFeedList.get(targetNewsFeedIdx);
         targetNewsFeed.setTitle("CNN - Health");
         targetNewsFeed.setNewsFeedUrl(new NewsFeedUrl("http://www.google.com/", NewsFeedUrlType.CUSTOM));
-        targetNewsFeed.setValid(false);
+//        targetNewsFeed.setValid(false);
         targetNewsFeed.setDisplayingNewsIndex(0); // default or > 0
         targetNewsFeed.setTopicRegionCode("some region code");
         targetNewsFeed.setTopicLanguageCode("some language code");
