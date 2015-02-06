@@ -175,14 +175,14 @@ public class SettingAdapter extends BaseAdapter {
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
 
         titleTextView.setText(R.string.setting_main_auto_refresh_speed);
-        int oldSpeed = Settings.getAutoRefreshSpeedProgress(context);
-        setAutoRefreshSpeedTextView(statusTextView, oldSpeed, oldSpeed);
-        seekBar.setProgress(oldSpeed);
+        int oldSpeedProgress = Settings.getAutoRefreshSpeedProgress(context);
+        setAutoRefreshSpeedTextView(statusTextView, -1, oldSpeedProgress);
+        seekBar.setProgress(oldSpeedProgress);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int oldSpeed = Settings.getAutoRefreshSpeedProgress(context);
-                setAutoRefreshSpeedTextView(statusTextView, oldSpeed, progress);
+                int oldSpeedProgress = Settings.getAutoRefreshSpeedProgress(context);
+                setAutoRefreshSpeedTextView(statusTextView, oldSpeedProgress, progress);
                 Settings.setAutoRefreshSpeedProgress(context, progress);
             }
             @Override
@@ -194,24 +194,28 @@ public class SettingAdapter extends BaseAdapter {
 
     // 텍스트를 한 번만 바꿔주게 예외처리
     private static void setAutoRefreshSpeedTextView(TextView textView, int oldSpeed, int newSpeed) {
+        boolean isFirstLoad = false;
+        if (oldSpeed == -1) {
+            isFirstLoad = true;
+        }
         if (newSpeed < 20) {
-            if (oldSpeed >= 20) {
+            if (oldSpeed >= 20 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_slow);
             }
         } else if (newSpeed >= 20 && newSpeed < 40) {
-            if (oldSpeed < 20 || oldSpeed >= 40) {
+            if (oldSpeed < 20 || oldSpeed >= 40 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_slow);
             }
         } else if (newSpeed >= 40 && newSpeed < 60) {
-            if (oldSpeed < 40 || oldSpeed >= 60) {
+            if (oldSpeed < 40 || oldSpeed >= 60 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_normal);
             }
         } else if (newSpeed >= 60 && newSpeed < 80) {
-            if (oldSpeed < 60 || oldSpeed >= 80) {
+            if (oldSpeed < 60 || oldSpeed >= 80 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_fast);
             }
-        } else {
-            if (oldSpeed < 80) {
+        } else if (newSpeed >= 80){
+            if (oldSpeed < 80 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_fast);
             }
         }
