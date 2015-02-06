@@ -6,7 +6,6 @@ import android.content.Context;
 import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.util.AnalyticsUtils;
-import com.yooiistudios.news.util.NLLog;
 
 /**
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 15.
@@ -25,17 +24,13 @@ public class PanelMatrixUtils {
      * Singleton
      */
     private PanelMatrixUtils(Context context) {
-        NLLog.now("PanelMatrixUtils");
         int uniqueId = context.getSharedPreferences(PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .getInt(PANEL_MATRIX_KEY, -1);
-        NLLog.now("uniqueId: " + uniqueId);
         // 최초 설치시 2 X 2 로 설정
         if (uniqueId == -1) {
-            NLLog.now("first launch");
             uniqueId = PanelMatrix.TWO_BY_TWO.getUniqueId();
             context.getSharedPreferences(PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                     .edit().putInt(PANEL_MATRIX_KEY, uniqueId).commit();
-            NLLog.now("uniqueId: " + uniqueId);
         }
         mCurrentPanelMatrix = PanelMatrix.getByUniqueKey(uniqueId);
     }

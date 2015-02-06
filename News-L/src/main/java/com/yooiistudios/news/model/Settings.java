@@ -1,6 +1,11 @@
 package com.yooiistudios.news.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 14. 11. 5.
@@ -15,6 +20,8 @@ public class Settings {
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
     private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 7;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
+
+    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000; // finally to be 10 secs
 
     private Settings() { throw new AssertionError("You can't create this class!"); }
 
@@ -43,6 +50,44 @@ public class Settings {
         // available speed value is between 0 and 60(it converted from [0 ~ 100])
         float intervalProgress = getAutoRefreshIntervalProgress(context);
         return (int) (intervalProgress / 100 * 60);
+    }
+
+    public static boolean isFirstAutoRefresh(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("AutoRefreshDelayPrefs", Context.MODE_PRIVATE);
+        return prefs.getBoolean("isFirstAutoRefresh", true);
+    }
+
+    private static void setNotFirstAutoRefresh(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("AutoRefreshDelayPrefs", Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("isFirstAutoRefresh", false).apply();
+    }
+
+    public static int getAutoRefreshHandlerDelay(Context context) {
+        // 리프레시 간격과 속도와 패널 갯수를 구해서 다음 리프레시의 시간을 알아냄
+        if (isFirstAutoRefresh(context)) {
+            // 첫 리프레시 시에는 튜토리얼과 함께 짧은 간격 보여주기
+            setNotFirstAutoRefresh(context);
+            return AUTO_REFRESH_HANDLER_FIRST_DELAY;
+        } else {
+            // 전체 애니메이션 시간 = 뉴스 리프레시 간격 + 탑 스와이프 +
+            // (바텀 각 애니메이션 * 갯수) - (바텀 각 애니메이션 딜레이 * (갯수 - 1))
+            float autoRefreshSpeed = getAutoRefreshSpeed(context);
+
+            int originalPanelAnimationHalfDuration = context.getResources().getInteger(
+                    R.integer.bottom_news_feed_fade_anim_duration_milli);
+            int panelAnimationDuration =
+                    (int) (originalPanelAnimationHalfDuration * autoRefreshSpeed * 2);
+
+            int originalPanelAnimationDelay =
+                    context.getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
+            int panelAnimationDelay = (int) (originalPanelAnimationDelay * autoRefreshSpeed);
+
+            int autoRefreshIntervalMillis = getAutoRefreshInterval(context) * 1000;
+            int panelCount = PanelMatrixUtils.getCurrentPanelMatrix(context).getPanelCount();
+
+            return autoRefreshIntervalMillis + SlowSpeedScroller.SWIPE_DURATION +
+                    panelAnimationDuration * panelCount - panelAnimationDelay * (panelCount - 1);
+        }
     }
 
     public static void setAutoRefreshSpeedProgress(Context context, int speed) {
