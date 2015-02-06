@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
@@ -130,6 +131,11 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void autoRefreshBottomNewsFeeds() {
+        // 딜레이도 스피드에 따라서 비율적으로 조절해주기
+        final int originalRefreshDelay =
+                getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
+        final float autoRefreshSpeed = Settings.getAutoRefreshSpeed(getContext());
+
         mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +147,7 @@ public class MainBottomContainerLayout extends FrameLayout
                         public void run() {
                             doAutoRefreshBottomNewsFeedAtIndex(idx);
                         }
-                    }, idx * getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli));
+                    }, (long) (idx * (originalRefreshDelay * autoRefreshSpeed)));
                 }
             }
         }, SlowSpeedScroller.SWIPE_DURATION); // 탑 스와이프가 진행된 뒤 애니메이션
