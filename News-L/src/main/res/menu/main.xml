@@ -16,18 +16,23 @@
                 android:orderInCategory="100"
                 android:showAsAction="never" />
 
-            <item android:id="@+id/action_settings"
-                  android:title="@string/action_settings"
-                  android:orderInCategory="100"
-                  android:showAsAction="never" />
-
             <item android:id="@+id/action_info"
                 android:title="@string/action_info"
                 android:orderInCategory="100"
                 android:showAsAction="never" />
 
-            <item android:id="@+id/action_recommend"
-                  android:title="@string/recommend_to_friends"
+            <item android:id="@+id/action_settings"
+                  android:title="@string/action_settings"
+                  android:orderInCategory="100"
+                  android:showAsAction="never" />
+
+            <item android:id="@+id/action_facebook_like"
+                android:title="@string/action_facebook_like"
+                android:orderInCategory="100"
+                android:showAsAction="never" />
+
+            <item android:id="@+id/action_rate_app"
+                  android:title="@string/action_rate_app"
                   android:orderInCategory="100"
                   android:showAsAction="never" />
 

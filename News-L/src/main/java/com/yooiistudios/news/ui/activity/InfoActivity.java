@@ -21,8 +21,7 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.ui.adapter.InfoAdapter;
 import com.yooiistudios.news.util.AnalyticsUtils;
-import com.yooiistudios.news.util.FacebookUtils;
-import com.yooiistudios.news.util.ReviewUtils;
+import com.yooiistudios.news.util.RecommendUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,8 +31,7 @@ public class InfoActivity extends ActionBarActivity implements AdapterView.OnIte
 
     public enum InfoItem {
         MORE_INFO(R.string.info_news_info),
-        RATE(R.string.info_rate_this_app),
-        LIKE_FACEBOOK(R.string.info_facebook_like),
+        RECOMMEND_TO_FRIENDS(R.string.recommend_to_friends),
         CREDIT(R.string.info_credit);
 
         private int mTitleResId;
@@ -111,12 +109,8 @@ public class InfoActivity extends ActionBarActivity implements AdapterView.OnIte
                 startActivity(new Intent(this, MoreInfoActivity.class));
                 break;
 
-            case RATE:
-                ReviewUtils.showReviewActivity(this);
-                break;
-
-            case LIKE_FACEBOOK:
-                FacebookUtils.openYooiiPage(this);
+            case RECOMMEND_TO_FRIENDS:
+                RecommendUtils.showRecommendDialog(this);
                 break;
 
             case CREDIT:
