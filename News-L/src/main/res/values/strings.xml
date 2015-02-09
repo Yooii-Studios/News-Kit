@@ -85,7 +85,7 @@
     <string name="store_item_debug_description">Item description\nItem description</string>
     <string name="store_no_ads_title">No Ads</string>
     <string name="store_no_ads_description">Remove all ads of the app</string>
-    <string name="store_more_panel_title">2x3 News panels</string>
+    <string name="store_more_panel_title">More News panels</string>
     <string name="store_more_panel_description">Use 4 to 8 bottom news panels</string>
     <string name="store_topic_select_title">Topic select</string>
     <string name="store_topic_select_description">You can select detail category of the news</string>
