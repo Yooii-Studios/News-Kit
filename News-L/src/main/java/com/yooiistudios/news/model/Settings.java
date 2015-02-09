@@ -16,12 +16,13 @@ import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
  */
 public class Settings {
     private static final String SETTINGS_SHARED_PREFERENCES = "settings_shared_preferences";
+    private static final String IS_FIRST_AUTO_REFRESH = "is_first_auto_refresh";
     private static final String NEWS_FEED_AUTO_SCROLL_KEY = "news_feed_auto_scroll_key";
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
     private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 7;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
 
-    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000; // finally to be 10 secs
+    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000;
 
     private Settings() { throw new AssertionError("You can't create this class!"); }
 
@@ -43,23 +44,23 @@ public class Settings {
 
     public static int getAutoRefreshIntervalProgress(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getInt(AUTO_REFRESH_INTERVAL_KEY, (int) (AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS / 60 * 100));
+                .getInt(AUTO_REFRESH_INTERVAL_KEY, (Math.round(AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS / 60 * 100)));
     }
 
     public static int getAutoRefreshInterval(Context context) {
         // available speed value is between 0 and 60(it converted from [0 ~ 100])
         float intervalProgress = getAutoRefreshIntervalProgress(context);
-        return (int) (intervalProgress / 100 * 60);
+        return Math.round(intervalProgress / 100 * 60);
     }
 
     public static boolean isFirstAutoRefresh(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("AutoRefreshDelayPrefs", Context.MODE_PRIVATE);
-        return prefs.getBoolean("isFirstAutoRefresh", true);
+        SharedPreferences prefs = context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return prefs.getBoolean(IS_FIRST_AUTO_REFRESH, true);
     }
 
     private static void setNotFirstAutoRefresh(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("AutoRefreshDelayPrefs", Context.MODE_PRIVATE);
-        prefs.edit().putBoolean("isFirstAutoRefresh", false).apply();
+        SharedPreferences prefs = context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(IS_FIRST_AUTO_REFRESH, false).apply();
     }
 
     public static int getAutoRefreshHandlerDelay(Context context) {
@@ -96,7 +97,6 @@ public class Settings {
                 .edit().putInt(AUTO_REFRESH_SPEED_KEY, speed).apply();
     }
 
-    // it will converted XX ~ XX seconds
     public static int getAutoRefreshSpeedProgress(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .getInt(AUTO_REFRESH_SPEED_KEY, 50);
@@ -104,7 +104,7 @@ public class Settings {
 
     public static float getAutoRefreshSpeed(Context context) {
         // available speed value is between 1/2 of normal and 5 times of normal
-        // 1/2값 ~ 5배 값
+        // 정상 속도의 1/2값 만큼 빠른 값부터 5배 값만큼 느린 값이 범위
         float speedProgress = getAutoRefreshSpeedProgress(context);
         if (speedProgress < 50) {
             // y = -4/50x + 5

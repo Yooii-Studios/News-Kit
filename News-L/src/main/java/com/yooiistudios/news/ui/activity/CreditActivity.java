@@ -69,7 +69,7 @@ public class CreditActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     protected void onStart() {
         // Activity visible to user
