@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/info_item_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/news_select_item_height"
+    android:paddingLeft="@dimen/base_margin"
+    android:paddingRight="@dimen/base_margin"
+    android:gravity="center_vertical"
+    android:text="@string/more_info_license"
+    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+    android:textColor="@android:color/black" />
 
+<!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="71sp"
-    android:background="@android:color/white"
-    android:padding="?android:attr/listPreferredItemPaddingStart">
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="@dimen/base_margin">
 
     <TextView
         android:id="@+id/info_item_title"
@@ -18,3 +30,5 @@
         android:textStyle="bold"/>
 
 </RelativeLayout>
+-->
+

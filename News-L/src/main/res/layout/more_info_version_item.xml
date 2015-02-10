@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setting_info_item_outer_layout"
     android:layout_width="match_parent"
-    android:layout_height="71sp"
+    android:layout_height="@dimen/news_select_item_height"
     android:layout_alignParentLeft="true"
     android:clickable="false"
     android:focusable="false"
     android:orientation="vertical"
-    android:padding="?android:attr/listPreferredItemPaddingStart"
+    android:paddingLeft="@dimen/base_margin"
+    android:paddingRight="@dimen/base_margin"
     android:background="@android:color/white">
 
     <TextView
@@ -15,23 +16,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/more_info_version_detail_textview"
+        android:layout_centerInParent="true"
         android:gravity="center_vertical"
         android:text="Version"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/info_item_text_size"
-        android:textStyle="bold"
-        android:layout_toLeftOf="@+id/more_info_version_detail_textview"
-        android:layout_centerInParent="true"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
     <TextView
         android:id="@+id/more_info_version_detail_textview"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:gravity="center_vertical|right"
         android:text="0.1.0"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:textSize="@dimen/info_item_text_size"
-        android:layout_centerInParent="true"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 </RelativeLayout>

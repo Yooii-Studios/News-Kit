@@ -24,10 +24,9 @@
     <string name="title_activity_news">뉴스 선택</string>
 
     <!-- Setting -->
-    <string name="setting_language">언어</string>
-    <string name="setting_newsfeed_auto_scroll">뉴스 리스트 자동 스크롤</string>
+    <string name="setting_language">언어 / Language</string>
+    <string name="setting_news_feed_auto_scroll_start_offset">뉴스 리스트 자동 스크롤</string>
     <string name="setting_keep_screen_on">화면 켜짐 유지</string>
-    <string name="setting_keep_screen_on_description">테스트..</string>
     <string name="setting_share_this_app">앱 공유하기</string>
     <string name="setting_tutorial">튜토리얼</string>
     <string name="setting_like_facebook">Like us on facebook</string>

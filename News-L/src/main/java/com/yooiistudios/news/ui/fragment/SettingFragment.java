@@ -1,16 +1,19 @@
 package com.yooiistudios.news.ui.fragment;
 
-import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -18,18 +21,14 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.language.Language;
-import com.yooiistudios.news.model.language.LanguageType;
-import com.yooiistudios.news.ui.adapter.PanelMatrixSelectAdapter;
+import com.yooiistudios.news.model.language.LanguageUtils;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.news.ui.activity.StoreActivity;
 import com.yooiistudios.news.ui.adapter.SettingAdapter;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_KEY;
-import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MATRIX_SHARED_PREFERENCES;
 
 
 /**
@@ -38,59 +37,56 @@ import static com.yooiistudios.news.ui.widget.MainBottomContainerLayout.PANEL_MA
  * SettingFragment
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
-public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener {
-
+public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
+        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener, AutoRefreshIntervalDialogFragment.OnActionListener {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
-        NEWSFEED_AUTO_SCROLL(R.string.setting_newsfeed_auto_scroll),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
-        PANEL_COUNT(R.string.setting_panel_count),
-        TUTORIAL(R.string.setting_tutorial);
+        TUTORIAL(R.string.setting_tutorial),
+
+        MAIN_SUB_HEADER(R.string.setting_main_sub_header),
+        MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
+        MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
+        MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix);
 
         private int mTitleResId;
-
         private SettingItem(int titleResId) {
             mTitleResId = titleResId;
         }
-
         public int getTitleResId() {
             return mTitleResId;
         }
     }
 
-    public static final String KEEP_SCREEN_ON_SHARED_PREFERENCES = "KEEP_SCREEN_ON_SHARED_PREFERENCES";
+    public static final String KEEP_SCREEN_ON_PREFS = "KEEP_SCREEN_ON_PREFS";
     public static final String KEEP_SCREEN_ON_KEY = "KEEP_SCREEN_ON_KEY";
-
-    private static final String SI_PANEL_MATRIX_KEY = "SI_PANEL_MATRIX_KEY";
+    private static final String PANEL_MATRIX_KEY = "PANEL_MATRIX_KEY";
 
     @InjectView(R.id.setting_list_view) ListView mListView;
     @InjectView(R.id.setting_adView) AdView mAdView;
-    private SettingAdapter mSettingAdapter;
 
-    private int mPreviousPanelMatrixKey = -1;
+    private SettingAdapter mSettingAdapter;
+    private int mPreviousPanelMatrixUniqueId = -1;
 
     public interface OnSettingChangedListener {
-        public void onPanelMatrixChanged(boolean changed);
+        public void onPanelMatrixSelect(boolean changed);
     }
 
-    public SettingFragment() {
-    }
+    public SettingFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (savedInstanceState == null) {
-            mPreviousPanelMatrixKey = MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrixIndex(getActivity().getApplicationContext());
+            mPreviousPanelMatrixUniqueId = PanelMatrixUtils.getCurrentPanelMatrix(getActivity()).getUniqueId();
         } else {
-            mPreviousPanelMatrixKey = savedInstanceState.getInt(SI_PANEL_MATRIX_KEY);
+            mPreviousPanelMatrixUniqueId = savedInstanceState.getInt(PANEL_MATRIX_KEY);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SI_PANEL_MATRIX_KEY, mPreviousPanelMatrixKey);
-
+        outState.putInt(PANEL_MATRIX_KEY, mPreviousPanelMatrixUniqueId);
         super.onSaveInstanceState(outState);
     }
 
@@ -118,7 +114,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void initListView() {
-        mSettingAdapter = new SettingAdapter(getActivity().getApplicationContext());
+        mSettingAdapter = new SettingAdapter(getActivity());
         mListView.setAdapter(mSettingAdapter);
         mListView.setOnItemClickListener(this);
     }
@@ -126,130 +122,95 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
-        SharedPreferences preferences;
         switch (item) {
             case LANGUAGE:
-                showLanguageDialog();
-                break;
-
-            case NEWSFEED_AUTO_SCROLL:
-                showNewsFeedAutoScrollDialog();
+                showLanguageSelectDialog();
                 break;
 
             case KEEP_SCREEN_ON:
-                preferences = getActivity().getSharedPreferences(
-                        KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
-                preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
-
-                mSettingAdapter.notifyDataSetChanged();
+                toggleKeepScreenOption(view);
                 break;
 
-            case PANEL_COUNT:
-                MainBottomContainerLayout.PanelMatrixType currentPanelMatrix =
-                        MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(getActivity().getApplicationContext());
+            case MAIN_AUTO_REFRESH_INTERVAL:
+                showAutoRefreshInterval();
+                break;
 
-//                final NumberPicker numberPicker = new NumberPicker(getActivity());
-//                String[] panelMatrixArr = PANEL_MATRIX.getDisplayNameStringArr();
-//                numberPicker.setDisplayedValues(panelMatrixArr);
-//                numberPicker.setMinValue(0);
-//                numberPicker.setMaxValue(panelMatrixArr.length - 1);
-//                numberPicker.setValue(PANEL_MATRIX.getIndexByUniqueKey(currentPanelMatrixKey));
-//                numberPicker.setWrapSelectorWheel(false);
-//                numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-                ListView panelMatrixListView = new ListView(getActivity());
-                panelMatrixListView.setAdapter(new PanelMatrixSelectAdapter(getActivity(), currentPanelMatrix));
-
-                final AlertDialog panelMatrixSelectDialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.setting_panel_count)
-                        .setView(panelMatrixListView)
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialog, int which) {}
-                        })
-                        .create();
-                panelMatrixSelectDialog.show();
-
-                panelMatrixListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MainBottomContainerLayout.PanelMatrixType selectedPanelMatrix = MainBottomContainerLayout.PanelMatrixType.values()[position];
-                        if (!selectedPanelMatrix.isUsable(getActivity())) {
-                            return;
-                        }
-
-                        SharedPreferences preferences = getActivity().getSharedPreferences(
-                                PANEL_MATRIX_SHARED_PREFERENCES,
-                                Context.MODE_PRIVATE);
-                        preferences.edit()
-                                .putInt(PANEL_MATRIX_KEY, selectedPanelMatrix.uniqueKey)
-                                .apply();
-
-                        mSettingAdapter.notifyDataSetChanged();
-
-                        if (getActivity() instanceof OnSettingChangedListener) {
-                            ((OnSettingChangedListener)getActivity()).onPanelMatrixChanged(
-                                    selectedPanelMatrix.uniqueKey != mPreviousPanelMatrixKey
-                            );
-                        }
-
-                        panelMatrixSelectDialog.dismiss();
-                    }
-                });
-
+            case MAIN_PANEL_MATRIX:
+                showPanelMatrixSelectDialog();
                 break;
 
             case TUTORIAL:
+                showTutorial();
                 break;
         }
     }
 
-    private void showLanguageDialog() {
-        // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> languageList = new ArrayList<>();
-        for (int i = 0; i < LanguageType.values().length; i++) {
-            languageList.add(getString(LanguageType.valueOf(i).getLocalNotationStringId()));
-        }
-
-        String[] languages = languageList.toArray(new String[languageList.size()]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog alertDialog = builder.setItems(languages, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                // archive selection
-                Language.setLanguageType(LanguageType.valueOf(i), getActivity());
-
-//                    getActivity().finish();
-                initListView();
-            }
-        }).setTitle(R.string.setting_language).create();
-        alertDialog.show();
+    @Override
+    public void onSelectLanguage(int index) {
+        LanguageUtils.setLanguageType(Language.valueOf(index), getActivity());
+        mSettingAdapter.notifyDataSetChanged();
     }
 
-    private void showNewsFeedAutoScrollDialog() {
-        // 뉴스피드들의 타이틀을 CharSequence 로 변경
-        ArrayList<String> list = new ArrayList<>();
-        list.add(getString(R.string.on));
-        list.add(getString(R.string.off));
+    private void showLanguageSelectDialog() {
+        showDialogFragment("language_dialog", LanguageSelectDialog.newInstance(this));
+    }
 
-        String[] booleanList = list.toArray(new String[list.size()]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog alertDialog = builder.setItems(booleanList, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+    private void toggleKeepScreenOption(View view) {
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
+        boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
+        preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
 
-                // archive selection
-                if (i == 0) {
-                    Settings.setNewsFeedAutoScroll(getActivity(), true);
-                } else {
-                    Settings.setNewsFeedAutoScroll(getActivity(), false);
-                }
-                initListView();
+        SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
+        keepScreenSwitch.setChecked(!isChecked);
+    }
+
+    private void showTutorial() {
+        // TODO 나중에 튜토리얼이 개발된 뒤 boolean 값으로 메인에서 볼 수 있게 해 주자
+        Toast.makeText(getActivity(), "In developing...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showAutoRefreshInterval() {
+        showDialogFragment("auto_refresh_interval", AutoRefreshIntervalDialogFragment.newInstance(this));
+    }
+
+    @Override
+    public void onTypeAutoRefreshInterval(int interval) {
+        Settings.setAutoRefreshIntervalProgress(getActivity(), interval);
+        mSettingAdapter.notifyDataSetChanged();
+    }
+
+    private void showPanelMatrixSelectDialog() {
+        showDialogFragment("panel_matrix_dialog", PanelMatrixSelectDialog.newInstance(this));
+    }
+
+    @Override
+    public void onSelectMatrix(int position) {
+        PanelMatrix selectedPanelMatrix = PanelMatrix.getByUniqueKey(position);
+        if (PanelMatrixUtils.isMatrixAvailable(getActivity(), selectedPanelMatrix)) {
+            PanelMatrixUtils.setCurrentPanelMatrix(selectedPanelMatrix, getActivity());
+            mSettingAdapter.notifyDataSetChanged();
+
+            // 패널이 변경되었으면 메인에서 구조 변경을 할 수 있게 콜백으로 알림
+            if (getActivity() instanceof OnSettingChangedListener) {
+                ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
+                        selectedPanelMatrix.getUniqueId() != mPreviousPanelMatrixUniqueId);
             }
-        }).setTitle(R.string.setting_newsfeed_auto_scroll).create();
-        alertDialog.show();
+        } else {
+            startActivity(new Intent(getActivity(), StoreActivity.class));
+            Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showDialogFragment(String tag, DialogFragment dialogFragment) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag(tag);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog
+        dialogFragment.show(ft, tag);
     }
 }

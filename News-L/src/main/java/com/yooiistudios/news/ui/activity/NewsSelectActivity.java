@@ -64,7 +64,7 @@ public class NewsSelectActivity extends ActionBarActivity
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
         // sans-serif-medium, 20sp
-        mToolbar.setTitleTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Title);
+        mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
     }
 
     private void initSlidingTab() {

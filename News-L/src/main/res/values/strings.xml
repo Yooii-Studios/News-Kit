@@ -23,17 +23,29 @@
     <!-- News Select -->
     <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
     <string name="custom_news_feed_dialog_title">Enter RSS URL</string>
+    <string name="custom_news_feed_menu_item_title">Type RSS</string>
+    <string name="custom_news_feed_url">Url</string>
 
     <!-- Setting -->
     <string name="setting_language">Language</string>
-    <string name="setting_newsfeed_auto_scroll">News list auto scroll</string>
     <string name="setting_keep_screen_on">Keep screen on</string>
-    <string name="setting_keep_screen_on_description">test</string>
-    <string name="setting_panel_count">Panel count</string>
-    <string name="setting_panel_count_description">%1$s panels</string>
-    <string name="setting_share_this_app">Share this app</string>
     <string name="setting_tutorial">Tutorial</string>
-    <string name="setting_like_facebook">Like us on facebook</string>
+    <string name="setting_main_sub_header">Main Screen</string>
+    <string name="setting_main_auto_refresh_interval">Auto refresh interval</string>
+    <string name="setting_main_auto_refresh_interval_caption">Interval</string>
+    <string name="setting_main_auto_refresh_speed">Auto refresh speed</string>
+    <string name="setting_item_sec_description">%1$s sec</string> <!-- 14 sec -->
+    <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
+    <string name="setting_main_panel_matrix_description">%1$s panels</string>
+
+    <string name="setting_news_feed_sub_header">News Feed Screen</string>
+    <string name="setting_news_feed_auto_scroll_start_offset">Auto scroll start delay</string>
+    <string name="setting_news_feed_auto_scroll_speed">Auto scroll speed</string>
+    <string name="setting_news_feed_auto_scroll_very_slow">Very slow</string>
+    <string name="setting_news_feed_auto_scroll_slow">Slow</string>
+    <string name="setting_news_feed_auto_scroll_normal">Normal</string>
+    <string name="setting_news_feed_auto_scroll_fast">Fast</string>
+    <string name="setting_news_feed_auto_scroll_very_fast">Very fast</string>
 
     <!-- Setting (Language) -->
     <string name="setting_language_korean">한국어</string>
@@ -102,6 +114,4 @@
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url.</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
     <string name="news_feed_fetch_error_unknown">Unknown error. Please try later.</string>
-    <string name="title_activity_network_unavailable">NetworkUnavailableActivity</string>
-
 </resources>

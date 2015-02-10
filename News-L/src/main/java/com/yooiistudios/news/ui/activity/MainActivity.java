@@ -36,6 +36,7 @@ import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.iab.IabProducts;
 import com.yooiistudios.news.model.BackgroundServiceUtils;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
@@ -77,7 +78,6 @@ public class MainActivity extends Activity
      * Auto Refresh Handler
      */
     // auto refresh handler
-    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000; // finally to be 10 secs
     private static final int AUTO_REFRESH_HANDLER_DELAY = 7 * 1000; // finally to be 10 secs
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
@@ -101,13 +101,14 @@ public class MainActivity extends Activity
 
     private class NewsAutoRefreshHandler extends Handler {
         @Override
-        public void handleMessage( Message msg ){
+        public void handleMessage(Message msg) {
             // 갱신
             mMainTopContainerLayout.autoRefreshTopNewsFeed();
             mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
 
             // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
-            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, AUTO_REFRESH_HANDLER_DELAY);
+            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
+                    Settings.getAutoRefreshHandlerDelay(MainActivity.this));
         }
     }
 
@@ -324,7 +325,7 @@ public class MainActivity extends Activity
 
         // 화면 켜짐 유지 설정
         SharedPreferences preferences = getSharedPreferences(
-                SettingFragment.KEEP_SCREEN_ON_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                SettingFragment.KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
         if (preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
@@ -449,15 +450,16 @@ public class MainActivity extends Activity
         }
         mIsHandlerRunning = true;
         // 첫 실행이면 빠른 딜레이 주기
-        SharedPreferences prefs = getSharedPreferences("AutoRefreshDelayPrefs", MODE_PRIVATE);
-        int delay;
-        if (prefs.getBoolean("isNotFirstAutoRefresh", false)) {
-            delay = AUTO_REFRESH_HANDLER_FIRST_DELAY;
-            prefs.edit().putBoolean("isNotFirstAutoRefresh", true).apply();
-        } else {
-            delay = AUTO_REFRESH_HANDLER_DELAY;
-        }
-        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, delay);
+//        SharedPreferences prefs = getSharedPreferences("AutoRefreshDelayPrefs", MODE_PRIVATE);
+//        int delay;
+//        if (prefs.getBoolean("isNotFirstAutoRefresh", false)) {
+//            delay = AUTO_REFRESH_HANDLER_FIRST_DELAY;
+//            prefs.edit().putBoolean("isNotFirstAutoRefresh", true).apply();
+//        } else {
+//            delay = AUTO_REFRESH_HANDLER_DELAY;
+//        }
+        NLLog.now("auRefreshHandlerDelay: " + Settings.getAutoRefreshHandlerDelay(this));
+        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, Settings.getAutoRefreshHandlerDelay(this));
     }
 
     private void stopNewsAutoRefresh() {

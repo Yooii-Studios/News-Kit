@@ -4,9 +4,9 @@
 
     <color name="ad_upper_divider_color">#999</color>
 
-    <color name="fab_color_1">#ff5252</color>
+    <color name="fab_color_1">@color/material_red_200</color>
     <color name="fab_color_1_muted">#ff8080</color>
-    <color name="fab_color_2">#9c27b0</color>
+    <color name="fab_color_2">@color/material_purple_500</color>
     <color name="fab_color_2_muted">#a56ab0</color>
 
     <color name="refresh_color_scheme_1">#33B5E5</color>
@@ -14,25 +14,24 @@
     <color name="refresh_color_scheme_3">#FFBB33</color>
     <color name="refresh_color_scheme_4">#FF4444</color>
 
+    <!-- General -->
+    <color name="toolbar_background">@color/material_grey_300</color>
+    <color name="toolbar_title_color">@color/material_black_primary_text</color>
+
     <!-- from style -->
-    <color name="theme_default_primary_light">#ffff598e</color>
-    <color name="theme_default_primary">#e91e63</color>
-    <color name="theme_default_primary_dark">#c2185b</color>
-    <color name="theme_default_accent">#9e9e9e</color>
     <color name="main_top_indicator">#666</color>
     <color name="theme_default_accent_light">#33e0e0e0</color>
-    <color name="theme_default_accent_dark">#616161</color>
 
     <color name="theme_background">#000</color>
 
     <color name="theme_detail_selected_background">#339e9e9e</color>
 
     <!-- NewsFeed Detail -->
-    <color name="newsfeed_detail_highlight_color">#9e9e9e</color>
+    <color name="newsfeed_detail_highlight_color">@color/material_grey_500</color>
 
     <!-- NewsFeed Select -->
-    <color name="news_select_color_primary">#e0e0e0</color>
-    <color name="news_select_color_primary_dark">#9e9e9e</color>
+    <color name="news_select_color_primary">@color/material_grey_300</color>
+    <color name="news_select_color_primary_dark">@color/material_grey_500</color>
     <color name="news_select_color_accent">#01bcd4</color>
 
     <color name="news_select_disabled_text_color">#89000000</color> <!-- opacity 54% of black color -->
@@ -42,14 +41,17 @@
 
     <!-- Setting -->
     <color name="setting_locked_item_background">#c1c1c1</color>
+    <color name="setting_header_text_color">@color/material_teal_500</color>
+    <color name="setting_title_text_color">@color/material_black_primary_text</color>
+    <color name="setting_description_text_color">@color/store_item_description_color</color>
 
     <!-- Store -->
-    <color name="store_color_primary">#e0e0e0</color>
-    <color name="store_color_primary_dark">#757575</color>
+    <color name="store_color_primary">@color/material_grey_300</color>
+    <color name="store_color_primary_dark">@color/material_grey_600</color>
     <color name="store_title_color">#eef0e0</color>
     <color name="store_no_ads_color">#ff9999</color>
     <color name="store_original_price_color">#cc3333</color>
-    <color name="store_purchased_color">#80cbc4</color>
+    <color name="store_purchased_color">@color/material_teal_200</color>
     <color name="store_purchased_thank_you_color">#878787</color>
     <color name="store_item_description_color">#9a9a9a</color>
 

@@ -145,7 +145,7 @@ public class NewsFeed implements Parcelable {
     }
 
     public boolean containsNews() {
-        return getNewsList().size() > 0;
+        return getNewsList() != null && getNewsList().size() > 0;
     }
 
     public void addNews(News news) {

@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.PathInterpolator;
 
 import com.yooiistudios.news.R;
+import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.util.InterpolatorHelper;
 
 /**
@@ -20,30 +21,35 @@ public class AnimationFactory {
     private AnimationFactory() { throw new AssertionError("You MUST not create this class!"); }
 
     public static Animation makeBottomFadeOutAnimation(Context context) {
-        Animation fadeOutAnim = new AlphaAnimation(1.0f, 0.0f);
-        fadeOutAnim.setDuration(context.getResources().getInteger(R.integer.bottom_news_feed_fade_anim_duration_milli));
-        fadeOutAnim.setFillEnabled(true);
-        fadeOutAnim.setFillAfter(true);
+        Animation animation = new AlphaAnimation(1.0f, 0.0f);
+        // 속도에 따라 duration 조절
+        int originalDuration = context.getResources().getInteger(
+                R.integer.bottom_news_feed_fade_anim_duration_milli);
+        animation.setDuration((long) (originalDuration * Settings.getAutoRefreshSpeed(context)));
+        animation.setFillEnabled(true);
+        animation.setFillAfter(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
+            animation.setInterpolator(context, R.animator.interpolator_bottom_fade);
         } else {
-            fadeOutAnim.setInterpolator(new CubicBezierInterpolator(.57f, .15f, .65f, .67f));
+            animation.setInterpolator(new CubicBezierInterpolator(.57f, .15f, .65f, .67f));
         }
-        return fadeOutAnim;
+        return animation;
     }
 
     public static Animation makeBottomFadeInAnimation(Context context) {
-        Animation fadeOutAnim = new AlphaAnimation(0.0f, 1.0f);
-        fadeOutAnim.setDuration(context.getResources().getInteger(R.integer.bottom_news_feed_fade_anim_duration_milli));
-        fadeOutAnim.setFillEnabled(true);
-        fadeOutAnim.setFillAfter(true);
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        int originalDuration = context.getResources().getInteger(
+                R.integer.bottom_news_feed_fade_anim_duration_milli);
+        animation.setDuration((long) (originalDuration * Settings.getAutoRefreshSpeed(context)));
+        animation.setFillEnabled(true);
+        animation.setFillAfter(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fadeOutAnim.setInterpolator(context, R.animator.interpolator_bottom_fade);
+            animation.setInterpolator(context, R.animator.interpolator_bottom_fade);
         } else {
-            fadeOutAnim.setInterpolator(new CubicBezierInterpolator(.57f, .15f, .65f, .67f));
+            animation.setInterpolator(new CubicBezierInterpolator(.57f, .15f, .65f, .67f));
         }
 
-        return fadeOutAnim;
+        return animation;
     }
 
     public static TimeInterpolator makeDefaultPathInterpolator() {

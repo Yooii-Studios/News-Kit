@@ -12,7 +12,8 @@ import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.NewsFeed;
 import com.yooiistudios.news.model.news.NewsFeedUrlProvider;
 import com.yooiistudios.news.model.news.NewsTopic;
-import com.yooiistudios.news.ui.widget.MainBottomContainerLayout;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrix;
+import com.yooiistudios.news.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.news.util.NLLog;
 
 import org.apache.http.HttpEntity;
@@ -60,15 +61,15 @@ public class NewsFeedUtils {
             newsFeedList.add(new NewsFeed(newsTopic));
         }
 
-        MainBottomContainerLayout.PanelMatrixType panelMatrix = MainBottomContainerLayout.PanelMatrixType.getCurrentPanelMatrix(context);
+        PanelMatrix panelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
 
         int newsFeedCount = newsFeedList.size();
 
-        if (newsFeedCount > panelMatrix.panelCount) {
-            newsFeedList = new ArrayList<>(newsFeedList.subList(0, panelMatrix.panelCount));
-        } else if (newsFeedCount < panelMatrix.panelCount) {
+        if (newsFeedCount > panelMatrix.getPanelCount()) {
+            newsFeedList = new ArrayList<>(newsFeedList.subList(0, panelMatrix.getPanelCount()));
+        } else if (newsFeedCount < panelMatrix.getPanelCount()) {
             ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
-            for (int idx = newsFeedCount; idx < panelMatrix.panelCount; idx++) {
+            for (int idx = newsFeedCount; idx < panelMatrix.getPanelCount(); idx++) {
                 newsFeedList.add(defaultNewsFeedList.get(idx));
             }
         }
