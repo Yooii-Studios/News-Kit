@@ -15,35 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/progress_margin_top"
+        android:layout_marginTop="@dimen/progress_bar_margin_top"
+        android:minHeight="@dimen/progress_bar_height"
+        android:maxHeight="@dimen/progress_bar_height"
         android:focusable="false"
         android:indeterminate="false"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
-
-    <!--android:layout_marginTop="-4dp"-->
-
-    <com.yooiistudios.news.ui.widget.OldFloatingActionButton
-        tools:ignore="UnusedAttribute"
-        android:id="@+id/news_detail_fab"
-        android:layout_width="@dimen/fab_size_small"
-        android:layout_height="@dimen/fab_size_small"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/fab_background"
-        android:elevation="@dimen/fab_elevation"
-        android:stateListAnimator="@animator/fab_anim">
-
-        <ImageView
-            android:layout_width="@dimen/fab_icon_size"
-            android:layout_height="@dimen/fab_icon_size"
-            android:src="@drawable/icon_internet"
-            android:layout_gravity="center"
-            android:duplicateParentState="true"
-            android:contentDescription="@string/content_description"/>
-
-    </com.yooiistudios.news.ui.widget.OldFloatingActionButton>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/news_detail_fab_menu"

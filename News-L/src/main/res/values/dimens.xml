@@ -43,7 +43,8 @@
     <dimen name="detail_bottom_divider_margin">15dp</dimen>
 
     <!-- News Detail -->
-    <dimen name="progress_margin_top">-2dp</dimen>
+    <dimen name="progress_bar_height">9dp</dimen>
+    <dimen name="progress_bar_margin_top">-4dp</dimen>
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_press_translation_z">2dp</dimen>
     <dimen name="fab_size">56dp</dimen>
