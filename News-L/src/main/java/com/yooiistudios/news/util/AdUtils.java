@@ -129,7 +129,7 @@ public class AdUtils {
 
         TextView titleTextView =
                 (TextView) dialog.findViewById(R.id.store_ad_dialog_title_text_view);
-        titleTextView.setText(context.getString(R.string.recommend_app_full_name) + " PRO");
+        titleTextView.setText(context.getString(R.string.app_name) + " PRO");
         titleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

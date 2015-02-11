@@ -5,9 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,12 @@ public class HTML5WebView extends WebView {
     private FrameLayout mBrowserFrameLayout;
     private FrameLayout mLayout;
 
-    static final String LOGTAG = "HTML5WebView";
+    static final String TAG = "HTML5WebView";
+
+    public HTML5WebView(Context context) {
+        super(context);
+        init(context);
+    }
 
     private void init(Context context) {
         mContext = context;
@@ -80,21 +83,6 @@ public class HTML5WebView extends WebView {
         mContentView.addView(this);
     }
 
-    public HTML5WebView(Context context) {
-        super(context);
-        init(context);
-    }
-
-    public HTML5WebView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    public HTML5WebView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
-    }
-
     public FrameLayout getLayout() {
         return mLayout;
     }
@@ -111,6 +99,7 @@ public class HTML5WebView extends WebView {
         mHTML5WebViewCallback = callback;
     }
 
+    /*
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -121,6 +110,7 @@ public class HTML5WebView extends WebView {
         }
         return super.onKeyDown(keyCode, event);
     }
+    */
 
     public class HTML5WebChromeClient extends WebChromeClient {
         private Bitmap mDefaultVideoPoster;
@@ -128,7 +118,7 @@ public class HTML5WebView extends WebView {
 
         @Override
         public void onShowCustomView(View view, CustomViewCallback callback) {
-            //Log.i(LOGTAG, "here in on ShowCustomView");
+            //Log.i(TAG, "here in on ShowCustomView");
             HTML5WebView.this.setVisibility(View.GONE);
 
             // if a view already exists then immediately terminate the new one
@@ -145,7 +135,6 @@ public class HTML5WebView extends WebView {
 
         @Override
         public void onHideCustomView() {
-
             if (mCustomView == null)
                 return;
 
@@ -160,12 +149,12 @@ public class HTML5WebView extends WebView {
 
             HTML5WebView.this.setVisibility(View.VISIBLE);
 
-            //Log.i(LOGTAG, "set it to webVew");
+            //Log.i(TAG, "set it to webVew");
         }
 
         @Override
         public Bitmap getDefaultVideoPoster() {
-            //Log.i(LOGTAG, "here in on getDefaultVideoPoster");
+            //Log.i(TAG, "here in on getDefaultVideoPoster");
             if (mDefaultVideoPoster == null) {
                 mDefaultVideoPoster = BitmapFactory.decodeResource(
                         getResources(), R.drawable.default_video_poster);
@@ -176,7 +165,7 @@ public class HTML5WebView extends WebView {
         @SuppressLint("InflateParams")
         @Override
         public View getVideoLoadingProgressView() {
-            //Log.i(LOGTAG, "here in on getVideoLoadingPregressView");
+            //Log.i(TAG, "here in on getVideoLoadingPregressView");
 
             if (mVideoProgressView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -207,7 +196,7 @@ public class HTML5WebView extends WebView {
     public class HTML5WebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i(LOGTAG, "shouldOverrideUrlLoading: " + url);
+            Log.i(TAG, "shouldOverrideUrlLoading: " + url);
             // don't override URL so that stuff within iframe can work properly
             // view.loadUrl(url);
             return mHTML5WebViewCallback.shouldOverrideUrlLoading(view, url);

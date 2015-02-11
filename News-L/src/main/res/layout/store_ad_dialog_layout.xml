@@ -15,7 +15,7 @@
         android:paddingLeft="@dimen/store_ad_dialog_title_padding_left_right"
         android:paddingRight="@dimen/store_ad_dialog_title_padding_left_right"
         android:background="@drawable/shape_store_ad_dialog_title_layout"
-        android:text="@string/recommend_app_full_name"
+        android:text="@string/app_name"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:textSize="@dimen/store_ad_dialog_title_text_size"

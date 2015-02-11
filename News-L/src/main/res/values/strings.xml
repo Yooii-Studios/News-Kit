@@ -12,6 +12,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="iab_item_unavailable">You have to purchase…</string>
+    <string name="share">Share</string>
 
     <!-- Main -->
     <string name="splash_loading_title">News Flow</string>
@@ -21,6 +22,10 @@
     <string name="newsfeed_auto_scroll">Auto Scroll</string>
     <string name="on">On</string>
     <string name="off">Off</string>
+
+    <!-- News Detail -->
+    <string name="news_detail_share_message">Check out this link!</string>
+    <string name="news_detail_link_copied">The link is copied</string>
 
     <!-- News Select -->
     <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
@@ -61,7 +66,6 @@
     <string name="recommend_to_friends">Recommend this to your friends</string>
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>
     <string name="recommend_description">Click the link and take it for a spin</string>
-    <string name="recommend_app_full_name">News L</string>
 
     <!-- Feedback -->
     <string name="feedback_description">How can we improve News L?</string>

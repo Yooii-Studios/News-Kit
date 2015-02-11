@@ -1,3 +1,4 @@
 include ':News-L'
 include ':libraries:Volley'
 include ':libraries:GridLayoutManager'
+include ':libraries:FloatingActionButton'

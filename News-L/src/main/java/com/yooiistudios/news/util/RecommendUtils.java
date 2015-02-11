@@ -18,7 +18,7 @@ public class RecommendUtils {
 
     public static void showRecommendDialog(Activity activity) {
         Context context = activity.getApplicationContext();
-        String appName = context.getString(R.string.recommend_app_full_name);
+        String appName = context.getString(R.string.app_name);
         String title = context.getString(R.string.recommend_title) + " [" + appName + "]";
 
         Intent intent = new Intent(Intent.ACTION_SEND);

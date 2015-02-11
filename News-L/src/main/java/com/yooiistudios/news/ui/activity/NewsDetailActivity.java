@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,12 +16,16 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
-import com.yooiistudios.news.ui.widget.FloatingActionButton;
 import com.yooiistudios.news.ui.widget.HTML5WebView;
+import com.yooiistudios.news.ui.widget.MovableFloatingActionsMenu;
+import com.yooiistudios.news.ui.widget.ObservableWebView;
+import com.yooiistudios.news.ui.widget.OldFloatingActionButton;
 import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.WebUtils;
 
@@ -34,10 +39,15 @@ public class NewsDetailActivity extends Activity
         implements HTML5WebView.HTML5WebViewCallback {
     private static final String TAG = NewsDetailActivity.class.getName();
 
-    @InjectView(R.id.news_detail_root)              RelativeLayout mRootContainer;
-    @InjectView(R.id.news_detail_fab)               FloatingActionButton mFab;
-//    @InjectView(R.id.news_detail_loading_container) FrameLayout mLoadingLayout;
-    @InjectView(R.id.news_detail_progress_bar)      ProgressBar mProgressBar;
+    @InjectView(R.id.news_detail_content_layout) RelativeLayout mContentContainer;
+    @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
+    @InjectView(R.id.news_detail_fab) OldFloatingActionButton mFab;
+
+    @InjectView(R.id.news_detail_fab_menu) FloatingActionsMenu mFabMenu;
+    @InjectView(R.id.news_detail_fab_browser) FloatingActionButton mBrowserFab;
+    @InjectView(R.id.news_detail_fab_share) FloatingActionButton mShareFab;
+    @InjectView(R.id.news_detail_fab_copy_link) FloatingActionButton mCopyLinkFab;
+    @InjectView(R.id.news_detail_fab_facebook) FloatingActionButton mFacebookFab;
 
     private HTML5WebView mWebView;
     private News mNews;
@@ -57,37 +67,45 @@ public class NewsDetailActivity extends Activity
         initWebView();
 
         mProgressBar.bringToFront();
+        mProgressBar.animate().withLayer().yBy(-6.0f * getResources().getDisplayMetrics().density)
+                .setDuration(0).start();
 
         mFab.bringToFront();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebUtils.openLink(NewsDetailActivity.this, mNews.getLink());
+                WebUtils.openLinkInBrowser(NewsDetailActivity.this, mNews.getLink());
             }
         });
+
+        initFabMenu();
 
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
     @Override
     public void onBackPressed() {
-        WebBackForwardList list = mWebView.copyBackForwardList();
+        if (!mFabMenu.isExpanded()) {
+            WebBackForwardList list = mWebView.copyBackForwardList();
 
-        if (list.getCurrentIndex() <= 0 && !mWebView.canGoBack()) {
-            // 처음 들어온 페이지이거나, history가 없는경우
-            super.onBackPressed();
+            if (list.getCurrentIndex() <= 0 && !mWebView.canGoBack()) {
+                // 처음 들어온 페이지이거나, history가 없는경우
+                super.onBackPressed();
+            } else {
+                // history 가 있는 경우
+                // 현재 페이지로 부터 history 수 만큼 뒷 페이지로 이동
+                mWebView.goBackOrForward(-(list.getCurrentIndex()));
+                // history 삭제
+                mWebView.clearHistory();
+            }
         } else {
-            // history 가 있는 경우
-            // 현재 페이지로 부터 history 수 만큼 뒷 페이지로 이동
-            mWebView.goBackOrForward(-(list.getCurrentIndex()));
-            // history 삭제
-            mWebView.clearHistory();
+            mFabMenu.collapse();
         }
     }
 
     private void initWebView() {
-        mWebView = new HTML5WebView(this);
-        mRootContainer.addView(mWebView.getLayout(),
+        mWebView = new ObservableWebView(this);
+        mContentContainer.addView(mWebView.getLayout(),
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
@@ -120,6 +138,19 @@ public class NewsDetailActivity extends Activity
 
         mWebView.loadUrl(mNews.getLink());
 
+        mWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_UP ||
+//                        event.getAction() == MotionEvent.ACTION_CANCEL) {
+//
+//                }
+                if (mFabMenu.isExpanded()) {
+                    mFabMenu.collapse();
+                }
+                return false;
+            }
+        });
 //        applySystemWindowsBottomInset(mRootContainer);
     }
 
@@ -163,6 +194,36 @@ public class NewsDetailActivity extends Activity
 //            });
 //        }
 //    }
+
+    private void initFabMenu() {
+//        mFabMenu.attachToWebView(mWebView);
+        mFabMenu.getFloatingActionButton().setColorNormalResId(R.color.material_light_blue_500);
+        mFabMenu.getFloatingActionButton().setColorPressedResId(R.color.material_light_blue_100);
+        mBrowserFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebUtils.openLinkInBrowser(NewsDetailActivity.this, mNews.getLink());
+            }
+        });
+        mShareFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebUtils.shareLink(NewsDetailActivity.this, mNews.getLink());
+            }
+        });
+        mCopyLinkFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebUtils.copyLink(NewsDetailActivity.this, mNews.getLink());
+            }
+        });
+        mFacebookFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebUtils.shareLinkToFacebook(NewsDetailActivity.this, mNews.getLink());
+            }
+        });
+    }
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -211,18 +272,6 @@ public class NewsDetailActivity extends Activity
         }
     }
     */
-
-/*
-    @Override
-    public void onBackPressed() {
-        if(mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-*/
-
 
     // TODO: WebViewClient 를 WebChromeClient 로 대체해서 progress 를 표시할 수 있는 것이 좋을듯
     // onProgressChanged 에서 progress 가 업데이트됨
