@@ -230,13 +230,8 @@ public class MainBottomContainerLayout extends FrameLayout
 
         //init ui
         mBottomNewsFeedRecyclerView.setHasFixedSize(true);
-//        GridLayoutManager layoutManager = new GridLayoutManager(getContext());
-//        layoutManager.setColumns(COLUMN_COUNT_PORTRAIT);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
                 COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
-//        layoutManager.setOrientation(TwoWayLayoutManager.Orientation.PORTRAIT);
-//        layoutManager.setNumColumns(2);
-//        layoutManager.setNumRows(2);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
@@ -248,10 +243,8 @@ public class MainBottomContainerLayout extends FrameLayout
         ArrayList<NewsFeed> bottomNewsFeedList =
                 NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.getPanelCount());
         mBottomNewsFeedAdapter.setNewsFeedList(bottomNewsFeedList);
-//        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext()));
 
-        boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext());
-        if (needsRefresh) {
+        if (NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext())) {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
                     mBottomNewsFeedAdapter.getNewsFeedList(), this,
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
@@ -307,7 +300,8 @@ public class MainBottomContainerLayout extends FrameLayout
                 AnimationFactory.getBottomDuration(getContext()));
         mAutoAnimator.setTransitionProperty(transitionProperty);
 
-        mAutoAnimator.applyMockViewProperties(getContext(), this, 4);
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
+        mAutoAnimator.applyMockViewProperties(getContext(), this, currentMatrix.getPanelCount());
     }
 
     public void autoRefreshBottomNewsFeeds() {
@@ -352,46 +346,61 @@ public class MainBottomContainerLayout extends FrameLayout
         PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
 
         if (currentNewsFeedList.size() > currentMatrix.getPanelCount()) {
-            for (int idx = currentNewsFeedList.size() - 1; idx >= currentMatrix.getPanelCount(); idx--) {
-                mBottomNewsFeedAdapter.removeNewsFeedAt(idx);
-            }
-            mBottomNewsFeedAdapter.notifyDataSetChanged();
+            configOnPanelCountDecreased();
         } else if (currentNewsFeedList.size() < currentMatrix.getPanelCount()) {
-            ArrayList<NewsFeed> savedNewsFeedList =
-                    NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.getPanelCount());
-//            ArrayList<NewsFeed> savedNewsFeedList =
-//                    NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext());
-            int maxCount = savedNewsFeedList.size() > currentMatrix.getPanelCount()
-                    ? currentMatrix.getPanelCount() : savedNewsFeedList.size();
-            ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairListToFetch = new ArrayList<>();
-            int currentNewsFeedCount = currentNewsFeedList.size();
-            for (int idx = currentNewsFeedCount; idx < maxCount; idx++) {
-                NewsFeed newsFeed = savedNewsFeedList.get(idx);
-                mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
-
-                if (!newsFeed.containsNews()) {
-                    newsFeedToIndexPairListToFetch.add(new Pair<>(newsFeed, idx));
-                }
-            }
-
-            NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
-//            NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-//                    mBottomNewsFeedAdapter.getNewsFeedList());
-
-            mIsFetchingAddedBottomNewsFeeds = true;
-            if (newsFeedToIndexPairListToFetch.size() == 0) {
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
-                        mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
-                        BottomNewsImageFetchTask.TASK_MATRIX_CHANGED
-                );
-            } else {
-                BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
-                        newsFeedToIndexPairListToFetch, this,
-                        BottomNewsFeedFetchTask.TASK_MATRIX_CHANGED);
-            }
+            configOnPanelCountIncreased();
         }
 
         adjustSize();
+    }
+
+    private void configOnPanelCountDecreased() {
+        ArrayList<NewsFeed> currentNewsFeedList = mBottomNewsFeedAdapter.getNewsFeedList();
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
+
+        for (int idx = currentNewsFeedList.size() - 1; idx >= currentMatrix.getPanelCount(); idx--) {
+            mBottomNewsFeedAdapter.removeNewsFeedAt(idx);
+            mAutoAnimator.removeViewPropertyAt(idx);
+        }
+        mBottomNewsFeedAdapter.notifyDataSetChanged();
+    }
+
+    private void configOnPanelCountIncreased() {
+        ArrayList<NewsFeed> currentNewsFeedList = mBottomNewsFeedAdapter.getNewsFeedList();
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
+
+        ArrayList<NewsFeed> savedNewsFeedList =
+                NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.getPanelCount());
+//            ArrayList<NewsFeed> savedNewsFeedList =
+//                    NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext());
+        int maxCount = savedNewsFeedList.size() > currentMatrix.getPanelCount()
+                ? currentMatrix.getPanelCount() : savedNewsFeedList.size();
+        ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairListToFetch = new ArrayList<>();
+        int currentNewsFeedCount = currentNewsFeedList.size();
+        for (int idx = currentNewsFeedCount; idx < maxCount; idx++) {
+            NewsFeed newsFeed = savedNewsFeedList.get(idx);
+            mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
+
+            if (!newsFeed.containsNews()) {
+                newsFeedToIndexPairListToFetch.add(new Pair<>(newsFeed, idx));
+            }
+        }
+
+        NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
+//            NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+//                    mBottomNewsFeedAdapter.getNewsFeedList());
+
+        mIsFetchingAddedBottomNewsFeeds = true;
+        if (newsFeedToIndexPairListToFetch.size() == 0) {
+            BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
+                    mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                    BottomNewsImageFetchTask.TASK_MATRIX_CHANGED
+            );
+        } else {
+            BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
+                    newsFeedToIndexPairListToFetch, this,
+                    BottomNewsFeedFetchTask.TASK_MATRIX_CHANGED);
+        }
     }
 
     private void notifyOnInitialized() {
