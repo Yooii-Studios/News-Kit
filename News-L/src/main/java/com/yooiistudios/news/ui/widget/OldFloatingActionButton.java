@@ -29,7 +29,7 @@ import android.widget.FrameLayout;
  * A Floating Action Button is a {@link android.widget.Checkable} view distinguished by a circled
  * icon floating above the UI, with special motion behaviors.
  */
-public class FloatingActionButton extends FrameLayout {
+public class OldFloatingActionButton extends FrameLayout {
 
     private static String TAG = "FloatingActionButton";
 //    private OnActionListener mOnActionListener;
@@ -45,20 +45,20 @@ public class FloatingActionButton extends FrameLayout {
 //    private GestureDetector mGestureDetector;
 
 
-    public FloatingActionButton(Context context) {
+    public OldFloatingActionButton(Context context) {
         this(context, null, 0, 0);
     }
 
-    public FloatingActionButton(Context context, AttributeSet attrs) {
+    public OldFloatingActionButton(Context context, AttributeSet attrs) {
         this(context, attrs, 0, 0);
     }
 
-    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public OldFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr,
-                                int defStyleRes) {
+    public OldFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr,
+                                   int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         // When a view is clickable it will change its state to "pressed" on every click.

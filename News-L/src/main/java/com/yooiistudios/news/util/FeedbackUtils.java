@@ -19,7 +19,7 @@ public class FeedbackUtils {
 
     public static void sendFeedback(Activity activity) {
         Context context = activity.getApplicationContext();
-        String appName = context.getString(R.string.recommend_app_full_name);
+        String appName = context.getString(R.string.app_name);
         String title = "[" + appName + "] User Feedback";
 
         Intent intent = new Intent(Intent.ACTION_SEND);

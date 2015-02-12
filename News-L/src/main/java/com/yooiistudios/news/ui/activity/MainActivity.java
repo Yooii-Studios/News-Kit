@@ -49,8 +49,9 @@ import com.yooiistudios.news.util.AdUtils;
 import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.AppValidationChecker;
 import com.yooiistudios.news.util.ConnectivityUtils;
+import com.yooiistudios.news.util.FacebookUtils;
 import com.yooiistudios.news.util.NLLog;
-import com.yooiistudios.news.util.RecommendUtils;
+import com.yooiistudios.news.util.ReviewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -350,14 +351,15 @@ public class MainActivity extends Activity
         subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
 
         subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
-        subMenu.add(Menu.NONE, R.id.action_settings, 1, R.string.action_settings);
-        subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
-        subMenu.add(Menu.NONE, R.id.action_recommend, 3, R.string.recommend_to_friends);
+        subMenu.add(Menu.NONE, R.id.action_info, 1, R.string.action_info);
+        subMenu.add(Menu.NONE, R.id.action_settings, 2, R.string.action_settings);
+        subMenu.add(Menu.NONE, R.id.action_rate_app, 3, R.string.action_rate_app);
+        subMenu.add(Menu.NONE, R.id.action_facebook_like, 4, R.string.action_facebook_like);
 
         if (NLLog.isDebug()) {
-            subMenu.add(Menu.NONE, R.id.action_remove_archive, 4, "Remove archive(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_slow_anim, 5, "Slow Activity Transition(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_service_log, 6, "Show service log(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_remove_archive, 5, "Remove archive(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_slow_anim, 6, "Slow Activity Transition(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_service_log, 7, "Show service log(Debug)");
         }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -372,14 +374,17 @@ public class MainActivity extends Activity
         if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
             return true;
-        } else if (id == R.id.action_settings) {
-            startActivityForResult(new Intent(MainActivity.this, SettingActivity.class), RC_SETTING);
-            return true;
         } else if (id == R.id.action_info) {
             startActivity(new Intent(MainActivity.this, InfoActivity.class));
             return true;
-        } else if (id == R.id.action_recommend) {
-            RecommendUtils.showRecommendDialog(this);
+        } else if (id == R.id.action_settings) {
+            startActivityForResult(new Intent(MainActivity.this, SettingActivity.class), RC_SETTING);
+            return true;
+        } else if (id == R.id.action_rate_app) {
+            ReviewUtils.showReviewActivity(this);
+            return true;
+        } else if (id == R.id.action_facebook_like) {
+            FacebookUtils.openYooiiPage(this);
             return true;
         // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
@@ -449,16 +454,6 @@ public class MainActivity extends Activity
             return;
         }
         mIsHandlerRunning = true;
-        // 첫 실행이면 빠른 딜레이 주기
-//        SharedPreferences prefs = getSharedPreferences("AutoRefreshDelayPrefs", MODE_PRIVATE);
-//        int delay;
-//        if (prefs.getBoolean("isNotFirstAutoRefresh", false)) {
-//            delay = AUTO_REFRESH_HANDLER_FIRST_DELAY;
-//            prefs.edit().putBoolean("isNotFirstAutoRefresh", true).apply();
-//        } else {
-//            delay = AUTO_REFRESH_HANDLER_DELAY;
-//        }
-        NLLog.now("auRefreshHandlerDelay: " + Settings.getAutoRefreshHandlerDelay(this));
         mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, Settings.getAutoRefreshHandlerDelay(this));
     }
 

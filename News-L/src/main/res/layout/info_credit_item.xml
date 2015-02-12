@@ -32,12 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="Executive Producer"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/info_credit_title_font_size"
-            android:textStyle="bold"
             android:layout_centerInParent="true"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:text="Executive Producer"
+            android:textColor="@color/material_black_secondary_text"/>
 
         <TextView
             android:id="@+id/setting_info_credit_item_name_textview"
@@ -45,13 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/setting_info_credit_item_title_textview"
-            android:gravity="center_vertical"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/info_credit_name_left_margin"
+            android:layout_marginTop="@dimen/base_margin_small"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:text="Robert Song"
-            android:textColor="@color/accent_material_light"
-            android:textSize="@dimen/info_credit_name_font_size"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"/>
+            android:textColor="@color/material_deep_teal_500"/>
 
     </RelativeLayout>
 </RelativeLayout>

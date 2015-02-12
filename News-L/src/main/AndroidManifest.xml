@@ -47,7 +47,7 @@
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/NewsDetailActivityTheme" />
+            android:theme="@style/NewsDetailTheme" />
         <activity
             android:name=".ui.activity.NewsSelectActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
@@ -79,7 +79,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/info_credit"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/BaseAppTheme" >
+            android:theme="@style/NewsAppTheme" >
         </activity>
         <activity
             android:name=".ui.activity.LicenseActivity"

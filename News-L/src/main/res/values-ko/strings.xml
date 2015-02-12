@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">뉴스 L</string>
-    <string name="action_settings">설정</string>
-    <string name="action_info">정보</string>
+    <string name="app_name">뉴스 플로</string>
     <string name="action_newsfeed">뉴스피드 교체</string>
+    <string name="action_info">정보</string>
+    <string name="action_settings">설정</string>
+    <string name="action_rate_app">앱 평가하기</string>
+    <string name="action_facebook_like">Like us on Facebook</string>
     <string name="action_send_feedback">의견 보내기</string>
     <string name="content_description">로딩 중…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
     <!-- Main -->
-    <string name="splash_loading_title">뉴스 L</string>
+    <string name="splash_loading_title">뉴스 플로</string>
     <string name="splash_loading_description">뉴스 로딩 중…</string>
 
     <!-- Newsfeed Detail -->
@@ -29,7 +31,6 @@
     <string name="setting_keep_screen_on">화면 켜짐 유지</string>
     <string name="setting_share_this_app">앱 공유하기</string>
     <string name="setting_tutorial">튜토리얼</string>
-    <string name="setting_like_facebook">Like us on facebook</string>
 
     <!-- Setting (Language) -->
     <string name="setting_language_korean">한국어</string>
@@ -43,7 +44,6 @@
     <string name="recommend_to_friends">친구에게 추천하기</string>
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>
     <string name="recommend_description">Click the link and take it for a spin</string>
-    <string name="recommend_app_full_name">News L</string>
 
     <!-- Feedback -->
     <string name="feedback_description">뉴스 L을 개선하기 위한 의견을 들려주세요^^</string>
@@ -67,7 +67,7 @@
     <string name="store_item_debug_description">Item description\nItem description</string>
     <string name="store_no_ads_title">No Ads</string>
     <string name="store_no_ads_description">Remove all ads of the app</string>
-    <string name="store_more_panel_title">2x3 News panels</string>
+    <string name="store_more_panel_title">More News panels</string>
     <string name="store_more_panel_description">Use 4 to 8 bottom news panels</string>
     <string name="store_topic_select_title">Topic select</string>
     <string name="store_topic_select_description">You can select detail category of the news</string>
@@ -76,8 +76,6 @@
 
     <!-- Info-->
     <string name="info_news_info">News Info</string>
-    <string name="info_rate_this_app">앱 평가하기</string>
-    <string name="info_facebook_like">Like us on Facebook</string>
     <string name="info_credit">Credit</string>
 
     <!-- More Info -->
