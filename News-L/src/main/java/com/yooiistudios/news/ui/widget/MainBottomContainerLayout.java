@@ -1,11 +1,13 @@
 package com.yooiistudios.news.ui.widget;
 
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -42,8 +44,12 @@ import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.serialanimator.animator.SerialAnimator;
+import com.yooiistudios.serialanimator.animator.SerialValueAnimator;
+import com.yooiistudios.serialanimator.property.ViewProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -65,7 +71,10 @@ public class MainBottomContainerLayout extends FrameLayout
         implements
         MainBottomAdapter.OnItemClickListener,
         BottomNewsFeedListFetchManager.OnFetchListener,
-        BottomNewsImageFetchManager.OnFetchListener {
+        BottomNewsImageFetchManager.OnFetchListener,
+        SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
+        ViewProperty.AnimationListener,
+        MainBottomAdapter.OnBindViewHolderListener {
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
@@ -79,6 +88,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private Activity mActivity;
     private ImageLoader mImageLoader;
+    private SerialValueAnimator mAutoAnimator;
 
     private boolean mIsInitialized = false;
     private boolean mIsInitializedFirstImages = false;
@@ -130,9 +140,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
         setAnimationCacheEnabled(true);
         setDrawingCacheEnabled(true);
+        initAnimator();
     }
 
-    public void autoRefreshBottomNewsFeeds() {
+    public void _autoRefreshBottomNewsFeeds() {
         // 딜레이도 스피드에 따라서 비율적으로 조절해주기
         final int originalRefreshDelay =
                 getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
@@ -267,6 +278,7 @@ public class MainBottomContainerLayout extends FrameLayout
         }
 
         adjustSize();
+        mBottomNewsFeedAdapter.setOnBindViewHolderListener(this);
     }
 
     private void adjustSize() {
@@ -283,6 +295,55 @@ public class MainBottomContainerLayout extends FrameLayout
                     recyclerViewLp);
         }
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
+    }
+
+    private void initAnimator() {
+        mAutoAnimator = new SerialValueAnimator();
+
+        SerialValueAnimator.ValueAnimatorProperty transitionProperty
+                = new SerialValueAnimator.ValueAnimatorProperty(
+                this,
+                SlowSpeedScroller.SWIPE_DURATION,
+                AnimationFactory.getBottomDuration(getContext()));
+        mAutoAnimator.setTransitionProperty(transitionProperty);
+
+        mAutoAnimator.applyMockViewProperties(getContext(), this, 4);
+    }
+
+    public void autoRefreshBottomNewsFeeds() {
+        mAutoAnimator.animate();
+    }
+
+    @Override
+    public void onAnimationEnd(ViewProperty property) {
+        String message = String.format("Animation end. (view, transition) : (%d, %d)"
+                , property.getViewIndex(), property.getTransitionInfo().index);
+        NLLog.i("onAnimationEnd", message);
+    }
+
+    @NonNull
+    @Override
+    public List<ValueAnimator> onSupplyTransitionList(View targetView) {
+        List<ValueAnimator> animators = new ArrayList<>();
+        ValueAnimator fadeOutAnimator =
+                AnimationFactory.makeBottomFadeOutAnimator(getContext(), targetView);
+        ValueAnimator fadeInAnimator =
+                AnimationFactory.makeBottomFadeInAnimator(getContext(), targetView);
+        animators.add(fadeOutAnimator);
+        animators.add(fadeInAnimator);
+
+        return animators;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+        ViewProperty property =
+                new ViewProperty.Builder()
+                        .setView(viewHolder.itemView)
+                        .setViewIndex(i)
+                        .setAnimationListener(this)
+                        .build();
+        mAutoAnimator.putViewPropertyIfRoom(property, i);
     }
 
     public void notifyPanelMatrixChanged() {

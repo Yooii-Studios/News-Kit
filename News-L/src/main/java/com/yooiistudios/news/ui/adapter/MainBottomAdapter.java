@@ -41,25 +41,31 @@ import java.util.ArrayList;
  */
 public class MainBottomAdapter extends
         RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
+    public interface OnBindViewHolderListener {
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i);
+    }
+
+    public interface OnItemClickListener {
+        public void onBottomItemClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
+    }
+
+    public static final int PORTRAIT = 0;
+    public static final int LANDSCAPE = 1;
     private static final String TAG = MainBottomAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
     private static final float HEIGHT_OVER_WIDTH_RATIO = 3.3f / 4.0f;
-    public static final int PORTRAIT = 0;
-    public static final int LANDSCAPE = 1;
 
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
+
+    private OnBindViewHolderListener mOnBindViewHolderListener;
 
     private int mOrientation = PORTRAIT;
 
     @IntDef(value = {PORTRAIT, LANDSCAPE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
-
-    public interface OnItemClickListener {
-        public void onBottomItemClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
-    }
 
     public MainBottomAdapter(Context context, OnItemClickListener listener) {
         this(context, listener, PORTRAIT);
@@ -243,6 +249,10 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
                 mNewsFeedList.get(position).getDisplayingNewsIndex());
+
+        if (mOnBindViewHolderListener != null) {
+            mOnBindViewHolderListener.onBindViewHolder(viewHolder, position);
+        }
     }
 
     private void showLoading(BottomNewsFeedViewHolder viewHolder) {
@@ -364,6 +374,10 @@ public class MainBottomAdapter extends
 
     public void setOrientation(@Orientation int orientation) {
         mOrientation = orientation;
+    }
+
+    public void setOnBindViewHolderListener(OnBindViewHolderListener onBindViewHolderListener) {
+        mOnBindViewHolderListener = onBindViewHolderListener;
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView.ViewHolder {
