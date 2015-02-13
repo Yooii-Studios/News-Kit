@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -85,6 +87,7 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
+    @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
@@ -163,7 +166,7 @@ public class MainActivity extends Activity
                 if (mMainTopContainerLayout.isReady() &&
                         !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
                     stopNewsAutoRefresh();
-                    mSwipeRefreshLayout.setEnabled(false);
+                    setSwipeRefreshLayoutEnabled(false);
 
                     mMainTopContainerLayout.refreshNewsFeedOnSwipeDown();
                     mMainBottomContainerLayout.refreshBottomNewsFeeds();
@@ -172,7 +175,7 @@ public class MainActivity extends Activity
         });
 
         // 초기 로딩시 swipe refresh 가 되지 않도록 설정
-        mSwipeRefreshLayout.setEnabled(false);
+        setSwipeRefreshLayoutEnabled(false);
     }
 
     private void initNetworkUnavailableCoverLayout() {
@@ -238,15 +241,23 @@ public class MainActivity extends Activity
     private void checkAdView() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
         if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
+            } else {
+                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+            }
             mAdView.setVisibility(View.GONE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             }
         } else {
-            int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
-            mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
+            } else {
+                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+            }
             mAdView.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams adViewLp =
                     (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
@@ -265,6 +276,16 @@ public class MainActivity extends Activity
 
     public ViewGroup getMainTopContainerLayout() {
         return mMainTopContainerLayout;
+    }
+
+    private void setSwipeRefreshLayoutEnabled(boolean enable) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            boolean readyForRefresh = mMainTopContainerLayout.isReady()
+                    && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
+            mSwipeRefreshLayout.setEnabled(enable && readyForRefresh);
+        } else {
+            mSwipeRefreshLayout.setEnabled(false);
+        }
     }
 
     private void applySystemWindowsBottomInset() {
@@ -297,9 +318,10 @@ public class MainActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
+
         if (mRootView != null) {
+            onConfigurationChanged(getResources().getConfiguration());
             startNewsAutoRefreshIfReady();
-            checkAdView();
         }
 
         // 화면 켜짐 유지 설정
@@ -468,7 +490,7 @@ public class MainActivity extends Activity
 
             mSwipeRefreshLayout.setRefreshing(false);
 
-            mSwipeRefreshLayout.setEnabled(true);
+            setSwipeRefreshLayoutEnabled(true);
 
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
@@ -486,10 +508,49 @@ public class MainActivity extends Activity
                 !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
             // dismiss loading progress bar
             mSwipeRefreshLayout.setRefreshing(false);
-            mSwipeRefreshLayout.setEnabled(true);
+            setSwipeRefreshLayoutEnabled(true);
             NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
             startNewsAutoRefresh();
         }
+    }
+
+    private void configOnPortraitOrientation() {
+        RelativeLayout.LayoutParams bottomLayoutParams =
+                ((RelativeLayout.LayoutParams)mMainBottomContainerLayout.getLayoutParams());
+
+        bottomLayoutParams.addRule(RelativeLayout.BELOW, mMainTopContainerLayout.getId());
+        bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
+
+        setSwipeRefreshLayoutEnabled(true);
+
+        mScrollView.setEnabled(true);
+    }
+
+    private void configOnLandscapeOrientation() {
+        RelativeLayout.LayoutParams bottomLayoutParams =
+                ((RelativeLayout.LayoutParams)mMainBottomContainerLayout.getLayoutParams());
+
+        bottomLayoutParams.addRule(RelativeLayout.BELOW, 0);
+        bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, mMainTopContainerLayout.getId());
+
+        setSwipeRefreshLayoutEnabled(false);
+
+        mScrollView.setEnabled(false);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        applySystemWindowsBottomInset();
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            configOnPortraitOrientation();
+        } else {
+            configOnLandscapeOrientation();
+        }
+
+        mMainTopContainerLayout.configOnOrientationChange();
+        mMainBottomContainerLayout.configOnOrientationChange();
     }
 
     @Override
@@ -538,7 +599,7 @@ public class MainActivity extends Activity
                                 mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
 
                                 mSwipeRefreshLayout.setRefreshing(false);
-                                mSwipeRefreshLayout.setEnabled(true);
+                                setSwipeRefreshLayoutEnabled(true);
 
                                 startNewsAutoRefreshIfReady();
                             }

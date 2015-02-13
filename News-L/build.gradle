@@ -14,6 +14,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 android {
@@ -78,6 +79,7 @@ dependencies {
     // Volley
     compile project(':libraries:Volley')
     compile project(':libraries:GridLayoutManager')
+    compile project(':libraries:SerialAnimator')
     compile project(':libraries:FloatingActionButton')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:

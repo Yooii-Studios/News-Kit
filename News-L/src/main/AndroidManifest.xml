@@ -29,8 +29,8 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
+            android:screenOrientation="sensor"
             android:label="@string/app_name"
-            android:screenOrientation="sensorPortrait"
             android:theme="@style/MainActivityTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
