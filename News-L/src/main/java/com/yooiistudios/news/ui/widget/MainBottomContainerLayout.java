@@ -309,10 +309,38 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     @Override
-    public void onAnimationEnd(ViewProperty property) {
-        String message = String.format("Animation end. (view, transition) : (%d, %d)"
-                , property.getViewIndex(), property.getTransitionInfo().index);
-        NLLog.i("onAnimationEnd", message);
+    public void onAnimationEnd(ViewProperty viewProperty) {
+//        String message = String.format("Animation end. (view, transition) : (%d, %d)"
+//                , viewProperty.getViewIndex(), viewProperty.getTransitionInfo().index);
+//        NLLog.i("onAnimationEnd", message);
+
+        int transitionIndex = viewProperty.getTransitionInfo().index;
+
+        // TODO 인덱스 0에 대한 명세 필요
+        if (transitionIndex == 0) {
+            int newsFeedIndex = viewProperty.getViewIndex();
+            increaseDisplayingNewsIndexAt(newsFeedIndex);
+            fetchNextNewsImageAt(newsFeedIndex);
+        }
+    }
+
+    private void increaseDisplayingNewsIndexAt(int newsFeedIndex) {
+        ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
+        NewsFeed newsFeed = newsFeeds.get(newsFeedIndex);
+        newsFeed.increaseDisplayingNewsIndex();
+        mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+    }
+
+    private void fetchNextNewsImageAt(int newsFeedIndex) {
+        ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
+        // TODO 뉴스 각각의 애니메이션이 끝난 경우 각자 뉴스 이미지를 가져오도록 변경해야함
+        if (newsFeedIndex == newsFeeds.size() - 1) {
+            BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                    mImageLoader, newsFeeds,
+                    MainBottomContainerLayout.this,
+                    BottomNewsImageFetchTask.TASK_AUTO_REFRESH
+            );
+        }
     }
 
     @NonNull

@@ -219,6 +219,10 @@ public class NewsFeed implements Parcelable {
         return displayingNewsIndex;
     }
 
+    public void increaseDisplayingNewsIndex() {
+        setDisplayingNewsIndex(getNextNewsIndex());
+    }
+
     public void setTopicIdInfo(NewsTopic newsTopic) {
         setTopicLanguageCode(newsTopic.getLanguageCode());
         setTopicRegionCode(newsTopic.getRegionCode());

@@ -25,7 +25,6 @@ public class BottomNewsImageFetchManager
     private static BottomNewsImageFetchManager instance;
 
     private HashMap<News, BottomNewsImageFetchTask> mBottomNewsFeedNewsToImageTaskMap;
-//    private ArrayList<Pair<News, Boolean>> mNewsToFetchImageList;
     private HashMap<News, Pair<Boolean, Integer>> mNewsToFetchMap;
     private int mTaskType;
     private OnFetchListener mListener;
@@ -60,22 +59,6 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, false);
     }
 
-//    public void fetchDisplayingNewsImageList(ImageLoader imageLoader,
-//                                             SparseArray<NewsFeed> newsFeedMap,
-//                                             OnFetchListener listener, int taskType) {
-//        fetch(imageLoader, newsFeedMap, listener, taskType, false);
-//    }
-//
-//    public void fetchDisplayingNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
-//                                         OnFetchListener listener, int newsFeedIndex,
-//                                         int taskType) {
-//
-//        SparseArray<NewsFeed> list = new SparseArray<>();
-//        list.put(newsFeedIndex, newsFeed);
-//
-//        fetch(imageLoader, list, listener, taskType, false);
-//    }
-
     public void fetchAllNextNewsImageList(ImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                           OnFetchListener listener, int taskType) {
         SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
@@ -85,14 +68,14 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, true);
     }
 
-//    public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
-//                                   OnFetchListener listener, int newsFeedIndex, int taskType) {
-//
-//        SparseArray<NewsFeed> list = new SparseArray<>();
-//        list.put(newsFeedIndex, newsFeed);
-//
-//        fetch(imageLoader, list, listener, taskType, true);
-//    }
+    public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
+                                   OnFetchListener listener, int newsFeedIndex, int taskType) {
+
+        SparseArray<NewsFeed> list = new SparseArray<>();
+        list.put(newsFeedIndex, newsFeed);
+
+        fetch(imageLoader, list, listener, taskType, true);
+    }
 
     public void fetchDisplayingAndNextImage(ImageLoader imageLoader, NewsFeed newsFeed,
                                             OnFetchListener listener, int newsFeedIndex,
@@ -184,7 +167,6 @@ public class BottomNewsImageFetchManager
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             } else {
                 if (news.getImageUrl() != null) {
-//                    NLLog.i("Image fetch", "imageLoader.get. newsFeedIndex : " + newsFeedIndex);
                     imageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
                         @Override
                         public void onResponse(ImageLoader.ImageContainer response,
@@ -193,18 +175,15 @@ public class BottomNewsImageFetchManager
                                 return;
                             }
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
-//                            NLLog.i("Image fetch", "onResponse. newsFeedIndex : " + newsFeedIndex);
                         }
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
-//                            NLLog.i("Image fetch", "onErrorResponse. newsFeedIndex : " + newsFeedIndex);
                         }
                     });
                 } else {
                     notifyOnImageFetch(news, newsFeedIndex, mTaskType);
-//                    NLLog.i("Image fetch", "no url. newsFeedIndex : " + newsFeedIndex);
                 }
             }
         }
