@@ -14,12 +14,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.melnykov.fab.FloatingActionButton;
 import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.ui.widget.HTML5WebView;
 import com.yooiistudios.news.ui.widget.ObservableWebView;
+import com.yooiistudios.news.ui.widget.WebFloatingActionButton;
 import com.yooiistudios.news.util.AnalyticsUtils;
 import com.yooiistudios.news.util.WebUtils;
 
@@ -34,10 +34,10 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
 
     @InjectView(R.id.news_detail_content_layout) RelativeLayout mContentContainer;
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
-    @InjectView(R.id.news_detail_fab) FloatingActionButton mFab;
+    @InjectView(R.id.news_detail_fab) WebFloatingActionButton mFab;
 
     private News mNews;
-    private HTML5WebView mWebView;
+    private ObservableWebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
     }
 
     private void initFabMenu() {
+        mFab.attachToWebView(mWebView);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

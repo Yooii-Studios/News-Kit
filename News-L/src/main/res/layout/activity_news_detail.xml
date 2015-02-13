@@ -22,7 +22,7 @@
         android:indeterminate="false"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
-    <com.melnykov.fab.FloatingActionButton
+    <com.yooiistudios.news.ui.widget.WebFloatingActionButton
         android:id="@+id/news_detail_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

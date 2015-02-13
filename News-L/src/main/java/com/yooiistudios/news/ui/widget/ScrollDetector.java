@@ -10,19 +10,19 @@ import com.yooiistudios.news.R;
  * ScrollDetector
  *  웹뷰의 스크롤 값을 계산해서 위 아래 방향 콜백을 해 주는 클래스
  */
-class ScrollDetector {
+public class ScrollDetector {
     private int mLastScrollY;
     private int mScrollThreshold;
     private OnScrollDirectionListener mListener;
 
-    ScrollDetector(Context context, OnScrollDirectionListener listener) {
-        mListener = listener;
-        mScrollThreshold = context.getResources().getDimensionPixelSize(R.dimen.fab_scroll_threshold);
-    }
-
-    interface OnScrollDirectionListener {
+    public interface OnScrollDirectionListener {
         void onScrollUp();
         void onScrollDown();
+    }
+
+    public ScrollDetector(Context context, OnScrollDirectionListener listener) {
+        mListener = listener;
+        mScrollThreshold = context.getResources().getDimensionPixelSize(R.dimen.fab_scroll_threshold);
     }
 
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
