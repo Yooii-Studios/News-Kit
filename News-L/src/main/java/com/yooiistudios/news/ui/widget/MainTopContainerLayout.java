@@ -454,6 +454,9 @@ public class MainTopContainerLayout extends FrameLayout
 
         lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
         lp.height = ScreenUtils.getDisplaySize(getContext()).y;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            lp.height -= ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
+        }
 
         contentWrapperLp.height = lp.height - indicatorHeight;
 

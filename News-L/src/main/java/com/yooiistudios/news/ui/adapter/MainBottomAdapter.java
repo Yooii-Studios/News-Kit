@@ -106,6 +106,9 @@ public class MainBottomAdapter extends
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
+        if (mOnBindViewHolderListener != null) {
+            mOnBindViewHolderListener.onBindViewHolder(viewHolder, position);
+        }
         boolean isVertical = mOrientation == PORTRAIT;
 
         MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
@@ -249,10 +252,6 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
                 mNewsFeedList.get(position).getDisplayingNewsIndex());
-
-        if (mOnBindViewHolderListener != null) {
-            mOnBindViewHolderListener.onBindViewHolder(viewHolder, position);
-        }
     }
 
     private void showLoading(BottomNewsFeedViewHolder viewHolder) {
