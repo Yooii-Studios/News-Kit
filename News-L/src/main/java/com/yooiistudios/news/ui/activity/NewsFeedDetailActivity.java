@@ -1071,18 +1071,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void initSwipeRefreshView() {
         mSwipeRefreshLayout.setEnabled(false);
-//        mSwipeRefreshLayout.setRefreshing(true);
-
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.refresh_color_scheme_1, R.color.refresh_color_scheme_2,
-                R.color.refresh_color_scheme_3, R.color.refresh_color_scheme_4);
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-            }
-        });
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.app_color_accent);
     }
 
     private void initCustomScrollView() {

@@ -103,7 +103,7 @@
         android:id="@+id/store_loading_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/setting_store_loading_view_color"
+        android:background="@color/store_loading_view_color"
         android:visibility="invisible"/>
 
     <ProgressBar

@@ -155,14 +155,10 @@ public class MainActivity extends Activity
     }
 
     private void initRefreshLayout() {
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.refresh_color_scheme_1, R.color.refresh_color_scheme_2,
-                R.color.refresh_color_scheme_3, R.color.refresh_color_scheme_4);
-
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.app_color_accent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                NLLog.i(TAG, "onRefresh called from SwipeRefreshLayout");
                 if (mMainTopContainerLayout.isReady() &&
                         !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
                     stopNewsAutoRefresh();

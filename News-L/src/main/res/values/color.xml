@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="setting_store_loading_view_color">#cc000000</color>
-
     <color name="ad_upper_divider_color">#999</color>
 
-    <color name="fab_color_1">@color/material_red_200</color>
-    <color name="fab_color_1_muted">#ff8080</color>
-    <color name="fab_color_2">@color/material_purple_500</color>
-    <color name="fab_color_2_muted">#a56ab0</color>
-
-    <color name="refresh_color_scheme_1">#33B5E5</color>
-    <color name="refresh_color_scheme_2">#99CC00</color>
-    <color name="refresh_color_scheme_3">#FFBB33</color>
-    <color name="refresh_color_scheme_4">#FF4444</color>
+    <color name="app_color_primary">@color/material_grey_300</color>
+    <color name="app_color_primary_dark">@color/material_grey_500</color>
+    <color name="app_color_accent">@color/material_light_blue_500</color>
 
     <!-- General -->
     <color name="toolbar_background">@color/material_grey_300</color>
@@ -54,6 +46,7 @@
     <color name="store_purchased_color">@color/material_teal_200</color>
     <color name="store_purchased_thank_you_color">#878787</color>
     <color name="store_item_description_color">#9a9a9a</color>
+    <color name="store_loading_view_color">#cc000000</color>
 
     <!-- In house Store Ad -->
     <color name="store_ad_layout_divider_color">#797979</color>
