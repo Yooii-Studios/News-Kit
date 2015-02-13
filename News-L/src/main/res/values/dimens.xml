@@ -33,6 +33,7 @@
     <dimen name="detail_text_padding">16dp</dimen>
     <dimen name="detail_text_inner_padding">4dp</dimen>
     <dimen name="detail_text_wide_padding">20dp</dimen>
+    <dimen name="news_feed_detail_shadow_gradient_height">100dp</dimen>
 
     <!-- Detail Top -->
     <dimen name="detail_top_image_view_height">336dp</dimen>    <!-- 56 * 6 -->
@@ -43,7 +44,7 @@
     <dimen name="detail_bottom_divider_margin">15dp</dimen>
 
     <!-- News Detail -->
-    <dimen name="progress_bar_height">9dp</dimen>
+    <dimen name="progress_bar_height">10dp</dimen>
     <dimen name="progress_bar_margin_top">-4dp</dimen>
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_press_translation_z">2dp</dimen>

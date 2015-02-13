@@ -117,8 +117,29 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         NewsTopicSelectDialogFactory.OnItemClickListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
 
-    @InjectView(R.id.newsfeed_detail_toolbar)                   Toolbar mToolbar;
+    private static final int BACKGROUND_COLOR = Color.WHITE;
 
+    // Overlay & Shadow
+    private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.75f;
+    private static final float TOP_OVERLAY_ALPHA_RATIO = 0.0008f;
+    private static final float TOP_SCROLL_PARALLAX_RATIO = 0.4f;
+
+    private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
+    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
+
+    // Auto Scroll
+    public static final int START_DELAY = 3000;
+    public static final int MIDDLE_DELAY = 1500;
+    public static final int DURATION_FOR_EACH_ITEM = 3000;
+
+    public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
+    public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
+    public static final String INTENT_KEY_IMAGE_LOADED = "INTENT_KEY_IMAGE_LOADED";
+    public static final String INTENT_KEY_IMAGE_URL = "INTENT_KEY_IMAGE_URL";
+
+    public static final int REQ_SELECT_NEWS_FEED = 13841;
+
+    @InjectView(R.id.newsfeed_detail_toolbar)                   Toolbar mToolbar;
     @InjectView(R.id.detail_content_layout)                     RelativeLayout mRootLayout;
     @InjectView(R.id.detail_transition_content_layout)          FrameLayout mTransitionLayout;
     @InjectView(R.id.detail_toolbar_overlay_view)               View mToolbarOverlayView;
@@ -140,27 +161,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     // Bottom
     @InjectView(R.id.detail_bottom_news_recycler_view)          RecyclerView mBottomNewsListRecyclerView;
 
-    // Auto Scroll
-    public static final int START_DELAY = 3000;
-    public static final int MIDDLE_DELAY = 1500;
-    public static final int DURATION_FOR_EACH_ITEM = 3000;
     ObjectAnimator mAutoScrollDownAnimator;
     ObjectAnimator mAutoScrollUpAnimator;
-
-    // Overlay & Shadow
-    private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.6f;
-    private static final float TOP_SCROLL_PARALLAX_RATIO = 0.4f;
-
-    private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
-    private static final int ACTIVITY_ENTER_ANIMATION_DURATION = 600;
-    public static final String INTENT_KEY_NEWS = "INTENT_KEY_NEWS";
-    public static final String INTENT_KEY_NEWSFEED_REPLACED = "INTENT_KEY_NEWSFEED_REPLACED";
-    public static final String INTENT_KEY_IMAGE_LOADED = "INTENT_KEY_IMAGE_LOADED";
-    public static final String INTENT_KEY_IMAGE_URL = "INTENT_KEY_IMAGE_URL";
-
-    public static final int REQ_SELECT_NEWS_FEED = 13841;
-
-    private static final int BACKGROUND_COLOR = Color.WHITE;
 
     private Palette mPalette;
 
@@ -1579,17 +1581,24 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int scrollY = mScrollView.getScrollY();
 
         // Move background photo (parallax effect)
-        if (scrollY >= 0) {
+        if (mScrollView.getScrollY() >= 0) {
             mTopNewsImageWrapper.setTranslationY(scrollY * TOP_SCROLL_PARALLAX_RATIO);
 
-            mToolbarOverlayView.setAlpha(scrollY * 0.0005f);
-            if (mToolbarOverlayView.getAlpha() >= TOP_OVERLAY_ALPHA_LIMIT) {
+            float ratio = 0.0008f;
+            mToolbarOverlayView.setAlpha(scrollY * ratio);
+            if (scrollY * ratio >= TOP_OVERLAY_ALPHA_LIMIT) {
                 mToolbarOverlayView.setAlpha(TOP_OVERLAY_ALPHA_LIMIT);
+                mTopGradientShadowView.setAlpha(0);
+            } else {
+                mTopGradientShadowView.setAlpha(1.f - scrollY * ratio);
             }
         } else {
             mTopNewsImageWrapper.setTranslationY(0);
             if (mToolbarOverlayView.getAlpha() != 0) {
                 mToolbarOverlayView.setAlpha(0);
+            }
+            if (mTopGradientShadowView.getAlpha() != 1.f) {
+                mTopGradientShadowView.setAlpha(1.f);
             }
         }
     }

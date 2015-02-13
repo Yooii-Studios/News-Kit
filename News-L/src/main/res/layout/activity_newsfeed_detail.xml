@@ -55,6 +55,7 @@
                     android:id="@+id/detail_top_news_image_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_top_image_view_height">
+
                     <ImageView
                         android:id="@+id/detail_top_news_image_view"
                         android:layout_width="match_parent"
@@ -94,7 +95,6 @@
                         <TextView
                             android:id="@+id/detail_top_news_description_text_view"
                             style="@style/DetailDescriptionStyle"/>
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -110,12 +110,12 @@
                     android:layout_height="match_parent"
                     android:background="#aaaa"
                     android:visibility="gone">
+
                     <ProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"/>
                 </FrameLayout>
-
             </RelativeLayout>
         </com.yooiistudios.news.ui.widget.ObservableScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
