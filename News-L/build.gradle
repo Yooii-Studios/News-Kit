@@ -80,7 +80,6 @@ dependencies {
     compile project(':libraries:Volley')
     compile project(':libraries:GridLayoutManager')
     compile project(':libraries:SerialAnimator')
-    compile project(':libraries:FloatingActionButton')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     compile "com.android.support:cardview-v7:21.0.0"

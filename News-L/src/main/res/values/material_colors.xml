@@ -17,6 +17,9 @@
     <color name="material_red_900">#b71c1c</color>
 
     <color name="material_light_blue_100">#B3E5FC</color>
+    <color name="material_light_blue_200">#81D4FA</color>
+    <color name="material_light_blue_300">#4FC3F7</color>
+    <color name="material_light_blue_400">#29B6F6</color>
     <color name="material_light_blue_500">#03A9F4</color>
 
     <color name="material_cyan_500">#00BCD4</color>
