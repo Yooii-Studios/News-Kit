@@ -88,15 +88,6 @@
         <item name="colorPrimaryDark">@android:color/black</item>
     </style>
 
-    <style name="NewsDetailActivityTheme" parent="MainTheme">
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-
-        <!--<item name="android:windowContentTransitions">false</item>-->
-        <!--<item name="android:windowAllowEnterTransitionOverlap">false</item>-->
-    </style>
-
     <!-- Store -->
     <style name="StoreTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- colorPrimary is used for the default action bar background -->
