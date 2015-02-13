@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">뉴스 플로</string>
+    <string name="app_name">News Flow</string>
     <string name="action_newsfeed">뉴스피드 교체</string>
     <string name="action_info">정보</string>
     <string name="action_settings">설정</string>
@@ -13,7 +13,7 @@
     <string name="cancel">Cancel</string>
 
     <!-- Main -->
-    <string name="splash_loading_title">뉴스 플로</string>
+    <string name="splash_loading_title">News Flow</string>
     <string name="splash_loading_description">뉴스 로딩 중…</string>
 
     <!-- Newsfeed Detail -->
@@ -46,7 +46,7 @@
     <string name="recommend_description">Click the link and take it for a spin</string>
 
     <!-- Feedback -->
-    <string name="feedback_description">뉴스 L을 개선하기 위한 의견을 들려주세요^^</string>
+    <string name="feedback_description">News Flow를 개선하기 위한 의견을 들려주세요^^</string>
 
     <!-- Ad -->
     <string name="quit_ad_dialog_title_text">이 앱을 종료하시겠습니까?</string>
