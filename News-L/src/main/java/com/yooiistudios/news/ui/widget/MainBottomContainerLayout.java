@@ -1,10 +1,14 @@
 package com.yooiistudios.news.ui.widget;
 
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -18,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.antonioleiva.recyclerviewextensions.GridLayoutManager;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.Settings;
 import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
@@ -41,8 +44,12 @@ import com.yooiistudios.news.ui.animation.AnimationFactory;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
 import com.yooiistudios.news.util.NLLog;
+import com.yooiistudios.serialanimator.animator.SerialAnimator;
+import com.yooiistudios.serialanimator.animator.SerialValueAnimator;
+import com.yooiistudios.serialanimator.property.ViewProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -64,11 +71,15 @@ public class MainBottomContainerLayout extends FrameLayout
         implements
         MainBottomAdapter.OnItemClickListener,
         BottomNewsFeedListFetchManager.OnFetchListener,
-        BottomNewsImageFetchManager.OnFetchListener {
+        BottomNewsImageFetchManager.OnFetchListener,
+        SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
+        ViewProperty.AnimationListener,
+        MainBottomAdapter.OnBindViewHolderListener {
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
-    private static final int BOTTOM_NEWS_FEED_COLUMN_COUNT = 2;
+    private static final int COLUMN_COUNT_PORTRAIT = 2;
+    private static final int COLUMN_COUNT_LANDSCAPE = 1;
 
 //    private ArrayList<NewsFeed> mBottomNewsFeedList;
 
@@ -77,6 +88,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private Activity mActivity;
     private ImageLoader mImageLoader;
+    private SerialValueAnimator mAutoAnimator;
 
     private boolean mIsInitialized = false;
     private boolean mIsInitializedFirstImages = false;
@@ -128,9 +140,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
         setAnimationCacheEnabled(true);
         setDrawingCacheEnabled(true);
+        initAnimator();
     }
 
-    public void autoRefreshBottomNewsFeeds() {
+    public void _autoRefreshBottomNewsFeeds() {
         // 딜레이도 스피드에 따라서 비율적으로 조절해주기
         final int originalRefreshDelay =
                 getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
@@ -217,22 +230,21 @@ public class MainBottomContainerLayout extends FrameLayout
 
         //init ui
         mBottomNewsFeedRecyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext());
-        layoutManager.setColumns(BOTTOM_NEWS_FEED_COLUMN_COUNT);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
+                COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
         mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
+        configOnOrientationChange();
         PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
 
         ArrayList<NewsFeed> bottomNewsFeedList =
                 NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.getPanelCount());
         mBottomNewsFeedAdapter.setNewsFeedList(bottomNewsFeedList);
-//        mBottomNewsFeedAdapter.setNewsFeedList(NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext()));
 
-        boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext());
-        if (needsRefresh) {
+        if (NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getContext())) {
             BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
                     mBottomNewsFeedAdapter.getNewsFeedList(), this,
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
@@ -258,15 +270,102 @@ public class MainBottomContainerLayout extends FrameLayout
             }
         }
 
-        adjustHeightOnNewsFeedCountChanged();
+        adjustSize();
+        mBottomNewsFeedAdapter.setOnBindViewHolderListener(this);
     }
 
-    private void adjustHeightOnNewsFeedCountChanged() {
-        // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
+    private void adjustSize() {
+        int orientation = getResources().getConfiguration().orientation;
         ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
-        recyclerViewLp.height = MainBottomAdapter.measureMaximumHeight(getContext(),
-                mBottomNewsFeedAdapter.getNewsFeedList().size(), BOTTOM_NEWS_FEED_COLUMN_COUNT);
+        Context context = getContext().getApplicationContext();
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
+
+            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnPortrait(context,
+                    mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
+        } else {
+            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnLandscape(context,
+                    recyclerViewLp);
+        }
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
+    }
+
+    private void initAnimator() {
+        mAutoAnimator = new SerialValueAnimator();
+
+        SerialValueAnimator.ValueAnimatorProperty transitionProperty
+                = new SerialValueAnimator.ValueAnimatorProperty(
+                this,
+                SlowSpeedScroller.SWIPE_DURATION,
+                AnimationFactory.getBottomDuration(getContext()));
+        mAutoAnimator.setTransitionProperty(transitionProperty);
+
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
+        mAutoAnimator.applyMockViewProperties(getContext(), this, currentMatrix.getPanelCount());
+    }
+
+    public void autoRefreshBottomNewsFeeds() {
+        mAutoAnimator.animate();
+    }
+
+    @Override
+    public void onAnimationEnd(ViewProperty viewProperty) {
+//        String message = String.format("Animation end. (view, transition) : (%d, %d)"
+//                , viewProperty.getViewIndex(), viewProperty.getTransitionInfo().index);
+//        NLLog.i("onAnimationEnd", message);
+
+        int transitionIndex = viewProperty.getTransitionInfo().index;
+
+        // TODO 인덱스 0에 대한 명세 필요
+        if (transitionIndex == 0) {
+            int newsFeedIndex = viewProperty.getViewIndex();
+            increaseDisplayingNewsIndexAt(newsFeedIndex);
+            fetchNextNewsImageAt(newsFeedIndex);
+        }
+    }
+
+    private void increaseDisplayingNewsIndexAt(int newsFeedIndex) {
+        ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
+        NewsFeed newsFeed = newsFeeds.get(newsFeedIndex);
+        newsFeed.increaseDisplayingNewsIndex();
+        mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+    }
+
+    private void fetchNextNewsImageAt(int newsFeedIndex) {
+        ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
+        // TODO 뉴스 각각의 애니메이션이 끝난 경우 각자 뉴스 이미지를 가져오도록 변경해야함
+        if (newsFeedIndex == newsFeeds.size() - 1) {
+            BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+                    mImageLoader, newsFeeds,
+                    MainBottomContainerLayout.this,
+                    BottomNewsImageFetchTask.TASK_AUTO_REFRESH
+            );
+        }
+    }
+
+    @NonNull
+    @Override
+    public List<ValueAnimator> onSupplyTransitionList(View targetView) {
+        List<ValueAnimator> animators = new ArrayList<>();
+        ValueAnimator fadeOutAnimator =
+                AnimationFactory.makeBottomFadeOutAnimator(getContext(), targetView);
+        ValueAnimator fadeInAnimator =
+                AnimationFactory.makeBottomFadeInAnimator(getContext(), targetView);
+        animators.add(fadeOutAnimator);
+        animators.add(fadeInAnimator);
+
+        return animators;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+        ViewProperty property =
+                new ViewProperty.Builder()
+                        .setView(viewHolder.itemView)
+                        .setViewIndex(i)
+                        .setAnimationListener(this)
+                        .build();
+        mAutoAnimator.putViewPropertyIfRoom(property, i);
     }
 
     public void notifyPanelMatrixChanged() {
@@ -275,46 +374,61 @@ public class MainBottomContainerLayout extends FrameLayout
         PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
 
         if (currentNewsFeedList.size() > currentMatrix.getPanelCount()) {
-            for (int idx = currentNewsFeedList.size() - 1; idx >= currentMatrix.getPanelCount(); idx--) {
-                mBottomNewsFeedAdapter.removeNewsFeedAt(idx);
-            }
-            mBottomNewsFeedAdapter.notifyDataSetChanged();
+            configOnPanelCountDecreased();
         } else if (currentNewsFeedList.size() < currentMatrix.getPanelCount()) {
-            ArrayList<NewsFeed> savedNewsFeedList =
-                    NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.getPanelCount());
+            configOnPanelCountIncreased();
+        }
+
+        adjustSize();
+    }
+
+    private void configOnPanelCountDecreased() {
+        ArrayList<NewsFeed> currentNewsFeedList = mBottomNewsFeedAdapter.getNewsFeedList();
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
+
+        for (int idx = currentNewsFeedList.size() - 1; idx >= currentMatrix.getPanelCount(); idx--) {
+            mBottomNewsFeedAdapter.removeNewsFeedAt(idx);
+            mAutoAnimator.removeViewPropertyAt(idx);
+        }
+        mBottomNewsFeedAdapter.notifyDataSetChanged();
+    }
+
+    private void configOnPanelCountIncreased() {
+        ArrayList<NewsFeed> currentNewsFeedList = mBottomNewsFeedAdapter.getNewsFeedList();
+        PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
+
+        ArrayList<NewsFeed> savedNewsFeedList =
+                NewsDb.getInstance(getContext()).loadBottomNewsFeedList(getContext(), currentMatrix.getPanelCount());
 //            ArrayList<NewsFeed> savedNewsFeedList =
 //                    NewsFeedArchiveUtils.loadBottomNewsFeedList(getContext());
-            int maxCount = savedNewsFeedList.size() > currentMatrix.getPanelCount()
-                    ? currentMatrix.getPanelCount() : savedNewsFeedList.size();
-            ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairListToFetch = new ArrayList<>();
-            int currentNewsFeedCount = currentNewsFeedList.size();
-            for (int idx = currentNewsFeedCount; idx < maxCount; idx++) {
-                NewsFeed newsFeed = savedNewsFeedList.get(idx);
-                mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
+        int maxCount = savedNewsFeedList.size() > currentMatrix.getPanelCount()
+                ? currentMatrix.getPanelCount() : savedNewsFeedList.size();
+        ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairListToFetch = new ArrayList<>();
+        int currentNewsFeedCount = currentNewsFeedList.size();
+        for (int idx = currentNewsFeedCount; idx < maxCount; idx++) {
+            NewsFeed newsFeed = savedNewsFeedList.get(idx);
+            mBottomNewsFeedAdapter.addNewsFeed(newsFeed);
 
-                if (!newsFeed.containsNews()) {
-                    newsFeedToIndexPairListToFetch.add(new Pair<>(newsFeed, idx));
-                }
-            }
-
-            NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
-//            NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
-//                    mBottomNewsFeedAdapter.getNewsFeedList());
-
-            mIsFetchingAddedBottomNewsFeeds = true;
-            if (newsFeedToIndexPairListToFetch.size() == 0) {
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
-                        mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
-                        BottomNewsImageFetchTask.TASK_MATRIX_CHANGED
-                );
-            } else {
-                BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
-                        newsFeedToIndexPairListToFetch, this,
-                        BottomNewsFeedFetchTask.TASK_MATRIX_CHANGED);
+            if (!newsFeed.containsNews()) {
+                newsFeedToIndexPairListToFetch.add(new Pair<>(newsFeed, idx));
             }
         }
 
-        adjustHeightOnNewsFeedCountChanged();
+        NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
+//            NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
+//                    mBottomNewsFeedAdapter.getNewsFeedList());
+
+        mIsFetchingAddedBottomNewsFeeds = true;
+        if (newsFeedToIndexPairListToFetch.size() == 0) {
+            BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
+                    mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
+                    BottomNewsImageFetchTask.TASK_MATRIX_CHANGED
+            );
+        } else {
+            BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
+                    newsFeedToIndexPairListToFetch, this,
+                    BottomNewsFeedFetchTask.TASK_MATRIX_CHANGED);
+        }
     }
 
     private void notifyOnInitialized() {
@@ -414,6 +528,26 @@ public class MainBottomContainerLayout extends FrameLayout
 
         news.setImageUrl(imageUrl);
         mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+    }
+
+    public void configOnOrientationChange() {
+        int orientation = getResources().getConfiguration().orientation;
+        GridLayoutManager layoutManager =
+                (GridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager.setSpanCount(COLUMN_COUNT_PORTRAIT);
+
+            mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.PORTRAIT);
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            layoutManager.setSpanCount(COLUMN_COUNT_LANDSCAPE);
+
+            mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);
+        }
+        adjustSize();
+        mBottomNewsFeedAdapter.notifyDataSetChanged();
+
+        invalidate();
     }
 
     public boolean isInitialized() {

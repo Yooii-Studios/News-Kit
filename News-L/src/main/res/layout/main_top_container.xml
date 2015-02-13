@@ -6,8 +6,9 @@
             android:id="@+id/main_top_root">
 
     <FrameLayout
+        android:id="@+id/main_top_content_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_top_view_pager_height">
+        android:layout_height="match_parent">
         <FrameLayout
             android:id="@+id/main_top_view_pager_wrapper"
             android:layout_width="match_parent"

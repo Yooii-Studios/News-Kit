@@ -1,10 +1,14 @@
 package com.yooiistudios.news.ui.animation;
 
+import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 
 import com.yooiistudios.news.R;
@@ -22,10 +26,7 @@ public class AnimationFactory {
 
     public static Animation makeBottomFadeOutAnimation(Context context) {
         Animation animation = new AlphaAnimation(1.0f, 0.0f);
-        // 속도에 따라 duration 조절
-        int originalDuration = context.getResources().getInteger(
-                R.integer.bottom_news_feed_fade_anim_duration_milli);
-        animation.setDuration((long) (originalDuration * Settings.getAutoRefreshSpeed(context)));
+        animation.setDuration(getBottomDuration(context));
         animation.setFillEnabled(true);
         animation.setFillAfter(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -38,9 +39,7 @@ public class AnimationFactory {
 
     public static Animation makeBottomFadeInAnimation(Context context) {
         Animation animation = new AlphaAnimation(0.0f, 1.0f);
-        int originalDuration = context.getResources().getInteger(
-                R.integer.bottom_news_feed_fade_anim_duration_milli);
-        animation.setDuration((long) (originalDuration * Settings.getAutoRefreshSpeed(context)));
+        animation.setDuration(getBottomDuration(context));
         animation.setFillEnabled(true);
         animation.setFillAfter(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -50,6 +49,37 @@ public class AnimationFactory {
         }
 
         return animation;
+    }
+
+    public static ValueAnimator makeBottomFadeOutAnimator(Context context, View targetView) {
+//        PropertyValuesHolder holder = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f);
+//        ValueAnimator animator = ValueAnimator.ofPropertyValuesHolder(holder);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(targetView, "alpha", 1.0f, 0.0f);
+        animator.setDuration(getBottomDuration(context));
+        animator.setInterpolator(getBottomInterpolator());
+
+        return animator;
+    }
+
+    public static ValueAnimator makeBottomFadeInAnimator(Context context, View targetView) {
+//        PropertyValuesHolder holder = PropertyValuesHolder.ofFloat("alpha", 0.0f, 1.0f);
+//        ValueAnimator animator = ValueAnimator.ofPropertyValuesHolder(holder);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(targetView, "alpha", 0.0f, 1.0f);
+        animator.setDuration(getBottomDuration(context));
+        animator.setInterpolator(getBottomInterpolator());
+
+        return animator;
+    }
+
+    public static long getBottomDuration(Context context) {
+        // 속도에 따라 duration 조절
+        int originalDuration = context.getResources().getInteger(
+                R.integer.bottom_news_feed_fade_anim_duration_milli);
+        return (long) (originalDuration * Settings.getAutoRefreshSpeed(context));
+    }
+
+    private static Interpolator getBottomInterpolator() {
+        return new CubicBezierInterpolator(.57f, .15f, .65f, .67f);
     }
 
     public static TimeInterpolator makeDefaultPathInterpolator() {

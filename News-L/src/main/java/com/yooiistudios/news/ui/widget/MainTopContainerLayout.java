@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -22,12 +24,12 @@ import com.yooiistudios.news.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.news.model.database.NewsDb;
 import com.yooiistudios.news.model.news.News;
 import com.yooiistudios.news.model.news.NewsFeed;
-import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.model.news.NewsFeedUrl;
 import com.yooiistudios.news.model.news.NewsImageRequestQueue;
 import com.yooiistudios.news.model.news.TintType;
 import com.yooiistudios.news.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.news.model.news.task.TopNewsFeedFetchTask;
+import com.yooiistudios.news.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.news.ui.activity.MainActivity;
 import com.yooiistudios.news.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.news.ui.adapter.MainTopPagerAdapter;
@@ -37,6 +39,7 @@ import com.yooiistudios.news.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.news.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.news.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.news.util.ImageMemoryCache;
+import com.yooiistudios.news.util.ScreenUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -58,6 +61,7 @@ public class MainTopContainerLayout extends FrameLayout
         implements TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         TopNewsFeedFetchTask.OnFetchListener,
         MainTopPagerAdapter.OnItemClickListener {
+    @InjectView(R.id.main_top_content_wrapper)              FrameLayout mTopContentWrapper;
     @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mTopNewsFeedViewPager;
     @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
     @InjectView(R.id.main_top_unavailable_wrapper)          FrameLayout mTopNewsFeedUnavailableWrapper;
@@ -123,6 +127,10 @@ public class MainTopContainerLayout extends FrameLayout
                 ImageMemoryCache.getInstance(context));
 
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
+    }
+
+    public NewsFeed getNewsFeed() {
+        return mTopNewsFeedPagerAdapter.getNewsFeed();
     }
 
     public void animateOnInit() {
@@ -413,6 +421,49 @@ public class MainTopContainerLayout extends FrameLayout
                 }
             }
         });
+    }
+
+    public void configOnOrientationChange() {
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            configOnPortraitOrientation();
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            configOnLandscapeOrientation();
+        }
+        invalidate();
+    }
+
+    private void configOnPortraitOrientation() {
+        ViewGroup.LayoutParams lp = getLayoutParams();
+        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+
+        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        contentWrapperLp.height
+                = getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+    }
+
+    private void configOnLandscapeOrientation() {
+        ViewGroup.LayoutParams lp = getLayoutParams();
+        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+
+        ViewGroup.LayoutParams indicatorLp = mTopViewPagerIndicator.getLayoutParams();
+        int indicatorHeight = indicatorLp.height;
+
+        lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
+        lp.height = ScreenUtils.getDisplaySize(getContext()).y;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            lp.height -= ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
+        }
+
+        contentWrapperLp.height = lp.height - indicatorHeight;
+
+        if (indicatorLp instanceof MarginLayoutParams) {
+            MarginLayoutParams indicatorMarginLp = (MarginLayoutParams)indicatorLp;
+            contentWrapperLp.height -= indicatorMarginLp.topMargin;
+        }
     }
 
     /**
