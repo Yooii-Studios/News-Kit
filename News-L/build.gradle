@@ -78,7 +78,6 @@ dependencies {
     // Volley
     compile project(':libraries:Volley')
     compile project(':libraries:GridLayoutManager')
-    compile project(':libraries:FloatingActionButton')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     compile "com.android.support:cardview-v7:21.0.0"
@@ -113,7 +112,7 @@ dependencies {
     compile 'com.afollestad:material-dialogs:0.6.1.2'
 
     // Floating Action Button
-//    compile 'com.getbase:floatingactionbutton:1.7.0'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
 }
 
 /*

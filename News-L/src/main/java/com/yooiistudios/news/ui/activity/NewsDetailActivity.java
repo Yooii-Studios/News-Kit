@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -14,9 +13,8 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.melnykov.fab.FloatingActionButton;
 import com.yooiistudios.news.NewsApplication;
 import com.yooiistudios.news.R;
 import com.yooiistudios.news.model.news.News;
@@ -36,15 +34,10 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
 
     @InjectView(R.id.news_detail_content_layout) RelativeLayout mContentContainer;
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
+    @InjectView(R.id.news_detail_fab) FloatingActionButton mFab;
 
-    @InjectView(R.id.news_detail_fab_menu) FloatingActionsMenu mFabMenu;
-    @InjectView(R.id.news_detail_fab_browser) FloatingActionButton mBrowserFab;
-    @InjectView(R.id.news_detail_fab_share) FloatingActionButton mShareFab;
-    @InjectView(R.id.news_detail_fab_copy_link) FloatingActionButton mCopyLinkFab;
-    @InjectView(R.id.news_detail_fab_facebook) FloatingActionButton mFacebookFab;
-
-    private HTML5WebView mWebView;
     private News mNews;
+    private HTML5WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +75,6 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
         mWebView.loadUrl(mNews.getLink());
-
-        mWebView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (mFabMenu.isExpanded()) {
-                    mFabMenu.collapse();
-                }
-                return false;
-            }
-        });
     }
 
     private void initProgressBar() {
@@ -99,31 +82,10 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
     }
 
     private void initFabMenu() {
-//        mFabMenu.attachToWebView(mWebView);
-        mFabMenu.getFloatingActionButton().setColorNormalResId(R.color.material_light_blue_500);
-        mFabMenu.getFloatingActionButton().setColorPressedResId(R.color.material_light_blue_100);
-        mBrowserFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WebUtils.openLinkInBrowser(NewsDetailActivity.this, mNews.getLink());
-            }
-        });
-        mShareFab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WebUtils.shareLink(NewsDetailActivity.this, mNews.getLink());
-            }
-        });
-        mCopyLinkFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WebUtils.copyLink(NewsDetailActivity.this, mNews.getLink());
-            }
-        });
-        mFacebookFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WebUtils.shareLinkToFacebook(NewsDetailActivity.this, mNews.getLink());
             }
         });
     }
@@ -177,21 +139,17 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
 
     @Override
     public void onBackPressed() {
-        if (!mFabMenu.isExpanded()) {
-            WebBackForwardList list = mWebView.copyBackForwardList();
+        WebBackForwardList list = mWebView.copyBackForwardList();
 
-            if (list.getCurrentIndex() <= 0 && !mWebView.canGoBack()) {
-                // 처음 들어온 페이지이거나, history 가 없는경우
-                super.onBackPressed();
-            } else {
-                // history 가 있는 경우
-                // 현재 페이지로 부터 history 수 만큼 뒷 페이지로 이동
-                mWebView.goBackOrForward(-(list.getCurrentIndex()));
-                // history 삭제
-                mWebView.clearHistory();
-            }
+        if (list.getCurrentIndex() <= 0 && !mWebView.canGoBack()) {
+            // 처음 들어온 페이지이거나, history 가 없는경우
+            super.onBackPressed();
         } else {
-            mFabMenu.collapse();
+            // history 가 있는 경우
+            // 현재 페이지로 부터 history 수 만큼 뒷 페이지로 이동
+            mWebView.goBackOrForward(-(list.getCurrentIndex()));
+            // history 삭제
+            mWebView.clearHistory();
         }
     }
 
