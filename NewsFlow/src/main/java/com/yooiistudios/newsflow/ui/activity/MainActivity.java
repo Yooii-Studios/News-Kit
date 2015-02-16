@@ -2,7 +2,6 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,7 +58,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends Activity
+public class MainActivity extends ActionBarActivity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener {
     public static final String TAG = MainActivity.class.getName();
@@ -84,6 +85,7 @@ public class MainActivity extends Activity
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
 
     @InjectView(R.id.main_root_layout)              View mRootView;
+    @InjectView(R.id.main_toolbar)                  Toolbar mToolbar;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
@@ -143,6 +145,7 @@ public class MainActivity extends Activity
         ButterKnife.inject(this);
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
+        initToolbar();
         initRefreshLayout();
         mMainTopContainerLayout.init(this);
         mMainBottomContainerLayout.init(this);
@@ -152,6 +155,17 @@ public class MainActivity extends Activity
 
         AdUtils.showPopupAdIfSatisfied(this);
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initToolbar() {
+        mToolbar.bringToFront();
+        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        adjustToolbarTopMargin();
+//        initToolbarGradientView();
+//        initToolbarIcon();
+//        initToolbarTitle();
     }
 
     private void initRefreshLayout() {
