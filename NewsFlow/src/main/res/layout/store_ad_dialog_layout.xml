@@ -56,7 +56,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/content_description"/>
 
-        <com.yooiistudios.news.ui.widget.AutoFitTextView
+        <com.yooiistudios.newsflow.ui.widget.AutoFitTextView
             android:id="@+id/store_ad_dialog_description_text_View"
             android:layout_width="match_parent"
             android:layout_height="@dimen/store_ad_dialog_image_text_height"

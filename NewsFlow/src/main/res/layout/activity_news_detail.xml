@@ -3,7 +3,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yooiistudios.news.ui.activity.NewsDetailActivity">
+    tools:context="com.yooiistudios.newsflow.ui.activity.NewsDetailActivity">
 
     <RelativeLayout
         android:id="@+id/news_detail_content_layout"
@@ -22,7 +22,7 @@
         android:indeterminate="false"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
-    <com.yooiistudios.news.ui.widget.WebFloatingActionButton
+    <com.yooiistudios.newsflow.ui.widget.WebFloatingActionButton
         android:id="@+id/news_detail_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

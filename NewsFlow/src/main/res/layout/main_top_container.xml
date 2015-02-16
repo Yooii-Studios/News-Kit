@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.yooiistudios.news.ui.widget.viewpager.MainTopViewPager
+            <com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager
                 android:id="@+id/main_top_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -46,7 +46,7 @@
         </FrameLayout>
     </FrameLayout>
 
-    <com.yooiistudios.news.ui.widget.viewpager.ParallexViewPagerIndicator
+    <com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator
         android:id="@+id/main_top_view_pager_indicator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_bottom_margin_small"
