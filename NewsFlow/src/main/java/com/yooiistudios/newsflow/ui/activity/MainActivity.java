@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +40,7 @@ import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
+import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.newsflow.ui.widget.MainRefreshLayout;
 import com.yooiistudios.newsflow.ui.widget.MainTopContainerLayout;
@@ -83,7 +83,9 @@ public class MainActivity extends Activity
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
 
-    @InjectView(R.id.main_root_layout)              View mRootView;
+    private static final int INVALID_WINDOW_INSET = -1;
+
+    @InjectView(R.id.main_root_layout)              RelativeLayout mRootView;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
@@ -92,13 +94,16 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
-    @InjectView(R.id.main_adView)                   AdView mAdView;
+//    @InjectView(R.id.main_adView)                   AdView mAdView;
+
+    private MainAdView mBannerAd;
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
     private AdView mQuitAdView;
 
-    private int mSystemWindowInset;
+    private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
+    private int mSystemWindowInsetRight = INVALID_WINDOW_INSET;
 
     private class NewsAutoRefreshHandler extends Handler {
         @Override
@@ -144,11 +149,13 @@ public class MainActivity extends Activity
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initRefreshLayout();
+        initBannerAdView();
+        initQuitAdView();
         mMainTopContainerLayout.init(this);
         mMainBottomContainerLayout.init(this);
+        bringLoadingContainerToFront();
         showMainContentIfReady();
-        initAdView();
-        applySystemWindowsBottomInset();
+        requestSystemWindowsBottomInset();
 
         AdUtils.showPopupAdIfSatisfied(this);
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
@@ -174,6 +181,10 @@ public class MainActivity extends Activity
         setSwipeRefreshLayoutEnabled(false);
     }
 
+    private void bringLoadingContainerToFront() {
+        mLoadingContainer.bringToFront();
+    }
+
     private void initNetworkUnavailableCoverLayout() {
         @SuppressLint("InflateParams")
         View networkUnavailableCoverLayout = LayoutInflater.from(getApplicationContext())
@@ -182,6 +193,7 @@ public class MainActivity extends Activity
 
         findViewById(R.id.network_unavailable_reload).setOnClickListener(new View.OnClickListener() {
             private int mPressCount = 0;
+
             @Override
             public void onClick(View v) {
                 mPressCount++;
@@ -223,50 +235,78 @@ public class MainActivity extends Activity
         });
     }
 
-    private void initAdView() {
-        // banner
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+    private void initBannerAdView() {
+        mBannerAd = new MainAdView(this);
+        mBannerAd.setId(R.id.main_banner);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mRootView.addView(mBannerAd, lp);
+    }
 
-        // quit
+    private void configBannerAdOnInsetChanged() {
+        if (isPortrait()) {
+            mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInsetBottom);
+        } else {
+            mBannerAd.applyBottomMarginOnPortrait(0);
+        }
+
+        bringLoadingContainerToFront();
+    }
+
+//    private void configSwipeRefreshLayoutOnOrientationChanged() {
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mSwipeRefreshLayout.getLayoutParams();
+//        if (isPortrait()) {
+//            lp.addRule(RelativeLayout.ABOVE, View.NO_ID);
+//        } else {
+//            lp.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+//        }
+//    }
+
+    private void initQuitAdView() {
         // make AdView earlier for showing ad fast in the quit dialog
         mQuitAdRequest = new AdRequest.Builder().build();
         mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
     }
 
-    private void checkAdView() {
+    private void configOnSystemInsetChanged() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
+        boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+        if (adPurchased) {
+            if (isPortrait()) {
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
             }
-            mAdView.setVisibility(View.GONE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
+            mBannerAd.hide();
+//            mBannerAd.setVisibility(View.GONE);
         } else {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            configBannerAdOnInsetChanged();
+//            configSwipeRefreshLayoutOnOrientationChanged();
+            if (isPortrait()) {
+//                int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
-                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
             }
-            mAdView.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams adViewLp =
-                    (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
-            adViewLp.bottomMargin = mSystemWindowInset;
+            mBannerAd.show();
+//            mBannerAd.setVisibility(View.VISIBLE);
 
-            // 네비게이션바에 색상 입히기
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBannerAd.resume();
+            mQuitAdView.resume();
+        }
+//        configNavigationTranslucentState();
+    }
+
+    private void configNavigationTranslucentState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+            if (adPurchased && isPortrait()) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            } else {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             }
-//            getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_background));
-
-            mAdView.resume();
-            mQuitAdView.resume();
         }
     }
 
@@ -275,7 +315,7 @@ public class MainActivity extends Activity
     }
 
     private void setSwipeRefreshLayoutEnabled(boolean enable) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (isPortrait()) {
             boolean readyForRefresh = mMainTopContainerLayout.isReady()
                     && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
             mSwipeRefreshLayout.setEnabled(enable && readyForRefresh);
@@ -284,31 +324,47 @@ public class MainActivity extends Activity
         }
     }
 
-    private void applySystemWindowsBottomInset() {
+    private void requestSystemWindowsBottomInset() {
+        configNavigationTranslucentState();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            applySystemWindowsBottomInsetAfterLollipop();
+            if (isSystemWindowInsetInvalid()) {
+                requestSystemWindowsBottomInsetAfterLollipop();
+            } else {
+                configOnSystemInsetChanged();
+            }
         } else {
-            mSystemWindowInset = 0;
-            checkAdView();
+            setSystemWindowInset(0, 0);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applySystemWindowsBottomInsetAfterLollipop() {
+    private void requestSystemWindowsBottomInsetAfterLollipop() {
+        // TODO 아래 코드에 대해
+        // TODO 1. 있는 경우 모든 inset 이 0으로 들어옴.
+        // TODO 2. 없는 경우 필요한 inset 값이 들어온다.
+        // TODO 나중에 최적화? 정리? 해야함
         mScrollingContent.setFitsSystemWindows(true);
         mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
-                } else {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
-                }
-                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
+                setSystemWindowInset(
+                        windowInsets.getSystemWindowInsetRight(),
+                        windowInsets.getSystemWindowInsetBottom());
+//                configOnSystemInsetChanged(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
+    }
+
+    private void setSystemWindowInset(int rightInset, int bottomInset) {
+        mSystemWindowInsetRight = rightInset;
+        mSystemWindowInsetBottom = bottomInset;
+        configOnSystemInsetChanged();
+    }
+
+    private boolean isSystemWindowInsetInvalid() {
+        return mSystemWindowInsetRight == INVALID_WINDOW_INSET
+                || mSystemWindowInsetBottom == INVALID_WINDOW_INSET;
     }
 
     @Override
@@ -333,7 +389,7 @@ public class MainActivity extends Activity
     @Override
     protected void onPause() {
         if (mRootView != null) {
-            mAdView.pause();
+            mBannerAd.pause();
             mQuitAdView.pause();
             stopNewsAutoRefresh();
         }
@@ -537,7 +593,8 @@ public class MainActivity extends Activity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        applySystemWindowsBottomInset();
+        // TODO 여기서 회전시 광고 설정 해줘야 함
+        requestSystemWindowsBottomInset();
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             configOnPortraitOrientation();
@@ -547,6 +604,10 @@ public class MainActivity extends Activity
 
         mMainTopContainerLayout.configOnOrientationChange();
         mMainBottomContainerLayout.configOnOrientationChange();
+    }
+
+    private boolean isPortrait() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     @Override

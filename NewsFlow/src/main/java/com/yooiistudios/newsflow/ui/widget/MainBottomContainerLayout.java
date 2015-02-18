@@ -286,7 +286,14 @@ public class MainBottomContainerLayout extends FrameLayout
         } else {
             recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnLandscape(context,
                     recyclerViewLp);
+
+//            if (!IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {
+//                int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height_landscape);
+//                lp.height -= adViewHeight;
+//                contentWrapperLp.height -= adViewHeight;
+//            }
         }
+
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
     }
 
