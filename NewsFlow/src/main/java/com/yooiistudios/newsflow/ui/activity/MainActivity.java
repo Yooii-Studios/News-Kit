@@ -235,12 +235,30 @@ public class MainActivity extends Activity
 
     private void initBannerAdView() {
         mBannerAd = new MainAdView(this);
-        initBannerAd();
+        mBannerAd.setId(R.id.main_banner);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mRootView.addView(mBannerAd, lp);
+    }
+
+    private void configBannerAdOnInsetChanged() {
+        if (isPortrait()) {
+            mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInset);
+        } else {
+            mBannerAd.applyBottomMarginOnPortrait(0);
+        }
+
         bringLoadingContainerToFront();
     }
 
-    private void initBannerAd() {
-        mBannerAd.attachToView(mRootView);
+    private void configSwipeRefreshLayoutOnOrientationChanged() {
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mSwipeRefreshLayout.getLayoutParams();
+        if (isPortrait()) {
+            lp.addRule(RelativeLayout.ABOVE, View.NO_ID);
+        } else {
+            lp.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+        }
     }
 
     private void initQuitAdView() {
@@ -249,43 +267,43 @@ public class MainActivity extends Activity
         mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
     }
 
-    private void applySystemInset() {
+    private void configOnSystemInsetChanged() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+        if (adPurchased) {
+            if (isPortrait()) {
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
             } else {
                 mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
             }
-            mBannerAd.setVisibility(View.GONE);
-//            mAdView.setVisibility(View.GONE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
+            mBannerAd.hide();
+//            mBannerAd.setVisibility(View.GONE);
         } else {
-            int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            configBannerAdOnInsetChanged();
+            configSwipeRefreshLayoutOnOrientationChanged();
+            if (isPortrait()) {
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
-                mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInset);
             } else {
                 mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
             }
-            mBannerAd.setVisibility(View.VISIBLE);
-//            mAdView.setVisibility(View.VISIBLE);
-//            RelativeLayout.LayoutParams adViewLp =
-//                    (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
-//            adViewLp.bottomMargin = mSystemWindowInset;
-
-            // 네비게이션바에 색상 입히기
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
-//            getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_background));
+            mBannerAd.show();
+//            mBannerAd.setVisibility(View.VISIBLE);
 
             mBannerAd.resume();
             mQuitAdView.resume();
+        }
+        configNavigationTranslucentState();
+    }
+
+    private void configNavigationTranslucentState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+            if (adPurchased) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            } else {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
         }
     }
 
@@ -294,7 +312,7 @@ public class MainActivity extends Activity
     }
 
     private void setSwipeRefreshLayoutEnabled(boolean enable) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (isPortrait()) {
             boolean readyForRefresh = mMainTopContainerLayout.isReady()
                     && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
             mSwipeRefreshLayout.setEnabled(enable && readyForRefresh);
@@ -308,7 +326,6 @@ public class MainActivity extends Activity
             requestSystemWindowsBottomInsetAfterLollipop();
         } else {
             setSystemWindowInset(0);
-            applySystemInset();
         }
     }
 
@@ -319,7 +336,7 @@ public class MainActivity extends Activity
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                 setSystemWindowInset(retrieveSystemWindowInset(windowInsets));
-                applySystemInset(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
+//                configOnSystemInsetChanged(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
@@ -340,6 +357,7 @@ public class MainActivity extends Activity
 
     public void setSystemWindowInset(int inset) {
         mSystemWindowInset = inset;
+        configOnSystemInsetChanged();
     }
 
     @Override
@@ -579,6 +597,10 @@ public class MainActivity extends Activity
 
         mMainTopContainerLayout.configOnOrientationChange();
         mMainBottomContainerLayout.configOnOrientationChange();
+    }
+
+    private boolean isPortrait() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.yooiistudios.newsflow.ui.widget;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.view.ViewParent;
 
 import com.yooiistudios.orientationadview.OrientationAdView;
 
@@ -20,20 +20,28 @@ public class MainAdView extends OrientationAdView {
         super(context, AD_UNIT_ID_PORTRAIT, AD_UNIT_ID_LANDSCAPE);
     }
 
-    public void attachToView(RelativeLayout parent) {
-        int orientation = getResources().getConfiguration().orientation;
+    public void detachFromParent() {
+        ViewGroup parent = getParentViewGroup();
+        if (parent != null) {
+            parent.removeView(this);
+        }
+    }
 
-        // TODO 가로 세로 대응
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+    private ViewGroup getParentViewGroup() {
+        ViewParent parent = getParent();
+        ViewGroup rootView = null;
+        if (parent != null) {
+            rootView = (ViewGroup)parent;
+        }
 
-        parent.addView(this, lp);
+        return rootView;
     }
 
     public void applyBottomMarginOnPortrait(int bottomMargin) {
-        RelativeLayout.LayoutParams adViewLp =
-                (RelativeLayout.LayoutParams)getLayoutParams();
-        adViewLp.bottomMargin = bottomMargin;
+        if (getLayoutParams() instanceof MarginLayoutParams) {
+            MarginLayoutParams adViewLp =
+                    (MarginLayoutParams) getLayoutParams();
+            adViewLp.bottomMargin = bottomMargin;
+        }
     }
 }
