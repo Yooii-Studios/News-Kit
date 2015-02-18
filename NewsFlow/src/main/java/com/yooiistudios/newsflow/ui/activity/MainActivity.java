@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,6 +83,8 @@ public class MainActivity extends Activity
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
 
+    private static final int INVALID_WINDOW_INSET = -1;
+
     @InjectView(R.id.main_root_layout)              RelativeLayout mRootView;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
@@ -101,7 +102,8 @@ public class MainActivity extends Activity
     private AdRequest mQuitAdRequest;
     private AdView mQuitAdView;
 
-    private int mSystemWindowInset;
+    private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
+    private int mSystemWindowInsetRight = INVALID_WINDOW_INSET;
 
     private class NewsAutoRefreshHandler extends Handler {
         @Override
@@ -244,7 +246,7 @@ public class MainActivity extends Activity
 
     private void configBannerAdOnInsetChanged() {
         if (isPortrait()) {
-            mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInset);
+            mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInsetBottom);
         } else {
             mBannerAd.applyBottomMarginOnPortrait(0);
         }
@@ -252,14 +254,14 @@ public class MainActivity extends Activity
         bringLoadingContainerToFront();
     }
 
-    private void configSwipeRefreshLayoutOnOrientationChanged() {
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mSwipeRefreshLayout.getLayoutParams();
-        if (isPortrait()) {
-            lp.addRule(RelativeLayout.ABOVE, View.NO_ID);
-        } else {
-            lp.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
-        }
-    }
+//    private void configSwipeRefreshLayoutOnOrientationChanged() {
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mSwipeRefreshLayout.getLayoutParams();
+//        if (isPortrait()) {
+//            lp.addRule(RelativeLayout.ABOVE, View.NO_ID);
+//        } else {
+//            lp.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+//        }
+//    }
 
     private void initQuitAdView() {
         // make AdView earlier for showing ad fast in the quit dialog
@@ -272,20 +274,21 @@ public class MainActivity extends Activity
         boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
         if (adPurchased) {
             if (isPortrait()) {
-                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
             }
             mBannerAd.hide();
 //            mBannerAd.setVisibility(View.GONE);
         } else {
             configBannerAdOnInsetChanged();
-            configSwipeRefreshLayoutOnOrientationChanged();
+//            configSwipeRefreshLayoutOnOrientationChanged();
             if (isPortrait()) {
+//                int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
-                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
             }
             mBannerAd.show();
 //            mBannerAd.setVisibility(View.VISIBLE);
@@ -293,13 +296,13 @@ public class MainActivity extends Activity
             mBannerAd.resume();
             mQuitAdView.resume();
         }
-        configNavigationTranslucentState();
+//        configNavigationTranslucentState();
     }
 
     private void configNavigationTranslucentState() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
-            if (adPurchased) {
+            if (adPurchased && isPortrait()) {
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             } else {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -322,42 +325,46 @@ public class MainActivity extends Activity
     }
 
     private void requestSystemWindowsBottomInset() {
+        configNavigationTranslucentState();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            requestSystemWindowsBottomInsetAfterLollipop();
+            if (isSystemWindowInsetInvalid()) {
+                requestSystemWindowsBottomInsetAfterLollipop();
+            } else {
+                configOnSystemInsetChanged();
+            }
         } else {
-            setSystemWindowInset(0);
+            setSystemWindowInset(0, 0);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void requestSystemWindowsBottomInsetAfterLollipop() {
+        // TODO 아래 코드에 대해
+        // TODO 1. 있는 경우 모든 inset 이 0으로 들어옴.
+        // TODO 2. 없는 경우 필요한 inset 값이 들어온다.
+        // TODO 나중에 최적화? 정리? 해야함
         mScrollingContent.setFitsSystemWindows(true);
         mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                setSystemWindowInset(retrieveSystemWindowInset(windowInsets));
+                setSystemWindowInset(
+                        windowInsets.getSystemWindowInsetRight(),
+                        windowInsets.getSystemWindowInsetBottom());
 //                configOnSystemInsetChanged(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private int retrieveSystemWindowInset(WindowInsets windowInsets) {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int systemWindowInset;
-        if (metrics.widthPixels < metrics.heightPixels) {
-            systemWindowInset = windowInsets.getSystemWindowInsetBottom();
-        } else {
-            systemWindowInset = windowInsets.getSystemWindowInsetRight();
-        }
-
-        return systemWindowInset;
+    private void setSystemWindowInset(int rightInset, int bottomInset) {
+        mSystemWindowInsetRight = rightInset;
+        mSystemWindowInsetBottom = bottomInset;
+        configOnSystemInsetChanged();
     }
 
-    public void setSystemWindowInset(int inset) {
-        mSystemWindowInset = inset;
-        configOnSystemInsetChanged();
+    private boolean isSystemWindowInsetInvalid() {
+        return mSystemWindowInsetRight == INVALID_WINDOW_INSET
+                || mSystemWindowInsetBottom == INVALID_WINDOW_INSET;
     }
 
     @Override
