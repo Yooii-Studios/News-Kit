@@ -49,7 +49,7 @@ public class NewsSelectRecyclerViewAdapter extends
     public void onBindViewHolder(NewsSelectViewHolder newsSelectViewHolder, int i) {
         final NewsProvider newsProvider = mNewsProviderList.get(i);
 
-        newsSelectViewHolder.feedNameTextView.setText(newsProvider.getName());
+        newsSelectViewHolder.feedNameTextView.setText(newsProvider.name);
         newsSelectViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

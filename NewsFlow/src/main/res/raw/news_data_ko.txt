@@ -2,11 +2,11 @@
     "lang_name_english": "Korean",
     "lang_name_regional": "한국어",
     "lang_code": "ko",
-    "region_code": "null",
+    "region_code": "",
     "countries": [
         {
-            "country_name": "구글",
-            "country_id": "1",
+            "country_name": "대한민국",
+            "country_code": "kr",
             "news_providers": [
                 {
                     "provider_name": "CNN",

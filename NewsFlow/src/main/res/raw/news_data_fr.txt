@@ -2,15 +2,15 @@
     "lang_name_english": "French",
     "lang_name_regional": "Français",
     "lang_code": "fr",
-    "region_code": "null",
+    "region_code": "",
     "countries": [
         {
             "country_name": "France",
-            "country_id": "1",
+            "country_code": "fr",
             "news_providers": [
                 {
                     "provider_name": "Le Pigaro",
-                    "provider_id": "1",
+                     "provider_id": "1",
                     "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -111,7 +111,7 @@
         },
         {
             "country_name": "Canada",
-            "country_id": "2",
+            "country_code": “ca”,
             "news_providers": [
                 {
                     "provider_name": "La presse",

@@ -46,7 +46,7 @@ public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsF
     protected NewsFeed doInBackground(Void... voids) {
         NewsFeedUrl newsFeedUrl = null;
         if (mFetchable instanceof NewsTopic) {
-            newsFeedUrl = ((NewsTopic)mFetchable).getNewsFeedUrl();
+            newsFeedUrl = ((NewsTopic) mFetchable).newsFeedUrl;
         } else if (mFetchable instanceof NewsFeedUrl) {
             newsFeedUrl = (NewsFeedUrl) mFetchable;
         }

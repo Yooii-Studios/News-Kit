@@ -18,7 +18,7 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
-import com.yooiistudios.newsflow.model.news.NewsRegion;
+import com.yooiistudios.newsflow.model.news.NewsProviderLanguage;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerViewAdapter;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
@@ -45,7 +45,7 @@ public class NewsSelectFragment extends Fragment
 
     private ViewHolder mViewHolder;
     private ArrayList<NewsProvider> mNewsProviderList;
-    private NewsRegion mNewsRegion;
+    private NewsProviderLanguage mNewsProviderLanguage;
     private int mPosition;
 
     public static NewsSelectFragment newInstance(int pageNum) {
@@ -76,8 +76,8 @@ public class NewsSelectFragment extends Fragment
 
         // 새 메서드
         // 추후 mNewsProviderList는 삭제하고 providerList에서만 사용하게 리팩토링이 필요
-        mNewsRegion = NewsContentProvider.getInstance(context).getNewsRegion(mPosition);
-        mNewsProviderList = mNewsRegion.getNewsProviders();
+        mNewsProviderLanguage = NewsContentProvider.getInstance(context).getNewsRegion(mPosition);
+        mNewsProviderList = mNewsProviderLanguage.newsProviders;
     }
 
     @Nullable

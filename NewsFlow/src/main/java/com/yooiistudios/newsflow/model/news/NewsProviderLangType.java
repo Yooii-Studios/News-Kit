@@ -11,10 +11,10 @@ import lombok.Getter;
  *  뉴스 선택화면 - 탭 순서를 정하기 위한 enum
  */
 public enum NewsProviderLangType {
-    ENGLISH(0, R.raw.news_provider_en, "English"),
-    KOREAN(1, R.raw.news_provider_ko, "한국어"),
-    JAPANESE(2, R.raw.news_provider_jp, "日本語"),
-    FRENCH(3, R.raw.news_provider_fr, "Français");
+    ENGLISH(0, R.raw.news_data_en, "English"),
+    KOREAN(1, R.raw.news_data_ko, "한국어"),
+    JAPANESE(2, R.raw.news_data_ja, "日本語"),
+    FRENCH(3, R.raw.news_data_fr, "Français");
 
     @Getter private int index;
     @Getter private int resourceId;

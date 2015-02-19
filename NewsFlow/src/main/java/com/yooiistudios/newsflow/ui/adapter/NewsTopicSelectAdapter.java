@@ -55,7 +55,7 @@ public class NewsTopicSelectAdapter extends BaseAdapter {
         NewsTopic newsTopic = mNewsTopicArr.get(position);
 
         TextView topicNameTextView = (TextView)convertView.findViewById(R.id.news_topic_name);
-        topicNameTextView.setText(newsTopic.getTitle());
+        topicNameTextView.setText(newsTopic.title);
 
         // background
         if (newsTopic.isDefault()) {

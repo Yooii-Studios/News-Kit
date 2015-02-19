@@ -59,13 +59,13 @@ public class NewsFeed implements Parcelable {
             mNewsFeedUrl = (NewsFeedUrl)fetchable;
         } else if (fetchable instanceof NewsTopic) {
             NewsTopic newsTopic = (NewsTopic)fetchable;
-            mTitle = newsTopic.getTitle();
-            mNewsFeedUrl = newsTopic.getNewsFeedUrl();
+            mTitle = newsTopic.title;
+            mNewsFeedUrl = newsTopic.newsFeedUrl;
 
-            mTopicLanguageCode = newsTopic.getLanguageCode();
-            mTopicRegionCode = newsTopic.getRegionCode();
-            mTopicProviderId = newsTopic.getNewsProviderId();
-            mTopicId = newsTopic.getId();
+            mTopicLanguageCode = newsTopic.languageCode;
+            mTopicRegionCode = newsTopic.regionCode;
+            mTopicProviderId = newsTopic.newsProviderId;
+            mTopicId = newsTopic.id;
         } else {
             throw new IllegalArgumentException("Unsupported RssFetchable.");
         }
@@ -224,10 +224,10 @@ public class NewsFeed implements Parcelable {
     }
 
     public void setTopicIdInfo(NewsTopic newsTopic) {
-        setTopicLanguageCode(newsTopic.getLanguageCode());
-        setTopicRegionCode(newsTopic.getRegionCode());
-        setTopicProviderId(newsTopic.getNewsProviderId());
-        setTopicId(newsTopic.getId());
+        setTopicLanguageCode(newsTopic.languageCode);
+        setTopicRegionCode(newsTopic.regionCode);
+        setTopicProviderId(newsTopic.newsProviderId);
+        setTopicId(newsTopic.id);
     }
 
     public void setTopicIdInfo(NewsFeed newsFeed) {

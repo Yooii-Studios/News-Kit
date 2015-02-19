@@ -1,12 +1,12 @@
 {
     "lang_name_english": "Japanese",
     "lang_name_regional": "日本語",
-    "lang_code": "jp",
-    "region_code": "null",
+    "lang_code": "ja",
+    "region_code": "",
     "countries": [
         {
             "country_name": "日本",
-            "country_id": "1",
+            "country_code": "jp",
             "news_providers": [
                 {
                     "provider_name": "毎日新聞",
