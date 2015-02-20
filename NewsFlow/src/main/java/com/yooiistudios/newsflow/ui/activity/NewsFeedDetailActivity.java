@@ -1324,7 +1324,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     Bitmap bitmap = response.getBitmap();
 
                     if (bitmap == null && isImmediate) {
-                        // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                        // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
                         return;
                     }
 
@@ -1480,13 +1480,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyPalette() {
-        int lightVibrantColor = mPalette.getLightVibrantColor(Color.TRANSPARENT);
-
         mTopTitleTextView.setTextColor(Color.WHITE);
-
-        if (lightVibrantColor != Color.TRANSPARENT) {
-            mTopDescriptionTextView.setTextColor(lightVibrantColor);
-        }
+        mTopDescriptionTextView.setTextColor(getResources().getColor(R.color.material_white_secondary_text));
 
         int filterColor = getFilterColor();
 
@@ -1528,7 +1523,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private int getTopImageFilterColorPaletteItem() {
-        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
+        return mPalette.getVibrantSwatch().getRgb();
+//        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
     }
 
     @Override
