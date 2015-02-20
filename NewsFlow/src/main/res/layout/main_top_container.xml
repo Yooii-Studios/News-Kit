@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:id="@+id/main_top_root">
+
+    <com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator
+        android:id="@+id/main_top_view_pager_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_bottom_margin_small"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
 
     <FrameLayout
         android:id="@+id/main_top_content_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_top_view_pager_indicator">
         <FrameLayout
             android:id="@+id/main_top_view_pager_wrapper"
             android:layout_width="match_parent"
@@ -46,10 +53,8 @@
         </FrameLayout>
     </FrameLayout>
 
-    <com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator
-        android:id="@+id/main_top_view_pager_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_bottom_margin_small"
-        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+    <include
+        android:id="@+id/main_top_edit_layout"
+        layout="@layout/cover_edit_mode"/>
 
-</LinearLayout>
+</RelativeLayout>

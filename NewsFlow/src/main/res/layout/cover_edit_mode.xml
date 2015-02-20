@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yooiistudios.newsflow.ui.widget.CoverFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                               android:layout_width="match_parent"
+                                               android:layout_height="match_parent"
+                                               android:background="#7fff0000"
+                                               android:visibility="gone">
+    <Button
+        android:id="@+id/replace_newsfeed"
+        android:layout_width="@dimen/main_edit_button_size"
+        android:layout_height="@dimen/main_edit_button_size"
+        android:layout_margin="@dimen/main_edit_button_margin"
+        android:background="@android:color/holo_blue_dark"/>
+</com.yooiistudios.newsflow.ui.widget.CoverFrameLayout>

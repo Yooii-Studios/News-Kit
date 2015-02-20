@@ -12,14 +12,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
 import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
@@ -59,8 +63,11 @@ public class MainBottomAdapter extends
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
+    private View.OnLongClickListener mOnLongClickListener;
 
     private OnBindViewHolderListener mOnBindViewHolderListener;
+
+    private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
 
     private int mOrientation = PORTRAIT;
 
@@ -68,14 +75,18 @@ public class MainBottomAdapter extends
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
 
-    public MainBottomAdapter(Context context, OnItemClickListener listener) {
-        this(context, listener, PORTRAIT);
+    public MainBottomAdapter(Context context, OnItemClickListener listener,
+                             View.OnLongClickListener onLongClickListener) {
+        this(context, listener, onLongClickListener, PORTRAIT);
     }
 
-    public MainBottomAdapter(Context context, OnItemClickListener listener, @Orientation int orientation) {
+    public MainBottomAdapter(Context context, OnItemClickListener listener,
+                             View.OnLongClickListener onLongClickListener,
+                             @Orientation int orientation) {
         mContext = context;
         mNewsFeedList = new ArrayList<>();
         mOnItemClickListener = listener;
+        mOnLongClickListener = onLongClickListener;
         mOrientation = orientation;
     }
 
@@ -96,15 +107,17 @@ public class MainBottomAdapter extends
                     ViewGroup.LayoutParams lp = parent.getLayoutParams();
                     double ratio = mNewsFeedList.size() <= 4 ? 0.25 : 0.23;
                     double height = MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
-                    return (int)Math.floor(height);
+                    return (int) Math.floor(height);
 //                    return MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
                 } else {
                     return -1;
                 }
             }
         });
+        BottomNewsFeedViewHolder viewHolder = new BottomNewsFeedViewHolder(itemLayout);
+        initEditLayer(viewHolder);
 
-        return new BottomNewsFeedViewHolder(itemLayout);
+        return viewHolder;
     }
 
     @Override
@@ -112,6 +125,8 @@ public class MainBottomAdapter extends
         if (mOnBindViewHolderListener != null) {
             mOnBindViewHolderListener.onBindViewHolder(viewHolder, position);
         }
+        adjustEditLayoutVisibility(viewHolder);
+
         boolean isVertical = mOrientation == PORTRAIT;
 
         MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
@@ -273,20 +288,32 @@ public class MainBottomAdapter extends
 //        setOnClickListener(viewHolder, position);
     }
 
-//    private void setOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position) {
-//        viewHolder.itemView.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        NewsFeed newsFeed = mNewsFeedList.get(position);
-//
-//                        if (mOnItemClickListener != null && newsFeed.containsNews()) {
-//                            mOnItemClickListener.onBottomItemClick(viewHolder, newsFeed, position);
-//                        }
-//                    }
-//                }
-//        );
-//    }
+    private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {
+        setEditMode(mEditMode);
+        viewHolder.changeNewsfeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext.getApplicationContext(), "do something...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        viewHolder.itemView.setOnLongClickListener(mOnLongClickListener);
+    }
+
+    public void setEditMode(PanelEditMode editMode) {
+        mEditMode = editMode;
+    }
+
+    private void adjustEditLayoutVisibility(BottomNewsFeedViewHolder viewHolder) {
+        if (isInEditingMode()) {
+            viewHolder.editLayout.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.editLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isInEditingMode() {
+        return mEditMode.equals(PanelEditMode.EDITING);
+    }
 
     public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
         // get display width
@@ -396,6 +423,8 @@ public class MainBottomAdapter extends
         public ImageView imageView;
         public ProgressBar progressBar;
         public TextView newsFeedTitleTextView;
+        public FrameLayout editLayout;
+        public Button changeNewsfeedButton;
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
@@ -403,6 +432,8 @@ public class MainBottomAdapter extends
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
+            editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
+            changeNewsfeedButton = (Button)itemView.findViewById(R.id.replace_newsfeed);
         }
     }
 }

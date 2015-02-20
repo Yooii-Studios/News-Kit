@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -42,6 +43,7 @@ import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.util.OnEditModeChangeListener;
 import com.yooiistudios.serialanimator.animator.SerialAnimator;
 import com.yooiistudios.serialanimator.animator.SerialValueAnimator;
 import com.yooiistudios.serialanimator.property.ViewProperty;
@@ -72,7 +74,8 @@ public class MainBottomContainerLayout extends FrameLayout
         BottomNewsImageFetchManager.OnFetchListener,
         SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
         ViewProperty.AnimationListener,
-        MainBottomAdapter.OnBindViewHolderListener {
+        MainBottomAdapter.OnBindViewHolderListener,
+        View.OnLongClickListener {
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
@@ -84,6 +87,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private MainBottomAdapter mBottomNewsFeedAdapter;
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
+    private OnEditModeChangeListener mOnEditModeChangeListener;
     private Activity mActivity;
     private ImageLoader mImageLoader;
     private SerialValueAnimator mAutoAnimator;
@@ -141,81 +145,6 @@ public class MainBottomContainerLayout extends FrameLayout
         initAnimator();
     }
 
-//    public void _autoRefreshBottomNewsFeeds() {
-//        // 딜레이도 스피드에 따라서 비율적으로 조절해주기
-//        final int originalRefreshDelay =
-//                getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
-//        final float autoRefreshSpeed = Settings.getAutoRefreshSpeed(getContext());
-//
-//        mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                int childCount = mBottomNewsFeedRecyclerView.getChildCount();
-//                for (int i = 0; i < childCount; i++) {
-//                    final int idx = i;
-//                    mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            doAutoRefreshBottomNewsFeedAtIndex(idx);
-//                        }
-//                    }, (long) (idx * (originalRefreshDelay * autoRefreshSpeed)));
-//                }
-//            }
-//        }, SlowSpeedScroller.SWIPE_DURATION); // 탑 스와이프가 진행된 뒤 애니메이션
-//    }
-
-//    private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
-//        NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-//        if (newsFeed == null || !newsFeed.containsNews()) {
-//            return;
-//        }
-//
-//        final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
-//                new MainBottomAdapter.BottomNewsFeedViewHolder(
-//                        mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
-//
-//        Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation(getContext());
-//        hideTextSet.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                // 뉴스 갱신
-//                NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-//                if (newsFeed.getDisplayingNewsIndex() < newsFeed.getNewsList().size() - 1) {
-//                    newsFeed.setDisplayingNewsIndex(newsFeed.getDisplayingNewsIndex() + 1);
-//                } else {
-//                    newsFeed.setDisplayingNewsIndex(0);
-//                }
-//                mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
-//
-//                // 다시 보여주기
-//                newsFeedViewHolder.newsTitleTextView.startAnimation(
-//                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
-//                newsFeedViewHolder.imageView.startAnimation(
-//                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
-//
-//                // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
-//                if (newsFeedIndex == mBottomNewsFeedRecyclerView.getChildCount() - 1) {
-//                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
-//                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(),
-//                            MainBottomContainerLayout.this,
-//                            BottomNewsImageFetchTask.TASK_AUTO_REFRESH
-//                    );
-//                }
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//            }
-//        });
-//        newsFeedViewHolder.newsTitleTextView.startAnimation(hideTextSet);
-//        newsFeedViewHolder.imageView.startAnimation(
-//                AnimationFactory.makeBottomFadeOutAnimation(getContext()));
-//    }
-
     public void init(Activity activity) {
         if (!(activity instanceof MainActivity)) {
             throw new IllegalArgumentException("activity MUST BE an instance of MainActivity");
@@ -223,6 +152,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mActivity = activity;
         mOnMainBottomLayoutEventListener = (OnMainBottomLayoutEventListener)activity;
+        mOnEditModeChangeListener = (OnEditModeChangeListener)activity;
 
         mIsInitialized = false;
 
@@ -232,7 +162,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
-        mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
+        mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this, this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
         configOnOrientationChange();
@@ -276,9 +206,8 @@ public class MainBottomContainerLayout extends FrameLayout
         int orientation = getResources().getConfiguration().orientation;
         ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
         Context context = getContext().getApplicationContext();
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // 메인 하단의 뉴스피드 RecyclerView의 높이를 set
-
+        if (isPortrait(orientation)) {
+            // 메인 하단의 뉴스피드 RecyclerView 의 높이를 set
             recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnPortrait(context,
                     mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
         } else {
@@ -293,6 +222,10 @@ public class MainBottomContainerLayout extends FrameLayout
         }
 
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
+    }
+
+    private boolean isPortrait(int orientation) {
+        return orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     private void initAnimator() {
@@ -311,6 +244,10 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public void autoRefreshBottomNewsFeeds() {
         mAutoAnimator.animate();
+    }
+
+    public void cancelAutoRefresh() {
+        mAutoAnimator.cancelAllTransitions();
     }
 
     @Override
@@ -540,7 +477,7 @@ public class MainBottomContainerLayout extends FrameLayout
         GridLayoutManager layoutManager =
                 (GridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
 
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (isPortrait(orientation)) {
             layoutManager.setSpanCount(COLUMN_COUNT_PORTRAIT);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.PORTRAIT);
@@ -569,6 +506,26 @@ public class MainBottomContainerLayout extends FrameLayout
 
     public boolean isFetchingAddedBottomNewsFeeds() {
         return mIsFetchingAddedBottomNewsFeeds;
+    }
+
+    public boolean isInReplacingMode() {
+        return mBottomNewsFeedAdapter.isInEditingMode();
+    }
+
+    public void showEditLayer() {
+        mBottomNewsFeedAdapter.setEditMode(PanelEditMode.EDITING);
+        mBottomNewsFeedAdapter.notifyDataSetChanged();
+    }
+
+    public void hideEditLayer() {
+        mBottomNewsFeedAdapter.setEditMode(PanelEditMode.NONE);
+        mBottomNewsFeedAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        mOnEditModeChangeListener.onEditModeChange(PanelEditMode.EDITING);
+        return true;
     }
 
     @SuppressWarnings("unchecked")

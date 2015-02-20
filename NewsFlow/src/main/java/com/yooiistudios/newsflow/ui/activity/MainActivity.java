@@ -35,6 +35,7 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
+import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -51,15 +52,16 @@ import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.util.OnEditModeChangeListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class MainActivity extends Activity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
-        MainBottomContainerLayout.OnMainBottomLayoutEventListener {
+        MainBottomContainerLayout.OnMainBottomLayoutEventListener,
+        OnEditModeChangeListener {
     public static final String TAG = MainActivity.class.getName();
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
@@ -611,6 +613,29 @@ public class MainActivity extends Activity
     }
 
     @Override
+    public void onEditModeChange(PanelEditMode editMode) {
+        if (editMode.equals(PanelEditMode.EDITING)) {
+            showEditLayer();
+        } else {
+            hideEditLayer();
+        }
+    }
+
+    private void showEditLayer() {
+        mMainTopContainerLayout.showEditLayer();
+        mMainBottomContainerLayout.showEditLayer();
+        stopNewsAutoRefresh();
+        // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
+//        mMainBottomContainerLayout.cancelAutoRefresh();
+    }
+
+    private void hideEditLayer() {
+        mMainTopContainerLayout.hideEditLayer();
+        mMainBottomContainerLayout.hideEditLayer();
+        startNewsAutoRefresh();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -677,7 +702,10 @@ public class MainActivity extends Activity
 
     @Override
     public void onBackPressed() {
-        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
+        if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInReplacingMode()) {
+            hideEditLayer();
+        }
+        else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
                 && mRootView != null) {
             AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);

@@ -14,14 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
+import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -41,6 +44,7 @@ import com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
+import com.yooiistudios.newsflow.util.OnEditModeChangeListener;
 import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.reflect.Field;
@@ -62,7 +66,8 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.RC_NEWS_FEED_DE
 public class MainTopContainerLayout extends FrameLayout
         implements TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         TopNewsFeedFetchTask.OnFetchListener,
-        MainTopPagerAdapter.OnItemClickListener {
+        MainTopPagerAdapter.OnItemClickListener,
+        View.OnLongClickListener {
     @InjectView(R.id.main_top_content_wrapper)              FrameLayout mTopContentWrapper;
     @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mTopNewsFeedViewPager;
     @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
@@ -70,6 +75,8 @@ public class MainTopContainerLayout extends FrameLayout
     @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
     @InjectView(R.id.main_top_unavailable_description)      TextView mTopNewsFeedUnavailableDescription;
+    @InjectView(R.id.replace_newsfeed)                      Button mChangeNewsFeedButton;
+    @InjectView(R.id.main_top_edit_layout)                  FrameLayout mEditLayout;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
 
@@ -79,10 +86,13 @@ public class MainTopContainerLayout extends FrameLayout
     private MainTopPagerAdapter mTopNewsFeedPagerAdapter;
 
     private OnMainTopLayoutEventListener mOnMainTopLayoutEventListener;
+    private OnEditModeChangeListener mOnEditModeChangeListener;
 
 //    private NewsFeed mTopNewsFeed;
     private ImageLoader mImageLoader;
     private Activity mActivity;
+
+    private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
 
     // flags for initializing
     private boolean mIsReady = false;
@@ -125,10 +135,22 @@ public class MainTopContainerLayout extends FrameLayout
 
         ButterKnife.inject(this);
 
+        initEditLayer();
+
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
 
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
+    }
+
+    private void initEditLayer() {
+        hideEditLayer();
+        mChangeNewsFeedButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext().getApplicationContext(), "do something...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public NewsFeed getNewsFeed() {
@@ -185,6 +207,7 @@ public class MainTopContainerLayout extends FrameLayout
 
         mActivity = activity;
         mOnMainTopLayoutEventListener = (OnMainTopLayoutEventListener)activity;
+        mOnEditModeChangeListener = (OnEditModeChangeListener)activity;
 
         Context context = getContext();
 
@@ -263,6 +286,38 @@ public class MainTopContainerLayout extends FrameLayout
         }
     }
 
+    public void showEditLayer() {
+        setEditMode(PanelEditMode.EDITING);
+        adjustEditLayoutVisibility();
+    }
+
+    public void hideEditLayer() {
+        setEditMode(PanelEditMode.NONE);
+        adjustEditLayoutVisibility();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        mOnEditModeChangeListener.onEditModeChange(PanelEditMode.EDITING);
+        return true;
+    }
+
+    private void setEditMode(PanelEditMode editMode) {
+        mEditMode = editMode;
+    }
+
+    private void adjustEditLayoutVisibility() {
+        if (isInEditingMode()) {
+            mEditLayout.setVisibility(View.VISIBLE);
+        } else {
+            mEditLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isInEditingMode() {
+        return mEditMode.equals(PanelEditMode.EDITING);
+    }
+
     private void fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType taskType) {
         fetchTopNewsFeed(taskType, true);
     }
@@ -322,7 +377,7 @@ public class MainTopContainerLayout extends FrameLayout
         if (mTopNewsFeedPagerAdapter.getNewsFeed() == null) {
             return;
         }
-        mTopNewsFeedNewsToImageTaskMap = new HashMap<News, TopFeedNewsImageUrlFetchTask>();
+        mTopNewsFeedNewsToImageTaskMap = new HashMap<>();
 
         ArrayList<News> newsList = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList();
 
@@ -436,30 +491,42 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     private void configOnPortraitOrientation() {
+        adjustLayoutParamsOnPortrait();
+        adjustContentWrapperLayoutParamsOnPortrait();
+    }
+
+    private void adjustLayoutParamsOnPortrait() {
         ViewGroup.LayoutParams lp = getLayoutParams();
-        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
-
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        lp.height = getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+    }
 
-        contentWrapperLp.height
-                = getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+    private void adjustContentWrapperLayoutParamsOnPortrait() {
+        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+        contentWrapperLp.height = ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     private void configOnLandscapeOrientation() {
-        ViewGroup.LayoutParams lp = getLayoutParams();
-        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+        adjustLayoutParamsOnLandscape();
+        adjustContentWrapperLayoutParamsOnLandscape();
+    }
 
-        ViewGroup.LayoutParams indicatorLp = mTopViewPagerIndicator.getLayoutParams();
-        int indicatorHeight = indicatorLp.height;
+    private void adjustLayoutParamsOnLandscape() {
+        ViewGroup.LayoutParams lp = getLayoutParams();
 
         lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
         lp.height = ScreenUtils.getDisplaySize(getContext()).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             lp.height -= ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
         }
+    }
 
-        contentWrapperLp.height = lp.height - indicatorHeight;
+    private void adjustContentWrapperLayoutParamsOnLandscape() {
+        ViewGroup.LayoutParams indicatorLp = mTopViewPagerIndicator.getLayoutParams();
+        int indicatorHeight = indicatorLp.height;
+
+        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+        contentWrapperLp.height = getLayoutParams().height - indicatorHeight;
 
         if (indicatorLp instanceof MarginLayoutParams) {
             MarginLayoutParams indicatorMarginLp = (MarginLayoutParams)indicatorLp;

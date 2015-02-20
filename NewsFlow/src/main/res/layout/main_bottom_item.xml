@@ -34,4 +34,8 @@
     <!--
         android:background="?android:attr/colorPrimary" -->
 
+    <include
+        android:id="@+id/main_bottom_edit_layout"
+        layout="@layout/cover_edit_mode"/>
+
 </com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout>
