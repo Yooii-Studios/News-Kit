@@ -53,8 +53,18 @@
         </FrameLayout>
     </FrameLayout>
 
-    <include
+    <com.yooiistudios.newsflow.ui.widget.CoverFrameLayout
         android:id="@+id/main_top_edit_layout"
-        layout="@layout/cover_edit_mode"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_edit_layout_background"
+        android:visibility="gone">
+        <View
+            android:id="@+id/replace_newsfeed"
+            android:layout_width="@dimen/main_edit_button_size"
+            android:layout_height="@dimen/main_edit_button_size"
+            android:layout_margin="@dimen/main_edit_button_margin_large"
+            android:background="@drawable/ic_edit_newsfeed_selector"/>
+    </com.yooiistudios.newsflow.ui.widget.CoverFrameLayout>
 
 </RelativeLayout>

@@ -22,6 +22,8 @@ import com.yooiistudios.newsflow.util.InterpolatorHelper;
  *  필요한 애니메이션을 제작해주는 클래스
  */
 public class AnimationFactory {
+    private static final int EDIT_LAYOUT_ANIM_DURATION = 2500;
+
     private AnimationFactory() { throw new AssertionError("You MUST not create this class!"); }
 
     public static Animation makeBottomFadeOutAnimation(Context context) {
@@ -140,4 +142,21 @@ public class AnimationFactory {
         }
         return interpolator;
     }
+
+//    public static void animateEditLayoutFadeIn(final View viewToAnimate) {
+//        viewToAnimate.setAlpha(0);
+//        viewToAnimate.animate()
+//                .setDuration(EDIT_LAYOUT_ANIM_DURATION)
+//                .alpha(1)
+//                .withStartAction(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        viewToAnimate.setVisibility(View.VISIBLE);
+//                    }
+//                });
+//    }
+//
+//    public static void animateEditLayoutFadeOut(final View viewToAnimate) {
+//        viewToAnimate.setAlpha(0);
+//    }
 }

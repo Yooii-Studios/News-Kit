@@ -615,24 +615,26 @@ public class MainActivity extends Activity
     @Override
     public void onEditModeChange(PanelEditMode editMode) {
         if (editMode.equals(PanelEditMode.EDITING)) {
-            showEditLayer();
+            showEditLayout();
         } else {
-            hideEditLayer();
+            hideEditLayout();
         }
     }
 
-    private void showEditLayer() {
-        mMainTopContainerLayout.showEditLayer();
-        mMainBottomContainerLayout.showEditLayer();
+    private void showEditLayout() {
+        mMainTopContainerLayout.showEditLayout();
+        mMainBottomContainerLayout.showEditLayout();
         stopNewsAutoRefresh();
+        setSwipeRefreshLayoutEnabled(false);
         // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
 //        mMainBottomContainerLayout.cancelAutoRefresh();
     }
 
-    private void hideEditLayer() {
-        mMainTopContainerLayout.hideEditLayer();
-        mMainBottomContainerLayout.hideEditLayer();
+    private void hideEditLayout() {
+        mMainTopContainerLayout.hideEditLayout();
+        mMainBottomContainerLayout.hideEditLayout();
         startNewsAutoRefresh();
+        setSwipeRefreshLayoutEnabled(true);
     }
 
     @Override
@@ -703,7 +705,7 @@ public class MainActivity extends Activity
     @Override
     public void onBackPressed() {
         if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInReplacingMode()) {
-            hideEditLayer();
+            hideEditLayout();
         }
         else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())

@@ -74,7 +74,7 @@ public class MainBottomContainerLayout extends FrameLayout
         BottomNewsImageFetchManager.OnFetchListener,
         SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
         ViewProperty.AnimationListener,
-        MainBottomAdapter.OnBindViewHolderListener,
+        MainBottomAdapter.OnBindMainBottomViewHolderListener,
         View.OnLongClickListener {
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
@@ -199,7 +199,7 @@ public class MainBottomContainerLayout extends FrameLayout
         }
 
         adjustSize();
-        mBottomNewsFeedAdapter.setOnBindViewHolderListener(this);
+        mBottomNewsFeedAdapter.setOnBindMainBottomViewHolderListener(this);
     }
 
     private void adjustSize() {
@@ -300,7 +300,7 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder, int i) {
         ViewProperty property =
                 new ViewProperty.Builder()
                         .setView(viewHolder.itemView)
@@ -512,12 +512,12 @@ public class MainBottomContainerLayout extends FrameLayout
         return mBottomNewsFeedAdapter.isInEditingMode();
     }
 
-    public void showEditLayer() {
+    public void showEditLayout() {
         mBottomNewsFeedAdapter.setEditMode(PanelEditMode.EDITING);
         mBottomNewsFeedAdapter.notifyDataSetChanged();
     }
 
-    public void hideEditLayer() {
+    public void hideEditLayout() {
         mBottomNewsFeedAdapter.setEditMode(PanelEditMode.NONE);
         mBottomNewsFeedAdapter.notifyDataSetChanged();
     }

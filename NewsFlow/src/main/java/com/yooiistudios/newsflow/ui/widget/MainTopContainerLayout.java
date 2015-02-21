@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,7 +74,7 @@ public class MainTopContainerLayout extends FrameLayout
     @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
     @InjectView(R.id.main_top_unavailable_description)      TextView mTopNewsFeedUnavailableDescription;
-    @InjectView(R.id.replace_newsfeed)                      Button mChangeNewsFeedButton;
+    @InjectView(R.id.replace_newsfeed)                      View mChangeNewsFeedButton;
     @InjectView(R.id.main_top_edit_layout)                  FrameLayout mEditLayout;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
@@ -144,13 +143,21 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     private void initEditLayer() {
-        hideEditLayer();
+        hideEditLayout();
+        adjustEditLayoutPosition();
         mChangeNewsFeedButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext().getApplicationContext(), "do something...", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void adjustEditLayoutPosition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
+            mEditLayout.setPadding(0, statusBarHeight, 0, 0);
+        }
     }
 
     public NewsFeed getNewsFeed() {
@@ -286,12 +293,12 @@ public class MainTopContainerLayout extends FrameLayout
         }
     }
 
-    public void showEditLayer() {
+    public void showEditLayout() {
         setEditMode(PanelEditMode.EDITING);
         adjustEditLayoutVisibility();
     }
 
-    public void hideEditLayer() {
+    public void hideEditLayout() {
         setEditMode(PanelEditMode.NONE);
         adjustEditLayoutVisibility();
     }

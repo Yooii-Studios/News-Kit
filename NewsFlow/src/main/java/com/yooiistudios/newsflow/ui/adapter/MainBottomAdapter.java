@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -46,8 +45,8 @@ import java.util.ArrayList;
  */
 public class MainBottomAdapter extends
         RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
-    public interface OnBindViewHolderListener {
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i);
+    public interface OnBindMainBottomViewHolderListener {
+        public void onBindViewHolder(BottomNewsFeedViewHolder viewHolder, int i);
     }
 
     public interface OnItemClickListener {
@@ -65,7 +64,7 @@ public class MainBottomAdapter extends
     private OnItemClickListener mOnItemClickListener;
     private View.OnLongClickListener mOnLongClickListener;
 
-    private OnBindViewHolderListener mOnBindViewHolderListener;
+    private OnBindMainBottomViewHolderListener mOnBindMainBottomViewHolderListener;
 
     private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
 
@@ -122,8 +121,8 @@ public class MainBottomAdapter extends
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
-        if (mOnBindViewHolderListener != null) {
-            mOnBindViewHolderListener.onBindViewHolder(viewHolder, position);
+        if (mOnBindMainBottomViewHolderListener != null) {
+            mOnBindMainBottomViewHolderListener.onBindViewHolder(viewHolder, position);
         }
         adjustEditLayoutVisibility(viewHolder);
 
@@ -414,8 +413,8 @@ public class MainBottomAdapter extends
         mOrientation = orientation;
     }
 
-    public void setOnBindViewHolderListener(OnBindViewHolderListener onBindViewHolderListener) {
-        mOnBindViewHolderListener = onBindViewHolderListener;
+    public void setOnBindMainBottomViewHolderListener(OnBindMainBottomViewHolderListener onBindMainBottomViewHolderListener) {
+        mOnBindMainBottomViewHolderListener = onBindMainBottomViewHolderListener;
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView.ViewHolder {
@@ -424,7 +423,7 @@ public class MainBottomAdapter extends
         public ProgressBar progressBar;
         public TextView newsFeedTitleTextView;
         public FrameLayout editLayout;
-        public Button changeNewsfeedButton;
+        public View changeNewsfeedButton;
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
@@ -433,7 +432,7 @@ public class MainBottomAdapter extends
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
             editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
-            changeNewsfeedButton = (Button)itemView.findViewById(R.id.replace_newsfeed);
+            changeNewsfeedButton = itemView.findViewById(R.id.replace_newsfeed);
         }
     }
 }
