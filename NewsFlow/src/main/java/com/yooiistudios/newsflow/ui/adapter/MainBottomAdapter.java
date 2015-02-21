@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -24,8 +25,8 @@ import com.yooiistudios.newsflow.model.news.NewsFeed;
 import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.model.news.TintType;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
-import com.yooiistudios.newsflow.ui.widget.RatioFrameLayout;
 import com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout;
+import com.yooiistudios.newsflow.ui.widget.RatioFrameLayout;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.ScreenUtils;
 
@@ -93,8 +94,10 @@ public class MainBottomAdapter extends
             public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
                 if (axis == RatioFrameLayout.AXIS_WIDTH && orientation == MainBottomItemLayout.LANDSCAPE) {
                     ViewGroup.LayoutParams lp = parent.getLayoutParams();
-                    return MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp)/4;
-//                    return parentHeight/4;
+                    double ratio = mNewsFeedList.size() <= 4 ? 0.25 : 0.23;
+                    double height = MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
+                    return (int)Math.floor(height);
+//                    return MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
                 } else {
                     return -1;
                 }
@@ -121,6 +124,7 @@ public class MainBottomAdapter extends
         );
 
         TextView titleView = viewHolder.newsTitleTextView;
+        titleView.setSingleLine(isLandscape());
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
         NewsFeed newsFeed = mNewsFeedList.get(position);
@@ -324,6 +328,14 @@ public class MainBottomAdapter extends
 
     public static float getRowWidth(float height) {
         return height * (1 / HEIGHT_OVER_WIDTH_RATIO);
+    }
+
+    private boolean isPortrait() {
+        return mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    private boolean isLandscape() {
+        return !isPortrait();
     }
 
     @Override

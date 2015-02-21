@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -425,7 +427,6 @@ public class MainTopContainerLayout extends FrameLayout
 
     public void configOnOrientationChange() {
         int orientation = getResources().getConfiguration().orientation;
-
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             configOnPortraitOrientation();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -454,7 +455,7 @@ public class MainTopContainerLayout extends FrameLayout
 
         lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
         lp.height = ScreenUtils.getDisplaySize(getContext()).y;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             lp.height -= ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
         }
 
@@ -463,6 +464,12 @@ public class MainTopContainerLayout extends FrameLayout
         if (indicatorLp instanceof MarginLayoutParams) {
             MarginLayoutParams indicatorMarginLp = (MarginLayoutParams)indicatorLp;
             contentWrapperLp.height -= indicatorMarginLp.topMargin;
+        }
+
+        Context context = getContext().getApplicationContext();
+        if (!IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {
+            int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
+            contentWrapperLp.height -= adViewHeight;
         }
     }
 

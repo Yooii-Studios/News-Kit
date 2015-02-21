@@ -1,3 +1,7 @@
 [submodule "libraries/SerialAnimator"]
 	path = libraries/SerialAnimator
 	url = https://crowjdh@github.com/crowjdh/SerialAnimator.git
+[submodule "libraries/OrientationAdView"]
+	path = libraries/OrientationAdView
+	url = https://crowjdh@github.com/crowjdh/OrientationAdView.git
+	branch = develop

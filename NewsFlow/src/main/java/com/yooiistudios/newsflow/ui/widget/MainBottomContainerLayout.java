@@ -16,14 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -143,80 +141,80 @@ public class MainBottomContainerLayout extends FrameLayout
         initAnimator();
     }
 
-    public void _autoRefreshBottomNewsFeeds() {
-        // 딜레이도 스피드에 따라서 비율적으로 조절해주기
-        final int originalRefreshDelay =
-                getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
-        final float autoRefreshSpeed = Settings.getAutoRefreshSpeed(getContext());
+//    public void _autoRefreshBottomNewsFeeds() {
+//        // 딜레이도 스피드에 따라서 비율적으로 조절해주기
+//        final int originalRefreshDelay =
+//                getResources().getInteger(R.integer.bottom_news_feed_auto_refresh_delay_milli);
+//        final float autoRefreshSpeed = Settings.getAutoRefreshSpeed(getContext());
+//
+//        mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                int childCount = mBottomNewsFeedRecyclerView.getChildCount();
+//                for (int i = 0; i < childCount; i++) {
+//                    final int idx = i;
+//                    mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            doAutoRefreshBottomNewsFeedAtIndex(idx);
+//                        }
+//                    }, (long) (idx * (originalRefreshDelay * autoRefreshSpeed)));
+//                }
+//            }
+//        }, SlowSpeedScroller.SWIPE_DURATION); // 탑 스와이프가 진행된 뒤 애니메이션
+//    }
 
-        mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int childCount = mBottomNewsFeedRecyclerView.getChildCount();
-                for (int i = 0; i < childCount; i++) {
-                    final int idx = i;
-                    mBottomNewsFeedRecyclerView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            doAutoRefreshBottomNewsFeedAtIndex(idx);
-                        }
-                    }, (long) (idx * (originalRefreshDelay * autoRefreshSpeed)));
-                }
-            }
-        }, SlowSpeedScroller.SWIPE_DURATION); // 탑 스와이프가 진행된 뒤 애니메이션
-    }
-
-    private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
-        NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-        if (newsFeed == null || !newsFeed.containsNews()) {
-            return;
-        }
-
-        final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
-                new MainBottomAdapter.BottomNewsFeedViewHolder(
-                        mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
-
-        Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation(getContext());
-        hideTextSet.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                // 뉴스 갱신
-                NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
-                if (newsFeed.getDisplayingNewsIndex() < newsFeed.getNewsList().size() - 1) {
-                    newsFeed.setDisplayingNewsIndex(newsFeed.getDisplayingNewsIndex() + 1);
-                } else {
-                    newsFeed.setDisplayingNewsIndex(0);
-                }
-                mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
-
-                // 다시 보여주기
-                newsFeedViewHolder.newsTitleTextView.startAnimation(
-                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
-                newsFeedViewHolder.imageView.startAnimation(
-                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
-
-                // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
-                if (newsFeedIndex == mBottomNewsFeedRecyclerView.getChildCount() - 1) {
-                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
-                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(),
-                            MainBottomContainerLayout.this,
-                            BottomNewsImageFetchTask.TASK_AUTO_REFRESH
-                    );
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        newsFeedViewHolder.newsTitleTextView.startAnimation(hideTextSet);
-        newsFeedViewHolder.imageView.startAnimation(
-                AnimationFactory.makeBottomFadeOutAnimation(getContext()));
-    }
+//    private void doAutoRefreshBottomNewsFeedAtIndex(final int newsFeedIndex) {
+//        NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
+//        if (newsFeed == null || !newsFeed.containsNews()) {
+//            return;
+//        }
+//
+//        final MainBottomAdapter.BottomNewsFeedViewHolder newsFeedViewHolder =
+//                new MainBottomAdapter.BottomNewsFeedViewHolder(
+//                        mBottomNewsFeedRecyclerView.getChildAt(newsFeedIndex));
+//
+//        Animation hideTextSet = AnimationFactory.makeBottomFadeOutAnimation(getContext());
+//        hideTextSet.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                // 뉴스 갱신
+//                NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex);
+//                if (newsFeed.getDisplayingNewsIndex() < newsFeed.getNewsList().size() - 1) {
+//                    newsFeed.setDisplayingNewsIndex(newsFeed.getDisplayingNewsIndex() + 1);
+//                } else {
+//                    newsFeed.setDisplayingNewsIndex(0);
+//                }
+//                mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
+//
+//                // 다시 보여주기
+//                newsFeedViewHolder.newsTitleTextView.startAnimation(
+//                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
+//                newsFeedViewHolder.imageView.startAnimation(
+//                        AnimationFactory.makeBottomFadeInAnimation(getContext()));
+//
+//                // 모든 애니메이션이 끝난 다음 뉴스 이미지 로드하기 위해 애니메이션들이 다 끝났는지 체크
+//                if (newsFeedIndex == mBottomNewsFeedRecyclerView.getChildCount() - 1) {
+//                    BottomNewsImageFetchManager.getInstance().fetchAllNextNewsImageList(
+//                            mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(),
+//                            MainBottomContainerLayout.this,
+//                            BottomNewsImageFetchTask.TASK_AUTO_REFRESH
+//                    );
+//                }
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//            }
+//        });
+//        newsFeedViewHolder.newsTitleTextView.startAnimation(hideTextSet);
+//        newsFeedViewHolder.imageView.startAnimation(
+//                AnimationFactory.makeBottomFadeOutAnimation(getContext()));
+//    }
 
     public void init(Activity activity) {
         if (!(activity instanceof MainActivity)) {
@@ -286,7 +284,14 @@ public class MainBottomContainerLayout extends FrameLayout
         } else {
             recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnLandscape(context,
                     recyclerViewLp);
+
+//            if (!IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {
+//                int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height_landscape);
+//                lp.height -= adViewHeight;
+//                contentWrapperLp.height -= adViewHeight;
+//            }
         }
+
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
     }
 
