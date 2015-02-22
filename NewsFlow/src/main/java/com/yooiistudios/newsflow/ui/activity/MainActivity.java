@@ -413,15 +413,16 @@ public class MainActivity extends Activity
         subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
 
         subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
-        subMenu.add(Menu.NONE, R.id.action_info, 1, R.string.action_info);
-        subMenu.add(Menu.NONE, R.id.action_settings, 2, R.string.action_settings);
-        subMenu.add(Menu.NONE, R.id.action_rate_app, 3, R.string.action_rate_app);
-        subMenu.add(Menu.NONE, R.id.action_facebook_like, 4, R.string.action_facebook_like);
+        subMenu.add(Menu.NONE, R.id.action_edition, 1, R.string.action_edition);
+        subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
+        subMenu.add(Menu.NONE, R.id.action_settings, 3, R.string.action_settings);
+        subMenu.add(Menu.NONE, R.id.action_rate_app, 4, R.string.action_rate_app);
+        subMenu.add(Menu.NONE, R.id.action_facebook_like, 5, R.string.action_facebook_like);
 
         if (NLLog.isDebug()) {
-            subMenu.add(Menu.NONE, R.id.action_remove_archive, 5, "Remove archive(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_slow_anim, 6, "Slow Activity Transition(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_service_log, 7, "Show service log(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_slow_anim, 7, "Slow Activity Transition(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_service_log, 8, "Show service log(Debug)");
         }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -435,6 +436,9 @@ public class MainActivity extends Activity
         int id = item.getItemId();
         if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
+            return true;
+        } else if (id == R.id.action_edition) {
+            toggleEditLayoutVisibility();
             return true;
         } else if (id == R.id.action_info) {
             startActivity(new Intent(MainActivity.this, InfoActivity.class));
@@ -657,6 +661,14 @@ public class MainActivity extends Activity
         }
     }
 
+    private void toggleEditLayoutVisibility() {
+        if (!isShowingEditLayout()) {
+            showEditLayout();
+        } else {
+            hideEditLayout();
+        }
+    }
+
     private void showEditLayout() {
         mMainTopContainerLayout.showEditLayout();
         mMainBottomContainerLayout.showEditLayout();
@@ -671,6 +683,10 @@ public class MainActivity extends Activity
         mMainBottomContainerLayout.hideEditLayout();
         startNewsAutoRefresh();
         setSwipeRefreshLayoutEnabled(true);
+    }
+
+    private boolean isShowingEditLayout() {
+        return mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode();
     }
 
     @Override
