@@ -35,10 +35,13 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
+import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
@@ -51,15 +54,16 @@ import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class MainActivity extends Activity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
-        MainBottomContainerLayout.OnMainBottomLayoutEventListener {
+        MainBottomContainerLayout.OnMainBottomLayoutEventListener,
+        OnMainPanelEditModeEventListener {
     public static final String TAG = MainActivity.class.getName();
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
@@ -74,6 +78,7 @@ public class MainActivity extends Activity
 
     public static final int RC_NEWS_FEED_DETAIL = 10001;
     public static final int RC_SETTING = 10002;
+    public static final int RC_NEWS_FEED_SELECT = 10003;
 
     /**
      * Auto Refresh Handler
@@ -108,13 +113,18 @@ public class MainActivity extends Activity
     private class NewsAutoRefreshHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            // 갱신
-            mMainTopContainerLayout.autoRefreshTopNewsFeed();
-            mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
+            boolean isInEditingMode = mMainTopContainerLayout.isInEditingMode()
+                    || mMainBottomContainerLayout.isInEditingMode();
+            if (isInEditingMode) {
+                stopNewsAutoRefresh();
+            } else {
+                mMainTopContainerLayout.autoRefreshTopNewsFeed();
+                mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
 
-            // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
-            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
-                    Settings.getAutoRefreshHandlerDelay(MainActivity.this));
+                // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
+                mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
+                        Settings.getAutoRefreshHandlerDelay(MainActivity.this));
+            }
         }
     }
 
@@ -403,15 +413,16 @@ public class MainActivity extends Activity
         subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
 
         subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
-        subMenu.add(Menu.NONE, R.id.action_info, 1, R.string.action_info);
-        subMenu.add(Menu.NONE, R.id.action_settings, 2, R.string.action_settings);
-        subMenu.add(Menu.NONE, R.id.action_rate_app, 3, R.string.action_rate_app);
-        subMenu.add(Menu.NONE, R.id.action_facebook_like, 4, R.string.action_facebook_like);
+        subMenu.add(Menu.NONE, R.id.action_edition, 1, R.string.action_edition);
+        subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
+        subMenu.add(Menu.NONE, R.id.action_settings, 3, R.string.action_settings);
+        subMenu.add(Menu.NONE, R.id.action_rate_app, 4, R.string.action_rate_app);
+        subMenu.add(Menu.NONE, R.id.action_facebook_like, 5, R.string.action_facebook_like);
 
         if (NLLog.isDebug()) {
-            subMenu.add(Menu.NONE, R.id.action_remove_archive, 5, "Remove archive(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_slow_anim, 6, "Slow Activity Transition(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_service_log, 7, "Show service log(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_slow_anim, 7, "Slow Activity Transition(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_service_log, 8, "Show service log(Debug)");
         }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -425,6 +436,9 @@ public class MainActivity extends Activity
         int id = item.getItemId();
         if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
+            return true;
+        } else if (id == R.id.action_edition) {
+            toggleEditLayoutVisibility();
             return true;
         } else if (id == R.id.action_info) {
             startActivity(new Intent(MainActivity.this, InfoActivity.class));
@@ -488,6 +502,34 @@ public class MainActivity extends Activity
     @Override
     public void onMainBottomMatrixChanged() {
         startNewsAutoRefreshIfReady();
+    }
+
+    @Override
+    public void onStartNewsFeedDetailActivityFromTopNewsFeed(Intent intent) {
+        startNewsFeedDetailWithIntent(intent);
+    }
+
+    @Override
+    public void onStartNewsFeedDetailActivityFromBottomNewsFeed(Intent intent) {
+        startNewsFeedDetailWithIntent(intent);
+    }
+
+    private void startNewsFeedDetailWithIntent(Intent intent) {
+        startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            overridePendingTransition(0, 0);
+        }
+    }
+
+    @Override
+    public void onStartNewsFeedSelectActivityFromTopNewsFeed(Intent intent) {
+        startActivityForResult(intent, RC_NEWS_FEED_SELECT);
+    }
+
+    @Override
+    public void onStartNewsFeedSelectActivityFromBottomNewsFeed(Intent intent) {
+        startActivityForResult(intent, RC_NEWS_FEED_SELECT);
     }
 
     private void startNewsAutoRefreshIfReady() {
@@ -611,58 +653,81 @@ public class MainActivity extends Activity
     }
 
     @Override
+    public void onEditModeChange(PanelEditMode editMode) {
+        if (editMode.equals(PanelEditMode.EDITING)) {
+            showEditLayout();
+        } else {
+            hideEditLayout();
+        }
+    }
+
+    private void toggleEditLayoutVisibility() {
+        if (!isShowingEditLayout()) {
+            showEditLayout();
+        } else {
+            hideEditLayout();
+        }
+    }
+
+    private void showEditLayout() {
+        mMainTopContainerLayout.showEditLayout();
+        mMainBottomContainerLayout.showEditLayout();
+        stopNewsAutoRefresh();
+        setSwipeRefreshLayoutEnabled(false);
+        // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
+//        mMainBottomContainerLayout.cancelAutoRefresh();
+    }
+
+    private void hideEditLayout() {
+        mMainTopContainerLayout.hideEditLayout();
+        mMainBottomContainerLayout.hideEditLayout();
+        startNewsAutoRefresh();
+        setSwipeRefreshLayoutEnabled(true);
+    }
+
+    private boolean isShowingEditLayout() {
+        return mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
+            String newsFeedType;
             switch (requestCode) {
                 case RC_NEWS_FEED_DETAIL:
-                    boolean hasNewsFeedReplaced = extras.getBoolean(
-                            NewsFeedDetailActivity.INTENT_KEY_NEWSFEED_REPLACED, false);
-                    String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
-                    boolean newImageLoaded = extras.getBoolean(
-                            NewsFeedDetailActivity.INTENT_KEY_IMAGE_LOADED, false);
+                    newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
 
-                    if (newsFeedType == null) {
-                        return;
+                    if (newsFeedType != null) {
+                        if (extras.getBoolean(NewsFeedDetailActivity.INTENT_KEY_NEWSFEED_REPLACED, false)) {
+                            configOnNewsFeedReplaced(extras);
+                        } else if (extras.getBoolean(NewsFeedDetailActivity.INTENT_KEY_IMAGE_LOADED, false)) {
+                            configOnNewImageLoaded(extras);
+                        }
                     }
-                    if (hasNewsFeedReplaced) {
-                        // 교체된게 top news feed 인지 bottom news feed 인지 구분
-                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            // bottom news feed 중 하나가 교체됨
+                    break;
+                case RC_NEWS_FEED_SELECT:
+                    RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
+                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                    if (rssFetchable != null) {
+                        hideEditLayout();
+                        NLLog.now("news topic selected");
 
-                            // bottom news feed 의 index 를 가져옴
+                        newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                            NLLog.now("bottom");
                             int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+                            NLLog.now("idx : " + idx);
                             if (idx >= 0) {
-                                mMainBottomContainerLayout.reloadNewsFeedAt(idx);
+                                mMainBottomContainerLayout.applyNewsTopicAt(rssFetchable, idx);
                             }
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            // top news feed 가 교체됨
-                            mMainTopContainerLayout.configOnNewsFeedReplaced();
+                            NLLog.now("top");
+                            mMainTopContainerLayout.applyNewsTopic(rssFetchable);
                         }
-                    } else if (newImageLoaded) {
-                        String imgUrl = extras.getString(
-                                NewsFeedDetailActivity.INTENT_KEY_IMAGE_URL, null);
-
-                        int newsIndex = extras.getInt(News.KEY_CURRENT_NEWS_INDEX, -1);
-                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            int newsFeedIndex = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
-                            if (newsFeedIndex >= 0 && newsIndex >= 0) {
-                                mMainBottomContainerLayout.configOnNewsImageUrlLoadedAt(
-                                        imgUrl, newsFeedIndex, newsIndex);
-                            }
-                        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            if (newsIndex >= 0) {
-                                mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
-
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                setSwipeRefreshLayoutEnabled(true);
-
-                                startNewsAutoRefreshIfReady();
-                            }
-                        }
+//                        replaceNewsFeed(newsTopic);
                     }
-
                     break;
                 case RC_SETTING:
                     boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);
@@ -675,9 +740,50 @@ public class MainActivity extends Activity
         }
     }
 
+    private void configOnNewImageLoaded(Bundle extras) {
+        String imgUrl = extras.getString(
+                NewsFeedDetailActivity.INTENT_KEY_IMAGE_URL, null);
+
+        int newsIndex = extras.getInt(News.KEY_CURRENT_NEWS_INDEX, -1);
+        String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+            int newsFeedIndex = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+            if (newsFeedIndex >= 0 && newsIndex >= 0) {
+                mMainBottomContainerLayout.configOnNewsImageUrlLoadedAt(
+                        imgUrl, newsFeedIndex, newsIndex);
+            }
+        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+            if (newsIndex >= 0) {
+                mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
+
+                mSwipeRefreshLayout.setRefreshing(false);
+                setSwipeRefreshLayoutEnabled(true);
+
+                startNewsAutoRefreshIfReady();
+            }
+        }
+    }
+
+    private void configOnNewsFeedReplaced(Bundle extras) {
+        String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+            // bottom news feed 의 index 를 가져옴
+            int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+            if (idx >= 0) {
+                mMainBottomContainerLayout.reloadNewsFeedAt(idx);
+            }
+        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+            // top news feed 가 교체됨
+            mMainTopContainerLayout.configOnNewsFeedReplaced();
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
+        if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode()) {
+            hideEditLayout();
+        }
+        else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
                 && mRootView != null) {
             AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);

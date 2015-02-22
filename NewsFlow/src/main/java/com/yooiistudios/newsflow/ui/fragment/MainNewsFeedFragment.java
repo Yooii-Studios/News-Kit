@@ -17,16 +17,15 @@ import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
 import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.model.news.TintType;
+import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter.OnItemClickListener;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import lombok.Getter;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
@@ -109,13 +108,15 @@ public class MainNewsFeedFragment extends Fragment {
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewGroup parentView = ((MainActivity)getActivity()).getMainTopContainerLayout();
-                if (parentView instanceof OnItemClickListener) {
-                    OnItemClickListener listener = (OnItemClickListener) parentView;
-
-                    ItemViewHolder viewHolder = (ItemViewHolder) view.getTag();
-                    listener.onTopItemClick(viewHolder, mNewsFeed, mPosition);
-                }
+                ItemViewHolder viewHolder = (ItemViewHolder) view.getTag();
+                getOnItemClickListener().onTopItemClick(viewHolder, mNewsFeed, mPosition);
+            }
+        });
+        root.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                getOnLongClickListener().onLongClick(v);
+                return true;
             }
         });
         root.setTag(holder);
@@ -178,6 +179,7 @@ public class MainNewsFeedFragment extends Fragment {
             showDummyImage(viewHolder);
         }
     }
+
     private void showDummyImage(ItemViewHolder viewHolder) {
         if (!mRecycled && viewHolder.imageView != null) {
             Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(getActivity().getApplicationContext());
@@ -189,14 +191,38 @@ public class MainNewsFeedFragment extends Fragment {
         }
     }
 
+    private OnItemClickListener getOnItemClickListener() {
+        ViewGroup parentView = getMainTopContainerLayout();
+        if (parentView instanceof OnItemClickListener) {
+            return (OnItemClickListener)parentView;
+        } else {
+            throw new IllegalStateException("Containing layout should implement "
+                    + OnItemClickListener.class.getSimpleName() + ".");
+        }
+    }
+
+    private View.OnLongClickListener getOnLongClickListener() {
+        ViewGroup parentView = getMainTopContainerLayout();
+        if (parentView instanceof View.OnLongClickListener) {
+            return (View.OnLongClickListener)parentView;
+        } else {
+            throw new IllegalStateException("Containing layout should implement "
+                    + View.OnLongClickListener.class.getSimpleName() + ".");
+        }
+    }
+
+    private ViewGroup getMainTopContainerLayout() {
+        return ((MainActivity)getActivity()).getMainTopContainerLayout();
+    }
+
     public void setRecycled(boolean recycled) {
         mRecycled = recycled;
     }
 
     public static class ItemViewHolder {
-        @Getter @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
-        @Getter @InjectView(R.id.main_top_news_title)       TextView titleTextView;
-        @Getter @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
+        public @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
+        public @InjectView(R.id.main_top_news_title)       TextView titleTextView;
+        public @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
 
         public ItemViewHolder(View view) {
             ButterKnife.inject(this, view);

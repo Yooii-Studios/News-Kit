@@ -18,6 +18,9 @@
 
     <color name="theme_detail_selected_background">#339e9e9e</color>
 
+    <!-- Main -->
+    <color name="main_edit_layout_background">#7fffffff</color>
+
     <!-- NewsFeed Detail -->
     <color name="newsfeed_detail_highlight_color">@color/material_grey_500</color>
 

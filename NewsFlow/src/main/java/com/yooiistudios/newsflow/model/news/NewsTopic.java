@@ -30,6 +30,7 @@ public class NewsTopic implements Serializable, RssFetchable {
         mTitle = title;
     }
 
+    @Override
     public NewsFeedUrl getNewsFeedUrl() {
         return mNewsFeedUrl;
     }

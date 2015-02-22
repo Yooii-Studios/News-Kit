@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="@android:style/Widget.Material.ProgressBar"/>
+        style="@style/Base.Widget.AppCompat.ProgressBar"/>
 
     <TextView
         android:id="@+id/main_bottom_item_title"
@@ -33,5 +33,20 @@
         style="@style/MainBottomItemNewsFeedTitleTextStyle"/>
     <!--
         android:background="?android:attr/colorPrimary" -->
+
+
+    <com.yooiistudios.newsflow.ui.widget.CoverFrameLayout
+        android:id="@+id/main_bottom_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_edit_layout_background"
+        android:visibility="gone">
+        <View
+            android:id="@+id/main_bottom_replace_newsfeed"
+            android:layout_width="@dimen/main_edit_button_size"
+            android:layout_height="@dimen/main_edit_button_size"
+            android:layout_margin="@dimen/main_edit_button_margin"
+            android:background="@drawable/ic_edit_newsfeed_selector"/>
+    </com.yooiistudios.newsflow.ui.widget.CoverFrameLayout>
 
 </com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout>
