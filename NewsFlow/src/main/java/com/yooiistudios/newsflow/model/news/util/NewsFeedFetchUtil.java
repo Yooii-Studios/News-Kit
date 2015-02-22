@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.model.news.util;
 
 import android.text.Html;
 
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchState;
@@ -29,17 +30,19 @@ public class NewsFeedFetchUtil {
 
     private static final int TIMEOUT_MILLI = 5000;
 
-    public static NewsFeed fetch(NewsFeedUrl feedUrl, int fetchLimit, boolean shuffle)
+    public static NewsFeed fetch(RssFetchable fetchable, int fetchLimit, boolean shuffle)
             throws IOException, SAXException{
+        NewsFeedUrl newsFeedUrl = fetchable.getNewsFeedUrl();
+
         // 피드 주소로 커넥션 열기
-        URL url = new URL(feedUrl.getUrl());
+        URL url = new URL(newsFeedUrl.getUrl());
         URLConnection conn = url.openConnection();
         conn.setConnectTimeout(TIMEOUT_MILLI);
         conn.setReadTimeout(TIMEOUT_MILLI);
 
         // RSS 파싱
         NewsFeed feed = NewsFeedParser.read(conn.getInputStream());
-        feed.setNewsFeedUrl(feedUrl);
+        feed.setNewsFeedUrl(newsFeedUrl);
         feed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
         // 퍼포먼스 개선 여지 있음.
         // 로컬 테스트를 위한 코드

@@ -17,12 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -38,12 +37,13 @@ import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.NLLog;
-import com.yooiistudios.newsflow.util.OnEditModeChangeListener;
+import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.serialanimator.animator.SerialAnimator;
 import com.yooiistudios.serialanimator.animator.SerialValueAnimator;
 import com.yooiistudios.serialanimator.property.ViewProperty;
@@ -59,7 +59,6 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_NEWS
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TINT_TYPE;
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED;
-import static com.yooiistudios.newsflow.ui.activity.MainActivity.RC_NEWS_FEED_DETAIL;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 19.
@@ -74,8 +73,7 @@ public class MainBottomContainerLayout extends FrameLayout
         BottomNewsImageFetchManager.OnFetchListener,
         SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
         ViewProperty.AnimationListener,
-        MainBottomAdapter.OnBindMainBottomViewHolderListener,
-        View.OnLongClickListener {
+        MainBottomAdapter.OnBindMainBottomViewHolderListener {
     @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
@@ -87,7 +85,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private MainBottomAdapter mBottomNewsFeedAdapter;
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
-    private OnEditModeChangeListener mOnEditModeChangeListener;
+    private OnMainPanelEditModeEventListener mOnMainPanelEditModeEventListener;
     private Activity mActivity;
     private ImageLoader mImageLoader;
     private SerialValueAnimator mAutoAnimator;
@@ -106,6 +104,8 @@ public class MainBottomContainerLayout extends FrameLayout
         public void onMainBottomNewsImageInitiallyAllFetched();
         public void onMainBottomNewsReplaceDone();
         public void onMainBottomMatrixChanged();
+        public void onStartNewsFeedDetailActivityFromBottomNewsFeed(Intent intent);
+        public void onStartNewsFeedSelectActivityFromBottomNewsFeed(Intent intent);
     }
 
     public MainBottomContainerLayout(Context context) {
@@ -152,7 +152,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mActivity = activity;
         mOnMainBottomLayoutEventListener = (OnMainBottomLayoutEventListener)activity;
-        mOnEditModeChangeListener = (OnEditModeChangeListener)activity;
+        mOnMainPanelEditModeEventListener = (OnMainPanelEditModeEventListener)activity;
 
         mIsInitialized = false;
 
@@ -162,7 +162,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
 
-        mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this, this);
+        mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
         mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
 
         configOnOrientationChange();
@@ -409,7 +409,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 for (int i = 0; i < childCount; i++) {
                     View child = mBottomNewsFeedRecyclerView.getChildAt(i);
                     child.setTranslationY((float) (recyclerViewHeight * 1.5));
-                    int startDelay = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_delay) * (i+1);
+                    int startDelay = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_delay) * (i + 1);
                     int duration = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_duration);
                     child.animate()
                             .translationY(0)
@@ -461,6 +461,11 @@ public class MainBottomContainerLayout extends FrameLayout
         }
     }
 
+    public void applyNewsTopicAt(RssFetchable rssFetchable, int index) {
+        BottomNewsFeedListFetchManager.getInstance().fetchRssFetchables(
+                rssFetchable, index, this, BottomNewsFeedFetchTask.TASK_REPLACE);
+    }
+
     public void configOnNewsImageUrlLoadedAt(String imageUrl, int newsFeedIndex, int newsIndex) {
         News news = mBottomNewsFeedAdapter.getNewsFeedList().get(newsFeedIndex).
                 getNewsList().get(newsIndex);
@@ -508,7 +513,7 @@ public class MainBottomContainerLayout extends FrameLayout
         return mIsFetchingAddedBottomNewsFeeds;
     }
 
-    public boolean isInReplacingMode() {
+    public boolean isInEditingMode() {
         return mBottomNewsFeedAdapter.isInEditingMode();
     }
 
@@ -523,57 +528,80 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     @Override
-    public boolean onLongClick(View v) {
-        mOnEditModeChangeListener.onEditModeChange(PanelEditMode.EDITING);
-        return true;
+    public void onClickEditButton(int position) {
+        Intent intent = new Intent(mActivity, NewsSelectActivity.class);
+        intent = putNewsFeedLocationInfoToIntent(intent, position);
+        mOnMainBottomLayoutEventListener.onStartNewsFeedSelectActivityFromBottomNewsFeed(intent);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBottomItemClick(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
-                                  NewsFeed newsFeed, int position) {
-        NLLog.i(TAG, "onBottomItemClick");
+    public void onClick(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
+                        NewsFeed newsFeed, int position) {
+        NLLog.i(TAG, "onClick");
         NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
 
-        ImageView imageView = viewHolder.imageView;
-        TextView newsTitleTextView = viewHolder.newsTitleTextView;
-        TextView newsFeedTitleTextView = viewHolder.newsFeedTitleTextView;
+        Intent intent = makeIntentForNewsFeedDetail(viewHolder, newsFeed, position);
+        mOnMainBottomLayoutEventListener.onStartNewsFeedDetailActivityFromBottomNewsFeed(intent);
+    }
 
-        Intent intent = new Intent(mActivity,
-                NewsFeedDetailActivity.class);
+    @Override
+    public void onLongClick() {
+        mOnMainPanelEditModeEventListener.onEditModeChange(PanelEditMode.EDITING);
+    }
+
+    private Intent makeIntentForNewsFeedDetail(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
+                                               NewsFeed newsFeed, int position) {
+        Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);
+        intent = putNewsFeedInfoToIntent(intent, newsFeed);
+        intent = putNewsFeedLocationInfoToIntent(intent, position);
+        intent = putImageTintTypeToIntent(intent, viewHolder);
+        intent = putActivityTransitionInfo(intent, viewHolder);
+        return intent;
+    }
+
+    private Intent putNewsFeedInfoToIntent(Intent intent, NewsFeed newsFeed) {
         intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
         intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, newsFeed.getDisplayingNewsIndex());
 
-        // 뉴스 새로 선택시
+        return intent;
+    }
+
+    private Intent putNewsFeedLocationInfoToIntent(Intent intent, int position) {
         intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION,
                 INTENT_VALUE_BOTTOM_NEWS_FEED);
         intent.putExtra(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, position);
 
-        // 미리 이미지뷰에 set해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
+        return intent;
+    }
+
+    // 미리 이미지뷰에 set 해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
+    private Intent putImageTintTypeToIntent(Intent intent, MainBottomAdapter.BottomNewsFeedViewHolder viewHolder) {
         Object tintTag = viewHolder.imageView.getTag();
         TintType tintType = tintTag != null ? (TintType)tintTag : null;
         intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
 
-        // ActivityOptions를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수
+        return intent;
+    }
+
+    private Intent putActivityTransitionInfo(Intent intent,
+                                             MainBottomAdapter.BottomNewsFeedViewHolder viewHolder) {
         int titleViewPadding =
                 getResources().getDimensionPixelSize(R.dimen.main_bottom_text_padding);
         int feedTitlePadding =
                 getResources().getDimensionPixelSize(R.dimen.main_bottom_news_feed_title_padding);
 
         ActivityTransitionHelper transitionProperty = new ActivityTransitionHelper()
-                .addImageView(ActivityTransitionHelper.KEY_IMAGE, imageView)
-                .addTextView(ActivityTransitionHelper.KEY_TEXT, newsTitleTextView,
+                .addImageView(ActivityTransitionHelper.KEY_IMAGE, viewHolder.imageView)
+                .addTextView(ActivityTransitionHelper.KEY_TEXT, viewHolder.newsTitleTextView,
                         titleViewPadding)
-                .addTextView(ActivityTransitionHelper.KEY_SUB_TEXT, newsFeedTitleTextView,
+                .addTextView(ActivityTransitionHelper.KEY_SUB_TEXT,
+                        viewHolder.newsFeedTitleTextView,
                         feedTitlePadding);
 
         intent.putExtra(INTENT_KEY_TRANSITION_PROPERTY, transitionProperty.toGsonString());
 
-        mActivity.startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mActivity.overridePendingTransition(0, 0);
-        }
+        return intent;
     }
 
     /**

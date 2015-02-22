@@ -120,7 +120,7 @@ public class NewsSelectActivity extends ActionBarActivity
 
     @Override
     public void onPositive(NewsFeedUrl feedUrl) {
-        getIntent().putExtra(NewsSelectFragment.KEY_CUSTOM_RSS_URL, feedUrl);
+        getIntent().putExtra(NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE, feedUrl);
         setResult(Activity.RESULT_OK, getIntent());
         finish();
     }

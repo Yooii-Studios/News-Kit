@@ -8,6 +8,6 @@ import com.yooiistudios.newsflow.model.PanelEditMode;
  * OnEditModeChangeListener
  *  Edit mode 가 변경될 경우 불릴 콜백
  */
-public interface OnEditModeChangeListener {
+public interface OnMainPanelEditModeEventListener {
     public void onEditModeChange(PanelEditMode editMode);
 }

@@ -26,7 +26,6 @@ import com.yooiistudios.newsflow.util.ImageMemoryCache;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import lombok.Getter;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
@@ -221,9 +220,9 @@ public class MainNewsFeedFragment extends Fragment {
     }
 
     public static class ItemViewHolder {
-        @Getter @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
-        @Getter @InjectView(R.id.main_top_news_title)       TextView titleTextView;
-        @Getter @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
+        public @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
+        public @InjectView(R.id.main_top_news_title)       TextView titleTextView;
+        public @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
 
         public ItemViewHolder(View view) {
             ButterKnife.inject(this, view);

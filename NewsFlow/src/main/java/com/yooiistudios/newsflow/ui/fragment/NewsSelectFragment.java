@@ -40,8 +40,9 @@ public class NewsSelectFragment extends Fragment
         NewsTopicSelectDialogFactory.OnItemClickListener {
     public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
 
-    public static final String KEY_SELECTED_NEWS_TOPIC = "KEY_SELECTED_NEWS_TOPIC";
-    public static final String KEY_CUSTOM_RSS_URL = "KEY_CUSTOM_RSS_URL";
+//    public static final String KEY_SELECTED_NEWS_TOPIC = "KEY_SELECTED_NEWS_TOPIC";
+//    public static final String KEY_CUSTOM_RSS_URL = "KEY_CUSTOM_RSS_URL";
+    public static final String KEY_SELECTED_RSS_FETCHABLE = "KEY_SELECTED_RSS_FETCHABLE";
 
     private ViewHolder mViewHolder;
     private ArrayList<NewsProvider> mNewsProviderList;
@@ -126,7 +127,7 @@ public class NewsSelectFragment extends Fragment
 
         NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
 
-        getActivity().getIntent().putExtra(KEY_SELECTED_NEWS_TOPIC, selectedTopic);
+        getActivity().getIntent().putExtra(KEY_SELECTED_RSS_FETCHABLE, selectedTopic);
         getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
         getActivity().finish();
     }

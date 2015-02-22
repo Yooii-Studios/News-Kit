@@ -36,4 +36,9 @@ public class NewsFeedUrl implements Serializable, RssFetchable {
     public NewsFeedUrlType getType() {
         return mType;
     }
+
+    @Override
+    public NewsFeedUrl getNewsFeedUrl() {
+        return this;
+    }
 }

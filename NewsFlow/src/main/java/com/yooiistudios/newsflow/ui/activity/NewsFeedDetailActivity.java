@@ -81,7 +81,6 @@ import com.yooiistudios.newsflow.model.debug.DebugSettings;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
@@ -1703,17 +1702,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
-                    NewsTopic newsTopic = (NewsTopic)data.getExtras().getSerializable(
-                            NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC);
-                    if (newsTopic != null) {
-                        replaceNewsFeed(newsTopic);
-                    } else {
-                        NewsFeedUrl newsFeedUrl = (NewsFeedUrl)data.getExtras().getSerializable(
-                                NewsSelectFragment.KEY_CUSTOM_RSS_URL);
-
-                        replaceNewsFeed(newsFeedUrl);
-                    }
-
+                    RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
+                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                    replaceNewsFeed(rssFetchable);
                     break;
             }
         }

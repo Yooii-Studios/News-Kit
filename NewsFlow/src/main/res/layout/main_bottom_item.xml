@@ -42,7 +42,7 @@
         android:background="@color/main_edit_layout_background"
         android:visibility="gone">
         <View
-            android:id="@+id/replace_newsfeed"
+            android:id="@+id/main_bottom_replace_newsfeed"
             android:layout_width="@dimen/main_edit_button_size"
             android:layout_height="@dimen/main_edit_button_size"
             android:layout_margin="@dimen/main_edit_button_margin"
