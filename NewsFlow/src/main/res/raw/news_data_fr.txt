@@ -10,100 +10,162 @@
             "news_providers": [
                 {
                     "provider_name": "Le Pigaro",
-                     "provider_id": "1",
-                    "topics": [
+            	    "provider_id": "1",
+            	    "topics": [
                         {
-                            "topic_name": "Top Stories",
+                            "topic_name": "A la une",
                             "topic_id": "1",
-                            "url": "http://rss.cnn.com/rss/edition.rss",
+                            "url": "http://rss.lefigaro.fr/lefigaro/laune",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "World",
+                            "topic_name": "Culture",
                             "topic_id": "2",
-                            "url": "http://rss.cnn.com/rss/edition_world.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_culture.xml"
                         },
                         {
-                            "topic_name": "U.S.",
+                            "topic_name": "Médias",
                             "topic_id": "3",
-                            "url": "http://rss.cnn.com/rss/edition_us.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_medias.xml"
                         },
                         {
-                            "topic_name": "World Business",
+                            "topic_name": "Technologies",
                             "topic_id": "4",
-                            "url": "http://rss.cnn.com/rss/edition_business.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_hightech.xml"
                         },
                         {
-                            "topic_name": "Technology",
+                            "topic_name": "Politique",
                             "topic_id": "5",
-                            "url": "http://rss.cnn.com/rss/edition_technology.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_politique.xml"
                         },
                         {
-                            "topic_name": "Science & Space",
+                            "topic_name": "Santé",
                             "topic_id": "6",
-                            "url": "http://rss.cnn.com/rss/edition_space.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_sante.xml"
                         },
                         {
-                            "topic_name": "Entertainment",
+                            "topic_name": "Sciences",
                             "topic_id": "7",
-                            "url": "http://rss.cnn.com/rss/edition_entertainment.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_sciences.xml"
                         },
                         {
-                            "topic_name": "World Sport",
+                            "topic_name": "Sport",
                             "topic_id": "8",
-                            "url": "http://rss.cnn.com/rss/edition_sport.rss"
+                            "url": "http://www.lefigaro.fr/rss/figaro_sport.xml"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "9",
+                            "url": "http://www.lefigaro.fr/rss/figaro_economie.xml"
                         }
                     ]
                 },
                 {
-                    "provider_name": "TIME",
-                    "provider_id": "2",
-                    "topics": [
+                    "provider_name": "Le monde",
+            	    "provider_id": "2",
+            	    "topics": [
                         {
-                            "topic_name": "Top Stories",
+                            "topic_name": "A la une",
                             "topic_id": "1",
-                            "url": "http://feeds2.feedburner.com/time/topstories",
+                            "url": "http://www.lemonde.fr/rss/une.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "U.S.",
+                            "topic_name": "Culture",
                             "topic_id": "2",
-                            "url": "http://feeds2.feedburner.com/time/nation"
+                            "url": "http://www.lemonde.fr/culture/rss_full.xml"
                         },
                         {
-                            "topic_name": "World",
+                            "topic_name": "Finances",
                             "topic_id": "3",
-                            "url": "http://feeds2.feedburner.com/time/world"
+                            "url": "http://www.lemonde.fr/finance/rss_full.xml"
                         },
                         {
-                            "topic_name": "Politics",
+                            "topic_name": "International",
                             "topic_id": "4",
-                            "url": "http://time.com/politics/feed/"
+                            "url": "http://www.lemonde.fr/international/rss_full.xml"
                         },
                         {
-                            "topic_name": "Business",
+                            "topic_name": "Paris",
                             "topic_id": "5",
-                            "url": "http://feeds2.feedburner.com/time/business"
+                            "url": "http://www.lemonde.fr/paris/rss_full.xml"
                         },
                         {
-                            "topic_name": "Technology",
+                            "topic_name": "Politique",
                             "topic_id": "6",
-                            "url": "http://time.com/tech/feed/"
+                            "url": "http://www.lemonde.fr/politique/rss_full.xml"
                         },
                         {
-                            "topic_name": "Health",
+                            "topic_name": "Santé",
                             "topic_id": "7",
-                            "url": "http://time.com/health/feed/"
+                            "url": "http://www.lemonde.fr/sante/rss_full.xml"
                         },
                         {
-                            "topic_name": "Science",
+                            "topic_name": "Sciences",
                             "topic_id": "8",
-                            "url": "http://feeds2.feedburner.com/time/scienceandhealth"
+                            "url": "http://www.lemonde.fr/sciences/rss_full.xml"
                         },
                         {
-                            "topic_name": "Entertainment",
+                            "topic_name": "Sport",
                             "topic_id": "9",
-                            "url": "http://feeds2.feedburner.com/time/entertainment"
+                            "url": "http://www.lemonde.fr/sport/rss_full.xml"
+                        },
+                        {
+                            "topic_name": "Technologies",
+                            "topic_id": "10",
+                            "url": "http://www.lemonde.fr/technologies/rss_full.xml"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "11",
+                            "url": "http://www.lemonde.fr/economie/rss_full.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Google",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "A la une",
+                            "topic_id": "1",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "2",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "France",
+                            "topic_id": "3",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "4",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Science/High-Tech",
+                            "topic_id": "5",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "6",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Santé",
+                            "topic_id": "8",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=m&output=rss"
                         }
                     ]
                 }
@@ -111,67 +173,57 @@
         },
         {
             "country_name": "Canada",
-            "country_code": “ca”,
+            "country_code": "2",
             "news_providers": [
                 {
                     "provider_name": "La presse",
-                    "provider_id": "1",
-                    "topics": [
+            	    "provider_id": "1",
+            	    "topics": [
                         {
-                            "topic_name": "Home Page (U.S.)",
+                            "topic_name": "ACCUEIL",
                             "topic_id": "1",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"
-                        },
-                        {
-                            "topic_name": "Home Page (International)",
-                            "topic_id": "2",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
+                            "url": "http://www.lapresse.ca/rss/225.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "World",
+                            "topic_name": "ACTUALITÉS",
+                            "topic_id": "2",
+                            "url": "http://www.lapresse.ca/rss/178.xml"
+                        },
+                        {
+                            "topic_name": "INTERNATIONAL",
                             "topic_id": "3",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/World.xml"
+                            "url": "http://www.lapresse.ca/rss/179.xml"
                         },
                         {
-                            "topic_name": "U.S.",
+                            "topic_name": "AFFAIRES",
                             "topic_id": "4",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/US.xml"
+                            "url": "http://www.lapresse.ca/rss/229.xml"
                         },
                         {
-                            "topic_name": "Politics",
+                            "topic_name": "SPORTS",
                             "topic_id": "5",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Politics.xml"
+                            "url": "http://www.lapresse.ca/rss/216.xml"
                         },
                         {
-                            "topic_name": "N.Y./Region",
+                            "topic_name": "ARTS",
                             "topic_id": "6",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/NYRegion.xml"
+                            "url": "http://www.lapresse.ca/rss/241.xml"
                         },
                         {
-                            "topic_name": "Business",
+                            "topic_name": "DÉBATS",
                             "topic_id": "7",
-                            "url": "http://feeds.nytimes.com/nyt/rss/Business"
+                            "url": "http://www.lapresse.ca/rss/8314.xml"
                         },
                         {
-                            "topic_name": "Technology",
+                            "topic_name": "CINEMA",
                             "topic_id": "8",
-                            "url": "http://feeds.nytimes.com/nyt/rss/Technology"
+                            "url": "http://www.lapresse.ca/rss/238.xml"
                         },
                         {
-                            "topic_name": "Sports",
+                            "topic_name": "CV",
                             "topic_id": "9",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Sports.xml"
-                        },
-                        {
-                            "topic_name": "Science",
-                            "topic_id": "10",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Science.xml"
-                        },
-                        {
-                            "topic_name": "Health",
-                            "topic_id": "11",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Health.xml"
+                            "url": "http://affaires.lapresse.ca/rss/2733.xml"
                         }
                     ]
                 }

@@ -1,0 +1,76 @@
+{
+    "lang_name_english": "Swedish",
+    "lang_name_regional": "Svenska",
+    "lang_code": "sv",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Sverige",
+            "country_code": "se",
+            "news_providers": [
+                {
+                    "provider_name": "Aftonbladet",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Startsidan",
+                            "topic_id": "1",
+                            "url": "http://www.aftonbladet.se/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Nyheter",
+                            "topic_id": "2",
+                            "url": "http://www.aftonbladet.se/nyheter/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sportbladet",
+                            "topic_id": "3",
+                            "url": "http://www.aftonbladet.se/sportbladet/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sportbladet Fotboll",
+                            "topic_id": "4",
+                            "url": "http://www.aftonbladet.se/sportbladet/fotboll/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sportbladet Hockey",
+                            "topic_id": "5",
+                            "url": "http://www.aftonbladet.se/sportbladet/hockey/rss.xml"
+                        },
+                        {
+                            "topic_name": "Nöjesbladet",
+                            "topic_id": "6",
+                            "url": "http://www.aftonbladet.se/nojesbladet/rss.xml"
+                        },
+                        {
+                            "topic_name": "Klick!",
+                            "topic_id": "7",
+                            "url": "http://www.aftonbladet.se/nojesbladet/klick/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sofis Mode",
+                            "topic_id": "8",
+                            "url": "http://www.aftonbladet.se/sofismode/rss.xml"
+                        },
+                        {
+                            "topic_name": "Kultur",
+                            "topic_id": "9",
+                            "url": "http://www.aftonbladet.se/kultur/rss.xml"
+                        },
+                        {
+                            "topic_name": "Wellness",
+                            "topic_id": "10",
+                            "url": "http://www.aftonbladet.se/wellness/rss.xml"
+                        },
+                        {
+                            "topic_name": "Kolumnister",
+                            "topic_id": "11",
+                            "url": "http://www.aftonbladet.se/nyheter/kolumnister/robertaschberg/rss.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

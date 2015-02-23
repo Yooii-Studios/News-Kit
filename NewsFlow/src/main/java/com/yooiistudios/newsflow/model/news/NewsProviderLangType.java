@@ -12,9 +12,13 @@ import lombok.Getter;
  */
 public enum NewsProviderLangType {
     ENGLISH(0, R.raw.news_data_en, "English"),
-    KOREAN(1, R.raw.news_data_ko, "한국어"),
-    JAPANESE(2, R.raw.news_data_ja, "日本語"),
-    FRENCH(3, R.raw.news_data_fr, "Français");
+    FRENCH(1, R.raw.news_data_fr, "Français"),
+    CHINESE_TW(2, R.raw.news_data_zh_tw, "繁體中文"),
+    GERMAN(3, R.raw.news_data_de, "Deutsch"),
+    RUSSIAN(4, R.raw.news_data_ru, "Pусский"),
+    JAPANESE(5, R.raw.news_data_ja, "日本語"),
+    KOREAN(6, R.raw.news_data_ko, "한국어"),
+    SWEDISH(7, R.raw.news_data_sv, "Svenska");
 
     @Getter private int index;
     @Getter private int resourceId;
@@ -29,9 +33,13 @@ public enum NewsProviderLangType {
     public static NewsProviderLangType valueOf(int index) {
         switch (index) {
             case 0: return ENGLISH;
-            case 1: return KOREAN;
-            case 2: return JAPANESE;
-            case 3: return FRENCH;
+            case 1: return FRENCH;
+            case 2: return CHINESE_TW;
+            case 3: return GERMAN;
+            case 4: return RUSSIAN;
+            case 5: return JAPANESE;
+            case 6: return KOREAN;
+            case 7: return SWEDISH;
             default: return ENGLISH;
         }
     }

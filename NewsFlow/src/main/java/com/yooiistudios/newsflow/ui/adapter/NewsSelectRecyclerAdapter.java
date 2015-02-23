@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
-import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.TypefaceUtils;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import butterknife.InjectView;
 public class NewsSelectRecyclerAdapter extends
         RecyclerView.Adapter<NewsSelectRecyclerAdapter.NewsSelectViewHolder> {
 
-//    private ArrayList<NewsProvider> mNewsProviderList;
     private ArrayList<NewsProviderCountry> mNewsProviderCountries;
     private OnSelectionListener mListener;
 
@@ -35,10 +33,6 @@ public class NewsSelectRecyclerAdapter extends
         public void onSelectNewsProvider(NewsProvider newsProvider);
         public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry);
     }
-
-//    public NewsSelectRecyclerViewAdapter(ArrayList<NewsProvider> presetList) {
-//        mNewsProviderList = presetList;
-//    }
 
     public NewsSelectRecyclerAdapter(ArrayList<NewsProviderCountry> newsProviderCountries) {
         mNewsProviderCountries = newsProviderCountries;
@@ -81,7 +75,6 @@ public class NewsSelectRecyclerAdapter extends
 
     @Override
     public int getItemCount() {
-        NLLog.now("mNewsProviderCountries.size(): " + mNewsProviderCountries.size());
         // 국가가 한 곳 뿐이라면 바로 Provider 를 보여 주고, 아니라면 국가를 보여 주기
         if (mNewsProviderCountries.size() != 1) {
             return mNewsProviderCountries.size();

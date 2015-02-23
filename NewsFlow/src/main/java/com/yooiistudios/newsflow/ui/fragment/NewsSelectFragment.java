@@ -62,7 +62,6 @@ public class NewsSelectFragment extends Fragment
         } else {
             index = 0;
         }
-
         NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(getActivity());
         mNewsProviderCountries = newsContentProvider.getNewsLanguage(index).newsProviderCountries;
     }

@@ -9,9 +9,47 @@
             "country_code": "inter",
             "news_providers": [
                 {
+                    "provider_name": "DD News",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "DD Topic1",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "DD Topic2",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=w"
+                        },
+                        {
+                            "topic_name": "DD Topic3",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=n"
+                        },
+                        {
+                            "topic_name": "DD Topic4",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=b"
+                        },
+                        {
+                            "topic_name": "DD Topic5",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=tc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "US",
+            "country_code": "us",
+            "news_providers": [
+                {
                     "provider_name": "Google",
-                    "provider_id": "1",
-                    "topics": [
+            	    "provider_id": "1",
+            	    "topics": [
                         {
                             "topic_name": "Top Stories",
                             "topic_id": "1",
@@ -59,17 +97,11 @@
                             "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=m"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "country_name": "US",
-            "country_code": "us",
-            "news_providers": [
+                },
                 {
                     "provider_name": "CNN",
-                    "provider_id": "1",
-                    "topics": [
+            	    "provider_id": "2",
+            	    "topics": [
                         {
                             "topic_name": "Top Stories",
                             "topic_id": "1",
@@ -115,8 +147,8 @@
                 },
                 {
                     "provider_name": "TIME",
-                    "provider_id": "2",
-                    "topics": [
+            	    "provider_id": "3",
+            	    "topics": [
                         {
                             "topic_name": "Top Stories",
                             "topic_id": "1",
@@ -164,17 +196,11 @@
                             "url": "http://feeds2.feedburner.com/time/entertainment"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "country_name": "UK",
-            "country_code": "uk",
-            "news_providers": [
+                },
                 {
                     "provider_name": "New York Times",
-                    "provider_id": "1",
-                    "topics": [
+            	    "provider_id": "4",
+            	    "topics": [
                         {
                             "topic_name": "Home Page (U.S.)",
                             "topic_id": "1",
@@ -230,6 +256,111 @@
                             "topic_name": "Health",
                             "topic_id": "11",
                             "url": "http://www.nytimes.com/services/xml/rss/nyt/Health.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "UK",
+            "country_code": "uk",
+            "news_providers": [
+                {
+                    "provider_name": "The guardian",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "UK News",
+                            "topic_id": "1",
+                            "url": "http://feeds.theguardian.com/theguardian/uk-news/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "2",
+                            "url": "http://feeds.theguardian.com/theguardian/politics/rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "3",
+                            "url": "http://feeds.theguardian.com/theguardian/uk/business/rss"
+                        },
+                        {
+                            "topic_name": "Society",
+                            "topic_id": "4",
+                            "url": "http://feeds.theguardian.com/theguardian/society/rss"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "5",
+                            "url": "http://feeds.theguardian.com/theguardian/world/rss"
+                        },
+                        {
+                            "topic_name": "Europe",
+                            "topic_id": "6",
+                            "url": "http://www.theguardian.com/uk/rss"
+                        },
+                        {
+                            "topic_name": "Life & Style",
+                            "topic_id": "7",
+                            "url": "http://feeds.theguardian.com/theguardian/lifeandstyle/rss"
+                        },
+                        {
+                            "topic_name": "Comment",
+                            "topic_id": "8",
+                            "url": "http://feeds.theguardian.com/theguardian/uk/commentisfree/rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "BBC",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Series",
+                            "topic_id": "1",
+                            "url": "http://feeds.bbci.co.uk/news/rss.xml#",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "http://feeds.bbci.co.uk/news/world/rss.xml#"
+                        },
+                        {
+                            "topic_name": "UK",
+                            "topic_id": "3",
+                            "url": "http://feeds.bbci.co.uk/news/world/rss.xml#"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "4",
+                            "url": "http://feeds.bbci.co.uk/news/business/rss.xml"
+                        },
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "5",
+                            "url": "http://feeds.bbci.co.uk/news/politics/rss.xml"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "6",
+                            "url": "http://feeds.bbci.co.uk/news/health/rss.xml"
+                        },
+                        {
+                            "topic_name": "Science & Enviroment",
+                            "topic_id": "7",
+                            "url": "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "8",
+                            "url": "http://feeds.bbci.co.uk/news/technology/rss.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment & Art",
+                            "topic_id": "9",
+                            "url": "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml#"
                         }
                     ]
                 }
