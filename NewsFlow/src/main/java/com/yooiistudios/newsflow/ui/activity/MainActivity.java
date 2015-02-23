@@ -710,6 +710,7 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(false);
         // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
 //        mMainBottomContainerLayout.cancelAutoRefresh();
+        mToolbar.setVisibility(View.INVISIBLE);
     }
 
     private void hideEditLayout() {
@@ -717,6 +718,7 @@ public class MainActivity extends ActionBarActivity
         mMainBottomContainerLayout.hideEditLayout();
         startNewsAutoRefresh();
         setSwipeRefreshLayoutEnabled(true);
+        mToolbar.setVisibility(View.VISIBLE);
     }
 
     private boolean isShowingEditLayout() {
