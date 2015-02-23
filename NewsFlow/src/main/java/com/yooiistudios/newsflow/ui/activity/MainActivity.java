@@ -57,6 +57,8 @@ import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -85,7 +87,7 @@ public class MainActivity extends Activity
      */
     // auto refresh handler
     private boolean mIsHandlerRunning = false;
-    private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
+    private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler(this);
 
     private static final int INVALID_WINDOW_INSET = -1;
 
@@ -108,20 +110,33 @@ public class MainActivity extends Activity
     private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
     private int mSystemWindowInsetRight = INVALID_WINDOW_INSET;
 
-    private class NewsAutoRefreshHandler extends Handler {
+    private static class NewsAutoRefreshHandler extends Handler {
+        private WeakReference<MainActivity> mMainActivityRef;
+
+        private NewsAutoRefreshHandler(MainActivity mainActivity) {
+            mMainActivityRef = new WeakReference<>(mainActivity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            boolean isInEditingMode = mMainTopContainerLayout.isInEditingMode()
-                    || mMainBottomContainerLayout.isInEditingMode();
-            if (isInEditingMode) {
-                stopNewsAutoRefresh();
-            } else {
-                mMainTopContainerLayout.autoRefreshTopNewsFeed();
-                mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
+            MainActivity mainActivity = mMainActivityRef.get();
+            if (mainActivity != null) {
+                MainTopContainerLayout mainTopContainerLayout =
+                        mainActivity.mMainTopContainerLayout;
+                MainBottomContainerLayout mainBottomContainerLayout =
+                        mainActivity.mMainBottomContainerLayout;
 
-                // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
-                mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
-                        Settings.getAutoRefreshHandlerDelay(MainActivity.this));
+                boolean isInEditingMode = mainTopContainerLayout.isInEditingMode()
+                        || mainBottomContainerLayout.isInEditingMode();
+                if (isInEditingMode) {
+                    mainActivity.stopNewsAutoRefresh();
+                } else {
+                    mainTopContainerLayout.autoRefreshTopNewsFeed();
+                    mainBottomContainerLayout.autoRefreshBottomNewsFeeds();
+
+                    // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
+                    sendEmptyMessageDelayed(0, Settings.getAutoRefreshHandlerDelay(mainActivity));
+                }
             }
         }
     }
