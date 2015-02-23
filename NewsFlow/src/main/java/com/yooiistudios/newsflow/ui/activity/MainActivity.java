@@ -53,10 +53,12 @@ import com.yooiistudios.newsflow.util.AdUtils;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
 import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.ConnectivityUtils;
+import com.yooiistudios.newsflow.util.Device;
 import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
+import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -189,12 +191,18 @@ public class MainActivity extends ActionBarActivity
     private void initToolbar() {
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-//        adjustToolbarTopMargin();
-//        initToolbarGradientView();
-//        initToolbarIcon();
-//        initToolbarTitle();
+        adjustToolbarTopMargin();
+    }
+
+    private void adjustToolbarTopMargin() {
+        if (Device.hasLollipop()) {
+            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
+            if (statusBarHeight > 0) {
+                ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
+            }
+        }
     }
 
     private void initRefreshLayout() {

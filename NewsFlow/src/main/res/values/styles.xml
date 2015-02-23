@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <declare-styleable name="BaseAppTheme">
-        <attr name="actionBarIconColor" format="color" />
-    </declare-styleable>
-
-    <style name="BaseAppTheme" parent="android:Theme.Holo.Light">
-        <!--<item name="android:colorPrimary">#ffffff</item>-->
-
-        <!-- activity transition 하기 위해 true 로 해야 함. -->
-        <!--<item name="android:windowContentTransitions">true</item>-->
-        <!--<item name="android:windowAllowEnterTransitionOverlap">true</item>-->
-    </style>
-
     <!-- Default Theme : Material AppCompat 스타일로 새로 개정 중 -->
     <style name="NewsAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/material_grey_300</item>
@@ -22,36 +10,24 @@
     </style>
 
     <!-- Main -->
-    <style name="MainTheme" parent="BaseAppTheme">
-        <!--<item name="android:actionBarTheme">@style/MainActionBarThemeOverlay</item>-->
-        <item name="android:actionBarStyle">@style/MainActionBar</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-
-        <!-- 액션바, 상태바 투명하게 만듦 -->
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-    </style>
-
-    <style name="MainActionBar" parent="android:Widget.Holo.Light.ActionBar">
-        <item name="android:background">@null</item>
-        <item name="android:displayOptions">none</item><!-- |homeAsUp -->
-        <!--<item name="android:titleTextStyle">@style/MainThemeActionBarTitleTextStyle</item>-->
-    </style>
-
-    <style name="MainActionBarThemeOverlay" parent="">
-        <!--<item name="android:colorControlNormal">?actionBarIconColor</item>-->
-        <!--<item name="android:colorControlHighlight">@color/theme_default_accent_light</item>-->
-    </style>
-
-    <style name="MainThemeActionBarTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">#fff</item>
-    </style>
-
-    <style name="MainActivityTheme" parent="MainTheme">
+    <style name="MainTheme" parent="NewsAppTheme">
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
     </style>
 
     <!-- NewsFeed Detail -->
     <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
+        <!-- ripple touch feedback color 를 변경 -->
+        <item name="colorControlHighlight">@color/newsfeed_detail_highlight_color</item>
+
+        <!-- 투명 상태바 -->
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+
+        <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임 -->
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">false</item>
+
+        <!-- 트랜지션시 뒷배경을 투명하게 만들기 위한 property -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <!-- NewsFeed Select -->
@@ -68,7 +44,7 @@
         <!-- 탭, 클릭 아이템 배경색들을 정해주기 위한 property -->
         <item name="selectableItemBackground">@drawable/news_select_selectable_item_background</item>
         <item name="android:selectableItemBackground">@drawable/news_select_selectable_item_background</item>
-        <!-- Cusrom Rss 버튼 Ripple 색상 변경하지만 v21에서 사각형으로 변해서 일단 주석처리 -->
+        <!-- Custom Rss 버튼 Ripple 색상 변경하지만 v21에서 사각형으로 변해서 일단 주석처리 -->
         <!--<item name="selectableItemBackgroundBorderless">@drawable/news_select_selectable_item_background</item>-->
         <!--<item name="android:selectableItemBackgroundBorderless" tools:ignore="NewApi">@drawable/news_select_selectable_item_background</item>-->
     </style>
@@ -103,10 +79,4 @@
         <!-- SwitchCompat 과 Seekbar 색의 변경을 위한 property -->
         <item name="colorAccent">@color/material_teal_500</item>
     </style>
-
-    <!-- Toolbar TitleStyle: 나중에 승용에게 배워서 사용하자 -->
-    <!--<style name="ActionBarTitleStyle" parent="Base.TextAppearance.AppCompat.Title">-->
-        <!--<item name="android:typeface">@string/noto_sans_medium</item>-->
-    <!--</style>-->
-
 </resources>
