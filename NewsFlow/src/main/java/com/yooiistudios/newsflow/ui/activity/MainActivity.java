@@ -2,7 +2,6 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,17 +53,19 @@ import com.yooiistudios.newsflow.util.AdUtils;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
 import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.ConnectivityUtils;
+import com.yooiistudios.newsflow.util.Device;
 import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
+import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends Activity
+public class MainActivity extends ActionBarActivity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener,
         OnMainPanelEditModeEventListener {
@@ -81,6 +84,7 @@ public class MainActivity extends Activity
     public static final int RC_NEWS_FEED_DETAIL = 10001;
     public static final int RC_SETTING = 10002;
     public static final int RC_NEWS_FEED_SELECT = 10003;
+    private static final int INVALID_WINDOW_INSET = -1;
 
     /**
      * Auto Refresh Handler
@@ -89,9 +93,8 @@ public class MainActivity extends Activity
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler(this);
 
-    private static final int INVALID_WINDOW_INSET = -1;
-
     @InjectView(R.id.main_root_layout)              RelativeLayout mRootView;
+    @InjectView(R.id.main_toolbar)                  Toolbar mToolbar;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
     @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
@@ -171,6 +174,7 @@ public class MainActivity extends Activity
         ButterKnife.inject(this);
 
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
+        initToolbar();
         initRefreshLayout();
         initBannerAdView();
         initQuitAdView();
@@ -182,6 +186,23 @@ public class MainActivity extends Activity
 
         AdUtils.showPopupAdIfSatisfied(this);
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initToolbar() {
+        mToolbar.bringToFront();
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        adjustToolbarTopMargin();
+    }
+
+    private void adjustToolbarTopMargin() {
+        if (Device.hasLollipop()) {
+            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
+            if (statusBarHeight > 0) {
+                ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
+            }
+        }
     }
 
     private void initRefreshLayout() {

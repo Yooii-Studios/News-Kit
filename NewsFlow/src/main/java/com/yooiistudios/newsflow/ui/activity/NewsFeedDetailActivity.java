@@ -12,7 +12,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -999,12 +998,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initToolbarTitle() {
-        TypedArray typedArray = getTheme().obtainStyledAttributes(
-                R.style.MainThemeActionBarTitleTextStyle, new int[]{ android.R.attr.textColor });
-        mToolbarTextColor = typedArray.getColor(0, Color.WHITE);
-        typedArray.recycle();
-
-        mColorSpan = new AlphaForegroundColorSpan(mToolbarTextColor);
+        mColorSpan = new AlphaForegroundColorSpan(
+                getResources().getColor(R.color.material_white_primary_text));
 
         applyToolbarTitle();
     }
@@ -1112,7 +1107,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (mTopNews != null) {
             notifyTopNewsChanged();
         } else {
-            //TODO when NLNewsFeed is invalid.
+            // TODO: when NewsFeed is invalid.
         }
     }
 
