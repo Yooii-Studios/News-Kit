@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Default Theme : Material AppCompat 스타일로 새로 개정 중 -->
     <style name="NewsAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -10,25 +10,15 @@
     </style>
 
     <!-- Main -->
-    <style name="MainTheme" parent="NewsAppTheme">
-        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
-    </style>
+    <style name="MainTheme" parent="NewsAppTheme"/>
 
     <!-- NewsFeed Detail -->
-    <style name="NewsFeedDetailTheme" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="Base.NewsAppTheme.NewsFeedDetail" parent="@style/Theme.AppCompat.NoActionBar">
         <!-- ripple touch feedback color 를 변경 -->
         <item name="colorControlHighlight">@color/newsfeed_detail_highlight_color</item>
-
-        <!-- 투명 상태바 -->
-        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
-
-        <!-- 화면이 에러 먹는 이유가 이 라인을 오버라이드 안해서임 -->
-        <item name="android:windowContentTransitions" tools:ignore="NewApi">false</item>
-
-        <!-- 트랜지션시 뒷배경을 투명하게 만들기 위한 property -->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+    <style name="NewsFeedDetailTheme" parent="Base.NewsAppTheme.NewsFeedDetail"/>
 
     <!-- NewsFeed Select -->
     <style name="NewsSelectTheme" parent="Theme.AppCompat.Light.NoActionBar">
