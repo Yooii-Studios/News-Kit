@@ -84,7 +84,6 @@ public class MainActivity extends Activity
      * Auto Refresh Handler
      */
     // auto refresh handler
-    private static final int AUTO_REFRESH_HANDLER_DELAY = 7 * 1000; // finally to be 10 secs
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
 
@@ -99,7 +98,6 @@ public class MainActivity extends Activity
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
-//    @InjectView(R.id.main_adView)                   AdView mAdView;
 
     private MainAdView mBannerAd;
 

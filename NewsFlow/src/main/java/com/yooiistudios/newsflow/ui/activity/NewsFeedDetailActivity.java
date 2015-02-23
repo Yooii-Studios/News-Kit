@@ -1196,12 +1196,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             autoScrollString += getString(R.string.on);
         }
 
-        subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, 0, R.string.action_newsfeed);
-        subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
         if (NLLog.isDebug()) {
+            subMenu.add(Menu.NONE, R.id.action_test, 0, "Show topics(Debug)");
             subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_test, 3, "Show topics(Debug)");
         }
+        subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
+
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
