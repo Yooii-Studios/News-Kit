@@ -19,7 +19,11 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.iab.IabProducts;
+import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
@@ -32,6 +36,7 @@ import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
@@ -39,6 +44,7 @@ import com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
+import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.reflect.Field;
@@ -49,7 +55,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
-import static com.yooiistudios.newsflow.ui.activity.MainActivity.RC_NEWS_FEED_DETAIL;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 19.
@@ -60,7 +65,8 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.RC_NEWS_FEED_DE
 public class MainTopContainerLayout extends FrameLayout
         implements TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         TopNewsFeedFetchTask.OnFetchListener,
-        MainTopPagerAdapter.OnItemClickListener {
+        MainTopPagerAdapter.OnItemClickListener,
+        View.OnLongClickListener {
     @InjectView(R.id.main_top_content_wrapper)              FrameLayout mTopContentWrapper;
     @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mTopNewsFeedViewPager;
     @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
@@ -68,6 +74,8 @@ public class MainTopContainerLayout extends FrameLayout
     @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mTopViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
     @InjectView(R.id.main_top_unavailable_description)      TextView mTopNewsFeedUnavailableDescription;
+    @InjectView(R.id.main_top_replace_newsfeed)             View mChangeNewsFeedButton;
+    @InjectView(R.id.main_top_edit_layout)                  FrameLayout mEditLayout;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
 
@@ -77,10 +85,13 @@ public class MainTopContainerLayout extends FrameLayout
     private MainTopPagerAdapter mTopNewsFeedPagerAdapter;
 
     private OnMainTopLayoutEventListener mOnMainTopLayoutEventListener;
+    private OnMainPanelEditModeEventListener mOnMainPanelEditModeEventListener;
 
 //    private NewsFeed mTopNewsFeed;
     private ImageLoader mImageLoader;
     private Activity mActivity;
+
+    private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
 
     // flags for initializing
     private boolean mIsReady = false;
@@ -89,6 +100,8 @@ public class MainTopContainerLayout extends FrameLayout
     public interface OnMainTopLayoutEventListener {
         public void onMainTopInitialLoad();
         public void onMainTopRefresh();
+        public void onStartNewsFeedDetailActivityFromTopNewsFeed(Intent intent);
+        public void onStartNewsFeedSelectActivityFromTopNewsFeed(Intent intent);
     }
 
     // constructors
@@ -123,10 +136,32 @@ public class MainTopContainerLayout extends FrameLayout
 
         ButterKnife.inject(this);
 
+        initEditLayer();
+
         mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
                 ImageMemoryCache.getInstance(context));
 
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
+    }
+
+    private void initEditLayer() {
+        hideEditLayout();
+        adjustEditLayoutPosition();
+        mChangeNewsFeedButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, NewsSelectActivity.class);
+                intent = putNewsFeedLocationInfoToIntent(intent);
+                mOnMainTopLayoutEventListener.onStartNewsFeedSelectActivityFromTopNewsFeed(intent);
+            }
+        });
+    }
+
+    private void adjustEditLayoutPosition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
+            mEditLayout.setPadding(0, statusBarHeight, 0, 0);
+        }
     }
 
     public NewsFeed getNewsFeed() {
@@ -183,6 +218,7 @@ public class MainTopContainerLayout extends FrameLayout
 
         mActivity = activity;
         mOnMainTopLayoutEventListener = (OnMainTopLayoutEventListener)activity;
+        mOnMainPanelEditModeEventListener = (OnMainPanelEditModeEventListener)activity;
 
         Context context = getContext();
 
@@ -261,6 +297,38 @@ public class MainTopContainerLayout extends FrameLayout
         }
     }
 
+    public void showEditLayout() {
+        setEditMode(PanelEditMode.EDITING);
+        adjustEditLayoutVisibility();
+    }
+
+    public void hideEditLayout() {
+        setEditMode(PanelEditMode.NONE);
+        adjustEditLayoutVisibility();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        mOnMainPanelEditModeEventListener.onEditModeChange(PanelEditMode.EDITING);
+        return true;
+    }
+
+    private void setEditMode(PanelEditMode editMode) {
+        mEditMode = editMode;
+    }
+
+    private void adjustEditLayoutVisibility() {
+        if (isInEditingMode()) {
+            mEditLayout.setVisibility(View.VISIBLE);
+        } else {
+            mEditLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isInEditingMode() {
+        return mEditMode.equals(PanelEditMode.EDITING);
+    }
+
     private void fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType taskType) {
         fetchTopNewsFeed(taskType, true);
     }
@@ -268,6 +336,12 @@ public class MainTopContainerLayout extends FrameLayout
     private void fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType taskType, boolean shuffle) {
         mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(mTopNewsFeedPagerAdapter.getNewsFeed(),
                 this, taskType, shuffle);
+        mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void applyNewsTopic(RssFetchable rssFetchable) {
+        mTopNewsFeedFetchTask = new TopNewsFeedFetchTask(rssFetchable, this,
+                TopNewsFeedFetchTask.TaskType.REPLACE, true);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -320,7 +394,7 @@ public class MainTopContainerLayout extends FrameLayout
         if (mTopNewsFeedPagerAdapter.getNewsFeed() == null) {
             return;
         }
-        mTopNewsFeedNewsToImageTaskMap = new HashMap<News, TopFeedNewsImageUrlFetchTask>();
+        mTopNewsFeedNewsToImageTaskMap = new HashMap<>();
 
         ArrayList<News> newsList = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList();
 
@@ -425,7 +499,6 @@ public class MainTopContainerLayout extends FrameLayout
 
     public void configOnOrientationChange() {
         int orientation = getResources().getConfiguration().orientation;
-
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             configOnPortraitOrientation();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -435,34 +508,52 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     private void configOnPortraitOrientation() {
+        adjustLayoutParamsOnPortrait();
+        adjustContentWrapperLayoutParamsOnPortrait();
+    }
+
+    private void adjustLayoutParamsOnPortrait() {
         ViewGroup.LayoutParams lp = getLayoutParams();
-        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
-
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        lp.height = getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+    }
 
-        contentWrapperLp.height
-                = getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+    private void adjustContentWrapperLayoutParamsOnPortrait() {
+        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+        contentWrapperLp.height = ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     private void configOnLandscapeOrientation() {
-        ViewGroup.LayoutParams lp = getLayoutParams();
-        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+        adjustLayoutParamsOnLandscape();
+        adjustContentWrapperLayoutParamsOnLandscape();
+    }
 
-        ViewGroup.LayoutParams indicatorLp = mTopViewPagerIndicator.getLayoutParams();
-        int indicatorHeight = indicatorLp.height;
+    private void adjustLayoutParamsOnLandscape() {
+        ViewGroup.LayoutParams lp = getLayoutParams();
 
         lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
         lp.height = ScreenUtils.getDisplaySize(getContext()).y;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             lp.height -= ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
         }
+    }
 
-        contentWrapperLp.height = lp.height - indicatorHeight;
+    private void adjustContentWrapperLayoutParamsOnLandscape() {
+        ViewGroup.LayoutParams indicatorLp = mTopViewPagerIndicator.getLayoutParams();
+        int indicatorHeight = indicatorLp.height;
+
+        ViewGroup.LayoutParams contentWrapperLp = mTopContentWrapper.getLayoutParams();
+        contentWrapperLp.height = getLayoutParams().height - indicatorHeight;
 
         if (indicatorLp instanceof MarginLayoutParams) {
             MarginLayoutParams indicatorMarginLp = (MarginLayoutParams)indicatorLp;
             contentWrapperLp.height -= indicatorMarginLp.topMargin;
+        }
+
+        Context context = getContext().getApplicationContext();
+        if (!IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {
+            int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
+            contentWrapperLp.height -= adViewHeight;
         }
     }
 
@@ -529,17 +620,29 @@ public class MainTopContainerLayout extends FrameLayout
         }
 
         Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);
-        intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
-        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, position);
+        intent = putNewsFeedInfoToIntent(intent, newsFeed, position);
+        intent = putNewsFeedLocationInfoToIntent(intent);
+        intent = putImageTintTypeToIntent(intent, viewHolder);
+        intent = putActivityTransitionInfo(intent, viewHolder);
 
-        // 뉴스 새로 선택시
+        mOnMainTopLayoutEventListener.onStartNewsFeedDetailActivityFromTopNewsFeed(intent);
+    }
+
+    private Intent putNewsFeedLocationInfoToIntent(Intent intent) {
         intent.putExtra(MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
 
-        Object tintTag = viewHolder.getImageView().getTag();
+        return intent;
+    }
+
+    private Intent putImageTintTypeToIntent(Intent intent, MainNewsFeedFragment.ItemViewHolder viewHolder) {
+        Object tintTag = viewHolder.imageView.getTag();
         TintType tintType = tintTag != null ? (TintType)tintTag : null;
         intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
 
+        return intent;
+    }
 
+    private Intent putActivityTransitionInfo(Intent intent, MainNewsFeedFragment.ItemViewHolder viewHolder) {
         // ActivityOptions를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수
         int titleViewPadding =
                 getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_title_padding);
@@ -547,18 +650,21 @@ public class MainTopContainerLayout extends FrameLayout
                 getResources().getDimensionPixelSize(R.dimen.main_top_news_feed_title_padding);
 
         ActivityTransitionHelper transitionProperty = new ActivityTransitionHelper()
-                .addImageView(ActivityTransitionHelper.KEY_IMAGE, viewHolder.getImageView())
-                .addTextView(ActivityTransitionHelper.KEY_TEXT, viewHolder.getTitleTextView(),
+                .addImageView(ActivityTransitionHelper.KEY_IMAGE, viewHolder.imageView)
+                .addTextView(ActivityTransitionHelper.KEY_TEXT, viewHolder.titleTextView,
                         titleViewPadding)
                 .addTextView(ActivityTransitionHelper.KEY_SUB_TEXT, mTopNewsFeedTitleTextView,
                         feedTitlePadding);
 
         intent.putExtra(INTENT_KEY_TRANSITION_PROPERTY, transitionProperty.toGsonString());
 
-        mActivity.startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
+        return intent;
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mActivity.overridePendingTransition(0, 0);
-        }
+    private Intent putNewsFeedInfoToIntent(Intent intent, NewsFeed newsFeed, int position) {
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, newsFeed);
+        intent.putExtra(News.KEY_CURRENT_NEWS_INDEX, position);
+
+        return intent;
     }
 }

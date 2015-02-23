@@ -38,7 +38,7 @@ public class NewsTopicSelectDialogFactory {
 
         final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setView(newsTopicListView)
-                .setTitle(newsProvider.getName()).create();
+                .setTitle(newsProvider.name).create();
 
         newsTopicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -56,14 +56,14 @@ public class NewsTopicSelectDialogFactory {
         // convert ArrayList to CharSequence[]
         ArrayList<String> newsTopicTitleList = new ArrayList<>();
         for (NewsTopic newsTopic : newsProvider.getNewsTopicList()) {
-            newsTopicTitleList.add(newsTopic.getTitle());
+            newsTopicTitleList.add(newsTopic.title);
         }
         CharSequence[] newsTopicTitles =
                 newsTopicTitleList.toArray(new CharSequence[newsTopicTitleList.size()]);
 
         // 추후 유료관련 토픽을 막을 경우를 생각해서 SingleChoice 를 취소하고 List 방식으로 변경
         return new MaterialDialog.Builder(context)
-                .title(newsProvider.getName())
+                .title(newsProvider.name)
                 .items(newsTopicTitles)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override

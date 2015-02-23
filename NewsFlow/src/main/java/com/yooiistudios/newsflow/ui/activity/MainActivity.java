@@ -16,7 +16,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,11 +36,15 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
+import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
+import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.newsflow.ui.widget.MainRefreshLayout;
 import com.yooiistudios.newsflow.ui.widget.MainTopContainerLayout;
@@ -52,15 +55,18 @@ import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class MainActivity extends ActionBarActivity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
-        MainBottomContainerLayout.OnMainBottomLayoutEventListener {
+        MainBottomContainerLayout.OnMainBottomLayoutEventListener,
+        OnMainPanelEditModeEventListener {
     public static final String TAG = MainActivity.class.getName();
     public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
@@ -75,16 +81,17 @@ public class MainActivity extends ActionBarActivity
 
     public static final int RC_NEWS_FEED_DETAIL = 10001;
     public static final int RC_SETTING = 10002;
+    public static final int RC_NEWS_FEED_SELECT = 10003;
+    private static final int INVALID_WINDOW_INSET = -1;
 
     /**
      * Auto Refresh Handler
      */
     // auto refresh handler
-    private static final int AUTO_REFRESH_HANDLER_DELAY = 7 * 1000; // finally to be 10 secs
     private boolean mIsHandlerRunning = false;
-    private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler();
+    private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler(this);
 
-    @InjectView(R.id.main_root_layout)              View mRootView;
+    @InjectView(R.id.main_root_layout)              RelativeLayout mRootView;
     @InjectView(R.id.main_toolbar)                  Toolbar mToolbar;
     @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
     @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
@@ -94,24 +101,44 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
-    @InjectView(R.id.main_adView)                   AdView mAdView;
+
+    private MainAdView mBannerAd;
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
     private AdView mQuitAdView;
 
-    private int mSystemWindowInset;
+    private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
+    private int mSystemWindowInsetRight = INVALID_WINDOW_INSET;
 
-    private class NewsAutoRefreshHandler extends Handler {
+    private static class NewsAutoRefreshHandler extends Handler {
+        private WeakReference<MainActivity> mMainActivityRef;
+
+        private NewsAutoRefreshHandler(MainActivity mainActivity) {
+            mMainActivityRef = new WeakReference<>(mainActivity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            // 갱신
-            mMainTopContainerLayout.autoRefreshTopNewsFeed();
-            mMainBottomContainerLayout.autoRefreshBottomNewsFeeds();
+            MainActivity mainActivity = mMainActivityRef.get();
+            if (mainActivity != null) {
+                MainTopContainerLayout mainTopContainerLayout =
+                        mainActivity.mMainTopContainerLayout;
+                MainBottomContainerLayout mainBottomContainerLayout =
+                        mainActivity.mMainBottomContainerLayout;
 
-            // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
-            mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0,
-                    Settings.getAutoRefreshHandlerDelay(MainActivity.this));
+                boolean isInEditingMode = mainTopContainerLayout.isInEditingMode()
+                        || mainBottomContainerLayout.isInEditingMode();
+                if (isInEditingMode) {
+                    mainActivity.stopNewsAutoRefresh();
+                } else {
+                    mainTopContainerLayout.autoRefreshTopNewsFeed();
+                    mainBottomContainerLayout.autoRefreshBottomNewsFeeds();
+
+                    // tick 의 동작 시간을 계산해서 정확히 틱 초마다 UI 갱신을 요청할 수 있게 구현
+                    sendEmptyMessageDelayed(0, Settings.getAutoRefreshHandlerDelay(mainActivity));
+                }
+            }
         }
     }
 
@@ -147,11 +174,13 @@ public class MainActivity extends ActionBarActivity
         // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initToolbar();
         initRefreshLayout();
+        initBannerAdView();
+        initQuitAdView();
         mMainTopContainerLayout.init(this);
         mMainBottomContainerLayout.init(this);
+        bringLoadingContainerToFront();
         showMainContentIfReady();
-        initAdView();
-        applySystemWindowsBottomInset();
+        requestSystemWindowsBottomInset();
 
         AdUtils.showPopupAdIfSatisfied(this);
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
@@ -188,6 +217,10 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(false);
     }
 
+    private void bringLoadingContainerToFront() {
+        mLoadingContainer.bringToFront();
+    }
+
     private void initNetworkUnavailableCoverLayout() {
         @SuppressLint("InflateParams")
         View networkUnavailableCoverLayout = LayoutInflater.from(getApplicationContext())
@@ -196,6 +229,7 @@ public class MainActivity extends ActionBarActivity
 
         findViewById(R.id.network_unavailable_reload).setOnClickListener(new View.OnClickListener() {
             private int mPressCount = 0;
+
             @Override
             public void onClick(View v) {
                 mPressCount++;
@@ -237,50 +271,78 @@ public class MainActivity extends ActionBarActivity
         });
     }
 
-    private void initAdView() {
-        // banner
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+    private void initBannerAdView() {
+        mBannerAd = new MainAdView(this);
+        mBannerAd.setId(R.id.main_banner);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mRootView.addView(mBannerAd, lp);
+    }
 
-        // quit
+    private void configBannerAdOnInsetChanged() {
+        if (isPortrait()) {
+            mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInsetBottom);
+        } else {
+            mBannerAd.applyBottomMarginOnPortrait(0);
+        }
+
+        bringLoadingContainerToFront();
+    }
+
+//    private void configSwipeRefreshLayoutOnOrientationChanged() {
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mSwipeRefreshLayout.getLayoutParams();
+//        if (isPortrait()) {
+//            lp.addRule(RelativeLayout.ABOVE, View.NO_ID);
+//        } else {
+//            lp.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+//        }
+//    }
+
+    private void initQuitAdView() {
         // make AdView earlier for showing ad fast in the quit dialog
         mQuitAdRequest = new AdRequest.Builder().build();
         mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
     }
 
-    private void checkAdView() {
+    private void configOnSystemInsetChanged() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset);
+        boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+        if (adPurchased) {
+            if (isPortrait()) {
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
             }
-            mAdView.setVisibility(View.GONE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
+            mBannerAd.hide();
+//            mBannerAd.setVisibility(View.GONE);
         } else {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            configBannerAdOnInsetChanged();
+//            configSwipeRefreshLayoutOnOrientationChanged();
+            if (isPortrait()) {
+//                int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
-                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInset + adViewHeight);
+                mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInset, 0);
+                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
             }
-            mAdView.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams adViewLp =
-                    (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
-            adViewLp.bottomMargin = mSystemWindowInset;
+            mBannerAd.show();
+//            mBannerAd.setVisibility(View.VISIBLE);
 
-            // 네비게이션바에 색상 입히기
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBannerAd.resume();
+            mQuitAdView.resume();
+        }
+//        configNavigationTranslucentState();
+    }
+
+    private void configNavigationTranslucentState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+            if (adPurchased && isPortrait()) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            } else {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             }
-//            getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_background));
-
-            mAdView.resume();
-            mQuitAdView.resume();
         }
     }
 
@@ -289,7 +351,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void setSwipeRefreshLayoutEnabled(boolean enable) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (isPortrait()) {
             boolean readyForRefresh = mMainTopContainerLayout.isReady()
                     && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
             mSwipeRefreshLayout.setEnabled(enable && readyForRefresh);
@@ -298,31 +360,47 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    private void applySystemWindowsBottomInset() {
+    private void requestSystemWindowsBottomInset() {
+        configNavigationTranslucentState();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            applySystemWindowsBottomInsetAfterLollipop();
+            if (isSystemWindowInsetInvalid()) {
+                requestSystemWindowsBottomInsetAfterLollipop();
+            } else {
+                configOnSystemInsetChanged();
+            }
         } else {
-            mSystemWindowInset = 0;
-            checkAdView();
+            setSystemWindowInset(0, 0);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applySystemWindowsBottomInsetAfterLollipop() {
+    private void requestSystemWindowsBottomInsetAfterLollipop() {
+        // TODO 아래 코드에 대해
+        // TODO 1. 있는 경우 모든 inset 이 0으로 들어옴.
+        // TODO 2. 없는 경우 필요한 inset 값이 들어온다.
+        // TODO 나중에 최적화? 정리? 해야함
         mScrollingContent.setFitsSystemWindows(true);
         mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetBottom();
-                } else {
-                    mSystemWindowInset = windowInsets.getSystemWindowInsetRight();
-                }
-                checkAdView(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
+                setSystemWindowInset(
+                        windowInsets.getSystemWindowInsetRight(),
+                        windowInsets.getSystemWindowInsetBottom());
+//                configOnSystemInsetChanged(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
+    }
+
+    private void setSystemWindowInset(int rightInset, int bottomInset) {
+        mSystemWindowInsetRight = rightInset;
+        mSystemWindowInsetBottom = bottomInset;
+        configOnSystemInsetChanged();
+    }
+
+    private boolean isSystemWindowInsetInvalid() {
+        return mSystemWindowInsetRight == INVALID_WINDOW_INSET
+                || mSystemWindowInsetBottom == INVALID_WINDOW_INSET;
     }
 
     @Override
@@ -347,7 +425,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onPause() {
         if (mRootView != null) {
-            mAdView.pause();
+            mBannerAd.pause();
             mQuitAdView.pause();
             stopNewsAutoRefresh();
         }
@@ -361,15 +439,16 @@ public class MainActivity extends ActionBarActivity
         subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
 
         subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
-        subMenu.add(Menu.NONE, R.id.action_info, 1, R.string.action_info);
-        subMenu.add(Menu.NONE, R.id.action_settings, 2, R.string.action_settings);
-        subMenu.add(Menu.NONE, R.id.action_rate_app, 3, R.string.action_rate_app);
-        subMenu.add(Menu.NONE, R.id.action_facebook_like, 4, R.string.action_facebook_like);
+        subMenu.add(Menu.NONE, R.id.action_edition, 1, R.string.action_edition);
+        subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
+        subMenu.add(Menu.NONE, R.id.action_settings, 3, R.string.action_settings);
+        subMenu.add(Menu.NONE, R.id.action_rate_app, 4, R.string.action_rate_app);
+        subMenu.add(Menu.NONE, R.id.action_facebook_like, 5, R.string.action_facebook_like);
 
         if (NLLog.isDebug()) {
-            subMenu.add(Menu.NONE, R.id.action_remove_archive, 5, "Remove archive(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_slow_anim, 6, "Slow Activity Transition(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_service_log, 7, "Show service log(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_slow_anim, 7, "Slow Activity Transition(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_service_log, 8, "Show service log(Debug)");
         }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -383,6 +462,9 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
         if (id == R.id.action_store) {
             startActivity(new Intent(MainActivity.this, StoreActivity.class));
+            return true;
+        } else if (id == R.id.action_edition) {
+            toggleEditLayoutVisibility();
             return true;
         } else if (id == R.id.action_info) {
             startActivity(new Intent(MainActivity.this, InfoActivity.class));
@@ -446,6 +528,34 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onMainBottomMatrixChanged() {
         startNewsAutoRefreshIfReady();
+    }
+
+    @Override
+    public void onStartNewsFeedDetailActivityFromTopNewsFeed(Intent intent) {
+        startNewsFeedDetailWithIntent(intent);
+    }
+
+    @Override
+    public void onStartNewsFeedDetailActivityFromBottomNewsFeed(Intent intent) {
+        startNewsFeedDetailWithIntent(intent);
+    }
+
+    private void startNewsFeedDetailWithIntent(Intent intent) {
+        startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            overridePendingTransition(0, 0);
+        }
+    }
+
+    @Override
+    public void onStartNewsFeedSelectActivityFromTopNewsFeed(Intent intent) {
+        startActivityForResult(intent, RC_NEWS_FEED_SELECT);
+    }
+
+    @Override
+    public void onStartNewsFeedSelectActivityFromBottomNewsFeed(Intent intent) {
+        startActivityForResult(intent, RC_NEWS_FEED_SELECT);
     }
 
     private void startNewsAutoRefreshIfReady() {
@@ -551,7 +661,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        applySystemWindowsBottomInset();
+        // TODO 여기서 회전시 광고 설정 해줘야 함
+        requestSystemWindowsBottomInset();
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             configOnPortraitOrientation();
@@ -563,59 +674,86 @@ public class MainActivity extends ActionBarActivity
         mMainBottomContainerLayout.configOnOrientationChange();
     }
 
+    private boolean isPortrait() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    @Override
+    public void onEditModeChange(PanelEditMode editMode) {
+        if (editMode.equals(PanelEditMode.EDITING)) {
+            showEditLayout();
+        } else {
+            hideEditLayout();
+        }
+    }
+
+    private void toggleEditLayoutVisibility() {
+        if (!isShowingEditLayout()) {
+            showEditLayout();
+        } else {
+            hideEditLayout();
+        }
+    }
+
+    private void showEditLayout() {
+        mMainTopContainerLayout.showEditLayout();
+        mMainBottomContainerLayout.showEditLayout();
+        stopNewsAutoRefresh();
+        setSwipeRefreshLayoutEnabled(false);
+        // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
+//        mMainBottomContainerLayout.cancelAutoRefresh();
+    }
+
+    private void hideEditLayout() {
+        mMainTopContainerLayout.hideEditLayout();
+        mMainBottomContainerLayout.hideEditLayout();
+        startNewsAutoRefresh();
+        setSwipeRefreshLayoutEnabled(true);
+    }
+
+    private boolean isShowingEditLayout() {
+        return mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
+            String newsFeedType;
             switch (requestCode) {
                 case RC_NEWS_FEED_DETAIL:
-                    boolean hasNewsFeedReplaced = extras.getBoolean(
-                            NewsFeedDetailActivity.INTENT_KEY_NEWSFEED_REPLACED, false);
-                    String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
-                    boolean newImageLoaded = extras.getBoolean(
-                            NewsFeedDetailActivity.INTENT_KEY_IMAGE_LOADED, false);
+                    newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
 
-                    if (newsFeedType == null) {
-                        return;
+                    if (newsFeedType != null) {
+                        if (extras.getBoolean(NewsFeedDetailActivity.INTENT_KEY_NEWSFEED_REPLACED, false)) {
+                            configOnNewsFeedReplaced(extras);
+                        } else if (extras.getBoolean(NewsFeedDetailActivity.INTENT_KEY_IMAGE_LOADED, false)) {
+                            configOnNewImageLoaded(extras);
+                        }
                     }
-                    if (hasNewsFeedReplaced) {
-                        // 교체된게 top news feed 인지 bottom news feed 인지 구분
-                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            // bottom news feed 중 하나가 교체됨
+                    break;
+                case RC_NEWS_FEED_SELECT:
+                    RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
+                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                    if (rssFetchable != null) {
+                        hideEditLayout();
+                        NLLog.now("news topic selected");
 
-                            // bottom news feed 의 index 를 가져옴
+                        newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+                            NLLog.now("bottom");
                             int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+                            NLLog.now("idx : " + idx);
                             if (idx >= 0) {
-                                mMainBottomContainerLayout.reloadNewsFeedAt(idx);
+                                mMainBottomContainerLayout.applyNewsTopicAt(rssFetchable, idx);
                             }
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            // top news feed 가 교체됨
-                            mMainTopContainerLayout.configOnNewsFeedReplaced();
+                            NLLog.now("top");
+                            mMainTopContainerLayout.applyNewsTopic(rssFetchable);
                         }
-                    } else if (newImageLoaded) {
-                        String imgUrl = extras.getString(
-                                NewsFeedDetailActivity.INTENT_KEY_IMAGE_URL, null);
-
-                        int newsIndex = extras.getInt(News.KEY_CURRENT_NEWS_INDEX, -1);
-                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            int newsFeedIndex = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
-                            if (newsFeedIndex >= 0 && newsIndex >= 0) {
-                                mMainBottomContainerLayout.configOnNewsImageUrlLoadedAt(
-                                        imgUrl, newsFeedIndex, newsIndex);
-                            }
-                        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            if (newsIndex >= 0) {
-                                mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
-
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                setSwipeRefreshLayoutEnabled(true);
-
-                                startNewsAutoRefreshIfReady();
-                            }
-                        }
+//                        replaceNewsFeed(newsTopic);
                     }
-
                     break;
                 case RC_SETTING:
                     boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);
@@ -628,9 +766,50 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    private void configOnNewImageLoaded(Bundle extras) {
+        String imgUrl = extras.getString(
+                NewsFeedDetailActivity.INTENT_KEY_IMAGE_URL, null);
+
+        int newsIndex = extras.getInt(News.KEY_CURRENT_NEWS_INDEX, -1);
+        String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+            int newsFeedIndex = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+            if (newsFeedIndex >= 0 && newsIndex >= 0) {
+                mMainBottomContainerLayout.configOnNewsImageUrlLoadedAt(
+                        imgUrl, newsFeedIndex, newsIndex);
+            }
+        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+            if (newsIndex >= 0) {
+                mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
+
+                mSwipeRefreshLayout.setRefreshing(false);
+                setSwipeRefreshLayoutEnabled(true);
+
+                startNewsAutoRefreshIfReady();
+            }
+        }
+    }
+
+    private void configOnNewsFeedReplaced(Bundle extras) {
+        String newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+            // bottom news feed 의 index 를 가져옴
+            int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+            if (idx >= 0) {
+                mMainBottomContainerLayout.reloadNewsFeedAt(idx);
+            }
+        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+            // top news feed 가 교체됨
+            mMainTopContainerLayout.configOnNewsFeedReplaced();
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
+        if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode()) {
+            hideEditLayout();
+        }
+        else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
                 && mRootView != null) {
             AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);

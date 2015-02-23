@@ -5,6 +5,9 @@
     <color name="material_black_secondary_text">#89000000</color>           <!-- 54% of black -->
     <color name="material_black_primary_text">#de000000</color>             <!-- 87% of black -->
 
+    <color name="material_white_divider">#1effffff</color>                  <!-- 12% of white -->
+    <color name="material_white_disabled_and_hint_text">#4dffffff</color>   <!-- 30% of white -->
+    <color name="material_white_secondary_text">#b3ffffff</color>           <!-- 70% of white -->
     <color name="material_white_primary_text">#fff</color>                  <!-- 100% of white -->
 
     <color name="material_red_50">#fde0dc</color>

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.util.SparseArray;
 
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
 
 import java.util.ArrayList;
@@ -49,8 +50,20 @@ public class BottomNewsFeedListFetchManager
 
         newsFeedToIndexPairList.add(new Pair<>(newsFeed, index));
 
-        fetch(newsFeedToIndexPairList, listener, taskType);
+        fetchNewsFeeds(newsFeedToIndexPairList, listener, taskType);
     }
+
+
+    public void fetchRssFetchables(RssFetchable RssFetchable, int index,
+                                   OnFetchListener listener, int taskType) {
+        ArrayList<Pair<RssFetchable, Integer>> rssFetchableToIndexPairList =
+                new ArrayList<>();
+
+        rssFetchableToIndexPairList.add(new Pair<>(RssFetchable, index));
+
+        fetchNewsTopics(rssFetchableToIndexPairList, listener, taskType);
+    }
+
     public void fetchNewsFeedList(ArrayList<NewsFeed> newsFeedList,
                                   OnFetchListener listener, int taskType) {
         int count = newsFeedList.size();
@@ -60,16 +73,17 @@ public class BottomNewsFeedListFetchManager
             newsFeedToIndexPairList.add(new Pair<>(newsFeedList.get(i), i));
         }
 
-        fetch(newsFeedToIndexPairList, listener, taskType);
-    }
-    public void fetchNewsFeedPairList(
-            ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairList,
-            OnFetchListener listener, int taskType) {
-        fetch(newsFeedToIndexPairList, listener, taskType);
+        fetchNewsFeeds(newsFeedToIndexPairList, listener, taskType);
     }
 
-    private void fetch(ArrayList<Pair<NewsFeed,Integer>> newsFeedToIndexPairList,
-                       OnFetchListener listener, int taskType) {
+    public void fetchNewsFeedPairList(
+            ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList,
+            OnFetchListener listener, int taskType) {
+        fetchNewsFeeds(newsFeedToIndexPairList, listener, taskType);
+    }
+
+    private void fetchNewsFeeds(ArrayList<Pair<NewsFeed, Integer>> newsFeedToIndexPairList,
+                                OnFetchListener listener, int taskType) {
         cancelBottomNewsFetchTasks();
         mListener = listener;
         mTaskType = taskType;
@@ -82,6 +96,25 @@ public class BottomNewsFeedListFetchManager
 
             BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
                     newsFeed, element.second, mTaskType, this);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mBottomNewsFeedIndexToNewsFetchTaskMap.put(element.second, task);
+        }
+    }
+
+    private void fetchNewsTopics(ArrayList<Pair<RssFetchable, Integer>> rssFetchableToIndexPairList,
+                       OnFetchListener listener, int taskType) {
+        cancelBottomNewsFetchTasks();
+        mListener = listener;
+        mTaskType = taskType;
+
+        for (Pair<RssFetchable, Integer> element : rssFetchableToIndexPairList) {
+            RssFetchable rssFetchable = element.first;
+            if (rssFetchable == null) {
+                continue;
+            }
+
+            BottomNewsFeedFetchTask task = new BottomNewsFeedFetchTask(
+                    rssFetchable, element.second, mTaskType, this);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mBottomNewsFeedIndexToNewsFetchTaskMap.put(element.second, task);
         }

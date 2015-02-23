@@ -2,8 +2,10 @@ package com.yooiistudios.newsflow.model.news.task;
 
 import android.os.AsyncTask;
 
+import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchState;
+import com.yooiistudios.newsflow.model.news.NewsTopic;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedFetchUtil;
 
 import org.xml.sax.SAXException;
@@ -25,6 +27,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     public static final int FETCH_COUNT = 10;
 
+    private RssFetchable mRssFetchable;
     private NewsFeed mNewsFeed;
     private OnFetchListener mListener;
     private TaskType mTaskType;
@@ -38,38 +41,55 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
         public void onTopNewsFeedFetch(NewsFeed newsFeed, TaskType taskType);
     }
 
-    public TopNewsFeedFetchTask(NewsFeed newsFeed,
+    public TopNewsFeedFetchTask(RssFetchable rssFetchable,
                                 OnFetchListener listener, TaskType taskType, boolean shuffle) {
-        mNewsFeed = newsFeed;
+        mRssFetchable = rssFetchable;
         mListener = listener;
         mTaskType = taskType;
         mShuffle = shuffle;
+    }
+
+    public TopNewsFeedFetchTask(NewsFeed newsFeed,
+                                OnFetchListener listener, TaskType taskType, boolean shuffle) {
+        this(newsFeed.getNewsFeedUrl(), listener, taskType, shuffle);
+        mNewsFeed = newsFeed;
     }
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
         try {
             NewsFeed newsFeed =
-                    NewsFeedFetchUtil.fetch(mNewsFeed.getNewsFeedUrl(), FETCH_COUNT, mShuffle);
-            newsFeed.setTopicIdInfo(mNewsFeed);
+                    NewsFeedFetchUtil.fetch(mRssFetchable, FETCH_COUNT, mShuffle);
+            if (mNewsFeed != null) {
+                newsFeed.setTopicIdInfo(mNewsFeed);
+            } else if (mRssFetchable instanceof NewsTopic) {
+                newsFeed.setTopicIdInfo((NewsTopic)mRssFetchable);
+            }
 
             return newsFeed;
         } catch(MalformedURLException | UnknownHostException e) {
-            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
-        } catch(SocketTimeoutException e) {
-            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
-        } catch(IOException | SAXException e) {
-            mNewsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
-        }
+            NewsFeed newsFeed = new NewsFeed(mRssFetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
 
-        return null;
+            return newsFeed;
+        } catch(SocketTimeoutException e) {
+            NewsFeed newsFeed = new NewsFeed(mRssFetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
+
+            return newsFeed;
+        } catch(IOException | SAXException e) {
+            NewsFeed newsFeed = new NewsFeed(mRssFetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
+
+            return newsFeed;
+        }
     }
 
     @Override
     protected void onPostExecute(NewsFeed newsFeed) {
         super.onPostExecute(newsFeed);
         if (mListener != null) {
-            mListener.onTopNewsFeedFetch(newsFeed != null ? newsFeed : mNewsFeed, mTaskType);
+            mListener.onTopNewsFeedFetch(newsFeed, mTaskType);
         }
     }
 }

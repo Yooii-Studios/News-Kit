@@ -81,7 +81,6 @@ import com.yooiistudios.newsflow.model.debug.DebugSettings;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
@@ -1197,12 +1196,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             autoScrollString += getString(R.string.on);
         }
 
-        subMenu.add(Menu.NONE, R.id.action_replace_newsfeed, 0, R.string.action_newsfeed);
-        subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
         if (NLLog.isDebug()) {
+            subMenu.add(Menu.NONE, R.id.action_test, 0, "Show topics(Debug)");
             subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_test, 3, "Show topics(Debug)");
         }
+        subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
+
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
@@ -1324,7 +1323,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     Bitmap bitmap = response.getBitmap();
 
                     if (bitmap == null && isImmediate) {
-                        // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                        // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
                         return;
                     }
 
@@ -1480,13 +1479,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyPalette() {
-        int lightVibrantColor = mPalette.getLightVibrantColor(Color.TRANSPARENT);
-
         mTopTitleTextView.setTextColor(Color.WHITE);
-
-        if (lightVibrantColor != Color.TRANSPARENT) {
-            mTopDescriptionTextView.setTextColor(lightVibrantColor);
-        }
+        mTopDescriptionTextView.setTextColor(getResources().getColor(R.color.material_white_secondary_text));
 
         int filterColor = getFilterColor();
 
@@ -1528,7 +1522,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private int getTopImageFilterColorPaletteItem() {
-        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
+        return mPalette.getVibrantSwatch().getRgb();
+//        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
     }
 
     @Override
@@ -1703,17 +1698,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
-                    NewsTopic newsTopic = (NewsTopic)data.getExtras().getSerializable(
-                            NewsSelectFragment.KEY_SELECTED_NEWS_TOPIC);
-                    if (newsTopic != null) {
-                        replaceNewsFeed(newsTopic);
-                    } else {
-                        NewsFeedUrl newsFeedUrl = (NewsFeedUrl)data.getExtras().getSerializable(
-                                NewsSelectFragment.KEY_CUSTOM_RSS_URL);
-
-                        replaceNewsFeed(newsFeedUrl);
-                    }
-
+                    RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
+                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                    replaceNewsFeed(rssFetchable);
                     break;
             }
         }
