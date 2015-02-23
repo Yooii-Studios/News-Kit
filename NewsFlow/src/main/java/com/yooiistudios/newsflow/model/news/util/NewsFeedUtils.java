@@ -9,7 +9,7 @@ import android.graphics.Color;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrlProvider;
+import com.yooiistudios.newsflow.model.news.NewsFeedDefaultUrlProvider;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
 import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
@@ -49,14 +49,14 @@ public class NewsFeedUtils {
     private NewsFeedUtils() { throw new AssertionError("You MUST not create this class!"); }
 
     public static NewsFeed getDefaultTopNewsFeed(Context context) {
-        NewsTopic defaultNewsTopic = NewsFeedUrlProvider.getInstance(context).getTopNewsTopic();
+        NewsTopic defaultNewsTopic = NewsFeedDefaultUrlProvider.getInstance(context).getTopNewsTopic();
         return new NewsFeed(defaultNewsTopic);
     }
 
     public static ArrayList<NewsFeed> getDefaultBottomNewsFeedList(Context context) {
         ArrayList<NewsFeed> newsFeedList = new ArrayList<>();
         ArrayList<NewsTopic> topicList =
-                NewsFeedUrlProvider.getInstance(context).getBottomNewsTopicList();
+                NewsFeedDefaultUrlProvider.getInstance(context).getBottomNewsTopicList();
         for (NewsTopic newsTopic : topicList) {
             newsFeedList.add(new NewsFeed(newsTopic));
         }

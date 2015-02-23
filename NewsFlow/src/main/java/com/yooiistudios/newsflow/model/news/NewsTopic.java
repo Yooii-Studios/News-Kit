@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class NewsTopic implements Serializable, RssFetchable {
     public String languageCode;
     public String regionCode;
+    public String countryCode;
     public int newsProviderId;
     public int id;
 

@@ -206,8 +206,9 @@ public class NewsDb {
                 newsFeed.getNewsFeedUrl().getType().getUniqueKey());
 //        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_IS_VALID, newsFeed.containsNews());
 
-        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE, newsFeed.getTopicRegionCode());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_LANGUAGE_CODE, newsFeed.getTopicLanguageCode());
+        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE, newsFeed.getTopicRegionCode());
+        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_COUNTRY_CODE, newsFeed.getTopicCountryCode());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_PROVIDER_ID, newsFeed.getTopicProviderId());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_ID, newsFeed.getTopicId());
 
@@ -273,6 +274,8 @@ public class NewsDb {
                 NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE));
         String topicLanguageCode = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_TOPIC_LANGUAGE_CODE));
+        String topicCountryCode = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
+                NewsFeedEntry.COLUMN_NAME_TOPIC_COUNTRY_CODE));
         int topicProviderId = newsFeedCursor.getInt(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_TOPIC_PROVIDER_ID));
         int topicId = newsFeedCursor.getInt(newsFeedCursor.getColumnIndex(
@@ -282,8 +285,9 @@ public class NewsDb {
         newsFeed.setTitle(title);
         newsFeed.setNewsFeedUrl(new NewsFeedUrl(newsFeedUrl, newsFeedUrlTypeKey));
         newsFeed.setDisplayingNewsIndex(0);
-        newsFeed.setTopicRegionCode(topicRegionCode);
         newsFeed.setTopicLanguageCode(topicLanguageCode);
+        newsFeed.setTopicRegionCode(topicRegionCode);
+        newsFeed.setTopicCountryCode(topicCountryCode);
         newsFeed.setTopicProviderId(topicProviderId);
         newsFeed.setTopicId(topicId);
 

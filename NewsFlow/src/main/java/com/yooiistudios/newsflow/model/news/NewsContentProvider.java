@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.model.news;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.yooiistudios.newsflow.util.NLLog;
@@ -43,41 +44,73 @@ public class NewsContentProvider {
         }
     }
 
-    public NewsTopic getNewsTopic(String languageCode, @Nullable String regionCode,
-                                         int newsProviderId, int newsTopicId) {
-        NewsProvider newsProvider = getNewsProvider(languageCode, regionCode, newsProviderId);
-        return newsProvider.getNewsTopic(newsTopicId);
+    public NewsTopic getNewsTopic(@NonNull String languageCode, @Nullable String regionCode,
+                                 @NonNull String countryCode, int newsProviderId, int newsTopicId) {
+
+        NewsProvider newsProvider = getNewsProvider(languageCode, regionCode, countryCode, newsProviderId);
+        return newsProvider.findNewsTopicById(newsTopicId);
     }
 
     public NewsProvider getNewsProvider(NewsFeed newsFeed) {
         return getNewsProvider(newsFeed.getTopicLanguageCode(), newsFeed.getTopicRegionCode(),
-                newsFeed.getTopicProviderId());
+                newsFeed.getTopicCountryCode(), newsFeed.getTopicProviderId());
     }
 
+    public NewsProvider getNewsProvider(@NonNull String targetLanguageCode,
+                                        @Nullable String targetRegionCode,
+                                        @NonNull String targetCountryCode, int targetProviderId) {
+        NLLog.now("targetLanguageCode: " + targetLanguageCode);
+        NLLog.now("targetRegionCode: " + targetRegionCode);
+        NLLog.now("targetCountryCode: " + targetCountryCode);
+        NLLog.now("targetProviderId: " + targetProviderId);
 
-    public NewsProvider getNewsProvider(String languageCodeToCompare,
-                                        @Nullable String regionCodeToCompare,
-                                        int providerIdToCompare) {
         for (NewsProviderLanguage newsProviderLanguage : mNewsProviderLanguageList) {
             String languageCode = newsProviderLanguage.languageCode;
             String regionCode = newsProviderLanguage.regionCode;
-            if (languageCode.equalsIgnoreCase(languageCodeToCompare)
-                    && (regionCode == null
-                        || regionCodeToCompare == null
-                        || regionCode.equalsIgnoreCase(regionCodeToCompare))) {
 
-                for (NewsProvider newsProvider : newsProviderLanguage.newsProviders) {
-                    if (newsProvider.id == providerIdToCompare) {
-                        return newsProvider;
+            if (languageCode.equalsIgnoreCase(targetLanguageCode) &&
+                    isSameRegion(regionCode, targetRegionCode)) {
+
+                NLLog.now("same language found: " + languageCode);
+                NLLog.now("newsProviderLanguage.newsProviderCountries.size: " + newsProviderLanguage.newsProviderCountries.size());
+
+                for (NewsProviderCountry newsProviderCountry : newsProviderLanguage.newsProviderCountries) {
+                    String countryCode = newsProviderCountry.countryCode;
+                    NLLog.now("countryCode: " + countryCode);
+
+                    if (countryCode.equalsIgnoreCase(targetCountryCode)) {
+
+                        NLLog.now("same country found");
+
+                        for (NewsProvider newsProvider : newsProviderCountry.newsProviders) {
+
+                            if (newsProvider.id == targetProviderId) {
+                                return newsProvider;
+                            }
+                        }
                     }
                 }
             }
         }
-
         return null;
     }
 
-    public NewsProviderLanguage getNewsRegion(int position) {
+    private boolean isSameRegion(@Nullable String regionCode, @Nullable String targetRegionCode) {
+        boolean isBothNull = regionCode == null && targetRegionCode == null;
+
+        if (isBothNull) {
+            return true;
+        } else {
+            boolean isBothNotNull = regionCode != null && targetRegionCode != null;
+            if (isBothNotNull) {
+                return regionCode.equalsIgnoreCase(targetRegionCode);
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public NewsProviderLanguage getNewsLanguage(int position) {
         if (position < mNewsProviderLanguageList.size()) {
             return mNewsProviderLanguageList.get(position);
         } else {
@@ -86,8 +119,6 @@ public class NewsContentProvider {
     }
 
     private static NewsProviderLanguage parseNewsProvidersByResource(Context context, int resourceId) {
-        NLLog.now("parseNewsProvidersByResource");
-
         // raw id 에서 json 스트링을 만들고 JSONObject 로 변환
         try {
             InputStream file;
@@ -154,6 +185,7 @@ public class NewsContentProvider {
             */
 
             // Test
+            /*
             NLLog.now("lang: " + newsProviderLanguage.englishLanguageName);
             NLLog.now("lang_region: " + newsProviderLanguage.regionalLanguageName);
             NLLog.now("lang_code: " + newsProviderLanguage.languageCode);
@@ -176,6 +208,7 @@ public class NewsContentProvider {
                     }
                 }
             }
+            */
             return newsProviderLanguage;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -190,14 +223,14 @@ public class NewsContentProvider {
 
         for (int i = 0; i < newsProviderCountryArray.length(); i++) {
             JSONObject newsProviderCountryObject = newsProviderCountryArray.getJSONObject(i);
-            NLLog.now(newsProviderCountryObject.toString());
+//            NLLog.now(newsProviderCountryObject.toString());
             NewsProviderCountry newsProviderCountry = new NewsProviderCountry();
             newsProviderCountry.languageCode = newsProviderLanguage.languageCode;
             newsProviderCountry.regionCode = newsProviderLanguage.regionCode;
             newsProviderCountry.countryLocalName = newsProviderCountryObject.getString("country_name");
             newsProviderCountry.countryCode = newsProviderCountryObject.getString("country_code");
             newsProviderCountry.newsProviders = parseNewsProviders(
-                    newsProviderCountryObject.getJSONArray("news_providers"), newsProviderLanguage);
+                    newsProviderCountryObject.getJSONArray("news_providers"), newsProviderCountry);
 
             newsProviderCountries.add(newsProviderCountry);
         }
@@ -205,7 +238,7 @@ public class NewsContentProvider {
     }
 
     private static ArrayList<NewsProvider> parseNewsProviders(JSONArray newsProviderArray,
-                                  NewsProviderLanguage newsProviderLanguage) throws JSONException {
+                                  NewsProviderCountry newsProviderCountry) throws JSONException {
 
         ArrayList<NewsProvider> newsProviders = new ArrayList<>();
 
@@ -213,8 +246,9 @@ public class NewsContentProvider {
             JSONObject newsProviderObject = newsProviderArray.getJSONObject(i);
 
             NewsProvider newsProvider = new NewsProvider();
-            newsProvider.languageCode = newsProviderLanguage.languageCode;
-            newsProvider.regionCode = newsProviderLanguage.regionCode;
+            newsProvider.languageCode = newsProviderCountry.languageCode;
+            newsProvider.regionCode = newsProviderCountry.regionCode;
+            newsProvider.countryCode = newsProviderCountry.countryCode;
 
             newsProvider.id = newsProviderObject.getInt("provider_id");
             newsProvider.name = newsProviderObject.getString("provider_name");
@@ -227,8 +261,9 @@ public class NewsContentProvider {
                 NewsTopic newsTopic = new NewsTopic();
                 newsTopic.title = topicObject.getString("topic_name");
                 newsTopic.id = topicObject.getInt("topic_id");
-                newsTopic.languageCode = newsProviderLanguage.languageCode;
-                newsTopic.regionCode = newsProviderLanguage.regionCode;
+                newsTopic.languageCode = newsProviderCountry.languageCode;
+                newsTopic.regionCode = newsProviderCountry.regionCode;
+                newsTopic.countryCode = newsProviderCountry.countryCode;
                 newsTopic.newsProviderId = newsProvider.id;
 
                 String url = topicObject.getString("url");

@@ -17,5 +17,4 @@ public class NewsProviderLanguage {
     public String regionCode;
 
     public ArrayList<NewsProviderCountry> newsProviderCountries = new ArrayList<>();
-    public ArrayList<NewsProvider> newsProviders = new ArrayList<>();
 }

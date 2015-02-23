@@ -15,6 +15,7 @@ public class NewsProvider {
     // identifiers
     public String languageCode;
     public String regionCode;
+    public String countryCode;
     public int id;
 
     public ArrayList<NewsTopic> getNewsTopicList() { return mNewsTopicList; }
@@ -23,21 +24,21 @@ public class NewsProvider {
         mNewsTopicList.add(newsTopic);
     }
 
-    public NewsTopic getNewsTopic(int newsTopicId) {
+    public NewsTopic findNewsTopicById(int newsTopicId) {
         for (NewsTopic newsTopic : mNewsTopicList) {
             if (newsTopic.id == newsTopicId) {
                 return newsTopic;
             }
         }
-        return null;
+        return getDefaultNewsTopic();
     }
 
-    public NewsTopic getDefaultNewsTopic() {
+    private NewsTopic getDefaultNewsTopic() {
         for (NewsTopic newsTopic : mNewsTopicList) {
             if (newsTopic.isDefault()) {
                 return newsTopic;
             }
         }
-        return null;
+        return getNewsTopicList().get(0);
     }
 }
