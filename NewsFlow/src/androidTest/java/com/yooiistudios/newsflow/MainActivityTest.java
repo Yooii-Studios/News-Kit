@@ -3,7 +3,6 @@ package com.yooiistudios.newsflow;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
 
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 
@@ -33,6 +32,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super.tearDown();
     }
 
+    /*
     @UiThreadTest
     public void testActivityOnCreate() {
         mInstrumentation.callActivityOnCreate(mActivity, null);
@@ -50,4 +50,5 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 //    public void testTrueFalse() {
 //        assertEquals(true, false);
 //    }
+    */
 }
