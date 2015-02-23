@@ -75,7 +75,7 @@
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
 
     <!-- Info-->
-    <string name="info_news_info">News Info</string>
+    <string name="info_news_info">News Flow Info</string>
     <string name="info_credit">Credit</string>
 
     <!-- More Info -->

@@ -1,8 +1,6 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.ui.activity.MoreInfoActivity;
+import com.yooiistudios.newsflow.util.AppInfo;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -19,7 +18,7 @@ import lombok.Getter;
 /**
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 7.
  *
- * MNInfoListViewAdapter
+ * MoreInfoListViewAdapter
  *  인포 프래그먼트의 리스트 어댑터
  */
 public class MoreInfoListAdapter extends BaseAdapter {
@@ -45,18 +44,7 @@ public class MoreInfoListAdapter extends BaseAdapter {
             if (convertView != null) {
                 MNSettingInfoVersionItemViewHolder viewHolder = new MNSettingInfoVersionItemViewHolder(convertView);
                 viewHolder.getTitleTextView().setText(R.string.more_info_version);
-
-                // get versionName
-                PackageInfo pInfo;
-                try {
-                    if (context.getPackageManager() != null) {
-                        pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-                        String version = pInfo.versionName;
-                        viewHolder.getDetailTextView().setText(version);
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+                viewHolder.getDetailTextView().setText(AppInfo.getVersionName(context));
             }
         }
         return convertView;
@@ -81,7 +69,7 @@ public class MoreInfoListAdapter extends BaseAdapter {
      * ViewHolder
      */
     static class MNSettingInfoItemViewHolder {
-        @Getter @InjectView(R.id.info_item_title)            TextView textView;
+        @Getter @InjectView(R.id.info_item_title) TextView textView;
 
         public MNSettingInfoItemViewHolder(View view) {
             ButterKnife.inject(this, view);
@@ -89,8 +77,8 @@ public class MoreInfoListAdapter extends BaseAdapter {
     }
 
     static class MNSettingInfoVersionItemViewHolder {
-        @Getter @InjectView(R.id.more_info_version_title_textview)   TextView titleTextView;
-        @Getter @InjectView(R.id.more_info_version_detail_textview)  TextView detailTextView;
+        @Getter @InjectView(R.id.more_info_version_title_textview) TextView titleTextView;
+        @Getter @InjectView(R.id.more_info_version_detail_textview) TextView detailTextView;
 
         public MNSettingInfoVersionItemViewHolder(View view) {
             ButterKnife.inject(this, view);
