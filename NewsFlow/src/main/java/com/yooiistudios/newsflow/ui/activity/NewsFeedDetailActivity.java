@@ -8,7 +8,6 @@ import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -54,7 +53,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -1192,7 +1190,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
 
         if (NLLog.isDebug()) {
-            subMenu.add(Menu.NONE, R.id.action_test, 0, "Show topics(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_select_topic, 0, "Select topics(Debug)");
             subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
         }
         subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
@@ -1251,25 +1249,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                             }
                         });
                 return true;
-            case R.id.action_test:
-                String languageCode = mNewsFeed.getTopicLanguageCode();
-                String regionCode = mNewsFeed.getTopicRegionCode();
-                NLLog.now("languageCode : " + (languageCode != null ? languageCode : "null"));
-                NLLog.now("regionCode : " + (regionCode != null ? regionCode : "null"));
-                NLLog.now("TopicProviderId : " + mNewsFeed.getTopicProviderId());
-                NLLog.now("TopicId : " + mNewsFeed.getTopicId());
 
-                NewsProvider newsProvider = NewsContentProvider.getInstance(getApplicationContext()).
-                                getNewsProvider(mNewsFeed);
-
+            case R.id.action_select_topic:
+                NewsProvider newsProvider =
+                        NewsContentProvider.getInstance(this).getNewsProvider(mNewsFeed);
                 if (newsProvider != null) {
-                    final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeAlertDialog(
-                            this, newsProvider, this);
-                    alertDialog.show();
-                } else {
-                    Toast.makeText(this, "No topic info...", Toast.LENGTH_SHORT).show();
+                    NewsTopicSelectDialogFactory.makeDialog(this, newsProvider, this).show();
                 }
-
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,17 +1,12 @@
 package com.yooiistudios.newsflow.ui.widget;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
-import com.yooiistudios.newsflow.ui.adapter.NewsTopicSelectAdapter;
 
 import java.util.ArrayList;
 
@@ -22,11 +17,12 @@ import java.util.ArrayList;
  *  뉴스 토픽 선택 다이얼로그 만드는 팩토리
  */
 public class NewsTopicSelectDialogFactory {
-
     private NewsTopicSelectDialogFactory() {
         throw new AssertionError("You can't create this class!");
     }
 
+    /*
+    // 더이상 쓰이지 않음
     public static AlertDialog makeAlertDialog(Activity activity, final NewsProvider newsProvider,
                                               final OnItemClickListener listener) {
         final ArrayList<NewsTopic> newsTopicList = newsProvider.getNewsTopicList();
@@ -50,6 +46,7 @@ public class NewsTopicSelectDialogFactory {
 
         return alertDialog;
     }
+    */
 
     public static Dialog makeDialog(Context context, final NewsProvider newsProvider,
                                     final OnItemClickListener listener) {
