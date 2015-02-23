@@ -23,7 +23,6 @@ import java.net.UnknownHostException;
  *  뉴스 피드 디테일 액티비티의 뉴스를 교체하는 데에 사용됨
  */
 public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
-
     public static final int FETCH_COUNT = 10;
 
     private RssFetchable mFetchable;

@@ -18,11 +18,10 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
-import com.yooiistudios.newsflow.model.news.NewsRegion;
+import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
-import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerViewAdapter;
+import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerAdapter;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
-import com.yooiistudios.newsflow.ui.widget.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -33,27 +32,21 @@ import butterknife.InjectView;
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 9.
  *
  * NewsSelectFragment
- *  뉴스 선택화면의 한 페이지의 컨텐츠.
+ *  뉴스 선택화면의 한 페이지의 컨텐츠
  */
 public class NewsSelectFragment extends Fragment
-        implements NewsSelectRecyclerViewAdapter.OnSelectionListener,
+        implements NewsSelectRecyclerAdapter.OnSelectionListener,
         NewsTopicSelectDialogFactory.OnItemClickListener {
-    public static final String KEY_TAB_POSITION = "KEY_TAB_POSITION";
+    public static final String KEY_TAB_INDEX = "key_tab_index";
+    public static final String KEY_SELECTED_RSS_FETCHABLE = "key_selected_rss_fetchable";
 
-//    public static final String KEY_SELECTED_NEWS_TOPIC = "KEY_SELECTED_NEWS_TOPIC";
-//    public static final String KEY_CUSTOM_RSS_URL = "KEY_CUSTOM_RSS_URL";
-    public static final String KEY_SELECTED_RSS_FETCHABLE = "KEY_SELECTED_RSS_FETCHABLE";
-
-    private ViewHolder mViewHolder;
-    private ArrayList<NewsProvider> mNewsProviderList;
-    private NewsRegion mNewsRegion;
-    private int mPosition;
+    private ArrayList<NewsProviderCountry> mNewsProviderCountries;
 
     public static NewsSelectFragment newInstance(int pageNum) {
         NewsSelectFragment fragment = new NewsSelectFragment();
 
         Bundle args = new Bundle();
-        args.putInt(KEY_TAB_POSITION, pageNum);
+        args.putInt(KEY_TAB_INDEX, pageNum);
         fragment.setArguments(args);
 
         return fragment;
@@ -63,22 +56,15 @@ public class NewsSelectFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int index;
         if (getArguments() != null) {
-            mPosition = getArguments().getInt(KEY_TAB_POSITION);
+            index = getArguments().getInt(KEY_TAB_INDEX);
         } else {
-            mPosition = 0;
+            index = 0;
         }
 
-        Context context = getActivity().getApplicationContext();
-
-        // 기존 메서드
-//        mNewsProviderList = NewsSelectPageContentProvider.getInstance().getNewsFeeds(context,
-//                NewsSelectPageContentProvider.getInstance().getLanguageAt(context, mPosition));
-
-        // 새 메서드
-        // 추후 mNewsProviderList는 삭제하고 providerList에서만 사용하게 리팩토링이 필요
-        mNewsRegion = NewsContentProvider.getInstance(context).getNewsRegion(mPosition);
-        mNewsProviderList = mNewsRegion.getNewsProviders();
+        NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(getActivity());
+        mNewsProviderCountries = newsContentProvider.getNewsLanguage(index).newsProviderCountries;
     }
 
     @Nullable
@@ -87,32 +73,31 @@ public class NewsSelectFragment extends Fragment
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout
                 .fragment_news_select_viewpager_item, container, false);
 
-        mViewHolder = new ViewHolder(root);
+        ViewHolder mViewHolder = new ViewHolder(root);
 
-        Context context = getActivity().getApplicationContext();
+        Context context = getActivity();
+
         // init recycler view
         mViewHolder.mRecyclerView.setHasFixedSize(true);
         mViewHolder.mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mViewHolder.mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(context));
 
-        NewsSelectRecyclerViewAdapter adapter = new NewsSelectRecyclerViewAdapter(mNewsProviderList);
+        NewsSelectRecyclerAdapter adapter = new NewsSelectRecyclerAdapter(mNewsProviderCountries);
         adapter.setOnNewsProviderClickListener(this);
         mViewHolder.mRecyclerView.setAdapter(adapter);
-        mViewHolder.mRecyclerView.addItemDecoration(new DividerItemDecoration(context,
-                DividerItemDecoration.VERTICAL_LIST));
 
         return root;
     }
 
     @Override
     public void onSelectNewsProvider(NewsProvider newsProvider) {
-//        final AlertDialog alertDialog = NewsTopicSelectDialogFactory.makeAlertDialog(
-//                getActivity(), newsProvider, this);
-//
-//        alertDialog.show();
-
         NewsTopicSelectDialogFactory.makeDialog(getActivity(), newsProvider, this).show();
+    }
+
+    @Override
+    public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry) {
+
     }
 
     @Override

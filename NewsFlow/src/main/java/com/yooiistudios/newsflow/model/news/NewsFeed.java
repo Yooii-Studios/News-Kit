@@ -29,6 +29,7 @@ public class NewsFeed implements Parcelable {
     // topic id
     private String mTopicLanguageCode = null;
     private String mTopicRegionCode = null;
+    private String mTopicCountryCode = null;
     private int mTopicProviderId = -1;
     private int mTopicId = -1;
 
@@ -49,6 +50,7 @@ public class NewsFeed implements Parcelable {
 
         mTopicLanguageCode = source.readString();
         mTopicRegionCode = source.readString();
+        mTopicCountryCode = source.readString();
         mTopicProviderId = source.readInt();
         mTopicId = source.readInt();
     }
@@ -59,13 +61,14 @@ public class NewsFeed implements Parcelable {
             mNewsFeedUrl = (NewsFeedUrl)fetchable;
         } else if (fetchable instanceof NewsTopic) {
             NewsTopic newsTopic = (NewsTopic)fetchable;
-            mTitle = newsTopic.getTitle();
-            mNewsFeedUrl = newsTopic.getNewsFeedUrl();
+            mTitle = newsTopic.title;
+            mNewsFeedUrl = newsTopic.newsFeedUrl;
 
-            mTopicLanguageCode = newsTopic.getLanguageCode();
-            mTopicRegionCode = newsTopic.getRegionCode();
-            mTopicProviderId = newsTopic.getNewsProviderId();
-            mTopicId = newsTopic.getId();
+            mTopicLanguageCode = newsTopic.languageCode;
+            mTopicRegionCode = newsTopic.regionCode;
+            mTopicCountryCode = newsTopic.countryCode;
+            mTopicProviderId = newsTopic.newsProviderId;
+            mTopicId = newsTopic.id;
         } else {
             throw new IllegalArgumentException("Unsupported RssFetchable.");
         }
@@ -81,6 +84,7 @@ public class NewsFeed implements Parcelable {
         dest.writeTypedList(mNewsList);
         dest.writeString(mTopicLanguageCode);
         dest.writeString(mTopicRegionCode);
+        dest.writeString(mTopicCountryCode);
         dest.writeInt(mTopicProviderId);
         dest.writeInt(mTopicId);
     }
@@ -184,6 +188,14 @@ public class NewsFeed implements Parcelable {
         mTopicRegionCode = topicRegionCode;
     }
 
+    public String getTopicCountryCode() {
+        return mTopicCountryCode;
+    }
+
+    public void setTopicCountryCode(String topicCountryCode) {
+        mTopicCountryCode = topicCountryCode;
+    }
+
     public int getTopicProviderId() {
         return mTopicProviderId;
     }
@@ -224,15 +236,17 @@ public class NewsFeed implements Parcelable {
     }
 
     public void setTopicIdInfo(NewsTopic newsTopic) {
-        setTopicLanguageCode(newsTopic.getLanguageCode());
-        setTopicRegionCode(newsTopic.getRegionCode());
-        setTopicProviderId(newsTopic.getNewsProviderId());
-        setTopicId(newsTopic.getId());
+        setTopicLanguageCode(newsTopic.languageCode);
+        setTopicRegionCode(newsTopic.regionCode);
+        setTopicCountryCode(newsTopic.countryCode);
+        setTopicProviderId(newsTopic.newsProviderId);
+        setTopicId(newsTopic.id);
     }
 
     public void setTopicIdInfo(NewsFeed newsFeed) {
         setTopicLanguageCode(newsFeed.getTopicLanguageCode());
         setTopicRegionCode(newsFeed.getTopicRegionCode());
+        setTopicCountryCode(newsFeed.getTopicCountryCode());
         setTopicProviderId(newsFeed.getTopicProviderId());
         setTopicId(newsFeed.getTopicId());
     }

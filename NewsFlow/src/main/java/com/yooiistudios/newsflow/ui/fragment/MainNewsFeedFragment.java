@@ -36,7 +36,7 @@ import butterknife.InjectView;
 public class MainNewsFeedFragment extends Fragment {
     private static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
     private static final String KEY_NEWS = "KEY_CURRENT_NEWS_INDEX";
-    private static final String KEY_POSITION = "KEY_TAB_POSITION";
+    private static final String KEY_POSITION = "KEY_TAB_INDEX";
 
     private ImageLoader mImageLoader;
     private NewsFeed mNewsFeed;

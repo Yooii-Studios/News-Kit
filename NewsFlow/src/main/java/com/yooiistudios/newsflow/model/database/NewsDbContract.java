@@ -25,6 +25,7 @@ public class NewsDbContract {
 
         public static final String COLUMN_NAME_TOPIC_REGION_CODE = "topic_region_code";
         public static final String COLUMN_NAME_TOPIC_LANGUAGE_CODE = "topic_language_code";
+        public static final String COLUMN_NAME_TOPIC_COUNTRY_CODE = "topic_country_code";
         public static final String COLUMN_NAME_TOPIC_PROVIDER_ID = "topic_provider_id";
         public static final String COLUMN_NAME_TOPIC_ID = "topic_id";
     }
