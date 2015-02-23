@@ -12,10 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
@@ -101,12 +99,6 @@ public class NewsSelectFragment extends Fragment
 
     @Override
     public void onSelectNewsTopic(Dialog dialog, NewsProvider newsProvider, int position) {
-        final ArrayList<NewsTopic> newsTopicList = newsProvider.getNewsTopicList();
-        if (!newsTopicList.get(position).isDefault() &&
-                !IabProducts.containsSku(getActivity(), IabProducts.SKU_TOPIC_SELECT)) {
-            Toast.makeText(getActivity(), R.string.iab_item_unavailable, Toast.LENGTH_LONG).show();
-            return;
-        }
         dialog.dismiss();
 
         NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);

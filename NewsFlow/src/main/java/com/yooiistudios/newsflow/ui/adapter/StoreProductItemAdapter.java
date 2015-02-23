@@ -30,7 +30,7 @@ import lombok.Getter;
  * MNStoreGridViewAdapter
  */
 public class StoreProductItemAdapter extends BaseAdapter {
-    public static final int NUM_OF_PRODUCT = 4;
+    public static final int NUM_OF_PRODUCT = 3;
     private Context mContext;
     private List<String> mOwnedSkus;
     private Inventory mInventory;
@@ -94,13 +94,15 @@ public class StoreProductItemAdapter extends BaseAdapter {
                 viewHolder.getDescriptionTextView().setText(R.string.store_more_panel_description);
                 viewHolder.getPriceButton().setTag(IabProducts.SKU_MORE_PANELS);
                 break;
+            /*
             case 2:
                 viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_topic);
                 viewHolder.getTitleTextView().setText(R.string.store_topic_select_title);
                 viewHolder.getDescriptionTextView().setText(R.string.store_topic_select_description);
                 viewHolder.getPriceButton().setTag(IabProducts.SKU_TOPIC_SELECT);
                 break;
-            case 3:
+            */
+            case 2:
                 viewHolder.getImageView().setImageResource(R.drawable.store_icon_list_rss);
                 viewHolder.getTitleTextView().setText(R.string.store_custom_rss_feed_title);
                 viewHolder.getDescriptionTextView().setText(R.string.store_custom_rss_feed_description);
