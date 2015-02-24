@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,21 +25,21 @@ import butterknife.InjectView;
  * NewsSelectDetailCountryFragment
  *  뉴스 선택화면 - 선택 국가의 언론사를 표시하는 프래그먼트
  */
-public class NewsSelectDetailCountryFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class NewsSelectCountryFragment extends Fragment implements AdapterView.OnItemClickListener {
     private static final String ARG_NEWS_PROVIDER_COUNTRY_JSON = "arg_json_data";
 
     @InjectView(R.id.news_select_detail_listview) ListView mListView;
     private NewsProviderCountry mNewsProviderCountry;
 
-    public static NewsSelectDetailCountryFragment newInstance(String jsonString) {
-        NewsSelectDetailCountryFragment fragment = new NewsSelectDetailCountryFragment();
+    public static NewsSelectCountryFragment newInstance(String jsonString) {
+        NewsSelectCountryFragment fragment = new NewsSelectCountryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NEWS_PROVIDER_COUNTRY_JSON, jsonString);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public NewsSelectDetailCountryFragment() {
+    public NewsSelectCountryFragment() {
         // Required empty public constructor
     }
 
@@ -84,6 +85,13 @@ public class NewsSelectDetailCountryFragment extends Fragment implements Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        if (position < mNewsProviderCountry.newsProviders.size()) {
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(mNewsProviderCountry.newsProviders.get(position));
+            Fragment newsProviderFragment = NewsSelectProviderFragment.newInstance(jsonString);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.news_select_detail_container, newsProviderFragment)
+                    .addToBackStack(null).commit();;
+        }
     }
 }

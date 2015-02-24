@@ -98,8 +98,6 @@ public class NewsSelectFragment extends Fragment
 //        intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, false);
 //        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProvider.name);
 //        startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
-        getActivity().overridePendingTransition(0, 0);
-
         NewsTopicSelectDialogFactory.makeDialog(getActivity(), newsProvider, this).show();
     }
 
@@ -114,7 +112,6 @@ public class NewsSelectFragment extends Fragment
         intent.putExtra(NewsSelectDetailActivity.KEY_NEWS_PROVIDER_COUNTRY, jsonString);
 
         startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
-        getActivity().overridePendingTransition(0, 0);
     }
 
     @Override

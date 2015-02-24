@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.activity;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -11,7 +12,7 @@ import android.text.style.TypefaceSpan;
 import android.view.MenuItem;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.ui.fragment.NewsSelectDetailCountryFragment;
+import com.yooiistudios.newsflow.ui.fragment.NewsSelectCountryFragment;
 import com.yooiistudios.newsflow.util.Device;
 
 import butterknife.ButterKnife;
@@ -74,7 +75,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
         if (isCountrySelected) {
             String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER_COUNTRY);
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
-                    NewsSelectDetailCountryFragment.newInstance(jsonString)).commit();
+                    NewsSelectCountryFragment.newInstance(jsonString)).commit();
         } else {
 //            getSupportFragmentManager().beginTransaction()
 //                    .replace(R.id.news_select_detail_container, new PlaceholderFragment())
@@ -84,16 +85,19 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
