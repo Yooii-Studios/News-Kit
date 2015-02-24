@@ -33,6 +33,7 @@ import butterknife.InjectView;
 public class NewsSelectActivity extends ActionBarActivity
         implements CustomRssDialogFragment.OnActionListener {
     private static final String TAG = NewsSelectActivity.class.getName();
+    public static final int RC_NEWS_SELECT_DETAIL = 38451;
 
     @InjectView(R.id.news_select_toolbar)           Toolbar mToolbar;
     @InjectView(R.id.news_select_sliding_tabs)      SlidingTabLayout mSlidingTabLayout;

@@ -22,7 +22,7 @@
     <string name="off">끄기</string>
 
     <!-- News Select -->
-    <string name="select_news_select_newsfeed_dialog_title">뉴스피드 선택</string>
+    <string name="select_newsfeed_title">뉴스피드 선택</string>
     <string name="title_activity_news">뉴스 선택</string>
 
     <!-- Setting -->
