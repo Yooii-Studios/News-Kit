@@ -15,7 +15,8 @@
         <item name="android:windowContentTransitions">false</item>
 
         <!-- 트랜지션시 뒷배경을 투명하게 만들기 위한 property -->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 기본 styles.xml로 옮김 -->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 </resources>

@@ -7,8 +7,8 @@
     <integer name="bottom_news_feed_auto_refresh_delay_milli">500</integer>
     <integer name="bottom_news_feed_fade_anim_duration_milli">550</integer>
 
-    <integer name="news_feed_detail_root_translation_duration_milli">600</integer>
-    <integer name="news_feed_detail_image_scale_duration_milli">400</integer>
+    <integer name="news_feed_detail_root_translation_duration_milli">350</integer>
+    <integer name="news_feed_detail_image_scale_duration_milli">600</integer>
     <integer name="news_feed_detail_root_horizontal_scale_duration_milli">400</integer>
     <integer name="news_feed_detail_root_vertical_scale_duration_milli">800</integer>
 
