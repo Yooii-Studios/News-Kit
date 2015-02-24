@@ -19,6 +19,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -171,7 +172,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private TintType mTintType;
     private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
-    private BitmapDrawable mToolbarHomeIcon;
+    private Drawable mToolbarHomeIcon;
     private BitmapDrawable mToolbarOverflowIcon;
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mColorSpan;
@@ -1027,10 +1028,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void initToolbarIcon() {
         if (getSupportActionBar() != null) {
-            Bitmap upIconBitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_ab_up_white);
-            mToolbarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
-            getSupportActionBar().setHomeAsUpIndicator(mToolbarHomeIcon);
+            mToolbarHomeIcon = mToolbar.getNavigationIcon();
 
             Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_menu_moreoverflow_mtrl_alpha);
