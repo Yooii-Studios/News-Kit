@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +35,9 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionText
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 
 import java.lang.reflect.Type;
+
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 
@@ -81,6 +83,7 @@ public class NewsFeedDetailTransitionUtils {
     private FrameLayout mTransitionLayout;
     private View mToolbarOverlayView;
     private View mTopGradientShadowView;
+    private View mRevealView;
 
     // Top
     private FrameLayout mTopNewsImageWrapper;
@@ -92,7 +95,7 @@ public class NewsFeedDetailTransitionUtils {
     // Bottom
     private RecyclerView mBottomNewsListRecyclerView;
 
-    private ColorDrawable mRootLayoutBackground;
+//    private ColorDrawable mRootLayoutBackground;
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mToolbarTitleColorSpan;
 
@@ -113,17 +116,17 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void requestActivityTransition() {
-        animateOnPreDraw();
+        transitAfterViewLocationFix();
     }
 
-    private void animateOnPreDraw() {
+    private void transitAfterViewLocationFix() {
         ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                initTransitionVariablesAfterLocationFix();
+                initTransitionVariablesAfterViewLocationFix();
                 startTransition();
 
                 return true;
@@ -135,18 +138,26 @@ public class NewsFeedDetailTransitionUtils {
         // TODO 나중에 각자의 애니메이션 부분의 시작 부분으로 옮겨야 함. 그 전까지는 따로 메서드로 추출하지 않음.
         mTopNewsTextLayout.setAlpha(0.0f);
         mBottomNewsListRecyclerView.setAlpha(0.0f);
-        mRootLayoutBackground.setAlpha(0);
+//        mRootLayoutBackground.setAlpha(0);
         mToolbar.setAlpha(0.0f);
 
-        revealRootView();
+        revealBackground();
         translateImage();
         scaleImage();
     }
 
-    private void revealRootView() {
-        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 0, 255);
-        bgAnim.setDuration(mRootViewTranslationAnimationDuration);
-        bgAnim.start();
+    private void revealBackground() {
+        int centerX = mTransImageViewProperty.getCenterX();
+        int centerY = mTransImageViewProperty.getCenterY();
+
+        double finalRadiusDouble = Math.hypot(mRevealView.getWidth(), mRevealView.getHeight());
+        int finalRadius = (int)Math.ceil(finalRadiusDouble);
+
+        SupportAnimator anim =
+                ViewAnimationUtils.createCircularReveal(mRevealView, centerX, centerY, 0, finalRadius);
+        anim.setDuration((int)mRootViewTranslationAnimationDuration);
+
+        anim.start();
     }
 
     private void translateImage() {
@@ -174,7 +185,7 @@ public class NewsFeedDetailTransitionUtils {
 
     private void initVariables(NewsFeedDetailActivity activity) {
         mActivity = activity;
-        mRootLayoutBackground = activity.getRootLayoutBackground();
+//        mRootLayoutBackground = activity.getRootLayoutBackground();
         mToolbarTitle = activity.getToolbarTitle();
         mToolbarTitleColorSpan = activity.getToolbarTitleColorSpan();
     }
@@ -185,6 +196,7 @@ public class NewsFeedDetailTransitionUtils {
         mTransitionLayout = mActivity.getTransitionLayout();
         mToolbarOverlayView = mActivity.getToolbarOverlayView();
         mTopGradientShadowView = mActivity.getTopGradientShadowView();
+        mRevealView = mActivity.getRevealView();
 
         // Top
         mTopNewsImageWrapper = mActivity.getTopNewsImageWrapper();
@@ -197,7 +209,7 @@ public class NewsFeedDetailTransitionUtils {
         mBottomNewsListRecyclerView = mActivity.getBottomNewsListRecyclerView();
     }
 
-    private void initTransitionVariablesAfterLocationFix() {
+    private void initTransitionVariablesAfterViewLocationFix() {
         // 액티비티 전환 관련 변수
         Bundle extras = mActivity.getIntent().getExtras();
 
@@ -476,7 +488,7 @@ public class NewsFeedDetailTransitionUtils {
 //                public boolean onPreDraw() {
 //                    mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 //
-//                    initTransitionVariablesAfterLocationFix();
+//                    initTransitionVariablesAfterViewLocationFix();
 //
 //                    mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
 //                    mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);

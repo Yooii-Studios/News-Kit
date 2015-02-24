@@ -121,6 +121,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @InjectView(R.id.detail_scroll_content_wrapper)                 RelativeLayout mScrollContentWrapper;
     @InjectView(R.id.newsfeed_detail_swipe_refresh_layout)          SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.detail_loading_cover)                          View mLoadingCoverView;
+    @Getter @InjectView(R.id.newsfeed_detail_reveal_view)           View mRevealView;
 
     // Top
     @Getter @InjectView(R.id.detail_top_news_image_wrapper)         FrameLayout mTopNewsImageWrapper;
@@ -146,7 +147,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
     private TintType mTintType;
-    @Getter private ColorDrawable mRootLayoutBackground;
+//    @Getter private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
     private BitmapDrawable mToolbarHomeIcon;
     private BitmapDrawable mToolbarOverflowIcon;
@@ -188,7 +189,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
 
         applySystemWindowsBottomInset();
-        initRootLayout();
+//        initRootLayout();
+        initRevealView();
         initToolbar();
         initSwipeRefreshView();
         initCustomScrollView();
@@ -210,6 +212,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
+    private void initRevealView() {
+        mRevealView.setBackgroundColor(BACKGROUND_COLOR);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -222,10 +228,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    private void initRootLayout() {
-        mRootLayoutBackground = new ColorDrawable(BACKGROUND_COLOR);
-        mRootLayout.setBackground(mRootLayoutBackground);
-    }
+//    private void initRootLayout() {
+//        mRootLayoutBackground = new ColorDrawable(BACKGROUND_COLOR);
+//        mRootLayout.setBackground(mRootLayoutBackground);
+//    }
 
     private void initAdView() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨

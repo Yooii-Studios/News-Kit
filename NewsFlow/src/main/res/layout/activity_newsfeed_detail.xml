@@ -7,6 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true">
+        <View
+            android:id="@+id/newsfeed_detail_reveal_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|bottom"/>
+    </io.codetail.widget.RevealFrameLayout>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/newsfeed_detail_toolbar"
         android:layout_width="match_parent"
