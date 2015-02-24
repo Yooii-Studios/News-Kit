@@ -11,7 +11,6 @@ import java.util.ArrayList;
  *  디폴드 뉴스 피드 제공자
  */
 public class NewsFeedDefaultUrlProvider {
-
     private NewsTopic mTopNewsTopic;
     private ArrayList<NewsTopic> mBottomNewsTopicList;
 
@@ -28,11 +27,11 @@ public class NewsFeedDefaultUrlProvider {
         NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(context);
 
         // TODO: 출시 전 로직 정상화 후 다시 초기화 뉴스를 기획 참고해 지정해줄 것
-        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "us", 1, 1);
+        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "us", 2, 1);
 
         mBottomNewsTopicList = new ArrayList<>();
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 1, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 1, 3));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 2, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 2, 3));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "jp", 1, 1));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "kr", 1, 2));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("fr", null, "fr", 1, 1));
