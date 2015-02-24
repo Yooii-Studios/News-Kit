@@ -16,9 +16,6 @@
     <style name="Base.NewsAppTheme.NewsFeedDetail" parent="@style/Theme.AppCompat.NoActionBar">
         <!-- ripple touch feedback color 를 변경 -->
         <item name="colorControlHighlight">@color/newsfeed_detail_highlight_color</item>
-        <!-- 트랜지션시 뒷배경을 투명하게 만들기 위한 property -->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="NewsFeedDetailTheme" parent="Base.NewsAppTheme.NewsFeedDetail"/>

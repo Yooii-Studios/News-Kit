@@ -551,9 +551,9 @@ public class MainActivity extends ActionBarActivity
     private void startNewsFeedDetailWithIntent(Intent intent) {
         startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             overridePendingTransition(0, 0);
-//        }
+        }
     }
 
     @Override

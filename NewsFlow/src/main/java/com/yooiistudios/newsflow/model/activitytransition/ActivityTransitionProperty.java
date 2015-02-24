@@ -52,12 +52,4 @@ public abstract class ActivityTransitionProperty {
     public int getHeight() {
         return mHeight;
     }
-
-    public int getCenterX() {
-        return getLeft() + getWidth() / 2;
-    }
-
-    public int getCenterY() {
-        return getTop() + getHeight() / 2;
-    }
 }
