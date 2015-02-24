@@ -245,41 +245,97 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         initTopNews();
         initBottomNewsList();
         initLoadingCoverView();
-        initAdView();
+        // TODO 트랜지션 테스트 하는데 퍼포먼스 딸려서 막아둠
+//        initAdView();
 
         // Only run the animation if we're coming from the parent activity, not if
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null) {
             if (mTopImageView.getDrawable() != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mTopNewsImageWrapper.bringToFront();
-
-                    ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
-                    observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-                        @Override
-                        public boolean onPreDraw() {
-                            mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                            initEnterExitAnimationVariable();
-
-                            mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
-                            mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
-
-                            addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
-                            addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
-                                    mTransFeedTitleViewProperty);
-
-                            runEnterAnimation();
-                            return true;
-                        }
-                    });
-                }
+                startTransitionAnimation();
             } else {
                 showLoadingCover();
             }
         }
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void startTransitionAnimation() {
+
+        ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                initEnterExitAnimationVariable();
+
+                // TODO 나중에 각자의 애니메이션 부분의 시작 부분으로 옮겨야 함.
+                mTopNewsTextLayout.setAlpha(0.0f);
+                mBottomNewsListRecyclerView.setAlpha(0.0f);
+                mRootLayoutBackground.setAlpha(0);
+                mToolbar.setAlpha(0.0f);
+//                ObjectAnimator bgAnim = ObjectAnimator.ofInt(mRootLayoutBackground, "alpha", 255, 0);
+//                bgAnim.setDuration(mExitAnimationDuration);
+//                bgAnim.start();
+
+                AnimatorPath imageTranslationPath = new AnimatorPath();
+                imageTranslationPath.moveTo(mThumbnailLeftDelta, mThumbnailTopDelta);
+                imageTranslationPath.lineTo(mThumbnailLeftTarget, mThumbnailTopTarget);
+
+                mTopNewsImageWrapper.setPivotX(0);
+                mTopNewsImageWrapper.setPivotY(0);
+                ObjectAnimator imageWrapperTranslationAnimator = ObjectAnimator.ofObject(
+                        NewsFeedDetailActivity.this, "ImageWrapperTranslation", new PathEvaluator(),
+                        imageTranslationPath.getPoints().toArray());
+                imageWrapperTranslationAnimator.setInterpolator(AnimationFactory.makeNewsFeedImageAndRootTransitionInterpolator(getApplicationContext()));
+                imageWrapperTranslationAnimator.setDuration(mRootViewTranslationAnimationDuration);
+                imageWrapperTranslationAnimator.start();
+//                mTopNewsImageWrapper.animate().scaleX();
+
+                // 크기 변경 PropertyValuesHolder 준비
+                ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+                lp.width = mTransImageViewProperty.getWidth();
+                lp.height = mTransImageViewProperty.getHeight();
+                mTopNewsImageWrapper.setLayoutParams(lp);
+
+                ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
+                        NewsFeedDetailActivity.this, "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
+                imageWrapperSizeAnimator.setInterpolator(
+                        AnimationFactory.makeNewsFeedImageScaleInterpolator(getApplicationContext()));
+                imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
+                imageWrapperSizeAnimator.start();
+
+                return true;
+            }
+        });
+    }
+
+    private void _startTransitionAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mTopNewsImageWrapper.bringToFront();
+
+            ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
+            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                @Override
+                public boolean onPreDraw() {
+                    mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                    initEnterExitAnimationVariable();
+
+                    mNewsTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+                    mNewsFeedTitleThumbnailTextView = new TextView(NewsFeedDetailActivity.this);
+
+                    addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
+                    addThumbnailTextView(mNewsFeedTitleThumbnailTextView,
+                            mTransFeedTitleViewProperty);
+
+                    runEnterAnimation();
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -312,9 +368,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-                    mAdView.bringToFront();
+//                    mAdView.bringToFront();
                     mAdUpperView.setVisibility(View.VISIBLE);
-                    mAdUpperView.bringToFront();
+//                    mAdUpperView.bringToFront();
                 }
             });
         }
@@ -368,6 +424,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mTopNewsImageWrapper.getLocationOnScreen(screenLocation);
         int left = screenLocation[0];
         int top = screenLocation[1];
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            top -= ScreenUtils.calculateStatusBarHeight(getApplicationContext());
+//        }
+
         mThumbnailLeftDelta = mTransImageViewProperty.getLeft() - left;
         mThumbnailTopDelta = mTransImageViewProperty.getTop() - top;
 

@@ -15,23 +15,6 @@
         android:background="@android:color/transparent"
         app:popupTheme="@style/Theme.AppCompat.Light"/>
 
-    <View
-        android:id="@+id/newsfeed_detail_ad_upper_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/admob_upper_divider_height"
-        android:layout_above="@+id/newsfeed_detail_adView"
-        android:background="@color/ad_upper_divider_color" />
-
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/newsfeed_detail_adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/8477940628" />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/newsfeed_detail_swipe_refresh_layout"
         android:layout_width="match_parent"
@@ -119,6 +102,24 @@
             </RelativeLayout>
         </com.yooiistudios.newsflow.ui.widget.ObservableScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/newsfeed_detail_adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-2310680050309555/8477940628" />
+
+    <View
+        android:id="@+id/newsfeed_detail_ad_upper_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/admob_upper_divider_height"
+        android:layout_above="@id/newsfeed_detail_adView"
+        android:visibility="invisible"
+        android:background="@color/ad_upper_divider_color" />
 
     <FrameLayout
         android:id="@+id/detail_transition_content_layout"
