@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
+import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
@@ -62,7 +63,9 @@ public class NewsSelectActivity extends ActionBarActivity
     }
 
     private void initViewPager() {
-        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
+        // 먼저 현재 언어에 따른 소팅이 필요하다
+        NewsContentProvider.getInstance(this).sortNewsProviderLanguage(this);
+        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), this));
     }
 
     private void initSlidingTabLayout() {

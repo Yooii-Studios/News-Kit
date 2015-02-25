@@ -46,11 +46,9 @@ public class NewsSelectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int index;
+        int index = 0;
         if (getArguments() != null) {
             index = getArguments().getInt(KEY_TAB_INDEX);
-        } else {
-            index = 0;
         }
         NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(getActivity());
         mNewsProviderCountries = newsContentProvider.getNewsLanguage(index).newsProviderCountries;
