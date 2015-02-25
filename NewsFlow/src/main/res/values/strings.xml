@@ -29,7 +29,7 @@
     <string name="news_detail_link_copied">The link is copied</string>
 
     <!-- News Select -->
-    <string name="select_news_select_newsfeed_dialog_title">Select a NewsFeed</string>
+    <string name="select_newsfeed_title">Select a NewsFeed</string>
     <string name="custom_news_feed_dialog_title">Enter RSS URL</string>
     <string name="custom_news_feed_menu_item_title">Type RSS</string>
     <string name="custom_news_feed_url">Url</string>

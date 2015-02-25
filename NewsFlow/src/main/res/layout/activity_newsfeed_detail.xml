@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="@android:color/transparent"
-        app:popupTheme="@style/Theme.AppCompat.Light"/>
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"/>
 
     <View
         android:id="@+id/newsfeed_detail_ad_upper_view"

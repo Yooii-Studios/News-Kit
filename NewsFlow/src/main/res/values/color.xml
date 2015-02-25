@@ -29,7 +29,7 @@
     <color name="news_select_color_primary_dark">@color/material_grey_500</color>
     <color name="news_select_color_accent">#01bcd4</color>
 
-    <color name="news_select_disabled_text_color">#89000000</color> <!-- opacity 54% of black color -->
+    <color name="news_select_disabled_text_color">@color/material_black_secondary_text</color> <!-- opacity 54% of black color -->
     <color name="news_select_selectable_item_background">#aabdbdbd</color> <!-- 66% of material grey 400 -->
 
     <color name="news_select_item_text_color">#dd000000</color> <!-- 66% of material grey 400 -->

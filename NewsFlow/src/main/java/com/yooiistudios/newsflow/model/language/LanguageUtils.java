@@ -68,7 +68,7 @@ public class LanguageUtils {
 
         // update locale
         Language currentLanguage = LanguageUtils.getCurrentLanguageType(activity);
-        Locale locale = new Locale(currentLanguage.getCode(), currentLanguage.getRegion());
+        Locale locale = new Locale(currentLanguage.getLanguageCode(), currentLanguage.getRegion());
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;

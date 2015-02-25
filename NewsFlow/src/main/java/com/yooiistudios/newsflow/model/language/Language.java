@@ -26,7 +26,7 @@ public enum Language {
 
     private final int index; // 리스트뷰에 표시할 용도의 index
     private final int uniqueId; // SharedPreferences 에 저장될 용도의 unique id
-    private final String code;
+    private final String languageCode;
     private final String region;
     private final String englishNotation;
     private final int localNotationStringId;
@@ -35,7 +35,7 @@ public enum Language {
                      String englishNotation, int localNotationStringId) {
         this.index = index;
         this.uniqueId = uniqueId;
-        this.code = code;
+        this.languageCode = code;
         this.region = region;
         this.englishNotation = englishNotation;
         this.localNotationStringId = localNotationStringId;
@@ -61,8 +61,8 @@ public enum Language {
 
     public static Language valueOfCodeAndRegion(String code, String region) {
         for (Language language : Language.values()) {
-            if (language.getCode().equals(code)) {
-                if (language.getCode().equals("zh") || language.getCode().equals("pt")) {
+            if (language.getLanguageCode().equals(code)) {
+                if (language.getLanguageCode().equals("zh") || language.getLanguageCode().equals("pt")) {
                     if (language.getRegion().equals(region)) {
                         return language;
                     }
@@ -77,7 +77,7 @@ public enum Language {
 
     public int getIndex() { return index; }
     public int getUniqueId() { return uniqueId; }
-    public String getCode() { return code; }
+    public String getLanguageCode() { return languageCode; }
     public String getRegion() { return region; }
     public String getEnglishNotation() { return englishNotation; }
     public int getLocalNotationStringId() { return localNotationStringId; }
