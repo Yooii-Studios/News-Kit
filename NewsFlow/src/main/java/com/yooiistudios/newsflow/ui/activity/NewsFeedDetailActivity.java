@@ -1210,11 +1210,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 }
                 return true;
 
-            case R.id.action_replace_newsfeed:
-                startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
-                        REQ_SELECT_NEWS_FEED);
-                // 교체화면으로 가면 무조건 자동스크롤은 멈춰주기 - 교체하고 돌아올 경우 꼬인다
-                stopAutoScroll();
+            case R.id.action_select_topic:
+                NewsProvider newsProvider =
+                        NewsContentProvider.getInstance(this).getNewsProvider(mNewsFeed);
+                if (newsProvider != null) {
+                    NewsTopicSelectDialogFactory.makeDialog(this, newsProvider, this).show();
+
+                    // 무조건 자동스크롤은 멈춰주기 - 교체하고 돌아올 경우 꼬인다
+                    stopAutoScroll();
+                }
                 return true;
 
             case R.id.action_auto_scroll:
@@ -1247,13 +1251,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                         });
                 return true;
 
-            case R.id.action_select_topic:
-                NewsProvider newsProvider =
-                        NewsContentProvider.getInstance(this).getNewsProvider(mNewsFeed);
-                if (newsProvider != null) {
-                    NewsTopicSelectDialogFactory.makeDialog(this, newsProvider, this).show();
-                }
-                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -1632,6 +1630,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     public void onSelectNewsTopic(Dialog dialog, NewsProvider newsProvider, int position) {
         dialog.dismiss();
+
+        mScrollView.smoothScrollTo(0, 0);
 
         NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
         replaceNewsFeed(selectedTopic);
