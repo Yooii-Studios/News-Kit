@@ -15,8 +15,8 @@ import java.util.List;
  * SKIabProducts
  */
 public class IabProducts {
-    public static final String SKU_FULL_VERSION_ORIGINAL = "full_version_original";
-    public static final String SKU_FULL_VERSION = "test_full_version"; // "full_version"
+    public static final String SKU_PRO_VERSION_ORIGINAL = "pro_version_original";
+    public static final String SKU_PRO_VERSION = "test_pro_version"; // "pro_version"
     public static final String SKU_NO_ADS = "test_no_ad"; // "no_ads"
     public static final String SKU_MORE_PANELS = "test_more_news"; // "more_news"
     public static final String SKU_TOPIC_SELECT = "test_topic_select"; // "topic_select"
@@ -27,8 +27,8 @@ public class IabProducts {
 
     public static List<String> makeProductKeyList() {
         List<String> iabKeyList = new ArrayList<String>();
-        iabKeyList.add(SKU_FULL_VERSION_ORIGINAL);
-        iabKeyList.add(SKU_FULL_VERSION);
+        iabKeyList.add(SKU_PRO_VERSION_ORIGINAL);
+        iabKeyList.add(SKU_PRO_VERSION);
         iabKeyList.add(SKU_NO_ADS);
         iabKeyList.add(SKU_MORE_PANELS);
         iabKeyList.add(SKU_TOPIC_SELECT);
@@ -73,8 +73,8 @@ public class IabProducts {
         } else {
             prefs = context.getSharedPreferences(SHARED_PREFERENCES_IAB_DEBUG, Context.MODE_PRIVATE);
         }
-        if (prefs.getBoolean(SKU_FULL_VERSION, false)) {
-            ownedSkus.add(SKU_FULL_VERSION);
+        if (prefs.getBoolean(SKU_PRO_VERSION, false)) {
+            ownedSkus.add(SKU_PRO_VERSION);
             ownedSkus.add(SKU_NO_ADS);
             ownedSkus.add(SKU_MORE_PANELS);
             ownedSkus.add(SKU_TOPIC_SELECT);
