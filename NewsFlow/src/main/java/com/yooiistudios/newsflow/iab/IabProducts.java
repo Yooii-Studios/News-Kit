@@ -16,22 +16,22 @@ import java.util.List;
  */
 public class IabProducts {
     public static final String SKU_PRO_VERSION_ORIGINAL = "pro_version_original";
-    public static final String SKU_PRO_VERSION = "test_pro_version"; // "pro_version"
-    public static final String SKU_NO_ADS = "test_no_ad"; // "no_ads"
-    public static final String SKU_MORE_PANELS = "test_more_news"; // "more_news"
-    public static final String SKU_TOPIC_SELECT = "test_topic_select"; // "topic_select"
-    public static final String SKU_CUSTOM_RSS_URL = "test_custom_rss_feed"; // custom_rss_feed
+    public static final String SKU_PRO_VERSION = "pro_version"; // "pro_version"
+    public static final String SKU_NO_ADS = "no_ads"; // "test_no_ad"
+    public static final String SKU_MORE_PANELS = "more_news"; // "test_more_news"
+//    public static final String SKU_TOPIC_SELECT = "test_topic_select"; // "topic_select"
+    public static final String SKU_CUSTOM_RSS_URL = "custom_rss_feed"; // "test_custom_rss_feed"
 
     private static final String SHARED_PREFERENCES_IAB = "SHARED_PREFERENCES_IAB";
     private static final String SHARED_PREFERENCES_IAB_DEBUG = "SHARED_PREFERENCES_IAB_DEBUG";
 
     public static List<String> makeProductKeyList() {
-        List<String> iabKeyList = new ArrayList<String>();
+        List<String> iabKeyList = new ArrayList<>();
         iabKeyList.add(SKU_PRO_VERSION_ORIGINAL);
         iabKeyList.add(SKU_PRO_VERSION);
         iabKeyList.add(SKU_NO_ADS);
         iabKeyList.add(SKU_MORE_PANELS);
-        iabKeyList.add(SKU_TOPIC_SELECT);
+//        iabKeyList.add(SKU_TOPIC_SELECT);
         iabKeyList.add(SKU_CUSTOM_RSS_URL);
         return iabKeyList;
     }
@@ -65,7 +65,7 @@ public class IabProducts {
 
     // 구매된 아이템들을 로드
     public static List<String> loadOwnedIabProducts(Context context) {
-        List<String> ownedSkus = new ArrayList<String>();
+        List<String> ownedSkus = new ArrayList<>();
 
         SharedPreferences prefs;
         if (StoreDebugCheckUtils.isUsingStore(context)) {
@@ -77,7 +77,7 @@ public class IabProducts {
             ownedSkus.add(SKU_PRO_VERSION);
             ownedSkus.add(SKU_NO_ADS);
             ownedSkus.add(SKU_MORE_PANELS);
-            ownedSkus.add(SKU_TOPIC_SELECT);
+//            ownedSkus.add(SKU_TOPIC_SELECT);
             ownedSkus.add(SKU_CUSTOM_RSS_URL);
         } else {
             if (prefs.getBoolean(SKU_NO_ADS, false)) {
@@ -86,9 +86,9 @@ public class IabProducts {
             if (prefs.getBoolean(SKU_MORE_PANELS, false)) {
                 ownedSkus.add(SKU_MORE_PANELS);
             }
-            if (prefs.getBoolean(SKU_TOPIC_SELECT, false)) {
-                ownedSkus.add(SKU_TOPIC_SELECT);
-            }
+//            if (prefs.getBoolean(SKU_TOPIC_SELECT, false)) {
+//                ownedSkus.add(SKU_TOPIC_SELECT);
+//            }
             if (prefs.getBoolean(SKU_CUSTOM_RSS_URL, false)) {
                 ownedSkus.add(SKU_CUSTOM_RSS_URL);
             }
