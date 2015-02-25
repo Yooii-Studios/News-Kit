@@ -3,7 +3,6 @@ package com.yooiistudios.newsflow.ui.animation;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -367,52 +366,6 @@ public class NewsFeedDetailTransitionUtils {
         int blue = Color.blue(filterColor);
         int argb = Color.argb(Color.alpha(filterColor), red, green, blue);
         ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimationDuration);
-//            mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
-//
-//            ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
-//            color.addUpdateListener(new ColorFilterListener(mTopImageView));
-//            color.setDuration(mImageFilterAnimationDuration).start();
-
-
-
-//        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color",
-//                Color.argb(Color.alpha(filterColor), red, green, blue));
-//
-//        color.addUpdateListener(new ColorFilterListener(mTopImageView));
-//        color.setDuration(mImageFilterAnimationDuration);
-//        color.start();
-
-
-//        mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
-//        if (Device.hasLollipop()) {
-//            ObjectAnimator animator = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(),
-//                    "color", argb, 0);
-////            ObjectAnimator animator = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "tint", argb, 0);
-//            animator.addUpdateListener(new ColorFilterListener(mTopImageView));
-//            animator.setDuration(mImageFilterAnimationDuration).start();
-//        } else {
-//            com.nineoldandroids.animation.ObjectAnimator animator =
-//                    com.nineoldandroids.animation.ObjectAnimator.ofInt(
-//                            mTopImageView.getColorFilter(), "tint", argb, 0);
-//            animator.addUpdateListener(new ColorFilterListener(mTopImageView));
-//            animator.setDuration(mImageFilterAnimationDuration).start();
-//        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void fadeInHeroImageColorFilter() {
-        int filterColor = mActivity.getFilterColor();
-
-        int red = Color.red(filterColor);
-        int green = Color.green(filterColor);
-        int blue = Color.blue(filterColor);
-
-        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color",
-                Color.argb(Color.alpha(filterColor), red, green, blue));
-
-        color.addUpdateListener(new ColorFilterListener(mTopImageView));
-        color.setDuration(mImageFilterAnimationDuration);
-        color.start();
     }
 
     private void addThumbnailTextView(TextView textView,
@@ -508,19 +461,6 @@ public class NewsFeedDetailTransitionUtils {
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (mActivity.getSupportActionBar() != null) {
             mActivity.getSupportActionBar().setTitle(mToolbarTitle);
-        }
-    }
-
-    private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
-        private final ImageView mHeroImageView;
-
-        public ColorFilterListener(ImageView hero) {
-            mHeroImageView = hero;
-        }
-
-        @Override
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            mHeroImageView.getDrawable().setColorFilter(mHeroImageView.getColorFilter());
         }
     }
 
