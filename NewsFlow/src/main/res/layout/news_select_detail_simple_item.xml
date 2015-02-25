@@ -9,5 +9,4 @@
     android:paddingRight="@dimen/base_margin"
     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
     android:textColor="@color/news_select_item_text_color"
-    android:textSize="@dimen/material_text_subhead"
     android:text="CNN"/>

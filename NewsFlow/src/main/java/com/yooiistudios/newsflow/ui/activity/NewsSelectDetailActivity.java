@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewsSelectDetailActivity extends ActionBarActivity {
-    public static final String KEY_TITLE = "key_title";
     public static final String KEY_IS_COUNTRY_SELECTED = "key_is_country_selected";
     public static final String KEY_NEWS_PROVIDER_COUNTRY = "key_news_provider_country";
     public static final String KEY_NEWS_PROVIDER = "key_news_provider";
@@ -48,19 +47,6 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
 
         // sans-serif-medium, 20sp
         mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
-
-        // title 은 선택한 국가나 언론사를 표시
-        String title = getIntent().getStringExtra(KEY_TITLE);
-        if (title == null) {
-            title = getString(R.string.select_newsfeed_title);
-        }
-
-        // typeface 는 따로 설정 필요
-        SpannableString spannableTitle = new SpannableString(title);
-        spannableTitle.setSpan(new TypefaceSpan(getString(R.string.noto_sans_medium)), 0,
-                spannableTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        mToolbar.setTitle(spannableTitle);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -69,6 +55,15 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
             mToolbar.setElevation(getResources()
                     .getDimensionPixelSize(R.dimen.news_select_elevation));
         }
+    }
+
+    public void setToolbarTitle(String title) {
+        // typeface 는 따로 설정 필요
+        SpannableString spannableTitle = new SpannableString(title);
+        spannableTitle.setSpan(new TypefaceSpan(getString(R.string.noto_sans_medium)), 0,
+                spannableTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        mToolbar.setTitle(spannableTitle);
     }
 
     private void initFragment() {

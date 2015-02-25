@@ -149,7 +149,6 @@ public class NewsSelectActivity extends ActionBarActivity
     public void onSelectNewsProvider(NewsProvider newsProvider) {
         Intent intent = new Intent(this, NewsSelectDetailActivity.class);
         intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, false);
-        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProvider.name);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(newsProvider);
@@ -162,7 +161,6 @@ public class NewsSelectActivity extends ActionBarActivity
     public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry) {
         Intent intent = new Intent(this, NewsSelectDetailActivity.class);
         intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, true);
-        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProviderCountry.countryLocalName);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(newsProviderCountry);

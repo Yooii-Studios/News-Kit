@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -16,7 +15,11 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
+import com.yooiistudios.newsflow.ui.adapter.NewsSelectDetailAdapter;
 import com.yooiistudios.newsflow.util.NLLog;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,16 +56,9 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
             if (jsonString != null) {
                 Gson gson = new Gson();
                 mNewsProvider = gson.fromJson(jsonString, NewsProvider.class);
-//                initToolbarTitle(newsProviderCountry.countryLocalName);
             }
         }
     }
-
-//    private void initToolbarTitle(String title) {
-//        if (getActivity().getActionBar() != null) {
-//            getActivity().getActionBar().setTitle(title);
-//        }
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,17 +67,20 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
         if (rootView != null) {
             ButterKnife.inject(this, rootView);
             initListView();
+            if (mNewsProvider != null) {
+                ((NewsSelectDetailActivity)getActivity()).setToolbarTitle(
+                        mNewsProvider.name);
+            }
         }
         return rootView;
     }
 
     private void initListView() {
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(getActivity(), R.layout.news_select_detail_simple_item);
+        ArrayList<String> topicNames = new ArrayList<>();
         for (NewsTopic newsTopic : mNewsProvider.getNewsTopicList()) {
-            adapter.add(newsTopic.title);
+            topicNames.add(newsTopic.title);
         }
-        mListView.setAdapter(adapter);
+        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), topicNames));
         mListView.setOnItemClickListener(this);
     }
 

@@ -8,13 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
+import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
+import com.yooiistudios.newsflow.ui.adapter.NewsSelectDetailAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,16 +54,9 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
             if (jsonString != null) {
                 Gson gson = new Gson();
                 mNewsProviderCountry = gson.fromJson(jsonString, NewsProviderCountry.class);
-//                initToolbarTitle(newsProviderCountry.countryLocalName);
             }
         }
     }
-
-//    private void initToolbarTitle(String title) {
-//        if (getActivity().getActionBar() != null) {
-//            getActivity().getActionBar().setTitle(title);
-//        }
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,17 +65,20 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
         if (rootView != null) {
             ButterKnife.inject(this, rootView);
             initListView();
+            if (mNewsProviderCountry != null) {
+                ((NewsSelectDetailActivity)getActivity()).setToolbarTitle(
+                        mNewsProviderCountry.countryLocalName);
+            }
         }
         return rootView;
     }
 
     private void initListView() {
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(getActivity(), R.layout.news_select_detail_simple_item);
+        ArrayList<String> providerNames = new ArrayList<>();
         for (NewsProvider newsProvider : mNewsProviderCountry.newsProviders) {
-            adapter.add(newsProvider.name);
+            providerNames.add(newsProvider.name);
         }
-        mListView.setAdapter(adapter);
+        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), providerNames));
         mListView.setOnItemClickListener(this);
     }
 
