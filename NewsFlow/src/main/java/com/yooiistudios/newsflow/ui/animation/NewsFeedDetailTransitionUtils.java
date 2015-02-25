@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -54,6 +56,10 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRAN
  *  NewsFeedDetailActivity 의 액티비티 트랜지션 애니메이션을 래핑한 클래스
  */
 public class NewsFeedDetailTransitionUtils {
+    private static final String SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION
+            = "shared_preferences_newsfeed_detail_transition";
+    private static final String KEY_USE_SCALED_DURATION = "key_use_scale_duration";
+
     // 액티비티 전환 애니메이션 관련 변수
     private ActivityTransitionImageViewProperty mTransImageViewProperty;
     private ActivityTransitionTextViewProperty mTransTitleViewProperty;
@@ -71,7 +77,8 @@ public class NewsFeedDetailTransitionUtils {
     private TextView mNewsFeedTitleThumbnailTextView;
 
     // 액티비티 트랜지션 속도 관련 변수
-    public static int sAnimatorScale = 1;
+    private int mAnimatorScale = 1;
+    private long mDebugTempDuration;
     private long mExitAnimationDuration = 100;
     private long mImageFilterAnimationDuration;
     private long mImageScaleAnimationDuration;
@@ -141,7 +148,10 @@ public class NewsFeedDetailTransitionUtils {
                 mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
                 initTransitionVariablesAfterViewLocationFix();
+                prepareViewPropertiesBeforeTransition();
+
                 addThumbnailTextViews();
+
                 startTransition();
 
                 return true;
@@ -149,25 +159,33 @@ public class NewsFeedDetailTransitionUtils {
         });
     }
 
+    /**
+     * 트랜지션들중 바로 시작되지 않는 뷰들의 속성은 여기에서 미리 설정해준다.
+     */
+    private void prepareViewPropertiesBeforeTransition() {
+        mToolbar.setAlpha(0.0f);
+
+        saveTopOverlayAlphaState();
+        mTopGradientShadowView.setAlpha(0);
+        mToolbarOverlayView.setAlpha(0);
+    }
+
     private void startTransition() {
         // TODO 나중에 각자의 애니메이션 부분의 시작 부분으로 옮겨야 함. 그 전까지는 따로 메서드로 추출하지 않음.
-        mTopNewsTextLayout.setAlpha(0.0f);
-        mBottomNewsListRecyclerView.setAlpha(0.0f);
 
         revealBackground();
+        animateThumbnailImageAndTexts();
+
+        fadeInTopNewsTextLayout();
+        mBottomNewsListRecyclerView.setAlpha(0.0f);
+        mBottomNewsListRecyclerView.animate().alpha(1.0f).setDuration(mDebugTempDuration);
+    }
+
+    private void animateThumbnailImageAndTexts() {
         translateImage();
         scaleImage();
         fadeOutHeroImageColorFilter();
         fadeOutThumbnailTexts();
-
-        mToolbar.setAlpha(0.0f);
-        // 탑 뉴스 텍스트(타이틀, 디스크립션) 애니메이션
-        animateTopItems();
-
-        //　액션바 배경, 오버레이 페이드 인
-        saveTopOverlayAlphaState();
-        mTopGradientShadowView.setAlpha(0);
-        mToolbarOverlayView.setAlpha(0);
     }
 
     private void revealBackground() {
@@ -313,22 +331,27 @@ public class NewsFeedDetailTransitionUtils {
     private void initDurationVariables() {
         // 애니메이션 속도 관련 변수
         Resources resources = mActivity.getResources();
+
+        mAnimatorScale = isUseScaledDurationDebug(mActivity.getApplicationContext()) ?
+                resources.getInteger(R.integer.news_feed_detail_debug_transition_scale) : 1;
+
         mImageFilterAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_image_filter_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_image_filter_duration_milli) * mAnimatorScale;
         mImageScaleAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_image_scale_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_image_scale_duration_milli) * mAnimatorScale;
         mRootViewHorizontalScaleAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_root_horizontal_scale_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_root_horizontal_scale_duration_milli) * mAnimatorScale;
         mRootViewVerticalScaleAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_root_vertical_scale_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_root_vertical_scale_duration_milli) * mAnimatorScale;
         mRootViewTranslationAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_root_translation_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_root_translation_duration_milli) * mAnimatorScale;
         mThumbnailTextAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_thumbnail_text_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_thumbnail_text_duration_milli) * mAnimatorScale;
         mToolbarIconAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_action_bar_content_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_action_bar_content_duration_milli) * mAnimatorScale;
         mToolbarBgAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_action_bar_bg_duration_milli) * sAnimatorScale;
+                R.integer.news_feed_detail_action_bar_bg_duration_milli) * mAnimatorScale;
+        mDebugTempDuration = mImageScaleAnimationDuration;
     }
 
     private void fadeOutHeroImageColorFilter() {
@@ -388,17 +411,22 @@ public class NewsFeedDetailTransitionUtils {
         mTransitionLayout.addView(view, lp);
     }
 
-    private void animateTopItems() {
-        mTopTitleTextView.animate()
-                .setStartDelay(450)
-                .setDuration(650)
-                .alpha(1f)
-                .setInterpolator(new DecelerateInterpolator());
-        mTopDescriptionTextView.animate()
-                .setStartDelay(450)
-                .setDuration(650)
-                .alpha(1f)
-                .setInterpolator(new DecelerateInterpolator());
+    private void fadeInTopNewsTextLayout() {
+        mTopNewsTextLayout.setAlpha(0.0f);
+        mTopNewsTextLayout.animate()
+                .setDuration(mDebugTempDuration)
+                .alpha(1.0f);
+
+//        mTopTitleTextView.animate()
+//                .setStartDelay(450)
+//                .setDuration(650)
+//                .alpha(1f)
+//                .setInterpolator(new DecelerateInterpolator());
+//        mTopDescriptionTextView.animate()
+//                .setStartDelay(450)
+//                .setDuration(650)
+//                .alpha(1f)
+//                .setInterpolator(new DecelerateInterpolator());
     }
 
     private void animateTopOverlayFadeIn() {
@@ -457,6 +485,19 @@ public class NewsFeedDetailTransitionUtils {
         if (mActivity.getSupportActionBar() != null) {
             mActivity.getSupportActionBar().setTitle(mToolbarTitle);
         }
+    }
+
+    public static void toggleUseScaledDurationDebug(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(
+                SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION, Context.MODE_PRIVATE);
+        boolean useScaledDuration = prefs.getBoolean(KEY_USE_SCALED_DURATION, false);
+        prefs.edit().putBoolean(KEY_USE_SCALED_DURATION, !useScaledDuration).apply();
+    }
+
+    public static boolean isUseScaledDurationDebug(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(
+                SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_USE_SCALED_DURATION, false);
     }
 
 //    /**
@@ -834,7 +875,7 @@ public class NewsFeedDetailTransitionUtils {
 //        feedTitleThumbnailAlphaAnimator.start();
 //
 //        // 탑 뉴스 텍스트(타이틀, 디스크립션) 애니메이션
-//        animateTopItems();
+//        fadeInTopNewsTextLayout();
 //
 //        // 액션바 내용물 우선 숨겨두도록
 //        mToolbarHomeIcon.setAlpha(0);
