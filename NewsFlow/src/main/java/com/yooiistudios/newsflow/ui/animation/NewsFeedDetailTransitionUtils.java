@@ -141,6 +141,7 @@ public class NewsFeedDetailTransitionUtils {
                 mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
                 initTransitionVariablesAfterViewLocationFix();
+                addThumbnailTextViews();
                 startTransition();
 
                 return true;
@@ -157,31 +158,11 @@ public class NewsFeedDetailTransitionUtils {
         translateImage();
         scaleImage();
         fadeOutHeroImageColorFilter();
-        addThumbnailTextViews();
-        // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
-        mNewsTitleThumbnailTextView.setAlpha(1.0f);
-        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
-        thumbnailAlphaAnimator.alpha(0.0f);
-        thumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
-//        thumbnailAlphaAnimator.setInterpolator(commonInterpolator);
-        thumbnailAlphaAnimator.start();
+        fadeOutThumbnailTexts();
 
-        // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
-        mNewsFeedTitleThumbnailTextView.setAlpha(1.0f);
-        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
-                = mNewsFeedTitleThumbnailTextView.animate();
-        feedTitleThumbnailAlphaAnimator.alpha(0.0f);
-        feedTitleThumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
-//        feedTitleThumbnailAlphaAnimator.setInterpolator(commonInterpolator);
-        feedTitleThumbnailAlphaAnimator.start();
-
+        mToolbar.setAlpha(0.0f);
         // 탑 뉴스 텍스트(타이틀, 디스크립션) 애니메이션
         animateTopItems();
-
-        // 액션바 내용물 우선 숨겨두도록
-        mToolbarHomeIcon.setAlpha(0);
-        mToolbarTitleColorSpan.setAlpha(0.0f);
-        mToolbarOverflowIcon.setAlpha(0);
 
         //　액션바 배경, 오버레이 페이드 인
         saveTopOverlayAlphaState();
@@ -239,7 +220,7 @@ public class NewsFeedDetailTransitionUtils {
 
     private void scaleImage() {
         ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
-                this, "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
+                this, "imageWrapperSize", 1.0f, mThumbnailScaleRatio);
         imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
         imageWrapperSizeAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -254,25 +235,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeInToolbar() {
-        // 툴바 텍스트 페이드인
-        ObjectAnimator toolbarTitleAnimator = ObjectAnimator.ofFloat(
-                this, "toolbarTitleAlpha", 0.0f, 1.0f);
-        toolbarTitleAnimator.setDuration(mToolbarIconAnimationDuration);
-//                toolbarTitleAnimator.setInterpolator(commonInterpolator);
-        toolbarTitleAnimator.start();
-
-        // 액션바 아이콘 페이드인
-        ObjectAnimator toolbarHomeIconAnimator =
-                ObjectAnimator.ofInt(mToolbarHomeIcon, "alpha", 0, 255);
-        toolbarHomeIconAnimator.setDuration(mToolbarIconAnimationDuration);
-//                toolbarHomeIconAnimator.setInterpolator(commonInterpolator);
-        toolbarHomeIconAnimator.start();
-
-        ObjectAnimator toolbarOverflowIconAnimator =
-                ObjectAnimator.ofInt(mToolbarOverflowIcon, "alpha", 0, 255);
-        toolbarOverflowIconAnimator.setDuration(mToolbarIconAnimationDuration);
-//                toolbarOverflowIconAnimator.setInterpolator(commonInterpolator);
-        toolbarOverflowIconAnimator.start();
+        mToolbar.animate().alpha(1.0f).setDuration(mToolbarIconAnimationDuration);
     }
 
     private void initViewsAndVariables(NewsFeedDetailActivity activity) {
@@ -376,6 +339,25 @@ public class NewsFeedDetailTransitionUtils {
         int blue = Color.blue(filterColor);
         int argb = Color.argb(Color.alpha(filterColor), red, green, blue);
         ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimationDuration);
+    }
+
+    private void fadeOutThumbnailTexts() {
+        // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
+        mNewsTitleThumbnailTextView.setAlpha(1.0f);
+        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
+        thumbnailAlphaAnimator.alpha(0.0f);
+        thumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
+//        thumbnailAlphaAnimator.setInterpolator(commonInterpolator);
+        thumbnailAlphaAnimator.start();
+
+        // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
+        mNewsFeedTitleThumbnailTextView.setAlpha(1.0f);
+        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
+                = mNewsFeedTitleThumbnailTextView.animate();
+        feedTitleThumbnailAlphaAnimator.alpha(0.0f);
+        feedTitleThumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
+//        feedTitleThumbnailAlphaAnimator.setInterpolator(commonInterpolator);
+        feedTitleThumbnailAlphaAnimator.start();
     }
 
     private void addThumbnailTextView(TextView textView,
