@@ -1,11 +1,15 @@
 package com.yooiistudios.newsflow.ui.animation;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +19,9 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -33,11 +39,11 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionImag
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
+import com.yooiistudios.newsflow.util.Device;
 
 import java.lang.reflect.Type;
 
 import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
 
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 
@@ -76,8 +82,6 @@ public class NewsFeedDetailTransitionUtils {
     private long mToolbarIconAnimationDuration;
     private long mToolbarBgAnimationDuration;
 
-    private NewsFeedDetailActivity mActivity;
-
     private Toolbar mToolbar;
     private RelativeLayout mRootLayout;
     private FrameLayout mTransitionLayout;
@@ -95,9 +99,11 @@ public class NewsFeedDetailTransitionUtils {
     // Bottom
     private RecyclerView mBottomNewsListRecyclerView;
 
-//    private ColorDrawable mRootLayoutBackground;
+    private NewsFeedDetailActivity mActivity;
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mToolbarTitleColorSpan;
+    private BitmapDrawable mToolbarHomeIcon;
+    private BitmapDrawable mToolbarOverflowIcon;
 
     public static void runEnterAnimation(NewsFeedDetailActivity activity) {
         new NewsFeedDetailTransitionUtils(activity).requestActivityTransition();
@@ -119,6 +125,14 @@ public class NewsFeedDetailTransitionUtils {
         transitAfterViewLocationFix();
     }
 
+    private void addThumbnailTextViews() {
+        mNewsTitleThumbnailTextView = new TextView(mActivity);
+        mNewsFeedTitleThumbnailTextView = new TextView(mActivity);
+
+        addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
+        addThumbnailTextView(mNewsFeedTitleThumbnailTextView, mTransFeedTitleViewProperty);
+    }
+
     private void transitAfterViewLocationFix() {
         ViewTreeObserver observer = mRootLayout.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -138,26 +152,69 @@ public class NewsFeedDetailTransitionUtils {
         // TODO 나중에 각자의 애니메이션 부분의 시작 부분으로 옮겨야 함. 그 전까지는 따로 메서드로 추출하지 않음.
         mTopNewsTextLayout.setAlpha(0.0f);
         mBottomNewsListRecyclerView.setAlpha(0.0f);
-//        mRootLayoutBackground.setAlpha(0);
-        mToolbar.setAlpha(0.0f);
 
         revealBackground();
         translateImage();
         scaleImage();
+        fadeOutHeroImageColorFilter();
+        addThumbnailTextViews();
+        // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
+        mNewsTitleThumbnailTextView.setAlpha(1.0f);
+        ViewPropertyAnimator thumbnailAlphaAnimator = mNewsTitleThumbnailTextView.animate();
+        thumbnailAlphaAnimator.alpha(0.0f);
+        thumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
+//        thumbnailAlphaAnimator.setInterpolator(commonInterpolator);
+        thumbnailAlphaAnimator.start();
+
+        // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
+        mNewsFeedTitleThumbnailTextView.setAlpha(1.0f);
+        ViewPropertyAnimator feedTitleThumbnailAlphaAnimator
+                = mNewsFeedTitleThumbnailTextView.animate();
+        feedTitleThumbnailAlphaAnimator.alpha(0.0f);
+        feedTitleThumbnailAlphaAnimator.setDuration(mThumbnailTextAnimationDuration);
+//        feedTitleThumbnailAlphaAnimator.setInterpolator(commonInterpolator);
+        feedTitleThumbnailAlphaAnimator.start();
+
+        // 탑 뉴스 텍스트(타이틀, 디스크립션) 애니메이션
+        animateTopItems();
+
+        // 액션바 내용물 우선 숨겨두도록
+        mToolbarHomeIcon.setAlpha(0);
+        mToolbarTitleColorSpan.setAlpha(0.0f);
+        mToolbarOverflowIcon.setAlpha(0);
+
+        //　액션바 배경, 오버레이 페이드 인
+        saveTopOverlayAlphaState();
+        mTopGradientShadowView.setAlpha(0);
+        mToolbarOverlayView.setAlpha(0);
     }
 
     private void revealBackground() {
-        int centerX = mTransImageViewProperty.getCenterX();
-        int centerY = mTransImageViewProperty.getCenterY();
+        Point center = mTransImageViewProperty.getCenter();
 
         double finalRadiusDouble = Math.hypot(mRevealView.getWidth(), mRevealView.getHeight());
         int finalRadius = (int)Math.ceil(finalRadiusDouble);
 
-        SupportAnimator anim =
-                ViewAnimationUtils.createCircularReveal(mRevealView, centerX, centerY, 0, finalRadius);
-        anim.setDuration((int)mRootViewTranslationAnimationDuration);
+        if (Device.hasLollipop()) {
+            revealBackgroundAfterLollipop(center, finalRadius);
+        } else {
+            revealBackgroundBeforeLollipop(center, finalRadius);
+        }
+    }
 
-        anim.start();
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void revealBackgroundAfterLollipop(Point center, int finalRadius) {
+        Animator animator = ViewAnimationUtils.createCircularReveal(
+                mRevealView, center.x, center.y, 0, finalRadius);
+        animator.setDuration((int)mRootViewTranslationAnimationDuration);
+        animator.start();
+    }
+
+    private void revealBackgroundBeforeLollipop(Point center, int finalRadius) {
+        SupportAnimator animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
+                mRevealView, center.x, center.y, 0, finalRadius);
+        animator.setDuration((int) mRootViewTranslationAnimationDuration);
+        animator.start();
     }
 
     private void translateImage() {
@@ -175,7 +232,38 @@ public class NewsFeedDetailTransitionUtils {
         ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
                 this, "ImageWrapperSize", 1.0f, mThumbnailScaleRatio);
         imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
+        imageWrapperSizeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                fadeInToolbar();
+                animateTopOverlayFadeIn();
+            }
+        });
+
         imageWrapperSizeAnimator.start();
+    }
+
+    private void fadeInToolbar() {
+        // 툴바 텍스트 페이드인
+        ObjectAnimator toolbarTitleAnimator = ObjectAnimator.ofFloat(
+                this, "toolbarTitleAlpha", 0.0f, 1.0f);
+        toolbarTitleAnimator.setDuration(mToolbarIconAnimationDuration);
+//                toolbarTitleAnimator.setInterpolator(commonInterpolator);
+        toolbarTitleAnimator.start();
+
+        // 액션바 아이콘 페이드인
+        ObjectAnimator toolbarHomeIconAnimator =
+                ObjectAnimator.ofInt(mToolbarHomeIcon, "alpha", 0, 255);
+        toolbarHomeIconAnimator.setDuration(mToolbarIconAnimationDuration);
+//                toolbarHomeIconAnimator.setInterpolator(commonInterpolator);
+        toolbarHomeIconAnimator.start();
+
+        ObjectAnimator toolbarOverflowIconAnimator =
+                ObjectAnimator.ofInt(mToolbarOverflowIcon, "alpha", 0, 255);
+        toolbarOverflowIconAnimator.setDuration(mToolbarIconAnimationDuration);
+//                toolbarOverflowIconAnimator.setInterpolator(commonInterpolator);
+        toolbarOverflowIconAnimator.start();
     }
 
     private void initViewsAndVariables(NewsFeedDetailActivity activity) {
@@ -185,9 +273,10 @@ public class NewsFeedDetailTransitionUtils {
 
     private void initVariables(NewsFeedDetailActivity activity) {
         mActivity = activity;
-//        mRootLayoutBackground = activity.getRootLayoutBackground();
         mToolbarTitle = activity.getToolbarTitle();
         mToolbarTitleColorSpan = activity.getToolbarTitleColorSpan();
+        mToolbarHomeIcon = activity.getToolbarHomeIcon();
+        mToolbarOverflowIcon = activity.getToolbarOverflowIcon();
     }
 
     private void initViews() {
@@ -216,7 +305,7 @@ public class NewsFeedDetailTransitionUtils {
         extractActivityTransitionProperties(extras);
         initImageTranslationVariables();
         initImageScaleVariables();
-        initDurationVariabless();
+        initDurationVariables();
     }
 
     private void extractActivityTransitionProperties(Bundle extras) {
@@ -249,7 +338,7 @@ public class NewsFeedDetailTransitionUtils {
         mThumbnailScaleRatio = fitWidth ? mThumbnailWidthScaleRatio : mThumbnailHeightScaleRatio;
     }
 
-    private void initDurationVariabless() {
+    private void initDurationVariables() {
         // 애니메이션 속도 관련 변수
         Resources resources = mActivity.getResources();
         mImageFilterAnimationDuration = resources.getInteger(
@@ -270,8 +359,48 @@ public class NewsFeedDetailTransitionUtils {
                 R.integer.news_feed_detail_action_bar_bg_duration_milli) * sAnimatorScale;
     }
 
+    private void fadeOutHeroImageColorFilter() {
+        int filterColor = mActivity.getFilterColor();
+
+        int red = Color.red(filterColor);
+        int green = Color.green(filterColor);
+        int blue = Color.blue(filterColor);
+        int argb = Color.argb(Color.alpha(filterColor), red, green, blue);
+        ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimationDuration);
+//            mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
+//
+//            ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
+//            color.addUpdateListener(new ColorFilterListener(mTopImageView));
+//            color.setDuration(mImageFilterAnimationDuration).start();
+
+
+
+//        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color",
+//                Color.argb(Color.alpha(filterColor), red, green, blue));
+//
+//        color.addUpdateListener(new ColorFilterListener(mTopImageView));
+//        color.setDuration(mImageFilterAnimationDuration);
+//        color.start();
+
+
+//        mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
+//        if (Device.hasLollipop()) {
+//            ObjectAnimator animator = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(),
+//                    "color", argb, 0);
+////            ObjectAnimator animator = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "tint", argb, 0);
+//            animator.addUpdateListener(new ColorFilterListener(mTopImageView));
+//            animator.setDuration(mImageFilterAnimationDuration).start();
+//        } else {
+//            com.nineoldandroids.animation.ObjectAnimator animator =
+//                    com.nineoldandroids.animation.ObjectAnimator.ofInt(
+//                            mTopImageView.getColorFilter(), "tint", argb, 0);
+//            animator.addUpdateListener(new ColorFilterListener(mTopImageView));
+//            animator.setDuration(mImageFilterAnimationDuration).start();
+//        }
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void darkenHeroImage() {
+    private void fadeInHeroImageColorFilter() {
         int filterColor = mActivity.getFilterColor();
 
         int red = Color.red(filterColor);
@@ -380,20 +509,6 @@ public class NewsFeedDetailTransitionUtils {
         if (mActivity.getSupportActionBar() != null) {
             mActivity.getSupportActionBar().setTitle(mToolbarTitle);
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void animateTopImageViewColorFilter() {
-        int filterColor = mActivity.getFilterColor();
-
-        int red = Color.red(filterColor);
-        int green = Color.green(filterColor);
-        int blue = Color.blue(filterColor);
-        mTopImageView.setColorFilter(Color.argb(Color.alpha(filterColor), red, green, blue));
-
-        ObjectAnimator color = ObjectAnimator.ofArgb(mTopImageView.getColorFilter(), "color", 0);
-        color.addUpdateListener(new ColorFilterListener(mTopImageView));
-        color.setDuration(mImageFilterAnimationDuration).start();
     }
 
     private static class ColorFilterListener implements ValueAnimator.AnimatorUpdateListener {
@@ -713,7 +828,7 @@ public class NewsFeedDetailTransitionUtils {
 ////        animator.start();
 //
 //        // 이미지뷰 컬러 필터 애니메이션
-//        animateTopImageViewColorFilter();
+//        fadeOutHeroImageColorFilter();
 //
 //        // 상단 뉴스의 텍스트뷰 위치, 알파 애니메이션
 ////        Point displaySize = new Point();
@@ -830,7 +945,7 @@ public class NewsFeedDetailTransitionUtils {
 //        animator.start();
 //
 //        // 이미지뷰 컬러 필터 애니메이션
-//        darkenHeroImage();
+//        fadeInHeroImageColorFilter();
 //
 //        // 상단 뉴스의 텍스트뷰 위치, 알파 애니메이션
 //        Point displaySize = new Point();
