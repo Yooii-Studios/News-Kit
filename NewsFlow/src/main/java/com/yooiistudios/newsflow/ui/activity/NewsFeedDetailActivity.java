@@ -321,7 +321,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void adjustToolbarTopMargin() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
+            int statusBarHeight = ScreenUtils.getStatusBarHeight(this);
             if (statusBarHeight > 0) {
                 ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
             }
@@ -359,7 +359,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void initToolbarGradientView() {
         // 기존의 계산된 ActionBar 높이와 Toolbar 의 실제가 높이가 달라 측정해서 적용하게 변경
-        final int statusBarSize = ScreenUtils.calculateStatusBarHeight(this);
+        final int statusBarSize = ScreenUtils.getStatusBarHeight(this);
         mToolbar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {

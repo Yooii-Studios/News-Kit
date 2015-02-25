@@ -345,7 +345,7 @@ public class MainBottomAdapter extends
         int height = ScreenUtils.getDisplaySize(context).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
-            height -= ScreenUtils.calculateStatusBarHeight(context);
+            height -= ScreenUtils.getStatusBarHeight(context);
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)lp;

@@ -39,6 +39,7 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProp
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.reflect.Type;
 
@@ -190,30 +191,39 @@ public class NewsFeedDetailTransitionUtils {
 
     private void revealBackground() {
         Point center = mTransImageViewProperty.getCenter();
-
-        double finalRadiusDouble = Math.hypot(mRevealView.getWidth(), mRevealView.getHeight());
-        int finalRadius = (int)Math.ceil(finalRadiusDouble);
+        if (!Device.hasLollipop()) {
+            center.y -= ScreenUtils.getStatusBarHeight(mActivity.getApplicationContext());
+        }
 
         if (Device.hasLollipop()) {
-            revealBackgroundAfterLollipop(center, finalRadius);
+            revealBackgroundAfterLollipop(center);
         } else {
-            revealBackgroundBeforeLollipop(center, finalRadius);
+            revealBackgroundBeforeLollipop(center);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void revealBackgroundAfterLollipop(Point center, int finalRadius) {
+    private void revealBackgroundAfterLollipop(Point center) {
         Animator animator = ViewAnimationUtils.createCircularReveal(
-                mRevealView, center.x, center.y, 0, finalRadius);
+                mRevealView, center.x, center.y, getRevealStartRadius(), getRevealTargetRadius());
         animator.setDuration((int)mRootViewTranslationAnimationDuration);
         animator.start();
     }
 
-    private void revealBackgroundBeforeLollipop(Point center, int finalRadius) {
+    private void revealBackgroundBeforeLollipop(Point center) {
         SupportAnimator animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
-                mRevealView, center.x, center.y, 0, finalRadius);
+                mRevealView, center.x, center.y, getRevealStartRadius(), getRevealTargetRadius());
         animator.setDuration((int) mRootViewTranslationAnimationDuration);
         animator.start();
+    }
+
+    private int getRevealStartRadius() {
+        return Math.min(mTransImageViewProperty.getWidth(), mTransImageViewProperty.getHeight()) / 2;
+    }
+
+    private int getRevealTargetRadius() {
+        double finalRadiusDouble = Math.hypot(mRevealView.getWidth(), mRevealView.getHeight());
+        return (int)Math.ceil(finalRadiusDouble);
     }
 
     private void translateImage() {
@@ -390,6 +400,9 @@ public class NewsFeedDetailTransitionUtils {
                 property.getWidth(), property.getHeight());
         lp.leftMargin = property.getLeft();
         lp.topMargin = property.getTop();
+        if (!Device.hasLollipop()) {
+            lp.topMargin -= ScreenUtils.getStatusBarHeight(mActivity.getApplicationContext());
+        }
         mTransitionLayout.addView(view, lp);
     }
 

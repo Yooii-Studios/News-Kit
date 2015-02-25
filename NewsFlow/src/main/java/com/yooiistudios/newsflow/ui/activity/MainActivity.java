@@ -199,7 +199,7 @@ public class MainActivity extends ActionBarActivity
 
     private void adjustToolbarTopMargin() {
         if (Device.hasLollipop()) {
-            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
+            int statusBarHeight = ScreenUtils.getStatusBarHeight(this);
             if (statusBarHeight > 0) {
                 ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
             }
