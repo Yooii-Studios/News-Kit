@@ -91,7 +91,7 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
             Fragment newsProviderFragment = NewsSelectProviderFragment.newInstance(jsonString);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.news_select_detail_container, newsProviderFragment)
-                    .addToBackStack(null).commit();;
+                    .addToBackStack(null).commit();
         }
     }
 }

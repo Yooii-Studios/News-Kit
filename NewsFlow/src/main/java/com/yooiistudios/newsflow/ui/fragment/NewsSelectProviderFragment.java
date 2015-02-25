@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.ui.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsTopic;
+import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.util.NLLog;
 
 import butterknife.ButterKnife;
@@ -86,5 +88,11 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         NLLog.now("position: " + position);
+
+        NewsTopic selectedTopic = mNewsProvider.getNewsTopicList().get(position);
+
+        getActivity().getIntent().putExtra(NewsSelectActivity.KEY_RSS_FETCHABLE, selectedTopic);
+        getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
+        getActivity().finish();
     }
 }

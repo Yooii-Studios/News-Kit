@@ -91,7 +91,6 @@ import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.animation.curvemotion.AnimatorPath;
 import com.yooiistudios.newsflow.ui.animation.curvemotion.PathEvaluator;
 import com.yooiistudios.newsflow.ui.animation.curvemotion.PathPoint;
-import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.newsflow.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newsflow.ui.widget.ObservableScrollView;
@@ -1661,12 +1660,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             Context context = getApplicationContext();
             if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
                 NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
-//                NewsFeedArchiveUtils.saveTopNewsFeed(context, newsFeed);
             } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
                 int idx = getIntent().getExtras().getInt(
                         MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
                 NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, idx);
-//                NewsFeedArchiveUtils.saveBottomNewsFeedAt(context, newsFeed, idx);
             }
         }
     }
@@ -1678,16 +1675,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
                     RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
-                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                            NewsSelectActivity.KEY_RSS_FETCHABLE);
                     replaceNewsFeed(rssFetchable);
                     break;
             }
         }
-//        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
     }
 
     private void replaceNewsFeed(RssFetchable fetchable) {
-//        archiveNewsFeed(new NewsFeed(fetchable));
         fetchNewsFeed(fetchable);
     }
 

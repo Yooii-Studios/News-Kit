@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectCountryFragment;
+import com.yooiistudios.newsflow.ui.fragment.NewsSelectProviderFragment;
 import com.yooiistudios.newsflow.util.Device;
 
 import butterknife.ButterKnife;
@@ -22,6 +23,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
     public static final String KEY_TITLE = "key_title";
     public static final String KEY_IS_COUNTRY_SELECTED = "key_is_country_selected";
     public static final String KEY_NEWS_PROVIDER_COUNTRY = "key_news_provider_country";
+    public static final String KEY_NEWS_PROVIDER = "key_news_provider";
 
     @InjectView(R.id.news_select_detail_toolbar) Toolbar mToolbar;
 
@@ -77,9 +79,9 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
                     NewsSelectCountryFragment.newInstance(jsonString)).commit();
         } else {
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.news_select_detail_container, new PlaceholderFragment())
-//                    .commit();
+            String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER);
+            getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
+                    NewsSelectProviderFragment.newInstance(jsonString)).commit();
         }
     }
 

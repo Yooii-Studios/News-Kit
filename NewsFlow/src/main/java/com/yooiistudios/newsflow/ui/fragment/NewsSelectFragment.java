@@ -1,10 +1,7 @@
 package com.yooiistudios.newsflow.ui.fragment;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,22 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.news.NewsContentProvider;
-import com.yooiistudios.newsflow.model.news.NewsProvider;
 import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
-import com.yooiistudios.newsflow.model.news.NewsTopic;
-import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerAdapter;
-import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static com.yooiistudios.newsflow.ui.activity.NewsSelectActivity.RC_NEWS_SELECT_DETAIL;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 9.
@@ -37,11 +27,8 @@ import static com.yooiistudios.newsflow.ui.activity.NewsSelectActivity.RC_NEWS_S
  * NewsSelectFragment
  *  뉴스 선택화면의 한 페이지의 컨텐츠
  */
-public class NewsSelectFragment extends Fragment
-        implements NewsSelectRecyclerAdapter.OnSelectionListener,
-        NewsTopicSelectDialogFactory.OnItemClickListener {
+public class NewsSelectFragment extends Fragment {
     public static final String KEY_TAB_INDEX = "key_tab_index";
-    public static final String KEY_SELECTED_RSS_FETCHABLE = "key_selected_rss_fetchable";
 
     private ArrayList<NewsProviderCountry> mNewsProviderCountries;
 
@@ -86,43 +73,11 @@ public class NewsSelectFragment extends Fragment
                 new LinearLayoutManager(context));
 
         NewsSelectRecyclerAdapter adapter = new NewsSelectRecyclerAdapter(mNewsProviderCountries);
-        adapter.setOnNewsProviderClickListener(this);
+        adapter.setOnNewsProviderClickListener(
+                (NewsSelectRecyclerAdapter.OnSelectionListener)getActivity());
         mViewHolder.mRecyclerView.setAdapter(adapter);
 
         return root;
-    }
-
-    @Override
-    public void onSelectNewsProvider(NewsProvider newsProvider) {
-//        Intent intent = new Intent(getActivity(), NewsSelectDetailActivity.class);
-//        intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, false);
-//        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProvider.name);
-//        startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
-        NewsTopicSelectDialogFactory.makeDialog(getActivity(), newsProvider, this).show();
-    }
-
-    @Override
-    public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry) {
-        Intent intent = new Intent(getActivity(), NewsSelectDetailActivity.class);
-        intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, true);
-        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProviderCountry.countryLocalName);
-
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(newsProviderCountry);
-        intent.putExtra(NewsSelectDetailActivity.KEY_NEWS_PROVIDER_COUNTRY, jsonString);
-
-        startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
-    }
-
-    @Override
-    public void onSelectNewsTopic(Dialog dialog, NewsProvider newsProvider, int position) {
-        dialog.dismiss();
-
-        NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
-
-        getActivity().getIntent().putExtra(KEY_SELECTED_RSS_FETCHABLE, selectedTopic);
-        getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
-        getActivity().finish();
     }
 
     static class ViewHolder {

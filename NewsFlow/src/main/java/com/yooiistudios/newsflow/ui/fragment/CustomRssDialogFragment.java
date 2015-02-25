@@ -28,7 +28,7 @@ public class CustomRssDialogFragment extends DialogFragment {
     private OnActionListener mCallback;
 
     public interface OnActionListener {
-        public void onPositive(NewsFeedUrl feedUrl);
+        public void onEnterCustomRss(NewsFeedUrl feedUrl);
     }
 
     public static CustomRssDialogFragment newInstance() {
@@ -56,7 +56,7 @@ public class CustomRssDialogFragment extends DialogFragment {
 //                            NewsFeedUtils.addUrlToHistory(getActivity(), url);
                             url = "http://" + url;
                         }
-                        mCallback.onPositive(new NewsFeedUrl(url, NewsFeedUrlType.CUSTOM));
+                        mCallback.onEnterCustomRss(new NewsFeedUrl(url, NewsFeedUrlType.CUSTOM));
                     }
                 })
                 .build();

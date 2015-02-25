@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -17,13 +18,17 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.gson.Gson;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.model.news.NewsProvider;
+import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
+import com.yooiistudios.newsflow.model.news.NewsTopic;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectPagerAdapter;
+import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerAdapter;
 import com.yooiistudios.newsflow.ui.fragment.CustomRssDialogFragment;
-import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlidingTabLayout;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
 
@@ -31,9 +36,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class NewsSelectActivity extends ActionBarActivity
-        implements CustomRssDialogFragment.OnActionListener {
-    private static final String TAG = NewsSelectActivity.class.getName();
+        implements CustomRssDialogFragment.OnActionListener,
+        NewsSelectRecyclerAdapter.OnSelectionListener {
     public static final int RC_NEWS_SELECT_DETAIL = 38451;
+    public static final String KEY_RSS_FETCHABLE = "key_selected_rss_fetchable";
+    private static final String TAG = NewsSelectActivity.class.getName();
 
     @InjectView(R.id.news_select_toolbar)           Toolbar mToolbar;
     @InjectView(R.id.news_select_sliding_tabs)      SlidingTabLayout mSlidingTabLayout;
@@ -46,15 +53,20 @@ public class NewsSelectActivity extends ActionBarActivity
         setContentView(R.layout.activity_news_select);
         ButterKnife.inject(this);
 
-        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
-//        mViewPager.setOnPageChangeListener(mSimpleOnPageChangeListener);
-
-        mSlidingTabLayout.setViewPager(mViewPager);
-
+        initViewPager();
+        initSlidingTabLayout();
         initToolbar();
         initSlidingTab();
         initAdView();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void initViewPager() {
+        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager()));
+    }
+
+    private void initSlidingTabLayout() {
+        mSlidingTabLayout.setViewPager(mViewPager);
     }
 
     private void initToolbar() {
@@ -120,13 +132,6 @@ public class NewsSelectActivity extends ActionBarActivity
     }
 
     @Override
-    public void onPositive(NewsFeedUrl feedUrl) {
-        getIntent().putExtra(NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE, feedUrl);
-        setResult(Activity.RESULT_OK, getIntent());
-        finish();
-    }
-
-    @Override
     protected void onStart() {
         // Activity visible to user
         super.onStart();
@@ -138,5 +143,56 @@ public class NewsSelectActivity extends ActionBarActivity
         // Activity no longer visible
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    public void onSelectNewsProvider(NewsProvider newsProvider) {
+        Intent intent = new Intent(this, NewsSelectDetailActivity.class);
+        intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, false);
+        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProvider.name);
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(newsProvider);
+        intent.putExtra(NewsSelectDetailActivity.KEY_NEWS_PROVIDER, jsonString);
+
+        startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
+    }
+
+    @Override
+    public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry) {
+        Intent intent = new Intent(this, NewsSelectDetailActivity.class);
+        intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, true);
+        intent.putExtra(NewsSelectDetailActivity.KEY_TITLE, newsProviderCountry.countryLocalName);
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(newsProviderCountry);
+        intent.putExtra(NewsSelectDetailActivity.KEY_NEWS_PROVIDER_COUNTRY, jsonString);
+
+        startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
+    }
+
+    @Override
+    public void onEnterCustomRss(NewsFeedUrl feedUrl) {
+        getIntent().putExtra(KEY_RSS_FETCHABLE, feedUrl);
+        setResult(Activity.RESULT_OK, getIntent());
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            switch (requestCode) {
+                case RC_NEWS_SELECT_DETAIL:
+                    NewsTopic newsTopic = (NewsTopic) extras.getSerializable(KEY_RSS_FETCHABLE);
+                    if (newsTopic != null) {
+                        getIntent().putExtra(KEY_RSS_FETCHABLE, newsTopic);
+                        setResult(Activity.RESULT_OK, getIntent());
+                    }
+                    finish();
+                    break;
+            }
+        }
     }
 }
