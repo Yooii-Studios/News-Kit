@@ -29,13 +29,16 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // OS에 의해서 kill 당할 경우 복구하지 말고 바로 finish
+        if (savedInstanceState != null) {
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_news_select_detail);
         ButterKnife.inject(this);
 
-        if (savedInstanceState == null) {
-            initToolbar();
-            initFragment();
-        }
+        initToolbar();
+        initFragment();
     }
 
     private void initToolbar() {

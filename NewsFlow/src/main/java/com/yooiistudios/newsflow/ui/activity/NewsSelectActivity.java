@@ -51,6 +51,11 @@ public class NewsSelectActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // OS에 의해서 kill 당할 경우 복구하지 말고 바로 finish - 언어와 관련된 이슈를 사전에 방지
+        if (savedInstanceState != null) {
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_news_select);
         ButterKnife.inject(this);
 
