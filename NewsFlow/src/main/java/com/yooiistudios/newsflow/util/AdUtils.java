@@ -47,7 +47,7 @@ public class AdUtils {
 
         // 광고 or 풀버전 구매 아이템이 없을 경우만 진행
         if (!(ownedSkus.contains(IabProducts.SKU_NO_ADS) ||
-                ownedSkus.contains(IabProducts.SKU_FULL_VERSION))) {
+                ownedSkus.contains(IabProducts.SKU_PRO_VERSION))) {
             SharedPreferences prefs = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
             int launchCount = prefs.getInt(LAUNCH_COUNT, 1);
             if (shouldShowAd(prefs, launchCount)) {

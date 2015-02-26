@@ -2,8 +2,10 @@ package com.yooiistudios.newsflow.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.yooiistudios.newsflow.model.news.NewsContentProvider;
 import com.yooiistudios.newsflow.model.news.NewsProviderLangType;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 
@@ -14,10 +16,11 @@ import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
  *  뉴스 선택화면을 구성하는 뷰페이저 어댑터
  */
 public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
-//    private Context mContext;
+    private Context mContext;
 
-    public NewsSelectPagerAdapter(FragmentManager fm) {
+    public NewsSelectPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        mContext = context;
     }
 
     @Override
@@ -32,6 +35,6 @@ public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return NewsProviderLangType.valueOf(position).getTitle();
+        return NewsContentProvider.getInstance(mContext).getNewsLanguageTitle(position);
     }
 }

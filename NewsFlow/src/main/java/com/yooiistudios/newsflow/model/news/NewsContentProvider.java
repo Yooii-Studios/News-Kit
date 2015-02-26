@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 11.
@@ -21,15 +23,14 @@ import java.util.ArrayList;
  *  뉴스 선택 화면에서 탭의 국가 및 뉴스피드 목록을 제공함
  */
 public class NewsContentProvider {
-
     private static NewsContentProvider instance;
     private ArrayList<NewsProviderLanguage> mNewsProviderLanguageList;
+    private LinkedHashMap<String, NewsProviderLanguage> mSortedNewsProviderLanguages;
 
     public static NewsContentProvider getInstance(Context context) {
         if (instance == null) {
             instance = new NewsContentProvider(context);
         }
-
         return instance;
     }
 
@@ -40,6 +41,11 @@ public class NewsContentProvider {
             mNewsProviderLanguageList.add(parseNewsProvidersByResource(context,
                     NewsProviderLangType.valueOf(i).getResourceId()));
         }
+    }
+
+    public void sortNewsProviderLanguage(Context context) {
+        mSortedNewsProviderLanguages = NewsProviderLanguageSorter.sortLanguages(context,
+                mNewsProviderLanguageList);
     }
 
     public NewsTopic getNewsTopic(@NonNull String languageCode, @Nullable String regionCode,
@@ -125,11 +131,39 @@ public class NewsContentProvider {
     }
 
     public NewsProviderLanguage getNewsLanguage(int position) {
-        if (position < mNewsProviderLanguageList.size()) {
-            return mNewsProviderLanguageList.get(position);
-        } else {
-            return null;
+//        if (position < mNewsProviderLanguageList.size()) {
+//            return mNewsProviderLanguageList.get(position);
+//        } else {
+//            return null;
+//        }
+        if (position < mSortedNewsProviderLanguages.size()) {
+            Set keySet = mSortedNewsProviderLanguages.keySet();
+            int i = 0;
+            for (Object keyObject : keySet) {
+                if (position == i) {
+                    String key = (String) keyObject;
+                    return mSortedNewsProviderLanguages.get(key);
+                }
+                i++;
+            }
         }
+        return null;
+    }
+
+    public String getNewsLanguageTitle(int position) {
+        if (position < mSortedNewsProviderLanguages.size()) {
+            Set keySet = mSortedNewsProviderLanguages.keySet();
+            int i = 0;
+            for (Object keyObject : keySet) {
+                if (position == i) {
+                    String key = (String) keyObject;
+                    NewsProviderLanguage newsProviderLanguage = mSortedNewsProviderLanguages.get(key);
+                    return newsProviderLanguage.regionalLanguageName;
+                }
+                i++;
+            }
+        }
+        return null;
     }
 
     private static NewsProviderLanguage parseNewsProvidersByResource(Context context, int resourceId) {

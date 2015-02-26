@@ -60,7 +60,7 @@ public class AnalyticsUtils {
         t.send(new HitBuilders.EventBuilder()
                 .setCategory(TAG)
                 .setAction("Showing Ad when have PRO version")
-                .setLabel(ownedSkus.contains(IabProducts.SKU_FULL_VERSION) ? "YES" : "NO")
+                .setLabel(ownedSkus.contains(IabProducts.SKU_PRO_VERSION) ? "YES" : "NO")
                 .build());
     }
 

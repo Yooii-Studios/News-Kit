@@ -745,7 +745,7 @@ public class MainActivity extends ActionBarActivity
                     break;
                 case RC_NEWS_FEED_SELECT:
                     RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
-                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                            NewsSelectActivity.KEY_RSS_FETCHABLE);
                     if (rssFetchable != null) {
                         hideEditLayout();
                         NLLog.now("news topic selected");

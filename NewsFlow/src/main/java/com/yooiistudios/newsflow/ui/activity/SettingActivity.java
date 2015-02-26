@@ -57,14 +57,14 @@ public class SettingActivity extends ActionBarActivity
 
     private void initFullVersionButtonDebug() {
         // Google play service 가 없는 에뮬레이터에서 구동할 경우 스토어에 들어가지 못하기 때문에 디버그 옵션으로 추가.
-        View debugBuyFullVersionButton = findViewById(R.id.setting_debug_buy_full_version);
+        View debugBuyFullVersionButton = findViewById(R.id.setting_debug_buy_pro_version);
         View debugResetAllPurchaseButton = findViewById(R.id.setting_debug_reset_all_purchase);
         if (NLLog.isDebug()) {
             debugBuyFullVersionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     StoreDebugCheckUtils.setUsingStore(false, getApplicationContext());
-                    IabProducts.saveIabProduct(IabProducts.SKU_FULL_VERSION, getApplicationContext());
+                    IabProducts.saveIabProduct(IabProducts.SKU_PRO_VERSION, getApplicationContext());
                 }
             });
             debugResetAllPurchaseButton.setOnClickListener(new View.OnClickListener() {

@@ -22,7 +22,7 @@
     <string name="off">끄기</string>
 
     <!-- News Select -->
-    <string name="select_news_select_newsfeed_dialog_title">뉴스피드 선택</string>
+    <string name="select_newsfeed_title">뉴스피드 선택</string>
     <string name="title_activity_news">뉴스 선택</string>
 
     <!-- Setting -->
@@ -58,8 +58,8 @@
     <string name="store_description_text_1">Upgrade to unlock all Functions and Features</string>
     <string name="store_description_text_2">+ No Ads!</string>
     <string name="store_description_text_2_highlight">+ No Ads!</string>
-    <string name="store_full_version_original_price">$4.99</string>
-    <string name="store_full_version_discounted_price">$2.99</string>
+    <string name="store_pro_version_original_price">$4.99</string>
+    <string name="store_pro_version_discounted_price">$2.99</string>
     <string name="store_purchased">Purchased</string>
     <string name="store_thank_you">Thank you!</string>
     <string name="store_item_price">$0.99</string>

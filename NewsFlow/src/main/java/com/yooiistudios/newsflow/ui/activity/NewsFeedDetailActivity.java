@@ -19,6 +19,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,7 +91,6 @@ import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.animation.curvemotion.AnimatorPath;
 import com.yooiistudios.newsflow.ui.animation.curvemotion.PathEvaluator;
 import com.yooiistudios.newsflow.ui.animation.curvemotion.PathPoint;
-import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.newsflow.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newsflow.ui.widget.ObservableScrollView;
@@ -171,7 +171,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private TintType mTintType;
     private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
-    private BitmapDrawable mToolbarHomeIcon;
+    private Drawable mToolbarHomeIcon;
     private BitmapDrawable mToolbarOverflowIcon;
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mColorSpan;
@@ -1027,10 +1027,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void initToolbarIcon() {
         if (getSupportActionBar() != null) {
-            Bitmap upIconBitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_ab_up_white);
-            mToolbarHomeIcon = new BitmapDrawable(getResources(), upIconBitmap);
-            getSupportActionBar().setHomeAsUpIndicator(mToolbarHomeIcon);
+            mToolbarHomeIcon = mToolbar.getNavigationIcon();
 
             Bitmap overflowIconBitmap = BitmapFactory.decodeResource(getResources(),
                     R.drawable.ic_menu_moreoverflow_mtrl_alpha);
@@ -1213,11 +1210,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 }
                 return true;
 
-            case R.id.action_replace_newsfeed:
-                startActivityForResult(new Intent(NewsFeedDetailActivity.this, NewsSelectActivity.class),
-                        REQ_SELECT_NEWS_FEED);
-                // 교체화면으로 가면 무조건 자동스크롤은 멈춰주기 - 교체하고 돌아올 경우 꼬인다
-                stopAutoScroll();
+            case R.id.action_select_topic:
+                NewsProvider newsProvider =
+                        NewsContentProvider.getInstance(this).getNewsProvider(mNewsFeed);
+                if (newsProvider != null) {
+                    NewsTopicSelectDialogFactory.makeDialog(this, newsProvider, this).show();
+
+                    // 무조건 자동스크롤은 멈춰주기 - 교체하고 돌아올 경우 꼬인다
+                    stopAutoScroll();
+                }
                 return true;
 
             case R.id.action_auto_scroll:
@@ -1250,13 +1251,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                         });
                 return true;
 
-            case R.id.action_select_topic:
-                NewsProvider newsProvider =
-                        NewsContentProvider.getInstance(this).getNewsProvider(mNewsFeed);
-                if (newsProvider != null) {
-                    NewsTopicSelectDialogFactory.makeDialog(this, newsProvider, this).show();
-                }
-                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -1636,6 +1631,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     public void onSelectNewsTopic(Dialog dialog, NewsProvider newsProvider, int position) {
         dialog.dismiss();
 
+        mScrollView.smoothScrollTo(0, 0);
+
         NewsTopic selectedTopic = newsProvider.getNewsTopicList().get(position);
         replaceNewsFeed(selectedTopic);
     }
@@ -1663,12 +1660,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             Context context = getApplicationContext();
             if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
                 NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
-//                NewsFeedArchiveUtils.saveTopNewsFeed(context, newsFeed);
             } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
                 int idx = getIntent().getExtras().getInt(
                         MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
                 NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, idx);
-//                NewsFeedArchiveUtils.saveBottomNewsFeedAt(context, newsFeed, idx);
             }
         }
     }
@@ -1680,16 +1675,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             switch(requestCode) {
                 case REQ_SELECT_NEWS_FEED:
                     RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
-                            NewsSelectFragment.KEY_SELECTED_RSS_FETCHABLE);
+                            NewsSelectActivity.KEY_RSS_FETCHABLE);
                     replaceNewsFeed(rssFetchable);
                     break;
             }
         }
-//        NLLog.now("onActivityResult-req:" + requestCode + "/result:" + resultCode);
     }
 
     private void replaceNewsFeed(RssFetchable fetchable) {
-//        archiveNewsFeed(new NewsFeed(fetchable));
         fetchNewsFeed(fetchable);
     }
 
