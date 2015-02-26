@@ -89,6 +89,10 @@
                         <TextView
                             android:id="@+id/detail_top_news_description_text_view"
                             style="@style/DetailDescriptionStyle"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/detail_text_wide_padding"/>
                     </LinearLayout>
                 </LinearLayout>
 
