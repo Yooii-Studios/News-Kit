@@ -243,9 +243,9 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
 
     public void onPriceButtonClicked(View view) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            mIabManager.processPurchase(IabProducts.SKU_FULL_VERSION, this);
+            mIabManager.processPurchase(IabProducts.SKU_PRO_VERSION, this);
         } else {
-            IabProducts.saveIabProduct(IabProducts.SKU_FULL_VERSION, this);
+            IabProducts.saveIabProduct(IabProducts.SKU_PRO_VERSION, this);
             initUI();
             initUIOnQueryFinishedDebug();
         }
@@ -383,10 +383,10 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     }
 
     private void initUIOnQueryFinished(Inventory inventory) {
-        if (inventory.hasDetails(IabProducts.SKU_FULL_VERSION)) {
+        if (inventory.hasDetails(IabProducts.SKU_PRO_VERSION)) {
             if (StoreDebugCheckUtils.isUsingStore(this)) {
                 // Full version
-                if (inventory.hasPurchase(IabProducts.SKU_FULL_VERSION)) {
+                if (inventory.hasPurchase(IabProducts.SKU_PRO_VERSION)) {
                     mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
                     mOriginalPriceTextView.setVisibility(View.INVISIBLE);
                     mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
@@ -395,14 +395,14 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
                     mBannerImageView.setClickable(false);
                     mPriceImageView.setClickable(false);
                 } else {
-                    if (inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL) != null) {
+                    if (inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL) != null) {
                         mOriginalPriceTextView.setText(
-                                inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION_ORIGINAL).getPrice());
+                                inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL).getPrice());
                     } else {
                         mOriginalPriceTextView.setText("$4.99");
                     }
                     mDiscountedPriceTextView.setText(
-                            inventory.getSkuDetails(IabProducts.SKU_FULL_VERSION).getPrice());
+                            inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION).getPrice());
 
                     mBannerImageView.setClickable(true);
                     mPriceImageView.setClickable(true);
@@ -415,7 +415,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     }
 
     private void updateUIOnPurchase(Purchase info) {
-        if (info.getSku().equals(IabProducts.SKU_FULL_VERSION)) {
+        if (info.getSku().equals(IabProducts.SKU_PRO_VERSION)) {
             // Full version
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
             mOriginalPriceTextView.setVisibility(View.INVISIBLE);
@@ -430,7 +430,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
 
     private void initUIOnQueryFinishedDebug() {
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(this);
-        if (ownedSkus.contains(IabProducts.SKU_FULL_VERSION)) {
+        if (ownedSkus.contains(IabProducts.SKU_PRO_VERSION)) {
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
             mOriginalPriceTextView.setVisibility(View.INVISIBLE);
             mDiscountedPriceTextView.setVisibility(View.INVISIBLE);

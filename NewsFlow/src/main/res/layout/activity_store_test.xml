@@ -9,7 +9,7 @@
     tools:context="com.yooiistudios.newsflow.ui.activity.StoreTempActivity">
 
     <Button
-        android:id="@+id/store_full_version_button"
+        android:id="@+id/store_pro_version_button"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
@@ -17,18 +17,18 @@
         android:text="Buy"/>
 
     <TextView
-        android:id="@+id/store_full_version_text_view"
+        android:id="@+id/store_pro_version_text_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:layout_toStartOf="@id/store_full_version_button"
+        android:layout_toStartOf="@id/store_pro_version_button"
         android:text="Full Version"/>
 
     <Button
         android:id="@+id/store_no_ad_button"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_below="@id/store_full_version_button"
+        android:layout_below="@id/store_pro_version_button"
         android:layout_alignParentEnd="true"
         android:onClick="onNoAdButtonClicked"
         android:text="Buy"/>
@@ -40,7 +40,7 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:layout_toStartOf="@id/store_no_ad_button"
-        android:layout_below="@id/store_full_version_text_view"
+        android:layout_below="@id/store_pro_version_text_view"
         android:text="No Ad"/>
 
     <Button
