@@ -71,7 +71,7 @@
                     android:id="@+id/detail_top_news_text_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/detail_top_image_view_height">
+                    android:layout_below="@id/detail_top_news_image_wrapper">
 
                     <LinearLayout
                         android:id="@+id/detail_top_news_text_ripple_layout"

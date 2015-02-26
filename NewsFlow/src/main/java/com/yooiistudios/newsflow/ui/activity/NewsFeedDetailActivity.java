@@ -755,6 +755,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int colorWithoutAlpha = Color.rgb(red, green, blue);
 //        mTopContentLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
         mTopNewsTextLayout.setBackground(new ColorDrawable(colorWithoutAlpha));
+        mRevealView.setBackgroundColor(colorWithoutAlpha);
     }
 
     public int getFilterColor() {
