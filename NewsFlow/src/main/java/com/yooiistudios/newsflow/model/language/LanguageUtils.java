@@ -1,6 +1,5 @@
 package com.yooiistudios.newsflow.model.language;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 
@@ -58,21 +57,19 @@ public class LanguageUtils {
 
     public static Language getCurrentLanguageType(Context context) { return LanguageUtils.getInstance(context).mCurrentLanguage; }
 
-    public static void setLanguageType(Language newLanguage, Activity activity) {
-        Context context = activity.getApplicationContext();
-
+    public static void setLanguageType(Language newLanguage, Context context) {
         // archive selection
         LanguageUtils.getInstance(context).mCurrentLanguage = newLanguage;
         context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .edit().putInt(LANGUAGE_MATRIX_KEY, newLanguage.getUniqueId()).commit();
 
         // update locale
-        Language currentLanguage = LanguageUtils.getCurrentLanguageType(activity);
+        Language currentLanguage = LanguageUtils.getCurrentLanguageType(context);
         Locale locale = new Locale(currentLanguage.getLanguageCode(), currentLanguage.getRegion());
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
-        activity.getResources().updateConfiguration(config, activity.getResources().getDisplayMetrics());
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
 
         // 플러리
         Map<String, String> params = new HashMap<>();

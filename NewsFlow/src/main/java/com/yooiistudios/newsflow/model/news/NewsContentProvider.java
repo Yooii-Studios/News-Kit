@@ -76,7 +76,7 @@ public class NewsContentProvider {
         }
     }
 
-    private NewsProvider makeDefaultNewsProvider() {
+    public NewsProvider makeDefaultNewsProvider() {
         // 기본 언론사는 영어의 첫번째 언론사로
         return mNewsProviderLanguageList.get(0).newsProviderCountries.get(1).newsProviders.get(0);
     }
