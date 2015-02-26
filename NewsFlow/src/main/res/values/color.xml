@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ad_upper_divider_color">#999</color>
+
+    <color name="app_color_primary">@color/material_grey_300</color>
+    <color name="app_color_primary_dark">@color/material_grey_500</color>
+    <color name="app_color_accent">@color/material_light_blue_500</color>
+
+    <!-- General -->
+    <color name="toolbar_background">@color/material_grey_300</color>
+    <color name="toolbar_title_color">@color/material_black_primary_text</color>
+
+    <!-- from style -->
+    <color name="main_top_indicator">#666</color>
+    <color name="theme_default_accent_light">#33e0e0e0</color>
+
+    <color name="theme_background">#000</color>
+
+    <color name="theme_detail_selected_background">#339e9e9e</color>
+
+    <!-- Main -->
+    <color name="main_edit_layout_background">#7fffffff</color>
+
+    <!-- NewsFeed Detail -->
+    <color name="newsfeed_detail_highlight_color">@color/material_grey_500</color>
+
+    <!-- NewsFeed Select -->
+    <color name="news_select_color_primary">@color/material_grey_300</color>
+    <color name="news_select_color_primary_dark">@color/material_grey_500</color>
+    <color name="news_select_color_accent">#01bcd4</color>
+
+    <color name="news_select_disabled_text_color">@color/material_black_secondary_text</color> <!-- opacity 54% of black color -->
+    <color name="news_select_selectable_item_background">#aabdbdbd</color> <!-- 66% of material grey 400 -->
+
+    <color name="news_select_item_text_color">#dd000000</color> <!-- 66% of material grey 400 -->
+
+    <!-- Setting -->
+    <color name="setting_locked_item_background">#c1c1c1</color>
+    <color name="setting_header_text_color">@color/material_teal_500</color>
+    <color name="setting_title_text_color">@color/material_black_primary_text</color>
+    <color name="setting_description_text_color">@color/store_item_description_color</color>
+
+    <!-- Store -->
+    <color name="store_color_primary">@color/material_grey_300</color>
+    <color name="store_color_primary_dark">@color/material_grey_600</color>
+    <color name="store_title_color">#eef0e0</color>
+    <color name="store_no_ads_color">#ff9999</color>
+    <color name="store_original_price_color">#cc3333</color>
+    <color name="store_purchased_color">@color/material_teal_200</color>
+    <color name="store_purchased_thank_you_color">#878787</color>
+    <color name="store_item_description_color">#9a9a9a</color>
+    <color name="store_loading_view_color">#cc000000</color>
+
+    <!-- In house Store Ad -->
+    <color name="store_ad_layout_divider_color">#797979</color>
+</resources>

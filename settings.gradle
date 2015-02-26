@@ -1,3 +1,5 @@
-include ':News-L'
+include ':NewsFlow'
 include ':libraries:Volley'
 include ':libraries:GridLayoutManager'
+include ':libraries:SerialAnimator'
+include ':libraries:OrientationAdView'

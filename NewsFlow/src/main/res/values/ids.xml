@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main_banner" type="id"/>
+
+    <!-- NewsFeed Detail -->
+    <item name="action_newsfeed_overflow" type="id"/>
+    <item name="action_select_topic" type="id"/>
+    <item name="action_auto_scroll_setting_debug" type="id"/>
+    <item name="action_auto_scroll" type="id"/>
+</resources>

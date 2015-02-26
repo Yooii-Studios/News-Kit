@@ -1,0 +1,76 @@
+{
+    "lang_name_english": "Traditional Chinese",
+    "lang_name_regional": "繁體中文",
+    "lang_code": "zh",
+    "region_code": "tw",
+    "countries": [
+        {
+            "country_name": "香港",
+            "country_code": "hk",
+            "news_providers": [
+                {
+                    "provider_name": "South China Morining Post",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Hong Kong",
+                            "topic_id": "1",
+                            "url": "http://www.scmp.com/rss/2/feed",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "http://www.scmp.com/rss/5/feed"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "3",
+                            "url": "http://www.scmp.com/rss/92/feed"
+                        },
+                        {
+                            "topic_name": "Insight & Opinion",
+                            "topic_id": "4",
+                            "url": "http://www.scmp.com/rss/17/feed"
+                        },
+                        {
+                            "topic_name": "Economy",
+                            "topic_id": "5",
+                            "url": "http://www.scmp.com/rss/12/feed"
+                        },
+                        {
+                            "topic_name": "Debates",
+                            "topic_id": "6",
+                            "url": "http://www.scmp.com/rss/20/feed"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "7",
+                            "url": "http://www.scmp.com/rss/94/feed"
+                        },
+                        {
+                            "topic_name": "Arts & Culture",
+                            "topic_id": "8",
+                            "url": "http://www.scmp.com/rss/23/feed"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "9",
+                            "url": "http://www.scmp.com/rss/36/feed"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "10",
+                            "url": "http://www.scmp.com/rss/95/feed"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "11",
+                            "url": "http://www.scmp.com/rss/44/feed"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

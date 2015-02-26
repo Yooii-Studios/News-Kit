@@ -1,0 +1,113 @@
+{
+    "lang_name_english": "Russian",
+    "lang_name_regional": "Pусский",
+    "lang_code": "ru",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Россия",
+            "country_code": "ru",
+            "news_providers": [
+                {
+                    "provider_name": "Google",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Главные новости",
+                            "topic_id": "1",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "В мире",
+                            "topic_id": "2",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Россия",
+                            "topic_id": "3",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Бизнес",
+                            "topic_id": "4",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Наука и техника",
+                            "topic_id": "5",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "6",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "7",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Здоровье",
+                            "topic_id": "8",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Другие новости",
+                            "topic_id": "9",
+                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "pravda",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "world",
+                            "topic_id": "1",
+                            "url": "http://english.pravda.ru/world/export.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "russia",
+                            "topic_id": "2",
+                            "url": "http://english.pravda.ru/russia/export.xml"
+                        },
+                        {
+                            "topic_name": "society",
+                            "topic_id": "3",
+                            "url": "http://english.pravda.ru/society/export.xml"
+                        },
+                        {
+                            "topic_name": "opinion",
+                            "topic_id": "4",
+                            "url": "http://english.pravda.ru/opinion/export.xml"
+                        },
+                        {
+                            "topic_name": "science",
+                            "topic_id": "5",
+                            "url": "http://english.pravda.ru/science/export.xml"
+                        },
+                        {
+                            "topic_name": "business",
+                            "topic_id": "6",
+                            "url": "http://english.pravda.ru/business/export.xml"
+                        },
+                        {
+                            "topic_name": "sports",
+                            "topic_id": "7",
+                            "url": "http://english.pravda.ru/sports/export.xml"
+                        },
+                        {
+                            "topic_name": "health",
+                            "topic_id": "8",
+                            "url": "http://english.pravda.ru/health/export.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

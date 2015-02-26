@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_theme_language_item_outer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:clickable="false"
+    android:focusable="false">
+
+    <!--
+    <com.yooiistudios.morningkit.common.shadow.RoundShadowRelativeLayout
+        android:id="@+id/setting_theme_language_item_shadow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/alarm_item_outer_height" />
+
+    -->
+
+    <RelativeLayout
+        android:id="@+id/setting_theme_language_item_inner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/setting_theme_language_item_title_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="한국어"
+            android:textColor="@android:color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/setting_theme_language_item_detail_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/setting_theme_language_item_title_textview"
+            android:gravity="center_vertical"
+            android:text="Korean"
+            android:textColor="@android:color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+</RelativeLayout>

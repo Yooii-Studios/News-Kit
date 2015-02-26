@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_top_root">
+
+    <com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator
+        android:id="@+id/main_top_view_pager_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_bottom_margin_small"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+
+    <FrameLayout
+        android:id="@+id/main_top_content_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_top_view_pager_indicator">
+        <FrameLayout
+            android:id="@+id/main_top_view_pager_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager
+                android:id="@+id/main_top_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+
+            <TextView
+                android:id="@+id/main_top_news_feed_title_text_view"
+                style="@style/MainTopItemNewsFeedTitleTextStyle"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/main_top_unavailable_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher"
+                android:contentDescription="@string/content_description"/>
+            <TextView
+                android:id="@+id/main_top_unavailable_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:background="#a33"/>
+        </FrameLayout>
+    </FrameLayout>
+
+    <com.yooiistudios.newsflow.ui.widget.CoverFrameLayout
+        android:id="@+id/main_top_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_edit_layout_background"
+        android:visibility="gone">
+        <View
+            android:id="@+id/main_top_replace_newsfeed"
+            android:layout_width="@dimen/main_edit_button_size"
+            android:layout_height="@dimen/main_edit_button_size"
+            android:layout_margin="@dimen/main_edit_button_margin_large"
+            android:background="@drawable/ic_edit_newsfeed_selector"/>
+    </com.yooiistudios.newsflow.ui.widget.CoverFrameLayout>
+
+</RelativeLayout>
