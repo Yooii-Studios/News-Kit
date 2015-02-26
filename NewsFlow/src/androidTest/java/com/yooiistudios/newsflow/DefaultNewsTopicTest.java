@@ -33,33 +33,39 @@ public class DefaultNewsTopicTest extends AndroidTestCase {
         super.tearDown();
     }
 
+    public void testDefaultNewsTopicWhenNotFound() {
+        // 테스트로 영어의 첫째 프로바이더의 첫째 토픽을 만들어주게 해두었는데, 이 기획이 변하지 않음을 테스트
+        // 나중에 이는 바뀔 수도 있기 때문
+        NewsTopic defaultNewsTopicWhenErrorHappened = NewsContentProvider.getInstance(getContext())
+                .makeDefaultNewsProvider().getNewsTopicList().get(0);
+        assertSame(defaultNewsTopicWhenErrorHappened, defaultNewsTopicWhenNotFound);
+    }
+
     public void testValidateDefaultTopDefaultNewsTopic() {
         NewsTopic topNewsTopic = newsFeedDefaultUrlProvider.getTopNewsTopic();
-        NewsTopic targetTopic = defaultNewsTopicWhenNotFound;
-
-        boolean isSameTopic = false;
-        if (topNewsTopic.languageCode.equalsIgnoreCase(targetTopic.languageCode) &&
-                topNewsTopic.regionCode.equalsIgnoreCase(targetTopic.regionCode) &&
-                topNewsTopic.countryCode.equalsIgnoreCase(targetTopic.countryCode) &&
-                topNewsTopic.newsProviderId == targetTopic.newsProviderId) {
-            isSameTopic = true;
-        }
-        assertFalse(isSameTopic);
+        NewsTopic defaultErrorTopic = defaultNewsTopicWhenNotFound;
+        assertFalse(isSameTopic(defaultErrorTopic, topNewsTopic));
     }
 
     public void testValidateDefaultBottomNewsTopics() {
         ArrayList<NewsTopic> bottomNewsTopics = newsFeedDefaultUrlProvider.getBottomNewsTopicList();
-        NewsTopic targetTopic = defaultNewsTopicWhenNotFound;
+        NewsTopic defaultErrorTopic = defaultNewsTopicWhenNotFound;
 
         for (NewsTopic bottomNewsTopic : bottomNewsTopics) {
-            boolean isSameTopic = false;
-            if (bottomNewsTopic.languageCode.equalsIgnoreCase(targetTopic.languageCode) &&
-                    bottomNewsTopic.regionCode.equalsIgnoreCase(targetTopic.regionCode) &&
-                    bottomNewsTopic.countryCode.equalsIgnoreCase(targetTopic.countryCode) &&
-                    bottomNewsTopic.newsProviderId == targetTopic.newsProviderId) {
-                isSameTopic = true;
-            }
-            assertFalse(isSameTopic);
+            assertFalse(isSameTopic(defaultErrorTopic, bottomNewsTopic));
         }
+    }
+
+    private boolean isSameTopic(NewsTopic expectedNewsTopic, NewsTopic actualNewsTopic) {
+        if (actualNewsTopic.languageCode.equalsIgnoreCase(expectedNewsTopic.languageCode)) {
+            if (actualNewsTopic.regionCode == null ||
+                    actualNewsTopic.regionCode.equalsIgnoreCase(expectedNewsTopic.regionCode)) {
+                if (actualNewsTopic.countryCode.equalsIgnoreCase(expectedNewsTopic.countryCode) &&
+                        actualNewsTopic.newsProviderId == expectedNewsTopic.newsProviderId) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
