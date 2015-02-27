@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General -->
     <string name="app_name">News Flow</string>
     <string name="action_newsfeed">뉴스피드 교체</string>
     <string name="action_info">정보</string>
