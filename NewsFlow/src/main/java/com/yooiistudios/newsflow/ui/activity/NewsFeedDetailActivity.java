@@ -149,8 +149,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private TintType mTintType;
 //    @Getter private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
-    @Getter private BitmapDrawable mToolbarHomeIcon;
-    @Getter private BitmapDrawable mToolbarOverflowIcon;
+    private BitmapDrawable mToolbarHomeIcon;
+    private BitmapDrawable mToolbarOverflowIcon;
     @Getter private SpannableString mToolbarTitle;
     @Getter private AlphaForegroundColorSpan mToolbarTitleColorSpan;
     private int mToolbarTextColor;

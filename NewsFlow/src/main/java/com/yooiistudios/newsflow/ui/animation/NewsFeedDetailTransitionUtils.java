@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -113,8 +112,10 @@ public class NewsFeedDetailTransitionUtils {
     private NewsFeedDetailActivity mActivity;
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mToolbarTitleColorSpan;
-    private BitmapDrawable mToolbarHomeIcon;
-    private BitmapDrawable mToolbarOverflowIcon;
+
+    private NewsFeedDetailTransitionUtils(NewsFeedDetailActivity activity) {
+        initViewsAndVariables(activity);
+    }
 
     public static void runEnterAnimation(NewsFeedDetailActivity activity) {
         new NewsFeedDetailTransitionUtils(activity).requestActivityTransition();
@@ -128,20 +129,8 @@ public class NewsFeedDetailTransitionUtils {
         new NewsFeedDetailTransitionUtils(activity).fadeInTopOverlay();
     }
 
-    private NewsFeedDetailTransitionUtils(NewsFeedDetailActivity activity) {
-        initViewsAndVariables(activity);
-    }
-
     private void requestActivityTransition() {
         transitAfterViewLocationFix();
-    }
-
-    private void addThumbnailTextViews() {
-        mNewsTitleThumbnailTextView = new TextView(mActivity);
-        mNewsFeedTitleThumbnailTextView = new TextView(mActivity);
-
-        addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
-        addThumbnailTextView(mNewsFeedTitleThumbnailTextView, mTransFeedTitleViewProperty);
     }
 
     private void transitAfterViewLocationFix() {
@@ -163,8 +152,17 @@ public class NewsFeedDetailTransitionUtils {
         });
     }
 
+    private void addThumbnailTextViews() {
+        mNewsTitleThumbnailTextView = new TextView(mActivity);
+        mNewsFeedTitleThumbnailTextView = new TextView(mActivity);
+
+        addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
+        addThumbnailTextView(mNewsFeedTitleThumbnailTextView, mTransFeedTitleViewProperty);
+    }
+
     /**
-     * 트랜지션들중 바로 시작되지 않는 뷰들의 속성은 여기에서 미리 설정해준다.
+     * 기본적으로 모든 트랜지션은 트랜지션이 시작되기 직전, 혹은 트랜지션의 시작값으로 초기값을 설정해준다.
+     * 그러므로 트랜지션들중 처음부터 시작되지 않는 뷰들의 속성은 여기에서 미리 설정해준다.
      */
     private void prepareViewPropertiesBeforeTransition() {
         mToolbar.setAlpha(0.0f);
@@ -173,8 +171,6 @@ public class NewsFeedDetailTransitionUtils {
 
         mTopTitleTextView.setAlpha(0.0f);
         mTopDescriptionTextView.setAlpha(0.0f);
-//        mTopTextLayout.setAlpha(0.0f);
-//        mBottomNewsListRecyclerView.setAlpha(0.0f);
 
         mTopTextLayout.setVisibility(View.INVISIBLE);
         mTopTextLayout.getLayoutParams().height = 0;
@@ -224,10 +220,6 @@ public class NewsFeedDetailTransitionUtils {
         topNewsTextLayoutHeightAnimator.start();
     }
 
-//    private void fadeInRecyclerView() {
-//        mBottomNewsListRecyclerView.animate().alpha(1.0f).setDuration(mDebugTempDuration);
-//    }
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void revealBackgroundAfterLollipop() {
         Animator animator = ViewAnimationUtils.createCircularReveal(
@@ -270,9 +262,6 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void animateTopNewsTextAndRecycler() {
-//        fadeInTopTitle();
-//        fadeInRecyclerView();
-
         scaleTopNewsTextLayoutHeight();
         scaleRecyclerHeight();
     }
@@ -292,9 +281,6 @@ public class NewsFeedDetailTransitionUtils {
 
     private int getRevealTargetRadius() {
         return getFarthestLengthFromRevealCenterToRevealCorner();
-
-//        double finalRadiusDouble = Math.hypot(mRevealView.getWidth(), mRevealView.getHeight());
-//        return (int)Math.ceil(finalRadiusDouble);
     }
 
     private int getFarthestLengthFromRevealCenterToRevealCorner() {
@@ -333,13 +319,6 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void translateImage() {
-//        mTopNewsImageWrapper.setTranslationX(mThumbnailLeftDelta);
-//        mTopNewsImageWrapper.setTranslationY(mThumbnailTopDelta);
-//        mTopNewsImageWrapper.animate()
-//                .translationX(0)
-//                .translationY(0)
-//                .setDuration(mImageTranslationAnimationDuration);
-
         Point startPoint = new Point(mThumbnailLeftDelta, mThumbnailTopDelta);
         Point endPoint = new Point(0, 0);
         ObjectAnimator imageWrapperLocationAnimator = ObjectAnimator.ofObject(
@@ -378,8 +357,6 @@ public class NewsFeedDetailTransitionUtils {
         mActivity = activity;
         mToolbarTitle = activity.getToolbarTitle();
         mToolbarTitleColorSpan = activity.getToolbarTitleColorSpan();
-        mToolbarHomeIcon = activity.getToolbarHomeIcon();
-        mToolbarOverflowIcon = activity.getToolbarOverflowIcon();
     }
 
     private void initViews() {
@@ -409,17 +386,8 @@ public class NewsFeedDetailTransitionUtils {
         initImageTranslationVariables();
         initImageScaleVariables();
         initTopTextLayoutVariables();
-//        mRecyclerLocalVisibleRect = new Rect(
-//                mBottomNewsListRecyclerView.getLeft(),
-//                mBottomNewsListRecyclerView.getTop(),
-//                mBottomNewsListRecyclerView.getRight(),
-//                mBottomNewsListRecyclerView.getBottom()
-//        );
-//        NLLog.now(mRecyclerLocalVisibleRect.toShortString());
-//        Rect tempRect = new Rect();
         mRecyclerLocalVisibleRect = new Rect();
         mBottomNewsListRecyclerView.getGlobalVisibleRect(mRecyclerLocalVisibleRect);
-//        NLLog.now(tempRect.toShortString());
 
         initDurationVariables();
     }
