@@ -2,7 +2,6 @@ package com.yooiistudios.newsflow.ui.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,7 +66,8 @@ public class NewsFeedDetailAdapter extends
         TextView titleTextView = viewHolder.newsTitleTextView;
         if (titleTextView != null) {
             titleTextView.setText(news.getTitle());
-            titleTextView.setTextColor(Color.BLACK);
+            titleTextView.setTextColor(titleTextView.getResources().getColor(
+                    R.color.material_black_primary_text));
 
             // 아래 패딩 조절
             if (news.getDescription() != null) {
@@ -79,9 +79,10 @@ public class NewsFeedDetailAdapter extends
         TextView descriptionTextView = viewHolder.newsDescriptionTextView;
         if (descriptionTextView != null) {
             String description = news.getDescription();
-            if (description != null) {
-                descriptionTextView.setText(news.getDescription());
-                descriptionTextView.setTextColor(Color.GRAY);
+            if (description != null && description.trim().length() > 0) {
+                descriptionTextView.setText(news.getDescription().trim());
+                descriptionTextView.setTextColor(descriptionTextView.getResources().getColor(
+                        R.color.material_black_secondary_text));
             } else {
                 descriptionTextView.setVisibility(View.GONE);
             }
@@ -148,7 +149,6 @@ public class NewsFeedDetailAdapter extends
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         protected TextView newsTitleTextView;
         protected TextView newsDescriptionTextView;
 
