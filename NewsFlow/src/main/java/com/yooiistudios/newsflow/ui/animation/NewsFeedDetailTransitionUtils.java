@@ -68,6 +68,8 @@ public class NewsFeedDetailTransitionUtils {
 
     private int mThumbnailLeftDelta;
     private int mThumbnailTopDelta;
+    private int mThumbnailLeftTarget;
+    private int mThumbnailTopTarget;
     private float mThumbnailScaleRatio;
     private float mThumbnailWidthScaleRatio;
     private float mThumbnailHeightScaleRatio;
@@ -196,8 +198,9 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void animateThumbnailImageAndTexts() {
-        translateImage();
-        scaleImage();
+        translateAndMoveImageWrapper();
+//        translateImage();
+//        scaleImageWrapper();
         fadeOutHeroImageColorFilter();
         fadeOutThumbnailTexts();
     }
@@ -318,19 +321,58 @@ public class NewsFeedDetailTransitionUtils {
         return largestInteger;
     }
 
+    private void translateAndMoveImageWrapper() {
+        Rect startRect = new Rect(mThumbnailLeftDelta, mThumbnailTopDelta,
+                mThumbnailLeftDelta + mTransImageViewProperty.getWidth(),
+                mThumbnailTopDelta + mTransImageViewProperty.getHeight());
+        Rect endRect = new Rect(mThumbnailLeftTarget, mThumbnailTopTarget,
+                mThumbnailLeftTarget + (int)(mTransImageViewProperty.getWidth() * mThumbnailScaleRatio),
+                mThumbnailTopTarget + (int)(mTransImageViewProperty.getHeight() * mThumbnailScaleRatio));
+
+        ObjectAnimator imageWrapperRectAnimator = ObjectAnimator.ofObject(
+                this, "imageWrapperRect", new RectEvaluator(new Rect()), startRect, endRect);
+        imageWrapperRectAnimator.setDuration(mImageTranslationAnimationDuration);
+
+        imageWrapperRectAnimator.start();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void setImageWrapperRect(Rect rect) {
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)mTopNewsImageWrapper.getLayoutParams();
+        lp.leftMargin = rect.left;
+        lp.topMargin = rect.top;
+        lp.width = rect.width();
+        lp.height = rect.height();
+        mTopNewsImageWrapper.setLayoutParams(lp);
+
+//        translateTextLayoutAndRecyclerOnTranslateImage(location.x);
+    }
+
     private void translateImage() {
+        // TODO leftMargin, topMargin 으로 조절하는 데에 문제가 있는것 같다...
+//        mTopNewsImageWrapper.setTranslationX(mThumbnailLeftDelta);
+//        mTopNewsImageWrapper.setTranslationY(mThumbnailTopDelta);
+//        mTopNewsImageWrapper.animate()
+//                .setDuration(mImageTranslationAnimationDuration)
+//                .translationX(mThumbnailLeftTarget)
+//                .translationY(mThumbnailTopTarget);
         Point startPoint = new Point(mThumbnailLeftDelta, mThumbnailTopDelta);
+//        Point endPoint = new Point(mThumbnailLeftTarget, 0);
         Point endPoint = new Point(0, 0);
         ObjectAnimator imageWrapperLocationAnimator = ObjectAnimator.ofObject(
-                this, "imageWrapperLocation", new PointEvaluator(), startPoint, endPoint);
+                this, "imageWrapperLocation", new PointEvaluator(new Point()), startPoint, endPoint);
         imageWrapperLocationAnimator.setDuration(mImageTranslationAnimationDuration);
 
         imageWrapperLocationAnimator.start();
     }
 
-    private void scaleImage() {
+    private void scaleImageWrapper() {
         ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofFloat(
                 this, "imageWrapperSize", 1.0f, mThumbnailScaleRatio);
+//        PointF startPoint = new PointF(1.0f, 1.0f);
+//        PointF endPoint = new PointF(mThumbnailWidthScaleRatio, mThumbnailHeightScaleRatio);
+//        ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofObject(
+//                this, "imageWrapperSize", new PointFEvaluator(new PointF()), startPoint, endPoint);
         imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
         imageWrapperSizeAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -343,6 +385,18 @@ public class NewsFeedDetailTransitionUtils {
 
         imageWrapperSizeAnimator.start();
     }
+
+//    private void scaleImage() {
+//        ObjectAnimator imageSizeAnimator = ObjectAnimator.ofFloat(
+//                this, "imageSize", 1.0f, mThumbnailScaleRatio);
+////        PointF startPoint = new PointF(1.0f, 1.0f);
+////        PointF endPoint = new PointF(mThumbnailWidthScaleRatio, mThumbnailHeightScaleRatio);
+////        ObjectAnimator imageWrapperSizeAnimator = ObjectAnimator.ofObject(
+////                this, "imageWrapperSize", new PointFEvaluator(new PointF()), startPoint, endPoint);
+//        imageWrapperSizeAnimator.setDuration(mImageScaleAnimationDuration);
+//
+//        imageWrapperSizeAnimator.start();
+//    }
 
     private void fadeInToolbar() {
         mToolbar.animate().alpha(1.0f).setDuration(mToolbarAnimationDuration);
@@ -420,6 +474,13 @@ public class NewsFeedDetailTransitionUtils {
         mThumbnailHeightScaleRatio = mTopNewsImageWrapper.getHeight()/(float)mTransImageViewProperty.getHeight();
         boolean fitWidth = mThumbnailWidthScaleRatio > mThumbnailHeightScaleRatio;
         mThumbnailScaleRatio = fitWidth ? mThumbnailWidthScaleRatio : mThumbnailHeightScaleRatio;
+
+        int targetWidth = (int)(mTransImageViewProperty.getWidth() * mThumbnailScaleRatio);
+        int imageWrapperLeft = mTopNewsImageWrapper.getLeft();
+        mThumbnailLeftTarget = fitWidth
+                ? imageWrapperLeft
+                : imageWrapperLeft - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
+        mThumbnailTopTarget = mTopNewsImageWrapper.getTop();
     }
 
     private void initTopTextLayoutVariables() {
@@ -583,6 +644,17 @@ public class NewsFeedDetailTransitionUtils {
      * runEnterAnimation 에서 이미지뷰 wrapper 스케일링에 사용될 메서드.
      * @param scale 계산된 사이즈
      */
+//    @SuppressWarnings("UnusedDeclaration")
+//    public void setImageWrapperSize(PointF scale) {
+//        ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
+//        lp.width = (int)(mTransImageViewProperty.getWidth() * scale.x);
+//        lp.height = (int)(mTransImageViewProperty.getHeight() * scale.y);
+//        mTopNewsImageWrapper.setLayoutParams(lp);
+//
+//        NLLog.now("scale : " + scale.toString());
+//
+//        scaleTextLayoutAndRecyclerWidthOnScaleImage();
+//    }
     @SuppressWarnings("UnusedDeclaration")
     public void setImageWrapperSize(float scale) {
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
