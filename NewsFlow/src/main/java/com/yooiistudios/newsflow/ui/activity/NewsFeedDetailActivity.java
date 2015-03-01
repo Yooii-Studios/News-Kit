@@ -87,7 +87,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         implements NewsFeedDetailAdapter.OnItemClickListener, ObservableScrollView.Callbacks,
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener,
-        NewsTopicSelectDialogFactory.OnItemClickListener {
+        NewsTopicSelectDialogFactory.OnItemClickListener,
+        NewsFeedDetailTransitionUtils.OnAnimationEndListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
 
     private static final int BACKGROUND_COLOR = Color.WHITE;
@@ -446,21 +447,18 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void notifyBottomNewsChanged() {
         mAdapter = new NewsFeedDetailAdapter(this);
-
         mBottomNewsListRecyclerView.setAdapter(mAdapter);
-
-        // make bottom news array list. EXCLUDE top news.
-//        mBottomNewsList = new ArrayList<NLNews>(mNewsFeed.getNewsList());
-
         mAdapter.setNewsFeed(mNewsFeed.getNewsList());
 
-//        final int newsCount = mNewsFeed.getNewsList().size();
-//        for (int i = 0; i < newsCount; i++) {
-//            News news = mNewsFeed.getNewsList().get(i);
-//            mAdapter.addNews(news);
-//        }
-        applyMaxBottomRecyclerViewHeight();
+        adjustBottomRecyclerHeight();
+    }
 
+    private void adjustBottomRecyclerHeight() {
+        applyMaxBottomRecyclerViewHeight();
+        applyActualRecyclerViewHeightOnPreDraw();
+    }
+
+    private void applyActualRecyclerViewHeightOnPreDraw() {
         ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -1037,5 +1035,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         super.onBackPressed();
         AnalyticsUtils.trackNewsFeedDetailQuitAction((NewsApplication) getApplication(), TAG,
                 "Back Button");
+    }
+
+    @Override
+    public void onRecyclerScaleAnimationEnd() {
+        adjustBottomRecyclerHeight();
     }
 }

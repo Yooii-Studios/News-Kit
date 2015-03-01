@@ -55,6 +55,10 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRAN
  *  NewsFeedDetailActivity 의 액티비티 트랜지션 애니메이션을 래핑한 클래스
  */
 public class NewsFeedDetailTransitionUtils {
+    public interface OnAnimationEndListener {
+        public void onRecyclerScaleAnimationEnd();
+    }
+
     private static final String SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION
             = "shared_preferences_newsfeed_detail_transition";
     private static final String KEY_USE_SCALED_DURATION = "key_use_scale_duration";
@@ -114,6 +118,7 @@ public class NewsFeedDetailTransitionUtils {
     private RecyclerView mBottomNewsListRecyclerView;
 
     private NewsFeedDetailActivity mActivity;
+    private OnAnimationEndListener mListener;
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mToolbarTitleColorSpan;
 
@@ -210,7 +215,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void animateThumbnailImageAndTexts() {
-        translateAndMoveImageWrapper();
+        transitImageWrapper();
         fadeOutImageColorFilter();
         fadeOutThumbnailTexts();
     }
@@ -256,8 +261,7 @@ public class NewsFeedDetailTransitionUtils {
         animator.start();
     }
 
-    private void translateAndMoveImageWrapper() {
-
+    private void transitImageWrapper() {
         ObjectAnimator imageWrapperRectAnimator = ObjectAnimator.ofObject(
                 this, "imageWrapperRect", new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
         imageWrapperRectAnimator.setDuration(mImageTranslationAnimationDuration);
@@ -284,11 +288,18 @@ public class NewsFeedDetailTransitionUtils {
 
     private void scaleRecyclerHeight() {
         mBottomNewsListRecyclerView.setVisibility(View.VISIBLE);
-        ObjectAnimator topNewsTextLayoutHeightAnimator = ObjectAnimator.ofInt(
+        ObjectAnimator animator = ObjectAnimator.ofInt(
                 this, "recyclerViewHeight", 0, mRecyclerLocalVisibleRect.height());
-        topNewsTextLayoutHeightAnimator.setDuration(mDebugTempDuration);
+        animator.setDuration(mDebugTempDuration);
+        animator.addListener(new AnimatorListenerImpl() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mListener.onRecyclerScaleAnimationEnd();
+            }
+        });
 
-        topNewsTextLayoutHeightAnimator.start();
+        animator.start();
     }
 
     private void animateTopNewsTextAndRecycler() {
@@ -419,6 +430,7 @@ public class NewsFeedDetailTransitionUtils {
 
     private void initVariables(NewsFeedDetailActivity activity) {
         mActivity = activity;
+        mListener = (OnAnimationEndListener)activity;
         mToolbarTitle = activity.getToolbarTitle();
         mToolbarTitleColorSpan = activity.getToolbarTitleColorSpan();
     }
@@ -704,7 +716,7 @@ public class NewsFeedDetailTransitionUtils {
         prefs.edit().putBoolean(KEY_USE_SCALED_DURATION, !useScaledDuration).apply();
     }
 
-    public static boolean isUseScaledDurationDebug(Context context) {
+    private static boolean isUseScaledDurationDebug(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(
                 SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION, Context.MODE_PRIVATE);
         return prefs.getBoolean(KEY_USE_SCALED_DURATION, false);
