@@ -5,9 +5,7 @@
     tools:context="com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity"
     android:id="@+id/detail_content_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:clipChildren="false" >
+    android:layout_height="match_parent" >
 
     <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
