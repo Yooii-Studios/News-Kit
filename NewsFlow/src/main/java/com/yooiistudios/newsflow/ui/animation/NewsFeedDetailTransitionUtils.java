@@ -39,6 +39,7 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProp
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.ScreenUtils;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
@@ -66,6 +67,7 @@ public class NewsFeedDetailTransitionUtils {
 
     private Rect mRootClipBound;
 
+    private Rect mTopNewsImageWrapperRect;
     private int mThumbnailLeftDelta;
     private int mThumbnailTopDelta;
     private int mThumbnailLeftTarget;
@@ -341,11 +343,59 @@ public class NewsFeedDetailTransitionUtils {
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)mTopNewsImageWrapper.getLayoutParams();
         lp.leftMargin = rect.left;
         lp.topMargin = rect.top;
+        lp.rightMargin = mTopNewsImageWrapperRect.right - rect.right;
         lp.width = rect.width();
         lp.height = rect.height();
         mTopNewsImageWrapper.setLayoutParams(lp);
 
-//        translateTextLayoutAndRecyclerOnTranslateImage(location.x);
+        translateTextLayoutAndRecyclerOnTranslateImage(rect);
+        scaleTextLayoutAndRecyclerWidthOnScaleImage(rect);
+    }
+
+    private void translateTextLayoutAndRecyclerOnTranslateImage(Rect rect) {
+        int leftMargin = rect.left;
+        int targetLeftMargin = leftMargin >= 0 ? leftMargin : 0;
+
+        ViewGroup.MarginLayoutParams textLayoutLp = (ViewGroup.MarginLayoutParams) mTopTextLayout.getLayoutParams();
+        textLayoutLp.leftMargin = targetLeftMargin;
+        mTopTextLayout.setLayoutParams(textLayoutLp);
+
+        ViewGroup.MarginLayoutParams recyclerLp = (ViewGroup.MarginLayoutParams)mBottomNewsListRecyclerView.getLayoutParams();
+        recyclerLp.leftMargin = targetLeftMargin;
+        mBottomNewsListRecyclerView.setLayoutParams(recyclerLp);
+    }
+
+    private void scaleTextLayoutAndRecyclerWidthOnScaleImage(Rect rect) {
+        int leftTarget = Math.max(rect.left, 0);
+        int rightTarget = Math.min(rect.right, mTopNewsImageWrapperRect.right);
+        int width = rightTarget - leftTarget;
+
+        ViewGroup.LayoutParams textLayoutLp = mTopTextLayout.getLayoutParams();
+//        textLayoutLp.width = lp.width;
+        textLayoutLp.width = width;
+        mTopTextLayout.setLayoutParams(textLayoutLp);
+        ViewGroup.LayoutParams recyclerLp = mBottomNewsListRecyclerView.getLayoutParams();
+        recyclerLp.width = width;
+        mBottomNewsListRecyclerView.setLayoutParams(recyclerLp);
+
+        animateTopTitleAndDescriptionIfSizeSufficient();
+    }
+
+    private void animateTopTitleAndDescriptionIfSizeSufficient() {
+        updateTopTextLayoutSizeRect();
+
+        if (readyToAnimateTopTitle()) {
+            fadeInTopTitle();
+        }
+        if (readyToAnimateTopDescription()) {
+            fadeInTopDescription();
+        }
+    }
+
+    private void updateTopTextLayoutSizeRect() {
+        ViewGroup.LayoutParams lp = mTopTextLayout.getLayoutParams();
+        mTopTextLayoutSizeRect.right = lp.width;
+        mTopTextLayoutSizeRect.bottom = lp.height;
     }
 
     private void translateImage() {
@@ -382,6 +432,9 @@ public class NewsFeedDetailTransitionUtils {
                 fadeInTopOverlay();
             }
         });
+
+        NLLog.now("target width : " + (mTransImageViewProperty.getWidth() * mThumbnailScaleRatio));
+        NLLog.now("target height : " + (mTransImageViewProperty.getHeight() * mThumbnailScaleRatio));
 
         imageWrapperSizeAnimator.start();
     }
@@ -460,10 +513,10 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void initImageTranslationVariables() {
-        Rect topNewsImageWrapperRect = new Rect();
-        mTopNewsImageWrapper.getGlobalVisibleRect(topNewsImageWrapperRect);
-        int left = topNewsImageWrapperRect.left;
-        int top = topNewsImageWrapperRect.top;
+        mTopNewsImageWrapperRect = new Rect();
+        mTopNewsImageWrapper.getGlobalVisibleRect(mTopNewsImageWrapperRect);
+        int left = mTopNewsImageWrapperRect.left;
+        int top = mTopNewsImageWrapperRect.top;
 
         mThumbnailLeftDelta = mTransImageViewProperty.getLeft() - left;
         mThumbnailTopDelta = mTransImageViewProperty.getTop() - top;
@@ -628,16 +681,25 @@ public class NewsFeedDetailTransitionUtils {
         lp.topMargin = location.y;
         mTopNewsImageWrapper.setLayoutParams(lp);
 
-        translateTextLayoutAndRecyclerOnTranslateImage(location.x);
+        _translateTextLayoutAndRecyclerOnTranslateImage();
     }
 
-    private void translateTextLayoutAndRecyclerOnTranslateImage(int leftMargin) {
+    private void _translateTextLayoutAndRecyclerOnTranslateImage() {
+        int leftMargin = getImageWrapperLocation();
+        int targetLeftMargin = leftMargin >= 0 ? leftMargin : 0;
+
         ViewGroup.MarginLayoutParams textLayoutLp = (ViewGroup.MarginLayoutParams) mTopTextLayout.getLayoutParams();
-        textLayoutLp.leftMargin = leftMargin;
+        textLayoutLp.leftMargin = targetLeftMargin;
         mTopTextLayout.setLayoutParams(textLayoutLp);
+
         ViewGroup.MarginLayoutParams recyclerLp = (ViewGroup.MarginLayoutParams)mBottomNewsListRecyclerView.getLayoutParams();
-        recyclerLp.leftMargin = leftMargin;
+        recyclerLp.leftMargin = targetLeftMargin;
         mBottomNewsListRecyclerView.setLayoutParams(recyclerLp);
+    }
+
+    private int getImageWrapperLocation() {
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)mTopNewsImageWrapper.getLayoutParams();
+        return lp.leftMargin;
     }
 
     /**
@@ -653,7 +715,7 @@ public class NewsFeedDetailTransitionUtils {
 //
 //        NLLog.now("scale : " + scale.toString());
 //
-//        scaleTextLayoutAndRecyclerWidthOnScaleImage();
+//        _scaleTextLayoutAndRecyclerWidthOnScaleImage();
 //    }
     @SuppressWarnings("UnusedDeclaration")
     public void setImageWrapperSize(float scale) {
@@ -662,10 +724,16 @@ public class NewsFeedDetailTransitionUtils {
         lp.height = (int)(mTransImageViewProperty.getHeight() * scale);
         mTopNewsImageWrapper.setLayoutParams(lp);
 
-        scaleTextLayoutAndRecyclerWidthOnScaleImage();
+        NLLog.now("lp.width : " + lp.width);
+        NLLog.now("lp.height : " + lp.height);
+        NLLog.now("getWidth : " + mTopNewsImageWrapper.getWidth());
+        NLLog.now("getHeight : " + mTopNewsImageWrapper.getHeight());
+//
+
+        _scaleTextLayoutAndRecyclerWidthOnScaleImage();
     }
 
-    private void scaleTextLayoutAndRecyclerWidthOnScaleImage() {
+    private void _scaleTextLayoutAndRecyclerWidthOnScaleImage() {
         ViewGroup.LayoutParams lp = mTopNewsImageWrapper.getLayoutParams();
 
         ViewGroup.LayoutParams textLayoutLp = mTopTextLayout.getLayoutParams();
@@ -685,23 +753,6 @@ public class NewsFeedDetailTransitionUtils {
         mTopTextLayout.setLayoutParams(lp);
 
         animateTopTitleAndDescriptionIfSizeSufficient();
-    }
-
-    private void updateTopTextLayoutSizeRect() {
-        ViewGroup.LayoutParams lp = mTopTextLayout.getLayoutParams();
-        mTopTextLayoutSizeRect.right = lp.width;
-        mTopTextLayoutSizeRect.bottom = lp.height;
-    }
-
-    private void animateTopTitleAndDescriptionIfSizeSufficient() {
-        updateTopTextLayoutSizeRect();
-
-        if (readyToAnimateTopTitle()) {
-            fadeInTopTitle();
-        }
-        if (readyToAnimateTopDescription()) {
-            fadeInTopDescription();
-        }
     }
 
     private void fadeInTopTitle() {

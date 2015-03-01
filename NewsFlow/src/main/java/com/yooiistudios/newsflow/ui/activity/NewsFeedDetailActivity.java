@@ -158,7 +158,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private NewsFeedDetailNewsFeedFetchTask mNewsFeedFetchTask;
     private NewsFeedDetailNewsImageUrlFetchTask mTopNewsImageFetchTask;
 
-
     private int mWindowInsetEnd;
 
     private boolean mIsRefreshing = false;
