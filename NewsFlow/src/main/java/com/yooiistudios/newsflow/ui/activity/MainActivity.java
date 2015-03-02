@@ -42,7 +42,6 @@ import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
@@ -669,7 +668,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // TODO 여기서 회전시 광고 설정 해줘야 함
         requestSystemWindowsBottomInset();
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
