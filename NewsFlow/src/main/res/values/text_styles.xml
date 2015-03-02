@@ -81,7 +81,7 @@
     </style>
 
     <style name="DetailTitleStyle" parent="DetailTitleTextBaseStyle">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/material_black_primary_text</item>
         <item name="android:padding">@dimen/detail_text_padding</item>
     </style>
 
