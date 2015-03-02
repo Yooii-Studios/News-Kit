@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.WindowManager;
@@ -477,8 +478,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
         }
 
-        mBottomNewsListRecyclerView.getLayoutParams().height = totalHeight;
-        mAdapter.notifyDataSetChanged();
+        ViewGroup.LayoutParams lp = mBottomNewsListRecyclerView.getLayoutParams();
+        lp.height = totalHeight;
+        mBottomNewsListRecyclerView.setLayoutParams(lp);
+//        mBottomNewsListRecyclerView.invalidate();
+//        mAdapter.notifyDataSetChanged();
         if (Settings.isNewsFeedAutoScroll(this)) {
             // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
             // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능

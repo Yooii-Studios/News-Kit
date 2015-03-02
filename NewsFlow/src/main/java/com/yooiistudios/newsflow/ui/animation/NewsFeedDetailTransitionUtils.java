@@ -12,11 +12,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -39,10 +41,12 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProp
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.ScreenUtils;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import io.codetail.animation.SupportAnimator;
 
@@ -80,13 +84,22 @@ public class NewsFeedDetailTransitionUtils {
     /**
      * Scale, translation properties for "Top text layout and it's components".
      */
-    private Rect mTopTextLayoutSizeRect = new Rect();
     private Rect mTopTextLayoutLocalVisibleRect;
+    private Rect mTopTextLayoutAnimatingLocalVisibleRect = new Rect();
     private Rect mTopTitleLocalVisibleRect;
     private Rect mTopDescriptionLocalVisibleRect;
-    private Rect mRecyclerLocalVisibleRect;
-    private boolean mAnimatingTopTitleFadeIn = false;
-    private boolean mAnimatingTopDescriptionFadeIn = false;
+    private boolean mIsAnimatingTopTitleFadeIn = false;
+    private boolean mIsAnimatingTopDescriptionFadeIn = false;
+
+    private Rect mRecyclerGlobalVisibleRect;
+    private Rect mRecyclerAnimatingLocalVisibleRect = new Rect();
+    private ArrayList<Rect> mRecyclerChildViewLocalVisibleRects = new ArrayList<>();
+    private SparseArray<Boolean> mIsAnimatingRecyclerChildArray = new SparseArray<>();
+    private ArrayList<Rect> mRecyclerChildTitleLocalVisibleRects = new ArrayList<>();
+    private ArrayList<Rect> mRecyclerChildDescriptionLocalVisibleRects = new ArrayList<>();
+    private SparseArray<Boolean> mIsAnimatingRecyclerChildTitleArray = new SparseArray<>();
+    private SparseArray<Boolean> mIsAnimatingRecyclerChildDescriptionArray = new SparseArray<>();
+    private int mRecyclerChildCountToAnimate;
 
     private TextView mNewsTitleThumbnailTextView;
     private TextView mNewsFeedTitleThumbnailTextView;
@@ -115,7 +128,8 @@ public class NewsFeedDetailTransitionUtils {
     private TextView mTopDescriptionTextView;
 
     // Bottom
-    private RecyclerView mBottomNewsListRecyclerView;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mRecyclerLayoutManager;
 
     private NewsFeedDetailActivity mActivity;
     private OnAnimationEndListener mListener;
@@ -185,8 +199,8 @@ public class NewsFeedDetailTransitionUtils {
 
         mTopTextLayout.setVisibility(View.INVISIBLE);
         mTopTextLayout.getLayoutParams().height = 0;
-        mBottomNewsListRecyclerView.setVisibility(View.INVISIBLE);
-        mBottomNewsListRecyclerView.getLayoutParams().height = 0;
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mRecyclerView.getLayoutParams().height = 0;
 
         saveTopOverlayAlphaState();
         mTopGradientShadowView.setAlpha(0);
@@ -280,26 +294,51 @@ public class NewsFeedDetailTransitionUtils {
     private void scaleTopNewsTextLayoutHeight() {
         mTopTextLayout.setVisibility(View.VISIBLE);
         ObjectAnimator topNewsTextLayoutHeightAnimator = ObjectAnimator.ofInt(
-                this, "topNewsTextLayoutHeight", 0, mTopTextLayoutLocalVisibleRect.height());
+                this, "TopTextLayoutHeight", 0, mTopTextLayoutLocalVisibleRect.height());
         topNewsTextLayoutHeightAnimator.setDuration(mImageScaleAnimationDuration);
 
         topNewsTextLayoutHeightAnimator.start();
     }
 
     private void scaleRecyclerHeight() {
-        mBottomNewsListRecyclerView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+
+//        prepareRecyclerChildAnimation();
+
         ObjectAnimator animator = ObjectAnimator.ofInt(
-                this, "recyclerViewHeight", 0, mRecyclerLocalVisibleRect.height());
+                this, "recyclerViewHeight", 0, mRecyclerGlobalVisibleRect.height());
         animator.setDuration(mDebugTempDuration);
         animator.addListener(new AnimatorListenerImpl() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mListener.onRecyclerScaleAnimationEnd();
+                NLLog.now("mRecyclerAnimatingLocalVisibleRect : " + mRecyclerAnimatingLocalVisibleRect.toShortString());
+                for (int i = 0; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
+                    Rect titleRect = getRecyclerTitleRect(i);
+                    NLLog.now("titleRect idx : " + i);
+                    NLLog.now("titleRect : " + titleRect.toShortString());
+                }
+                for (int i = 0; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
+                    Rect descriptionRect = getRecyclerDescriptionRect(i);
+                    NLLog.now("descriptionRect idx : " + i);
+                    NLLog.now("descriptionRect : " + descriptionRect.toShortString());
+                }
             }
         });
 
         animator.start();
+    }
+
+    private void prepareRecyclerChildAnimation() {
+        for (int i = 0 ; i < mRecyclerChildCountToAnimate; i++) {
+            View title = getTitleViewFromRecyclerChildAt(i);
+            View description = getDescriptionViewFromRecyclerChildAt(i);
+
+//            child.setHasTransientState(true);
+            title.setAlpha(0.0f);
+            description.setAlpha(0.0f);
+        }
     }
 
     private void animateTopNewsTextAndRecycler() {
@@ -373,38 +412,75 @@ public class NewsFeedDetailTransitionUtils {
         scaleTextLayoutAndRecyclerWidthOnScaleImage(rect);
     }
 
-    private void translateTextLayoutAndRecyclerOnTranslateImage(Rect rect) {
-        int leftMargin = rect.left;
+    private void translateTextLayoutAndRecyclerOnTranslateImage(Rect imageRect) {
+        int leftMargin = imageRect.left;
         int targetLeftMargin = leftMargin >= 0 ? leftMargin : 0;
 
         ViewGroup.MarginLayoutParams textLayoutLp = (ViewGroup.MarginLayoutParams) mTopTextLayout.getLayoutParams();
         textLayoutLp.leftMargin = targetLeftMargin;
         mTopTextLayout.setLayoutParams(textLayoutLp);
 
-        ViewGroup.MarginLayoutParams recyclerLp = (ViewGroup.MarginLayoutParams)mBottomNewsListRecyclerView.getLayoutParams();
+        ViewGroup.MarginLayoutParams recyclerLp = (ViewGroup.MarginLayoutParams) mRecyclerView.getLayoutParams();
         recyclerLp.leftMargin = targetLeftMargin;
-        mBottomNewsListRecyclerView.setLayoutParams(recyclerLp);
+        mRecyclerView.setLayoutParams(recyclerLp);
     }
 
-    private void scaleTextLayoutAndRecyclerWidthOnScaleImage(Rect rect) {
-        int leftTarget = Math.max(rect.left, 0);
-        int rightTarget = Math.min(rect.right, mImageWrapperRect.right);
-        int width = rightTarget - leftTarget;
+    private void scaleTextLayoutAndRecyclerWidthOnScaleImage(Rect imageRect) {
+        int width = getTopTextAndRecyclerTargetWidth(imageRect);
 
+        setTopTextLayoutWidth(width);
+        setRecyclerWidth(width);
+    }
+
+    private int getTopTextAndRecyclerTargetWidth(Rect imageRect) {
+        int leftTarget = Math.max(imageRect.left, 0);
+        int rightTarget = Math.min(imageRect.right, mImageWrapperRect.right);
+        return rightTarget - leftTarget;
+    }
+
+    private void setTopTextLayoutWidth(int width) {
         ViewGroup.LayoutParams textLayoutLp = mTopTextLayout.getLayoutParams();
-//        textLayoutLp.width = lp.width;
         textLayoutLp.width = width;
         mTopTextLayout.setLayoutParams(textLayoutLp);
-        ViewGroup.LayoutParams recyclerLp = mBottomNewsListRecyclerView.getLayoutParams();
-        recyclerLp.width = width;
-        mBottomNewsListRecyclerView.setLayoutParams(recyclerLp);
+
+        mTopTextLayoutAnimatingLocalVisibleRect.right = width;
 
         animateTopTitleAndDescriptionIfSizeSufficient();
     }
 
-    private void animateTopTitleAndDescriptionIfSizeSufficient() {
-        updateTopTextLayoutSizeRect();
+    @SuppressWarnings("UnusedDeclaration")
+    public void setTopTextLayoutHeight(int height) {
+        ViewGroup.LayoutParams lp = mTopTextLayout.getLayoutParams();
+        lp.height = height;
+        mTopTextLayout.setLayoutParams(lp);
 
+        mTopTextLayoutAnimatingLocalVisibleRect.bottom = height;
+
+        animateTopTitleAndDescriptionIfSizeSufficient();
+    }
+
+    private void setRecyclerWidth(int width) {
+        ViewGroup.LayoutParams recyclerLp = mRecyclerView.getLayoutParams();
+        recyclerLp.width = width;
+        mRecyclerView.setLayoutParams(recyclerLp);
+
+        mRecyclerAnimatingLocalVisibleRect.right = width;
+
+        animateRecyclerChildIfSizeSufficient();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void setRecyclerViewHeight(int height) {
+        ViewGroup.LayoutParams lp = mRecyclerView.getLayoutParams();
+        lp.height = height;
+        mRecyclerView.setLayoutParams(lp);
+
+        mRecyclerAnimatingLocalVisibleRect.bottom = height;
+
+        animateRecyclerChildIfSizeSufficient();
+    }
+
+    private void animateTopTitleAndDescriptionIfSizeSufficient() {
         if (readyToAnimateTopTitle()) {
             fadeInTopTitle();
         }
@@ -413,10 +489,201 @@ public class NewsFeedDetailTransitionUtils {
         }
     }
 
-    private void updateTopTextLayoutSizeRect() {
-        ViewGroup.LayoutParams lp = mTopTextLayout.getLayoutParams();
-        mTopTextLayoutSizeRect.right = lp.width;
-        mTopTextLayoutSizeRect.bottom = lp.height;
+    private boolean readyToAnimateTopTitle() {
+        return !mIsAnimatingTopTitleFadeIn
+                && mTopTextLayout.getVisibility() == View.VISIBLE
+                && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopTitleLocalVisibleRect);
+    }
+
+    private boolean readyToAnimateTopDescription() {
+        return !mIsAnimatingTopDescriptionFadeIn
+                && mTopTextLayout.getVisibility() == View.VISIBLE
+                && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopDescriptionLocalVisibleRect);
+    }
+
+    private void fadeInTopTitle() {
+        mIsAnimatingTopTitleFadeIn = true;
+
+        mTopTitleTextView.animate()
+                .setDuration(mDebugTempDuration)
+                .alpha(1.0f);
+    }
+
+    private void fadeInTopDescription() {
+        mIsAnimatingTopDescriptionFadeIn = true;
+
+        mTopDescriptionTextView.animate()
+                .setDuration(mDebugTempDuration)
+                .alpha(1.0f);
+    }
+
+    private void animateRecyclerChildIfSizeSufficient() {
+//        for (int i = 0; i < mRecyclerLayoutManager.getChildCount(); i++) {
+//            if (!isAnimatingRecyclerTitleAt(i)) {
+//                getTitleViewFromRecyclerChildAt(i).setAlpha(0.0f);
+//            }
+//            if (!isAnimatingRecyclerDescriptionAt(i)) {
+//                getDescriptionViewFromRecyclerChildAt(i).setAlpha(0.0f);
+//            }
+//        }
+//        for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
+//            if (!isAnimatingRecyclerTitleAt(i)
+//                    && isRectPartiallyVisibleInRecyclerView(getRecyclerTitleRect(i))) {
+//                View viewToAnimate = getTitleViewFromRecyclerChildAt(i);
+//                viewToAnimate.setAlpha(0.0f);
+//            }
+//        }
+//        for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
+//            if (!isAnimatingRecyclerDescriptionAt(i)
+//                    && isRectPartiallyVisibleInRecyclerView(getRecyclerDescriptionRect(i))) {
+//                View viewToAnimate_ = getDescriptionViewFromRecyclerChildAt(i);
+//                viewToAnimate_.setAlpha(0.0f);
+//            }
+//        }
+
+//        for (int i = 0; i < mRecyclerChildViewLocalVisibleRects.size(); i++) {
+//            Rect childRect = mRecyclerChildViewLocalVisibleRects.get(i);
+//            if (isRectPartiallyVisibleInRecyclerView(childRect)
+//                    && !mIsAnimatingRecyclerChildArray.get(i)) {
+//                getTitleViewFromRecyclerChildAt(i).setAlpha(0.0f);
+//                getDescriptionViewFromRecyclerChildAt(i).setAlpha(0.0f);
+//                mIsAnimatingRecyclerChildArray.put(i, true);
+//            }
+//        }
+        for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
+            if (!isAnimatingRecyclerTitleAt(i)
+                    && isRectPartiallyVisibleInRecyclerView(getRecyclerTitleRect(i))) {
+                View viewToAnimate = getTitleViewFromRecyclerChildAt(i);
+                viewToAnimate.setAlpha(0.0f);
+            }
+            if (readyToAnimateRecyclerChildTitleAt(i)) {
+                NLLog.now("animate title : " + i);
+                fadeInRecyclerTitleAt(i);
+            }
+        }
+        for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
+            if (!isAnimatingRecyclerDescriptionAt(i)
+                    && isRectPartiallyVisibleInRecyclerView(getRecyclerDescriptionRect(i))) {
+                View viewToAnimate = getDescriptionViewFromRecyclerChildAt(i);
+                viewToAnimate.setAlpha(0.0f);
+            }
+            if (readyToAnimateRecyclerChildDescriptionAt(i)) {
+                NLLog.now("animate desc : " + i);
+                fadeInRecyclerDescriptionAt(i);
+            }
+        }
+    }
+
+    private boolean readyToAnimateRecyclerChildTitleAt(int index) {
+        Rect rectToInspect = getRecyclerTitleRect(index);
+        boolean isAnimating = isAnimatingRecyclerTitleAt(index);
+        boolean isRecyclerViewVisible = isRecyclerViewVisible();
+        return !isAnimating && isRecyclerViewVisible
+                && isRectEnoughToAnimateInRecyclerView(rectToInspect);
+    }
+
+    private boolean readyToAnimateRecyclerChildDescriptionAt(int index) {
+        Rect rectToInspect = getRecyclerDescriptionRect(index);
+        boolean isAnimating = isAnimatingRecyclerDescriptionAt(index);
+        boolean isRecyclerViewVisible = isRecyclerViewVisible();
+        return !isAnimating && isRecyclerViewVisible
+                && isRectEnoughToAnimateInRecyclerView(rectToInspect);
+    }
+
+    private Rect getRecyclerTitleRect(int index) {
+        return mRecyclerChildTitleLocalVisibleRects.get(index);
+    }
+
+    private boolean isAnimatingRecyclerTitleAt(int index) {
+        return mIsAnimatingRecyclerChildTitleArray.get(index);
+    }
+
+    private Rect getRecyclerDescriptionRect(int index) {
+        return mRecyclerChildDescriptionLocalVisibleRects.get(index);
+    }
+
+    private boolean isAnimatingRecyclerDescriptionAt(int index) {
+        return mIsAnimatingRecyclerChildDescriptionArray.get(index);
+    }
+
+    private boolean isRecyclerViewVisible() {
+        return mRecyclerView.getVisibility() == View.VISIBLE;
+    }
+
+    private View getItemViewFromRecyclerViewAt(int i) {
+        return mRecyclerLayoutManager.getChildAt(i);
+    }
+
+    private View getTitleViewFromRecyclerChildAt(int index) {
+        return getItemViewFromRecyclerViewAt(index)
+                .findViewById(R.id.detail_bottom_news_item_title);
+    }
+
+    private View getDescriptionViewFromRecyclerChildAt(int index) {
+        return getItemViewFromRecyclerViewAt(index)
+                .findViewById(R.id.detail_bottom_news_item_description);
+    }
+
+    private boolean isRectEnoughToAnimateInRecyclerView(Rect rectToInspect) {
+        if (isRectIntersectsWithRecyclerViewBottom(rectToInspect)) {
+            return isRectPartiallyVisibleInRecyclerView(rectToInspect);
+        } else {
+            return isRectFullyVisibleInRecyclerView(rectToInspect);
+        }
+    }
+
+    private boolean isRectFullyVisibleInRecyclerView(Rect rectToInspect) {
+        return mRecyclerAnimatingLocalVisibleRect.contains(rectToInspect);
+    }
+
+    private boolean isRectIntersectsWithRecyclerViewBottom(Rect rectToInspect) {
+        return
+//                (rectToInspect.top > mRecyclerGlobalVisibleRect.bottom) &&
+                        isRectPartiallyVisibleInRecyclerView(rectToInspect);
+    }
+
+    private boolean isRectPartiallyVisibleInRecyclerView(Rect rectToInspect) {
+        return !isRectFullyVisibleInRecyclerView(rectToInspect)
+                && Rect.intersects(mRecyclerAnimatingLocalVisibleRect, rectToInspect);
+//        return mRecyclerAnimatingLocalVisibleRect.intersect(rectToInspect);
+    }
+
+    private void fadeInRecyclerTitleAt(int index) {
+        mIsAnimatingRecyclerChildTitleArray.put(index, true);
+
+        final View childView = getItemViewFromRecyclerViewAt(index);
+        NLLog.now("childView : " + childView);
+//        childView.setHasTransientState(true);
+
+        View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
+        viewToAnimate.animate()
+                .setDuration(mDebugTempDuration)
+                .alpha(1.0f)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+//                        childView.setHasTransientState(false);
+                    }
+                });
+    }
+
+    private void fadeInRecyclerDescriptionAt(int index) {
+        mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
+
+        final View childView = getItemViewFromRecyclerViewAt(index);
+        NLLog.now("childView : " + childView);
+//        childView.setHasTransientState(true);
+
+        View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
+        viewToAnimate.animate()
+                .setDuration(mDebugTempDuration)
+                .alpha(1.0f)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+//                        childView.setHasTransientState(false);
+                    }
+                });
     }
 
     private void fadeInToolbar() {
@@ -430,7 +697,7 @@ public class NewsFeedDetailTransitionUtils {
 
     private void initVariables(NewsFeedDetailActivity activity) {
         mActivity = activity;
-        mListener = (OnAnimationEndListener)activity;
+        mListener = activity;
         mToolbarTitle = activity.getToolbarTitle();
         mToolbarTitleColorSpan = activity.getToolbarTitleColorSpan();
     }
@@ -451,12 +718,70 @@ public class NewsFeedDetailTransitionUtils {
         mTopDescriptionTextView = mActivity.getTopDescriptionTextView();
 
         // Bottom
-        mBottomNewsListRecyclerView = mActivity.getBottomNewsListRecyclerView();
+        mRecyclerView = mActivity.getBottomNewsListRecyclerView();
     }
 
     private void initRecyclerVariables() {
-        mRecyclerLocalVisibleRect = new Rect();
-        mBottomNewsListRecyclerView.getGlobalVisibleRect(mRecyclerLocalVisibleRect);
+        mRecyclerGlobalVisibleRect = new Rect();
+        mRecyclerView.getGlobalVisibleRect(mRecyclerGlobalVisibleRect);
+
+        mRecyclerLayoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
+
+        initRecyclerChildVariables();
+    }
+
+    private void initRecyclerChildVariables() {
+        int childCount = mRecyclerLayoutManager.getChildCount();
+        int offsetFromRecyclerTop = 0;
+        mRecyclerChildCountToAnimate = 0;
+        for (int i = 0 ; i < childCount; i++) {
+            View child = getItemViewFromRecyclerViewAt(i);
+//            View child = mRecyclerLayoutManager.getChildAt(i);
+
+            Rect childRect = new Rect(
+                    child.getLeft(),
+                    child.getTop(),
+                    child.getRight(),
+                    child.getBottom()
+            );
+            if (isRecyclerChildRectPartiallyOrFullyVisible(childRect)) {
+                break;
+            }
+            mRecyclerChildViewLocalVisibleRects.add(childRect);
+            mIsAnimatingRecyclerChildArray.put(i, false);
+
+            putRecyclerChildTitleAndDescriptionAt(i, offsetFromRecyclerTop);
+
+            mIsAnimatingRecyclerChildTitleArray.put(i, false);
+            mIsAnimatingRecyclerChildDescriptionArray.put(i, false);
+
+            offsetFromRecyclerTop += child.getHeight();
+            mRecyclerChildCountToAnimate++;
+        }
+    }
+
+    private boolean isRecyclerChildRectPartiallyOrFullyVisible(Rect childRect) {
+        return childRect.top > mRecyclerGlobalVisibleRect.height();
+    }
+
+    private void putRecyclerChildTitleAndDescriptionAt(int index, int offsetFromRecyclerTop) {
+        View title = getTitleViewFromRecyclerChildAt(index);
+        View description = getDescriptionViewFromRecyclerChildAt(index);
+        Rect titleRect = new Rect(
+                title.getLeft() - title.getPaddingLeft(),
+                title.getTop() - title.getPaddingTop() + offsetFromRecyclerTop,
+                title.getRight() + title.getPaddingRight(),
+                title.getBottom() + title.getPaddingBottom() + offsetFromRecyclerTop
+        );
+        Rect descriptionRect = new Rect(
+                description.getLeft() - description.getPaddingLeft(),
+                description.getTop() - description.getPaddingTop() + offsetFromRecyclerTop,
+                description.getRight() + description.getPaddingRight(),
+                description.getBottom() + description.getPaddingBottom() + offsetFromRecyclerTop
+        );
+
+        mRecyclerChildTitleLocalVisibleRects.add(titleRect);
+        mRecyclerChildDescriptionLocalVisibleRects.add(descriptionRect);
     }
 
     private void initImageTransitionVariables() {
@@ -649,50 +974,6 @@ public class NewsFeedDetailTransitionUtils {
     private void saveTopOverlayAlphaState() {
         mTopGradientShadowView.setTag(mTopGradientShadowView.getAlpha());
         mToolbarOverlayView.setTag(mToolbarOverlayView.getAlpha());
-    }
-
-    @SuppressWarnings("UnusedDeclaration")
-    public void setTopNewsTextLayoutHeight(int height) {
-        ViewGroup.LayoutParams lp = mTopTextLayout.getLayoutParams();
-        lp.height = height;
-        mTopTextLayout.setLayoutParams(lp);
-
-        animateTopTitleAndDescriptionIfSizeSufficient();
-    }
-
-    private void fadeInTopTitle() {
-        mAnimatingTopTitleFadeIn = true;
-
-        mTopTitleTextView.animate()
-                .setDuration(mDebugTempDuration)
-                .alpha(1.0f);
-    }
-
-    private void fadeInTopDescription() {
-        mAnimatingTopDescriptionFadeIn = true;
-
-        mTopDescriptionTextView.animate()
-                .setDuration(mDebugTempDuration)
-                .alpha(1.0f);
-    }
-
-    private boolean readyToAnimateTopTitle() {
-        return !mAnimatingTopTitleFadeIn
-                && mTopTextLayout.getVisibility() == View.VISIBLE
-                && mTopTextLayoutSizeRect.contains(mTopTitleLocalVisibleRect);
-    }
-
-    private boolean readyToAnimateTopDescription() {
-        return !mAnimatingTopDescriptionFadeIn
-                && mTopTextLayout.getVisibility() == View.VISIBLE
-                && mTopTextLayoutSizeRect.contains(mTopDescriptionLocalVisibleRect);
-    }
-
-    @SuppressWarnings("UnusedDeclaration")
-    public void setRecyclerViewHeight(int height) {
-        ViewGroup.LayoutParams lp = mBottomNewsListRecyclerView.getLayoutParams();
-        lp.height = height;
-        mBottomNewsListRecyclerView.setLayoutParams(lp);
     }
 
     /**
