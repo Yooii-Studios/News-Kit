@@ -15,6 +15,5 @@
         android:layout_height="wrap_content"
         android:text="CNN"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/news_select_item_text_color"
-        android:textSize="16sp"/>
+        android:textColor="@color/news_select_item_text_color"/>
 </LinearLayout>
