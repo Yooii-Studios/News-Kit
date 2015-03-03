@@ -247,9 +247,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-//                    mAdView.bringToFront();
                     mAdUpperView.setVisibility(View.VISIBLE);
-//                    mAdUpperView.bringToFront();
                 }
             });
         }
@@ -268,7 +266,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         } else {
             int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
             mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
-            mAdUpperView.setVisibility(View.VISIBLE);
             mAdView.setVisibility(View.VISIBLE);
             mAdView.resume();
 
