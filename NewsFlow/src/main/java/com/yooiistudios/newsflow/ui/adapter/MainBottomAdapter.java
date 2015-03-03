@@ -237,12 +237,11 @@ public class MainBottomAdapter extends
 
                     // apply palette
                     Palette palette = Palette.generate(bitmap);
-                    int darkVibrantColor = palette.getDarkVibrantColor(Color.TRANSPARENT);
-                    if (darkVibrantColor != Color.TRANSPARENT) {
-//                        int darkVibrantColor = paletteItem.getRgb();
-                        int red = Color.red(darkVibrantColor);
-                        int green = Color.green(darkVibrantColor);
-                        int blue = Color.blue(darkVibrantColor);
+                    int vibrantColor = palette.getVibrantSwatch().getRgb();
+                    if (vibrantColor != Color.TRANSPARENT) {
+                        int red = Color.red(vibrantColor);
+                        int green = Color.green(vibrantColor);
+                        int blue = Color.blue(vibrantColor);
                         int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
                         viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
                         viewHolder.imageView.setTag(TintType.PALETTE);
