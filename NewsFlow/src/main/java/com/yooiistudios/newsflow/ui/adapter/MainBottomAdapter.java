@@ -246,8 +246,8 @@ public class MainBottomAdapter extends
                         viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
                         viewHolder.imageView.setTag(TintType.PALETTE);
                     } else {
-                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
-                        viewHolder.imageView.setTag(TintType.GRAY_SCALE);
+                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getBottomGrayFilterColor(mContext));
+                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
                     }
                 } else {
                     if (!displayingNews.isImageUrlChecked()) {
@@ -288,8 +288,8 @@ public class MainBottomAdapter extends
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
-        viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
-        viewHolder.imageView.setTag(TintType.DUMMY);
+        viewHolder.imageView.setColorFilter(NewsFeedUtils.getBottomGrayFilterColor(mContext));
+        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
 //        setOnClickListener(viewHolder, position);
     }
 

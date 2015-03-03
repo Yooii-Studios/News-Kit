@@ -289,11 +289,25 @@ public class NewsFeedUtils {
     /**
      * Color used to Main Top news image and Dummy image
      */
-    public static int getGrayFilterColor() {
+    public static int getTopGrayFilterColor() {
         return Color.argb(127, 16, 16, 16);
     }
-    public static int getDummyImageFilterColor() {
-        return NewsFeedUtils.getGrayFilterColor();
+
+    public static int getTopDummyImageFilterColor() {
+        return NewsFeedUtils.getTopGrayFilterColor();
+    }
+
+    public static int getBottomGrayFilterColor(Context context) {
+        int grayColor = context.getResources().getColor(R.color.material_blue_grey_500);
+        int red = Color.red(grayColor);
+        int green = Color.green(grayColor);
+        int blue = Color.blue(grayColor);
+        int alpha = context.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    public static int getBottomDummyImageFilterColor(Context context) {
+        return getBottomGrayFilterColor(context);
     }
 
     public static int getMainBottomDefaultBackgroundColor() {

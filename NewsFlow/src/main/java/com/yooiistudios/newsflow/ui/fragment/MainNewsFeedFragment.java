@@ -158,10 +158,8 @@ public class MainNewsFeedFragment extends Fragment {
 
                     if (bitmap != null && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
-                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
-                        viewHolder.imageView.setTag(TintType.GRAY_SCALE);
-                    } else {
-                        // TODO cache 에 비트맵이 없는 경우. 기본적으로 없어야 할 상황.
+                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getTopGrayFilterColor());
+                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
                     }
                 }
 
@@ -184,8 +182,8 @@ public class MainNewsFeedFragment extends Fragment {
         if (!mRecycled && viewHolder.imageView != null) {
             Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(getActivity().getApplicationContext());
             viewHolder.imageView.setImageBitmap(dummyImage);
-            viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
-            viewHolder.imageView.setTag(TintType.DUMMY);
+            viewHolder.imageView.setColorFilter(NewsFeedUtils.getTopDummyImageFilterColor());
+            viewHolder.imageView.setTag(TintType.DUMMY_TOP);
 
             viewHolder.progressBar.setVisibility(View.GONE);
         }
