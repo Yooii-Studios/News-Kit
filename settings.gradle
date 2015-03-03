@@ -1,4 +1,4 @@
-include ':NewsFlow'
+include 'mobile'
 include ':libraries:Volley'
 include ':libraries:GridLayoutManager'
 include ':libraries:SerialAnimator'
