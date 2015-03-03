@@ -246,9 +246,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-//                    mAdView.bringToFront();
                     mAdUpperView.setVisibility(View.VISIBLE);
-//                    mAdUpperView.bringToFront();
                 }
             });
         }
@@ -265,7 +263,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         } else {
             int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
             mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
-            mAdUpperView.setVisibility(View.VISIBLE);
             mAdView.setVisibility(View.VISIBLE);
             mAdView.resume();
 
@@ -597,7 +594,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             mTopTitleTextView.setPadding(mTopTitleTextView.getPaddingLeft(),
                     mTopTitleTextView.getPaddingTop(), mTopTitleTextView.getPaddingRight(), 0);
         }
-
         applyImage();
     }
 
@@ -629,7 +625,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    applyDummyTopNewsImage();
+                    applyDummyNewsImageFromTop();
 
 //                    animateTopItems();
 
@@ -637,8 +633,23 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 }
             });
         } else if (mTopNews.isImageUrlChecked()) {
-            applyDummyTopNewsImage();
+            // 상하단 뉴스피드에 따라 필터 색을 각각 다른 색으로 지정
+            String newsLocation = getIntent().getExtras().getString(
+                    MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
 
+            if (newsLocation != null) {
+                switch (newsLocation) {
+                    case MainActivity.INTENT_VALUE_TOP_NEWS_FEED:
+                    default:
+                        applyDummyNewsImageFromTop();
+                        break;
+                    case MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED:
+                        applyDummyNewsImageFromBottom();
+                        break;
+                }
+            } else {
+                applyDummyNewsImageFromTop();
+            }
 //            animateTopItems();
         } else {
             showLoadingCover();
@@ -677,9 +688,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mLoadingCoverView.setVisibility(View.GONE);
     }
 
-    private void applyDummyTopNewsImage() {
+    private void applyDummyNewsImageFromTop() {
         _setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
-                TintType.DUMMY);
+                TintType.DUMMY_TOP);
+    }
+
+    private void applyDummyNewsImageFromBottom() {
+        _setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+                TintType.DUMMY_BOTTOM);
     }
 
     private void setTopNewsImageBitmap(Bitmap bitmap) {
@@ -692,16 +708,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         mPalette = Palette.generate(mTopImageBitmap);
 
-
         if (tintType != null) {
             mTintType = tintType;
         } else if (mTintType == null) {
-            // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null이다.
+            // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null 이다
             // 그러므로 이 상황에서 이미지가 set 된다면
-            // 1. 메인 상단에서 들어온 경우 : TintType.GRAY_SCALE
+            // 1. 메인 상단에서 들어온 경우 : TintType.GRAY_SCALE_TOP
             // 2. 메인 하단에서 들어온 경우 :
-            // 2.1 palette에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
-            // 2.2 palette에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAY_SCALE(default)
+            // 2.1 palette 에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
+            // 2.2 palette 에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAY_SCALE_TOP(default)
 
             // 상단 뉴스피드인지 하단 뉴스피드인지 구분
             String newsLocation = getIntent().getExtras().getString(
@@ -711,7 +726,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 switch (newsLocation) {
                     case MainActivity.INTENT_VALUE_TOP_NEWS_FEED:
                         // 메인 상단에서 온 경우
-                        mTintType = TintType.GRAY_SCALE;
+                        mTintType = TintType.GRAY_SCALE_TOP;
                         break;
                     case MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED:
                         // 메인 하단에서 온 경우
@@ -719,15 +734,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                         if (filterColor != Color.TRANSPARENT) {
                             mTintType = TintType.PALETTE;
                         } else {
-                            mTintType = TintType.GRAY_SCALE;
+                            mTintType = TintType.GRAY_SCALE_TOP;
                         }
                         break;
                     default:
-                        mTintType = TintType.GRAY_SCALE;
+                        mTintType = TintType.GRAY_SCALE_TOP;
                         break;
                 }
             } else {
-                mTintType = TintType.GRAY_SCALE;
+                mTintType = TintType.GRAY_SCALE_TOP;
             }
         }
         applyPalette();
@@ -752,11 +767,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     public int getFilterColor() {
         int color;
         int alpha;
-        TintType tintType = mTintType != null ? mTintType : TintType.GRAY_SCALE;
+        TintType tintType = mTintType != null ? mTintType : TintType.GRAY_SCALE_TOP;
 
         switch(tintType) {
-            case DUMMY:
-                color = NewsFeedUtils.getDummyImageFilterColor();
+            case DUMMY_TOP:
+                color = NewsFeedUtils.getTopDummyImageFilterColor();
+                alpha = Color.alpha(color);
+                break;
+            case DUMMY_BOTTOM:
+                color = NewsFeedUtils.getBottomDummyImageFilterColor(this);
                 alpha = Color.alpha(color);
                 break;
             case PALETTE:
@@ -766,31 +785,30 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
                     break;
                 }
-                // darkVibrantColor == null 이라면 아래의 구문으로 넘어간다.
-            case GRAY_SCALE:
+                // filterColor == null 이라면 아래의 구문으로 넘어간다.
+            case GRAY_SCALE_TOP:
             default:
-                color = NewsFeedUtils.getGrayFilterColor();
+                color = NewsFeedUtils.getTopGrayFilterColor();
+                alpha = Color.alpha(color);
+                break;
+            case GRAY_SCALE_BOTTOM:
+                color = NewsFeedUtils.getBottomGrayFilterColor(this);
                 alpha = Color.alpha(color);
                 break;
         }
-
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
     }
 
     private int getTopImageFilterColorPaletteItem() {
-        return mPalette.getVibrantSwatch().getRgb();
-//        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
+        return mPalette.getVibrantColor(Color.TRANSPARENT);
     }
 
     @Override
     public void onItemClick(NewsFeedDetailAdapter.ViewHolder viewHolder, News news) {
-//        NLLog.now("detail bottom onItemClick");
-
         Intent intent = new Intent(this, NewsDetailActivity.class);
         intent.putExtra(INTENT_KEY_NEWS, news);
 
         startActivity(intent);
-//        NLWebUtils.openLink(this, news.getLink());
     }
 
     private void applySystemWindowsBottomInset() {

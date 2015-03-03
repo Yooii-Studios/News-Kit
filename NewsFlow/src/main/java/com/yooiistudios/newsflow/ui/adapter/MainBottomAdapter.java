@@ -237,18 +237,17 @@ public class MainBottomAdapter extends
 
                     // apply palette
                     Palette palette = Palette.generate(bitmap);
-                    int darkVibrantColor = palette.getDarkVibrantColor(Color.TRANSPARENT);
-                    if (darkVibrantColor != Color.TRANSPARENT) {
-//                        int darkVibrantColor = paletteItem.getRgb();
-                        int red = Color.red(darkVibrantColor);
-                        int green = Color.green(darkVibrantColor);
-                        int blue = Color.blue(darkVibrantColor);
+                    int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+                    if (vibrantColor != Color.TRANSPARENT) {
+                        int red = Color.red(vibrantColor);
+                        int green = Color.green(vibrantColor);
+                        int blue = Color.blue(vibrantColor);
                         int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
                         viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
                         viewHolder.imageView.setTag(TintType.PALETTE);
                     } else {
-                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getGrayFilterColor());
-                        viewHolder.imageView.setTag(TintType.GRAY_SCALE);
+                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getBottomGrayFilterColor(mContext));
+                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
                     }
                 } else {
                     if (!displayingNews.isImageUrlChecked()) {
@@ -289,8 +288,8 @@ public class MainBottomAdapter extends
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
-        viewHolder.imageView.setColorFilter(NewsFeedUtils.getDummyImageFilterColor());
-        viewHolder.imageView.setTag(TintType.DUMMY);
+        viewHolder.imageView.setColorFilter(NewsFeedUtils.getBottomGrayFilterColor(mContext));
+        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
 //        setOnClickListener(viewHolder, position);
     }
 

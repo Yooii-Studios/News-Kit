@@ -42,12 +42,12 @@
         <activity
             android:name=".ui.activity.NewsFeedDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="sensor"
             android:theme="@style/NewsFeedDetailTheme" />
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="sensor"
             android:theme="@style/NewsDetailTheme" />
         <activity
             android:name=".ui.activity.NewsSelectActivity"
