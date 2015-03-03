@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -25,15 +24,16 @@ android {
         abortOnError false
     }
 
-    packagingOptions { // gralde 0.7.1 + Studio 0.4.0 에서 생긴 duplicate 버그를 해결하기 위함
+    // duplicate 버그를 해결하기 위함
+    packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LGPL2.1'
+//        exclude 'META-INF/DEPENDENCIES.txt'
+//        exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/NOTICE.txt'
+//        exclude 'META-INF/NOTICE'
+//        exclude 'META-INF/LGPL2.1'
     }
 }
 
@@ -54,7 +54,7 @@ dependencies {
     compile "com.android.support:cardview-v7:21.0.3"
     compile "com.android.support:palette-v7:21.0.3"
 
-    // view pager에 쓰임 - 기존은 20.0.0 이었지만 올림
+    // view pager 에 쓰임 - 기존은 20.0.0 이었지만 올림
     compile "com.android.support:support-v13:21.0.3"
 //    compile project(':libraries:view-pager-indicator-library')
 
@@ -66,10 +66,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'       // json 관련
     compile 'com.jakewharton:butterknife:4.0.1'     // @InjectView(id)를 통해 findViewId 작업을 줄여줌
 
-    // (Android Studio용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
+    // (Android Studio 용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
     compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근
 
-    // html dom parsing을 위한 라이브러리(BeautifulSoup Java version)
+    // html dom parsing 을 위한 라이브러리(BeautifulSoup Java version)
     compile 'org.jsoup:jsoup:1.7.3'
 
     // 이미지 디스크 캐시를 사용하기 위해 추가
