@@ -82,16 +82,24 @@
 
     <style name="DetailTitleStyle" parent="DetailTitleTextBaseStyle">
         <item name="android:textColor">@color/material_black_primary_text</item>
-        <item name="android:padding">@dimen/detail_text_padding</item>
+        <item name="android:layout_marginLeft">@dimen/detail_text_padding</item>
+        <item name="android:layout_marginTop">@dimen/detail_text_padding</item>
+        <item name="android:layout_marginRight">@dimen/detail_text_padding</item>
+        <!--<item name="android:padding">@dimen/detail_text_padding</item>-->
     </style>
 
     <style name="DetailDescriptionStyle" parent="DetailDescriptionTextBaseStyle">
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:paddingLeft">@dimen/detail_text_wide_padding</item>
-        <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
-        <item name="android:paddingRight">@dimen/detail_text_wide_padding</item>
-        <item name="android:paddingBottom">@dimen/detail_text_wide_padding</item>
+        <item name="android:layout_marginLeft">@dimen/detail_text_wide_padding</item>
+        <item name="android:layout_marginTop">@dimen/detail_text_inner_padding</item>
+        <item name="android:layout_marginRight">@dimen/detail_text_wide_padding</item>
+        <!--<item name="android:layout_marginBottom">@dimen/detail_text_wide_padding</item>-->
+
+        <!--<item name="android:paddingLeft">@dimen/detail_text_wide_padding</item>-->
+        <!--<item name="android:paddingTop">@dimen/detail_text_inner_padding</item>-->
+        <!--<item name="android:paddingRight">@dimen/detail_text_wide_padding</item>-->
+        <!--<item name="android:paddingBottom">@dimen/detail_text_wide_padding</item>-->
     </style>
 
     <style name="NewsFeedReplaceTextStyle" parent="DetailDescriptionTextBaseStyle">

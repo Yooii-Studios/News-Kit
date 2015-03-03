@@ -1,5 +1,7 @@
 package com.yooiistudios.newsflow.model.activitytransition;
 
+import android.graphics.Point;
+
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 10. 1.
  *
@@ -51,5 +53,17 @@ public abstract class ActivityTransitionProperty {
 
     public int getHeight() {
         return mHeight;
+    }
+
+    public int getCenterX() {
+        return getLeft() + getWidth() / 2;
+    }
+
+    public int getCenterY() {
+        return getTop() + getHeight() / 2;
+    }
+
+    public Point getCenter() {
+        return new Point(getCenterX(), getCenterY());
     }
 }

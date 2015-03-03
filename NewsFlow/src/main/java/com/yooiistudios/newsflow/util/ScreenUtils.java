@@ -26,7 +26,7 @@ public class ScreenUtils {
     /** Calculates the Action Bar height in pixels. */
     
     private static final int[] RES_IDS_ACTION_BAR_SIZE = { android.R.attr.actionBarSize };
-    public static int calculateActionBarSize(Context context) {
+    public static int getActionBarSize(Context context) {
         if (context == null) {
             return 0;
         }
@@ -61,7 +61,7 @@ public class ScreenUtils {
     }
     */
 
-    public static int calculateStatusBarHeight(final Context context) {
+    public static int getStatusBarHeight(final Context context) {
         int statusBarHeight = 0;
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

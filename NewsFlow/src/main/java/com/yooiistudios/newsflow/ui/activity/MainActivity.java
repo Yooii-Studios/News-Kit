@@ -42,6 +42,7 @@ import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.News;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
@@ -197,7 +198,7 @@ public class MainActivity extends ActionBarActivity
 
     private void adjustToolbarTopMargin() {
         if (Device.hasLollipop()) {
-            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(this);
+            int statusBarHeight = ScreenUtils.getStatusBarHeight(this);
             if (statusBarHeight > 0) {
                 ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
             }
@@ -491,8 +492,7 @@ public class MainActivity extends ActionBarActivity
             NewsDb.getInstance(getApplicationContext()).clearArchive();
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_slow_anim) {
-            NewsFeedDetailActivity.sAnimatorScale = item.isChecked() ?
-                    1 : getResources().getInteger(R.integer.news_feed_detail_debug_transition_scale);
+            NewsFeedDetailTransitionUtils.toggleUseScaledDurationDebug(getApplicationContext());
             item.setChecked(!item.isChecked());
         } else if (id == R.id.action_service_log) {
             BackgroundServiceUtils.showDialog(this);
@@ -550,9 +550,9 @@ public class MainActivity extends ActionBarActivity
     private void startNewsFeedDetailWithIntent(Intent intent) {
         startActivityForResult(intent, RC_NEWS_FEED_DETAIL);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             overridePendingTransition(0, 0);
-        }
+//        }
     }
 
     @Override

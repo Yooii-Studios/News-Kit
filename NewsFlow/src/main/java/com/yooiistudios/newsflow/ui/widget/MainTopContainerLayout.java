@@ -159,7 +159,7 @@ public class MainTopContainerLayout extends FrameLayout
 
     private void adjustEditLayoutPosition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int statusBarHeight = ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
+            int statusBarHeight = ScreenUtils.getStatusBarHeight(getContext().getApplicationContext());
             mEditLayout.setPadding(0, statusBarHeight, 0, 0);
         }
     }
@@ -534,7 +534,7 @@ public class MainTopContainerLayout extends FrameLayout
         lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
         lp.height = ScreenUtils.getDisplaySize(getContext()).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            lp.height -= ScreenUtils.calculateStatusBarHeight(getContext().getApplicationContext());
+            lp.height -= ScreenUtils.getStatusBarHeight(getContext().getApplicationContext());
         }
     }
 
