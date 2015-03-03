@@ -54,11 +54,11 @@ import com.yooiistudios.newsflow.util.AnalyticsUtils;
 import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.util.Display;
 import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
-import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -198,7 +198,7 @@ public class MainActivity extends ActionBarActivity
 
     private void adjustToolbarTopMargin() {
         if (Device.hasLollipop()) {
-            int statusBarHeight = ScreenUtils.getStatusBarHeight(this);
+            int statusBarHeight = Display.getStatusBarHeight(this);
             if (statusBarHeight > 0) {
                 ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
             }
@@ -344,13 +344,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void configNavigationTranslucentState() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
-            if (adPurchased && isPortrait()) {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            } else {
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
+        boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+        if (adPurchased && isPortrait()) {
+            Display.applyTranslucentNavigationBarAfterLollipop(this);
+        } else {
+            Display.removeTranslucentNavigationBarAfterLollipop(this);
         }
     }
 
@@ -369,8 +367,8 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void requestSystemWindowsBottomInset() {
-        configNavigationTranslucentState();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Device.hasLollipop()) {
+            configNavigationTranslucentState();
             if (isSystemWindowInsetInvalid()) {
                 requestSystemWindowsBottomInsetAfterLollipop();
             } else {

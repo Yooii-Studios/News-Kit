@@ -41,8 +41,8 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProp
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.util.Display;
 import com.yooiistudios.newsflow.util.NLLog;
-import com.yooiistudios.newsflow.util.ScreenUtils;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
 import java.lang.reflect.Type;
@@ -302,6 +302,7 @@ public class NewsFeedDetailTransitionUtils {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mListener.onRecyclerScaleAnimationEnd();
+                NLLog.now("mRecyclerGlobalVisibleRect : " + mRecyclerGlobalVisibleRect.toShortString());
                 NLLog.now("mRecyclerAnimatingLocalVisibleRect : " + mRecyclerAnimatingLocalVisibleRect.toShortString());
                 for (int i = 0; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
                     Rect titleRect = getRecyclerTitleRect(i);
@@ -327,7 +328,7 @@ public class NewsFeedDetailTransitionUtils {
     private Point getRevealCenter() {
         Point center = mTransImageViewProperty.getCenter();
         if (!Device.hasLollipop()) {
-            center.y -= ScreenUtils.getStatusBarHeight(mActivity.getApplicationContext());
+            center.y -= Display.getStatusBarHeight(mActivity.getApplicationContext());
         }
 
         return center;
@@ -516,12 +517,12 @@ public class NewsFeedDetailTransitionUtils {
 
     private boolean isRecyclerTitleReadyForAnimation(int index) {
         return !isAnimatingRecyclerTitleAt(index)
-                && isRectPartiallyVisibleInRecyclerView(getRecyclerTitleRect(index));
+                && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerTitleRect(index));
     }
 
     private boolean isRecyclerDescriptionReadyForAnimation(int i) {
         return !isAnimatingRecyclerDescriptionAt(i)
-                && isRectPartiallyVisibleInRecyclerView(getRecyclerDescriptionRect(i));
+                && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerDescriptionRect(i));
     }
 
     private void prepareRecyclerTitleAt(int index) {
@@ -611,11 +612,22 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private boolean isRectEnoughToAnimateInRecyclerView(Rect rectToInspect) {
-        if (isRectIntersectsWithRecyclerViewBottom(rectToInspect)) {
-            return isRectPartiallyVisibleInRecyclerView(rectToInspect);
-        } else {
+//        if (isRectIntersectsWithRecyclerViewBottom(rectToInspect)) {
+////            Rect animatingRecyclerRectCopy = new Rect(mRecyclerAnimatingLocalVisibleRect);
+////            rectToInspectCopy.intersect(animatingRecyclerRectCopy);
+////            NLLog.now("rectToInspectCopy : " + rectToInspectCopy.toShortString());
+//
+//            int invisibleArea = rectToInspect.bottom - mRecyclerGlobalVisibleRect.height();
+//
+//            Rect rectToInspectCopy = new Rect(rectToInspect);
+//            rectToInspectCopy.bottom -= invisibleArea;
+//            NLLog.now("rectToInspectCopy : " + rectToInspectCopy.toShortString());
+//
+//            return isRectFullyVisibleInRecyclerView(rectToInspectCopy);
+////            return isRectPartiallyVisibleInAnimatingRecyclerView(rectToInspect);
+//        } else {
             return isRectFullyVisibleInRecyclerView(rectToInspect);
-        }
+//        }
     }
 
     private boolean isRectFullyVisibleInRecyclerView(Rect rectToInspect) {
@@ -623,10 +635,13 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private boolean isRectIntersectsWithRecyclerViewBottom(Rect rectToInspect) {
-        return isRectPartiallyVisibleInRecyclerView(rectToInspect);
+        return rectToInspect.top < mRecyclerGlobalVisibleRect.height()
+                && rectToInspect.bottom > mRecyclerGlobalVisibleRect.height();
+//        return Rect.intersects(mRecyclerGlobalVisibleRect, rectToInspect);
+//        return isRectPartiallyVisibleInAnimatingRecyclerView(rectToInspect);
     }
 
-    private boolean isRectPartiallyVisibleInRecyclerView(Rect rectToInspect) {
+    private boolean isRectPartiallyVisibleInAnimatingRecyclerView(Rect rectToInspect) {
         return !isRectFullyVisibleInRecyclerView(rectToInspect)
                 && Rect.intersects(mRecyclerAnimatingLocalVisibleRect, rectToInspect);
     }
@@ -698,6 +713,9 @@ public class NewsFeedDetailTransitionUtils {
     private void initRecyclerVariables() {
         mRecyclerGlobalVisibleRect = new Rect();
         mRecyclerView.getGlobalVisibleRect(mRecyclerGlobalVisibleRect);
+//        NLLog.now("initial mRecyclerGlobalVisibleRect : " + mRecyclerGlobalVisibleRect.toShortString());
+//        mRecyclerGlobalVisibleRect.bottom += Display.getNavigationBarHeight(mActivity);
+//        NLLog.now("modified mRecyclerGlobalVisibleRect : " + mRecyclerGlobalVisibleRect.toShortString());
 
         mRecyclerLayoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
@@ -753,12 +771,28 @@ public class NewsFeedDetailTransitionUtils {
                 description.getRight(),
                 description.getBottom() + offsetFromRecyclerTop
         );
+        titleRect = adjustRectIfIntersectsWithRecyclerBottom(titleRect);
+        descriptionRect = adjustRectIfIntersectsWithRecyclerBottom(descriptionRect);
 
         mRecyclerChildTitleLocalVisibleRects.add(titleRect);
         mRecyclerChildDescriptionLocalVisibleRects.add(descriptionRect);
 
         mIsAnimatingRecyclerChildTitleArray.put(index, false);
         mIsAnimatingRecyclerChildDescriptionArray.put(index, false);
+    }
+
+    private Rect adjustRectIfIntersectsWithRecyclerBottom(Rect rectToInspect) {
+        if (isRectIntersectsWithRecyclerViewBottom(rectToInspect)) {
+            int invisibleArea = rectToInspect.bottom - mRecyclerGlobalVisibleRect.height();
+
+//            Rect rectToInspectCopy = new Rect(rectToInspect);
+            rectToInspect.bottom -= invisibleArea;
+            NLLog.now("rectToInspect : " + rectToInspect.toShortString());
+        }
+        return rectToInspect;
+//        else if (rectToInspect.top > mRecyclerGlobalVisibleRect.height()) {
+//            // invisible
+//        }
     }
 
     private void initImageTransitionVariables() {
@@ -916,7 +950,7 @@ public class NewsFeedDetailTransitionUtils {
         lp.leftMargin = property.getLeft();
         lp.topMargin = property.getTop();
         if (!Device.hasLollipop()) {
-            lp.topMargin -= ScreenUtils.getStatusBarHeight(mActivity.getApplicationContext());
+            lp.topMargin -= Display.getStatusBarHeight(mActivity.getApplicationContext());
         }
         mTransitionLayout.addView(view, lp);
     }

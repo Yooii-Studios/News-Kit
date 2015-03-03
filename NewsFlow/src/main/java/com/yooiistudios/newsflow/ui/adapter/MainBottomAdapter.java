@@ -29,8 +29,8 @@ import com.yooiistudios.newsflow.model.news.TintType;
 import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
 import com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout;
 import com.yooiistudios.newsflow.ui.widget.RatioFrameLayout;
+import com.yooiistudios.newsflow.util.Display;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
-import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -323,7 +323,7 @@ public class MainBottomAdapter extends
 
     public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
         // get display width
-        Point displaySize = ScreenUtils.getDisplaySize(context);
+        Point displaySize = Display.getDisplaySize(context);
         int displayWidth = displaySize.x;
 
         // main_bottom_margin_small : item padding = recyclerView margin
@@ -342,10 +342,10 @@ public class MainBottomAdapter extends
     }
 
     public static int measureMaximumHeightOnLandscape(Context context, ViewGroup.LayoutParams lp) {
-        int height = ScreenUtils.getDisplaySize(context).y;
+        int height = Display.getDisplaySize(context).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
-            height -= ScreenUtils.getStatusBarHeight(context);
+            height -= Display.getStatusBarHeight(context);
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)lp;

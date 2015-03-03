@@ -43,9 +43,9 @@ import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
 import com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
+import com.yooiistudios.newsflow.util.Display;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
-import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -159,7 +159,7 @@ public class MainTopContainerLayout extends FrameLayout
 
     private void adjustEditLayoutPosition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int statusBarHeight = ScreenUtils.getStatusBarHeight(getContext().getApplicationContext());
+            int statusBarHeight = Display.getStatusBarHeight(getContext().getApplicationContext());
             mEditLayout.setPadding(0, statusBarHeight, 0, 0);
         }
     }
@@ -531,10 +531,10 @@ public class MainTopContainerLayout extends FrameLayout
     private void adjustLayoutParamsOnLandscape() {
         ViewGroup.LayoutParams lp = getLayoutParams();
 
-        lp.width = (int)(ScreenUtils.getDisplaySize(getContext()).x * 0.5);
-        lp.height = ScreenUtils.getDisplaySize(getContext()).y;
+        lp.width = (int)(Display.getDisplaySize(getContext()).x * 0.5);
+        lp.height = Display.getDisplaySize(getContext()).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            lp.height -= ScreenUtils.getStatusBarHeight(getContext().getApplicationContext());
+            lp.height -= Display.getStatusBarHeight(getContext().getApplicationContext());
         }
     }
 

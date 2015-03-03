@@ -1,11 +1,14 @@
 package com.yooiistudios.newsflow.util;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Point;
-import android.view.Display;
+import android.graphics.Rect;
+import android.os.Build;
 import android.view.WindowManager;
 
 /**
@@ -14,8 +17,8 @@ import android.view.WindowManager;
  * NLScreenUtils
  *  스크린 사이즈와 관련된 유틸리티 클래스. Google I/O 2014 참고
  */
-public class ScreenUtils {
-    private ScreenUtils() { throw new AssertionError("MUST not create this class!"); }
+public class Display {
+    private Display() { throw new AssertionError("MUST not create this class!"); }
 
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
@@ -72,11 +75,59 @@ public class ScreenUtils {
 
     public static Point getDisplaySize(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
+        android.view.Display display = wm.getDefaultDisplay();
 
         Point displaySize = new Point();
         display.getSize(displaySize);
 
         return displaySize;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void applyTranslucentNavigationBarAfterLollipop(Activity activity) {
+        if (Device.hasLollipop()) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void removeTranslucentNavigationBarAfterLollipop(Activity activity) {
+        if (Device.hasLollipop()) {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static int getNavigationBarHeight(Context context) {
+        return getNavigationBarRect(context).height();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static Rect getNavigationBarRect(Context context) {
+        Point displaySize = getDisplaySize(context);
+        Point realSize = getRealDisplaySize(context);
+
+        String tag = "getNavigationBarRect";
+        NLLog.i(tag, "displaySize : " + displaySize.toString());
+        NLLog.i(tag, "realSize : " + realSize.toString());
+
+        return new Rect(0, 0, displaySize.x, realSize.y - displaySize.y);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static Point getRealDisplaySize(Context context){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        android.view.Display display = wm.getDefaultDisplay();
+
+        Point realSize = new Point();
+        display.getRealSize(realSize);
+
+        return realSize;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static boolean hasTranslucentNavigationBar(Activity activity) {
+        int flags = activity.getWindow().getAttributes().flags;
+        return (flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION) != 0;
     }
 }

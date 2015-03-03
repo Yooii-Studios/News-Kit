@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
-import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -74,9 +73,9 @@ import com.yooiistudios.newsflow.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newsflow.ui.widget.ObservableScrollView;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
+import com.yooiistudios.newsflow.util.Display;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.NLLog;
-import com.yooiistudios.newsflow.util.ScreenUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -262,9 +261,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             mAdUpperView.setVisibility(View.GONE);
             mAdView.setVisibility(View.GONE);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
+            Display.applyTranslucentNavigationBarAfterLollipop(this);
         } else {
             int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
             mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
@@ -277,9 +274,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             adViewLp.bottomMargin = mWindowInsetEnd;
 
             // 네비게이션바에 색상 입히기
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            }
+            Display.removeTranslucentNavigationBarAfterLollipop(this);
         }
     }
 
@@ -322,7 +317,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void adjustToolbarTopMargin() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int statusBarHeight = ScreenUtils.getStatusBarHeight(this);
+            int statusBarHeight = Display.getStatusBarHeight(this);
             if (statusBarHeight > 0) {
                 ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams()).topMargin = statusBarHeight;
             }
@@ -357,7 +352,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void initToolbarGradientView() {
         // 기존의 계산된 ActionBar 높이와 Toolbar 의 실제가 높이가 달라 측정해서 적용하게 변경
-        final int statusBarSize = ScreenUtils.getStatusBarHeight(this);
+        final int statusBarSize = Display.getStatusBarHeight(this);
         mToolbar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
