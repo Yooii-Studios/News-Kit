@@ -698,12 +698,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (tintType != null) {
             mTintType = tintType;
         } else if (mTintType == null) {
-            // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null이다.
+            // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null 이다
             // 그러므로 이 상황에서 이미지가 set 된다면
             // 1. 메인 상단에서 들어온 경우 : TintType.GRAY_SCALE
             // 2. 메인 하단에서 들어온 경우 :
-            // 2.1 palette에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
-            // 2.2 palette에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAY_SCALE(default)
+            // 2.1 palette 에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
+            // 2.2 palette 에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAY_SCALE(default)
 
             // 상단 뉴스피드인지 하단 뉴스피드인지 구분
             String newsLocation = getIntent().getExtras().getString(
@@ -780,8 +780,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private int getTopImageFilterColorPaletteItem() {
-        return mPalette.getVibrantSwatch().getRgb();
-//        return mPalette.getDarkVibrantColor(Color.TRANSPARENT);
+        return mPalette.getVibrantColor(Color.TRANSPARENT);
     }
 
     @Override

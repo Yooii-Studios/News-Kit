@@ -237,7 +237,7 @@ public class MainBottomAdapter extends
 
                     // apply palette
                     Palette palette = Palette.generate(bitmap);
-                    int vibrantColor = palette.getVibrantSwatch().getRgb();
+                    int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
                     if (vibrantColor != Color.TRANSPARENT) {
                         int red = Color.red(vibrantColor);
                         int green = Color.green(vibrantColor);
