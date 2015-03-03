@@ -42,6 +42,7 @@ import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionText
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.util.Device;
 import com.yooiistudios.newsflow.util.Display;
+import com.yooiistudios.newsflow.util.IntegerMath;
 import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
@@ -302,18 +303,6 @@ public class NewsFeedDetailTransitionUtils {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mListener.onRecyclerScaleAnimationEnd();
-                NLLog.now("mRecyclerGlobalVisibleRect : " + mRecyclerGlobalVisibleRect.toShortString());
-                NLLog.now("mRecyclerAnimatingLocalVisibleRect : " + mRecyclerAnimatingLocalVisibleRect.toShortString());
-                for (int i = 0; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-                    Rect titleRect = getRecyclerTitleRect(i);
-                    NLLog.now("titleRect idx : " + i);
-                    NLLog.now("titleRect : " + titleRect.toShortString());
-                }
-                for (int i = 0; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-                    Rect descriptionRect = getRecyclerDescriptionRect(i);
-                    NLLog.now("descriptionRect idx : " + i);
-                    NLLog.now("descriptionRect : " + descriptionRect.toShortString());
-                }
             }
         });
 
@@ -358,23 +347,9 @@ public class NewsFeedDetailTransitionUtils {
         int distanceToRevealLeftBottom =
                 (int)Math.hypot(distanceToRevealViewLeft, distanceToRevealViewBottom);
 
-        return getLargestInteger(distanceToRevealLeftTop, distanceToRevealRightTop,
+        return IntegerMath.getLargestInteger(distanceToRevealLeftTop,
+                distanceToRevealRightTop,
                 distanceToRevealRightBottom, distanceToRevealLeftBottom);
-    }
-
-    // TODO 유틸 클래스로 extract 해야함.
-    private static int getLargestInteger(int... ints) {
-        if (ints.length <= 0) {
-            throw new IndexOutOfBoundsException(
-                    "Parameter MUST contain more than or equal to 1 value.");
-        }
-
-        int largestInteger = -1;
-        for (int value : ints) {
-            largestInteger = value > largestInteger ? value : largestInteger;
-        }
-
-        return largestInteger;
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -548,7 +523,7 @@ public class NewsFeedDetailTransitionUtils {
         boolean isAnimating = isAnimatingRecyclerTitleAt(index);
         boolean isRecyclerViewVisible = isRecyclerViewVisible();
         return !isAnimating && isRecyclerViewVisible
-                && isRectEnoughToAnimateInRecyclerView(rectToInspect);
+                && isRectFullyVisibleInRecyclerView(rectToInspect);
     }
 
     private boolean readyToAnimateRecyclerChildDescriptionAt(int index) {
@@ -556,7 +531,7 @@ public class NewsFeedDetailTransitionUtils {
         boolean isAnimating = isAnimatingRecyclerDescriptionAt(index);
         boolean isRecyclerViewVisible = isRecyclerViewVisible();
         return !isAnimating && isRecyclerViewVisible
-                && isRectEnoughToAnimateInRecyclerView(rectToInspect);
+                && isRectFullyVisibleInRecyclerView(rectToInspect);
     }
 
     private Rect getRecyclerTitleRect(int index) {
@@ -611,25 +586,6 @@ public class NewsFeedDetailTransitionUtils {
         }
     }
 
-    private boolean isRectEnoughToAnimateInRecyclerView(Rect rectToInspect) {
-//        if (isRectIntersectsWithRecyclerViewBottom(rectToInspect)) {
-////            Rect animatingRecyclerRectCopy = new Rect(mRecyclerAnimatingLocalVisibleRect);
-////            rectToInspectCopy.intersect(animatingRecyclerRectCopy);
-////            NLLog.now("rectToInspectCopy : " + rectToInspectCopy.toShortString());
-//
-//            int invisibleArea = rectToInspect.bottom - mRecyclerGlobalVisibleRect.height();
-//
-//            Rect rectToInspectCopy = new Rect(rectToInspect);
-//            rectToInspectCopy.bottom -= invisibleArea;
-//            NLLog.now("rectToInspectCopy : " + rectToInspectCopy.toShortString());
-//
-//            return isRectFullyVisibleInRecyclerView(rectToInspectCopy);
-////            return isRectPartiallyVisibleInAnimatingRecyclerView(rectToInspect);
-//        } else {
-            return isRectFullyVisibleInRecyclerView(rectToInspect);
-//        }
-    }
-
     private boolean isRectFullyVisibleInRecyclerView(Rect rectToInspect) {
         return mRecyclerAnimatingLocalVisibleRect.contains(rectToInspect);
     }
@@ -637,8 +593,6 @@ public class NewsFeedDetailTransitionUtils {
     private boolean isRectIntersectsWithRecyclerViewBottom(Rect rectToInspect) {
         return rectToInspect.top < mRecyclerGlobalVisibleRect.height()
                 && rectToInspect.bottom > mRecyclerGlobalVisibleRect.height();
-//        return Rect.intersects(mRecyclerGlobalVisibleRect, rectToInspect);
-//        return isRectPartiallyVisibleInAnimatingRecyclerView(rectToInspect);
     }
 
     private boolean isRectPartiallyVisibleInAnimatingRecyclerView(Rect rectToInspect) {
@@ -647,29 +601,24 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeInRecyclerTitleAt(int index) {
-        NLLog.now("Trying to animate title : " + index);
         try {
             View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
             viewToAnimate.animate()
                     .setDuration(mDebugTempDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
-
-            NLLog.now("Animated title : " + index);
         } catch(ChildNotFoundException e) {
             NLLog.now("ChildNotFoundException for title at " + index);
         }
     }
 
     private void fadeInRecyclerDescriptionAt(int index) {
-        NLLog.now("Trying to animate description : " + index);
         try {
             View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
             viewToAnimate.animate()
                     .setDuration(mDebugTempDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
-            NLLog.now("Animated description : " + index);
         } catch(ChildNotFoundException e) {
             NLLog.now("ChildNotFoundException for description at " + index);
         }
@@ -713,9 +662,6 @@ public class NewsFeedDetailTransitionUtils {
     private void initRecyclerVariables() {
         mRecyclerGlobalVisibleRect = new Rect();
         mRecyclerView.getGlobalVisibleRect(mRecyclerGlobalVisibleRect);
-//        NLLog.now("initial mRecyclerGlobalVisibleRect : " + mRecyclerGlobalVisibleRect.toShortString());
-//        mRecyclerGlobalVisibleRect.bottom += Display.getNavigationBarHeight(mActivity);
-//        NLLog.now("modified mRecyclerGlobalVisibleRect : " + mRecyclerGlobalVisibleRect.toShortString());
 
         mRecyclerLayoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
@@ -736,7 +682,6 @@ public class NewsFeedDetailTransitionUtils {
                 break;
             }
 
-//            offsetFromRecyclerTop += child.getHeight();
             offsetFromRecyclerTop += childRect.height();
         }
     }
@@ -785,14 +730,9 @@ public class NewsFeedDetailTransitionUtils {
         if (isRectIntersectsWithRecyclerViewBottom(rectToInspect)) {
             int invisibleArea = rectToInspect.bottom - mRecyclerGlobalVisibleRect.height();
 
-//            Rect rectToInspectCopy = new Rect(rectToInspect);
             rectToInspect.bottom -= invisibleArea;
-            NLLog.now("rectToInspect : " + rectToInspect.toShortString());
         }
         return rectToInspect;
-//        else if (rectToInspect.top > mRecyclerGlobalVisibleRect.height()) {
-//            // invisible
-//        }
     }
 
     private void initImageTransitionVariables() {
@@ -871,7 +811,6 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void initDurationVariables() {
-        // 애니메이션 속도 관련 변수
         Resources resources = mActivity.getResources();
 
         int animatorScale = isUseScaledDurationDebug(mActivity.getApplicationContext()) ?
@@ -908,13 +847,11 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeOutThumbnailTexts() {
-        // 뉴스 타이틀 썸네일 텍스트뷰 애니메이션
         mNewsTitleThumbnailTextView.animate()
                 .alpha(0.0f)
                 .setDuration(mThumbnailTextAnimationDuration)
                 .start();
 
-        // 뉴스 피드 타이틀 썸네일 텍스트뷰 애니메이션
         mNewsFeedTitleThumbnailTextView.animate()
                 .alpha(0.0f)
                 .setDuration(mThumbnailTextAnimationDuration)
@@ -931,7 +868,6 @@ public class NewsFeedDetailTransitionUtils {
                                       ActivityTransitionTextViewProperty textViewProperty) {
         int padding = textViewProperty.getPadding();
 
-        // 뉴스 타이틀 썸네일 뷰 추가
         textView.setPadding(padding, padding, padding, padding);
         textView.setText(textViewProperty.getText());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewProperty.getTextSize());

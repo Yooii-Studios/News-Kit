@@ -1,5 +1,7 @@
 package com.yooiistudios.newsflow.util;
 
+import java.lang.Math;
+
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 24.
  *
