@@ -93,13 +93,10 @@ public class NewsFeedDetailTransitionUtils {
 
     private Rect mRecyclerGlobalVisibleRect;
     private Rect mRecyclerAnimatingLocalVisibleRect = new Rect();
-    private ArrayList<Rect> mRecyclerChildViewLocalVisibleRects = new ArrayList<>();
-    private SparseArray<Boolean> mIsAnimatingRecyclerChildArray = new SparseArray<>();
     private ArrayList<Rect> mRecyclerChildTitleLocalVisibleRects = new ArrayList<>();
     private ArrayList<Rect> mRecyclerChildDescriptionLocalVisibleRects = new ArrayList<>();
     private SparseArray<Boolean> mIsAnimatingRecyclerChildTitleArray = new SparseArray<>();
     private SparseArray<Boolean> mIsAnimatingRecyclerChildDescriptionArray = new SparseArray<>();
-    private int mRecyclerChildCountToAnimate;
 
     private TextView mNewsTitleThumbnailTextView;
     private TextView mNewsFeedTitleThumbnailTextView;
@@ -221,6 +218,8 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void revealBackground() {
+        mRevealView.setAlpha(0.0f);
+        mRevealView.animate().alpha(1.0f);
         if (Device.hasLollipop()) {
             revealBackgroundAfterLollipop();
         } else {
@@ -255,17 +254,9 @@ public class NewsFeedDetailTransitionUtils {
                 mRevealView, getRevealCenter().x, getRevealCenter().y, getRevealStartRadius(), getRevealTargetRadius());
         animator.setDuration((int) mRevealAnimationDuration);
         animator.addListener(new SupportAnimator.AnimatorListener() {
-            @Override
-            public void onAnimationStart() {
-            }
-
-            @Override
-            public void onAnimationCancel() {
-            }
-
-            @Override
-            public void onAnimationRepeat() {
-            }
+            @Override public void onAnimationStart() {}
+            @Override public void onAnimationCancel() {}
+            @Override public void onAnimationRepeat() {}
 
             @Override
             public void onAnimationEnd() {
@@ -303,8 +294,6 @@ public class NewsFeedDetailTransitionUtils {
     private void scaleRecyclerHeight() {
         mRecyclerView.setVisibility(View.VISIBLE);
 
-//        prepareRecyclerChildAnimation();
-
         ObjectAnimator animator = ObjectAnimator.ofInt(
                 this, "recyclerViewHeight", 0, mRecyclerGlobalVisibleRect.height());
         animator.setDuration(mDebugTempDuration);
@@ -328,17 +317,6 @@ public class NewsFeedDetailTransitionUtils {
         });
 
         animator.start();
-    }
-
-    private void prepareRecyclerChildAnimation() {
-        for (int i = 0 ; i < mRecyclerChildCountToAnimate; i++) {
-            View title = getTitleViewFromRecyclerChildAt(i);
-            View description = getDescriptionViewFromRecyclerChildAt(i);
-
-//            child.setHasTransientState(true);
-            title.setAlpha(0.0f);
-            description.setAlpha(0.0f);
-        }
     }
 
     private void animateTopNewsTextAndRecycler() {
@@ -518,59 +496,49 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void animateRecyclerChildIfSizeSufficient() {
-//        for (int i = 0; i < mRecyclerLayoutManager.getChildCount(); i++) {
-//            if (!isAnimatingRecyclerTitleAt(i)) {
-//                getTitleViewFromRecyclerChildAt(i).setAlpha(0.0f);
-//            }
-//            if (!isAnimatingRecyclerDescriptionAt(i)) {
-//                getDescriptionViewFromRecyclerChildAt(i).setAlpha(0.0f);
-//            }
-//        }
-//        for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-//            if (!isAnimatingRecyclerTitleAt(i)
-//                    && isRectPartiallyVisibleInRecyclerView(getRecyclerTitleRect(i))) {
-//                View viewToAnimate = getTitleViewFromRecyclerChildAt(i);
-//                viewToAnimate.setAlpha(0.0f);
-//            }
-//        }
-//        for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-//            if (!isAnimatingRecyclerDescriptionAt(i)
-//                    && isRectPartiallyVisibleInRecyclerView(getRecyclerDescriptionRect(i))) {
-//                View viewToAnimate_ = getDescriptionViewFromRecyclerChildAt(i);
-//                viewToAnimate_.setAlpha(0.0f);
-//            }
-//        }
-
-//        for (int i = 0; i < mRecyclerChildViewLocalVisibleRects.size(); i++) {
-//            Rect childRect = mRecyclerChildViewLocalVisibleRects.get(i);
-//            if (isRectPartiallyVisibleInRecyclerView(childRect)
-//                    && !mIsAnimatingRecyclerChildArray.get(i)) {
-//                getTitleViewFromRecyclerChildAt(i).setAlpha(0.0f);
-//                getDescriptionViewFromRecyclerChildAt(i).setAlpha(0.0f);
-//                mIsAnimatingRecyclerChildArray.put(i, true);
-//            }
-//        }
         for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-            if (!isAnimatingRecyclerTitleAt(i)
-                    && isRectPartiallyVisibleInRecyclerView(getRecyclerTitleRect(i))) {
-                View viewToAnimate = getTitleViewFromRecyclerChildAt(i);
-                viewToAnimate.setAlpha(0.0f);
+            if (isRecyclerTitleReadyForAnimation(i)) {
+                prepareRecyclerTitleAt(i);
             }
             if (readyToAnimateRecyclerChildTitleAt(i)) {
-                NLLog.now("animate title : " + i);
                 fadeInRecyclerTitleAt(i);
             }
         }
         for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-            if (!isAnimatingRecyclerDescriptionAt(i)
-                    && isRectPartiallyVisibleInRecyclerView(getRecyclerDescriptionRect(i))) {
-                View viewToAnimate = getDescriptionViewFromRecyclerChildAt(i);
-                viewToAnimate.setAlpha(0.0f);
+            if (isRecyclerDescriptionReadyForAnimation(i)) {
+                prepareRecyclerDescriptionAt(i);
             }
             if (readyToAnimateRecyclerChildDescriptionAt(i)) {
-                NLLog.now("animate desc : " + i);
                 fadeInRecyclerDescriptionAt(i);
             }
+        }
+    }
+
+    private boolean isRecyclerTitleReadyForAnimation(int index) {
+        return !isAnimatingRecyclerTitleAt(index)
+                && isRectPartiallyVisibleInRecyclerView(getRecyclerTitleRect(index));
+    }
+
+    private boolean isRecyclerDescriptionReadyForAnimation(int i) {
+        return !isAnimatingRecyclerDescriptionAt(i)
+                && isRectPartiallyVisibleInRecyclerView(getRecyclerDescriptionRect(i));
+    }
+
+    private void prepareRecyclerTitleAt(int index) {
+        try {
+            View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
+            viewToAnimate.setAlpha(0.0f);
+        } catch(ChildNotFoundException e) {
+            // Do nothing
+        }
+    }
+
+    private void prepareRecyclerDescriptionAt(int index) {
+        try {
+            View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
+            viewToAnimate.setAlpha(0.0f);
+        } catch(ChildNotFoundException e) {
+            // Do nothing
         }
     }
 
@@ -611,17 +579,35 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private View getItemViewFromRecyclerViewAt(int i) {
-        return mRecyclerLayoutManager.getChildAt(i);
+        View childView = mRecyclerLayoutManager.getChildAt(i);
+        if (childView == null) {
+            /**
+             * RecyclerView.LayoutManager 의 getChildAt 메서드는 잘못된 index 를 넘길 경우
+             * IndexOutOfBoundsException 을 던지지 않고 null 을 반환한다.
+             * 그러므로 명시적으로 IndexOutOfBoundsException 을 던져 윗쪽에서 처리할 수 있도록 한다.
+             */
+            throw new IndexOutOfBoundsException();
+        }else {
+            return childView;
+        }
     }
 
-    private View getTitleViewFromRecyclerChildAt(int index) {
-        return getItemViewFromRecyclerViewAt(index)
-                .findViewById(R.id.detail_bottom_news_item_title);
+    private View getTitleViewFromRecyclerChildAt(int index) throws ChildNotFoundException {
+        try {
+            return getItemViewFromRecyclerViewAt(index).findViewById(
+                    R.id.detail_bottom_news_item_title);
+        } catch(IndexOutOfBoundsException e) {
+            throw new ChildNotFoundException();
+        }
     }
 
-    private View getDescriptionViewFromRecyclerChildAt(int index) {
-        return getItemViewFromRecyclerViewAt(index)
-                .findViewById(R.id.detail_bottom_news_item_description);
+    private View getDescriptionViewFromRecyclerChildAt(int index) throws ChildNotFoundException {
+        try {
+            return getItemViewFromRecyclerViewAt(index).findViewById(
+                    R.id.detail_bottom_news_item_description);
+        } catch(IndexOutOfBoundsException e) {
+            throw new ChildNotFoundException();
+        }
     }
 
     private boolean isRectEnoughToAnimateInRecyclerView(Rect rectToInspect) {
@@ -637,53 +623,41 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private boolean isRectIntersectsWithRecyclerViewBottom(Rect rectToInspect) {
-        return
-//                (rectToInspect.top > mRecyclerGlobalVisibleRect.bottom) &&
-                        isRectPartiallyVisibleInRecyclerView(rectToInspect);
+        return isRectPartiallyVisibleInRecyclerView(rectToInspect);
     }
 
     private boolean isRectPartiallyVisibleInRecyclerView(Rect rectToInspect) {
         return !isRectFullyVisibleInRecyclerView(rectToInspect)
                 && Rect.intersects(mRecyclerAnimatingLocalVisibleRect, rectToInspect);
-//        return mRecyclerAnimatingLocalVisibleRect.intersect(rectToInspect);
     }
 
     private void fadeInRecyclerTitleAt(int index) {
-        mIsAnimatingRecyclerChildTitleArray.put(index, true);
+        NLLog.now("Trying to animate title : " + index);
+        try {
+            View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
+            viewToAnimate.animate()
+                    .setDuration(mDebugTempDuration)
+                    .alpha(1.0f);
+            mIsAnimatingRecyclerChildTitleArray.put(index, true);
 
-        final View childView = getItemViewFromRecyclerViewAt(index);
-        NLLog.now("childView : " + childView);
-//        childView.setHasTransientState(true);
-
-        View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
-        viewToAnimate.animate()
-                .setDuration(mDebugTempDuration)
-                .alpha(1.0f)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-//                        childView.setHasTransientState(false);
-                    }
-                });
+            NLLog.now("Animated title : " + index);
+        } catch(ChildNotFoundException e) {
+            NLLog.now("ChildNotFoundException for title at " + index);
+        }
     }
 
     private void fadeInRecyclerDescriptionAt(int index) {
-        mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
-
-        final View childView = getItemViewFromRecyclerViewAt(index);
-        NLLog.now("childView : " + childView);
-//        childView.setHasTransientState(true);
-
-        View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
-        viewToAnimate.animate()
-                .setDuration(mDebugTempDuration)
-                .alpha(1.0f)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-//                        childView.setHasTransientState(false);
-                    }
-                });
+        NLLog.now("Trying to animate description : " + index);
+        try {
+            View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
+            viewToAnimate.animate()
+                    .setDuration(mDebugTempDuration)
+                    .alpha(1.0f);
+            mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
+            NLLog.now("Animated description : " + index);
+        } catch(ChildNotFoundException e) {
+            NLLog.now("ChildNotFoundException for description at " + index);
+        }
     }
 
     private void fadeInToolbar() {
@@ -733,55 +707,58 @@ public class NewsFeedDetailTransitionUtils {
     private void initRecyclerChildVariables() {
         int childCount = mRecyclerLayoutManager.getChildCount();
         int offsetFromRecyclerTop = 0;
-        mRecyclerChildCountToAnimate = 0;
         for (int i = 0 ; i < childCount; i++) {
-            View child = getItemViewFromRecyclerViewAt(i);
-//            View child = mRecyclerLayoutManager.getChildAt(i);
-
-            Rect childRect = new Rect(
-                    child.getLeft(),
-                    child.getTop(),
-                    child.getRight(),
-                    child.getBottom()
-            );
+            Rect childRect = getRecyclerChildRect(i);
             if (isRecyclerChildRectPartiallyOrFullyVisible(childRect)) {
                 break;
             }
-            mRecyclerChildViewLocalVisibleRects.add(childRect);
-            mIsAnimatingRecyclerChildArray.put(i, false);
+            try {
+                putRecyclerChildTitleAndDescriptionAt(i, offsetFromRecyclerTop);
+            } catch (ChildNotFoundException e) {
+                break;
+            }
 
-            putRecyclerChildTitleAndDescriptionAt(i, offsetFromRecyclerTop);
-
-            mIsAnimatingRecyclerChildTitleArray.put(i, false);
-            mIsAnimatingRecyclerChildDescriptionArray.put(i, false);
-
-            offsetFromRecyclerTop += child.getHeight();
-            mRecyclerChildCountToAnimate++;
+//            offsetFromRecyclerTop += child.getHeight();
+            offsetFromRecyclerTop += childRect.height();
         }
+    }
+
+    private Rect getRecyclerChildRect(int i) {
+        View child = getItemViewFromRecyclerViewAt(i);
+
+        return new Rect(
+                child.getLeft(),
+                child.getTop(),
+                child.getRight(),
+                child.getBottom()
+        );
     }
 
     private boolean isRecyclerChildRectPartiallyOrFullyVisible(Rect childRect) {
         return childRect.top > mRecyclerGlobalVisibleRect.height();
     }
 
-    private void putRecyclerChildTitleAndDescriptionAt(int index, int offsetFromRecyclerTop) {
+    private void putRecyclerChildTitleAndDescriptionAt(int index, int offsetFromRecyclerTop) throws ChildNotFoundException {
         View title = getTitleViewFromRecyclerChildAt(index);
         View description = getDescriptionViewFromRecyclerChildAt(index);
         Rect titleRect = new Rect(
-                title.getLeft() - title.getPaddingLeft(),
-                title.getTop() - title.getPaddingTop() + offsetFromRecyclerTop,
-                title.getRight() + title.getPaddingRight(),
-                title.getBottom() + title.getPaddingBottom() + offsetFromRecyclerTop
+                title.getLeft(),
+                title.getTop() + offsetFromRecyclerTop,
+                title.getRight(),
+                title.getBottom() + offsetFromRecyclerTop
         );
         Rect descriptionRect = new Rect(
-                description.getLeft() - description.getPaddingLeft(),
-                description.getTop() - description.getPaddingTop() + offsetFromRecyclerTop,
-                description.getRight() + description.getPaddingRight(),
-                description.getBottom() + description.getPaddingBottom() + offsetFromRecyclerTop
+                description.getLeft(),
+                description.getTop() + offsetFromRecyclerTop,
+                description.getRight(),
+                description.getBottom() + offsetFromRecyclerTop
         );
 
         mRecyclerChildTitleLocalVisibleRects.add(titleRect);
         mRecyclerChildDescriptionLocalVisibleRects.add(descriptionRect);
+
+        mIsAnimatingRecyclerChildTitleArray.put(index, false);
+        mIsAnimatingRecyclerChildDescriptionArray.put(index, false);
     }
 
     private void initImageTransitionVariables() {
@@ -1001,5 +978,8 @@ public class NewsFeedDetailTransitionUtils {
         SharedPreferences prefs = context.getSharedPreferences(
                 SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION, Context.MODE_PRIVATE);
         return prefs.getBoolean(KEY_USE_SCALED_DURATION, false);
+    }
+
+    private static class ChildNotFoundException extends Exception {
     }
 }
