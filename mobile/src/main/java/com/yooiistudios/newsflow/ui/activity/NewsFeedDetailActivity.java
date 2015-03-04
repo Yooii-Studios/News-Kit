@@ -171,7 +171,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_newsfeed_detail);
+        setContentView(R.layout.activity_news_feed_detail);
         ButterKnife.inject(this);
 
         Context context = getApplicationContext();
@@ -246,6 +246,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
+                    mAdView.setBackgroundColor(Color.BLACK);
                     mAdUpperView.setVisibility(View.VISIBLE);
                 }
             });
