@@ -17,15 +17,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.model.language.Language;
-import com.yooiistudios.newsflow.model.language.LanguageUtils;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrix;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
+import com.yooiistudios.newsflow.util.AnalyticsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -148,6 +150,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onSelectLanguage(int index) {
         LanguageUtils.setLanguageType(Language.valueOf(index), getActivity());
+        // TODO: 언어의 선택 통계 Google Analytics 나중에 구현할 것
         mSettingAdapter.notifyDataSetChanged();
     }
 
@@ -187,7 +190,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onSelectMatrix(int position) {
         PanelMatrix selectedPanelMatrix = PanelMatrix.getByUniqueKey(position);
-        if (PanelMatrixUtils.isMatrixAvailable(getActivity(), selectedPanelMatrix)) {
+        if (IabProducts.isMatrixAvailable(getActivity(), selectedPanelMatrix)) {
             PanelMatrixUtils.setCurrentPanelMatrix(selectedPanelMatrix, getActivity());
             mSettingAdapter.notifyDataSetChanged();
 
@@ -196,6 +199,11 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
                         selectedPanelMatrix.getUniqueId() != mPreviousPanelMatrixUniqueId);
             }
+
+            // Google Analytics
+            AnalyticsUtils.trackNewsPanelMatrixSelection(
+                    (NewsApplication) getActivity().getApplication(), "Settings",
+                    selectedPanelMatrix.toString());
         } else {
             startActivity(new Intent(getActivity(), StoreActivity.class));
             Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();

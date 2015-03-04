@@ -21,19 +21,20 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
+import com.yooiistudios.newsflow.core.news.RssFetchable;
+import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.database.NewsDb;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
-import com.yooiistudios.newsflow.model.news.TintType;
+import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
@@ -43,7 +44,7 @@ import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
 import com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
-import com.yooiistudios.newsflow.util.Display;
+import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 
@@ -567,14 +568,12 @@ public class MainTopContainerLayout extends FrameLayout
         mTopNewsFeedPagerAdapter.setNewsFeed(newsFeed);
         NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
 
-//        NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), newsFeed);
-
         if (taskType.equals(TopNewsFeedFetchTask.TaskType.INITIALIZE)) {
             if (newsFeed.containsNews()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
             } else {
-                showTopNewsFeedUnavailable(newsFeed.getFetchStateMessage(context));
+                showTopNewsFeedUnavailable(NewsFeedFetchStateMessage.getMessage(context, newsFeed));
                 notifyOnReady(taskType);
             }
         } else {
@@ -587,7 +586,7 @@ public class MainTopContainerLayout extends FrameLayout
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(imageFetchTaskType);
             } else {
-                showTopNewsFeedUnavailable(newsFeed.getFetchStateMessage(context));
+                showTopNewsFeedUnavailable(NewsFeedFetchStateMessage.getMessage(context, newsFeed));
                 notifyOnReady(taskType);
             }
         }

@@ -6,19 +6,19 @@ import android.util.SparseArray;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.model.database.NewsDb;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrix;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.ArrayList;
 

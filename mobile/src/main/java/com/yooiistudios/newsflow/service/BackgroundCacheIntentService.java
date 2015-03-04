@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.yooiistudios.newsflow.model.BackgroundCacheUtils;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
-import com.yooiistudios.newsflow.util.ConnectivityUtils;
+import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
 
 /**
  * Created by Dongheyon Jeong on in ServiceWithTaskTest from Yooii Studios Co., LTD. on 14. 11. 6.

@@ -1,11 +1,9 @@
 package com.yooiistudios.newsflow.iab;
 
-//import android.support.v7.app.ActionBarActivity;
-
 import android.app.Activity;
 
-import com.yooiistudios.newsflow.util.Md5Utils;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.Md5Utils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.util.IabHelper;
 import com.yooiistudios.newsflow.iab.util.IabResult;
 import com.yooiistudios.newsflow.iab.util.Inventory;
@@ -18,7 +16,7 @@ import lombok.Getter;
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 9.
  *
  * SKIabManager
- *  In-App-Billing과 관련된 로직을 래핑한 클래스
+ *  In-App-Billing 과 관련된 로직을 래핑한 클래스
  */
 public class IabManager {
     public static final int IAB_REQUEST_CODE = 10002;

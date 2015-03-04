@@ -9,8 +9,8 @@ import android.os.Build;
 
 import com.yooiistudios.newsflow.model.BackgroundCacheUtils;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
-import com.yooiistudios.newsflow.util.ConnectivityUtils;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.LinkedList;
 

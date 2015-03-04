@@ -56,14 +56,6 @@
     <string name="setting_news_feed_auto_scroll_fast">Fast</string>
     <string name="setting_news_feed_auto_scroll_very_fast">Very fast</string>
 
-    <!-- Setting (Language) -->
-    <string name="setting_language_korean">한국어</string>
-    <string name="setting_language_english">English</string>
-    <string name="setting_language_japanese">日本語</string>
-    <string name="setting_language_simplified_chinese">简体中文</string>
-    <string name="setting_language_traditional_chinese">繁體中文</string>
-    <string name="setting_language_russian">Русский</string>
-
     <!-- Recommend -->
     <string name="recommend_to_friends">Recommend this to your friends</string>
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>

@@ -6,8 +6,8 @@ import android.util.SparseArray;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 
 import java.util.ArrayList;
 import java.util.HashMap;

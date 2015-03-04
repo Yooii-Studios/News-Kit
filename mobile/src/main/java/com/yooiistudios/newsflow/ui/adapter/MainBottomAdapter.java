@@ -21,15 +21,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
+import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
-import com.yooiistudios.newsflow.model.news.TintType;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
+import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
+import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout;
 import com.yooiistudios.newsflow.ui.widget.RatioFrameLayout;
-import com.yooiistudios.newsflow.util.Display;
+import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
 
 import java.lang.annotation.Retention;
@@ -99,7 +100,8 @@ public class MainBottomAdapter extends
         itemLayout.setOnSupplyTargetAxisLengthListener(new MainBottomItemLayout.OnSupplyTargetAxisLengthListener() {
             @Override
             public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
-                if (axis == RatioFrameLayout.AXIS_WIDTH && orientation == MainBottomItemLayout.LANDSCAPE) {
+                if (axis == RatioFrameLayout.AXIS_WIDTH &&
+                        orientation == MainBottomItemLayout.LANDSCAPE) {
                     ViewGroup.LayoutParams lp = parent.getLayoutParams();
                     double ratio = mNewsFeedList.size() <= 4 ? 0.25 : 0.23;
                     double height = MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
@@ -142,11 +144,11 @@ public class MainBottomAdapter extends
         NewsFeed newsFeed = mNewsFeedList.get(position);
 
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
-        imageView.setBackgroundColor(NewsFeedUtils.getMainBottomDefaultBackgroundColor());
+        imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
 
         if (newsFeed == null || !newsFeed.containsNews()) {
             newsFeedTitleView.setText("");
-            titleView.setText(newsFeed != null ? newsFeed.getFetchStateMessage(mContext) : "");
+            titleView.setText(newsFeed != null ? NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
             viewHolder.progressBar.setVisibility(View.INVISIBLE);
             showDummyImage(viewHolder);
             return;
@@ -246,7 +248,7 @@ public class MainBottomAdapter extends
                         viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
                         viewHolder.imageView.setTag(TintType.PALETTE);
                     } else {
-                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getBottomGrayFilterColor(mContext));
+                        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
                         viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
                     }
                 } else {
@@ -287,8 +289,8 @@ public class MainBottomAdapter extends
 
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.progressBar.setVisibility(View.GONE);
-        viewHolder.imageView.setImageBitmap(NewsFeedUtils.getDummyNewsImage(mContext));
-        viewHolder.imageView.setColorFilter(NewsFeedUtils.getBottomGrayFilterColor(mContext));
+        viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
+        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
         viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
 //        setOnClickListener(viewHolder, position);
     }
@@ -419,7 +421,8 @@ public class MainBottomAdapter extends
         mOrientation = orientation;
     }
 
-    public void setOnBindMainBottomViewHolderListener(OnBindMainBottomViewHolderListener onBindMainBottomViewHolderListener) {
+    public void setOnBindMainBottomViewHolderListener(OnBindMainBottomViewHolderListener
+                                                              onBindMainBottomViewHolderListener) {
         mOnBindMainBottomViewHolderListener = onBindMainBottomViewHolderListener;
     }
 

@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.news.NewsContentProvider;
-import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
+import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
+import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerAdapter;
 
 import java.util.ArrayList;

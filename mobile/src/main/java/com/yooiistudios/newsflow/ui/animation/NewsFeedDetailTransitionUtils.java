@@ -34,16 +34,15 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.IntegerMath;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionImageViewProperty;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
-import com.yooiistudios.newsflow.util.Device;
-import com.yooiistudios.newsflow.util.Display;
-import com.yooiistudios.newsflow.util.IntegerMath;
-import com.yooiistudios.newsflow.util.NLLog;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
 import java.lang.reflect.Type;
@@ -504,8 +503,7 @@ public class NewsFeedDetailTransitionUtils {
         try {
             View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
             viewToAnimate.setAlpha(0.0f);
-        } catch(ChildNotFoundException e) {
-            // Do nothing
+        } catch(ChildNotFoundException ignored) {
         }
     }
 
@@ -513,8 +511,7 @@ public class NewsFeedDetailTransitionUtils {
         try {
             View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
             viewToAnimate.setAlpha(0.0f);
-        } catch(ChildNotFoundException e) {
-            // Do nothing
+        } catch(ChildNotFoundException ignored) {
         }
     }
 
@@ -607,8 +604,7 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mDebugTempDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
-        } catch(ChildNotFoundException e) {
-            NLLog.now("ChildNotFoundException for title at " + index);
+        } catch(ChildNotFoundException ignored) {
         }
     }
 
@@ -619,8 +615,7 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mDebugTempDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
-        } catch(ChildNotFoundException e) {
-            NLLog.now("ChildNotFoundException for description at " + index);
+        } catch(ChildNotFoundException ignored) {
         }
     }
 

@@ -2,10 +2,10 @@ package com.yooiistudios.newsflow;
 
 import android.test.AndroidTestCase;
 
-import com.yooiistudios.newsflow.model.language.Language;
-import com.yooiistudios.newsflow.model.language.LanguageUtils;
-import com.yooiistudios.newsflow.model.news.NewsContentProvider;
-import com.yooiistudios.newsflow.model.news.NewsProviderLanguage;
+import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
+import com.yooiistudios.newsflow.core.news.curation.NewsProviderLanguage;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 2. 26.

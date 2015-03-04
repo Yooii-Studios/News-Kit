@@ -8,7 +8,7 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.widget.ImageView;
 
-import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.core.util.Device;
 
 /**
  * Created by Dongheyon Jeong in News-Android-L from Yooii Studios Co., LTD. on 15. 2. 25.

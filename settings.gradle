@@ -1,5 +1,6 @@
 include ':mobile'
 include ':tv'
+include ':core'
 include ':libraries:Volley'
 include ':libraries:GridLayoutManager'
 include ':libraries:SerialAnimator'

@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.language.Language;
-import com.yooiistudios.newsflow.model.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 
 import java.util.ArrayList;
 

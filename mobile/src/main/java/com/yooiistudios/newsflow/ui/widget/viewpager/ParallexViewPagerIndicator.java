@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
-import com.yooiistudios.newsflow.util.DipToPixel;
+import com.yooiistudios.newsflow.core.util.DipToPixel;
 
 /**
  * Created by Wooseong Kim in ViewPagerIndicatorTest from Yooii Studios Co., LTD. on 14. 11. 4.

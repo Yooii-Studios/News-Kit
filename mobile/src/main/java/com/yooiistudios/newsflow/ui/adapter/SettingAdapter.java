@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.model.language.LanguageUtils;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrix;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 
 import static com.yooiistudios.newsflow.ui.fragment.SettingFragment.SettingItem;

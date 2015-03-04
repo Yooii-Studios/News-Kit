@@ -3,7 +3,7 @@ package com.yooiistudios.newsflow.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
 import com.yooiistudios.newsflow.R;
 

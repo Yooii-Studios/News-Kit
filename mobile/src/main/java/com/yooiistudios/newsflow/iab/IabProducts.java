@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.iab;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.iab.util.Inventory;
 import com.yooiistudios.newsflow.util.StoreDebugCheckUtils;
 
@@ -100,6 +101,21 @@ public class IabProducts {
 //            }
         }
         return ownedSkus;
+    }
+
+    public static boolean isMatrixAvailable(Context context, PanelMatrix panelMatrix) {
+        if (IabProducts.containsSku(context, IabProducts.SKU_MORE_PANELS)) {
+            return true;
+        } else {
+            switch(panelMatrix) {
+                case TWO_BY_TWO:
+                    return true;
+                case THREE_BY_TWO:
+                case FOUR_BY_TWO:
+                default:
+                    return false;
+            }
+        }
     }
 
     /**

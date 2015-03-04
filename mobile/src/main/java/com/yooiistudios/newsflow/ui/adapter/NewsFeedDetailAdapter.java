@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.util.DipToPixel;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.util.DipToPixel;
 
 import java.util.ArrayList;
 

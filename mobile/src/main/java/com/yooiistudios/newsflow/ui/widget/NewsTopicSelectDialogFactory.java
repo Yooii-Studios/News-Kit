@@ -5,8 +5,8 @@ import android.content.Context;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.yooiistudios.newsflow.model.news.NewsProvider;
-import com.yooiistudios.newsflow.model.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
 
 import java.util.ArrayList;
 

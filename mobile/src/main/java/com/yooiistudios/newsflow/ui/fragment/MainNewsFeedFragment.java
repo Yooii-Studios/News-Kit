@@ -15,11 +15,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
-import com.yooiistudios.newsflow.model.news.TintType;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
+import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter.OnItemClickListener;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
@@ -158,7 +158,7 @@ public class MainNewsFeedFragment extends Fragment {
 
                     if (bitmap != null && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(bitmap);
-                        viewHolder.imageView.setColorFilter(NewsFeedUtils.getTopGrayFilterColor());
+                        viewHolder.imageView.setColorFilter(PanelDecoration.getTopGrayFilterColor());
                         viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
                     }
                 }
@@ -180,9 +180,9 @@ public class MainNewsFeedFragment extends Fragment {
 
     private void showDummyImage(ItemViewHolder viewHolder) {
         if (!mRecycled && viewHolder.imageView != null) {
-            Bitmap dummyImage = NewsFeedUtils.getDummyNewsImage(getActivity().getApplicationContext());
+            Bitmap dummyImage = PanelDecoration.getDummyNewsImage(getActivity().getApplicationContext());
             viewHolder.imageView.setImageBitmap(dummyImage);
-            viewHolder.imageView.setColorFilter(NewsFeedUtils.getTopDummyImageFilterColor());
+            viewHolder.imageView.setColorFilter(PanelDecoration.getTopDummyImageFilterColor());
             viewHolder.imageView.setTag(TintType.DUMMY_TOP);
 
             viewHolder.progressBar.setVisibility(View.GONE);

@@ -16,7 +16,7 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.StoreDebugCheckUtils;
 
 import butterknife.ButterKnife;

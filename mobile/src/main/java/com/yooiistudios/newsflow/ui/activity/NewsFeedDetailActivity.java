@@ -50,32 +50,32 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.RssFetchable;
+import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
+import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newsflow.model.RssFetchable;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.database.NewsDb;
 import com.yooiistudios.newsflow.model.debug.DebugSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugSettings;
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsContentProvider;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsImageRequestQueue;
-import com.yooiistudios.newsflow.model.news.NewsProvider;
-import com.yooiistudios.newsflow.model.news.NewsTopic;
-import com.yooiistudios.newsflow.model.news.TintType;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
+import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newsflow.ui.widget.ObservableScrollView;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-import com.yooiistudios.newsflow.util.Display;
+import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.util.ImageMemoryCache;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -682,12 +682,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyDummyNewsImageFromTop() {
-        _setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+        _setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
                 TintType.DUMMY_TOP);
     }
 
     private void applyDummyNewsImageFromBottom() {
-        _setTopNewsImageBitmap(NewsFeedUtils.getDummyNewsImage(getApplicationContext()),
+        _setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
                 TintType.DUMMY_BOTTOM);
     }
 
@@ -764,11 +764,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         switch(tintType) {
             case DUMMY_TOP:
-                color = NewsFeedUtils.getTopDummyImageFilterColor();
+                color = PanelDecoration.getTopDummyImageFilterColor();
                 alpha = Color.alpha(color);
                 break;
             case DUMMY_BOTTOM:
-                color = NewsFeedUtils.getBottomDummyImageFilterColor(this);
+                color = PanelDecoration.getBottomDummyImageFilterColor(this);
                 alpha = Color.alpha(color);
                 break;
             case PALETTE:
@@ -781,11 +781,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 // filterColor == null 이라면 아래의 구문으로 넘어간다.
             case GRAY_SCALE_TOP:
             default:
-                color = NewsFeedUtils.getTopGrayFilterColor();
+                color = PanelDecoration.getTopGrayFilterColor();
                 alpha = Color.alpha(color);
                 break;
             case GRAY_SCALE_BOTTOM:
-                color = NewsFeedUtils.getBottomGrayFilterColor(this);
+                color = PanelDecoration.getBottomGrayFilterColor(this);
                 alpha = Color.alpha(color);
                 break;
         }

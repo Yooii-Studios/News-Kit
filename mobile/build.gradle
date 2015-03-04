@@ -67,7 +67,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Volley
+    compile project(':core')
     compile project(':libraries:Volley')
     compile project(':libraries:GridLayoutManager')
     compile project(':libraries:SerialAnimator')
@@ -92,9 +92,6 @@ dependencies {
 
     // (Android Studio 용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
     compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근
-
-    // html dom parsing 을 위한 라이브러리(BeautifulSoup Java version)
-    compile 'org.jsoup:jsoup:1.7.3'
 
     // 이미지 디스크 캐시를 사용하기 위해 추가
     compile 'com.jakewharton:disklrucache:2.0.2'

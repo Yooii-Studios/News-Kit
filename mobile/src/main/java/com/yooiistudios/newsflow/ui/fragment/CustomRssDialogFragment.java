@@ -15,8 +15,8 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrlType;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrlType;
 
 /**
  * Created by Dongheyon Jeong on in morning-kit from Yooii Studios Co., LTD. on 2014. 7. 5.

@@ -2,12 +2,12 @@ package com.yooiistudios.newsflow.model.news.task;
 
 import android.os.AsyncTask;
 
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsFeedFetchState;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedFetchUtil;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.model.news.NewsTopic;
-import com.yooiistudios.newsflow.model.RssFetchable;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.RssFetchable;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
 
 import org.xml.sax.SAXException;
 

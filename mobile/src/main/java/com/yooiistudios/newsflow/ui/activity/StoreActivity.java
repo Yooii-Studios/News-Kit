@@ -36,10 +36,10 @@ import com.yooiistudios.newsflow.iab.util.IabResult;
 import com.yooiistudios.newsflow.iab.util.Inventory;
 import com.yooiistudios.newsflow.iab.util.Purchase;
 import com.yooiistudios.newsflow.ui.adapter.StoreProductItemAdapter;
-import com.yooiistudios.newsflow.ui.widget.AutoResize2TextView;
+import com.yooiistudios.newsflow.ui.widget.AutoResizeTextView;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-import com.yooiistudios.newsflow.util.Md5Utils;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.Md5Utils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.StoreDebugCheckUtils;
 
 import java.util.List;
@@ -68,10 +68,14 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     @InjectView(R.id.store_icon_banner_no_ads_image_view) ImageView mNoAdsImageView;
     @InjectView(R.id.store_icon_banner_discount_image_view) ImageView mDiscountImageView;
 
-    @InjectView(R.id.store_discounted_price_text_view) AutoResize2TextView mDiscountedPriceTextView;
-    @InjectView(R.id.store_original_price_text_view) AutoResize2TextView mOriginalPriceTextView;
-    @InjectView(R.id.store_thank_you_text_view) AutoResize2TextView mThankYouTextView;
-    @InjectView(R.id.store_purchase_text_view) AutoResize2TextView mPurchasedTextView;
+    @InjectView(R.id.store_discounted_price_text_view)
+    AutoResizeTextView mDiscountedPriceTextView;
+    @InjectView(R.id.store_original_price_text_view)
+    AutoResizeTextView mOriginalPriceTextView;
+    @InjectView(R.id.store_thank_you_text_view)
+    AutoResizeTextView mThankYouTextView;
+    @InjectView(R.id.store_purchase_text_view)
+    AutoResizeTextView mPurchasedTextView;
     @InjectView(R.id.store_price_image_view) ImageView mPriceImageView;
     @InjectView(R.id.store_product_list_view) ListView mProductListView;
 

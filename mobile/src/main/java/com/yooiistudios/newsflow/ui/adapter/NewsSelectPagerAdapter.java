@@ -5,8 +5,8 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import com.yooiistudios.newsflow.model.news.NewsContentProvider;
-import com.yooiistudios.newsflow.model.news.NewsProviderLangType;
+import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
+import com.yooiistudios.newsflow.core.news.curation.NewsProviderLangType;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
 
 /**

@@ -5,8 +5,8 @@ import android.content.res.Configuration;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.yooiistudios.newsflow.model.language.Language;
-import com.yooiistudios.newsflow.model.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.util.InterpolatorHelper;
 
 import java.util.HashMap;

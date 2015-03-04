@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectCountryFragment;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectProviderFragment;
-import com.yooiistudios.newsflow.util.Device;
+import com.yooiistudios.newsflow.core.util.Device;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

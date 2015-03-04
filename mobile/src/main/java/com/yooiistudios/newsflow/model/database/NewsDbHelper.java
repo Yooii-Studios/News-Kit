@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import static com.yooiistudios.newsflow.model.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.model.database.NewsDbContract.NewsFeedEntry;

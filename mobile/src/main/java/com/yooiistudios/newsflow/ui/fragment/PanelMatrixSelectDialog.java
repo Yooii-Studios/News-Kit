@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrix;
-import com.yooiistudios.newsflow.model.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 
 import java.util.ArrayList;
 

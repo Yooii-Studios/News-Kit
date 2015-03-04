@@ -6,10 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
-import com.yooiistudios.newsflow.model.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedUtils;
+import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,7 +80,7 @@ public class NewsDb {
     public NewsFeed loadTopNewsFeed(Context context, boolean shuffle) {
         NewsFeed newsFeed = queryNewsFeed(TOP_NEWS_FEED_INDEX, shuffle);
         if (newsFeed == null) {
-            return NewsFeedUtils.getDefaultTopNewsFeed(context);
+            return DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
         } else {
             return newsFeed;
         }
@@ -90,7 +90,8 @@ public class NewsDb {
         return loadBottomNewsFeedList(context, panelCount, true);
     }
 
-    public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, int panelCount, boolean shuffle) {
+    public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, int panelCount,
+                                                      boolean shuffle) {
         String[] newsFeedWhereArgs = {
                 String.valueOf(BOTTOM_NEWS_FEED_INITIAL_INDEX),
                 String.valueOf(panelCount)
@@ -109,7 +110,7 @@ public class NewsDb {
         if (newsFeedCursor.getCount() <= 0) {
             // no saved top news feed
             ArrayList<NewsFeed> defaultNewsFeedList =
-                    NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+                    DefaultNewsFeedProvider.getDefaultBottomNewsFeedList(context);
             saveBottomNewsFeedList(defaultNewsFeedList);
             return defaultNewsFeedList;
         }
@@ -131,7 +132,8 @@ public class NewsDb {
         if (newsFeedCount > panelCount) {
             newsFeedList = new ArrayList<>(newsFeedList.subList(0, panelCount));
         } else if (newsFeedCount < panelCount) {
-            ArrayList<NewsFeed> defaultNewsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+            ArrayList<NewsFeed> defaultNewsFeedList =
+                    DefaultNewsFeedProvider.getDefaultBottomNewsFeedList(context);
             for (int idx = newsFeedCount; idx < panelCount; idx++) {
                 newsFeedList.add(defaultNewsFeedList.get(idx));
             }
@@ -145,7 +147,8 @@ public class NewsDb {
 
         if (newsFeed == null) {
             // cache 된 내용 없는 경우 새로 만들어서 리턴
-            ArrayList<NewsFeed> newsFeedList = NewsFeedUtils.getDefaultBottomNewsFeedList(context);
+            ArrayList<NewsFeed> newsFeedList =
+                    DefaultNewsFeedProvider.getDefaultBottomNewsFeedList(context);
             if (position < newsFeedList.size()) {
                 newsFeed = newsFeedList.get(position);
             } else {

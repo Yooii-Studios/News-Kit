@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.news.NewsProvider;
-import com.yooiistudios.newsflow.model.news.NewsProviderCountry;
+import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
+import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
 import com.yooiistudios.newsflow.util.TypefaceUtils;
 
 import java.util.ArrayList;

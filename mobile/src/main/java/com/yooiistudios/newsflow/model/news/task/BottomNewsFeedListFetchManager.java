@@ -4,8 +4,8 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.util.SparseArray;
 
-import com.yooiistudios.newsflow.model.RssFetchable;
-import com.yooiistudios.newsflow.model.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.RssFetchable;
 
 import java.util.ArrayList;
 

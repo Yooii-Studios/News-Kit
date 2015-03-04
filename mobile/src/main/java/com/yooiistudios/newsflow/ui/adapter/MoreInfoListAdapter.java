@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.ui.activity.MoreInfoActivity;
-import com.yooiistudios.newsflow.util.AppInfo;
+import com.yooiistudios.newsflow.core.util.AppInfo;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

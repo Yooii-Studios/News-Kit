@@ -2,9 +2,9 @@ package com.yooiistudios.newsflow;
 
 import android.test.AndroidTestCase;
 
-import com.yooiistudios.newsflow.model.news.NewsContentProvider;
-import com.yooiistudios.newsflow.model.news.NewsFeedDefaultUrlProvider;
-import com.yooiistudios.newsflow.model.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.NewsFeedDefaultUrlProvider;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 
 import java.util.ArrayList;
 

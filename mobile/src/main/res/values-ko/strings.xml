@@ -33,14 +33,6 @@
     <string name="setting_share_this_app">앱 공유하기</string>
     <string name="setting_tutorial">튜토리얼</string>
 
-    <!-- Setting (Language) -->
-    <string name="setting_language_korean">한국어</string>
-    <string name="setting_language_english">English</string>
-    <string name="setting_language_japanese">日本語</string>
-    <string name="setting_language_simplified_chinese">简体中文</string>
-    <string name="setting_language_traditional_chinese">繁體中文</string>
-    <string name="setting_language_russian">Русский</string>
-
     <!-- Recommend -->
     <string name="recommend_to_friends">친구에게 추천하기</string>
     <string name="recommend_title">Check out this new app, it\'s awesome!</string>

@@ -2,8 +2,9 @@ package com.yooiistudios.newsflow.model.news.task;
 
 import android.os.AsyncTask;
 
-import com.yooiistudios.newsflow.model.news.News;
-import com.yooiistudios.newsflow.model.news.util.NewsFeedImageUrlFetchUtil;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
+
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.

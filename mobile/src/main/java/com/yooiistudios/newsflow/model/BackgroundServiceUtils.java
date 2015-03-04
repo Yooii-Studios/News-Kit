@@ -19,10 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.yooiistudios.newsflow.model.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.service.BackgroundCacheIntentService;
 import com.yooiistudios.newsflow.service.BackgroundCacheJobService;
-import com.yooiistudios.newsflow.util.NLLog;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.Calendar;
 import java.util.Date;
