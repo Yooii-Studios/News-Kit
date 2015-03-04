@@ -110,6 +110,8 @@ public class NewsFeedDetailTransitionUtils {
     private long mToolbarAnimationDuration;
     private long mToolbarBgAnimationDuration;
 
+    private long mImageAnimationStartOffset;
+
     private Toolbar mToolbar;
     private RelativeLayout mRootLayout;
     private FrameLayout mTransitionLayout;
@@ -191,6 +193,8 @@ public class NewsFeedDetailTransitionUtils {
 
         mTransitionLayout.setVisibility(View.VISIBLE);
 
+        setImageWrapperRect(mThumbnailStartRect);
+
         mTopTitleTextView.setAlpha(0.0f);
         mTopDescriptionTextView.setAlpha(0.0f);
 
@@ -269,6 +273,7 @@ public class NewsFeedDetailTransitionUtils {
     private void transitImageWrapper() {
         ObjectAnimator imageWrapperRectAnimator = ObjectAnimator.ofObject(
                 this, "imageWrapperRect", new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
+        imageWrapperRectAnimator.setStartDelay(mImageAnimationStartOffset);
         imageWrapperRectAnimator.setDuration(mImageTranslationAnimationDuration);
         imageWrapperRectAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -813,6 +818,7 @@ public class NewsFeedDetailTransitionUtils {
 
         mRevealAnimationDuration = resources.getInteger(
                 R.integer.news_feed_detail_reveal_duration_milli) * animatorScale;
+        mImageAnimationStartOffset = (long) (mRevealAnimationDuration * .5f);
         mImageFilterAnimationDuration = resources.getInteger(
                 R.integer.news_feed_detail_image_filter_duration_milli) * animatorScale;
         mImageScaleAnimationDuration = resources.getInteger(
@@ -838,7 +844,8 @@ public class NewsFeedDetailTransitionUtils {
         int green = Color.green(filterColor);
         int blue = Color.blue(filterColor);
         int argb = Color.argb(Color.alpha(filterColor), red, green, blue);
-        ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimationDuration);
+        ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimationDuration,
+                mImageAnimationStartOffset);
     }
 
     private void fadeOutThumbnailTexts() {

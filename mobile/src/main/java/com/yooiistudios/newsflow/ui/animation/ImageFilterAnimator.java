@@ -21,16 +21,18 @@ public class ImageFilterAnimator {
 
     // DOUBT 파라미터가 많은데 팩토리로 빼야 하나?
     public static void animate(final ImageView imageView, int startArgb,
-                               int endArgb, long duration) {
+                               int endArgb, long duration, long startOffset) {
+        imageView.setColorFilter(startArgb);
+
         ValueAnimator animator;
         if (Device.hasLollipop()) {
-            imageView.setColorFilter(startArgb);
             animator = createObjectAnimator(imageView.getColorFilter(), PROPERTY, endArgb);
             animator.addUpdateListener(ColorFilterListener.create(imageView));
         } else {
             animator = ValueAnimator.ofObject(new ArgbEvaluator(), startArgb, endArgb);
             animator.addUpdateListener(ColorFilterListener.createUsingAnimatedValue(imageView));
         }
+        animator.setStartDelay(startOffset);
         animator.setDuration(duration).start();
     }
 
