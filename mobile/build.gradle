@@ -1,3 +1,14 @@
+repositories {
+    jcenter()
+    // jcenter 는 JFrog 에서 개발하는 maven 의 superset. 다른 artifact 를 더 포함한다고 함
+//    mavenCentral()    // 1.0.1 부터 jcenter 가 maven 을 포함
+    mavenLocal()
+
+    maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'https://jitpack.io' }
+}
+
 apply plugin: 'com.android.application'
 
 android {
