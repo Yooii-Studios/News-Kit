@@ -51,7 +51,7 @@
     <dimen name="main_bottom_news_feed_title_padding">6dp</dimen>
 
     <!-- Newsfeed Detail -->
-    <dimen name="detail_text_padding">16dp</dimen>
+    <dimen name="detail_text_padding">12dp</dimen>
     <dimen name="detail_text_inner_padding">4dp</dimen>
     <dimen name="detail_text_wide_padding">20dp</dimen>
     <dimen name="news_feed_detail_shadow_gradient_height">100dp</dimen>

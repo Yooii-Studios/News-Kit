@@ -1,7 +1,6 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -63,11 +62,12 @@ public class NewsFeedDetailAdapter extends
 
     public static void configView(final ViewHolder viewHolder, final News news,
                                   final OnItemClickListener listener) {
+        Context context = viewHolder.itemView.getContext();
+
         TextView titleTextView = viewHolder.newsTitleTextView;
         if (titleTextView != null) {
+//            titleTextView.setTypeface(TypefaceUtils.getMediumTypeface(context));
             titleTextView.setText(news.getTitle());
-            titleTextView.setTextColor(titleTextView.getResources().getColor(
-                    R.color.material_black_primary_text));
 
             // 아래 패딩 조절
             if (news.getDescription() != null) {
@@ -78,11 +78,10 @@ public class NewsFeedDetailAdapter extends
 
         TextView descriptionTextView = viewHolder.newsDescriptionTextView;
         if (descriptionTextView != null) {
+//            descriptionTextView.setTypeface(TypefaceUtils.getMediumTypeface(context));
             String description = news.getDescription();
             if (description != null && description.trim().length() > 0) {
                 descriptionTextView.setText(news.getDescription().trim());
-                descriptionTextView.setTextColor(descriptionTextView.getResources().getColor(
-                        R.color.material_black_secondary_text));
             } else {
                 descriptionTextView.setVisibility(View.GONE);
             }
@@ -105,19 +104,26 @@ public class NewsFeedDetailAdapter extends
     public static int measureMaximumRowHeight(Context context) {
         ViewHolder viewHolder = NewsFeedDetailAdapter.createViewHolder(context, null);
 
+        // FIXME: 동현이 만들어놓은 코드로 보이는데 우성이 integer 에서 가져오게 변경, 저 스타일은 삭제예정
+        /*
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(R.style.DetailTextStyle,
                 new int[]{android.R.attr.maxLines});
         int maxLines = typedArray.getInt(0, -1);
+        */
+        int titleMaxLine = context.getResources()
+                .getInteger(R.integer.news_feed_detail_title_max_line);
+        int descriptionMaxLine = context.getResources()
+                .getInteger(R.integer.news_feed_detail_description_text_max_line);
 
         String title = "T";
-        for (int i = 0; i < maxLines; i++) {
-            if (i != (maxLines - 1)) {
+        for (int i = 0; i < titleMaxLine; i++) {
+            if (i != (titleMaxLine - 1)) {
                 title += "\nT";
             }
         }
         String description = "D";
-        for (int i = 0; i < maxLines; i++) {
-            if (i != (maxLines - 1)) {
+        for (int i = 0; i < descriptionMaxLine; i++) {
+            if (i != (descriptionMaxLine - 1)) {
                 description += "\nD";
             }
         }
