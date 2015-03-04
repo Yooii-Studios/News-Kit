@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">News Flow</string>
+    <string name="action_newsfeed">Replace a NewsFeed</string>
+    <string name="action_info">Info</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_rate_app">Rate News Flow</string>
+    <string name="action_facebook_like">Like us on Facebook</string>
+    <string name="action_send_feedback">Send feedback</string>
+    <string name="content_description">Loading…</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="iab_item_unavailable">You have to purchase…</string>
+    <string name="share">Share</string>
+
+    <!-- Main -->
+    <string name="action_edition">Edition</string>
+    <string name="splash_loading_title">News Flow</string>
+    <string name="splash_loading_description">Loading News…</string>
+
+    <!-- Newsfeed Detail -->
+    <string name="newsfeed_auto_scroll">Auto Scroll</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
+    <!-- News Detail -->
+    <string name="news_detail_share_message">Check out this link!</string>
+    <string name="news_detail_link_copied">The link is copied</string>
+
+    <!-- News Select -->
+    <string name="select_newsfeed_title">Select a NewsFeed</string>
+    <string name="custom_news_feed_dialog_title">Enter RSS URL</string>
+    <string name="custom_news_feed_menu_item_title">Type RSS</string>
+    <string name="custom_news_feed_url">Url</string>
+
+    <!-- Setting -->
+    <string name="setting_language">Language</string>
+    <string name="setting_keep_screen_on">Keep screen on</string>
+    <string name="setting_tutorial">Tutorial</string>
+    <string name="setting_main_sub_header">Main Screen</string>
+    <string name="setting_main_auto_refresh_interval">Auto refresh interval</string>
+    <string name="setting_main_auto_refresh_interval_caption">Interval</string>
+    <string name="setting_main_auto_refresh_speed">Auto refresh speed</string>
+    <string name="setting_item_sec_description">%1$s sec</string> <!-- 14 sec -->
+    <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
+    <string name="setting_main_panel_matrix_description">%1$s panels</string>
+
+    <string name="setting_news_feed_sub_header">News Feed Screen</string>
+    <string name="setting_news_feed_auto_scroll_start_offset">Auto scroll start delay</string>
+    <string name="setting_news_feed_auto_scroll_speed">Auto scroll speed</string>
+    <string name="setting_news_feed_auto_scroll_very_slow">Very slow</string>
+    <string name="setting_news_feed_auto_scroll_slow">Slow</string>
+    <string name="setting_news_feed_auto_scroll_normal">Normal</string>
+    <string name="setting_news_feed_auto_scroll_fast">Fast</string>
+    <string name="setting_news_feed_auto_scroll_very_fast">Very fast</string>
+
+    <!-- Recommend -->
+    <string name="recommend_to_friends">Recommend this to your friends</string>
+    <string name="recommend_title">Check out this new app, it\'s awesome!</string>
+    <string name="recommend_description">Click the link and take it for a spin</string>
+
+    <!-- Feedback -->
+    <string name="feedback_description">How can we improve News Flow?</string>
+
+    <!-- Ad -->
+    <string name="quit_ad_dialog_title_text">Do you want to quit this app?</string>
+
+    <!-- Store -->
+    <string name="store">Store</string>
+    <string name="store_title_text_1">Buy</string>
+    <string name="store_title_text_2">the full version!</string>
+    <string name="store_description_text_1">Upgrade to unlock all Functions and Features</string>
+    <string name="store_description_text_2">+ No Ads!</string>
+    <string name="store_description_text_2_highlight">+ No Ads!</string>
+    <string name="store_pro_version_original_price">$4.99</string>
+    <string name="store_pro_version_discounted_price">$2.99</string>
+    <string name="store_purchased">Purchased</string>
+    <string name="store_thank_you">Thank you!</string>
+    <string name="store_item_price">$0.99</string>
+    <string name="store_item_debug_title">Item Title\nItem Title</string>
+    <string name="store_item_debug_description">Item description\nItem description</string>
+    <string name="store_no_ads_title">No Ads</string>
+    <string name="store_no_ads_description">Remove all ads of the app</string>
+    <string name="store_more_panel_title">More News panels</string>
+    <string name="store_more_panel_description">Use 4 to 8 bottom news panels</string>
+    <string name="store_topic_select_title">Topic select</string>
+    <string name="store_topic_select_description">You can select detail category of the news</string>
+    <string name="store_custom_rss_feed_title">Custom Rss Url</string>
+    <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
+
+    <!-- Network Unavailable -->
+    <string name="network_unavailable_message">Network unavailable.</string>
+    <string name="network_unavailable_reload">Reload</string>
+
+    <!-- Info -->
+    <string name="info_news_info">News Flow Info</string>
+    <string name="info_credit">Credit</string>
+
+    <!-- More Info -->
+    <string name="more_info_yooii_studios">Yooii Studios</string>
+    <string name="more_info_news_help">News Help</string>
+    <string name="more_info_version">Version</string>
+    <string name="more_info_license">License</string>
+
+    <!-- Store Ad -->
+    <string name="store_buy_pro_version">Buy the Pro Version!</string>
+
+    <!-- Error Message -->
+    <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable.</string>
+    <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url.</string>
+    <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
+    <string name="news_feed_fetch_error_unknown">Unknown error. Please try later.</string>
+</resources>
