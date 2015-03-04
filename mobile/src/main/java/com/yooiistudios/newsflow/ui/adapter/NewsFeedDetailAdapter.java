@@ -81,6 +81,7 @@ public class NewsFeedDetailAdapter extends
 //            descriptionTextView.setTypeface(TypefaceUtils.getMediumTypeface(context));
             String description = news.getDescription();
             if (description != null && description.trim().length() > 0) {
+                descriptionTextView.setVisibility(View.VISIBLE);
                 descriptionTextView.setText(news.getDescription().trim());
             } else {
                 descriptionTextView.setVisibility(View.GONE);

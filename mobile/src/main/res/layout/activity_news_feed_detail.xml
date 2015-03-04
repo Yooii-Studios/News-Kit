@@ -100,7 +100,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/detail_text_wide_padding"/>
+                            android:layout_height="@dimen/detail_text_padding"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -134,7 +134,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/8477940628" />
+        ads:adUnitId="ca-app-pub-2310680050309555/8477940628"/>
 
     <View
         android:id="@+id/newsfeed_detail_ad_upper_view"

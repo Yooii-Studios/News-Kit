@@ -189,7 +189,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
 
         applySystemWindowsBottomInset();
-//        initRootLayout();
         initRevealView();
         initToolbar();
         initSwipeRefreshView();
@@ -228,11 +227,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-//    private void initRootLayout() {
-//        mRootLayoutBackground = new ColorDrawable(BACKGROUND_COLOR);
-//        mRootLayout.setBackground(mRootLayoutBackground);
-//    }
-
     private void initAdView() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
         if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
@@ -246,7 +240,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-                    mAdView.setBackgroundColor(Color.BLACK);
+                    mAdView.setBackgroundColor(
+                            getResources().getColor(R.color.material_grey_900));
                     mAdUpperView.setVisibility(View.VISIBLE);
                 }
             });
@@ -389,9 +384,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initTopNews() {
-//        mTopTitleTextView.setAlpha(0);
-//        mTopDescriptionTextView.setAlpha(0);
-
         mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -414,8 +406,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         if (mTopNews != null) {
             notifyTopNewsChanged();
-        } else {
-            // TODO: when NewsFeed is invalid.
         }
     }
 
@@ -586,14 +576,16 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mTopTitleTextView.setText(mTopNews.getTitle());
 
         // set description
-        if (mTopNews.getDescription() == null) {
-            mTopDescriptionTextView.setVisibility(View.GONE);
-        } else {
-            mTopDescriptionTextView.setText(mTopNews.getDescription());
+        String description = mTopNews.getDescription();
+        if (description != null && description.trim().length() > 0) {
+            mTopDescriptionTextView.setVisibility(View.VISIBLE);
+            mTopDescriptionTextView.setText(description.trim());
 
             // 타이틀 아래 패딩 조절
             mTopTitleTextView.setPadding(mTopTitleTextView.getPaddingLeft(),
                     mTopTitleTextView.getPaddingTop(), mTopTitleTextView.getPaddingRight(), 0);
+        } else {
+            mTopDescriptionTextView.setVisibility(View.GONE);
         }
         applyImage();
     }
