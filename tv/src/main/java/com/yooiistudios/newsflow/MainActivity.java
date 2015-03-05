@@ -16,13 +16,23 @@ package com.yooiistudios.newsflow;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.widget.TextView;
 
+import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
 import com.yooiistudios.newsflow.reference.R;
+
+import java.util.ArrayList;
 
 /*
  * MainActivity
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+        implements NewsFeedsFetchManager.OnFetchListener {
+    private TextView mLogView;
+
     /**
      * Called when the activity is first created.
      */
@@ -31,5 +41,21 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mLogView = (TextView) findViewById(R.id.textView);
+        mLogView.setMovementMethod(new ScrollingMovementMethod());
+
+        ArrayList<NewsFeed> feeds = DefaultNewsFeedProvider.getDefaultBottomNewsFeedList(
+                getApplicationContext());
+        NewsFeedsFetchManager.getInstance().fetch(feeds, this);
+    }
+
+    @Override
+    public void onFetchAll(ArrayList<NewsFeed> newsFeeds) {
+        StringBuilder builder = new StringBuilder();
+        for (NewsFeed newsFeed : newsFeeds) {
+            builder.append(newsFeed.toString()).append("\n\n");
+        }
+        mLogView.setText(builder.toString());
     }
 }

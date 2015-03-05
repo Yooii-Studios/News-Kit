@@ -12,8 +12,12 @@ import com.yooiistudios.newsflow.core.news.RssFetchable;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -30,37 +34,49 @@ public class NewsFeedFetchUtil {
 
     private static final int TIMEOUT_MILLI = 5000;
 
-    public static NewsFeed fetch(RssFetchable fetchable, int fetchLimit, boolean shuffle)
-            throws IOException, SAXException{
-        NewsFeedUrl newsFeedUrl = fetchable.getNewsFeedUrl();
+    public static NewsFeed fetch(RssFetchable fetchable, int fetchLimit, boolean shuffle) {
+        NewsFeed newsFeed;
+        try {
+            NewsFeedUrl newsFeedUrl = fetchable.getNewsFeedUrl();
 
-        // 피드 주소로 커넥션 열기
-        URL url = new URL(newsFeedUrl.getUrl());
-        URLConnection conn = url.openConnection();
-        conn.setConnectTimeout(TIMEOUT_MILLI);
-        conn.setReadTimeout(TIMEOUT_MILLI);
+            newsFeed = getNewsFeedFromUrl(newsFeedUrl);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
 
-        // RSS 파싱
-        NewsFeed feed = NewsFeedParser.read(conn.getInputStream());
+            if (shuffle) {
+                shuffleNewsList(newsFeed);
+            }
+            if (shouldTrimNewsList(newsFeed, fetchLimit)) {
+                trimNewsList(newsFeed, fetchLimit);
+            }
+            refactorDescription(newsFeed);
+        } catch(MalformedURLException| UnknownHostException e) {
+            newsFeed = new NewsFeed(fetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
+        } catch(SocketTimeoutException e) {
+            newsFeed = new NewsFeed(fetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
+        } catch(IOException | SAXException e) {
+            newsFeed = new NewsFeed(fetchable);
+            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
+        }
+
+        return newsFeed;
+    }
+
+    private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl) throws IOException, SAXException {
+        InputStream inputStream = getInputStreamFromNewsFeedUrl(newsFeedUrl);
+        NewsFeed feed = NewsFeedParser.read(inputStream);
         feed.setNewsFeedUrl(newsFeedUrl);
-        feed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
-        // 퍼포먼스 개선 여지 있음.
-        // 로컬 테스트를 위한 코드
-//            feed = NLNewsFeedParser.read(mContext.getResources().getAssets().open("feeds.xml"));
+        inputStream.close();
+        return feed;
+    }
 
-        // shuffle and trim size
-        if (shuffle) {
-            Collections.shuffle(feed.getNewsList(), new Random(System.nanoTime()));
-        }
-        if (fetchLimit > 0 && fetchLimit < feed.getNewsList().size()) {
-            ArrayList<News> trimmedNewsList =
-                    new ArrayList<>(feed.getNewsList().subList(0, fetchLimit));
-            feed.setNewsList(trimmedNewsList);
-        }
+    private static void shuffleNewsList(NewsFeed feed) {
+        Collections.shuffle(feed.getNewsList(), new Random(System.nanoTime()));
+    }
 
-        // 피드의 각 뉴스에 대해
+    private static void refactorDescription(NewsFeed feed) {
         for (News item : feed.getNewsList()) {
-            // 피드의 본문에서 텍스트만 걸러내는 작업
             String desc = item.getDescription();
             if (desc != null) {
                 item.setOriginalDescription(desc);
@@ -76,7 +92,23 @@ public class NewsFeedFetchUtil {
                 item.setDescription(refinedDesc);
             }
         }
+    }
 
-        return feed;
+    private static void trimNewsList(NewsFeed feed, int fetchLimit) {
+        ArrayList<News> trimmedNewsList =
+                new ArrayList<>(feed.getNewsList().subList(0, fetchLimit));
+        feed.setNewsList(trimmedNewsList);
+    }
+
+    private static boolean shouldTrimNewsList(NewsFeed feed, int fetchLimit) {
+        return fetchLimit > 0 && fetchLimit < feed.getNewsList().size();
+    }
+
+    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {
+        URL url = new URL(newsFeedUrl.getUrl());
+        URLConnection conn = url.openConnection();
+        conn.setConnectTimeout(TIMEOUT_MILLI);
+        conn.setReadTimeout(TIMEOUT_MILLI);
+        return conn.getInputStream();
     }
 }

@@ -3,17 +3,9 @@ package com.yooiistudios.newsflow.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
-
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -57,32 +49,15 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
-        try {
-            NewsFeed newsFeed =
-                    NewsFeedFetchUtil.fetch(mRssFetchable, 10, mShuffle);
-            if (mNewsFeed != null) {
-                newsFeed.setTopicIdInfo(mNewsFeed);
-            } else if (mRssFetchable instanceof NewsTopic) {
-                newsFeed.setTopicIdInfo((NewsTopic)mRssFetchable);
-            }
-
-            return newsFeed;
-        } catch(MalformedURLException | UnknownHostException e) {
-            NewsFeed newsFeed = new NewsFeed(mRssFetchable);
-            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
-
-            return newsFeed;
-        } catch(SocketTimeoutException e) {
-            NewsFeed newsFeed = new NewsFeed(mRssFetchable);
-            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
-
-            return newsFeed;
-        } catch(IOException | SAXException e) {
-            NewsFeed newsFeed = new NewsFeed(mRssFetchable);
-            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
-
-            return newsFeed;
+        NewsFeed newsFeed =
+                NewsFeedFetchUtil.fetch(mRssFetchable, 10, mShuffle);
+        if (mNewsFeed != null) {
+            newsFeed.setTopicIdInfo(mNewsFeed);
+        } else if (mRssFetchable instanceof NewsTopic) {
+            newsFeed.setTopicIdInfo((NewsTopic)mRssFetchable);
         }
+
+        return newsFeed;
     }
 
     @Override
