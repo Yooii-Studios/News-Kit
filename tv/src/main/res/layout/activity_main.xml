@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:id="@+id/main_browse_fragment"
+          android:name="com.yooiistudios.newsflow.MainFragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          tools:context=".MainActivity"
+          tools:deviceIds="tv"
+          tools:ignore="MergeRootFrame" />
+
+<!--
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -10,21 +21,10 @@
         android:layout_height="wrap_content"
         android:text="text"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"/>
+
     <android.support.v17.leanback.widget.ImageCardView
         android:id="@+id/imageView"
         android:layout_width="300dp"
         android:layout_height="300dp"/>
-
 </RelativeLayout>
-
-<!--
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_browse_fragment"
-    android:name="com.yooiistudios.newsflow.tv.MainFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:deviceIds="tv"
-    tools:ignore="MergeRootFrame" />
 -->

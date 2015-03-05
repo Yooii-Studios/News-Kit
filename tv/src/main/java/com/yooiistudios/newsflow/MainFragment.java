@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow.reference;
+package com.yooiistudios.newsflow;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.app.BrowseFragment;
+import android.support.v17.leanback.app.NewsBrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ImageCardView;
@@ -42,6 +42,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.yooiistudios.newsflow.reference.BrowseErrorActivity;
+import com.yooiistudios.newsflow.reference.CardPresenter;
+import com.yooiistudios.newsflow.reference.DetailsActivity;
+import com.yooiistudios.newsflow.reference.Movie;
+import com.yooiistudios.newsflow.reference.MovieList;
+import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
+import com.yooiistudios.newsflow.reference.R;
 
 import java.net.URI;
 import java.util.Collections;
@@ -50,11 +57,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MainFragment extends BrowseFragment {
+public class MainFragment extends NewsBrowseFragment {
     private static final String TAG = "MainFragment";
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 200;
+    private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
     private static final int NUM_ROWS = 6;
     private static final int NUM_COLS = 15;
