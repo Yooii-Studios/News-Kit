@@ -18,18 +18,16 @@ import java.util.ArrayList;
  */
 public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener {
     public interface OnFetchListener {
-        public void onFetchAll(ArrayList<NewsFeed> newsFeeds);
+        public void onFetchAllNewsFeeds(ArrayList<NewsFeed> newsFeeds);
     }
     private static NewsFeedsFetchManager instance;
 
     private SparseArray<NewsFeedFetchTask> mTasks;
-//    private ArrayList<Pair<NewsFeed, Integer>> mNewsFeedToIndexPairList;
     private SparseArray<NewsFeed> mNewsFeeds;
     private OnFetchListener mListener;
 
     private NewsFeedsFetchManager() {
         mTasks = new SparseArray<>();
-//        mNewsFeedToIndexPairList = new ArrayList<>();
         mNewsFeeds = new SparseArray<>();
     }
 
@@ -71,20 +69,18 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
 
     private void prepareVariables(OnFetchListener listener) {
         mTasks.clear();
-//        mNewsFeedToIndexPairList.clear();
         mNewsFeeds.clear();
         mListener = listener;
     }
 
     @Override
     public void onFetch(NewsFeed newsFeed, int position) {
-//        NLLog.now("onFetch : " + newsFeed.toString());
         mNewsFeeds.put(position, newsFeed);
         mTasks.remove(position);
 
         if (mTasks.size() == 0) {
             ArrayList<NewsFeed> newsFeeds = ArrayUtils.toArrayList(mNewsFeeds);
-            mListener.onFetchAll(newsFeeds);
+            mListener.onFetchAllNewsFeeds(newsFeeds);
         }
     }
 }

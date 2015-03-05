@@ -10,6 +10,10 @@
         android:layout_height="wrap_content"
         android:text="text"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"/>
+    <android.support.v17.leanback.widget.ImageCardView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"/>
 
 </RelativeLayout>
 
