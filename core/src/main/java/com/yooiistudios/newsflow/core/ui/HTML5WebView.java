@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui.widget;
+package com.yooiistudios.newsflow.core.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,7 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.R;
 
 import java.io.File;
 

@@ -17,7 +17,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.ui.widget.HTML5WebView;
+import com.yooiistudios.newsflow.core.ui.HTML5WebView;
 import com.yooiistudios.newsflow.ui.widget.ObservableWebView;
 import com.yooiistudios.newsflow.ui.widget.WebFloatingActionButton;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
