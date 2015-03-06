@@ -62,7 +62,7 @@ import java.util.List;
  * Class for video playback with media control
  */
 public class PlaybackOverlayFragment extends android.support.v17.leanback.app.PlaybackOverlayFragment {
-    private static final String TAG = "PlaybackControlsFragment";
+    private static final String TAG = "PlaybackControlsFrag";
 
     private static Context sContext;
 
@@ -110,9 +110,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         super.onCreate(savedInstanceState);
         sContext = getActivity();
 
-        mItems = new ArrayList<Movie>();
+        mItems = new ArrayList<>();
         mSelectedMovie = (Movie) getActivity()
-                .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+                .getIntent().getSerializableExtra(VideoDetailsActivity.MOVIE);
 
         List<Movie> movies = MovieList.list;
 

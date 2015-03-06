@@ -44,11 +44,12 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.reference.BrowseErrorActivity;
 import com.yooiistudios.newsflow.reference.CardPresenter;
-import com.yooiistudios.newsflow.reference.DetailsActivity;
 import com.yooiistudios.newsflow.reference.Movie;
 import com.yooiistudios.newsflow.reference.MovieList;
 import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.R;
+import com.yooiistudios.newsflow.reference.VideoDetailsActivity;
+import com.yooiistudios.newsflow.ui.DetailsActivity;
 
 import java.net.URI;
 import java.util.Collections;
@@ -179,21 +180,24 @@ public class MainFragment extends NewsBrowseFragment {
             if (item instanceof Movie) {
                 Movie movie = (Movie) item;
                 Log.d(TAG, "Item: " + item.toString());
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, movie);
+                Intent intent = new Intent(getActivity(), VideoDetailsActivity.class);
+                intent.putExtra(VideoDetailsActivity.MOVIE, movie);
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
                         ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        VideoDetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
             } else if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
+                if (((String) item).contains(getString(R.string.error_fragment))) {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
                     startActivity(intent);
+                } else if(((String) item).contains(getString(R.string.grid_view))){
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(getActivity(), "WebView", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                 }
             }
         }
