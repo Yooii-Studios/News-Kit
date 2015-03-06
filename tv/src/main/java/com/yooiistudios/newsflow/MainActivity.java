@@ -15,12 +15,17 @@
 package com.yooiistudios.newsflow;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
 import com.yooiistudios.newsflow.model.news.task.NewsImageUrlFetchManager;
 import com.yooiistudios.newsflow.reference.R;
@@ -33,14 +38,6 @@ import java.util.ArrayList;
 public class MainActivity extends Activity
         implements NewsFeedsFetchManager.OnFetchListener,
         NewsImageUrlFetchManager.OnFetchListener {
-//    private TextView mLogView;
-//    private ImageCardView mImageView;
-//    private PicassoImageCardViewTarget mImageCardViewTarget;
-
-    private ArrayList<NewsFeed> mNewsFeeds;
-    private Drawable mDefaultCardImage;
-
-    private boolean mIsImageShowing;
 
     /**
      * Called when the activity is first created.
@@ -51,61 +48,71 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initViews();
-        initVariables();
-        initLogView();
-
         loadContent();
     }
 
-    private void initViews() {
-//        mLogView = (TextView)findViewById(R.id.textView);
-//        mImageView = (ImageCardView)findViewById(R.id.imageView);
-//        mImageCardViewTarget = new PicassoImageCardViewTarget(mImageView);
-    }
-
-    private void initVariables() {
-        mDefaultCardImage = getResources().getDrawable(R.drawable.movie);
-    }
-
-    private void initLogView() {
-//        mLogView.setMovementMethod(new ScrollingMovementMethod());
-    }
-
     private void loadContent() {
-        ArrayList<NewsFeed> feeds = DefaultNewsFeedProvider.getDefaultBottomNewsFeedList(
-                getApplicationContext());
-        NewsFeedsFetchManager.getInstance().fetch(feeds, this);
+        Context context = getApplicationContext();
+
+        PanelMatrix panelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
+
+        NewsFeed topNewsFeed = NewsDb.getInstance(context).loadTopNewsFeed(context);
+        ArrayList<NewsFeed> bottomNewsFeeds = NewsDb.getInstance(context).loadBottomNewsFeedList(
+                context, panelMatrix.getPanelCount());
+
+        if (NewsFeedValidator.isValid(topNewsFeed) && NewsFeedValidator.isValid(bottomNewsFeeds)) {
+            NLLog.i("Archive", "Archive exists. Show.");
+            applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
+        } else {
+            NLLog.i("Archive", "Archive does not exists. Fetch.");
+            fetchDefaultNewsFeeds(context);
+        }
+    }
+
+    private void fetchDefaultNewsFeeds(Context context) {
+        NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
+        ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
+                .getDefaultBottomNewsFeedList(getApplicationContext());
+
+        NewsFeedsFetchManager.getInstance().fetch(defaultTopNewsFeed, defaultBottomNewsFeeds, this);
+    }
+
+    private MainFragment getMainFragment() {
+        return (MainFragment)getFragmentManager().findFragmentById(R.id.main_browse_fragment);
     }
 
     @Override
-    public void onFetchAllNewsFeeds(ArrayList<NewsFeed> newsFeeds) {
-        mNewsFeeds = newsFeeds;
+    public void onFetchAllNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+        NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed(topNewsFeed);
+        NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedList(bottomNewsFeeds);
 
-        StringBuilder builder = new StringBuilder();
-        for (NewsFeed newsFeed : mNewsFeeds) {
-            builder.append(newsFeed.toString()).append("\n\n");
-        }
-//        mLogView.setText(builder.toString());
+        applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
+    }
 
-        NewsImageUrlFetchManager.getInstance().fetch(mNewsFeeds, this);
+    private void applyNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+        MainFragment fragment = getMainFragment();
+        fragment.applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
+
+        NewsImageUrlFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
     }
 
     @Override
-    public void onFetchImageUrl(News news, String url, int newsFeedPosition, int newsPosition) {
-        /*
-        NewsFeed newsFeed = mNewsFeeds.get(newsFeedPosition);
-        newsFeed.getNewsList().get(0).setImageUrl(url);
+    public void onFetchTopNewsFeedImageUrl(News news, String url, int newsPosition) {
+        NewsDb.getInstance(getApplicationContext()).saveTopNewsImageUrl(url, true, newsPosition);
 
-        if (!mIsImageShowing && url != null && url.length() > 0) {
-            Picasso.with(this)
-                    .load(url)
-                    .resize(Utils.convertDpToPixel(getApplicationContext(), 300),
-                            Utils.convertDpToPixel(getApplicationContext(), 300))
-                    .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
-            mIsImageShowing = true;
-        }
-        */
+        MainFragment fragment = getMainFragment();
+        fragment.applyTopNewsImageUrlAt(url, newsPosition);
+//        fragment.applyNewsImageUrlAt(url, MainActivity.TOP_FETCH_TASK_INDEX, newsPosition);
     }
+
+    @Override
+    public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedPosition, int newsPosition) {
+        NewsDb.getInstance(getApplicationContext()).saveBottomNewsImageUrl(url, true,
+                newsFeedPosition, newsPosition);
+
+        MainFragment fragment = getMainFragment();
+        fragment.applyBottomNewsImageUrlAt(url, newsFeedPosition, newsPosition);
+//        fragment.applyNewsImageUrlAt(url, newsFeedPosition, newsPosition);
+    }
+
 }

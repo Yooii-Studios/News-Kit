@@ -61,7 +61,7 @@ import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.debug.DebugSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugSettings;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsFeedFetchTask;

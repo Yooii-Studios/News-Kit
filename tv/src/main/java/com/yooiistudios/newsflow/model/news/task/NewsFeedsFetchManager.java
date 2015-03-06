@@ -17,18 +17,22 @@ import java.util.ArrayList;
  *  여러 뉴스 피드들을 fetch 할 경우 그 task 들을 관리함
  */
 public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener {
+    private static final int TOP_FETCH_TASK_INDEX = 0;
+    private static final int BOTTOM_FETCH_TASK_START_INDEX = 1;
     public interface OnFetchListener {
-        public void onFetchAllNewsFeeds(ArrayList<NewsFeed> newsFeeds);
+        public void onFetchAllNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds);
     }
     private static NewsFeedsFetchManager instance;
 
-    private SparseArray<NewsFeedFetchTask> mTasks;
-    private SparseArray<NewsFeed> mNewsFeeds;
+    private NewsFeedFetchTask mTopNewsFeedFetchTask;
+    private SparseArray<NewsFeedFetchTask> mBottomNewsFeedsFetchTasks;
+    private NewsFeed mFetchedTopNewsFeed;
+    private SparseArray<NewsFeed> mFetchedBottomNewsFeeds;
     private OnFetchListener mListener;
 
     private NewsFeedsFetchManager() {
-        mTasks = new SparseArray<>();
-        mNewsFeeds = new SparseArray<>();
+        mBottomNewsFeedsFetchTasks = new SparseArray<>();
+        mFetchedBottomNewsFeeds = new SparseArray<>();
     }
 
     public static NewsFeedsFetchManager getInstance() {
@@ -42,13 +46,26 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
         return instance;
     }
 
-    public <T extends RssFetchable> void fetch(ArrayList<T> rssFetchables, OnFetchListener listener) {
+    public <T extends RssFetchable> void fetch(RssFetchable topFetchable,
+                                               ArrayList<T> bottomFetchables,
+                                               OnFetchListener listener) {
         prepare(listener);
 
-        for (int i = 0; i < rssFetchables.size(); i++) {
-            RssFetchable rssFetchable = rssFetchables.get(i);
-            NewsFeedFetchTask task = new NewsFeedFetchTask(rssFetchable, this, i);
-            mTasks.put(i, task);
+        fetchTopNewsFeed(topFetchable);
+        fetchBottomNewsFeeds(bottomFetchables);
+    }
+
+    private void fetchTopNewsFeed(RssFetchable topFetchable) {
+        mTopNewsFeedFetchTask = new NewsFeedFetchTask(topFetchable, this, TOP_FETCH_TASK_INDEX);
+        mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private <T extends RssFetchable> void fetchBottomNewsFeeds(ArrayList<T> bottomFetchables) {
+        for (int i = 0; i < bottomFetchables.size(); i++) {
+            RssFetchable rssFetchable = bottomFetchables.get(i);
+            int taskId = i + BOTTOM_FETCH_TASK_START_INDEX;
+            NewsFeedFetchTask task = new NewsFeedFetchTask(rssFetchable, this, taskId);
+            mBottomNewsFeedsFetchTasks.put(taskId, task);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
@@ -59,28 +76,52 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
     }
 
     private void cancelAllTasks() {
-        int taskCount = mTasks.size();
-        for (int i = 0; i < taskCount; i++) {
-            int key = mTasks.keyAt(i);
-            NewsFeedFetchTask task = mTasks.get(key);
+        cancelTopFetchTask();
+        cancelBottomFetchTasks();
+    }
+
+    private void cancelTopFetchTask() {
+        if (mTopNewsFeedFetchTask != null) {
+            mTopNewsFeedFetchTask.cancel(true);
+        }
+    }
+
+    private void cancelBottomFetchTasks() {
+        int bottomTaskCount = mBottomNewsFeedsFetchTasks.size();
+        for (int i = 0; i < bottomTaskCount; i++) {
+            int key = mBottomNewsFeedsFetchTasks.keyAt(i);
+            NewsFeedFetchTask task = mBottomNewsFeedsFetchTasks.get(key);
             task.cancel(true);
         }
     }
 
     private void prepareVariables(OnFetchListener listener) {
-        mTasks.clear();
-        mNewsFeeds.clear();
+        mBottomNewsFeedsFetchTasks.clear();
+        mFetchedBottomNewsFeeds.clear();
         mListener = listener;
     }
 
     @Override
     public void onFetch(NewsFeed newsFeed, int position) {
-        mNewsFeeds.put(position, newsFeed);
-        mTasks.remove(position);
+        configOnFetch(newsFeed, position);
 
-        if (mTasks.size() == 0) {
-            ArrayList<NewsFeed> newsFeeds = ArrayUtils.toArrayList(mNewsFeeds);
-            mListener.onFetchAllNewsFeeds(newsFeeds);
+        if (allFetched()) {
+            ArrayList<NewsFeed> bottomNewsFeeds = ArrayUtils.toArrayList(mFetchedBottomNewsFeeds);
+            mListener.onFetchAllNewsFeeds(mFetchedTopNewsFeed, bottomNewsFeeds);
+        }
+    }
+
+    private boolean allFetched() {
+        return mTopNewsFeedFetchTask == null && mBottomNewsFeedsFetchTasks.size() == 0;
+    }
+
+    private void configOnFetch(NewsFeed newsFeed, int position) {
+        if (position == TOP_FETCH_TASK_INDEX) {
+            mFetchedTopNewsFeed = newsFeed;
+            mTopNewsFeedFetchTask = null;
+        } else {
+            mFetchedBottomNewsFeeds.put(position, newsFeed);
+            mBottomNewsFeedsFetchTasks.remove(position);
         }
     }
 }
