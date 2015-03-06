@@ -39,6 +39,8 @@ public class NewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
         if (isCancelled()) {
             return;
         }
+        mNews.setImageUrl(url);
+        mNews.setImageUrlChecked(true);
         if (mListener != null) {
             mListener.onImageUrlFetch(mNews, url, mNewsFeedPosition, mNewsPosition);
         }

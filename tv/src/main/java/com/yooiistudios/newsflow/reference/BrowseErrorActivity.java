@@ -16,6 +16,7 @@ package com.yooiistudios.newsflow.reference;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v17.leanback.app.ErrorFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -737,7 +737,7 @@ public class NewsBrowseFragment extends Fragment {
 //            sTransitionHelper.setStartDelay(changeBounds, (long) (mHeadersTransitionStartDelay);
 //            sTransitionHelper.setStartDelay(scale, mHeadersTransitionStartDelay);
         }
-        sTransitionHelper.setDuration(changeBounds, mHeadersTransitionDuration * 6);
+        sTransitionHelper.setDuration(changeBounds, mHeadersTransitionDuration);
         sTransitionHelper.addTransition(mHeadersTransition, changeBounds);
 //        sTransitionHelper.addTarget(scale, mRowsFragment.getScaleFrameLayout());
 //        sTransitionHelper.setDuration(scale, mHeadersTransitionDuration);

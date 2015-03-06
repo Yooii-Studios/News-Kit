@@ -78,21 +78,30 @@ public class MainActivity extends Activity
         NewsFeedsFetchManager.getInstance().fetch(feeds, this);
     }
 
+    private MainFragment getMainFragment() {
+        return (MainFragment)getFragmentManager().findFragmentById(R.id.main_browse_fragment);
+    }
+
     @Override
     public void onFetchAllNewsFeeds(ArrayList<NewsFeed> newsFeeds) {
         mNewsFeeds = newsFeeds;
 
-        StringBuilder builder = new StringBuilder();
-        for (NewsFeed newsFeed : mNewsFeeds) {
-            builder.append(newsFeed.toString()).append("\n\n");
-        }
+//        StringBuilder builder = new StringBuilder();
+//        for (NewsFeed newsFeed : mNewsFeeds) {
+//            builder.append(newsFeed.toString()).append("\n\n");
+//        }
 //        mLogView.setText(builder.toString());
 
         NewsImageUrlFetchManager.getInstance().fetch(mNewsFeeds, this);
+
+        MainFragment fragment = getMainFragment();
+        fragment.loadNewsFeeds(newsFeeds);
     }
 
     @Override
     public void onFetchImageUrl(News news, String url, int newsFeedPosition, int newsPosition) {
+        MainFragment fragment = getMainFragment();
+        fragment.applyNewsImageUrlAt(url, newsFeedPosition, newsPosition);
         /*
         NewsFeed newsFeed = mNewsFeeds.get(newsFeedPosition);
         newsFeed.getNewsList().get(0).setImageUrl(url);

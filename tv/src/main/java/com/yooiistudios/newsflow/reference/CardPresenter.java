@@ -15,8 +15,6 @@
 package com.yooiistudios.newsflow.reference;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
@@ -25,9 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.net.URI;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.util.DipToPixel;
+import com.yooiistudios.newsflow.ui.widget.PicassoImageCardViewTarget;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand. 
@@ -35,103 +33,75 @@ import java.net.URI;
  */
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
-
-    private static Context mContext;
     private static int CARD_WIDTH = 380;
     private static int CARD_HEIGHT = 180;
 
-    static class ViewHolder extends Presenter.ViewHolder {
-        private Movie mMovie;
-        private ImageCardView mCardView;
-        private Drawable mDefaultCardImage;
-        private PicassoImageCardViewTarget mImageCardViewTarget;
+    private Context mContext;
+    private Drawable mDefaultCardImage;
 
-        public ViewHolder(View view) {
-            super(view);
-            mCardView = (ImageCardView) view;
-            mImageCardViewTarget = new PicassoImageCardViewTarget(mCardView);
-            mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.movie);
-        }
-
-        public void setMovie(Movie m) {
-            mMovie = m;
-        }
-
-        public Movie getMovie() {
-            return mMovie;
-        }
-
-        public ImageCardView getCardView() {
-            return mCardView;
-        }
-
-        protected void updateCardViewImage(URI uri) {
-            Picasso.with(mContext)
-                    .load(uri.toString())
-                    .resize(Utils.convertDpToPixel(mContext, CARD_WIDTH),
-                            Utils.convertDpToPixel(mContext, CARD_HEIGHT))
-                    .error(mDefaultCardImage)
-                    .into(mImageCardViewTarget);
-        }
+    public CardPresenter(Context context) {
+        super();
+        mContext = context;
+        mDefaultCardImage = context.getResources().getDrawable(R.drawable.movie);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent) {
+    public NewsViewHolder onCreateViewHolder(ViewGroup parent) {
         Log.d(TAG, "onCreateViewHolder");
-        mContext = parent.getContext();
-
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mContext.getResources().getColor(R.color.fastlane_background));
-        return new ViewHolder(cardView);
+        return new NewsViewHolder(cardView);
     }
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        Movie movie = (Movie) item;
-        ((ViewHolder) viewHolder).setMovie(movie);
+        News news = (News)item;
 
-        Log.d(TAG, "onBindViewHolder");
-        if (movie.getCardImageUrl() != null) {
-            ((ViewHolder) viewHolder).mCardView.setTitleText(movie.getTitle());
-            ((ViewHolder) viewHolder).mCardView.setContentText(movie.getStudio());
-            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            ((ViewHolder) viewHolder).updateCardViewImage(movie.getCardImageURI());
-        }
+        NewsViewHolder newsViewHolder = (NewsViewHolder)viewHolder;
+
+        applyNewsInfo(newsViewHolder, news);
+        applyImage(newsViewHolder, news);
     }
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        Log.d(TAG, "onUnbindViewHolder");
+        // Do nothing.
     }
 
-    @Override
-    public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
-        // TO DO
+    private void applyNewsInfo(NewsViewHolder viewHolder, News news) {
+        ImageCardView imageCardView = viewHolder.cardView;
+        imageCardView.setTitleText(news.getTitle());
+        imageCardView.setContentText(news.getDescription());
+        imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
-    public static class PicassoImageCardViewTarget implements Target {
-        private ImageCardView mImageCardView;
+    private void applyImage(NewsViewHolder newsViewHolder, News news) {
+        String imageUrl = news.getImageUrl();
+        if (imageUrl != null && imageUrl.length() > 0) {
+            Context context = newsViewHolder.cardView.getContext();
+            Picasso.with(context)
+                    .load(imageUrl)
+//                    .resize(Utils.convertDpToPixel(context, CARD_WIDTH),
+//                            Utils.convertDpToPixel(context, CARD_HEIGHT))
+                    .resize(DipToPixel.dpToPixel(context, CARD_WIDTH),
+                            DipToPixel.dpToPixel(context, CARD_HEIGHT))
+                    .centerCrop()
+                    .error(mDefaultCardImage)
+                    .into(newsViewHolder.picassoTarget);
+        }
+    }
 
-        public PicassoImageCardViewTarget(ImageCardView imageCardView) {
-            mImageCardView = imageCardView;
+    private class NewsViewHolder extends Presenter.ViewHolder {
+        public ImageCardView cardView;
+        public PicassoImageCardViewTarget picassoTarget;
+
+        public NewsViewHolder(View view) {
+            super(view);
+            cardView = (ImageCardView) view;
+            picassoTarget = new PicassoImageCardViewTarget(cardView);
         }
 
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-            Drawable bitmapDrawable = new BitmapDrawable(mContext.getResources(), bitmap);
-            mImageCardView.setMainImage(bitmapDrawable);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-            mImageCardView.setMainImage(drawable);
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-            // Do nothing, default_background manager has its own transitions
-        }
     }
 }

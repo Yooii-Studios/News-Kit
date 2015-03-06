@@ -42,7 +42,7 @@ public class NewsFeedImageUrlFetchUtil {
 //            e.printStackTrace();
         }
 
-        String imgUrl = null;
+        String imgUrl = "";
         if (originalLinkSource != null) {
             // 링크를 읽었다면 거기서 이미지를 추출.
             // 이미지는 두 장 이상 필요하지 않을것 같아서 우선 한장만 뽑도록 해둠.
@@ -57,23 +57,15 @@ public class NewsFeedImageUrlFetchUtil {
     /**
      * Html 페이지를 대표하는 이미지를 추출한다.
      * @param source Html in plain String.
-     * @return One image url which represents the page. May be null if no
-     * appropriate image url.
+     * @return One image url which represents the page.
      */
     public static String getImageUrlFromRssContent(String source) {
-        long startMilli;
-        long endMilli;
-
-        startMilli = System.currentTimeMillis();
         Document doc = Jsoup.parse(source);
-        endMilli = System.currentTimeMillis();
 
         // og:image
-        startMilli = System.currentTimeMillis();
         Elements ogImgElements = doc.select("meta[property=og:image]");
-        endMilli = System.currentTimeMillis();
 
-        String imgUrl = null;
+        String imgUrl = "";
 
         if (ogImgElements.size() > 0) {
             imgUrl = ogImgElements.get(0).attr("content");
