@@ -157,7 +157,7 @@ public class HTML5WebView extends WebView {
             //Log.i(TAG, "here in on getDefaultVideoPoster");
             if (mDefaultVideoPoster == null) {
                 mDefaultVideoPoster = BitmapFactory.decodeResource(
-                        getResources(), R.drawable.default_video_poster);
+                        getResources(), R.drawable.photo_video_film_icon);
             }
             return mDefaultVideoPoster;
         }
@@ -165,8 +165,6 @@ public class HTML5WebView extends WebView {
         @SuppressLint("InflateParams")
         @Override
         public View getVideoLoadingProgressView() {
-            //Log.i(TAG, "here in on getVideoLoadingPregressView");
-
             if (mVideoProgressView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
                 mVideoProgressView = inflater.inflate(R.layout.video_loading_progress, null);
