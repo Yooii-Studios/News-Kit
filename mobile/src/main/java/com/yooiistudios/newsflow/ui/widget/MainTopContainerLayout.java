@@ -28,10 +28,11 @@ import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
@@ -236,7 +237,8 @@ public class MainTopContainerLayout extends FrameLayout
             mIsReady = false;
             fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
         } else {
-            if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
+            if (NewsFeedValidator.isValid(mTopNewsFeedPagerAdapter.getNewsFeed())) {
+//            if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
 //                notifyIfInitialized();

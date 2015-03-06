@@ -14,7 +14,7 @@
 
 package com.yooiistudios.newsflow;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,7 +23,6 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.NewsBrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -31,7 +30,6 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -42,17 +40,15 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.yooiistudios.newsflow.reference.BrowseErrorActivity;
+import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.reference.CardPresenter;
-import com.yooiistudios.newsflow.reference.DetailsActivity;
-import com.yooiistudios.newsflow.reference.Movie;
-import com.yooiistudios.newsflow.reference.MovieList;
 import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.R;
+import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 
-import java.net.URI;
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,18 +59,20 @@ public class MainFragment extends NewsBrowseFragment {
     private static final int BACKGROUND_UPDATE_DELAY = 300;
     private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
-    private static final int NUM_ROWS = 6;
-    private static final int NUM_COLS = 15;
 
-    private ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
-    private URI mBackgroundURI;
-    Movie mMovie;
+    private String mBackgroundUrl;
     CardPresenter mCardPresenter;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        initVariables(activity);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -82,12 +80,13 @@ public class MainFragment extends NewsBrowseFragment {
         super.onActivityCreated(savedInstanceState);
 
         prepareBackgroundManager();
-
         setupUIElements();
-
-        loadRows();
-
+//        loadRows();
         setupEventListeners();
+    }
+
+    private void initVariables(Activity activity) {
+        mCardPresenter = new CardPresenter(activity);
     }
 
     @Override
@@ -99,40 +98,51 @@ public class MainFragment extends NewsBrowseFragment {
         }
     }
 
-    private void loadRows() {
-        List<Movie> list = MovieList.setupMovies();
+    public void applyNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+        ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
 
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        mCardPresenter = new CardPresenter();
+        rowsAdapter.add(makeListRow(topNewsFeed, 0));
+        for (int i = 0; i < bottomNewsFeeds.size(); i++) {
+            NewsFeed newsFeed = bottomNewsFeeds.get(i);
 
-        int i;
-        for (i = 0; i < NUM_ROWS; i++) {
-            if (i != 0) {
-                Collections.shuffle(list);
-            }
-            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);
-            for (int j = 0; j < NUM_COLS; j++) {
-                listRowAdapter.add(list.get(j % 5));
-            }
-            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i], null);
-            mRowsAdapter.add(new ListRow(header, listRowAdapter));
+            rowsAdapter.add(makeListRow(newsFeed, i + 1));
         }
 
-        HeaderItem gridHeader = new HeaderItem(i, "PREFERENCES", null);
+        HeaderItem gridHeader = new HeaderItem(bottomNewsFeeds.size(), "PREFERENCES", null);
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.grid_view));
+        gridRowAdapter.add(getResources().getString(R.string.remove_db));
+        gridRowAdapter.add(getResources().getString(R.string.copy_db));
         gridRowAdapter.add(getString(R.string.error_fragment));
         gridRowAdapter.add(getResources().getString(R.string.personal_settings));
-        mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+        rowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
-        setAdapter(mRowsAdapter);
+        setAdapter(rowsAdapter);
+    }
 
+    private ListRow makeListRow(NewsFeed newsFeed, int i) {
+        HeaderItem header = new HeaderItem(i, newsFeed.getTitle(), null);
+        NewsFeedAdapter adapter = new NewsFeedAdapter(mCardPresenter, newsFeed);
+        return new ListRow(header, adapter);
+    }
+
+    public void applyTopNewsImageUrlAt(String imageUrl, int newsIndex) {
+        NewsFeedAdapter adapter = getNewsFeedAdapterAt(0);
+        adapter.applyNewsImageAt(imageUrl, newsIndex);
+    }
+
+    public void applyBottomNewsImageUrlAt(String imageUrl, int newsFeedIndex, int newsIndex) {
+        NewsFeedAdapter adapter = getNewsFeedAdapterAt(newsFeedIndex + 1);
+        adapter.applyNewsImageAt(imageUrl, newsIndex);
+    }
+
+    private NewsFeedAdapter getNewsFeedAdapterAt(int newsFeedIndex) {
+        ListRow row = (ListRow)getAdapter().get(newsFeedIndex);
+        return (NewsFeedAdapter)row.getAdapter();
     }
 
     private void prepareBackgroundManager() {
-
         BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
         backgroundManager.attach(getActivity().getWindow());
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
@@ -176,24 +186,31 @@ public class MainFragment extends NewsBrowseFragment {
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof Movie) {
-                Movie movie = (Movie) item;
-                Log.d(TAG, "Item: " + item.toString());
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, movie);
-
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-                getActivity().startActivity(intent, bundle);
-            } else if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
+//            if (item instanceof Movie) {
+//                Movie movie = (Movie) item;
+//                Log.d(TAG, "Item: " + item.toString());
+//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+//                intent.putExtra(DetailsActivity.MOVIE, movie);
+//
+//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        getActivity(),
+//                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+//                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+//                getActivity().startActivity(intent, bundle);
+//            } else if (item instanceof String) {
+//                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
+//                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
+//                            .show();
+//                }
+//            }
+            if (item instanceof String) {
+                if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
+                    NewsDb.copyDbToExternalStorate(getActivity());
+                } else if (((String) item).indexOf(getString(R.string.remove_db)) >= 0) {
+                    NewsDb.getInstance(getActivity()).clearArchive();
                 }
             }
         }
@@ -204,8 +221,8 @@ public class MainFragment extends NewsBrowseFragment {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (item instanceof Movie) {
-                mBackgroundURI = ((Movie) item).getBackgroundImageURI();
+            if (item instanceof News) {
+                mBackgroundUrl = ((News) item).getImageUrl();
                 startBackgroundTimer();
             }
 
@@ -220,13 +237,15 @@ public class MainFragment extends NewsBrowseFragment {
         mDefaultBackground = getResources().getDrawable(resourceId);
     }
 
-    protected void updateBackground(URI uri) {
-        Picasso.with(getActivity())
-                .load(uri.toString())
-                .resize(mMetrics.widthPixels, mMetrics.heightPixels)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(mBackgroundTarget);
+    protected void updateBackground() {
+        if (mBackgroundUrl != null && mBackgroundUrl.trim().length() > 0) {
+            Picasso.with(getActivity())
+                    .load(mBackgroundUrl)
+                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
+                    .centerCrop()
+                    .error(mDefaultBackground)
+                    .into(mBackgroundTarget);
+        }
     }
 
     protected void updateBackground(Drawable drawable) {
@@ -252,9 +271,7 @@ public class MainFragment extends NewsBrowseFragment {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mBackgroundURI != null) {
-                        updateBackground(mBackgroundURI);
-                    }
+                    updateBackground();
                 }
             });
 

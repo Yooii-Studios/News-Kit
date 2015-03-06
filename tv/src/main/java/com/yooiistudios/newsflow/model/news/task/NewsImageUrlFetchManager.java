@@ -18,19 +18,23 @@ import java.util.Map;
  *  여러 뉴스 피드들을 fetch 할 경우 그 task 들을 관리함
  */
 public class NewsImageUrlFetchManager implements NewsImageUrlFetchTask.OnImageUrlFetchListener {
+    private static final int TOP_FETCH_TASK_INDEX = 0;
+    private static final int BOTTOM_FETCH_TASK_START_INDEX = 1;
+
     public interface OnFetchListener {
-        public void onFetchImageUrl(News news, String url, int newsFeedPosition, int newsPosition);
+        public void onFetchTopNewsFeedImageUrl(News news, String url, int newsPosition);
+        public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedPosition,
+                                                  int newsPosition);
     }
 
     private static NewsImageUrlFetchManager instance;
 
-    private Map<String, NewsImageUrlFetchTask> mTasks;
-//    private SparseArray<News> mNewsList;
+    private NewsImageUrlFetchTask mTopNewsImageUrlFetchTask;
+    private Map<String, NewsImageUrlFetchTask> mBottomNewsImageUrlFetchTasks;
     private OnFetchListener mListener;
 
     private NewsImageUrlFetchManager() {
-        mTasks = new HashMap<>();
-//        mNewsList = new SparseArray<>();
+        mBottomNewsImageUrlFetchTasks = new HashMap<>();
     }
 
     public static NewsImageUrlFetchManager getInstance() {
@@ -44,19 +48,29 @@ public class NewsImageUrlFetchManager implements NewsImageUrlFetchTask.OnImageUr
         return instance;
     }
 
-    public void fetch(ArrayList<NewsFeed> newsFeeds, OnFetchListener listener) {
+    public void fetch(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds,
+                      OnFetchListener listener) {
         prepare(listener);
 
-        for (int i = 0; i < newsFeeds.size(); i++) {
-            NewsFeed newsFeed = newsFeeds.get(i);
+        ArrayList<News> topNewsList = topNewsFeed.getNewsList();
+        for (int i = 0; i < topNewsList.size(); i++) {
+            mTopNewsImageUrlFetchTask = new NewsImageUrlFetchTask(topNewsList.get(i), this,
+                    TOP_FETCH_TASK_INDEX, i);
+            mTopNewsImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+
+        for (int i = 0; i < bottomNewsFeeds.size(); i++) {
+            NewsFeed newsFeed = bottomNewsFeeds.get(i);
             ArrayList<News> newsList = newsFeed.getNewsList();
             for (int j = 0; j < newsList.size(); j++) {
                 News news = newsList.get(j);
-                NewsImageUrlFetchTask task = new NewsImageUrlFetchTask(news, this, i, j);
+
+                int newsFeedTaskId = BOTTOM_FETCH_TASK_START_INDEX + i;
+                NewsImageUrlFetchTask task = new NewsImageUrlFetchTask(news, this, newsFeedTaskId, j);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-                String uniqueId = NewsIdGenerator.generateKey(i, j);
-                mTasks.put(uniqueId, task);
+                String uniqueId = NewsIdGenerator.generateKey(newsFeedTaskId, j);
+                mBottomNewsImageUrlFetchTasks.put(uniqueId, task);
             }
         }
     }
@@ -67,24 +81,35 @@ public class NewsImageUrlFetchManager implements NewsImageUrlFetchTask.OnImageUr
     }
 
     private void cancelAllTasks() {
-        for (String key : mTasks.keySet()) {
-            NewsImageUrlFetchTask task = mTasks.get(key);
+        if (mTopNewsImageUrlFetchTask != null) {
+            mTopNewsImageUrlFetchTask.cancel(true);
+        }
+
+        for (String key : mBottomNewsImageUrlFetchTasks.keySet()) {
+            NewsImageUrlFetchTask task = mBottomNewsImageUrlFetchTasks.get(key);
             task.cancel(true);
         }
     }
 
     private void prepareVariables(OnFetchListener listener) {
-        mTasks.clear();
-//        mNewsList.clear();
+        mBottomNewsImageUrlFetchTasks.clear();
         mListener = listener;
     }
 
     @Override
-    public void onImageUrlFetch(News news, String url, int newsFeedPosition, int newsPosition) {
-        String uniqueId = NewsIdGenerator.generateKey(newsFeedPosition, newsPosition);
-        mTasks.remove(uniqueId);
-        if (mListener != null) {
-            mListener.onFetchImageUrl(news, url, newsFeedPosition, newsPosition);
+    public void onImageUrlFetch(News news, String url, int newsFeedTaskId, int newsPosition) {
+        if (newsFeedTaskId == TOP_FETCH_TASK_INDEX) {
+            mTopNewsImageUrlFetchTask = null;
+            if (mListener != null) {
+                mListener.onFetchTopNewsFeedImageUrl(news, url, newsPosition);
+            }
+        } else {
+            int newsFeedPosition = newsFeedTaskId - BOTTOM_FETCH_TASK_START_INDEX;
+            String uniqueId = NewsIdGenerator.generateKey(newsFeedTaskId, newsPosition);
+            mBottomNewsImageUrlFetchTasks.remove(uniqueId);
+            if (mListener != null) {
+                mListener.onFetchBottomNewsFeedImageUrl(news, url, newsFeedPosition, newsPosition);
+            }
         }
     }
 
@@ -110,16 +135,4 @@ public class NewsImageUrlFetchManager implements NewsImageUrlFetchTask.OnImageUr
             }
         }
     }
-
-//    @Override
-//    public void onFetch(NewsFeed newsFeed, int position) {
-////        NLLog.now("onFetch : " + newsFeed.toString());
-//        mNewsFeeds.put(position, newsFeed);
-//        mTasks.remove(position);
-//
-//        if (mTasks.size() == 0) {
-//            ArrayList<NewsFeed> newsFeeds = ArrayUtils.toArrayList(mNewsFeeds);
-//            mListener.onFetchImageUrl(newsFeeds);
-//        }
-//    }
 }

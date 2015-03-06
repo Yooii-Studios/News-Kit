@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.model.database;
+package com.yooiistudios.newsflow.core.news.database;
 
 import android.provider.BaseColumns;
 

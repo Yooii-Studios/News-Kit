@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.model.database;
+package com.yooiistudios.newsflow.core.news.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,12 +10,18 @@ import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.core.util.ExternalStorage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static com.yooiistudios.newsflow.model.database.NewsDbContract.NewsEntry;
-import static com.yooiistudios.newsflow.model.database.NewsDbContract.NewsFeedEntry;
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 15. 1. 4.
@@ -178,10 +184,10 @@ public class NewsDb {
         insertNewsImage(imageUrl, imageUrlChecked, TOP_NEWS_FEED_INDEX, newsPosition);
     }
 
-//    public void saveBottomNewsImageUrl(String imageUrl, boolean imageUrlChecked,
-//                                       int newsFeedPosition, int newsPosition) {
-//        insertNewsImage(imageUrl, imageUrlChecked, newsFeedPosition, newsPosition);
-//    }
+    public void saveBottomNewsImageUrl(String imageUrl, boolean imageUrlChecked,
+                                       int newsFeedPosition, int newsPosition) {
+        insertNewsImage(imageUrl, imageUrlChecked, newsFeedPosition, newsPosition);
+    }
 
     private void insertNewsImage(String imageUrl, boolean imageUrlChecked,
                                  int newsFeedPosition, int newsPosition) {
@@ -347,4 +353,42 @@ public class NewsDb {
         mDatabase.execSQL("DELETE FROM " + NewsFeedEntry.TABLE_NAME);
         mDatabase.execSQL("DELETE FROM " + NewsEntry.TABLE_NAME);
     }
+
+    public static void copyDbToExternalStorate(Context context) {
+        String dbFilePath = context.getDatabasePath(NewsDbHelper.DB_NAME).toString();
+        File outputFile = ExternalStorage.createFileInExternalDirectory(context,
+                NewsDbHelper.DB_NAME);
+
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = new FileInputStream(dbFilePath);
+            out = new FileOutputStream(outputFile);
+
+            // Transfer bytes from in to out
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

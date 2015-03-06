@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.model.database;
+package com.yooiistudios.newsflow.core.news.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.yooiistudios.newsflow.core.util.NLLog;
 
-import static com.yooiistudios.newsflow.model.database.NewsDbContract.NewsEntry;
-import static com.yooiistudios.newsflow.model.database.NewsDbContract.NewsFeedEntry;
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 15. 1. 4.
