@@ -35,7 +35,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -147,18 +146,41 @@ public class MainFragment extends NewsBrowseFragment {
     private void setupUIElements() {
         // setBadgeDrawable(getActivity().getResources().getDrawable(
         // R.drawable.videos_by_google_banner));
-        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+//        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+        setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+
         // over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
 
         // set fastLane (or headers) background color
-        setBrandColor(getResources().getColor(R.color.fastlane_background));
+        setBrandColor(getResources().getColor(R.color.material_light_blue_700));
+
         // set search icon color
-        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+//        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+
+        setupUIElementsExperiments();
+    }
+
+    private void setupUIElementsExperiments() {
+        setBrowseTransitionListener(new BrowseTransitionListener() {
+            @Override
+            public void onHeadersTransitionStart(boolean withHeaders) {
+                super.onHeadersTransitionStart(withHeaders);
+                if (isShowingHeaders()) {
+                    setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+                    setTitle("News Flow");
+                } else {
+                    setBadgeDrawable(null);
+                    setTitle("All News");
+                }
+            }
+        });
     }
 
     private void setupEventListeners() {
+        // FIXME: 리스너를 달지 않으면 검색창이 보이지 않음
+        /*
         setOnSearchClickedListener(new View.OnClickListener() {
 
             @Override
@@ -167,6 +189,7 @@ public class MainFragment extends NewsBrowseFragment {
                         .show();
             }
         });
+        */
 
         setOnItemViewClickedListener(new ItemViewClickedListener());
         setOnItemViewSelectedListener(new ItemViewSelectedListener());
