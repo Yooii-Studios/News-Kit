@@ -154,7 +154,7 @@ public class MainFragment extends NewsBrowseFragment {
         setHeadersTransitionOnBackEnabled(true);
 
         // set fastLane (or headers) background color
-        setBrandColor(getResources().getColor(R.color.material_light_blue_700));
+        setBrandColor(getResources().getColor(R.color.material_light_blue_800));
 
         // set search icon color
 //        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
