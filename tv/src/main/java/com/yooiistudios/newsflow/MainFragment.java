@@ -14,6 +14,7 @@
 
 package com.yooiistudios.newsflow;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.reference.CardPresenter;
 import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.R;
@@ -57,10 +59,7 @@ public class MainFragment extends NewsBrowseFragment {
     private static final int BACKGROUND_UPDATE_DELAY = 300;
     private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
-    private static final int NUM_ROWS = 6;
-    private static final int NUM_COLS = 15;
 
-    private ArrayObjectAdapter mRowsAdapter;
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
@@ -68,6 +67,12 @@ public class MainFragment extends NewsBrowseFragment {
     private final Handler mHandler = new Handler();
     private String mBackgroundUrl;
     CardPresenter mCardPresenter;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        initVariables(activity);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -80,6 +85,10 @@ public class MainFragment extends NewsBrowseFragment {
         setupEventListeners();
     }
 
+    private void initVariables(Activity activity) {
+        mCardPresenter = new CardPresenter(activity);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -89,73 +98,48 @@ public class MainFragment extends NewsBrowseFragment {
         }
     }
 
-//    private void loadRows() {
-//        List<Movie> list = MovieList.setupMovies();
-//
-//        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-//        mCardPresenter = new CardPresenter();
-//
-//        int i;
-//        for (i = 0; i < NUM_ROWS; i++) {
-//            if (i != 0) {
-//                Collections.shuffle(list);
-//            }
-//            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);
-//            for (int j = 0; j < NUM_COLS; j++) {
-//                listRowAdapter.add(list.get(j % 5));
-//            }
-//            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i], null);
-//            mRowsAdapter.add(new ListRow(header, listRowAdapter));
-//        }
-//
-//        HeaderItem gridHeader = new HeaderItem(i, "PREFERENCES", null);
-//
-//        GridItemPresenter mGridPresenter = new GridItemPresenter();
-//        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-//        gridRowAdapter.add(getResources().getString(R.string.grid_view));
-//        gridRowAdapter.add(getString(R.string.error_fragment));
-//        gridRowAdapter.add(getResources().getString(R.string.personal_settings));
-//        mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
-//
-//        setAdapter(mRowsAdapter);
-//    }
+    public void applyNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+        ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
 
-    public void loadNewsFeeds(ArrayList<NewsFeed> newsFeeds) {
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-        mCardPresenter = new CardPresenter(getActivity());
+        rowsAdapter.add(makeListRow(topNewsFeed, 0));
+        for (int i = 0; i < bottomNewsFeeds.size(); i++) {
+            NewsFeed newsFeed = bottomNewsFeeds.get(i);
 
-        for (int i = 0; i < newsFeeds.size(); i++) {
-            NewsFeed newsFeed = newsFeeds.get(i);
-
-            HeaderItem header = new HeaderItem(i, newsFeed.getTitle(), null);
-            NewsFeedAdapter adapter = new NewsFeedAdapter(mCardPresenter, newsFeed);
-
-            mRowsAdapter.add(new ListRow(header, adapter));
-
-//            ArrayList<News> newsList = newsFeed.getNewsList();
-//            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);
-//            for (int j = 0; j < newsList.size(); j++) {
-//                listRowAdapter.add(newsList.get(j));
-//            }
-//            mRowsAdapter.add(new ListRow(header, listRowAdapter));
+            rowsAdapter.add(makeListRow(newsFeed, i + 1));
         }
 
-        HeaderItem gridHeader = new HeaderItem(newsFeeds.size(), "PREFERENCES", null);
+        HeaderItem gridHeader = new HeaderItem(bottomNewsFeeds.size(), "PREFERENCES", null);
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.grid_view));
+        gridRowAdapter.add(getResources().getString(R.string.remove_db));
+        gridRowAdapter.add(getResources().getString(R.string.copy_db));
         gridRowAdapter.add(getString(R.string.error_fragment));
         gridRowAdapter.add(getResources().getString(R.string.personal_settings));
-        mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+        rowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
-        setAdapter(mRowsAdapter);
+        setAdapter(rowsAdapter);
     }
 
-    public void applyNewsImageUrlAt(String imageUrl, int newsFeedIndex, int newsIndex) {
-        ListRow row = (ListRow)mRowsAdapter.get(newsFeedIndex);
-        NewsFeedAdapter adapter = (NewsFeedAdapter)row.getAdapter();
+    private ListRow makeListRow(NewsFeed newsFeed, int i) {
+        HeaderItem header = new HeaderItem(i, newsFeed.getTitle(), null);
+        NewsFeedAdapter adapter = new NewsFeedAdapter(mCardPresenter, newsFeed);
+        return new ListRow(header, adapter);
+    }
+
+    public void applyTopNewsImageUrlAt(String imageUrl, int newsIndex) {
+        NewsFeedAdapter adapter = getNewsFeedAdapterAt(0);
         adapter.applyNewsImageAt(imageUrl, newsIndex);
+    }
+
+    public void applyBottomNewsImageUrlAt(String imageUrl, int newsFeedIndex, int newsIndex) {
+        NewsFeedAdapter adapter = getNewsFeedAdapterAt(newsFeedIndex + 1);
+        adapter.applyNewsImageAt(imageUrl, newsIndex);
+    }
+
+    private NewsFeedAdapter getNewsFeedAdapterAt(int newsFeedIndex) {
+        ListRow row = (ListRow)getAdapter().get(newsFeedIndex);
+        return (NewsFeedAdapter)row.getAdapter();
     }
 
     private void prepareBackgroundManager() {
@@ -222,6 +206,13 @@ public class MainFragment extends NewsBrowseFragment {
 //                            .show();
 //                }
 //            }
+            if (item instanceof String) {
+                if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
+                    NewsDb.copyDbToExternalStorate(getActivity());
+                } else if (((String) item).indexOf(getString(R.string.remove_db)) >= 0) {
+                    NewsDb.getInstance(getActivity()).clearArchive();
+                }
+            }
         }
     }
 

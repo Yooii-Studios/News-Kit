@@ -37,12 +37,12 @@ public class CardPresenter extends Presenter {
     private static int CARD_HEIGHT = 180;
 
     private Context mContext;
-    private Drawable mDefaultCardImage;
+    private Drawable mErrorCardImage;
 
     public CardPresenter(Context context) {
         super();
         mContext = context;
-        mDefaultCardImage = context.getResources().getDrawable(R.drawable.movie);
+        mErrorCardImage = context.getResources().getDrawable(R.drawable.ic_launcher);
     }
 
     @Override
@@ -52,6 +52,7 @@ public class CardPresenter extends Presenter {
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mContext.getResources().getColor(R.color.fastlane_background));
+
         return new NewsViewHolder(cardView);
     }
 
@@ -67,20 +68,23 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        // Do nothing.
+
     }
 
     private void applyNewsInfo(NewsViewHolder viewHolder, News news) {
-        ImageCardView imageCardView = viewHolder.cardView;
+        ImageCardView imageCardView = viewHolder.imageCardView;
         imageCardView.setTitleText(news.getTitle());
-        imageCardView.setContentText(news.getDescription());
+//        imageCardView.setContentText(news.getDescription());
+        String url = news.getImageUrl();
+        String message = url != null ? url : "no url";
+        imageCardView.setContentText(message);
         imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
     private void applyImage(NewsViewHolder newsViewHolder, News news) {
         String imageUrl = news.getImageUrl();
-        if (imageUrl != null && imageUrl.length() > 0) {
-            Context context = newsViewHolder.cardView.getContext();
+        if (isImageUrlValid(imageUrl)) {
+            Context context = newsViewHolder.imageCardView.getContext();
             Picasso.with(context)
                     .load(imageUrl)
 //                    .resize(Utils.convertDpToPixel(context, CARD_WIDTH),
@@ -88,19 +92,25 @@ public class CardPresenter extends Presenter {
                     .resize(DipToPixel.dpToPixel(context, CARD_WIDTH),
                             DipToPixel.dpToPixel(context, CARD_HEIGHT))
                     .centerCrop()
-                    .error(mDefaultCardImage)
+                    .error(mErrorCardImage)
                     .into(newsViewHolder.picassoTarget);
+        } else {
+            newsViewHolder.imageCardView.setMainImage(null);
         }
     }
 
+    private boolean isImageUrlValid(String imageUrl) {
+        return imageUrl != null && imageUrl.length() > 0;
+    }
+
     private class NewsViewHolder extends Presenter.ViewHolder {
-        public ImageCardView cardView;
+        public ImageCardView imageCardView;
         public PicassoImageCardViewTarget picassoTarget;
 
         public NewsViewHolder(View view) {
             super(view);
-            cardView = (ImageCardView) view;
-            picassoTarget = new PicassoImageCardViewTarget(cardView);
+            imageCardView = (ImageCardView) view;
+            picassoTarget = new PicassoImageCardViewTarget(imageCardView);
         }
 
     }
