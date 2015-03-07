@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui.widget;
+package com.yooiistudios.newsflow.core.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,7 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.R;
 
 import java.io.File;
 
@@ -157,7 +157,7 @@ public class HTML5WebView extends WebView {
             //Log.i(TAG, "here in on getDefaultVideoPoster");
             if (mDefaultVideoPoster == null) {
                 mDefaultVideoPoster = BitmapFactory.decodeResource(
-                        getResources(), R.drawable.default_video_poster);
+                        getResources(), R.drawable.photo_video_film_icon);
             }
             return mDefaultVideoPoster;
         }
@@ -165,8 +165,6 @@ public class HTML5WebView extends WebView {
         @SuppressLint("InflateParams")
         @Override
         public View getVideoLoadingProgressView() {
-            //Log.i(TAG, "here in on getVideoLoadingPregressView");
-
             if (mVideoProgressView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
                 mVideoProgressView = inflater.inflate(R.layout.video_loading_progress, null);

@@ -15,6 +15,7 @@
 package com.yooiistudios.newsflow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,19 +34,19 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.reference.CardPresenter;
 import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.R;
+import com.yooiistudios.newsflow.ui.DetailsActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 
 import java.util.ArrayList;
@@ -186,18 +187,41 @@ public class MainFragment extends NewsBrowseFragment {
     private void setupUIElements() {
         // setBadgeDrawable(getActivity().getResources().getDrawable(
         // R.drawable.videos_by_google_banner));
-        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+//        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+        setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+
         // over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
 
         // set fastLane (or headers) background color
-        setBrandColor(getResources().getColor(R.color.fastlane_background));
+        setBrandColor(getResources().getColor(R.color.material_light_blue_800));
+
         // set search icon color
-        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+//        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+
+        setupUIElementsExperiments();
+    }
+
+    private void setupUIElementsExperiments() {
+        setBrowseTransitionListener(new BrowseTransitionListener() {
+            @Override
+            public void onHeadersTransitionStart(boolean withHeaders) {
+                super.onHeadersTransitionStart(withHeaders);
+                if (isShowingHeaders()) {
+                    setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+                    setTitle("News Flow");
+                } else {
+                    setBadgeDrawable(null);
+                    setTitle("All News");
+                }
+            }
+        });
     }
 
     private void setupEventListeners() {
+        // FIXME: 리스너를 달지 않으면 검색창이 보이지 않음
+        /*
         setOnSearchClickedListener(new View.OnClickListener() {
 
             @Override
@@ -206,6 +230,7 @@ public class MainFragment extends NewsBrowseFragment {
                         .show();
             }
         });
+        */
 
         setOnItemViewClickedListener(new ItemViewClickedListener());
         setOnItemViewSelectedListener(new ItemViewSelectedListener());
@@ -236,6 +261,12 @@ public class MainFragment extends NewsBrowseFragment {
 //                            .show();
 //                }
 //            }
+            if (item instanceof News) {
+                NLLog.now("item instanceof News");
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra("newsLink", ((News) item).getLink());
+                startActivity(intent);
+            }
             if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
                     NewsDb.copyDbToExternalStorate(getActivity());

@@ -2,6 +2,8 @@ package com.yooiistudios.newsflow.ui.widget;
 
 import android.content.Context;
 
+import com.yooiistudios.newsflow.core.ui.HTML5WebView;
+
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 15. 2. 11.
  *

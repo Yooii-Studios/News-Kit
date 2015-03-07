@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.reference;
+package com.yooiistudios.newsflow;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
