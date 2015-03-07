@@ -127,14 +127,44 @@ public class MainFragment extends NewsBrowseFragment {
         return new ListRow(header, adapter);
     }
 
-    public void applyTopNewsImageUrlAt(String imageUrl, int newsIndex) {
-        NewsFeedAdapter adapter = getNewsFeedAdapterAt(0);
+    public void configOnTopNewsImageUrlLoad(News news, String url, int newsIndex) {
+        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, true, news.getGuid());
+        applyTopNewsImageUrlAt(url, newsIndex);
+//        NewsDb.getInstance(getActivity()).saveTopNewsFeed(getTopNewsFeed());
+    }
+
+    public void configOnBottomNewsImageUrlLoad(News news, String url,
+                                               int newsFeedIndex, int newsIndex) {
+        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, true, news.getGuid());
+        applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
+//        NewsDb.getInstance(getActivity()).saveBottomNewsFeedAt(
+//                getBottomNewsFeedAt(newsFeedIndex), newsFeedIndex);
+    }
+
+    private void applyTopNewsImageUrlAt(String imageUrl, int newsIndex) {
+        NewsFeedAdapter adapter = getTopNewsFeedAdapter();
         adapter.applyNewsImageAt(imageUrl, newsIndex);
     }
 
-    public void applyBottomNewsImageUrlAt(String imageUrl, int newsFeedIndex, int newsIndex) {
-        NewsFeedAdapter adapter = getNewsFeedAdapterAt(newsFeedIndex + 1);
+    private void applyBottomNewsImageUrlAt(String imageUrl, int newsFeedIndex, int newsIndex) {
+        NewsFeedAdapter adapter = getBottomNewsFeedAdapter(newsFeedIndex);
         adapter.applyNewsImageAt(imageUrl, newsIndex);
+    }
+
+    private NewsFeed getTopNewsFeed() {
+        return getTopNewsFeedAdapter().getNewsFeed();
+    }
+
+    private NewsFeed getBottomNewsFeedAt(int index) {
+        return getBottomNewsFeedAdapter(index).getNewsFeed();
+    }
+
+    private NewsFeedAdapter getTopNewsFeedAdapter() {
+        return getNewsFeedAdapterAt(0);
+    }
+
+    private NewsFeedAdapter getBottomNewsFeedAdapter(int newsFeedIndex) {
+        return getNewsFeedAdapterAt(newsFeedIndex + 1);
     }
 
     private NewsFeedAdapter getNewsFeedAdapterAt(int newsFeedIndex) {

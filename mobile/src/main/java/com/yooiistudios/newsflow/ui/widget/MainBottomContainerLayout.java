@@ -690,8 +690,9 @@ public class MainBottomContainerLayout extends FrameLayout
             news.setImageUrl(url);
 
             // archive
-            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);
-            NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, index);
+//            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);
+            NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, index, news.getGuid());
+//            NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, index);
 //            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
 //                    mBottomNewsFeedAdapter.getNewsFeedList().get(index), index);
         } else {

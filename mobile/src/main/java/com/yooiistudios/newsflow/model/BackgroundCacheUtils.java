@@ -170,7 +170,8 @@ public class BackgroundCacheUtils implements
                     mTopNewsImageFetchTaskMap.delete(position);
 
                     if (checkAllImageUrlFetched(newsFeed)) {
-                        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
+                        NewsDb.getInstance(mContext).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//                        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
 //                        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
                     }
 

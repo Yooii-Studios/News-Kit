@@ -145,6 +145,16 @@ public class NewsFeed implements Parcelable, RssFetchable {
         return mNewsList;
     }
 
+    public News getNewsByGuid(String guid) {
+        for (News news : mNewsList) {
+            if (news.getGuid().equals(guid)) {
+                return news;
+            }
+        }
+
+        return null;
+    }
+
     public boolean containsNews() {
         return getNewsList() != null && getNewsList().size() > 0;
     }

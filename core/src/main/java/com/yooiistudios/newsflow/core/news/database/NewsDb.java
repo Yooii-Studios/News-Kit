@@ -125,7 +125,7 @@ public class NewsDb {
 
             int newsFeedPosition = newsFeedCursor.getInt(
                     newsFeedCursor.getColumnIndex(NewsFeedEntry.COLUMN_NAME_POSITION));
-            newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition, shuffle));
+            newsFeed.setNewsList(queryNewsListByNewsFeedPosition(newsFeedPosition, shuffle));
 
             newsFeedList.add(newsFeed);
 
@@ -180,28 +180,28 @@ public class NewsDb {
         insertNewsFeed(bottomNewsFeed, position);
     }
 
-    public void saveTopNewsImageUrl(String imageUrl, boolean imageUrlChecked, int newsPosition) {
-        insertNewsImage(imageUrl, imageUrlChecked, TOP_NEWS_FEED_INDEX, newsPosition);
+    public void saveTopNewsImageUrlWithGuid(String imageUrl, String guid) {
+        insertNewsImage(imageUrl, TOP_NEWS_FEED_INDEX, guid);
     }
 
-    public void saveBottomNewsImageUrl(String imageUrl, boolean imageUrlChecked,
-                                       int newsFeedPosition, int newsPosition) {
-        insertNewsImage(imageUrl, imageUrlChecked, newsFeedPosition, newsPosition);
+    public void saveBottomNewsImageUrlWithGuid(String imageUrl,
+                                               int newsFeedPosition, String guid) {
+        insertNewsImage(imageUrl, newsFeedPosition, guid);
     }
 
-    private void insertNewsImage(String imageUrl, boolean imageUrlChecked,
-                                 int newsFeedPosition, int newsPosition) {
+    private void insertNewsImage(String imageUrl,
+                                 int newsFeedPosition, String guid) {
         ContentValues newsValues = new ContentValues();
-        newsValues.put(NewsEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
+//        newsValues.put(NewsEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
         newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL, imageUrl);
-        newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, imageUrlChecked);
+        newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, true);
 
         mDatabase.update(
                 NewsEntry.TABLE_NAME,
                 newsValues,
                 NewsEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
-                        NewsEntry.COLUMN_NAME_INDEX + "=?",
-                new String[]{ String.valueOf(newsFeedPosition), String.valueOf(newsPosition) });
+                        NewsEntry.COLUMN_NAME_GUID + "=?",
+                new String[]{ String.valueOf(newsFeedPosition), String.valueOf(guid) });
     }
 
     private void insertNewsFeed(NewsFeed newsFeed, int newsFeedIndex) {
@@ -239,6 +239,7 @@ public class NewsDb {
                 newsValues.put(NewsEntry.COLUMN_NAME_INDEX, newsIdx);
                 newsValues.put(NewsEntry.COLUMN_NAME_TITLE, news.getTitle());
                 newsValues.put(NewsEntry.COLUMN_NAME_LINK, news.getLink());
+                newsValues.put(NewsEntry.COLUMN_NAME_GUID, news.getGuid());
                 newsValues.put(NewsEntry.COLUMN_NAME_DESCRIPTION, news.getDescription());
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL, news.getImageUrl());
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, news.isImageUrlChecked());
@@ -264,7 +265,7 @@ public class NewsDb {
             return null;
         }
         NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor);
-        newsFeed.setNewsList(queryNewsFromNewsFeedPosition(newsFeedPosition, shuffle));
+        newsFeed.setNewsList(queryNewsListByNewsFeedPosition(newsFeedPosition, shuffle));
 
         newsFeedCursor.close();
 
@@ -303,7 +304,7 @@ public class NewsDb {
         return newsFeed;
     }
 
-    private ArrayList<News> queryNewsFromNewsFeedPosition(int newsFeedPosition, boolean shuffle) {
+    private ArrayList<News> queryNewsListByNewsFeedPosition(int newsFeedPosition, boolean shuffle) {
         String[] newsListWhereArgs = { String.valueOf(newsFeedPosition) };
 
         Cursor newsListCursor = mDatabase.query(
@@ -320,6 +321,8 @@ public class NewsDb {
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_TITLE));
             String newsLink = newsListCursor.getString(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_LINK));
+            String guid = newsListCursor.getString(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_GUID));
             String newsDescription = newsListCursor.getString(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_DESCRIPTION));
             String newsImageUrl = newsListCursor.getString(
@@ -331,6 +334,7 @@ public class NewsDb {
             News news = new News();
             news.setTitle(newsTitle);
             news.setLink(newsLink);
+            news.setGuid(guid);
             news.setDescription(newsDescription);
             news.setImageUrl(newsImageUrl);
             news.setImageUrlChecked(newsImageUrlChecked);

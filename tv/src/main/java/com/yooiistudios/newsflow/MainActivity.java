@@ -97,22 +97,25 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onFetchTopNewsFeedImageUrl(News news, String url, int newsPosition) {
-        NewsDb.getInstance(getApplicationContext()).saveTopNewsImageUrl(url, true, newsPosition);
+    public void onFetchTopNewsFeedImageUrl(News news, String url, int newsIndex) {
+//        NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed();
+//
+//        MainFragment fragment = getMainFragment();
+//        fragment.applyTopNewsImageUrlAt(url, newsIndex);
 
         MainFragment fragment = getMainFragment();
-        fragment.applyTopNewsImageUrlAt(url, newsPosition);
-//        fragment.applyNewsImageUrlAt(url, MainActivity.TOP_FETCH_TASK_INDEX, newsPosition);
+        fragment.configOnTopNewsImageUrlLoad(news, url, newsIndex);
     }
 
     @Override
-    public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedPosition, int newsPosition) {
-        NewsDb.getInstance(getApplicationContext()).saveBottomNewsImageUrl(url, true,
-                newsFeedPosition, newsPosition);
+    public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedIndex, int newsIndex) {
+//        NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedAt(, newsFeedIndex);
+//
+//        MainFragment fragment = getMainFragment();
+//        fragment.applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
 
         MainFragment fragment = getMainFragment();
-        fragment.applyBottomNewsImageUrlAt(url, newsFeedPosition, newsPosition);
-//        fragment.applyNewsImageUrlAt(url, newsFeedPosition, newsPosition);
+        fragment.configOnBottomNewsImageUrlLoad(news, url, newsFeedIndex, newsIndex);
     }
 
 }

@@ -21,6 +21,7 @@ public class News implements Comparable<News>, Parcelable {
     private String mTitle;
     private String mLink;
     private Date mPubDate;
+    private String mGuid;
     private String mDescription;
     private String mContent;
     private String mImageUrl;
@@ -36,6 +37,7 @@ public class News implements Comparable<News>, Parcelable {
         mTitle = source.readString();
         mLink = source.readString();
         mPubDate = (Date) source.readSerializable();
+        mGuid = source.readString();
         mDescription = source.readString();
         mContent = source.readString();
         mImageUrl = source.readString();
@@ -47,6 +49,7 @@ public class News implements Comparable<News>, Parcelable {
         dest.writeString(mTitle);
         dest.writeString(mLink);
         dest.writeSerializable(mPubDate);
+        dest.writeString(mGuid);
         dest.writeString(mDescription);
         dest.writeString(mContent);
         dest.writeString(mImageUrl);
@@ -102,6 +105,14 @@ public class News implements Comparable<News>, Parcelable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getGuid() {
+        return mGuid;
+    }
+
+    public void setGuid(String guid) {
+        mGuid = guid;
     }
 
     public String getDescription() {

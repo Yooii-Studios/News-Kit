@@ -15,10 +15,12 @@ import java.util.ArrayList;
  *  메인화면 어뎁터
  */
 public class NewsFeedAdapter extends ObjectAdapter {
+    private NewsFeed mNewsFeed;
     private ArrayList<News> mNewsList;
 
     public NewsFeedAdapter(CardPresenter presenter, NewsFeed newsFeed) {
         super(presenter);
+        mNewsFeed = newsFeed;
         mNewsList = newsFeed.getNewsList();
     }
 
@@ -30,6 +32,10 @@ public class NewsFeedAdapter extends ObjectAdapter {
     @Override
     public Object get(int position) {
         return mNewsList.get(position);
+    }
+
+    public NewsFeed getNewsFeed() {
+        return mNewsFeed;
     }
 
     public void applyNewsImageAt(String imageUrl, int newsIndex) {

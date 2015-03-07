@@ -42,72 +42,11 @@ public class DatabaseTest extends AndroidTestCase {
         super.tearDown();
     }
 
-    private static NewsFeed makeDummyNewsFeed() {
-        NewsFeed dummyNewsFeed = new NewsFeed();
-        dummyNewsFeed.setTitle("New York Times - Top Stories");
-        dummyNewsFeed.setNewsFeedUrl(new NewsFeedUrl("http://sweetpjy.tistory.com/rss/",
-                NewsFeedUrlType.CUSTOM));
-//        dummyNewsFeed.setValid(true);
-        dummyNewsFeed.setDisplayingNewsIndex(9); // default or > 0
-        dummyNewsFeed.setTopicRegionCode("some region code");
-        dummyNewsFeed.setTopicLanguageCode("some language code");
-        dummyNewsFeed.setTopicProviderId(123);
-        dummyNewsFeed.setTopicId(234);
-
-        ArrayList<News> dummyNewsList = new ArrayList<>();
-
-        News dummyNews1 = new News();
-        dummyNews1.setTitle("News 2");
-        dummyNews1.setLink("http://sweetpjy.tistory.com/entry/2ch-야한-의미인-줄-알았던-단어-음란마귀주의");
-        dummyNews1.setDescription("some description");
-        dummyNews1.setImageUrl("www.naver.com/index.png");
-        dummyNews1.setImageUrlChecked(true);
-
-        dummyNewsList.add(dummyNews1);
-
-        News dummyNews2 = new News();
-        dummyNews2.setTitle("News 2");
-        dummyNews2.setLink("http://sweetpjy.tistory.com/entry/2ch-야한-의미인-줄-알았던-단어-음란마귀주의");
-        dummyNews2.setDescription("some description");
-
-        dummyNewsList.add(dummyNews2);
-
-        dummyNewsFeed.setNewsList(dummyNewsList);
-
-        return dummyNewsFeed;
-    }
-
     private static ArrayList<NewsFeed> makeDummyNewsFeedList() {
         ArrayList<NewsFeed> dummyNewsFeedList = new ArrayList<>();
 
         for (int newsFeedIndex = 0; newsFeedIndex < 6; newsFeedIndex++) {
-            NewsFeed dummyNewsFeed = new NewsFeed();
-            dummyNewsFeed.setTitle("NewsFeed " + newsFeedIndex);
-            NewsFeedUrlType urlType = NewsFeedUrlType.values()[newsFeedIndex % NewsFeedUrlType.values().length];
-            dummyNewsFeed.setNewsFeedUrl(new NewsFeedUrl("NewsFeedUrl " + newsFeedIndex, urlType));
-//            dummyNewsFeed.setValid(newsFeedIndex % 2 == 0);
-            dummyNewsFeed.setDisplayingNewsIndex(newsFeedIndex%2);
-            dummyNewsFeed.setTopicRegionCode("NewsFeed " + newsFeedIndex + " region code");
-            dummyNewsFeed.setTopicLanguageCode("NewsFeed " + newsFeedIndex + " language code");
-            dummyNewsFeed.setTopicProviderId(newsFeedIndex);
-            dummyNewsFeed.setTopicId(newsFeedIndex);
-
-            ArrayList<News> dummyNewsList = new ArrayList<>();
-
-            for (int newsIndex = 0; newsIndex < 10; newsIndex++) {
-                News dummyNews = new News();
-                dummyNews.setTitle("News " + newsIndex);
-                dummyNews.setLink("News link " + newsIndex);
-                dummyNews.setDescription("News description " + newsIndex);
-                if (newsIndex % 3 == 0) {
-                    dummyNews.setImageUrl("www.naver.com/img" + newsIndex);
-                    dummyNews.setImageUrlChecked(true);
-                }
-
-                dummyNewsList.add(dummyNews);
-            }
-
-            dummyNewsFeed.setNewsList(dummyNewsList);
+            NewsFeed dummyNewsFeed = makeDummyNewsFeed(newsFeedIndex);
 
             dummyNewsFeedList.add(dummyNewsFeed);
         }
@@ -115,10 +54,77 @@ public class DatabaseTest extends AndroidTestCase {
         return dummyNewsFeedList;
     }
 
+    private static NewsFeed makeDummyNewsFeed(int newsFeedIndex) {
+        NewsFeed dummyNewsFeed = new NewsFeed();
+        dummyNewsFeed.setTitle("NewsFeed " + newsFeedIndex);
+        NewsFeedUrlType urlType = NewsFeedUrlType.values()[newsFeedIndex % NewsFeedUrlType.values().length];
+        dummyNewsFeed.setNewsFeedUrl(new NewsFeedUrl("NewsFeedUrl " + newsFeedIndex, urlType));
+//            dummyNewsFeed.setValid(newsFeedIndex % 2 == 0);
+        dummyNewsFeed.setDisplayingNewsIndex(newsFeedIndex%2);
+        dummyNewsFeed.setTopicRegionCode("NewsFeed " + newsFeedIndex + " region code");
+        dummyNewsFeed.setTopicLanguageCode("NewsFeed " + newsFeedIndex + " language code");
+        dummyNewsFeed.setTopicProviderId(newsFeedIndex);
+        dummyNewsFeed.setTopicId(newsFeedIndex);
+
+        ArrayList<News> dummyNewsList = new ArrayList<>();
+
+        for (int newsIndex = 0; newsIndex < 10; newsIndex++) {
+            News dummyNews = new News();
+            dummyNews.setTitle("News " + newsIndex);
+            dummyNews.setLink("News link " + newsIndex);
+            dummyNews.setGuid("News guid " + newsIndex);
+            dummyNews.setDescription("News description " + newsIndex);
+            if (newsIndex % 3 == 0) {
+                dummyNews.setImageUrl("www.naver.com/img" + newsIndex);
+                dummyNews.setImageUrlChecked(true);
+            }
+
+            dummyNewsList.add(dummyNews);
+        }
+
+        dummyNewsFeed.setNewsList(dummyNewsList);
+        return dummyNewsFeed;
+    }
+
+//    private static NewsFeed makeDummyNewsFeed(int i) {
+//        NewsFeed dummyNewsFeed = new NewsFeed();
+//        dummyNewsFeed.setTitle("New York Times - Top Stories " + i);
+//        dummyNewsFeed.setNewsFeedUrl(new NewsFeedUrl("http://sweetpjy.tistory.com/rss/",
+//                NewsFeedUrlType.CUSTOM));
+////        dummyNewsFeed.setValid(true);
+//        dummyNewsFeed.setDisplayingNewsIndex(9); // default or > 0
+//        dummyNewsFeed.setTopicRegionCode("some region code " + i);
+//        dummyNewsFeed.setTopicLanguageCode("some language code " + i);
+//        dummyNewsFeed.setTopicProviderId(i+1);
+//        dummyNewsFeed.setTopicId((i+1) * 2);
+//
+//        ArrayList<News> dummyNewsList = new ArrayList<>();
+//
+//        News dummyNews1 = new News();
+//        dummyNews1.setTitle("News 1 at" + i);
+//        dummyNews1.setLink("http://sweetpjy.tistory.com/entry/2ch-야한-의미인-줄-알았던-단어-음란마귀주의");
+//        dummyNews1.setDescription("some description " + i);
+//        dummyNews1.setImageUrl("www.naver.com/index.png" + i);
+//        dummyNews1.setImageUrlChecked(true);
+//
+//        dummyNewsList.add(dummyNews1);
+//
+//        News dummyNews2 = new News();
+//        dummyNews2.setTitle("News 2 at" + i);
+//        dummyNews2.setLink("http://sweetpjy.tistory.com/entry/2ch-야한-의미인-줄-알았던-단어-음란마귀주의");
+//        dummyNews1.setDescription("some description " + i);
+//
+//        dummyNewsList.add(dummyNews2);
+//
+//        dummyNewsFeed.setNewsList(dummyNewsList);
+//
+//        return dummyNewsFeed;
+//    }
+
     public void testTopNewsFeedInsertion() {
         NewsDb.getInstance(mContext).clearArchive();
 
-        NewsFeed dummyNewsFeed = makeDummyNewsFeed();
+        NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
         assertNotNull(dummyNewsFeed);
 
         NewsDb.getInstance(mContext).saveTopNewsFeed(dummyNewsFeed);
@@ -136,7 +142,7 @@ public class DatabaseTest extends AndroidTestCase {
         checkNewsFeedEquals(defaultNewsFeed, loadedDefaultNewsFeed);
 
         // Save dummy and retrieve.
-        NewsFeed dummyNewsFeed = makeDummyNewsFeed();
+        NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
 
         NewsDb.getInstance(mContext).saveTopNewsFeed(dummyNewsFeed);
         NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext, false);
@@ -147,7 +153,7 @@ public class DatabaseTest extends AndroidTestCase {
     public void testTopNewsFeedUpdate() {
         NewsDb.getInstance(mContext).clearArchive();
 
-        NewsFeed dummyNewsFeed = makeDummyNewsFeed();
+        NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
 
         NewsDb.getInstance(mContext).saveTopNewsFeed(dummyNewsFeed);
 
@@ -166,28 +172,6 @@ public class DatabaseTest extends AndroidTestCase {
         NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext, false);
 
         checkNewsFeedEquals(newNewsFeed, loadedNewsFeed);
-    }
-
-    public void testTopNewsImageUrlUpdate() {
-        NewsDb.getInstance(mContext).clearArchive();
-
-        NewsFeed dummyNewsFeed = makeDummyNewsFeed();
-        NewsDb.getInstance(mContext).saveTopNewsFeed(dummyNewsFeed);
-
-        int updateNewsIdx = dummyNewsFeed.getNewsList().size() - 1;
-
-        // When news image is available
-        String dummyImageUrl = "new news image url";
-        NewsDb.getInstance(mContext).saveTopNewsImageUrl(dummyImageUrl, true, updateNewsIdx);
-        NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext, false);
-
-        News actualNews = loadedNewsFeed.getNewsList().get(updateNewsIdx);
-
-        String actualImageUrl = actualNews.getImageUrl();
-        assertEquals(dummyImageUrl, actualImageUrl);
-
-        boolean actualImageUrlChecked = actualNews.isImageUrlChecked();
-        assertEquals(true, actualImageUrlChecked);
     }
 
     public void testBottomNewsFeedInsertion() {
@@ -273,31 +257,63 @@ public class DatabaseTest extends AndroidTestCase {
         checkNewsFeedEquals(targetNewsFeed, loadedNewsFeed);
     }
 
-//    public void testBottomNewsImageUrlUpdate() {
-//        NewsDb.getInstance(mContext).clearArchive();
-//
-//        ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
-//        NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
-//
-//        int updateNewsFeedIdx = dummyNewsFeedList.size() - 1;
-//        NewsFeed targetNewsFeed = dummyNewsFeedList.get(updateNewsFeedIdx);
-//        int updateNewsIdx = targetNewsFeed.getNewsList().size() - 1;
-//
-//        // When news image is available
-//        String dummyImageUrl = "new news image url";
-//        NewsDb.getInstance(mContext).saveBottomNewsImageUrl(dummyImageUrl, true,
-//                updateNewsFeedIdx, updateNewsIdx);
-//        NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedAt(mContext,
-//                updateNewsFeedIdx, false);
-//
+    public void testTopNewsImageUrlUpdate() {
+        NewsDb.getInstance(mContext).clearArchive();
+
+        NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
+        NewsDb.getInstance(mContext).saveTopNewsFeed(dummyNewsFeed);
+
+        NewsFeed initiallySavedNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext);
+
+        int updateNewsIdx = initiallySavedNewsFeed.getNewsList().size() - 1;
+        News newsToUpdate = initiallySavedNewsFeed.getNewsList().get(updateNewsIdx);
+
+        // When news image is available
+        String dummyImageUrl = "new news image url";
+        NewsDb.getInstance(mContext).saveTopNewsImageUrlWithGuid(dummyImageUrl, true, newsToUpdate.getGuid());
+        NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext, false);
+
 //        News actualNews = loadedNewsFeed.getNewsList().get(updateNewsIdx);
-//
-//        String actualImageUrl = actualNews.getImageUrl();
-//        assertEquals(dummyImageUrl, actualImageUrl);
-//
-//        boolean actualImageUrlChecked = actualNews.isImageUrlChecked();
-//        assertEquals(true, actualImageUrlChecked);
-//    }
+        News actualNews = loadedNewsFeed.getNewsByGuid(newsToUpdate.getGuid());
+
+        String actualImageUrl = actualNews.getImageUrl();
+        assertEquals(dummyImageUrl, actualImageUrl);
+
+        boolean actualImageUrlChecked = actualNews.isImageUrlChecked();
+        assertEquals(true, actualImageUrlChecked);
+    }
+
+    public void testBottomNewsImageUrlUpdate() {
+        NewsDb.getInstance(mContext).clearArchive();
+
+        ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
+        NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
+
+        int updateNewsFeedIdx = dummyNewsFeedList.size() - 1;
+
+        NewsFeed initiallySavedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedAt(
+                mContext, updateNewsFeedIdx, true);
+
+//        NewsFeed targetNewsFeed = dummyNewsFeedList.get(updateNewsFeedIdx);
+        int updateNewsIdx = initiallySavedNewsFeed.getNewsList().size() - 1;
+        News newsToUpdate = initiallySavedNewsFeed.getNewsList().get(updateNewsIdx);
+
+        // When news image is available
+        String dummyImageUrl = "new news image url";
+        NewsDb.getInstance(mContext).saveBottomNewsImageUrlWithGuid(dummyImageUrl, true,
+                updateNewsFeedIdx, newsToUpdate.getGuid());
+        NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedAt(mContext,
+                updateNewsFeedIdx, false);
+
+//        News actualNews = loadedNewsFeed.getNewsList().get(updateNewsIdx);
+        News actualNews = loadedNewsFeed.getNewsByGuid(newsToUpdate.getGuid());
+
+        String actualImageUrl = actualNews.getImageUrl();
+        assertEquals(dummyImageUrl, actualImageUrl);
+
+        boolean actualImageUrlChecked = actualNews.isImageUrlChecked();
+        assertEquals(true, actualImageUrlChecked);
+    }
 
     private void checkNewsFeedEquals(NewsFeed expectedNewsFeed, NewsFeed actualNewsFeed) {
         //NewsFeed property check
@@ -325,6 +341,7 @@ public class DatabaseTest extends AndroidTestCase {
                 News actualNews = actualNewsFeed.getNewsList().get(newsIdx);
                 assertEquals(expectedNews.getTitle(), actualNews.getTitle());
                 assertEquals(expectedNews.getLink(), actualNews.getLink());
+                assertEquals(expectedNews.getGuid(), actualNews.getGuid());
                 assertEquals(expectedNews.getDescription(), actualNews.getDescription());
                 assertEquals(expectedNews.getImageUrl(), actualNews.getImageUrl());
                 assertEquals(expectedNews.isImageUrlChecked(), actualNews.isImageUrlChecked());

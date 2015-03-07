@@ -602,7 +602,8 @@ public class MainTopContainerLayout extends FrameLayout
         if (url != null) {
             news.setImageUrl(url);
             applyImage(url, position, taskType);
-            NewsDb.getInstance(getContext()).saveTopNewsFeed(mTopNewsFeedPagerAdapter.getNewsFeed());
+            NewsDb.getInstance(getContext()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//            NewsDb.getInstance(getContext()).saveTopNewsFeed(mTopNewsFeedPagerAdapter.getNewsFeed());
 //            NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeedPagerAdapter.getNewsFeed());
         } else {
             mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
