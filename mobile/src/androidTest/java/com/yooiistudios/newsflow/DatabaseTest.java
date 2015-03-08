@@ -270,7 +270,7 @@ public class DatabaseTest extends AndroidTestCase {
 
         // When news image is available
         String dummyImageUrl = "new news image url";
-        NewsDb.getInstance(mContext).saveTopNewsImageUrlWithGuid(dummyImageUrl, true, newsToUpdate.getGuid());
+        NewsDb.getInstance(mContext).saveTopNewsImageUrlWithGuid(dummyImageUrl, newsToUpdate.getGuid());
         NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext, false);
 
 //        News actualNews = loadedNewsFeed.getNewsList().get(updateNewsIdx);
@@ -300,7 +300,7 @@ public class DatabaseTest extends AndroidTestCase {
 
         // When news image is available
         String dummyImageUrl = "new news image url";
-        NewsDb.getInstance(mContext).saveBottomNewsImageUrlWithGuid(dummyImageUrl, true,
+        NewsDb.getInstance(mContext).saveBottomNewsImageUrlWithGuid(dummyImageUrl,
                 updateNewsFeedIdx, newsToUpdate.getGuid());
         NewsFeed loadedNewsFeed = NewsDb.getInstance(mContext).loadBottomNewsFeedAt(mContext,
                 updateNewsFeedIdx, false);
