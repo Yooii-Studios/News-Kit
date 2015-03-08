@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 
 import com.yooiistudios.newsflow.reference.R;
@@ -19,5 +20,11 @@ public class DetailsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        // TODO: 프래그먼트에 직접 News 를 세팅해주자
     }
 }

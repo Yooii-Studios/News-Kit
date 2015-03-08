@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.yooiistudios.newsflow.MainFragment;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.ui.HTML5WebView;
 import com.yooiistudios.newsflow.core.util.NLLog;
@@ -32,7 +33,9 @@ public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCa
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
 
     private HTML5WebView mWebView;
+    // FIXME: link 를 주고 받지 않고 추후에는 뉴스 자체를 받을 수 있게 구현하자
     private News mNews;
+    private String mLink;
 
     @Nullable
     @Override
@@ -49,6 +52,12 @@ public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCa
 
     private void initNews() {
 //        mNews = getIntent().getExtras().getParcelable(NewsFeedDetailActivity.INTENT_KEY_NEWS);
+        mLink = getActivity().getIntent().getExtras().getString(MainFragment.NEWS_ARG_KEY);
+    }
+
+    // FIXME: 액티비티의 onAttachFragment 에서 처리하게 변경해주자
+    public void setNews(News news) {
+        mNews = news;
     }
 
     private void initWebView() {
@@ -70,7 +79,10 @@ public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCa
 //        mWebView.loadUrl(mNews.getLink());
 //        webView.loadUrl("http://star.mk.co.kr/v2/view.php?sc=40900001&year=2015&no=215662");
 //        webView.loadUrl("http://edition.cnn.com/2015/03/05/world/jihadi-john-terror-network/index.html");
-        mWebView.loadUrl("http://www.nytimes.com/2015/03/06/us/in-ferguson-some-who-are-part-of-problem-are-asked-to-be-part-of-solution.html?hp&action=click&pgtype=Homepage&module=a-lede-package-region&region=top-news&WT.nav=top-news&_r=0");
+//        mWebView.loadUrl("http://www.nytimes.com/2015/03/06/us/in-ferguson-some-who-are-part-of-problem-are-asked-to-be-part-of-solution.html?hp&action=click&pgtype=Homepage&module=a-lede-package-region&region=top-news&WT.nav=top-news&_r=0");
+        if (mLink != null) {
+            mWebView.loadUrl(mLink);
+        }
 
         mWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -88,7 +100,6 @@ public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCa
     @Override
     public void onDestroy() {
 //        mWebView.stopLoading();
-        NLLog.now("onDestroy");
         mContainer.removeView(mWebView);
         super.onDestroy();
     }

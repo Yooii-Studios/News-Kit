@@ -56,10 +56,11 @@ import java.util.TimerTask;
 
 public class MainFragment extends NewsBrowseFragment {
     private static final String TAG = "MainFragment";
-
     private static final int BACKGROUND_UPDATE_DELAY = 300;
     private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
+
+    public static final String NEWS_ARG_KEY = "news_arg_key";
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -264,7 +265,7 @@ public class MainFragment extends NewsBrowseFragment {
             if (item instanceof News) {
                 NLLog.now("item instanceof News");
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra("newsLink", ((News) item).getLink());
+                intent.putExtra(NEWS_ARG_KEY, ((News) item).getLink());
                 startActivity(intent);
             }
             if (item instanceof String) {
