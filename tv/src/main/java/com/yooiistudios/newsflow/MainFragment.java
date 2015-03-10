@@ -137,7 +137,9 @@ public class MainFragment extends NewsBrowseFragment {
 
     public void configOnBottomNewsImageUrlLoad(News news, String url,
                                                int newsFeedIndex, int newsIndex) {
-        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+        NewsDb.getInstance(getActivity()).saveBottomNewsImageUrlWithGuid(url, newsFeedIndex,
+                news.getGuid());
         applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
 //        NewsDb.getInstance(getActivity()).saveBottomNewsFeedAt(
 //                getBottomNewsFeedAt(newsFeedIndex), newsFeedIndex);

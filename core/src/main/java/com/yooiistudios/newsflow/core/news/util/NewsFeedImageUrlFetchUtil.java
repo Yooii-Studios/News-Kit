@@ -59,7 +59,7 @@ public class NewsFeedImageUrlFetchUtil {
      * @param source Html in plain String.
      * @return One image url which represents the page.
      */
-    public static String getImageUrlFromRssContent(String source) {
+    private static String getImageUrlFromRssContent(String source) {
         Document doc = Jsoup.parse(source);
 
         // og:image
@@ -88,7 +88,7 @@ public class NewsFeedImageUrlFetchUtil {
         return imgUrl;
     }
 
-    public static String requestHttpGet_(String url) throws Exception {
+    private static String requestHttpGet_(String url) throws Exception {
         // HttpClient 생성
         HttpClient httpclient = new DefaultHttpClient();
         HttpParams params = httpclient.getParams();

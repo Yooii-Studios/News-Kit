@@ -21,6 +21,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libraries:Volley')
+    compile project(':libraries:Snacktory_Android')
     compile 'com.android.support:appcompat-v7:21.0.3'
 
     // (Android Studio 용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
