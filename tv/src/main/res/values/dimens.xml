@@ -3,4 +3,10 @@
     <!-- News Detail -->
     <dimen name="progress_bar_height">10dp</dimen>
     <dimen name="progress_bar_margin_top">-4dp</dimen>
+    <dimen name="details_rounded_corner">1.5dp</dimen>
+    <dimen name="details_elevation">3dp</dimen>
+    <dimen name="details_horizontal_margin">128dp</dimen>
+    <dimen name="details_vertical_margin">64dp</dimen>
+    <dimen name="details_title_textview_height">128dp</dimen>
+    <dimen name="details_textview_padding">32dp</dimen>
 </resources>

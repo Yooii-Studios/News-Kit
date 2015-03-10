@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.util;
+package com.yooiistudios.newsflow.core.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
