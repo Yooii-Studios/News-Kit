@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.core.ui.activitytransition;
+package com.yooiistudios.newsflow.core.ui.animation.activitytransition;
 
 import android.widget.ImageView;
 import android.widget.TextView;
