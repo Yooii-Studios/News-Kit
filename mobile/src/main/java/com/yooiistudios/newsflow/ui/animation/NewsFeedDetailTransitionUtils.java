@@ -38,10 +38,10 @@ import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionImageViewProperty;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProperty;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionImageViewProperty;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
