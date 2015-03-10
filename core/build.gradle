@@ -28,4 +28,6 @@ dependencies {
 
     // html dom parsing 을 위한 라이브러리(BeautifulSoup Java version)
     compile 'org.jsoup:jsoup:1.7.3'
+
+    compile 'com.google.code.gson:gson:2.3'       // json 관련
 }

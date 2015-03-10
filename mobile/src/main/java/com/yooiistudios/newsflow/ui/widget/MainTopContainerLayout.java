@@ -31,7 +31,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.ui.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;

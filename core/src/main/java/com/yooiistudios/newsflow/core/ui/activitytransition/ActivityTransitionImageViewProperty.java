@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.model.activitytransition;
+package com.yooiistudios.newsflow.core.ui.activitytransition;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 10. 1.

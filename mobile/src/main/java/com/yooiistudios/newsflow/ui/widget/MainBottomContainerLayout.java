@@ -30,7 +30,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.ui.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedListFetchManager;

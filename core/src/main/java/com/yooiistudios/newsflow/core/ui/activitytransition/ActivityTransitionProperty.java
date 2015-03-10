@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.model.activitytransition;
+package com.yooiistudios.newsflow.core.ui.activitytransition;
 
 import android.graphics.Point;
 
@@ -8,7 +8,7 @@ import android.graphics.Point;
  * ActivityTransitionProperty
  *  액티비티 트랜지션 프로퍼티 부모 클래스
  */
-public abstract class ActivityTransitionProperty {
+public class ActivityTransitionProperty {
 
     private int mLeft;
     private int mTop;
