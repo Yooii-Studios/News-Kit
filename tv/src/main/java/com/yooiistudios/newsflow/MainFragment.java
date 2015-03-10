@@ -16,7 +16,6 @@ package com.yooiistudios.newsflow;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -347,8 +346,8 @@ public class MainFragment extends NewsBrowseFragment {
             view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
             view.setFocusable(true);
             view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.default_background));
-            view.setTextColor(Color.WHITE);
+            view.setBackgroundColor(getResources().getColor(R.color.material_grey_800));
+            view.setTextColor(getResources().getColor(R.color.material_white_primary_text));
             view.setGravity(Gravity.CENTER);
             return new ViewHolder(view);
         }
