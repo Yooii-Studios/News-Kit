@@ -685,9 +685,9 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onBottomNewsImageUrlFetch(News news, String url, int index, int taskType) {
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
         if (url != null) {
-            news.setImageUrl(url);
+//            news.setImageUrl(url);
 
             // archive
 //            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);

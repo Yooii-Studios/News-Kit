@@ -248,7 +248,7 @@ public class BottomNewsImageFetchManager
     @Override
     public void onBottomImageUrlFetchSuccess(final News news, String url, final int position
             , int taskType) {
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
         mBottomNewsFeedNewsToImageTaskMap.remove(news);
 
         if (mListener != null) {

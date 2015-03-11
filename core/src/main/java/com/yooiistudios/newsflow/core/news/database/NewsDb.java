@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.util.ExternalStorage;
@@ -20,6 +22,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
 
@@ -180,6 +183,156 @@ public class NewsDb {
         insertNewsFeed(bottomNewsFeed, position);
     }
 
+    public void saveNewsContentWithGuid(News news) {
+        if (!news.hasNewsContent()) {
+            return;
+        }
+        NewsContent newsContent = news.getNewsContent();
+        String guid = news.getGuid();
+
+        ContentValues newsFeedValues = new ContentValues();
+        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_GUID, guid);
+        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_URL, newsContent.getUrl());
+        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_TITLE, newsContent.getTitle());
+        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_TEXT, newsContent.getText());
+//        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_IMAGE_URL, newsContent.getImageUrl());
+        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_VIDEO_URL, newsContent.getVideoUrl());
+        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_FETCH_STATE, newsContent.getFetchState().getIndex());
+
+        mDatabase.delete(NewsContentEntry.TABLE_NAME, NewsContentEntry.COLUMN_NAME_GUID + "=?",
+                new String[]{ guid });
+        mDatabase.insert(NewsContentEntry.TABLE_NAME, null, newsFeedValues);
+
+        // insert news list
+//        mDatabase.delete(NewsContentTextEntry.TABLE_NAME, NewsContentTextEntry.COLUMN_NAME_GUID + "=?",
+//                new String[]{ guid });
+//        mDatabase.delete(NewsContentImageEntry.TABLE_NAME, NewsContentImageEntry.COLUMN_NAME_GUID + "=?",
+//                new String[]{ guid });
+//        saveNewsContentTextsWithGuid(guid, newsContent.getTextList());
+//        saveNewsContentImagesWithGuid(guid, newsContent.getImages());
+    }
+
+//    private void saveNewsContentTextsWithGuid(String guid, List<String> textList) {
+//        for (int i = 0; i < textList.size(); i++) {
+//            String text = textList.get(i);
+//
+//            ContentValues newsValues = new ContentValues();
+//            newsValues.put(NewsContentTextEntry.COLUMN_NAME_INDEX, i);
+//            newsValues.put(NewsContentTextEntry.COLUMN_NAME_GUID, guid);
+//            newsValues.put(NewsContentTextEntry.COLUMN_NAME_TEXT, text);
+//
+//            mDatabase.insert(NewsContentTextEntry.TABLE_NAME, null, newsValues);
+//        }
+//    }
+
+//    private void saveNewsContentImagesWithGuid(String guid, List<NewsContentImage> images) {
+//        for (int i = 0; i < images.size(); i++) {
+//            NewsContentImage image = images.get(i);
+//
+//            ContentValues newsValues = new ContentValues();
+//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_INDEX, i);
+//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_GUID, guid);
+//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_IMAGE_URL, image.getImageUrl());
+//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_WEIGHT, image.getWeight());
+//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_WIDTH, image.getWidth());
+//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_HEIGHT, image.getHeight());
+//
+//            mDatabase.insert(NewsContentImageEntry.TABLE_NAME, null, newsValues);
+//        }
+//    }
+
+    private NewsContent queryNewsContentByGuid(String guid) {
+        Cursor newsContentCursor = mDatabase.query(
+                NewsContentEntry.TABLE_NAME,
+                null,
+                NewsContentEntry.COLUMN_NAME_GUID + "=?",
+                new String[]{ guid },
+                null, null, null);
+        newsContentCursor.moveToFirst();
+
+        if (newsContentCursor.getCount() <= 0) {
+            // no saved news feed
+            return NewsContent.createEmptyObject();
+        }
+        String title = newsContentCursor.getString(
+                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_TITLE));
+        String text = newsContentCursor.getString(
+                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_TEXT));
+        String url = newsContentCursor.getString(
+                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_URL));
+//        String imageUrl = newsContentCursor.getString(
+//                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_IMAGE_URL));
+        String videoUrl = newsContentCursor.getString(
+                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_VIDEO_URL));
+        int fetchStateIndex = newsContentCursor.getInt(
+                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_FETCH_STATE));
+        NewsContentFetchState fetchState = NewsContentFetchState.getByIndex(fetchStateIndex);
+        NewsContent newsContent = new NewsContent.Builder()
+                .setTitle(title)
+                .setText(text)
+                .setUrl(url)
+//                .setImageUrl(imageUrl)
+                .setVideoUrl(videoUrl)
+                .setFetchState(fetchState)
+//                .setTexts(queryNewsContentTextsByGuid(guid))
+//                .setImages(queryNewsContentImagesByGuid(guid))
+                .build();
+
+        newsContentCursor.close();
+
+        return newsContent;
+    }
+
+//    private List<String> queryNewsContentTextsByGuid(String guid) {
+//        Cursor newsContentTextsCursor = mDatabase.query(
+//                NewsContentTextEntry.TABLE_NAME,
+//                null,
+//                NewsContentTextEntry.COLUMN_NAME_GUID + "=?",
+//                new String[]{ guid },
+//                null, null, NewsContentTextEntry.COLUMN_NAME_INDEX);
+//        newsContentTextsCursor.moveToFirst();
+//
+//        List<String> texts = new ArrayList<>();
+//        while (!newsContentTextsCursor.isAfterLast()) {
+//            String text = newsContentTextsCursor.getString(
+//                    newsContentTextsCursor.getColumnIndex(NewsContentTextEntry.COLUMN_NAME_TEXT));
+//            texts.add(text);
+//        }
+//
+//        newsContentTextsCursor.close();
+//
+//        return texts;
+//    }
+
+//    private List<NewsContentImage> queryNewsContentImagesByGuid(String guid) {
+//        Cursor newsContentImagesCursor = mDatabase.query(
+//                NewsContentImageEntry.TABLE_NAME,
+//                null,
+//                NewsContentImageEntry.COLUMN_NAME_GUID + "=?",
+//                new String[]{ guid },
+//                null, null, NewsContentImageEntry.COLUMN_NAME_INDEX);
+//        newsContentImagesCursor.moveToFirst();
+//
+//        List<NewsContentImage> images = new ArrayList<>();
+//        while (!newsContentImagesCursor.isAfterLast()) {
+//            String url = newsContentImagesCursor.getString(
+//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_IMAGE_URL));
+//            int weight = newsContentImagesCursor.getInt(
+//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_WEIGHT));
+//            int width = newsContentImagesCursor.getInt(
+//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_WIDTH));
+//            int height = newsContentImagesCursor.getInt(
+//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_HEIGHT));
+//
+//            NewsContentImage image = new NewsContentImage(url, weight, width, height);
+//            images.add(image);
+//        }
+//
+//        newsContentImagesCursor.close();
+//
+//        return images;
+//    }
+
     public void saveTopNewsImageUrlWithGuid(String imageUrl, String guid) {
         insertNewsImage(imageUrl, TOP_NEWS_FEED_INDEX, guid);
     }
@@ -214,6 +367,8 @@ public class NewsDb {
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FEED_URL_TYPE_KEY,
                 newsFeed.getNewsFeedUrl().getType().getUniqueKey());
 //        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_IS_VALID, newsFeed.containsNews());
+//        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_LINK, newsFeed.getLink());
+//        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_DESCRIPTION, newsFeed.getDescription());
 
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_LANGUAGE_CODE, newsFeed.getTopicLanguageCode());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE, newsFeed.getTopicRegionCode());
@@ -245,6 +400,8 @@ public class NewsDb {
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, news.isImageUrlChecked());
 
                 mDatabase.insert(NewsEntry.TABLE_NAME, null, newsValues);
+
+                saveNewsContentWithGuid(news);
             }
         }
     }
@@ -325,6 +482,7 @@ public class NewsDb {
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_GUID));
             String newsDescription = newsListCursor.getString(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_DESCRIPTION));
+            NewsContent newsContent = queryNewsContentByGuid(guid);
             String newsImageUrl = newsListCursor.getString(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL));
             int newsImageUrlCheckedInt = newsListCursor.getInt(
@@ -338,6 +496,7 @@ public class NewsDb {
             news.setDescription(newsDescription);
             news.setImageUrl(newsImageUrl);
             news.setImageUrlChecked(newsImageUrlChecked);
+            news.setNewsContent(newsContent);
 
             newsList.add(news);
 
@@ -358,7 +517,7 @@ public class NewsDb {
         mDatabase.execSQL("DELETE FROM " + NewsEntry.TABLE_NAME);
     }
 
-    public static void copyDbToExternalStorate(Context context) {
+    public static void copyDbToExternalStorage(Context context) {
         String dbFilePath = context.getDatabasePath(NewsDbHelper.DB_NAME).toString();
         File outputFile = ExternalStorage.createFileInExternalDirectory(context,
                 NewsDbHelper.DB_NAME);

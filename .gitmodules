@@ -5,3 +5,7 @@
 	path = libraries/OrientationAdView
 	url = https://crowjdh@github.com/crowjdh/OrientationAdView.git
 	branch = develop
+[submodule "libraries/Snacktory_Android"]
+	path = libraries/Snacktory_Android
+	url = https://crowjdh@github.com/crowjdh/Snacktory_Android.git
+	branch = master

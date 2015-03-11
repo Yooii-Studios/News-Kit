@@ -30,7 +30,7 @@ public class NewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        if (mNews.isImageUrlChecked()) {
+        if (mNews.hasImageUrl()) {
             return mNews.getImageUrl();
         } else {
             return NewsFeedImageUrlFetchUtil.getImageUrl(mNews);
@@ -43,8 +43,8 @@ public class NewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
         if (isCancelled()) {
             return;
         }
-//        mNews.setImageUrl(url);
-//        mNews.setImageUrlChecked(true);
+        mNews.setImageUrl(url);
+        mNews.setImageUrlChecked(true);
         if (mListener != null) {
             mListener.onImageUrlFetch(mNews, url, mNewsFeedPosition, mNewsPosition);
         }

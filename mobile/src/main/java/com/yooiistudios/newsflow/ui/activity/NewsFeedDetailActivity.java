@@ -898,8 +898,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     @Override
     public void onImageUrlFetchSuccess(News news, String url) {
-        news.setImageUrl(url);
-        news.setImageUrlChecked(true);
+//        news.setImageUrl(url);
+//        news.setImageUrlChecked(true);
 
         // 아카이빙을 위해 임시로 top news 를 news feed 에 추가.
         mNewsFeed.addNewsAt(0, news);
@@ -913,7 +913,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     public void onImageUrlFetchFail(News news) {
         configAfterRefreshDone();
 
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
 
         applyImage();
     }

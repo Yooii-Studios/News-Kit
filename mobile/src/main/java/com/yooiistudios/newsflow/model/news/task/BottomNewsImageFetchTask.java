@@ -46,7 +46,8 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String imageUrl) {
         super.onPostExecute(imageUrl);
-
+        mNews.setImageUrl(imageUrl);
+        mNews.setImageUrlChecked(true);
         if (mListener != null) {
             mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
 

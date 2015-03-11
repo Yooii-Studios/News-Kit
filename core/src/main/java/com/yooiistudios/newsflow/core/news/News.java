@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +30,7 @@ public class News implements Comparable<News>, Parcelable {
     private String mImageUrl;
     private boolean mImageUrlChecked;
     private String mOriginalDescription;
+    private NewsContent mNewsContent = NewsContent.createEmptyObject();
 
     public News() {
         mImageUrlChecked = false;
@@ -43,7 +47,9 @@ public class News implements Comparable<News>, Parcelable {
         mImageUrl = source.readString();
         mImageUrlChecked = source.readInt() == 1;
         mOriginalDescription = source.readString();
+        mNewsContent = source.readParcelable(NewsContent.class.getClassLoader());
     }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mTitle);
@@ -55,13 +61,13 @@ public class News implements Comparable<News>, Parcelable {
         dest.writeString(mImageUrl);
         dest.writeInt(mImageUrlChecked ? 1 : 0); // 1 for true
         dest.writeString(mOriginalDescription);
+        dest.writeParcelable(mNewsContent, flags);
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-
 
     public static final Parcelable.Creator<News> CREATOR = new Parcelable
             .Creator<News>() {
@@ -152,14 +158,35 @@ public class News implements Comparable<News>, Parcelable {
         return mImageUrl;
     }
 
+    public boolean hasImageUrl() {
+        return mImageUrl != null && mImageUrl.length() > 0;
+    }
+
     public boolean isImageUrlChecked() {
         return mImageUrlChecked;
     }
+
     public void setImageUrlChecked(boolean checked) {
         mImageUrlChecked = checked;
     }
 
     public void setOriginalDescription(String originalDescription) {
         mOriginalDescription = originalDescription;
+    }
+
+    public NewsContent getNewsContent() {
+        NewsContent newsContent = mNewsContent;
+        if (newsContent == null) {
+            newsContent = NewsContent.createEmptyObject();
+        }
+        return newsContent;
+    }
+
+    public void setNewsContent(NewsContent newsContent) {
+        mNewsContent = newsContent;
+    }
+
+    public boolean hasNewsContent() {
+        return !getNewsContent().getFetchState().equals(NewsContentFetchState.NOT_FETCHED_YET);
     }
 }

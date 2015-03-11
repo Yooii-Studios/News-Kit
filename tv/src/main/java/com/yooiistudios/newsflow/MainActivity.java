@@ -20,14 +20,15 @@ import android.os.Bundle;
 
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.news.task.NewsContentFetchManager;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
-import com.yooiistudios.newsflow.model.news.task.NewsImageUrlFetchManager;
 import com.yooiistudios.newsflow.reference.R;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  */
 public class MainActivity extends Activity
         implements NewsFeedsFetchManager.OnFetchListener,
-        NewsImageUrlFetchManager.OnFetchListener {
+        NewsContentFetchManager.OnFetchListener {
 
     /**
      * Called when the activity is first created.
@@ -93,29 +94,35 @@ public class MainActivity extends Activity
         MainFragment fragment = getMainFragment();
         fragment.applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
 
-        NewsImageUrlFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
+        NewsContentFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
+//        NewsImageUrlFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
+    }
+
+//    @Override
+//    public void onFetchTopNewsFeedImageUrl(News news, String url, int newsIndex) {
+//        MainFragment fragment = getMainFragment();
+//        fragment.configOnTopNewsImageUrlLoad(news, url, newsIndex);
+//    }
+//
+//    @Override
+//    public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedIndex, int newsIndex) {
+//        MainFragment fragment = getMainFragment();
+//        fragment.configOnBottomNewsImageUrlLoad(news, url, newsFeedIndex, newsIndex);
+//    }
+
+    @Override
+    public void onFetchTopNewsContent(News news, NewsContent newsContent, int newsPosition) {
+        MainFragment fragment = getMainFragment();
+//        fragment.configOnTopNewsImageUrlLoad(news, newsContent.getImageUrl(), newsPosition);
+        fragment.configOnTopNewsContentLoad(news, newsPosition);
     }
 
     @Override
-    public void onFetchTopNewsFeedImageUrl(News news, String url, int newsIndex) {
-//        NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed();
-//
-//        MainFragment fragment = getMainFragment();
-//        fragment.applyTopNewsImageUrlAt(url, newsIndex);
-
+    public void onFetchBottomNewsContent(News news, NewsContent newsContent,
+                                         int newsFeedPosition, int newsPosition) {
         MainFragment fragment = getMainFragment();
-        fragment.configOnTopNewsImageUrlLoad(news, url, newsIndex);
+//        fragment.configOnBottomNewsImageUrlLoad(news, newsContent.getImageUrl(),
+//                newsFeedPosition, newsPosition);
+        fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
     }
-
-    @Override
-    public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedIndex, int newsIndex) {
-//        NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedAt(, newsFeedIndex);
-//
-//        MainFragment fragment = getMainFragment();
-//        fragment.applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
-
-        MainFragment fragment = getMainFragment();
-        fragment.configOnBottomNewsImageUrlLoad(news, url, newsFeedIndex, newsIndex);
-    }
-
 }

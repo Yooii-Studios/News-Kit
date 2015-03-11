@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.task.NewsImageUrlFetchTask;
-import com.yooiistudios.newsflow.core.util.IntegerMath;
+import com.yooiistudios.newsflow.core.news.util.NewsIdGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,29 +109,6 @@ public class NewsImageUrlFetchManager implements NewsImageUrlFetchTask.OnImageUr
             mBottomNewsImageUrlFetchTasks.remove(uniqueId);
             if (mListener != null) {
                 mListener.onFetchBottomNewsFeedImageUrl(news, url, newsFeedPosition, newsPosition);
-            }
-        }
-    }
-
-    private static class NewsIdGenerator {
-        private static final int DIGIT_PER_ID = 8;
-        // MAX_ID_VALUE : 255
-        private static final int MAX_ID_VALUE = (int)Math.pow(2, DIGIT_PER_ID) - 1;
-        private static final int MIN_ID_VALUE = 0;
-
-        private static String generateKey(int newsFeedPosition, int newsPosition) {
-            checkPositionRange(newsFeedPosition);
-            checkPositionRange(newsPosition);
-
-            String newsFeedId = IntegerMath.convertToBitPresentation(newsFeedPosition);
-            String newsId = IntegerMath.convertToBitPresentation(newsPosition);
-
-            return newsFeedId + newsId;
-        }
-
-        private static void checkPositionRange(int position){
-            if (position < MIN_ID_VALUE || position > MAX_ID_VALUE) {
-                throw new RuntimeException();
             }
         }
     }

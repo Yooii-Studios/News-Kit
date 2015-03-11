@@ -41,4 +41,32 @@ public class NewsDbContract {
         public static final String COLUMN_NAME_IMAGE_URL = "image_url";
         public static final String COLUMN_NAME_IMAGE_URL_CHECKED = "image_url_checked";
     }
+
+    public static abstract class NewsContentEntry implements BaseColumns {
+        public static final String TABLE_NAME = "news_content_list";
+        public static final String COLUMN_NAME_GUID = "guid";
+        public static final String COLUMN_NAME_URL = "url";
+        public static final String COLUMN_NAME_TITLE = "title";
+        public static final String COLUMN_NAME_TEXT = "text";
+//        public static final String COLUMN_NAME_IMAGE_URL = "image_url";
+        public static final String COLUMN_NAME_VIDEO_URL = "video_url";
+        public static final String COLUMN_NAME_FETCH_STATE = "fetch_state";
+    }
+
+//    public static abstract class NewsContentTextEntry implements BaseColumns {
+//        public static final String TABLE_NAME = "news_content_text";
+//        public static final String COLUMN_NAME_INDEX = "position";
+//        public static final String COLUMN_NAME_GUID = "guid";
+//        public static final String COLUMN_NAME_TEXT = "text";
+//    }
+
+//    public static abstract class NewsContentImageEntry implements BaseColumns {
+//        public static final String TABLE_NAME = "news_content_image";
+//        public static final String COLUMN_NAME_INDEX = "position";
+//        public static final String COLUMN_NAME_GUID = "guid";
+//        public static final String COLUMN_NAME_IMAGE_URL = "image_url";
+//        public static final String COLUMN_NAME_WEIGHT = "weight";
+//        public static final String COLUMN_NAME_WIDTH = "width";
+//        public static final String COLUMN_NAME_HEIGHT = "height";
+//    }
 }
