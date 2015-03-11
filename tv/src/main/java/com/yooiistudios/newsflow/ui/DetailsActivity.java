@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
-import com.yooiistudios.newsflow.reference.R;
+import com.yooiistudios.newsflow.MainFragment;
+import com.yooiistudios.newsflow.R;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 6.
@@ -19,7 +20,18 @@ public class DetailsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(getLayoutId());
+    }
+
+    private int getLayoutId() {
+        String contentToShow = getIntent().getExtras().getString(MainFragment.DETAIL_CONTENT_KEY);
+        int layoutId;
+        if (contentToShow.equals(MainFragment.DETAIL_REFINED_CONTENT)) {
+            layoutId = R.layout.activity_details;
+        } else {
+            layoutId = R.layout.activity_details_web;
+        }
+        return layoutId;
     }
 
     @Override

@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -44,9 +45,9 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
 import com.yooiistudios.newsflow.reference.CardPresenter;
 import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.reference.R;
 import com.yooiistudios.newsflow.ui.DetailsActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 
@@ -63,6 +64,9 @@ public class MainFragment extends NewsBrowseFragment {
 
     public static final String NEWS_ARG_KEY = "news_arg_key";
     public static final String TRANSITION_PROPERTY_ARG_KEY = "transition_property_arg_key";
+    public static final String DETAIL_CONTENT_KEY = "detail_content_key";
+    public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
+    public static final String DETAIL_WEB_CONTENT = "detail_web_content";
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -116,6 +120,7 @@ public class MainFragment extends NewsBrowseFragment {
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+        gridRowAdapter.add(getResources().getString(R.string.detail_mode));
         gridRowAdapter.add(getResources().getString(R.string.remove_db));
         gridRowAdapter.add(getResources().getString(R.string.copy_db));
         gridRowAdapter.add(getString(R.string.error_fragment));
@@ -285,7 +290,10 @@ public class MainFragment extends NewsBrowseFragment {
                 ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(NEWS_ARG_KEY, ((News) item).getLink());
+                intent.putExtra(NEWS_ARG_KEY, ((News) item));
+                intent.putExtra(DETAIL_CONTENT_KEY,
+                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
+//                intent.putExtra(NEWS_ARG_KEY, ((News) item).getLink());
                 intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
@@ -295,6 +303,11 @@ public class MainFragment extends NewsBrowseFragment {
                     NewsDb.copyDbToExternalStorage(getActivity());
                 } else if (((String) item).indexOf(getString(R.string.remove_db)) >= 0) {
                     NewsDb.getInstance(getActivity()).clearArchive();
+                } else if (((String) item).indexOf(getString(R.string.detail_mode)) >= 0) {
+                    DebugSharedPreferencesUtil.toggleDetailActivityMode(getActivity());
+                    String currentMode =
+                            DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
+                    Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
                 }
             }
         }

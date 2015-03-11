@@ -29,7 +29,6 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.news.task.NewsContentFetchManager;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
-import com.yooiistudios.newsflow.reference.R;
 
 import java.util.ArrayList;
 
