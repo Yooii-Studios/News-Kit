@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.yooiistudios.newsflow.R;
+
 /*
  * BrowseErrorActivity shows how to use ErrorFragment
  */

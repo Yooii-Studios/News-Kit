@@ -17,6 +17,8 @@ package com.yooiistudios.newsflow.reference;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.yooiistudios.newsflow.R;
+
 /*
  * Details activity class that loads LeanbackDetailsFragment class
  */

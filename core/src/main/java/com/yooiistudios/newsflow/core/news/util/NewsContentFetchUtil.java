@@ -4,6 +4,8 @@ import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.snacktoryandroid.HtmlFetcher;
 import com.yooiistudios.snacktoryandroid.JResult;
 
+import java.util.List;
+
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 10.
  *
@@ -19,6 +21,7 @@ public class NewsContentFetchUtil {
         NewsContentFetchResult fetchResult = new NewsContentFetchResult();
         try {
             JResult result = new HtmlFetcher().fetchAndExtract(url, 30000, true);
+            result.setText(getTextWithBreakLine(result));
             fetchResult.newsContent = new NewsContent(result);
             fetchResult.imageUrl = result.getImageUrl();
         } catch (Exception e) {
@@ -27,6 +30,20 @@ public class NewsContentFetchUtil {
         }
 
         return fetchResult;
+    }
+
+    private static String getTextWithBreakLine(JResult result) {
+        StringBuilder builder = new StringBuilder();
+        List<String> textList = result.getTextList();
+        int textLineCount = textList.size();
+        for (int i = 0; i < textLineCount; i++) {
+            builder.append(textList.get(i));
+            if (i < textLineCount - 1) {
+                builder.append("\n\n");
+            }
+        }
+
+        return builder.toString();
     }
 
     public static class NewsContentFetchResult {

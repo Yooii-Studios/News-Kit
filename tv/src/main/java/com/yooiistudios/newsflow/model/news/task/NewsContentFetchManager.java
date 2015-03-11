@@ -76,7 +76,11 @@ public class NewsContentFetchManager implements NewsContentFetchTask.OnContentFe
 
         ArrayList<News> topNewsList = topNewsFeed.getNewsList();
         for (int i = 0; i < topNewsList.size(); i++) {
-            mTopNewsContentFetchTask = new NewsContentFetchTask(topNewsList.get(i), this,
+            News news = topNewsList.get(i);
+            if (news.hasNewsContent()) {
+                continue;
+            }
+            mTopNewsContentFetchTask = new NewsContentFetchTask(news, this,
                     TOP_FETCH_TASK_INDEX, i);
             mTopNewsContentFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -86,6 +90,9 @@ public class NewsContentFetchManager implements NewsContentFetchTask.OnContentFe
             ArrayList<News> newsList = newsFeed.getNewsList();
             for (int j = 0; j < newsList.size(); j++) {
                 News news = newsList.get(j);
+                if (news.hasNewsContent()) {
+                    continue;
+                }
 
                 int newsFeedTaskId = BOTTOM_FETCH_TASK_START_INDEX + i;
                 NewsContentFetchTask task = new NewsContentFetchTask(news, this, newsFeedTaskId, j);

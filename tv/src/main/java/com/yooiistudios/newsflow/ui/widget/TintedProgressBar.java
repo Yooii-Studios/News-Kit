@@ -5,7 +5,7 @@ import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
-import com.yooiistudios.newsflow.reference.R;
+import com.yooiistudios.newsflow.R;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 6.
