@@ -1,5 +1,6 @@
 package com.yooiistudios.newsflow.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.Utils;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsDetailsContentActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDetailsDescriptionPresenter;
 
 import java.io.IOException;
@@ -38,6 +40,8 @@ public class NewsDetailsFragment extends DetailsFragment {
 
     private static final int DETAIL_THUMB_WIDTH = 273;
     private static final int DETAIL_THUMB_HEIGHT = 273;
+
+    public static final String ARG_NEWS_KEY = "arg_news_key";
 
     private News mNews;
 //    private String mLink;
@@ -59,7 +63,7 @@ public class NewsDetailsFragment extends DetailsFragment {
     }
 
     private void initNews() {
-        mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.NEWS_ARG_KEY);
+        mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.ARG_NEWS_KEY);
     }
 
     private void initMetrics() {
@@ -113,7 +117,7 @@ public class NewsDetailsFragment extends DetailsFragment {
         protected void onPostExecute(DetailsOverviewRow detailRow) {
             ClassPresenterSelector ps = new ClassPresenterSelector();
             // set detail background and style
-            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background_dark));
+            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
             mDorPresenter.setStyleLarge(true);
             mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
                 @Override
@@ -125,7 +129,9 @@ public class NewsDetailsFragment extends DetailsFragment {
 //                        startActivity(intent);
                         Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
                     } else if (action.getId() == ACTION_SEE_CONTENT){
-                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), NewsDetailsContentActivity.class);
+                        intent.putExtra(ARG_NEWS_KEY, mNews);
+                        startActivity(intent);
                     }
                 }
             });

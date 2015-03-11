@@ -41,7 +41,7 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Context context) {
         super();
         mContext = context;
-        mErrorCardImage = context.getResources().getDrawable(R.drawable.ic_launcher);
+        mErrorCardImage = context.getResources().getDrawable(R.drawable.news_dummy2);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CardPresenter extends Presenter {
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.detail_background_dark));
+        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.card_background_dark));
 
         return new NewsViewHolder(cardView);
     }
@@ -94,7 +94,7 @@ public class CardPresenter extends Presenter {
                     .error(mErrorCardImage)
                     .into(newsViewHolder.picassoTarget);
         } else {
-            newsViewHolder.imageCardView.setMainImage(null);
+            newsViewHolder.imageCardView.setMainImage(mErrorCardImage);
         }
     }
 

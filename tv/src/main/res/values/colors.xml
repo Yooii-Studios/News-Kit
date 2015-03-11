@@ -1,4 +1,10 @@
 <resources>
+    <color name="brand_color">@color/material_light_blue_A700</color>
+    <color name="card_background">@color/material_grey_700</color>
+    <color name="card_background_dark">@color/material_grey_900</color>
+    <color name="detail_background">@color/material_grey_900</color>
+
+    <!-- legacy -->
     <color name="background_gradient_start">#000000</color>
     <color name="background_gradient_end">#DDDDDD</color>
     <color name="fastlane_background">#0096a6</color>
@@ -13,10 +19,4 @@
     <color name="orange_transparent">#AAFADCA7</color>
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
-
-
-
-    <color name="brand_color">@color/material_light_blue_A700</color>
-    <color name="detail_background">@color/material_grey_700</color>
-    <color name="detail_background_dark">@color/material_grey_900</color>
 </resources>

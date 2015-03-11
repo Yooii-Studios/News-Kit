@@ -50,7 +50,7 @@ public class NewsDetailsWebFragment extends Fragment implements HTML5WebView.HTM
     }
 
     private void initNews() {
-        mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.NEWS_ARG_KEY);
+        mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.ARG_NEWS_KEY);
 //        mLink = getActivity().getIntent().getExtras().getString(DetailsFragment.NEWS_LINK_ARG);
     }
 

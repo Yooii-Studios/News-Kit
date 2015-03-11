@@ -64,7 +64,7 @@ public class MainFragment extends NewsBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
 
-    public static final String NEWS_ARG_KEY = "news_arg_key";
+    public static final String ARG_NEWS_KEY = "arg_news_key";
     public static final String TRANSITION_PROPERTY_ARG_KEY = "transition_property_arg_key";
     public static final String DETAIL_CONTENT_KEY = "detail_content_key";
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
@@ -291,13 +291,13 @@ public class MainFragment extends NewsBrowseFragment {
 //                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
-                intent.putExtra(NEWS_ARG_KEY, ((News) item));
+                intent.putExtra(ARG_NEWS_KEY, ((News) item));
 
                 // debug
 //                intent.putExtra(DETAIL_CONTENT_KEY,
 //                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
 
-//                intent.putExtra(NEWS_ARG_KEY, ((News) item).getLink());
+//                intent.putExtra(ARG_NEWS_KEY, ((News) item).getLink());
 //                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
@@ -407,7 +407,7 @@ public class MainFragment extends NewsBrowseFragment {
             view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
             view.setFocusable(true);
             view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.detail_background));
+            view.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
             view.setTextColor(getResources().getColor(R.color.material_white_primary_text));
             view.setGravity(Gravity.CENTER);
             return new ViewHolder(view);
