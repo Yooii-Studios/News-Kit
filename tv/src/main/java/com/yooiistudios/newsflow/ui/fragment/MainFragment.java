@@ -219,8 +219,7 @@ public class MainFragment extends NewsBrowseFragment {
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
 
-        // set fastLane (or headers) background color
-        setBrandColor(getResources().getColor(R.color.material_light_blue_800));
+        setBrandColor(getResources().getColor(R.color.brand_color));
 
         // set search icon color
 //        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
@@ -408,7 +407,7 @@ public class MainFragment extends NewsBrowseFragment {
             view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
             view.setFocusable(true);
             view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.material_grey_800));
+            view.setBackgroundColor(getResources().getColor(R.color.detail_background));
             view.setTextColor(getResources().getColor(R.color.material_white_primary_text));
             view.setGravity(Gravity.CENTER);
             return new ViewHolder(view);

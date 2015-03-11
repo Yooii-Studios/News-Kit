@@ -70,7 +70,6 @@ public class NewsDetailsFragment extends DetailsFragment {
     private void initPresenter() {
         mDorPresenter =
                 new DetailsOverviewRowPresenter(new NewsDetailsDescriptionPresenter());
-
         mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute();
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
                 NewsDetailsActivity.SHARED_ELEMENT_NAME);
@@ -114,7 +113,7 @@ public class NewsDetailsFragment extends DetailsFragment {
         protected void onPostExecute(DetailsOverviewRow detailRow) {
             ClassPresenterSelector ps = new ClassPresenterSelector();
             // set detail background and style
-            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
+            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background_dark));
             mDorPresenter.setStyleLarge(true);
             mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
                 @Override

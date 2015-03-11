@@ -32,7 +32,6 @@ import com.yooiistudios.newsflow.ui.widget.PicassoImageCardViewTarget;
  * It contains an Image CardView
  */
 public class CardPresenter extends Presenter {
-    private static final String TAG = "CardPresenter";
     private static int CARD_WIDTH = 380;
     private static int CARD_HEIGHT = 180;
 
@@ -50,7 +49,7 @@ public class CardPresenter extends Presenter {
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.material_grey_500));
+        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.detail_background_dark));
 
         return new NewsViewHolder(cardView);
     }
