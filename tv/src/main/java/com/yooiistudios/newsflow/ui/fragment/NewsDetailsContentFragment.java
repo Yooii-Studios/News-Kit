@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Fragment;
 import android.graphics.drawable.Drawable;
@@ -15,12 +15,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.yooiistudios.newsflow.MainFragment;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
-import com.yooiistudios.newsflow.ui.animation.DetailsTransitionUtils;
 import com.yooiistudios.newsflow.ui.widget.PicassoImageViewTarget;
 
 import butterknife.ButterKnife;
@@ -31,11 +29,11 @@ import lombok.experimental.Accessors;
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 6.
  *
- * DetailsFragment
+ * NewsDetailsContentFragment
  *  뉴스 링크를 웹에서 볼 수 있는 프래그먼트
  */
 @Accessors(prefix = "m")
-public class DetailsFragment extends Fragment {
+public class NewsDetailsContentFragment extends Fragment {
     public static final String NEWS_LINK_ARG = "news_link_arg";
 
     @Getter @InjectView(R.id.details_layout) FrameLayout mLayout;
@@ -54,7 +52,7 @@ public class DetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_details,  container, false);
+        View root = inflater.inflate(R.layout.fragment_details_content,  container, false);
         ButterKnife.inject(this, root);
 
         initVariables();
@@ -62,7 +60,7 @@ public class DetailsFragment extends Fragment {
         initUIElements();
         initScrollView();
 
-        DetailsTransitionUtils.runEnterAnimation(this);
+//        DetailsTransitionUtils.runEnterAnimation(this);
 
         loadImageOnImageViewSizeFix();
 
@@ -71,12 +69,11 @@ public class DetailsFragment extends Fragment {
 
     private void initVariables() {
         mTopImageTarget = new PicassoImageViewTarget(mTopImageView);
-        mDefaultCardImage = getActivity().getResources().getDrawable(R.drawable.movie);
+        mDefaultCardImage = getActivity().getResources().getDrawable(R.drawable.news_dummy2);
     }
 
     private void initNews() {
-        mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.NEWS_ARG_KEY);
-//        mLink = getActivity().getIntent().getExtras().getString(MainFragment.NEWS_ARG_KEY);
+        mNews = getActivity().getIntent().getExtras().getParcelable(NewsDetailsFragment.ARG_NEWS_KEY);
     }
 
     private void initUIElements() {

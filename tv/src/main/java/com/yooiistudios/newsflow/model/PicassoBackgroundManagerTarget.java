@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow.reference;
+package com.yooiistudios.newsflow.model;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -55,10 +55,7 @@ public class PicassoBackgroundManagerTarget implements Target {
 
         PicassoBackgroundManagerTarget that = (PicassoBackgroundManagerTarget) o;
 
-        if (!mBackgroundManager.equals(that.mBackgroundManager))
-            return false;
-
-        return true;
+        return mBackgroundManager.equals(that.mBackgroundManager);
     }
 
     @Override

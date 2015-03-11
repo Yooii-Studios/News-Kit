@@ -12,13 +12,12 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow.reference;
+package com.yooiistudios.newsflow.ui.presenter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,7 +32,6 @@ import com.yooiistudios.newsflow.ui.widget.PicassoImageCardViewTarget;
  * It contains an Image CardView
  */
 public class CardPresenter extends Presenter {
-    private static final String TAG = "CardPresenter";
     private static int CARD_WIDTH = 380;
     private static int CARD_HEIGHT = 180;
 
@@ -43,16 +41,15 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Context context) {
         super();
         mContext = context;
-        mErrorCardImage = context.getResources().getDrawable(R.drawable.ic_launcher);
+        mErrorCardImage = context.getResources().getDrawable(R.drawable.news_dummy2);
     }
 
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent) {
-        Log.d(TAG, "onCreateViewHolder");
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.fastlane_background));
+        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.card_background_dark));
 
         return new NewsViewHolder(cardView);
     }
@@ -78,7 +75,8 @@ public class CardPresenter extends Presenter {
 //        imageCardView.setContentText(news.getDescription());
         String url = news.getImageUrl();
         String message = url != null ? url : "no url";
-        imageCardView.setContentText(message);
+        imageCardView.setContentText(url);
+//        imageCardView.setContentText("53 min before");
         imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
@@ -96,7 +94,7 @@ public class CardPresenter extends Presenter {
                     .error(mErrorCardImage)
                     .into(newsViewHolder.picassoTarget);
         } else {
-            newsViewHolder.imageCardView.setMainImage(null);
+            newsViewHolder.imageCardView.setMainImage(mErrorCardImage);
         }
     }
 
@@ -113,6 +111,5 @@ public class CardPresenter extends Presenter {
             imageCardView = (ImageCardView) view;
             picassoTarget = new PicassoImageCardViewTarget(imageCardView);
         }
-
     }
 }

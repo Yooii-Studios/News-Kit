@@ -3,7 +3,7 @@ package com.yooiistudios.newsflow.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.yooiistudios.newsflow.MainFragment;
+import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 11.

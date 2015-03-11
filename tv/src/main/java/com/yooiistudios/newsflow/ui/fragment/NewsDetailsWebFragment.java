@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.yooiistudios.newsflow.MainFragment;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.ui.HTML5WebView;
@@ -28,14 +27,12 @@ import butterknife.InjectView;
  * WebFragment
  *  뉴스 링크를 웹에서 볼 수 있는 프래그먼트
  */
-public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
+public class NewsDetailsWebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
     @InjectView(R.id.details_layout) FrameLayout mContainer;
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
 
     private HTML5WebView mWebView;
-    // FIXME: link 를 주고 받지 않고 추후에는 뉴스 자체를 받을 수 있게 구현하자
     private News mNews;
-//    private String mLink;
 
     @Nullable
     @Override
@@ -51,13 +48,7 @@ public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCa
     }
 
     private void initNews() {
-        mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.NEWS_ARG_KEY);
-//        mLink = getActivity().getIntent().getExtras().getString(DetailsFragment.NEWS_LINK_ARG);
-    }
-
-    // FIXME: 액티비티의 onAttachFragment 에서 처리하게 변경해주자
-    public void setNews(News news) {
-        mNews = news;
+        mNews = getActivity().getIntent().getExtras().getParcelable(NewsDetailsFragment.ARG_NEWS_KEY);
     }
 
     private void initWebView() {
@@ -75,22 +66,9 @@ public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCa
         // 특정 버전 밑에서는 돌아가서 적었음
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
-        // http://star.mk.co.kr/v2/view.php?sc=40900001&year=2015&no=215662
-//        mWebView.loadUrl(mNews.getLink());
-//        webView.loadUrl("http://star.mk.co.kr/v2/view.php?sc=40900001&year=2015&no=215662");
-//        webView.loadUrl("http://edition.cnn.com/2015/03/05/world/jihadi-john-terror-network/index.html");
-//        mWebView.loadUrl("http://www.nytimes.com/2015/03/06/us/in-ferguson-some-who-are-part-of-problem-are-asked-to-be-part-of-solution.html?hp&action=click&pgtype=Homepage&module=a-lede-package-region&region=top-news&WT.nav=top-news&_r=0");
         if (mNews.getLink() != null) {
             mWebView.loadUrl(mNews.getLink());
         }
-
-        mWebView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                NLLog.now("onKey: " + keyCode);
-                return false;
-            }
-        });
     }
 
     private void initProgressBar() {

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.NewsBrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -30,6 +31,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,18 +39,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
-import com.yooiistudios.newsflow.reference.CardPresenter;
-import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.ui.DetailsActivity;
+import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
+import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
+import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class MainFragment extends NewsBrowseFragment {
     private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
 
-    public static final String NEWS_ARG_KEY = "news_arg_key";
+    public static final String ARG_NEWS_KEY = "arg_news_key";
     public static final String TRANSITION_PROPERTY_ARG_KEY = "transition_property_arg_key";
     public static final String DETAIL_CONTENT_KEY = "detail_content_key";
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
@@ -217,8 +219,7 @@ public class MainFragment extends NewsBrowseFragment {
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
 
-        // set fastLane (or headers) background color
-        setBrandColor(getResources().getColor(R.color.material_light_blue_800));
+        setBrandColor(getResources().getColor(R.color.brand_color));
 
         // set search icon color
 //        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
@@ -287,16 +288,24 @@ public class MainFragment extends NewsBrowseFragment {
             if (item instanceof News) {
                 NLLog.now("item instanceof News");
 
-                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
+//                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(NEWS_ARG_KEY, ((News) item));
-                intent.putExtra(DETAIL_CONTENT_KEY,
-                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
-//                intent.putExtra(NEWS_ARG_KEY, ((News) item).getLink());
-                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+                Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+                intent.putExtra(ARG_NEWS_KEY, ((News) item));
+
+                // debug
+//                intent.putExtra(DETAIL_CONTENT_KEY,
+//                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
+
+//                intent.putExtra(ARG_NEWS_KEY, ((News) item).getLink());
+//                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                        NewsDetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                startActivity(intent, bundle);
             }
             if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
@@ -398,7 +407,7 @@ public class MainFragment extends NewsBrowseFragment {
             view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
             view.setFocusable(true);
             view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.material_grey_800));
+            view.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
             view.setTextColor(getResources().getColor(R.color.material_white_primary_text));
             view.setGravity(Gravity.CENTER);
             return new ViewHolder(view);

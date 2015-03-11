@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">News Flow</string>
 
+    <!-- Details -->
+    <string name="open_link">Open Link</string>
+    <string name="see_content">See Content</string>
+
     <!-- Legacy -->
     <string name="browse_title"><![CDATA[Videos by Your Company]]></string>
     <string name="related_movies">Related Videos</string>

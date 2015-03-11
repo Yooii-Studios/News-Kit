@@ -11,12 +11,12 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
-import com.yooiistudios.newsflow.MainFragment;
+import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 import com.yooiistudios.newsflow.core.ui.animation.AnimatorListenerImpl;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
-import com.yooiistudios.newsflow.ui.DetailsFragment;
+import com.yooiistudios.newsflow.ui.fragment.NewsDetailsContentFragment;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 10.
@@ -28,21 +28,21 @@ public class DetailsTransitionUtils {
     private ScrollView mScrollView;
     private ActivityTransitionProperty mTransitionProperty;
 
-    private DetailsTransitionUtils(DetailsFragment fragment) {
+    private DetailsTransitionUtils(NewsDetailsContentFragment fragment) {
         initViews(fragment);
         initTransitionProperty(fragment);
     }
 
-    public static void runEnterAnimation(DetailsFragment fragment) {
+    public static void runEnterAnimation(NewsDetailsContentFragment fragment) {
         new DetailsTransitionUtils(fragment).requestActivityTransition();
     }
 
-    private void initViews(DetailsFragment fragment) {
+    private void initViews(NewsDetailsContentFragment fragment) {
         mContainerLayout = fragment.getLayout();
         mScrollView = fragment.getScrollView();
     }
 
-    private void initTransitionProperty(DetailsFragment fragment) {
+    private void initTransitionProperty(NewsDetailsContentFragment fragment) {
         String transitionPropertyStr = fragment.getActivity().getIntent().getExtras().getString(
                 MainFragment.TRANSITION_PROPERTY_ARG_KEY);
         mTransitionProperty = new Gson().fromJson(transitionPropertyStr, ActivityTransitionProperty.class);

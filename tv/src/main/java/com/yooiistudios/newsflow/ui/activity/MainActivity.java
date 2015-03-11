@@ -12,12 +12,14 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow;
+package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.yooiistudios.newsflow.ui.fragment.MainFragment;
+import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
