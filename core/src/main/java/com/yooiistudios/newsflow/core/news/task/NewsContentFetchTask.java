@@ -3,7 +3,7 @@ package com.yooiistudios.newsflow.core.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.core.news.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.util.NewsContentFetchUtil;
 
 /**
@@ -12,7 +12,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsContentFetchUtil;
  * NewsImageUrlFetchTask
  *  News 의 link 로부터 내용물을 추출하는 태스크
  */
-public class NewsContentFetchTask extends AsyncTask<Void, Void, NewsContent> {
+public class NewsContentFetchTask extends AsyncTask<Void, Void, NewsContentFetchUtil.NewsContentFetchResult> {
     public interface OnContentFetchListener {
         public void onContentFetch(News news, NewsContent newsContent,
                                    int newsFeedPosition, int newsPosition);
@@ -31,18 +31,20 @@ public class NewsContentFetchTask extends AsyncTask<Void, Void, NewsContent> {
     }
 
     @Override
-    protected NewsContent doInBackground(Void... voids) {
+    protected NewsContentFetchUtil.NewsContentFetchResult doInBackground(Void... voids) {
         return NewsContentFetchUtil.fetch(mNews.getLink());
     }
 
     @Override
-    protected void onPostExecute(NewsContent newsContent) {
-        super.onPostExecute(newsContent);
+    protected void onPostExecute(NewsContentFetchUtil.NewsContentFetchResult newsContentFetchResult) {
+        super.onPostExecute(newsContentFetchResult);
         if (isCancelled()) {
             return;
         }
+        mNews.setNewsContent(newsContentFetchResult.newsContent);
+        mNews.setImageUrl(newsContentFetchResult.imageUrl);
         if (mListener != null) {
-            mListener.onContentFetch(mNews, newsContent, mNewsFeedPosition, mNewsPosition);
+            mListener.onContentFetch(mNews, newsContentFetchResult.newsContent, mNewsFeedPosition, mNewsPosition);
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.yooiistudios.newsflow.core.news.util;
 
-import com.yooiistudios.newsflow.core.news.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.snacktoryandroid.HtmlFetcher;
 import com.yooiistudios.snacktoryandroid.JResult;
 
@@ -15,15 +15,22 @@ public class NewsContentFetchUtil {
         throw new AssertionError("You MUST NOT create the instance of this class!!");
     }
 
-    public static NewsContent fetch(String url) {
-        NewsContent newsContent;
+    public static NewsContentFetchResult fetch(String url) {
+        NewsContentFetchResult fetchResult = new NewsContentFetchResult();
         try {
             JResult result = new HtmlFetcher().fetchAndExtract(url, 30000, true);
-            newsContent = new NewsContent(result);
+            fetchResult.newsContent = new NewsContent(result);
+            fetchResult.imageUrl = result.getImageUrl();
         } catch (Exception e) {
-            newsContent = NewsContent.createErrorObject();
+            fetchResult.newsContent = NewsContent.createErrorObject();
+            fetchResult.imageUrl = "";
         }
 
-        return newsContent;
+        return fetchResult;
+    }
+
+    public static class NewsContentFetchResult {
+        public NewsContent newsContent;
+        public String imageUrl;
     }
 }

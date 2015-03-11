@@ -3,7 +3,7 @@ package com.yooiistudios.newsflow.model.news.task;
 import android.os.AsyncTask;
 
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.core.news.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.task.NewsContentFetchTask;
 import com.yooiistudios.newsflow.core.news.util.NewsIdGenerator;

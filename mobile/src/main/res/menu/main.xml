@@ -46,6 +46,11 @@
                   android:orderInCategory="10000"
                   android:showAsAction="never" />
 
+            <item android:id="@+id/action_copy_db"
+                  android:title="Remove Archives"
+                  android:orderInCategory="10000"
+                  android:showAsAction="never" />
+
             <item android:id="@+id/action_slow_anim"
                   android:title="Slow Activity Transition"
                   android:orderInCategory="10000"

@@ -8,15 +8,13 @@ import java.io.IOException;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 6.
+ *
+ * ExternalStorage
+ *  외장 저장소 파일 입/출력
  */
 public class ExternalStorage {
-    private static final String SD_CARD_FOLDER_PATH = "/Path Finder";
+    private static final String SD_CARD_FOLDER_PATH = "/NewsFlow";
 
-    /**
-     *
-     * @param fileName
-     * @return null if file not exists.
-     */
     public static File getFileFromExternalDirectory(String fileName) {
         if (isExternalStorageReadable() && isExternalStorageWritable()) {
             File f = new File(createExternalDirectory(), fileName);
@@ -28,6 +26,7 @@ public class ExternalStorage {
 
         return null;
     }
+
     public static boolean deleteFileFromExternalDirectory(String fileName) {
         if (isExternalStorageReadable() && isExternalStorageWritable()) {
             File f = new File(createExternalDirectory(), fileName);
@@ -40,10 +39,6 @@ public class ExternalStorage {
         return false;
     }
 
-    /**
-     * created directory as file. Make new directory if there's no directory exists.
-     * @return null if problem occurred.
-     */
     public static File createExternalDirectory() {
         if (isExternalStorageReadable() && isExternalStorageWritable()) {
             File dir = new File(Environment.getExternalStorageDirectory(), SD_CARD_FOLDER_PATH);
@@ -55,11 +50,6 @@ public class ExternalStorage {
         return null;
     }
 
-    /**
-     * create file in external directory. file deleted if exists.
-     * @param fileName
-     * @return
-     */
     public static File createFileInExternalDirectory(Context context, String fileName) {
         if (isExternalStorageReadable() && isExternalStorageWritable()) {
             try{
@@ -80,6 +70,7 @@ public class ExternalStorage {
         }
         return null;
     }
+
     private static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);

@@ -20,7 +20,7 @@ import android.os.Bundle;
 
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.core.news.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
@@ -113,14 +113,16 @@ public class MainActivity extends Activity
     @Override
     public void onFetchTopNewsContent(News news, NewsContent newsContent, int newsPosition) {
         MainFragment fragment = getMainFragment();
-        fragment.configOnTopNewsImageUrlLoad(news, newsContent.getImageUrl(), newsPosition);
+//        fragment.configOnTopNewsImageUrlLoad(news, newsContent.getImageUrl(), newsPosition);
+        fragment.configOnTopNewsContentLoad(news, newsPosition);
     }
 
     @Override
     public void onFetchBottomNewsContent(News news, NewsContent newsContent,
                                          int newsFeedPosition, int newsPosition) {
         MainFragment fragment = getMainFragment();
-        fragment.configOnBottomNewsImageUrlLoad(news, newsContent.getImageUrl(),
-                newsFeedPosition, newsPosition);
+//        fragment.configOnBottomNewsImageUrlLoad(news, newsContent.getImageUrl(),
+//                newsFeedPosition, newsPosition);
+        fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
     }
 }

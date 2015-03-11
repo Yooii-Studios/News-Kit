@@ -129,21 +129,34 @@ public class MainFragment extends NewsBrowseFragment {
         return new ListRow(header, adapter);
     }
 
-    public void configOnTopNewsImageUrlLoad(News news, String url, int newsIndex) {
-        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
-        applyTopNewsImageUrlAt(url, newsIndex);
-//        NewsDb.getInstance(getActivity()).saveTopNewsFeed(getTopNewsFeed());
+    public void configOnTopNewsContentLoad(News news, int newsIndex) {
+        NewsDb.getInstance(getActivity()).saveNewsContentWithGuid(news);
+        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(news.getImageUrl(), news.getGuid());
+        applyTopNewsImageUrlAt(news.getImageUrl(), newsIndex);
     }
 
-    public void configOnBottomNewsImageUrlLoad(News news, String url,
-                                               int newsFeedIndex, int newsIndex) {
-//        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
-        NewsDb.getInstance(getActivity()).saveBottomNewsImageUrlWithGuid(url, newsFeedIndex,
+    public void configOnBottomNewsContentLoad(News news, int newsFeedIndex, int newsIndex) {
+        NewsDb.getInstance(getActivity()).saveNewsContentWithGuid(news);
+        NewsDb.getInstance(getActivity()).saveBottomNewsImageUrlWithGuid(news.getImageUrl(), newsFeedIndex,
                 news.getGuid());
-        applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
-//        NewsDb.getInstance(getActivity()).saveBottomNewsFeedAt(
-//                getBottomNewsFeedAt(newsFeedIndex), newsFeedIndex);
+        applyBottomNewsImageUrlAt(news.getImageUrl(), newsFeedIndex, newsIndex);
     }
+
+//    public void configOnTopNewsImageUrlLoad(News news, String url, int newsIndex) {
+//        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//        applyTopNewsImageUrlAt(url, newsIndex);
+////        NewsDb.getInstance(getActivity()).saveTopNewsFeed(getTopNewsFeed());
+//    }
+
+//    public void configOnBottomNewsImageUrlLoad(News news, String url,
+//                                               int newsFeedIndex, int newsIndex) {
+////        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//        NewsDb.getInstance(getActivity()).saveBottomNewsImageUrlWithGuid(url, newsFeedIndex,
+//                news.getGuid());
+//        applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
+////        NewsDb.getInstance(getActivity()).saveBottomNewsFeedAt(
+////                getBottomNewsFeedAt(newsFeedIndex), newsFeedIndex);
+//    }
 
     private void applyTopNewsImageUrlAt(String imageUrl, int newsIndex) {
         NewsFeedAdapter adapter = getTopNewsFeedAdapter();
@@ -272,7 +285,7 @@ public class MainFragment extends NewsBrowseFragment {
             }
             if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
-                    NewsDb.copyDbToExternalStorate(getActivity());
+                    NewsDb.copyDbToExternalStorage(getActivity());
                 } else if (((String) item).indexOf(getString(R.string.remove_db)) >= 0) {
                     NewsDb.getInstance(getActivity()).clearArchive();
                 }

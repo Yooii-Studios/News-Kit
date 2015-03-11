@@ -463,7 +463,7 @@ public class MainTopContainerLayout extends FrameLayout
     public void configOnNewsImageUrlLoadedAt(String imageUrl, int idx) {
         News news = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList().get(idx);
         news.setImageUrl(imageUrl);
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
         mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(idx);
 
         mIsReady = true;
@@ -597,10 +597,10 @@ public class MainTopContainerLayout extends FrameLayout
     @Override
     public void onTopFeedImageUrlFetch(News news, String url, final int position,
                                        TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
 
         if (url != null) {
-            news.setImageUrl(url);
+//            news.setImageUrl(url);
             applyImage(url, position, taskType);
             NewsDb.getInstance(getContext()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
 //            NewsDb.getInstance(getContext()).saveTopNewsFeed(mTopNewsFeedPagerAdapter.getNewsFeed());

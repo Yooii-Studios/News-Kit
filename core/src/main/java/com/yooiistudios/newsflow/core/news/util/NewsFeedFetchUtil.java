@@ -48,6 +48,11 @@ public class NewsFeedFetchUtil {
             if (shouldTrimNewsList(newsFeed, fetchLimit)) {
                 trimNewsList(newsFeed, fetchLimit);
             }
+            for(News news : newsFeed.getNewsList()) {
+                if (news.getGuid() == null) {
+                    news.setGuid(news.getLink());
+                }
+            }
             refactorDescription(newsFeed);
         } catch(MalformedURLException| UnknownHostException e) {
             newsFeed = new NewsFeed(fetchable);
