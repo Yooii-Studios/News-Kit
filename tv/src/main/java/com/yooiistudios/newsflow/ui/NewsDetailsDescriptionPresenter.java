@@ -12,20 +12,21 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow.reference;
+package com.yooiistudios.newsflow.ui;
 
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 
-public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
+import com.yooiistudios.newsflow.core.news.News;
+
+public class NewsDetailsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
 
     @Override
     protected void onBindDescription(ViewHolder viewHolder, Object item) {
-//        Movie movie = (Movie) item;
-//
-//        if (movie != null) {
-//            viewHolder.getTitle().setText(movie.getTitle());
-//            viewHolder.getSubtitle().setText(movie.getStudio());
-//            viewHolder.getBody().setText(movie.getDescription());
-//        }
+        News news = (News) item;
+        if (news != null) {
+            viewHolder.getTitle().setText(news.getTitle());
+//            viewHolder.getSubtitle().setText(news.getDescription());
+            viewHolder.getBody().setText(news.getDescription());
+        }
     }
 }

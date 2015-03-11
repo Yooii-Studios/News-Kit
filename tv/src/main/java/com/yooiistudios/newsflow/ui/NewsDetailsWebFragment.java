@@ -28,7 +28,7 @@ import butterknife.InjectView;
  * WebFragment
  *  뉴스 링크를 웹에서 볼 수 있는 프래그먼트
  */
-public class WebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
+public class NewsDetailsWebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
     @InjectView(R.id.details_layout) FrameLayout mContainer;
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
 

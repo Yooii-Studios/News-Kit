@@ -35,7 +35,7 @@ import lombok.experimental.Accessors;
  *  뉴스 링크를 웹에서 볼 수 있는 프래그먼트
  */
 @Accessors(prefix = "m")
-public class DetailsFragment extends Fragment {
+public class NewsDetailsContentFragment extends Fragment {
     public static final String NEWS_LINK_ARG = "news_link_arg";
 
     @Getter @InjectView(R.id.details_layout) FrameLayout mLayout;

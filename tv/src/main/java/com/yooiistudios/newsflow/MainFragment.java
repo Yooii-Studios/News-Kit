@@ -23,6 +23,7 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.NewsBrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -30,6 +31,7 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,7 +39,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.core.news.News;
@@ -48,7 +49,7 @@ import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
 import com.yooiistudios.newsflow.reference.CardPresenter;
 import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.ui.DetailsActivity;
+import com.yooiistudios.newsflow.ui.NewsDetailsActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 
 import java.util.ArrayList;
@@ -287,16 +288,24 @@ public class MainFragment extends NewsBrowseFragment {
             if (item instanceof News) {
                 NLLog.now("item instanceof News");
 
-                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
+//                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
                 intent.putExtra(NEWS_ARG_KEY, ((News) item));
-                intent.putExtra(DETAIL_CONTENT_KEY,
-                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
+
+                // debug
+//                intent.putExtra(DETAIL_CONTENT_KEY,
+//                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
+
 //                intent.putExtra(NEWS_ARG_KEY, ((News) item).getLink());
-                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+//                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                        NewsDetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                startActivity(intent, bundle);
             }
             if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
