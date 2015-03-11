@@ -14,7 +14,6 @@ import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -24,6 +23,7 @@ import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.Utils;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsContentActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsDetailsWebActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDetailsDescriptionPresenter;
 
 import java.io.IOException;
@@ -123,11 +123,10 @@ public class NewsDetailsFragment extends DetailsFragment {
                 @Override
                 public void onActionClicked(Action action) {
                     if (action.getId() == ACTION_OPEN_LINK) {
-//                        Intent intent = new Intent(getActivity(), PlaybackOverlayActivity.class);
-//                        intent.putExtra(getResources().getString(R.string.movie), mSelectedMovie);
-//                        intent.putExtra(getResources().getString(R.string.should_start), true);
-//                        startActivity(intent);
-                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), NewsDetailsWebActivity.class);
+                        intent.putExtra(ARG_NEWS_KEY, mNews);
+                        startActivity(intent);
                     } else if (action.getId() == ACTION_SEE_CONTENT){
                         Intent intent = new Intent(getActivity(), NewsDetailsContentActivity.class);
                         intent.putExtra(ARG_NEWS_KEY, mNews);
