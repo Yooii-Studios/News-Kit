@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.app.Fragment;

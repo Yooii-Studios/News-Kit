@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.presenter;
 
 import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 

@@ -4,7 +4,7 @@ import android.support.v17.leanback.widget.ObjectAdapter;
 
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.reference.CardPresenter;
+import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
 
 import java.util.ArrayList;
 

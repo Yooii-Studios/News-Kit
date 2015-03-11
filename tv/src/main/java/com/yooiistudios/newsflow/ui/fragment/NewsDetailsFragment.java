@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -17,11 +17,12 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.yooiistudios.newsflow.MainFragment;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
+import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.Utils;
+import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
+import com.yooiistudios.newsflow.ui.presenter.NewsDetailsDescriptionPresenter;
 
 import java.io.IOException;
 

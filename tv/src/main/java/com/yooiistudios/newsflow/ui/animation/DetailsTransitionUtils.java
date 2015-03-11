@@ -11,12 +11,12 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
-import com.yooiistudios.newsflow.MainFragment;
+import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 import com.yooiistudios.newsflow.core.ui.animation.AnimatorListenerImpl;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
-import com.yooiistudios.newsflow.ui.NewsDetailsContentFragment;
+import com.yooiistudios.newsflow.ui.fragment.NewsDetailsContentFragment;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 10.

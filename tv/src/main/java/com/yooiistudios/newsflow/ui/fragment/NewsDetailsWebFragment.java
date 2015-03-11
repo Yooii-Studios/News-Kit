@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.yooiistudios.newsflow.MainFragment;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.ui.HTML5WebView;

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.yooiistudios.newsflow;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,15 +41,16 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
-import com.yooiistudios.newsflow.reference.CardPresenter;
-import com.yooiistudios.newsflow.reference.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.ui.NewsDetailsActivity;
+import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
+import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
+import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Fragment;
 import android.graphics.drawable.Drawable;
@@ -15,7 +15,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.yooiistudios.newsflow.MainFragment;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
