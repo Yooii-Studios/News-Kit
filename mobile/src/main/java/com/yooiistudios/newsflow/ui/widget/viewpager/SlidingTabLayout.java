@@ -30,7 +30,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.util.TypefaceUtils;
+import com.yooiistudios.newsflow.util.TypefaceUtils;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to

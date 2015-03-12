@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.util.TypefaceUtils;
+import com.yooiistudios.newsflow.util.TypefaceUtils;
 
 import java.util.ArrayList;
 
