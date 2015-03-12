@@ -463,18 +463,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mBottomNewsListRecyclerView.setLayoutParams(lp);
 //        mBottomNewsListRecyclerView.invalidate();
 //        mAdapter.notifyDataSetChanged();
-        if (Settings.isNewsFeedAutoScroll(this)) {
-            // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
-            // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
-            mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    mScrollContentWrapper.getViewTreeObserver().removeOnPreDrawListener(this);
-                    startAutoScroll();
-                    return true;
-                }
-            });
-        }
     }
 
     @Override
@@ -538,7 +526,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 item.setTitle(autoScrollString);
 
                 if (isAutoScroll) {
-                    stopAutoScroll();
                     startAutoScroll();
                 }
                 return true;
@@ -548,7 +535,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                         new DebugSettingDialogFactory.DebugSettingListener() {
                             @Override
                             public void autoScrollSettingSaved() {
-                                stopAutoScroll();
                                 startAutoScroll();
                             }
                         });
@@ -561,7 +547,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void applyMaxBottomRecyclerViewHeight() {
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
-//        NLLog.now("maxRowHeight : " + maxRowHeight);
 
         int newsListCount = mNewsFeed.getNewsList().size();
         mBottomNewsListRecyclerView.getLayoutParams().height =
@@ -965,6 +950,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void startAutoScroll() {
+        stopAutoScroll();
+
         // 1초 기다렸다가 아래로 스크롤, 스크롤 된 뒤는 다시 위로 올라옴
         // 중간 터치가 있을 때에는 onScrollChanged 애니메이션을 중지
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -1043,5 +1030,21 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     public void onRecyclerScaleAnimationEnd() {
         adjustBottomRecyclerHeight();
+        startScrollIfAutoScrollOn();
+    }
+
+    private void startScrollIfAutoScrollOn() {
+        if (Settings.isNewsFeedAutoScroll(this)) {
+            // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
+            // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
+            mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    mScrollContentWrapper.getViewTreeObserver().removeOnPreDrawListener(this);
+                    startAutoScroll();
+                    return true;
+                }
+            });
+        }
     }
 }
