@@ -222,8 +222,6 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void revealBackground() {
-        mRevealView.setAlpha(0.0f);
-        mRevealView.animate().alpha(1.0f);
         if (Device.hasLollipop()) {
             revealBackgroundAfterLollipop();
         } else {
@@ -328,7 +326,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private int getRevealStartRadius() {
-        return Math.min(mTransImageViewProperty.getWidth(), mTransImageViewProperty.getHeight()) / 2;
+        return (Math.min(mTransImageViewProperty.getWidth(), mTransImageViewProperty.getHeight()) / 2);
     }
 
     private int getRevealTargetRadius() {
