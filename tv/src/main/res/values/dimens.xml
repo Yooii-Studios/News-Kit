@@ -9,4 +9,7 @@
     <dimen name="details_vertical_margin">64dp</dimen>
     <dimen name="details_title_textview_height">128dp</dimen>
     <dimen name="details_textview_padding">32dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

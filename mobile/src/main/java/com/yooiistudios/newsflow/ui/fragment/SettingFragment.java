@@ -19,13 +19,20 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.connector.Connector;
+import com.yooiistudios.newsflow.core.connector.ConnectorResult;
+import com.yooiistudios.newsflow.core.connector.UploadRequest;
+import com.yooiistudios.newsflow.core.connector.UploadResult;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.news.NewsFeedDefaultUrlProvider;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.util.RssFetchableConverter;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.core.language.Language;
-import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
@@ -226,6 +233,36 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     public void onConfirmPairing(String token) {
         NLLog.now("onConfirmPairing");
         Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
+
+        uploadData(token);
+    }
+
+    private void uploadData(String token) {
+        try {
+            NewsTopic topic = NewsFeedDefaultUrlProvider.getInstance(getActivity()).getTopNewsTopic();
+            String data = RssFetchableConverter.toBase64String(topic);
+//            NewsTopic decodedTopic = (NewsTopic)RssFetchableConverter.toRssFetchable(data);
+
+            UploadRequest uploadRequest = new UploadRequest();
+            uploadRequest.context = getActivity().getApplicationContext();
+            uploadRequest.token = token;
+            uploadRequest.data = data;
+            uploadRequest.listener = new UploadRequest.ResultListener<UploadResult>() {
+
+                @Override
+                public void onGetResult(UploadResult result) {
+                    NLLog.now("Upload succeed.");
+                }
+
+                @Override
+                public void onFail(ConnectorResult result) {
+                    NLLog.now("Upload failed(onFail).");
+                }
+            };
+            Connector.upload(uploadRequest);
+        } catch(RssFetchableConverter.RssFetchableConvertException e) {
+            NLLog.now("Error occurred while converting data to bytes.");
+        }
     }
 
     private void showDialogFragment(String tag, DialogFragment dialogFragment) {

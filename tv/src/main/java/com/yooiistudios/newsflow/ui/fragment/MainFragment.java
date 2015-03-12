@@ -48,10 +48,11 @@ import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
-import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
+import com.yooiistudios.newsflow.ui.activity.PairActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
+import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -317,6 +318,8 @@ public class MainFragment extends NewsBrowseFragment {
                     String currentMode =
                             DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
                     Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
+                } else if (((String) item).indexOf(getString(R.string.personal_settings)) >= 0) {
+                    startActivity(new Intent(getActivity(), PairActivity.class));
                 }
             }
         }
