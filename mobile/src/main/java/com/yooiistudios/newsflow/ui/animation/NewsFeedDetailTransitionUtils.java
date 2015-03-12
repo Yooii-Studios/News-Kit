@@ -439,21 +439,21 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void animateTopTitleAndDescriptionIfSizeSufficient() {
-        if (readyToAnimateTopTitle()) {
+        if (isReadyToAnimateTopTitle()) {
             fadeInTopTitle();
         }
-        if (readyToAnimateTopDescription()) {
+        if (isReadyToAnimateTopDescription()) {
             fadeInTopDescription();
         }
     }
 
-    private boolean readyToAnimateTopTitle() {
+    private boolean isReadyToAnimateTopTitle() {
         return !mIsAnimatingTopTitleFadeIn
                 && mTopTextLayout.getVisibility() == View.VISIBLE
                 && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopTitleLocalVisibleRect);
     }
 
-    private boolean readyToAnimateTopDescription() {
+    private boolean isReadyToAnimateTopDescription() {
         return !mIsAnimatingTopDescriptionFadeIn
                 && mTopTextLayout.getVisibility() == View.VISIBLE
                 && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopDescriptionLocalVisibleRect);
@@ -477,29 +477,29 @@ public class NewsFeedDetailTransitionUtils {
 
     private void animateRecyclerChildIfSizeSufficient() {
         for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-            if (isRecyclerTitleReadyForAnimation(i)) {
+            if (isReadyToAnimateRecyclerTitleAt(i)) {
                 prepareRecyclerTitleAt(i);
             }
-            if (readyToAnimateRecyclerChildTitleAt(i)) {
+            if (isReadyToAnimateRecyclerChildTitleAt(i)) {
                 fadeInRecyclerTitleAt(i);
             }
         }
         for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-            if (isRecyclerDescriptionReadyForAnimation(i)) {
+            if (isReadyToAnimateRecyclerDescriptionAt(i)) {
                 prepareRecyclerDescriptionAt(i);
             }
-            if (readyToAnimateRecyclerChildDescriptionAt(i)) {
+            if (isReadyToAnimateRecyclerChildDescriptionAt(i)) {
                 fadeInRecyclerDescriptionAt(i);
             }
         }
     }
 
-    private boolean isRecyclerTitleReadyForAnimation(int index) {
+    private boolean isReadyToAnimateRecyclerTitleAt(int index) {
         return !isAnimatingRecyclerTitleAt(index)
                 && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerTitleRect(index));
     }
 
-    private boolean isRecyclerDescriptionReadyForAnimation(int i) {
+    private boolean isReadyToAnimateRecyclerDescriptionAt(int i) {
         return !isAnimatingRecyclerDescriptionAt(i)
                 && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerDescriptionRect(i));
     }
@@ -520,7 +520,7 @@ public class NewsFeedDetailTransitionUtils {
         }
     }
 
-    private boolean readyToAnimateRecyclerChildTitleAt(int index) {
+    private boolean isReadyToAnimateRecyclerChildTitleAt(int index) {
         Rect rectToInspect = getRecyclerTitleRect(index);
         boolean isAnimating = isAnimatingRecyclerTitleAt(index);
         boolean isRecyclerViewVisible = isRecyclerViewVisible();
@@ -528,7 +528,7 @@ public class NewsFeedDetailTransitionUtils {
                 && isRectFullyVisibleInRecyclerView(rectToInspect);
     }
 
-    private boolean readyToAnimateRecyclerChildDescriptionAt(int index) {
+    private boolean isReadyToAnimateRecyclerChildDescriptionAt(int index) {
         Rect rectToInspect = getRecyclerDescriptionRect(index);
         boolean isAnimating = isAnimatingRecyclerDescriptionAt(index);
         boolean isRecyclerViewVisible = isRecyclerViewVisible();
