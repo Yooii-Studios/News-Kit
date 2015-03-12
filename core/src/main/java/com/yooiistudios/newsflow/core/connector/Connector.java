@@ -2,7 +2,6 @@ package com.yooiistudios.newsflow.core.connector;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Base64;
 
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.UUID;
@@ -63,7 +62,7 @@ public class Connector {
             putAppCode(json);
             putDeviceName(request.context, json);
             putToken(request.token, json);
-            putDataBytes(request.bytes, json);
+            putDataBytes(request.data, json);
             String result = postJson(URL_UPLOAD, json);
 
             return UploadResult.fromResultString(result);
@@ -100,9 +99,9 @@ public class Connector {
         }
     }
 
-    private static void putDataBytes(byte[] bytes, JSONObject json) throws JSONException {
-        String encoded = Base64.encodeToString(bytes, Base64.NO_WRAP);
-        json.put(KEY_DATA, encoded);
+    private static void putDataBytes(String data, JSONObject json) throws JSONException {
+//        String encoded = Base64.encodeToString(bytes, Base64.NO_WRAP);
+        json.put(KEY_DATA, data);
     }
 
     private static void putAuth(Context context, JSONObject json) throws JSONException {

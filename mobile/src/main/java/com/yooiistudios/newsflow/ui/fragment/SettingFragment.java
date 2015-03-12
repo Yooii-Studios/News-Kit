@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +20,23 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.connector.Connector;
+import com.yooiistudios.newsflow.core.connector.ConnectorResult;
+import com.yooiistudios.newsflow.core.connector.UploadRequest;
+import com.yooiistudios.newsflow.core.connector.UploadResult;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.core.util.ObjectConverter;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.core.language.Language;
-import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
+
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -226,6 +234,32 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     public void onConfirmPairing(String token) {
         NLLog.now("onConfirmPairing");
         Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
+        String testData = "Dummy data";
+
+        try {
+            byte[] dataBytes = ObjectConverter.toByteArray(testData);
+            String data = Base64.encodeToString(dataBytes, Base64.NO_WRAP);
+
+            UploadRequest uploadRequest = new UploadRequest();
+            uploadRequest.context = getActivity().getApplicationContext();
+            uploadRequest.token = token;
+            uploadRequest.data = data;
+            uploadRequest.listener = new UploadRequest.ResultListener<UploadResult>() {
+
+                @Override
+                public void onGetResult(UploadResult result) {
+                    NLLog.now("Upload succeed.");
+                }
+
+                @Override
+                public void onFail(ConnectorResult result) {
+                    NLLog.now("Upload failed(onFail).");
+                }
+            };
+            Connector.upload(uploadRequest);
+        } catch(IOException e) {
+            NLLog.now("Error occurred while converting data to bytes.");
+        }
     }
 
     private void showDialogFragment(String tag, DialogFragment dialogFragment) {

@@ -17,7 +17,9 @@ public class GetUniqueTokenResult extends ConnectorResult {
             JSONObject resultJson = new JSONObject(result);
             connectorResult.resultCode = resultJson.getInt(KEY_RESULT_CODE);
             connectorResult.message = resultJson.getString(KEY_MESSAGE);
-            connectorResult.token = resultJson.getString(KEY_TOKEN);
+            if (connectorResult.resultCode == RC_SUCCESS) {
+                connectorResult.token = resultJson.getString(KEY_TOKEN);
+            }
 
             return connectorResult;
         } catch (JSONException e) {

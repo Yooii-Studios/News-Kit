@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
@@ -13,7 +14,10 @@ import com.yooiistudios.newsflow.core.connector.DownloadResult;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenRequest;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenResult;
 import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.core.util.ObjectConverter;
 import com.yooiistudios.newsflow.model.PairingTask;
+
+import java.io.IOException;
 
 public class PairActivity extends Activity {
     private TextView mPairTokenTextView;
@@ -47,7 +51,7 @@ public class PairActivity extends Activity {
 
             @Override
             public void onFail(ConnectorResult result) {
-                // TODO 결과 코드를 갖고 예외처리 하자
+                // TODO result.resultCode == ConnectorResult.RC_TOKEN_CREATION_FAILED 일 경우 처리
                 mPairTokenTextView.setText("에러...");
             }
         };
@@ -78,7 +82,15 @@ public class PairActivity extends Activity {
             request.listener = new DownloadRequest.ResultListener<DownloadResult>() {
                 @Override
                 public void onGetResult(DownloadResult result) {
-                    NLLog.now("Download succeed.");
+                    try {
+                        byte[] dataBytes = Base64.decode(result.data, Base64.NO_WRAP);
+                        String data = (String)ObjectConverter.fromByteArray(dataBytes);
+
+                        mPairTokenTextView.append("\nresult: " + data);
+                        NLLog.now("Download succeed.");
+                    } catch (IOException|ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override

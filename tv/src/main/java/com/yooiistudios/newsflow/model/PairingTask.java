@@ -15,9 +15,9 @@ import com.yooiistudios.newsflow.core.util.NLLog;
  */
 public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
     // 2 min
-//    private static final long REQUEST_THRESHOLD_MILLI = 2 * 60 * 1000;
+    private static final long REQUEST_THRESHOLD_MILLI = 2 * 60 * 1000;
     // 2 sec
-    private static final long REQUEST_THRESHOLD_MILLI = 2 * 1000;
+//    private static final long REQUEST_THRESHOLD_MILLI = 2 * 1000;
 
     private DownloadRequest mRequest;
     private long mRequestStartTimeInMilli;
@@ -38,15 +38,15 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
         while (result == null && !isExpired()) {
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                NLLog.now("Sleep interrupted.");
-                break;
-            }
-            try {
                 NLLog.now("Trying to download...");
                 result = mRequest.execute();
+                if (result.resultCode == ConnectorResult.RC_SUCCESS) {
+                    break;
+                }
             } catch (ConnectorException e) {
                 NLLog.now("Failed to download.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         if (result == null) {

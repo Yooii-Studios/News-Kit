@@ -1,7 +1,10 @@
 package com.yooiistudios.newsflow.core.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
@@ -20,5 +23,11 @@ public class ObjectConverter {
         objectOutput.close();
 
         return bytes;
+    }
+
+    public static Object fromByteArray(byte[] bytes) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        ObjectInput in = new ObjectInputStream(bis);
+        return in.readObject();
     }
 }

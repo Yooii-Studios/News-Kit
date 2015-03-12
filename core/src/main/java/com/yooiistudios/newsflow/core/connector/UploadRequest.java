@@ -8,7 +8,7 @@ package com.yooiistudios.newsflow.core.connector;
  */
 public class UploadRequest extends ConnectorRequest {
     public String token;
-    public byte[] bytes;
+    public String data;
 
     @Override
     public ConnectorResult execute() throws ConnectorException {
