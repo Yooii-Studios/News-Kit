@@ -13,6 +13,7 @@ import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadResult;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenRequest;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenResult;
+import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.core.util.ObjectConverter;
 import com.yooiistudios.newsflow.model.PairingTask;
@@ -84,7 +85,7 @@ public class PairActivity extends Activity {
                 public void onGetResult(DownloadResult result) {
                     try {
                         byte[] dataBytes = Base64.decode(result.data, Base64.NO_WRAP);
-                        String data = (String)ObjectConverter.fromByteArray(dataBytes);
+                        RssFetchable data = (RssFetchable)ObjectConverter.fromByteArray(dataBytes);
 
                         mPairTokenTextView.append("\nresult: " + data);
                         NLLog.now("Download succeed.");

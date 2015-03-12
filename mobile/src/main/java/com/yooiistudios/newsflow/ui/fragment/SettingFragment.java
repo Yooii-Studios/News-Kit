@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,17 +25,17 @@ import com.yooiistudios.newsflow.core.connector.UploadRequest;
 import com.yooiistudios.newsflow.core.connector.UploadResult;
 import com.yooiistudios.newsflow.core.language.Language;
 import com.yooiistudios.newsflow.core.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.news.NewsFeedDefaultUrlProvider;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.util.RssFetchableConverter;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
-import com.yooiistudios.newsflow.core.util.ObjectConverter;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-
-import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -234,11 +233,15 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     public void onConfirmPairing(String token) {
         NLLog.now("onConfirmPairing");
         Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
-        String testData = "Dummy data";
 
+        uploadData(token);
+    }
+
+    private void uploadData(String token) {
         try {
-            byte[] dataBytes = ObjectConverter.toByteArray(testData);
-            String data = Base64.encodeToString(dataBytes, Base64.NO_WRAP);
+            NewsTopic topic = NewsFeedDefaultUrlProvider.getInstance(getActivity()).getTopNewsTopic();
+            String data = RssFetchableConverter.toBase64String(topic);
+//            NewsTopic decodedTopic = (NewsTopic)RssFetchableConverter.toRssFetchable(data);
 
             UploadRequest uploadRequest = new UploadRequest();
             uploadRequest.context = getActivity().getApplicationContext();
@@ -257,7 +260,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 }
             };
             Connector.upload(uploadRequest);
-        } catch(IOException e) {
+        } catch(RssFetchableConverter.RssFetchableConvertException e) {
             NLLog.now("Error occurred while converting data to bytes.");
         }
     }

@@ -35,14 +35,11 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
     @Override
     protected ConnectorResult doInBackground(Void... params) {
         ConnectorResult result = null;
-        while (result == null && !isExpired()) {
+        while (shouldTryMore(result)) {
             try {
                 Thread.sleep(1000);
                 NLLog.now("Trying to download...");
                 result = mRequest.execute();
-                if (result.resultCode == ConnectorResult.RC_SUCCESS) {
-                    break;
-                }
             } catch (ConnectorException e) {
                 NLLog.now("Failed to download.");
             } catch (InterruptedException e) {
@@ -53,6 +50,14 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
             result = ConnectorResult.getErrorObject();
         }
         return result;
+    }
+
+    private boolean shouldTryMore(ConnectorResult result) {
+        return !isSuccess(result) && !isExpired();
+    }
+
+    private boolean isSuccess(ConnectorResult result) {
+        return result != null && result.resultCode == ConnectorResult.RC_SUCCESS;
     }
 
     private boolean isExpired() {

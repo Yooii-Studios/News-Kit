@@ -78,6 +78,7 @@ public class Connector {
             putAuth(request.context, json);
             putAppCode(json);
             putDeviceName(request.context, json);
+            putToken(request.token, json);
             String result = postJson(URL_DOWNLOAD, json);
 
             return DownloadResult.fromResultString(result);
