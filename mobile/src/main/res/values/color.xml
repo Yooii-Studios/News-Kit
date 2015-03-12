@@ -16,6 +16,7 @@
 
     <!-- NewsFeed Detail -->
     <color name="newsfeed_detail_highlight_color">@color/material_white_secondary_text</color>
+    <color name="newsfeed_detail_background_color">@android:color/white</color>
 
     <!-- NewsFeed Select -->
     <color name="news_select_color_primary">@color/material_grey_300</color>

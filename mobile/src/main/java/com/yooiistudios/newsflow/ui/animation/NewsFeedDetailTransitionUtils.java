@@ -191,6 +191,8 @@ public class NewsFeedDetailTransitionUtils {
     private void prepareViewPropertiesBeforeTransition() {
         mToolbar.setAlpha(0.0f);
 
+        hideRootBackground();
+
         mTransitionLayout.setVisibility(View.VISIBLE);
 
         setImageWrapperRect(mThumbnailStartRect);
@@ -304,11 +306,23 @@ public class NewsFeedDetailTransitionUtils {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                showRootBackground();
                 mListener.onRecyclerScaleAnimationEnd();
             }
         });
 
         animator.start();
+    }
+
+    private void hideRootBackground() {
+        mRevealView.setVisibility(View.VISIBLE);
+        mRootLayout.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    private void showRootBackground() {
+        mRevealView.setVisibility(View.INVISIBLE);
+        mRootLayout.setBackgroundColor(
+                mActivity.getResources().getColor(R.color.newsfeed_detail_background_color));
     }
 
     private void animateTopNewsTextAndRecycler() {

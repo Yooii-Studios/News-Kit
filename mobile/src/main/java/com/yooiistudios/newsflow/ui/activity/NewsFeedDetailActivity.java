@@ -91,8 +91,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         NewsFeedDetailTransitionUtils.OnAnimationEndListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
 
-    private static final int BACKGROUND_COLOR = Color.WHITE;
-
     // Overlay & Shadow
     private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.75f;
     private static final float TOP_OVERLAY_ALPHA_RATIO = 0.0008f;
@@ -212,7 +210,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initRevealView() {
-        mRevealView.setBackgroundColor(BACKGROUND_COLOR);
+        mRevealView.setBackgroundColor(Color.WHITE);
     }
 
     @Override
@@ -410,17 +408,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initBottomNewsList() {
-        //init ui
-
-        final RecyclerView.ItemAnimator itemAnimator;
-
         mBottomNewsListRecyclerView.setHasFixedSize(true);
         mBottomNewsListRecyclerView.setItemAnimator(
                 new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
-        mRecyclerViewBackground = new ColorDrawable(BACKGROUND_COLOR);
+        mRecyclerViewBackground = new ColorDrawable(Color.WHITE);
         mBottomNewsListRecyclerView.setBackground(mRecyclerViewBackground);
 
         notifyBottomNewsChanged();
