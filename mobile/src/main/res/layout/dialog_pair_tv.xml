@@ -25,6 +25,6 @@
         android:textColor="@color/material_black_secondary_text"
         android:text="63522"
         android:inputType="number"
-        android:maxLength="5"
+        android:maxLength="9"
         android:hint="Insert code"/>
 </LinearLayout>

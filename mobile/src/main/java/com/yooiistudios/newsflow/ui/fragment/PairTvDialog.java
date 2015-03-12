@@ -23,6 +23,8 @@ import com.yooiistudios.newsflow.R;
  */
 public class PairTvDialog extends DialogFragment {
     private OnActionListener mListener;
+    int previousTokenLength = 0;
+    boolean isSpaceProcessStarted = false;
 
     public interface OnActionListener {
         public void onConfirmPairing(String token);
@@ -53,6 +55,8 @@ public class PairTvDialog extends DialogFragment {
                             String token =
                                     ((EditText) dialog.findViewById(R.id.dialog_pair_tv_token_edittext))
                                             .getText().toString();
+                            // 간격을 모두 좁힘
+                            token = token.replaceAll(" ", "");
                             mListener.onConfirmPairing(token);
                         }
 
@@ -72,15 +76,37 @@ public class PairTvDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().length() >= 5) {
-                    positiveButton.setEnabled(true);
-                } else {
-                    positiveButton.setEnabled(false);
-                }
+                positiveButton.setEnabled(s.length() >= 9);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!isSpaceProcessStarted) {
+                    if (s.length() > 1 && s.length() > previousTokenLength) {
+                        // 첫 입력시는 앞에 빈칸을 넣지 않기, 나머지는 한칸을 띄우고 숫자를 표시
+                        String spacedToken = s.subSequence(0, s.length() - 1).toString();
+                        spacedToken = spacedToken + " " + s.subSequence(s.length() - 1, s.length());
+
+                        isSpaceProcessStarted = true;
+                        tokenEditText.setText(spacedToken);
+                        tokenEditText.setSelection(tokenEditText.getText().length());
+                        isSpaceProcessStarted = false;
+
+                        previousTokenLength = s.length() + 1;
+                    } else if (s.length() > 1 && s.length() < previousTokenLength) {
+                        // 삭제할 경우 빈칸도 삭제
+                        String trimmedToken = s.subSequence(0, s.length() - 1).toString();
+
+                        isSpaceProcessStarted = true;
+                        tokenEditText.setText(trimmedToken);
+                        tokenEditText.setSelection(tokenEditText.getText().length());
+                        isSpaceProcessStarted = false;
+
+                        previousTokenLength = s.length() - 1;
+                    } else {
+                        previousTokenLength = s.length();
+                    }
+                }
             }
         });
 
