@@ -47,6 +47,10 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.core.util.connector.Connector;
+import com.yooiistudios.newsflow.core.util.connector.ConnectorRequest;
+import com.yooiistudios.newsflow.core.util.connector.GetUniqueTokenRequest;
+import com.yooiistudios.newsflow.core.util.connector.GetUniqueTokenResult;
 import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
 import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
@@ -317,6 +321,23 @@ public class MainFragment extends NewsBrowseFragment {
                     String currentMode =
                             DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
                     Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
+                } else if (((String) item).indexOf(getString(R.string.personal_settings)) >= 0) {
+                    GetUniqueTokenRequest request = new GetUniqueTokenRequest();
+                    request.context = getActivity();
+                    request.listener = new ConnectorRequest.ResultListener<GetUniqueTokenResult>() {
+                        @Override
+                        public void onGetResult(GetUniqueTokenResult result) {
+                            Toast.makeText(getActivity(), result.token, Toast.LENGTH_LONG).show();
+                            NLLog.now(result.token);
+                        }
+
+                        @Override
+                        public void onFail() {
+                            Toast.makeText(getActivity(), "onFail", Toast.LENGTH_LONG).show();
+                            NLLog.now("onFail");
+                        }
+                    };
+                    Connector.getUniqueToken(request);
                 }
             }
         }
