@@ -12,6 +12,7 @@
     <string name="content_description">Loading…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
     <string name="iab_item_unavailable">You have to purchase…</string>
     <string name="share">Share</string>
 
@@ -46,6 +47,8 @@
     <string name="setting_item_sec_description">%1$s sec</string> <!-- 14 sec -->
     <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s panels</string>
+    <string name="setting_pair_tv">Pair Android TV</string>
+    <string name="setting_pair_tv_description">Send your news panels to your Android TV</string>
 
     <string name="setting_news_feed_sub_header">News Feed Screen</string>
     <string name="setting_news_feed_auto_scroll_start_offset">Auto scroll start delay</string>

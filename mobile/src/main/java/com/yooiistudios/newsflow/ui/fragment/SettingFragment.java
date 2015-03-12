@@ -21,6 +21,7 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.core.language.Language;
@@ -40,7 +41,8 @@ import butterknife.InjectView;
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener, AutoRefreshIntervalDialogFragment.OnActionListener {
+        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener,
+        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -49,7 +51,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         MAIN_SUB_HEADER(R.string.setting_main_sub_header),
         MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
         MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
-        MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix);
+        MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix),
+
+        PAIR_TV(R.string.setting_pair_tv);
 
         private int mTitleResId;
         private SettingItem(int titleResId) {
@@ -141,6 +145,10 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 showPanelMatrixSelectDialog();
                 break;
 
+            case PAIR_TV:
+                showPairTVDialogFragment();
+                break;
+
             case TUTORIAL:
                 showTutorial();
                 break;
@@ -187,6 +195,10 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         showDialogFragment("panel_matrix_dialog", PanelMatrixSelectDialog.newInstance(this));
     }
 
+    private void showPairTVDialogFragment() {
+        showDialogFragment("pair_tv", PairTvDialog.newInstance(this));
+    }
+
     @Override
     public void onSelectMatrix(int position) {
         PanelMatrix selectedPanelMatrix = PanelMatrix.getByUniqueKey(position);
@@ -208,6 +220,12 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             startActivity(new Intent(getActivity(), StoreActivity.class));
             Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onConfirmPairing(String token) {
+        NLLog.now("onConfirmPairing");
+        Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
     }
 
     private void showDialogFragment(String tag, DialogFragment dialogFragment) {
