@@ -264,6 +264,17 @@ public class NewsFeed implements Parcelable, RssFetchable {
                 && getTopicId() >= 0;
     }
 
+    public NewsTopic createNewsTopicInfo() {
+        NewsTopic topic = new NewsTopic();
+        topic.languageCode = getTopicLanguageCode();
+        topic.regionCode = getTopicRegionCode();
+        topic.countryCode = getTopicCountryCode();
+        topic.newsProviderId = getTopicProviderId();
+        topic.id = getTopicId();
+
+        return topic;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -25,8 +25,8 @@ import com.yooiistudios.newsflow.core.connector.UploadRequest;
 import com.yooiistudios.newsflow.core.connector.UploadResult;
 import com.yooiistudios.newsflow.core.language.Language;
 import com.yooiistudios.newsflow.core.language.LanguageUtils;
-import com.yooiistudios.newsflow.core.news.NewsFeedDefaultUrlProvider;
-import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.RssFetchableConverter;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
@@ -36,6 +36,9 @@ import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,7 +52,8 @@ import butterknife.InjectView;
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
         LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener,
-        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener {
+        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener,
+        UploadRequest.ResultListener<UploadResult> {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -232,37 +236,54 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onConfirmPairing(String token) {
         NLLog.now("onConfirmPairing");
-        Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
 
         uploadData(token);
+    }
+    @Override
+    public void onGetResult(UploadResult result) {
+        // TODO 업로드 성공. UI 처리 필요
+        Toast.makeText(getActivity(), "Sent.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFail(ConnectorResult result) {
+        // TODO 업로드시 문제 생김. UI 처리 필요
+        Toast.makeText(getActivity(), "Send failed.", Toast.LENGTH_SHORT).show();
     }
 
     private void uploadData(String token) {
         try {
-            NewsTopic topic = NewsFeedDefaultUrlProvider.getInstance(getActivity()).getTopNewsTopic();
-            String data = RssFetchableConverter.toBase64String(topic);
-//            NewsTopic decodedTopic = (NewsTopic)RssFetchableConverter.toRssFetchable(data);
+            Context context = getActivity().getApplicationContext();
 
-            UploadRequest uploadRequest = new UploadRequest();
-            uploadRequest.context = getActivity().getApplicationContext();
-            uploadRequest.token = token;
-            uploadRequest.data = data;
-            uploadRequest.listener = new UploadRequest.ResultListener<UploadResult>() {
+            List<NewsFeed> newsFeeds = getSavedNewsFeeds(context);
+            UploadRequest uploadRequest = createUploadRequest(token, newsFeeds);
 
-                @Override
-                public void onGetResult(UploadResult result) {
-                    NLLog.now("Upload succeed.");
-                }
-
-                @Override
-                public void onFail(ConnectorResult result) {
-                    NLLog.now("Upload failed(onFail).");
-                }
-            };
             Connector.upload(uploadRequest);
-        } catch(RssFetchableConverter.RssFetchableConvertException e) {
-            NLLog.now("Error occurred while converting data to bytes.");
+        } catch (RssFetchableConverter.RssFetchableConvertException e) {
+            // TODO 인코딩시 문제 생김. UI 처리 필요
         }
+    }
+
+    private List<NewsFeed> getSavedNewsFeeds(Context context) {
+        NewsFeed topNewsFeed = NewsDb.getInstance(context).loadTopNewsFeed(context);
+        PanelMatrix currentPanelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
+        List<NewsFeed> bottomNewsFeeds = NewsDb.getInstance(context).loadBottomNewsFeedList(
+                context, currentPanelMatrix.getPanelCount());
+
+        List<NewsFeed> newsFeeds = new ArrayList<>();
+        newsFeeds.add(topNewsFeed);
+        newsFeeds.addAll(bottomNewsFeeds);
+        return newsFeeds;
+    }
+
+    private UploadRequest createUploadRequest(String token, List<NewsFeed> newsFeeds) throws RssFetchableConverter.RssFetchableConvertException {
+        UploadRequest uploadRequest = new UploadRequest();
+        uploadRequest.context = getActivity().getApplicationContext();
+        uploadRequest.token = token;
+        uploadRequest.data = RssFetchableConverter.newsFeedsToBase64String(newsFeeds);
+        uploadRequest.listener = this;
+        return uploadRequest;
     }
 
     private void showDialogFragment(String tag, DialogFragment dialogFragment) {
