@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.core.util.connector;
+package com.yooiistudios.newsflow.core.connector;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 11.
@@ -9,7 +9,6 @@ package com.yooiistudios.newsflow.core.util.connector;
 public class UploadRequest extends ConnectorRequest {
     public String token;
     public byte[] bytes;
-//    public ResultListener<UploadResult> listener;
 
     @Override
     public ConnectorResult execute() throws ConnectorException {

@@ -21,7 +21,17 @@ public class Device {
     }
 
     public static class Profile {
-        public static String getUserName(Context context) {
+        public static String getUserNameOrDefault(Context context) {
+            String userName;
+            try {
+                userName = getUserName(context);
+            } catch(SecurityException e) {
+                userName = "default user name";
+            }
+
+            return userName;
+        }
+        private static String getUserName(Context context) throws SecurityException {
             final ContentResolver content = context.getContentResolver();
             final Cursor cursor = content.query(
                     Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, ContactsContract.Contacts.Data.CONTENT_DIRECTORY),

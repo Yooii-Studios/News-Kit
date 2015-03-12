@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.core.util.connector;
+package com.yooiistudios.newsflow.core.connector;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -72,21 +72,20 @@ public class Connector {
         }
     }
 
-//    protected static DownloadResult requestDownload(DownloadRequest request)
-//            throws ConnectorException {
-//        try {
-//            JSONObject json = new JSONObject();
-//            putAuth(context, json);
-//            putAppCode(json);
-//            putDeviceName(context, json);
-//            putToken(token, json);
-//            String result = postJson(URL_DOWNLOAD, json);
-//
-//            return DownloadResult.fromResultString(result);
-//        } catch(IOException|JSONException e) {
-//            throw new ConnectorException();
-//        }
-//    }
+    protected static DownloadResult requestDownload(DownloadRequest request)
+            throws ConnectorException {
+        try {
+            JSONObject json = new JSONObject();
+            putAuth(request.context, json);
+            putAppCode(json);
+            putDeviceName(request.context, json);
+            String result = postJson(URL_DOWNLOAD, json);
+
+            return DownloadResult.fromResultString(result);
+        } catch(IOException|JSONException e) {
+            throw new ConnectorException();
+        }
+    }
 
     protected static GetUniqueTokenResult requestGetUniqueToken(GetUniqueTokenRequest request)
             throws ConnectorException {
@@ -115,7 +114,7 @@ public class Connector {
     }
 
     private static void putDeviceName(Context context, JSONObject json) throws JSONException {
-        json.put(KEY_NAME, Device.Profile.getUserName(context));
+        json.put(KEY_NAME, Device.Profile.getUserNameOrDefault(context));
     }
 
     private static void putToken(String token, JSONObject json) throws JSONException {

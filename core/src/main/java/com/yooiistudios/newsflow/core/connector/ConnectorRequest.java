@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.core.util.connector;
+package com.yooiistudios.newsflow.core.connector;
 
 import android.content.Context;
 
@@ -11,7 +11,7 @@ import android.content.Context;
 public abstract class ConnectorRequest<T extends ConnectorResult> {
     public interface ResultListener<S extends ConnectorResult> {
         public void onGetResult(S result);
-        public void onFail();
+        public void onFail(ConnectorResult result);
     }
 
     public Context context;
@@ -24,7 +24,7 @@ public abstract class ConnectorRequest<T extends ConnectorResult> {
             if (result.resultCode == ConnectorResult.RC_SUCCESS) {
                 listener.onGetResult(result);
             } else {
-                listener.onFail();
+                listener.onFail(result);
             }
         }
     }

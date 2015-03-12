@@ -20,7 +20,6 @@ public class UUID {
     protected static java.util.UUID uuid;
 
     private static void init(Context context) {
-
         if (uuid == null) {
             synchronized (UUID.class) {
                 if (uuid == null) {

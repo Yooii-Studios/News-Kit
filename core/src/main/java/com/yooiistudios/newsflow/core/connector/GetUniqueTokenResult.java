@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.core.util.connector;
+package com.yooiistudios.newsflow.core.connector;
 
 import org.json.JSONException;
 import org.json.JSONObject;

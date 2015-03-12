@@ -1,4 +1,4 @@
-package com.yooiistudios.newsflow.core.util.connector;
+package com.yooiistudios.newsflow.core.connector;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 11.
