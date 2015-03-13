@@ -59,6 +59,11 @@ public class NewsContentProvider {
         return newsProvider.findNewsTopicById(newsTopicId);
     }
 
+    public NewsTopic getNewsTopic(NewsTopic topic) {
+        return getNewsTopic(topic.languageCode, topic.regionCode, topic.countryCode,
+                topic.newsProviderId, topic.id);
+    }
+
     public NewsProvider getNewsProvider(NewsFeed newsFeed) {
         return getNewsProvider(newsFeed.getTopicLanguageCode(), newsFeed.getTopicRegionCode(),
                 newsFeed.getTopicCountryCode(), newsFeed.getTopicProviderId());

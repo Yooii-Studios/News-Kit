@@ -50,7 +50,6 @@ import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
-import com.yooiistudios.newsflow.ui.activity.PairActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
 
@@ -60,16 +59,19 @@ import java.util.TimerTask;
 
 
 public class MainFragment extends NewsBrowseFragment {
-    private static final String TAG = "MainFragment";
-    private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 400;
-    private static final int GRID_ITEM_HEIGHT = 200;
-
+    public interface OnEventListener {
+        public void onPairItemSelected();
+    }
     public static final String ARG_NEWS_KEY = "arg_news_key";
     public static final String TRANSITION_PROPERTY_ARG_KEY = "transition_property_arg_key";
     public static final String DETAIL_CONTENT_KEY = "detail_content_key";
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
     public static final String DETAIL_WEB_CONTENT = "detail_web_content";
+
+    private static final String TAG = "MainFragment";
+    private static final int BACKGROUND_UPDATE_DELAY = 300;
+    private static final int GRID_ITEM_WIDTH = 400;
+    private static final int GRID_ITEM_HEIGHT = 200;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -78,11 +80,13 @@ public class MainFragment extends NewsBrowseFragment {
     private final Handler mHandler = new Handler();
     private String mBackgroundUrl;
     CardPresenter mCardPresenter;
+    private OnEventListener mOnEventListener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         initVariables(activity);
+        initCallbacks(activity);
     }
 
     @Override
@@ -98,6 +102,15 @@ public class MainFragment extends NewsBrowseFragment {
 
     private void initVariables(Activity activity) {
         mCardPresenter = new CardPresenter(activity);
+    }
+
+    private void initCallbacks(Activity activity) {
+        try {
+            mOnEventListener = (OnEventListener)activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement " +
+                    OnEventListener.class.getSimpleName() + ".");
+        }
     }
 
     @Override
@@ -319,7 +332,7 @@ public class MainFragment extends NewsBrowseFragment {
                             DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
                     Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
                 } else if (((String) item).indexOf(getString(R.string.personal_settings)) >= 0) {
-                    startActivity(new Intent(getActivity(), PairActivity.class));
+                    mOnEventListener.onPairItemSelected();
                 }
             }
         }

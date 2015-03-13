@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
@@ -12,16 +13,17 @@ import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadResult;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenRequest;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenResult;
-import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.core.news.NewsTopic;
-import com.yooiistudios.newsflow.core.news.RssFetchable;
-import com.yooiistudios.newsflow.core.news.util.RssFetchableConverter;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PairingTask;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 public class PairActivity extends Activity {
+    public static final String INTENT_KEY_TOP_URL = "intent_key_top_url";
+    public static final String INTENT_KEY_BOTTOM_URL = "intent_key_bottom_url";
     private TextView mPairTokenTextView;
     private PairingTask mPairingTask;
     private String mToken;
@@ -110,33 +112,35 @@ public class PairActivity extends Activity {
     }
 
     private void handleDownloadResult(DownloadResult result) {
+        NLLog.now("Download succeed.");
+        mPairTokenTextView.append("\nresult: ");
         try {
-            printResultDebug(result);
-            NLLog.now("Download succeed.");
-        } catch (RssFetchableConverter.RssFetchableConvertException e) {
-            // TODO 받아온 데이터 디코딩중 문제 발생. UI 처리 필요.
+            byte[] dataBytes = Base64.decode(result.data, Base64.NO_WRAP);
+            JSONArray jsonArray = new JSONArray(new String(dataBytes));
+            int jsonArraySize = jsonArray.length();
+
+            if (jsonArraySize > 0) {
+                putReceivedDataAndFinish(jsonArray);
+            } else {
+                // TODO 하나도 받지 않은 상황. 유저에게 알려줘야함.
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void printResultDebug(DownloadResult result) throws RssFetchableConverter.RssFetchableConvertException {
-        mPairTokenTextView.append("\nresult: ");
-        List<RssFetchable> fetchables =
-                RssFetchableConverter.base64StringToRssFetchables(result.data);
-        for (RssFetchable fetchable : fetchables) {
-            if (fetchable instanceof NewsTopic) {
-                NewsTopic topic = (NewsTopic)fetchable;
-                mPairTokenTextView.append("\ntype: NewsTopic");
-                mPairTokenTextView.append("\nlanguageCode: " + topic.languageCode);
-                mPairTokenTextView.append("\nregionCode: " + topic.regionCode);
-                mPairTokenTextView.append("\ncountryCode: " + topic.countryCode);
-                mPairTokenTextView.append("\nnewsProviderId: " + topic.newsProviderId);
-                mPairTokenTextView.append("\nid: " + topic.id);
-            } else if (fetchable instanceof NewsFeedUrl) {
-                NewsFeedUrl feedUrl = (NewsFeedUrl)fetchable;
-                mPairTokenTextView.append("\ntype: NewsFeedUrl");
-                mPairTokenTextView.append("\nurl: " + feedUrl.getUrl());
-            }
+    private void putReceivedDataAndFinish(JSONArray jsonArray) throws JSONException {
+        int jsonArraySize = jsonArray.length();
+        String topUrl = jsonArray.getString(0);
+        ArrayList<String> bottomUrls = new ArrayList<>();
+        for (int i = 1; i < jsonArraySize; i++) {
+            String url = jsonArray.getString(i);
+            bottomUrls.add(url);
         }
+
+        getIntent().putExtra(INTENT_KEY_TOP_URL, topUrl);
+        getIntent().putStringArrayListExtra(INTENT_KEY_BOTTOM_URL, bottomUrls);
+        setResult(RESULT_OK, getIntent());
+        finish();
     }
 }
