@@ -11,7 +11,7 @@
         android:textSize="@dimen/text_size_subhead_material"
         android:lineSpacingMultiplier="1.2"
         android:textColor="@color/material_black_secondary_text"
-        android:text="Type 5 numbers shown in the &quot;Pair Mobile&quot; tab of your Android TV and press Confirm " />
+        android:text="@string/setting_pair_tv_dialog_description" />
 
     <EditText
         android:id="@+id/dialog_pair_tv_token_edittext"

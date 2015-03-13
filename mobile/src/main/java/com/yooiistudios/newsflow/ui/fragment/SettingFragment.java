@@ -238,18 +238,24 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         NLLog.now("onConfirmPairing");
 //        Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
 
+        // FIXME: Token 이 없을 경우 토스트 표시
+        Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_invalidate),
+                Toast.LENGTH_SHORT).show();
         uploadData(token);
     }
+
     @Override
     public void onGetResult(UploadResult result) {
-        // TODO 업로드 성공. UI 처리 필요
-        Toast.makeText(getActivity(), "Sent.", Toast.LENGTH_SHORT).show();
+        // TODO: 업로드 성공. UI 처리 필요
+        Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_sent),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onFail(ConnectorResult result) {
-        // TODO 업로드시 문제 생김. UI 처리 필요
-        Toast.makeText(getActivity(), "Send failed.", Toast.LENGTH_SHORT).show();
+        // TODO: 업로드시 문제 생김. UI 처리 필요
+        Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_fail_to_send),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void uploadData(String token) {
