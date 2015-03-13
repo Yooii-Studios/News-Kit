@@ -34,6 +34,7 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
     @Override
     protected ConnectorResult doInBackground(Void... params) {
         ConnectorResult result = null;
+
         while (shouldTryMore(result)) {
             try {
                 Thread.sleep(1000);

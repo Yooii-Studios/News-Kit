@@ -9,10 +9,10 @@ import org.json.JSONObject;
  * BaseConnectorResult
  *  커넥터 액션에 대한 결과 객체의 최소 단위
  */
-public class GetUniqueTokenResult extends ConnectorResult {
+public class TokenCreationResult extends ConnectorResult {
     private String mToken;
 
-    public GetUniqueTokenResult(String message, int resultCode, String token) {
+    public TokenCreationResult(String message, int resultCode, String token) {
         super(message, resultCode);
         mToken = token;
     }
@@ -21,7 +21,7 @@ public class GetUniqueTokenResult extends ConnectorResult {
         return mToken;
     }
 
-    public static GetUniqueTokenResult fromResultString(String result) throws ConnectorException {
+    public static TokenCreationResult fromResultString(String result) throws ConnectorException {
         try {
             JSONObject resultJson = new JSONObject(result);
             int resultCode = getResultCodeFromResultJson(resultJson);
@@ -30,7 +30,7 @@ public class GetUniqueTokenResult extends ConnectorResult {
             if (resultCode == RC_SUCCESS) {
                 token = resultJson.getString(KEY_TOKEN);
             }
-            return new GetUniqueTokenResult(message, resultCode, token);
+            return new TokenCreationResult(message, resultCode, token);
         } catch (JSONException e) {
             throw new ConnectorException();
         }

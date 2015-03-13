@@ -12,7 +12,7 @@ import org.json.JSONObject;
  *  커넥터 업로드 요청에 사용될 자료구조
  */
 public class TokenCreationRequest extends ConnectorRequest {
-    public TokenCreationRequest(Context context, ResultListener<GetUniqueTokenResult> listener) {
+    public TokenCreationRequest(Context context, ResultListener<TokenCreationResult> listener) {
         super(context, listener);
     }
 
@@ -28,6 +28,6 @@ public class TokenCreationRequest extends ConnectorRequest {
 
     @Override
     protected ConnectorResult getResult(String resultString) throws ConnectorException {
-        return GetUniqueTokenResult.fromResultString(resultString);
+        return TokenCreationResult.fromResultString(resultString);
     }
 }

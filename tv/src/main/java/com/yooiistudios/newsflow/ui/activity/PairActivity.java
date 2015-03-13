@@ -14,8 +14,8 @@ import com.yooiistudios.newsflow.core.connector.ConnectorRequest;
 import com.yooiistudios.newsflow.core.connector.ConnectorResult;
 import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadResult;
-import com.yooiistudios.newsflow.core.connector.GetUniqueTokenResult;
 import com.yooiistudios.newsflow.core.connector.TokenCreationRequest;
+import com.yooiistudios.newsflow.core.connector.TokenCreationResult;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PairingTask;
 import com.yooiistudios.newsflow.ui.animation.PairTransitionUtils;
@@ -82,7 +82,8 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
     }
 
     private void requestToken() {
-        TokenCreationRequest request = createGetUniqueTokenRequest();
+        // FIXME: 조금 늦게 뜨는 것을 위해 1초 기다림
+        TokenCreationRequest request = createNewTokenRequest();
         Connector.execute(request);
     }
 
@@ -95,11 +96,11 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
         }
     }
 
-    private TokenCreationRequest createGetUniqueTokenRequest() {
-        ConnectorRequest.ResultListener<GetUniqueTokenResult> listener =
-                new ConnectorRequest.ResultListener<GetUniqueTokenResult>() {
+    private TokenCreationRequest createNewTokenRequest() {
+        ConnectorRequest.ResultListener<TokenCreationResult> listener =
+                new ConnectorRequest.ResultListener<TokenCreationResult>() {
                     @Override
-                    public void onSuccess(GetUniqueTokenResult result) {
+                    public void onSuccess(TokenCreationResult result) {
                         mToken = result.getToken();
                         setTokenToTextViews(mToken);
                         startPairingTask();
