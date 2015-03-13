@@ -10,21 +10,29 @@ import org.json.JSONObject;
  *  커넥터 액션에 대한 결과 객체의 최소 단위
  */
 public class DownloadResult extends ConnectorResult {
-    public String data;
+    private String mData;
+
+    public DownloadResult(String message, int resultCode, String data) {
+        super(message, resultCode);
+        mData = data;
+    }
+
+    public String getData() {
+        return mData;
+    }
+
     public static DownloadResult fromResultString(String result) throws ConnectorException {
         try {
-            DownloadResult connectorResult = new DownloadResult();
             JSONObject resultJson = new JSONObject(result);
-            connectorResult.resultCode = resultJson.getInt(KEY_RESULT_CODE);
-            connectorResult.message = resultJson.getString(KEY_MESSAGE);
-//            connectorResult.base64Data = resultJson.getString(KEY_DATA);
-//            connectorResult.base64DataBytes = Base64.decode(
-//                    resultJson.getString(KEY_DATA), Base64.NO_WRAP);
-            if (connectorResult.resultCode == RC_SUCCESS) {
-                connectorResult.data = resultJson.getString(KEY_DATA);
+            int resultCode = getResultCodeFromResultJson(resultJson);
+            String message = getMessageFromResultJson(resultJson);
+
+            String data = null;
+            if (resultCode == RC_SUCCESS) {
+                data = getDataFromResultJson(resultJson);
             }
 
-            return connectorResult;
+            return new DownloadResult(message, resultCode, data);
         } catch (JSONException e) {
             throw new ConnectorException();
         }

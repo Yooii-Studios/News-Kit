@@ -19,7 +19,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.connector.TokenValidationRequest;
+import com.yooiistudios.newsflow.core.connector.TokenValidationResult;
 import com.yooiistudios.newsflow.core.connector.Connector;
+import com.yooiistudios.newsflow.core.connector.ConnectorRequest;
 import com.yooiistudios.newsflow.core.connector.ConnectorResult;
 import com.yooiistudios.newsflow.core.connector.UploadRequest;
 import com.yooiistudios.newsflow.core.connector.UploadResult;
@@ -30,7 +33,6 @@ import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.RssFetchableConverter;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
@@ -52,8 +54,7 @@ import butterknife.InjectView;
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
         LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener,
-        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener,
-        UploadRequest.ResultListener<UploadResult> {
+        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -234,28 +235,36 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     @Override
-    public void onConfirmPairing(String token) {
-        NLLog.now("onConfirmPairing");
-//        Toast.makeText(getActivity(), "Token: " + token, Toast.LENGTH_SHORT).show();
-
-        // FIXME: Token 이 없을 경우 토스트 표시
-        Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_invalidate),
-                Toast.LENGTH_SHORT).show();
-        uploadData(token);
+    public void onConfirmPairing(final String token) {
+        TokenValidationRequest request = createTokenValidationRequest(token);
+        Connector.execute(request);
     }
 
-    @Override
-    public void onGetResult(UploadResult result) {
-        // TODO: 업로드 성공. UI 처리 필요
-        Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_sent),
-                Toast.LENGTH_SHORT).show();
-    }
+    private TokenValidationRequest createTokenValidationRequest(final String token) {
+        Context context = getActivity().getApplicationContext();
 
-    @Override
-    public void onFail(ConnectorResult result) {
-        // TODO: 업로드시 문제 생김. UI 처리 필요
-        Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_fail_to_send),
-                Toast.LENGTH_SHORT).show();
+        ConnectorRequest.ResultListener<TokenValidationResult> listener =
+                new ConnectorRequest.ResultListener<TokenValidationResult>() {
+                    @Override
+                    public void onSuccess(TokenValidationResult result) {
+                        if (result.isSuccess()) {
+                            if (result.isTokenValid()) {
+                                uploadData(token);
+                            } else {
+                                Toast.makeText(getActivity(), "token invalid...",
+                                        Toast.LENGTH_LONG).show();
+                                // TODO: 토큰이 invalid 하므로 유저에게 알리고 끝내야함
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(ConnectorResult result) {
+                        // TODO 요청 도중 문제 생김. UI 처리 필요
+                        Toast.makeText(getActivity(), "Send failed.", Toast.LENGTH_SHORT).show();
+                    }
+                };
+        return new TokenValidationRequest(context, listener, token);
     }
 
     private void uploadData(String token) {
@@ -263,9 +272,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             Context context = getActivity().getApplicationContext();
 
             List<NewsFeed> newsFeeds = getSavedNewsFeeds(context);
-            UploadRequest uploadRequest = createUploadRequest(token, newsFeeds);
+            UploadRequest request = createUploadRequest(token, newsFeeds);
 
-            Connector.upload(uploadRequest);
+            Connector.execute(request);
         } catch (RssFetchableConverter.RssFetchableConvertException e) {
             // TODO 인코딩시 문제 생김. UI 처리 필요
         }
@@ -284,12 +293,22 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private UploadRequest createUploadRequest(String token, List<NewsFeed> newsFeeds) throws RssFetchableConverter.RssFetchableConvertException {
-        UploadRequest uploadRequest = new UploadRequest();
-        uploadRequest.context = getActivity().getApplicationContext();
-        uploadRequest.token = token;
-        uploadRequest.data = RssFetchableConverter.newsFeedsToBase64String(newsFeeds);
-        uploadRequest.listener = this;
-        return uploadRequest;
+        String data = RssFetchableConverter.newsFeedsToBase64String(newsFeeds);
+        return new UploadRequest(getActivity().getApplicationContext(), new ConnectorRequest.ResultListener<UploadResult>() {
+            @Override
+            public void onSuccess(UploadResult result) {
+                // TODO 업로드 성공. UI 처리 필요
+                Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_sent),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail(ConnectorResult result) {
+                // TODO 업로드시 문제 생김. UI 처리 필요
+                Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_fail_to_send),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }, token, data);
     }
 
     private void showDialogFragment(String tag, DialogFragment dialogFragment) {

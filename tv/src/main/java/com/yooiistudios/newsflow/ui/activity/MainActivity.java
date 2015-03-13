@@ -16,21 +16,24 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrlType;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.news.task.NewsContentFetchManager;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
+import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity
         implements NewsFeedsFetchManager.OnFetchListener,
         NewsContentFetchManager.OnFetchListener {
+    public static final int RC_PAIR_ACTIVITY = 1001;
 
     /**
      * Called when the activity is first created.
@@ -67,20 +71,52 @@ public class MainActivity extends Activity
             applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
         } else {
             NLLog.i("Archive", "Archive does not exists. Fetch.");
-            fetchDefaultNewsFeeds(context);
+//            fetchDefaultNewsFeeds(context);
+            NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
+            ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
+                    .getDefaultBottomNewsFeedList(getApplicationContext());
+
+            fetch(defaultTopNewsFeed, defaultBottomNewsFeeds);
         }
     }
 
-    private void fetchDefaultNewsFeeds(Context context) {
-        NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
-        ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
-                .getDefaultBottomNewsFeedList(getApplicationContext());
-
-        NewsFeedsFetchManager.getInstance().fetch(defaultTopNewsFeed, defaultBottomNewsFeeds, this);
+    private void fetch(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+        NewsFeedsFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
     }
 
     private MainFragment getMainFragment() {
         return (MainFragment)getFragmentManager().findFragmentById(R.id.main_browse_fragment);
+    }
+
+    private void applyNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+        MainFragment fragment = getMainFragment();
+        fragment.applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
+
+        NewsContentFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case RC_PAIR_ACTIVITY:
+                if (resultCode == RESULT_OK) {
+                    String topUrl = data.getStringExtra(PairActivity.INTENT_KEY_TOP_URL);
+                    ArrayList<String> bottomUrls = data.getStringArrayListExtra(
+                            PairActivity.INTENT_KEY_BOTTOM_URL);
+
+                    NewsFeedUrlType urlType = NewsFeedUrlType.CUSTOM;
+                    NewsFeed topNewsFeed = new NewsFeed(new NewsFeedUrl(topUrl, urlType));
+                    ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
+                    for (String bottomUrl : bottomUrls) {
+                        bottomNewsFeeds.add(new NewsFeed(new NewsFeedUrl(bottomUrl, urlType)));
+                    }
+
+                    getMainFragment().emptyNewsFeeds();
+                    fetch(topNewsFeed, bottomNewsFeeds);
+                }
+                break;
+        }
     }
 
     @Override
@@ -90,26 +126,6 @@ public class MainActivity extends Activity
 
         applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
     }
-
-    private void applyNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
-        MainFragment fragment = getMainFragment();
-        fragment.applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
-
-        NewsContentFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
-//        NewsImageUrlFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
-    }
-
-//    @Override
-//    public void onFetchTopNewsFeedImageUrl(News news, String url, int newsIndex) {
-//        MainFragment fragment = getMainFragment();
-//        fragment.configOnTopNewsImageUrlLoad(news, url, newsIndex);
-//    }
-//
-//    @Override
-//    public void onFetchBottomNewsFeedImageUrl(News news, String url, int newsFeedIndex, int newsIndex) {
-//        MainFragment fragment = getMainFragment();
-//        fragment.configOnBottomNewsImageUrlLoad(news, url, newsFeedIndex, newsIndex);
-//    }
 
     @Override
     public void onFetchTopNewsContent(News news, NewsContent newsContent, int newsPosition) {
@@ -126,4 +142,9 @@ public class MainActivity extends Activity
 //                newsFeedPosition, newsPosition);
         fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
     }
+
+//    @Override
+//    public void onPairItemSelected() {
+//        startActivityForResult(new Intent(this, PairActivity.class), RC_PAIR_ACTIVITY);
+//    }
 }

@@ -11,28 +11,29 @@ import org.json.JSONObject;
  * UploadRequest
  *  커넥터 업로드 요청에 사용될 자료구조
  */
-public class DownloadRequest extends ConnectorRequest {
+public class TokenValidationRequest extends ConnectorRequest {
     private String mToken;
 
-    public DownloadRequest(Context context, ResultListener<DownloadResult> listener, String token) {
+    public TokenValidationRequest(Context context,
+                                  ResultListener<TokenValidationResult> listener,
+                                  String token) {
         super(context, listener);
         mToken = token;
     }
 
     @Override
     protected String getRequestUrl() {
-        return REQUEST_URL_BASE + "downloadfile.php";
+        return REQUEST_URL_BASE + "isuniquetokenvalid.php";
     }
 
     @Override
     protected JSONObject configOnConvertingToJsonObject(JSONObject jsonObject) throws JSONException {
-        jsonObject = putName(jsonObject);
         jsonObject = putToken(jsonObject, mToken);
         return jsonObject;
     }
 
     @Override
     protected ConnectorResult getResult(String resultString) throws ConnectorException {
-        return DownloadResult.fromResultString(resultString);
+        return TokenValidationResult.fromResultString(resultString);
     }
 }

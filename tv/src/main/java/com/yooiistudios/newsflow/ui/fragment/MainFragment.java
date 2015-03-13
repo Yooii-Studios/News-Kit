@@ -47,6 +47,7 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
+import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
 import com.yooiistudios.newsflow.ui.activity.PairActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
@@ -58,16 +59,16 @@ import java.util.TimerTask;
 
 
 public class MainFragment extends NewsBrowseFragment {
-    private static final String TAG = "MainFragment";
-    private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 400;
-    private static final int GRID_ITEM_HEIGHT = 200;
-
     public static final String ARG_NEWS_KEY = "arg_news_key";
     public static final String TRANSITION_PROPERTY_ARG_KEY = "transition_property_arg_key";
     public static final String DETAIL_CONTENT_KEY = "detail_content_key";
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
     public static final String DETAIL_WEB_CONTENT = "detail_web_content";
+
+    private static final String TAG = "MainFragment";
+    private static final int BACKGROUND_UPDATE_DELAY = 300;
+    private static final int GRID_ITEM_WIDTH = 400;
+    private static final int GRID_ITEM_HEIGHT = 200;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -90,7 +91,6 @@ public class MainFragment extends NewsBrowseFragment {
 
         prepareBackgroundManager();
         setupUIElements();
-//        loadRows();
         setupEventListeners();
     }
 
@@ -129,6 +129,10 @@ public class MainFragment extends NewsBrowseFragment {
         setAdapter(rowsAdapter);
     }
 
+    public void emptyNewsFeeds() {
+        setAdapter(new ArrayObjectAdapter(new ListRowPresenter()));
+    }
+
     private ListRow makeListRow(NewsFeed newsFeed, int i) {
         HeaderItem header = new HeaderItem(i, newsFeed.getTitle(), null);
         NewsFeedAdapter adapter = new NewsFeedAdapter(mCardPresenter, newsFeed);
@@ -147,22 +151,6 @@ public class MainFragment extends NewsBrowseFragment {
                 news.getGuid());
         applyBottomNewsImageUrlAt(news.getImageUrl(), newsFeedIndex, newsIndex);
     }
-
-//    public void configOnTopNewsImageUrlLoad(News news, String url, int newsIndex) {
-//        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
-//        applyTopNewsImageUrlAt(url, newsIndex);
-////        NewsDb.getInstance(getActivity()).saveTopNewsFeed(getTopNewsFeed());
-//    }
-
-//    public void configOnBottomNewsImageUrlLoad(News news, String url,
-//                                               int newsFeedIndex, int newsIndex) {
-////        NewsDb.getInstance(getActivity()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
-//        NewsDb.getInstance(getActivity()).saveBottomNewsImageUrlWithGuid(url, newsFeedIndex,
-//                news.getGuid());
-//        applyBottomNewsImageUrlAt(url, newsFeedIndex, newsIndex);
-////        NewsDb.getInstance(getActivity()).saveBottomNewsFeedAt(
-////                getBottomNewsFeedAt(newsFeedIndex), newsFeedIndex);
-//    }
 
     private void applyTopNewsImageUrlAt(String imageUrl, int newsIndex) {
         NewsFeedAdapter adapter = getTopNewsFeedAdapter();
@@ -325,7 +313,7 @@ public class MainFragment extends NewsBrowseFragment {
         intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, MainActivity.RC_PAIR_ACTIVITY);
     }
 
     private ActivityTransitionProperty createTransitionProperty(Presenter.ViewHolder itemViewHolder) {
