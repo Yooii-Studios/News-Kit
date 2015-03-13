@@ -64,6 +64,7 @@
     <string name="setting_pair_tv_data_invalidate">Token invalidate. Please check 5 numbers shown in the &quot;Pair Mobile&quot; tab of your Android TV</string>
     <string name="setting_pair_tv_data_sent">Succeed to pair with Android TV</string>
     <string name="setting_pair_tv_data_fail_to_send">Send your news panels to your Android TV</string>
+    <string name="setting_pair_tv_error_msg">Pair Failed. Please try again</string>
 
     <!-- Recommend -->
     <string name="recommend_to_friends">Recommend this to your friends</string>
