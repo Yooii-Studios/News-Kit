@@ -9,18 +9,25 @@ import org.json.JSONObject;
  * BaseConnectorResult
  *  커넥터 액션에 대한 결과 객체의 최소 단위
  */
-public class UploadResult extends ConnectorResult {
-    public UploadResult(String message, int resultCode) {
+public class TokenValidationResult extends ConnectorResult {
+    private boolean mIsTokenValid;
+
+    public TokenValidationResult(String message, int resultCode, boolean isTokenValid) {
         super(message, resultCode);
+        mIsTokenValid = isTokenValid;
     }
 
-    public static UploadResult fromResultString(String result) throws ConnectorException {
+    public boolean isTokenValid() {
+        return mIsTokenValid;
+    }
+
+    public static TokenValidationResult fromResultString(String result) throws ConnectorException {
         try {
             JSONObject resultJson = new JSONObject(result);
             int resultCode = getResultCodeFromResultJson(resultJson);
             String message = getMessageFromResultJson(resultJson);
-
-            return new UploadResult(message, resultCode);
+            boolean isTokenValid = getValidFromResultJson(resultJson);
+            return new TokenValidationResult(message, resultCode, isTokenValid);
         } catch (JSONException e) {
             throw new ConnectorException();
         }
