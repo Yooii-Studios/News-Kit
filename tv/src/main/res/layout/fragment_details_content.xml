@@ -32,7 +32,7 @@
                 android:layout_marginStart="@dimen/details_horizontal_margin"
                 android:layout_marginEnd="@dimen/details_horizontal_margin"
                 android:orientation="vertical"
-                android:background="@drawable/details_scrollview_drawable"
+                android:background="@drawable/rounded_rect_drawable"
                 android:elevation="@dimen/details_elevation">
 
                 <TextView

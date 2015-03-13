@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import com.yooiistudios.newsflow.core.connector.ConnectorException;
 import com.yooiistudios.newsflow.core.connector.ConnectorResult;
 import com.yooiistudios.newsflow.core.connector.DownloadRequest;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 12.
@@ -38,12 +37,10 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
         while (shouldTryMore(result)) {
             try {
                 Thread.sleep(1000);
-                NLLog.now("Trying to download...");
                 result = mRequest.execute();
             } catch (ConnectorException e) {
-                NLLog.now("Failed to download.");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                break;
+            } catch (InterruptedException ignored) {
             }
         }
         if (result == null) {
@@ -62,7 +59,6 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
 
     private boolean isExpired() {
         long timePast = System.currentTimeMillis() - mRequestStartTimeInMilli;
-        NLLog.now("timePast: " + timePast);
         return timePast > REQUEST_THRESHOLD_MILLI || isCancelled();
     }
 
