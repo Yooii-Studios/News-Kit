@@ -9,9 +9,9 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.connector.Connector;
 import com.yooiistudios.newsflow.core.connector.ConnectorRequest;
 import com.yooiistudios.newsflow.core.connector.ConnectorResult;
+import com.yooiistudios.newsflow.core.connector.TokenCreationRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadResult;
-import com.yooiistudios.newsflow.core.connector.GetUniqueTokenRequest;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenResult;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PairingTask;
@@ -58,8 +58,8 @@ public class PairActivity extends Activity {
     }
 
     private void requestToken() {
-        GetUniqueTokenRequest request = createGetUniqueTokenRequest();
-        Connector.getUniqueToken(request);
+        TokenCreationRequest request = createGetUniqueTokenRequest();
+        Connector.execute(request);
     }
 
     private void startPairingTask() {
@@ -71,8 +71,7 @@ public class PairActivity extends Activity {
         }
     }
 
-    private GetUniqueTokenRequest createGetUniqueTokenRequest() {
-//        request.context = this;
+    private TokenCreationRequest createGetUniqueTokenRequest() {
         ConnectorRequest.ResultListener<GetUniqueTokenResult> listener =
                 new ConnectorRequest.ResultListener<GetUniqueTokenResult>() {
             @Override
@@ -89,14 +88,10 @@ public class PairActivity extends Activity {
                 mPairTokenTextView.setText("에러...");
             }
         };
-        return new GetUniqueTokenRequest(getApplicationContext(), listener);
-//        return request;
+        return new TokenCreationRequest(getApplicationContext(), listener);
     }
 
     private DownloadRequest createDownloadRequest() {
-//        request.context = this;
-//        request.token = mToken;
-//        request.listener ;
         DownloadRequest.ResultListener<DownloadResult> listener =
                 new DownloadRequest.ResultListener<DownloadResult>() {
             @Override
@@ -111,7 +106,6 @@ public class PairActivity extends Activity {
             }
         };
         return new DownloadRequest(getApplicationContext(), listener, mToken);
-//        return request;
     }
 
     private void handleDownloadResult(DownloadResult result) {

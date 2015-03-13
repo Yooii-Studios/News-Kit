@@ -9,19 +9,7 @@ import android.os.AsyncTask;
  *  유이 커넥터 통신
  */
 public class Connector {
-    public static void upload(UploadRequest request) {
-        new ConnectorTask(request).execute();
-    }
-
-//    public static void download(DownloadRequest request) {
-//        new ConnectorTask(request).execute();
-//    }
-
-    public static void getUniqueToken(GetUniqueTokenRequest request) {
-        new ConnectorTask(request).execute();
-    }
-
-    public static void queryUniqueTokenValidity(TokenValidationRequest request) {
+    public static void execute(ConnectorRequest request) {
         new ConnectorTask(request).execute();
     }
 
@@ -38,7 +26,6 @@ public class Connector {
             try {
                 result = mRequest.execute();
             } catch (ConnectorException e) {
-                e.printStackTrace();
                 result = ConnectorResult.getErrorObject();
             }
             return result;

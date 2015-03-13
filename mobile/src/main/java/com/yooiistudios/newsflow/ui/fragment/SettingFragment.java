@@ -237,7 +237,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onConfirmPairing(final String token) {
         TokenValidationRequest request = createTokenValidationRequest(token);
-        Connector.queryUniqueTokenValidity(request);
+        Connector.execute(request);
     }
 
     private TokenValidationRequest createTokenValidationRequest(final String token) {
@@ -272,9 +272,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             Context context = getActivity().getApplicationContext();
 
             List<NewsFeed> newsFeeds = getSavedNewsFeeds(context);
-            UploadRequest uploadRequest = createUploadRequest(token, newsFeeds);
+            UploadRequest request = createUploadRequest(token, newsFeeds);
 
-            Connector.upload(uploadRequest);
+            Connector.execute(request);
         } catch (RssFetchableConverter.RssFetchableConvertException e) {
             // TODO 인코딩시 문제 생김. UI 처리 필요
         }
