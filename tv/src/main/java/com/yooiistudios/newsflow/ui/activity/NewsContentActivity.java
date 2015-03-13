@@ -8,16 +8,16 @@ import com.yooiistudios.newsflow.R;
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 6.
  *
- * NewsDetailsWebActivity
- *  뉴스를 웹으로 보는 액티비티
+ * NewsDetailsContentActivity
+ *  뉴스 내용을 볼 수 있는 액티비티
  */
-public class NewsDetailsWebActivity extends Activity {
+public class NewsContentActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details_web);
+        setContentView(R.layout.activity_news_content);
     }
 }

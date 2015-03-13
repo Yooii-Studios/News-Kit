@@ -16,7 +16,7 @@ import com.yooiistudios.newsflow.core.ui.animation.AnimatorListenerImpl;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
-import com.yooiistudios.newsflow.ui.fragment.NewsDetailsContentFragment;
+import com.yooiistudios.newsflow.ui.fragment.NewsContentFragment;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 10.
@@ -24,12 +24,12 @@ import com.yooiistudios.newsflow.ui.fragment.NewsDetailsContentFragment;
  * DetailsTransitionUtils
  *  디테일 화면 애니메이션을 관리하는 클래스. 지금은 사용하지 않고 있음
  */
-public class DetailsTransitionUtils {
+public class NewsTransitionUtils {
     private FrameLayout mContainerLayout;
     private ScrollView mScrollView;
     private ActivityTransitionProperty mTransitionProperty;
 
-    private DetailsTransitionUtils(NewsDetailsContentFragment fragment) {
+    private NewsTransitionUtils(NewsContentFragment fragment) {
         initViews(fragment);
         initTransitionProperty(fragment);
     }
@@ -40,12 +40,12 @@ public class DetailsTransitionUtils {
     }
     */
 
-    private void initViews(NewsDetailsContentFragment fragment) {
+    private void initViews(NewsContentFragment fragment) {
         mContainerLayout = fragment.getLayout();
         mScrollView = fragment.getScrollView();
     }
 
-    private void initTransitionProperty(NewsDetailsContentFragment fragment) {
+    private void initTransitionProperty(NewsContentFragment fragment) {
         String transitionPropertyStr = fragment.getActivity().getIntent().getExtras().getString(
                 MainFragment.TRANSITION_PROPERTY_ARG_KEY);
         mTransitionProperty = new Gson().fromJson(transitionPropertyStr, ActivityTransitionProperty.class);

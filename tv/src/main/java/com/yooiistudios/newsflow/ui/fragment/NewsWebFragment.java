@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.ProgressBar;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.ui.HTML5WebView;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,7 +25,7 @@ import butterknife.InjectView;
  * WebFragment
  *  뉴스 링크를 웹에서 볼 수 있는 프래그먼트
  */
-public class NewsDetailsWebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
+public class NewsWebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
     @InjectView(R.id.details_layout) FrameLayout mContainer;
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
 
@@ -37,7 +35,7 @@ public class NewsDetailsWebFragment extends Fragment implements HTML5WebView.HTM
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_details_web, container, false);
+        View root = inflater.inflate(R.layout.fragment_news_web, container, false);
         ButterKnife.inject(this, root);
 
         initNews();
@@ -48,7 +46,7 @@ public class NewsDetailsWebFragment extends Fragment implements HTML5WebView.HTM
     }
 
     private void initNews() {
-        mNews = getActivity().getIntent().getExtras().getParcelable(NewsDetailsFragment.ARG_NEWS_KEY);
+        mNews = getActivity().getIntent().getExtras().getParcelable(NewsFragment.ARG_NEWS_KEY);
     }
 
     private void initWebView() {

@@ -18,7 +18,7 @@ import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
 
 import com.yooiistudios.newsflow.core.news.News;
 
-public class NewsDetailsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
+public class NewsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
 
     @Override
     protected void onBindDescription(ViewHolder viewHolder, Object item) {

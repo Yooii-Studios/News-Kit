@@ -47,7 +47,7 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsActivity;
 import com.yooiistudios.newsflow.ui.activity.PairActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
@@ -285,7 +285,7 @@ public class MainFragment extends NewsBrowseFragment {
             if (item instanceof News) {
 //                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
-                Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), NewsActivity.class);
                 intent.putExtra(ARG_NEWS_KEY, ((News) item));
 
                 // debug
@@ -299,7 +299,7 @@ public class MainFragment extends NewsBrowseFragment {
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
                         ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        NewsDetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+                        NewsActivity.SHARED_ELEMENT_NAME).toBundle();
                 startActivity(intent, bundle);
             }
             if (item instanceof String) {

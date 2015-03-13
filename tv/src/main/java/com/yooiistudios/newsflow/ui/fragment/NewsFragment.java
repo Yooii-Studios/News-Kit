@@ -21,10 +21,10 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.Utils;
-import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
-import com.yooiistudios.newsflow.ui.activity.NewsDetailsContentActivity;
-import com.yooiistudios.newsflow.ui.activity.NewsDetailsWebActivity;
-import com.yooiistudios.newsflow.ui.presenter.NewsDetailsDescriptionPresenter;
+import com.yooiistudios.newsflow.ui.activity.NewsActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsContentActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsWebActivity;
+import com.yooiistudios.newsflow.ui.presenter.NewsDescriptionPresenter;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ import java.io.IOException;
  * DetailsFragment
  *  뉴스 링크를 웹에서 볼 수 있는 프래그먼트
  */
-public class NewsDetailsFragment extends DetailsFragment {
+public class NewsFragment extends DetailsFragment {
     private static final int ACTION_OPEN_LINK = 1;
     private static final int ACTION_SEE_CONTENT = 2;
 
@@ -73,10 +73,10 @@ public class NewsDetailsFragment extends DetailsFragment {
 
     private void initPresenter() {
         mDorPresenter =
-                new DetailsOverviewRowPresenter(new NewsDetailsDescriptionPresenter());
+                new DetailsOverviewRowPresenter(new NewsDescriptionPresenter());
         mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute();
         mDorPresenter.setSharedElementEnterTransition(getActivity(),
-                NewsDetailsActivity.SHARED_ELEMENT_NAME);
+                NewsActivity.SHARED_ELEMENT_NAME);
     }
 
     private void initBackground() {
@@ -124,11 +124,11 @@ public class NewsDetailsFragment extends DetailsFragment {
                 public void onActionClicked(Action action) {
                     if (action.getId() == ACTION_OPEN_LINK) {
 //                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), NewsDetailsWebActivity.class);
+                        Intent intent = new Intent(getActivity(), NewsWebActivity.class);
                         intent.putExtra(ARG_NEWS_KEY, mNews);
                         startActivity(intent);
                     } else if (action.getId() == ACTION_SEE_CONTENT){
-                        Intent intent = new Intent(getActivity(), NewsDetailsContentActivity.class);
+                        Intent intent = new Intent(getActivity(), NewsContentActivity.class);
                         intent.putExtra(ARG_NEWS_KEY, mNews);
                         startActivity(intent);
                     }

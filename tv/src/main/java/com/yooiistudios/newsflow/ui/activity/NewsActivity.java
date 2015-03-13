@@ -12,7 +12,7 @@ import com.yooiistudios.newsflow.R;
  * NewsDetailActivity
  *  뉴스 내용을 볼 수 있는 액티비티
  */
-public class NewsDetailsActivity extends Activity {
+public class NewsActivity extends Activity {
     public static final String SHARED_ELEMENT_NAME = "hero";
     /**
      * Called when the activity is first created.
@@ -20,7 +20,7 @@ public class NewsDetailsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_news);
     }
 
     @Override

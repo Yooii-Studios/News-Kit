@@ -31,13 +31,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.NewsDetailsActivity"
+            android:name=".ui.activity.NewsActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.NewsDetailsWebActivity"
+            android:name=".ui.activity.NewsWebActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.NewsDetailsContentActivity"
+            android:name=".ui.activity.NewsContentActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.activity.PairActivity"
