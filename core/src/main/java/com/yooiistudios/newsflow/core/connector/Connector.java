@@ -21,6 +21,10 @@ public class Connector {
         new ConnectorTask(request).execute();
     }
 
+    public static void queryUniqueTokenValidity(TokenValidationRequest request) {
+        new ConnectorTask(request).execute();
+    }
+
     private static class ConnectorTask extends AsyncTask<Void, Void, ConnectorResult> {
         private ConnectorRequest mRequest;
 

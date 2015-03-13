@@ -1,5 +1,7 @@
 package com.yooiistudios.newsflow.core.connector;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +12,12 @@ import org.json.JSONObject;
  *  커넥터 업로드 요청에 사용될 자료구조
  */
 public class DownloadRequest extends ConnectorRequest {
-    public String token;
+    private String mToken;
+
+    public DownloadRequest(Context context, ResultListener<DownloadResult> listener, String token) {
+        super(context, listener);
+        mToken = token;
+    }
 
     @Override
     protected String getRequestUrl() {
@@ -18,14 +25,14 @@ public class DownloadRequest extends ConnectorRequest {
     }
 
     @Override
-    protected ConnectorResult getResult(String resultString) throws ConnectorException {
-        return DownloadResult.fromResultString(resultString);
+    protected JSONObject configOnConvertingToJsonObject(JSONObject jsonObject) throws JSONException {
+        jsonObject = putName(jsonObject);
+        jsonObject = putToken(jsonObject, mToken);
+        return jsonObject;
     }
 
     @Override
-    protected JSONObject configOnConvertingToJsonObject(JSONObject jsonObject) throws JSONException {
-        jsonObject = putName(jsonObject);
-        jsonObject = putToken(jsonObject, token);
-        return jsonObject;
+    protected ConnectorResult getResult(String resultString) throws ConnectorException {
+        return DownloadResult.fromResultString(resultString);
     }
 }

@@ -72,13 +72,13 @@ public class PairActivity extends Activity {
     }
 
     private GetUniqueTokenRequest createGetUniqueTokenRequest() {
-        GetUniqueTokenRequest request = new GetUniqueTokenRequest();
-        request.context = this;
-        request.listener = new ConnectorRequest.ResultListener<GetUniqueTokenResult>() {
+//        request.context = this;
+        ConnectorRequest.ResultListener<GetUniqueTokenResult> listener =
+                new ConnectorRequest.ResultListener<GetUniqueTokenResult>() {
             @Override
-            public void onGetResult(GetUniqueTokenResult result) {
-                mPairTokenTextView.setText(result.token);
-                mToken = result.token;
+            public void onSuccess(GetUniqueTokenResult result) {
+                mPairTokenTextView.setText(result.getToken());
+                mToken = result.getToken();
 
                 startPairingTask();
             }
@@ -89,16 +89,18 @@ public class PairActivity extends Activity {
                 mPairTokenTextView.setText("에러...");
             }
         };
-        return request;
+        return new GetUniqueTokenRequest(getApplicationContext(), listener);
+//        return request;
     }
 
     private DownloadRequest createDownloadRequest() {
-        DownloadRequest request = new DownloadRequest();
-        request.context = this;
-        request.token = mToken;
-        request.listener = new DownloadRequest.ResultListener<DownloadResult>() {
+//        request.context = this;
+//        request.token = mToken;
+//        request.listener ;
+        DownloadRequest.ResultListener<DownloadResult> listener =
+                new DownloadRequest.ResultListener<DownloadResult>() {
             @Override
-            public void onGetResult(DownloadResult result) {
+            public void onSuccess(DownloadResult result) {
                 handleDownloadResult(result);
             }
 
@@ -108,14 +110,15 @@ public class PairActivity extends Activity {
                 NLLog.now("Download failed.");
             }
         };
-        return request;
+        return new DownloadRequest(getApplicationContext(), listener, mToken);
+//        return request;
     }
 
     private void handleDownloadResult(DownloadResult result) {
         NLLog.now("Download succeed.");
         mPairTokenTextView.append("\nresult: ");
         try {
-            byte[] dataBytes = Base64.decode(result.data, Base64.NO_WRAP);
+            byte[] dataBytes = Base64.decode(result.getData(), Base64.NO_WRAP);
             JSONArray jsonArray = new JSONArray(new String(dataBytes));
             int jsonArraySize = jsonArray.length();
 

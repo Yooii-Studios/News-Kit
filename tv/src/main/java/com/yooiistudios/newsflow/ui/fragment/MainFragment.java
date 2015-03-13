@@ -146,6 +146,10 @@ public class MainFragment extends NewsBrowseFragment {
         setAdapter(rowsAdapter);
     }
 
+    public void emptyNewsFeeds() {
+        setAdapter(new ArrayObjectAdapter(new ListRowPresenter()));
+    }
+
     private ListRow makeListRow(NewsFeed newsFeed, int i) {
         HeaderItem header = new HeaderItem(i, newsFeed.getTitle(), null);
         NewsFeedAdapter adapter = new NewsFeedAdapter(mCardPresenter, newsFeed);

@@ -57,7 +57,7 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
     }
 
     private boolean isSuccess(ConnectorResult result) {
-        return result != null && result.resultCode == ConnectorResult.RC_SUCCESS;
+        return result != null && result.isSuccess();
     }
 
     private boolean isExpired() {

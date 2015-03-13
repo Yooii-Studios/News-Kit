@@ -113,6 +113,7 @@ public class MainActivity extends Activity
                         bottomNewsFeeds.add(new NewsFeed(new NewsFeedUrl(bottomUrl, urlType)));
                     }
 
+                    getMainFragment().emptyNewsFeeds();
                     fetch(topNewsFeed, bottomNewsFeeds);
                 }
                 break;

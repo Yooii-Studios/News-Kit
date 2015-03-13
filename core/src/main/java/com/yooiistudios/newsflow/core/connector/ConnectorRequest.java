@@ -18,6 +18,10 @@ import java.io.IOException;
  *  커넥터 요청에 사용될 자료구조
  */
 public abstract class ConnectorRequest<T extends ConnectorResult> {
+    public interface ResultListener<S extends ConnectorResult> {
+        public void onSuccess(S result);
+        public void onFail(ConnectorResult result);
+    }
     protected static final String KEY_AUTH = "auth";
     protected static final String KEY_APP_CODE = "app";
     protected static final String KEY_NAME = "name";
@@ -28,13 +32,13 @@ public abstract class ConnectorRequest<T extends ConnectorResult> {
 
     private static final String APP_CODE = "newsflow";
 
-    public interface ResultListener<S extends ConnectorResult> {
-        public void onGetResult(S result);
-        public void onFail(ConnectorResult result);
-    }
+    private Context mContext;
+    private ResultListener<ConnectorResult> mListener;
 
-    public Context context;
-    public ResultListener<ConnectorResult> listener;
+    public ConnectorRequest(Context context, ResultListener<ConnectorResult> listener) {
+        mContext = context;
+        mListener = listener;
+    }
 
     public T execute() throws ConnectorException {
         try {
@@ -46,22 +50,22 @@ public abstract class ConnectorRequest<T extends ConnectorResult> {
     }
 
     protected abstract String getRequestUrl();
-
+    protected abstract JSONObject configOnConvertingToJsonObject(JSONObject jsonObject) throws JSONException;
     protected abstract T getResult(String resultString) throws ConnectorException;
 
     public void handleResult(ConnectorResult result) {
-        if (listener != null) {
-            if (result.resultCode == ConnectorResult.RC_SUCCESS) {
-                listener.onGetResult(result);
+        if (mListener != null) {
+            if (result.isSuccess()) {
+                mListener.onSuccess(result);
             } else {
-                listener.onFail(result);
+                mListener.onFail(result);
             }
         }
     }
 
     public final JSONObject toJsonObject() throws JSONException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(KEY_AUTH, UUID.getDeviceUuid(context));
+        jsonObject.put(KEY_AUTH, UUID.getDeviceUuid(mContext));
         jsonObject.put(KEY_APP_CODE, APP_CODE);
         jsonObject = configOnConvertingToJsonObject(jsonObject);
 
@@ -69,7 +73,7 @@ public abstract class ConnectorRequest<T extends ConnectorResult> {
     }
 
     protected JSONObject putName(JSONObject jsonObject) throws JSONException {
-        jsonObject.put(KEY_NAME, Device.Profile.getUserNameOrDefault(context));
+        jsonObject.put(KEY_NAME, Device.Profile.getUserNameOrDefault(mContext));
 
         return jsonObject;
     }
@@ -85,6 +89,4 @@ public abstract class ConnectorRequest<T extends ConnectorResult> {
 
         return jsonObject;
     }
-
-    protected abstract JSONObject configOnConvertingToJsonObject(JSONObject jsonObject) throws JSONException;
 }
