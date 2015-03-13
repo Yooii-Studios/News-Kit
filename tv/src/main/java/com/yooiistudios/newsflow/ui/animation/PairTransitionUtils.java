@@ -8,47 +8,52 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ScrollView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
-import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 import com.yooiistudios.newsflow.core.ui.animation.AnimatorListenerImpl;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
-import com.yooiistudios.newsflow.ui.fragment.NewsDetailsContentFragment;
+import com.yooiistudios.newsflow.ui.activity.PairActivity;
+import com.yooiistudios.newsflow.ui.fragment.MainFragment;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 10.
  *
- * DetailsTransitionUtils
- *  디테일 화면 애니메이션을 관리하는 클래스. 지금은 사용하지 않고 있음
+ * PairTransitionUtils
+ *  페어 화면의 애니메이션을 담당
  */
-public class DetailsTransitionUtils {
+public class PairTransitionUtils {
     private FrameLayout mContainerLayout;
-    private ScrollView mScrollView;
+    private LinearLayout mDialogLayout;
     private ActivityTransitionProperty mTransitionProperty;
+    private PairTransitionCallback mCallback;
 
-    private DetailsTransitionUtils(NewsDetailsContentFragment fragment) {
-        initViews(fragment);
-        initTransitionProperty(fragment);
+    public interface PairTransitionCallback {
+        public void onTransitionAnimationEnd();
     }
 
-    /*
-    public static void runEnterAnimation(NewsDetailsContentFragment fragment) {
-        new DetailsTransitionUtils(fragment).requestActivityTransition();
-    }
-    */
-
-    private void initViews(NewsDetailsContentFragment fragment) {
-        mContainerLayout = fragment.getLayout();
-        mScrollView = fragment.getScrollView();
+    private PairTransitionUtils(PairActivity activity, PairTransitionCallback callback) {
+        mCallback = callback;
+        initViews(activity);
+        initTransitionProperty(activity);
     }
 
-    private void initTransitionProperty(NewsDetailsContentFragment fragment) {
-        String transitionPropertyStr = fragment.getActivity().getIntent().getExtras().getString(
+    public static void runEnterAnimation(PairActivity activity, PairTransitionCallback callback) {
+        new PairTransitionUtils(activity, callback).requestActivityTransition();
+    }
+
+    private void initViews(PairActivity activity) {
+        mContainerLayout = activity.getContainerLayout();
+        mDialogLayout = activity.getDialogLayout();
+    }
+
+    private void initTransitionProperty(PairActivity activity) {
+        String transitionPropertyStr = activity.getIntent().getExtras().getString(
                 MainFragment.TRANSITION_PROPERTY_ARG_KEY);
-        mTransitionProperty = new Gson().fromJson(transitionPropertyStr, ActivityTransitionProperty.class);
+        mTransitionProperty = new Gson().fromJson(transitionPropertyStr,
+                ActivityTransitionProperty.class);
     }
 
     private void requestActivityTransition() {
@@ -57,9 +62,9 @@ public class DetailsTransitionUtils {
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
                                        int oldTop, int oldRight, int oldBottom) {
                 mContainerLayout.removeOnLayoutChangeListener(this);
-                mScrollView.setVisibility(View.INVISIBLE);
+                mDialogLayout.setVisibility(View.INVISIBLE);
                 revealBackground();
-                startScrollViewAnimation();
+                startDialogLayoutAnimation();
             }
         });
     }
@@ -77,24 +82,34 @@ public class DetailsTransitionUtils {
         animator.start();
     }
 
-    private void startScrollViewAnimation() {
+    private void startDialogLayoutAnimation() {
         TimeInterpolator fastOutSlowInInterpolator =
-                AnimationUtils.loadInterpolator(mScrollView.getContext(),
+                AnimationUtils.loadInterpolator(mDialogLayout.getContext(),
                         android.R.interpolator.fast_out_slow_in);
 
-        ObjectAnimator scrollViewAnimator = ObjectAnimator.ofFloat(mScrollView, "translationY",
-                Display.getDisplaySize(mScrollView.getContext()).y * 1.0f, 0);
-        scrollViewAnimator.setStartDelay(280);
-        scrollViewAnimator.setDuration(450);
-        scrollViewAnimator.setInterpolator(fastOutSlowInInterpolator);
-        scrollViewAnimator.addListener(new AnimatorListenerImpl() {
+        float previousY = mDialogLayout.getTranslationY();
+        ObjectAnimator dialogLayoutAnimator = ObjectAnimator.ofFloat(mDialogLayout, "translationY",
+                Display.getDisplaySize(mDialogLayout.getContext()).y, previousY);
+        dialogLayoutAnimator.setStartDelay(250);
+        dialogLayoutAnimator.setDuration(450);
+        dialogLayoutAnimator.setInterpolator(fastOutSlowInInterpolator);
+        dialogLayoutAnimator.addListener(new AnimatorListenerImpl() {
+
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-                mScrollView.setVisibility(View.VISIBLE);
+                mDialogLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (mCallback != null) {
+                    mCallback.onTransitionAnimationEnd();
+                }
             }
         });
-        scrollViewAnimator.start();
+        dialogLayoutAnimator.start();
     }
 
     private Point getRevealCenter() {

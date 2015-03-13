@@ -2,6 +2,8 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,14 +17,20 @@ import com.yooiistudios.newsflow.core.connector.GetUniqueTokenRequest;
 import com.yooiistudios.newsflow.core.connector.GetUniqueTokenResult;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PairingTask;
+import com.yooiistudios.newsflow.ui.animation.PairTransitionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
-public class PairActivity extends Activity {
+@Accessors(prefix = "m")
+public class PairActivity extends Activity implements PairTransitionUtils.PairTransitionCallback {
+    @Getter @InjectView(R.id.pair_container_layout) FrameLayout mContainerLayout;
+    @Getter @InjectView(R.id.pair_dialog_layout) LinearLayout mDialogLayout;
     @InjectView(R.id.pair_token1_textview) TextView mToken1TextView;
     @InjectView(R.id.pair_token2_textview) TextView mToken2TextView;
     @InjectView(R.id.pair_token3_textview) TextView mToken3TextView;
@@ -38,8 +46,8 @@ public class PairActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pair);
         ButterKnife.inject(this);
+        PairTransitionUtils.runEnterAnimation(this, this);
         initViews();
-        requestToken();
     }
 
     @Override
@@ -142,6 +150,11 @@ public class PairActivity extends Activity {
             e.printStackTrace();
         }
         */
+    }
+
+    @Override
+    public void onTransitionAnimationEnd() {
+        requestToken();
     }
 
     /*

@@ -1,21 +1,21 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/base_margin"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:background="@drawable/rounded_rect_drawable"
+    android:id="@+id/pair_container_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_grey_800"
     tools:context="com.yooiistudios.newsflow.ui.activity.PairActivity"
     tools:deviceIds="tv">
 
     <LinearLayout
+        android:id="@+id/pair_dialog_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/base_margin"
-        android:orientation="vertical"
-        android:background="@drawable/rounded_rect_drawable">
+        android:padding="@dimen/base_margin_large"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_rect_drawable"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/pair_title"

@@ -37,8 +37,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.R;
@@ -46,8 +46,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
-import com.yooiistudios.newsflow.core.util.NLLog;
-import com.yooiistudios.newsflow.model.DebugSharedPreferencesUtil;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.ui.activity.NewsDetailsActivity;
 import com.yooiistudios.newsflow.ui.activity.PairActivity;
@@ -123,11 +121,9 @@ public class MainFragment extends NewsBrowseFragment {
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.detail_mode));
+        gridRowAdapter.add(getResources().getString(R.string.pair_title));
         gridRowAdapter.add(getResources().getString(R.string.remove_db));
         gridRowAdapter.add(getResources().getString(R.string.copy_db));
-        gridRowAdapter.add(getString(R.string.error_fragment));
-        gridRowAdapter.add(getResources().getString(R.string.personal_settings));
         rowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
         setAdapter(rowsAdapter);
@@ -287,8 +283,6 @@ public class MainFragment extends NewsBrowseFragment {
 //                }
 //            }
             if (item instanceof News) {
-                NLLog.now("item instanceof News");
-
 //                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
@@ -309,20 +303,29 @@ public class MainFragment extends NewsBrowseFragment {
                 startActivity(intent, bundle);
             }
             if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.copy_db)) >= 0) {
+                if (((String) item).contains(getString(R.string.pair_title))) {
+                    startPairActivity(itemViewHolder);
+                } else if (((String) item).contains(getString(R.string.copy_db))) {
                     NewsDb.copyDbToExternalStorage(getActivity());
-                } else if (((String) item).indexOf(getString(R.string.remove_db)) >= 0) {
+                } else if (((String) item).contains(getString(R.string.remove_db))) {
                     NewsDb.getInstance(getActivity()).clearArchive();
-                } else if (((String) item).indexOf(getString(R.string.detail_mode)) >= 0) {
-                    DebugSharedPreferencesUtil.toggleDetailActivityMode(getActivity());
-                    String currentMode =
-                            DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
-                    Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
-                } else if (((String) item).indexOf(getString(R.string.personal_settings)) >= 0) {
-                    startActivity(new Intent(getActivity(), PairActivity.class));
+//                } else if (((String) item).contains(getString(R.string.detail_mode))) {
+//                    DebugSharedPreferencesUtil.toggleDetailActivityMode(getActivity());
+//                    String currentMode =
+//                            DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
+//                    Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
+    private void startPairActivity(Presenter.ViewHolder itemViewHolder) {
+        ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
+        Intent intent = new Intent(getActivity(), PairActivity.class);
+        intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+        startActivity(intent);
     }
 
     private ActivityTransitionProperty createTransitionProperty(Presenter.ViewHolder itemViewHolder) {
@@ -330,8 +333,6 @@ public class MainFragment extends NewsBrowseFragment {
 
         int[] screenLocation = new int[2];
         itemViewHolder.view.getLocationOnScreen(screenLocation);
-
-        NLLog.now("x: " + screenLocation[0] + " / y: " + screenLocation[1]);
 
         transitionProperty.setLeft(screenLocation[0]);
         transitionProperty.setTop(screenLocation[1]);
