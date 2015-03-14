@@ -20,8 +20,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.util.DipToPixel;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.reference.Utils;
 import com.yooiistudios.newsflow.ui.activity.NewsContentActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsWebActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDescriptionPresenter;
@@ -149,9 +149,9 @@ public class NewsFragment extends DetailsFragment {
         try {
             poster = Picasso.with(getActivity())
                     .load(mNews.getImageUrl())
-                    .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(),
+                    .resize(DipToPixel.dpToPixel(getActivity().getApplicationContext(),
                                     DETAIL_THUMB_WIDTH),
-                            Utils.convertDpToPixel(getActivity().getApplicationContext(),
+                            DipToPixel.dpToPixel(getActivity().getApplicationContext(),
                                     DETAIL_THUMB_HEIGHT))
                     .centerCrop()
                     .error(getActivity().getResources().getDrawable(R.drawable

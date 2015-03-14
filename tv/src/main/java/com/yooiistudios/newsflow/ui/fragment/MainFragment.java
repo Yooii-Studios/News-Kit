@@ -31,7 +31,6 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -64,7 +63,6 @@ public class MainFragment extends NewsBrowseFragment {
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
     public static final String DETAIL_WEB_CONTENT = "detail_web_content";
 
-    private static final String TAG = "MainFragment";
     private static final int BACKGROUND_UPDATE_DELAY = 300;
     private static final int GRID_ITEM_WIDTH = 400;
     private static final int GRID_ITEM_HEIGHT = 200;
@@ -85,7 +83,6 @@ public class MainFragment extends NewsBrowseFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
 
         prepareBackgroundManager();
@@ -101,7 +98,6 @@ public class MainFragment extends NewsBrowseFragment {
     public void onDestroy() {
         super.onDestroy();
         if (null != mBackgroundTimer) {
-            Log.d(TAG, "onDestroy: " + mBackgroundTimer.toString());
             mBackgroundTimer.cancel();
         }
     }
@@ -248,27 +244,6 @@ public class MainFragment extends NewsBrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
-//            if (item instanceof Movie) {
-//                Movie movie = (Movie) item;
-//                Log.d(TAG, "Item: " + item.toString());
-//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//                intent.putExtra(DetailsActivity.MOVIE, movie);
-//
-//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        getActivity(),
-//                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-//                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-//                getActivity().startActivity(intent, bundle);
-//            } else if (item instanceof String) {
-//                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-//                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-//                            .show();
-//                }
-//            }
             if (item instanceof News) {
 //                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
@@ -278,14 +253,6 @@ public class MainFragment extends NewsBrowseFragment {
                 Intent intent = new Intent(getActivity(), NewsActivity.class);
                 intent.putExtra(ARG_NEWS_KEY, ((News) item));
                 intent.putExtra(ARG_HAS_IMAGE_KEY, hasImage);
-
-                // debug
-//                intent.putExtra(DETAIL_CONTENT_KEY,
-//                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
-
-//                intent.putExtra(ARG_NEWS_KEY, ((News) item).getLink());
-//                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
                 // FIXME: 나중에 시간 여유가 되면 애니메이션을 제대로 추가하자
 //                ImageCardView imageCardView = (ImageCardView) itemViewHolder.view;
