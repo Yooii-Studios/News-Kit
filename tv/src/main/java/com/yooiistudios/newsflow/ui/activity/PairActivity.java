@@ -108,8 +108,8 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
                     @Override
                     public void onFail(ConnectorResult result) {
-                        // TODO result.resultCode == ConnectorResult.RC_TOKEN_CREATION_FAILED 일 경우 처리
-//                mPairTokenTextView.setText("에러...");
+                        Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                                Toast.LENGTH_SHORT).show();
                     }
                 };
         return new TokenCreationRequest(getApplicationContext(), listener);
@@ -138,8 +138,8 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
                     @Override
                     public void onFail(ConnectorResult result) {
-                        // TODO 서버와 통신중 문제 발생. UI 처리 필요.
-                        NLLog.now("Download failed.");
+                        Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                                Toast.LENGTH_SHORT).show();
                     }
                 };
         return new DownloadRequest(getApplicationContext(), listener, mToken);
@@ -154,7 +154,8 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
             if (jsonArraySize > 0) {
                 putReceivedDataAndFinish(jsonArray);
             } else {
-                // TODO 하나도 받지 않은 상황. 유저에게 알려줘야함.
+                Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                        Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
