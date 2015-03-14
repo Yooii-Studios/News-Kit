@@ -15,6 +15,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
  */
 public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     private static final int DEFAULT_FETCH_LIMIT = 10;
+//    private static final int DEFAULT_FETCH_LIMIT = 1;
 
     private RssFetchable mRssFetchable;
     private OnFetchListener mListener;

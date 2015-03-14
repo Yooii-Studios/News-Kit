@@ -23,7 +23,16 @@ public class NewsContentFetchUtil {
             JResult result = new HtmlFetcher().fetchAndExtract(url, 30000, true);
             result.setText(getTextWithBreakLine(result));
             fetchResult.newsContent = new NewsContent(result);
-            fetchResult.imageUrl = result.getImageUrl();
+//            fetchResult.imageUrl = result.getImageUrl();
+
+            if (result.getOgImages().size() >= 0) {
+                fetchResult.imageUrl = result.getOgImages().get(0);
+            } else {
+                fetchResult.imageUrl = result.getImageUrl();
+            }
+
+//            NLLog.now("ogImage size: " + result.getOgImages().size());
+//            NLLog.now("srcImage size: " + (result.getImages() != null ? result.getImages().size() : "0"));
         } catch (Exception e) {
             fetchResult.newsContent = NewsContent.createErrorObject();
             fetchResult.imageUrl = "";
@@ -49,5 +58,8 @@ public class NewsContentFetchUtil {
     public static class NewsContentFetchResult {
         public NewsContent newsContent;
         public String imageUrl;
+
+//        public List<ImageResult> imageResults;
+//        public List<String> ogImages;
     }
 }

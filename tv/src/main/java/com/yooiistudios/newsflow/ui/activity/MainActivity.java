@@ -75,6 +75,7 @@ public class MainActivity extends Activity
             NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
             ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
                     .getDefaultBottomNewsFeedList(getApplicationContext());
+//            ArrayList<NewsFeed> defaultBottomNewsFeeds = new ArrayList<>();
 
             fetch(defaultTopNewsFeed, defaultBottomNewsFeeds);
         }

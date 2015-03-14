@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.util.DipToPixel;
-import com.yooiistudios.newsflow.ui.widget.PicassoImageCardViewTarget;
+import com.yooiistudios.newsflow.ui.widget.MainImageCardViewTarget;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand. 
@@ -102,14 +102,14 @@ public class CardPresenter extends Presenter {
         return imageUrl != null && imageUrl.length() > 0;
     }
 
-    private class NewsViewHolder extends Presenter.ViewHolder {
+    public class NewsViewHolder extends Presenter.ViewHolder {
         public ImageCardView imageCardView;
-        public PicassoImageCardViewTarget picassoTarget;
+        public MainImageCardViewTarget picassoTarget;
 
         public NewsViewHolder(View view) {
             super(view);
             imageCardView = (ImageCardView) view;
-            picassoTarget = new PicassoImageCardViewTarget(imageCardView);
+            picassoTarget = new MainImageCardViewTarget(imageCardView);
         }
     }
 }
