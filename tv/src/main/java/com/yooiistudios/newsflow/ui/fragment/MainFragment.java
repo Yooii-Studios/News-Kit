@@ -40,7 +40,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsActivity;
@@ -52,7 +51,6 @@ import com.yooiistudios.newsflow.ui.presenter.SettingItemPresenter;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 public class MainFragment extends NewsBrowseFragment {
     public static final String ARG_NEWS_KEY = "arg_news_key";
