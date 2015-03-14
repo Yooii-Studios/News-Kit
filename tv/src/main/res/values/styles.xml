@@ -4,9 +4,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">@dimen/pair_number_textview_width</item>
         <item name="android:layout_margin">@dimen/base_margin_half</item>
-        <item name="android:padding">@dimen/base_margin</item>
+        <item name="android:paddingTop">@dimen/base_margin_half</item>
+        <item name="android:paddingBottom">@dimen/base_margin_half</item>
+        <item name="android:gravity">center</item>
         <item name="android:background">@drawable/pair_number_background</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
         <item name="android:textColor">@color/material_black_primary_text</item>
     </style>
 </resources>

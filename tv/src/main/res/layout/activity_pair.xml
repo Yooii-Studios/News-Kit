@@ -12,8 +12,9 @@
         android:id="@+id/pair_dialog_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/base_margin_large"
         android:layout_gravity="center"
+        android:elevation="@dimen/base_elevation"
+        android:padding="@dimen/base_margin_large"
         android:background="@drawable/rounded_rect_drawable"
         android:orientation="vertical">
 
