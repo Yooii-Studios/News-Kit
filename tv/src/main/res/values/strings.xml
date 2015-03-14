@@ -5,6 +5,9 @@
     <string name="open_link">Open Link</string>
     <string name="see_content">See Content</string>
 
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+
     <!-- Pair -->
     <string name="pair_title">Pair Now</string>
     <string name="pair_description">Bring your News Panels from mobile to Android TV</string>

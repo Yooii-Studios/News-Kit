@@ -107,7 +107,8 @@ public class MainFragment extends NewsBrowseFragment {
             rowsAdapter.add(makeListRow(newsFeed, i + 1));
         }
 
-        HeaderItem SettingHeader = new HeaderItem(bottomNewsFeeds.size(), "Settings", null);
+        HeaderItem SettingHeader = new HeaderItem(bottomNewsFeeds.size(),
+                getString(R.string.settings), null);
 
         SettingItemPresenter settingItemPresenter = new SettingItemPresenter();
         ArrayObjectAdapter settingRowAdapter = new ArrayObjectAdapter(settingItemPresenter);
@@ -120,7 +121,9 @@ public class MainFragment extends NewsBrowseFragment {
     }
 
     public void emptyNewsFeeds() {
-        setAdapter(new ArrayObjectAdapter(new ListRowPresenter()));
+        startHeadersTransition(true);
+        onRowSelected(0);
+        setAdapter(null);
     }
 
     private ListRow makeListRow(NewsFeed newsFeed, int i) {
@@ -256,19 +259,18 @@ public class MainFragment extends NewsBrowseFragment {
 //                        NewsActivity.SHARED_ELEMENT_NAME).toBundle();
 //                startActivity(intent, bundle);
                 startActivity(intent);
-            }
-            if (item instanceof String) {
+            } else if (item instanceof String) {
+                if (((String) item).contains("Empty")) {
+                    clearBackground();
+                    emptyNewsFeeds();
+                }
                 if (((String) item).contains(getString(R.string.pair_title))) {
+                    clearBackground();
                     startPairActivity(itemViewHolder);
                 } else if (((String) item).contains(getString(R.string.copy_db))) {
                     NewsDb.copyDbToExternalStorage(getActivity());
                 } else if (((String) item).contains(getString(R.string.remove_db))) {
                     NewsDb.getInstance(getActivity()).clearArchive();
-//                } else if (((String) item).contains(getString(R.string.detail_mode))) {
-//                    DebugSharedPreferencesUtil.toggleDetailActivityMode(getActivity());
-//                    String currentMode =
-//                            DebugSharedPreferencesUtil.getDetailActivityMode(getActivity());
-//                    Toast.makeText(getActivity(), currentMode, Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -335,11 +337,11 @@ public class MainFragment extends NewsBrowseFragment {
     protected void updateBackground(Drawable drawable) {
         BackgroundManager.getInstance(getActivity()).setDrawable(drawable);
     }
+    */
 
     protected void clearBackground() {
         BackgroundManager.getInstance(getActivity()).setDrawable(mDefaultBackground);
     }
-    */
 
     private void startBackgroundTimer() {
         if (null != mBackgroundTimer) {

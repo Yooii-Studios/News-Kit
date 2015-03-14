@@ -853,7 +853,8 @@ public class NewsBrowseFragment extends Fragment {
         }
     };
 
-    private void onRowSelected(int position) {
+    // Pair 이후 초기화를 위해 public 으로 열어줌
+    public void onRowSelected(int position) {
         if (position != mSelectedPosition) {
             mSetSelectionRunnable.mPosition = position;
             mBrowseFrame.getHandler().post(mSetSelectionRunnable);
