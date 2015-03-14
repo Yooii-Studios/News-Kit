@@ -287,6 +287,7 @@ public class MainFragment extends NewsBrowseFragment {
 //                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
+                // FIXME: 나중에 시간 여유가 되면 애니메이션을 제대로 추가하자
 //                ImageCardView imageCardView = (ImageCardView) itemViewHolder.view;
 //                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
 //                        getActivity(),

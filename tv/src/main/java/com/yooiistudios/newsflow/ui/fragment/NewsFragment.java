@@ -87,7 +87,10 @@ public class NewsFragment extends DetailsFragment {
     private void initPresenter() {
         mDorPresenter =
                 new DetailsOverviewRowPresenter(new NewsDescriptionPresenter());
-        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask()
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        // FIXME: 나중에 시간 여유가 되면 애니메이션을 제대로 수정해주자
 //        mDorPresenter.setSharedElementEnterTransition(getActivity(),
 //                NewsActivity.SHARED_ELEMENT_NAME);
     }
@@ -172,7 +175,6 @@ public class NewsFragment extends DetailsFragment {
 
         @Override
         protected Bitmap doInBackground(Void... params) {
-            long startMilli = System.currentTimeMillis();
             Bitmap poster;
             if (mHasImage) {
                 poster = getImageFromUrl();
