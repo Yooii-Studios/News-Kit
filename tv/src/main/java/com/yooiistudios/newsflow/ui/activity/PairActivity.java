@@ -61,16 +61,7 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
     @Override
     protected void onPause() {
         super.onPause();
-        if (mPairingTask != null) {
-            mPairingTask.cancel(true);
-            mPairingTask = null;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        startPairingTask();
+        stopPairingTask();
     }
 
     private void initViews() {
@@ -81,13 +72,16 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
         textViews.add(mToken5TextView);
     }
 
-    private void requestToken() {
-        // FIXME: 조금 늦게 뜨는 것을 위해 1초 기다림
-        TokenCreationRequest request = createNewTokenRequest();
-        Connector.execute(request);
+    private void stopPairingTask() {
+        if (mPairingTask != null) {
+            mPairingTask.cancel(true);
+            mPairingTask = null;
+        }
     }
 
     private void startPairingTask() {
+        stopPairingTask();
+
         if (mToken != null && mPairingTask == null) {
             DownloadRequest request = createDownloadRequest();
 
@@ -115,6 +109,12 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
         return new TokenCreationRequest(getApplicationContext(), listener);
     }
 
+    private void requestToken() {
+        // FIXME: 조금 늦게 뜨는 것을 위해 1초 기다림
+        TokenCreationRequest request = createNewTokenRequest();
+        Connector.execute(request);
+    }
+
     private void setTokenToTextViews(String token) {
         if (token.length() == 5) {
             // 스트링에서 캐릭터를 하나씩 돌면서 대입해줌
@@ -138,8 +138,13 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
                     @Override
                     public void onFail(ConnectorResult result) {
-                        Toast.makeText(PairActivity.this, R.string.pair_error_msg,
-                                Toast.LENGTH_SHORT).show();
+                        if (result.getResultCode() == ConnectorResult.RC_CONNECTOR_EXPIRED) {
+                            // 일정 시간이 지나 만료될 경우는 새로 토큰을 요청
+                            requestToken();
+                        } else {
+                            Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 };
         return new DownloadRequest(getApplicationContext(), listener, mToken);

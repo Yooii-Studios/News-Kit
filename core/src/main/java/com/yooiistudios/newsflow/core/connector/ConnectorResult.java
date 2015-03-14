@@ -10,6 +10,7 @@ import org.json.JSONObject;
  *  모든 커넥터 결과에 포함되는 기본 결과값
  */
 public class ConnectorResult {
+    public static final int RC_CONNECTOR_EXPIRED = -2;
     public static final int RC_CONNECTOR_ERROR = -1;
     public static final int RC_SUCCESS = 0;
     public static final int RC_NETWORK_ERROR = 1;
@@ -62,7 +63,11 @@ public class ConnectorResult {
         return resultJson.getInt(KEY_VALID) == 1;
     }
 
-    public static ConnectorResult getErrorObject() {
-        return new ConnectorResult("", RC_CONNECTOR_ERROR);
+    public static ConnectorResult createErrorObject() {
+        return new ConnectorResult("Error Happened", RC_CONNECTOR_ERROR);
+    }
+
+    public static ConnectorResult createExpiredObject() {
+        return new ConnectorResult("Time Expired", RC_CONNECTOR_EXPIRED);
     }
 }
