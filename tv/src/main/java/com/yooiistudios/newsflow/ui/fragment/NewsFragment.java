@@ -18,11 +18,9 @@ import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.util.DipToPixel;
-import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.ui.activity.NewsContentActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsWebActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDescriptionPresenter;
@@ -44,10 +42,7 @@ public class NewsFragment extends DetailsFragment {
 
     private BackgroundManager mBackgroundManager;
     private News mNews;
-//    private String mLink;
 
-//    private Drawable mDefaultBackground;
-    private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
     private DetailsOverviewRowPresenter mDorPresenter;
     private DetailsOverviewRow mRow;
@@ -79,8 +74,7 @@ public class NewsFragment extends DetailsFragment {
                 ((ArrayObjectAdapter)getAdapter()).notifyArrayItemRangeChanged(0, 1);
             }
         });
-        mImageLoadTask.execute();
-
+        mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         mBackgroundLoadTask = new RequestBitmapTask(context, url,
                 mMetrics.widthPixels, mMetrics.heightPixels,
@@ -90,7 +84,7 @@ public class NewsFragment extends DetailsFragment {
                 mBackgroundManager.setDrawable(drawable);
             }
         });
-        mBackgroundLoadTask.execute();
+        mBackgroundLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -121,30 +115,10 @@ public class NewsFragment extends DetailsFragment {
     private void initUI() {
         initRow();
         initAdapter();
-//        updateBackground(mNews.getImageUrl());
     }
 
     private void initRow() {
         mRow = new DetailsOverviewRow(mNews);
-//        mImageTarget = new Target() {
-//            @Override
-//            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                mRow.setImageBitmap(getActivity(), bitmap);
-//                ((ArrayObjectAdapter)getAdapter()).notifyArrayItemRangeChanged(0, 1);
-//            }
-//
-//            @Override
-//            public void onBitmapFailed(Drawable errorDrawable) {
-//                mRow.setImageDrawable(errorDrawable);
-//                ((ArrayObjectAdapter)getAdapter()).notifyArrayItemRangeChanged(0, 1);
-//            }
-//
-//            @Override
-//            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//                mRow.setImageDrawable(placeHolderDrawable);
-//                ((ArrayObjectAdapter)getAdapter()).notifyArrayItemRangeChanged(0, 1);
-//            }
-//        };
 
         mRow.addAction(new Action(ACTION_OPEN_LINK,
                 getResources().getString(R.string.open_link), null));
@@ -162,7 +136,6 @@ public class NewsFragment extends DetailsFragment {
             @Override
             public void onActionClicked(Action action) {
                 if (action.getId() == ACTION_OPEN_LINK) {
-//                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), NewsWebActivity.class);
                     intent.putExtra(ARG_NEWS_KEY, mNews);
                     startActivity(intent);
@@ -184,21 +157,7 @@ public class NewsFragment extends DetailsFragment {
     private void initBackground() {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
-        mBackgroundTarget = new PicassoBackgroundManagerTarget(mBackgroundManager);
     }
-
-//    private void updateBackground(String url) {
-//        if (url.length() > 0) {
-//            Picasso.with(getActivity())
-//                    .load(url)
-//                    .resize(mMetrics.widthPixels, mMetrics.heightPixels)
-//                    .centerCrop()
-//                    .error(mDefaultBackground)
-//                    .into(mBackgroundTarget);
-//        } else {
-//            mBackgroundManager.setDrawable(mDefaultBackground);
-//        }
-//    }
 
     private static class RequestBitmapTask extends AsyncTask<Void, Void, Drawable> {
         public interface OnSuccessListener {
