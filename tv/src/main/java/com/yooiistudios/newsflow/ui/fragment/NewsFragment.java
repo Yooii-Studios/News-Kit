@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.reference.Utils;
-import com.yooiistudios.newsflow.ui.activity.NewsActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsContentActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsWebActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDescriptionPresenter;
@@ -44,6 +44,7 @@ public class NewsFragment extends DetailsFragment {
     public static final String ARG_NEWS_KEY = "arg_news_key";
 
     private News mNews;
+    private boolean mHasImage;
 //    private String mLink;
 
     private Drawable mDefaultBackground;
@@ -51,19 +52,31 @@ public class NewsFragment extends DetailsFragment {
     private DisplayMetrics mMetrics;
     private DetailsOverviewRowPresenter mDorPresenter;
     private DetailRowBuilderTask mDetailRowBuilderTask;
+    private DetailsOverviewRow mRow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initNews();
+        initIntentVariables();
         initMetrics();
         initBackground();
         initPresenter();
-        updateBackground(mNews.getImageUrl());
+        initUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDetailRowBuilderTask.cancel(true);
     }
 
     private void initNews() {
         mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.ARG_NEWS_KEY);
+    }
+
+    private void initIntentVariables() {
+        mHasImage = getActivity().getIntent().getExtras().getBoolean(MainFragment.ARG_HAS_IMAGE_KEY);
     }
 
     private void initMetrics() {
@@ -74,9 +87,77 @@ public class NewsFragment extends DetailsFragment {
     private void initPresenter() {
         mDorPresenter =
                 new DetailsOverviewRowPresenter(new NewsDescriptionPresenter());
-        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().execute();
-        mDorPresenter.setSharedElementEnterTransition(getActivity(),
-                NewsActivity.SHARED_ELEMENT_NAME);
+        mDetailRowBuilderTask = (DetailRowBuilderTask) new DetailRowBuilderTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        mDorPresenter.setSharedElementEnterTransition(getActivity(),
+//                NewsActivity.SHARED_ELEMENT_NAME);
+    }
+
+    private void initUI() {
+        initRow();
+        initAdapter();
+        updateBackground(mNews.getImageUrl());
+    }
+
+    private void initRow() {
+        mRow = new DetailsOverviewRow(mNews);
+
+        mRow.addAction(new Action(ACTION_OPEN_LINK,
+                getResources().getString(R.string.open_link), null));
+        mRow.addAction(new Action(ACTION_SEE_CONTENT,
+                getResources().getString(R.string.see_content),
+                null));
+    }
+
+    private void initAdapter() {
+        ClassPresenterSelector ps = new ClassPresenterSelector();
+        // set detail background and style
+        mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
+        mDorPresenter.setStyleLarge(true);
+        mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
+            @Override
+            public void onActionClicked(Action action) {
+                if (action.getId() == ACTION_OPEN_LINK) {
+//                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), NewsWebActivity.class);
+                    intent.putExtra(ARG_NEWS_KEY, mNews);
+                    startActivity(intent);
+                } else if (action.getId() == ACTION_SEE_CONTENT){
+                    Intent intent = new Intent(getActivity(), NewsContentActivity.class);
+                    intent.putExtra(ARG_NEWS_KEY, mNews);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        ps.addClassPresenter(DetailsOverviewRow.class, mDorPresenter);
+
+        ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
+        adapter.add(mRow);
+        setAdapter(adapter);
+    }
+
+    private Bitmap getDefaultImage() {
+        Drawable drawable = getActivity().getResources().getDrawable(R.drawable.news_dummy2);
+        return ((BitmapDrawable)drawable).getBitmap();
+    }
+
+    private Bitmap getImageFromUrl() {
+        Bitmap poster;
+        try {
+            poster = Picasso.with(getActivity())
+                    .load(mNews.getImageUrl())
+                    .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(),
+                                    DETAIL_THUMB_WIDTH),
+                            Utils.convertDpToPixel(getActivity().getApplicationContext(),
+                                    DETAIL_THUMB_HEIGHT))
+                    .centerCrop()
+                    .error(getActivity().getResources().getDrawable(R.drawable
+                            .news_dummy2))
+                    .get();
+        } catch (IOException ignored) {
+            poster = getDefaultImage();
+        }
+        return poster;
     }
 
     private void initBackground() {
@@ -87,59 +168,53 @@ public class NewsFragment extends DetailsFragment {
         mBackgroundTarget = new PicassoBackgroundManagerTarget(backgroundManager);
     }
 
-    private class DetailRowBuilderTask extends AsyncTask<Void, Integer, DetailsOverviewRow> {
+    private class DetailRowBuilderTask extends AsyncTask<Void, Integer, Bitmap> {
 
         @Override
-        protected DetailsOverviewRow doInBackground(Void... params) {
-            DetailsOverviewRow row = new DetailsOverviewRow(mNews);
-            try {
-                Bitmap poster = Picasso.with(getActivity())
-                        .load(mNews.getImageUrl())
-                        .resize(Utils.convertDpToPixel(getActivity().getApplicationContext(),
-                                        DETAIL_THUMB_WIDTH),
-                                Utils.convertDpToPixel(getActivity().getApplicationContext(),
-                                        DETAIL_THUMB_HEIGHT))
-                        .centerCrop()
-                        .get();
-                row.setImageBitmap(getActivity(), poster);
-            } catch (IOException ignored) {
+        protected Bitmap doInBackground(Void... params) {
+            long startMilli = System.currentTimeMillis();
+            Bitmap poster;
+            if (mHasImage) {
+                poster = getImageFromUrl();
+            } else {
+                poster = getDefaultImage();
             }
-
-            row.addAction(new Action(ACTION_OPEN_LINK,
-                    getResources().getString(R.string.open_link), null));
-            row.addAction(new Action(ACTION_SEE_CONTENT,
-                    getResources().getString(R.string.see_content),
-                    null));
-            return row;
+            return poster;
         }
 
         @Override
-        protected void onPostExecute(DetailsOverviewRow detailRow) {
-            ClassPresenterSelector ps = new ClassPresenterSelector();
-            // set detail background and style
-            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
-            mDorPresenter.setStyleLarge(true);
-            mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
-                @Override
-                public void onActionClicked(Action action) {
-                    if (action.getId() == ACTION_OPEN_LINK) {
-//                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), NewsWebActivity.class);
-                        intent.putExtra(ARG_NEWS_KEY, mNews);
-                        startActivity(intent);
-                    } else if (action.getId() == ACTION_SEE_CONTENT){
-                        Intent intent = new Intent(getActivity(), NewsContentActivity.class);
-                        intent.putExtra(ARG_NEWS_KEY, mNews);
-                        startActivity(intent);
-                    }
-                }
-            });
+        protected void onPostExecute(Bitmap bitmap) {
+            if (isCancelled()) {
+                return;
+            }
+            mRow.setImageBitmap(getActivity(), bitmap);
+            setAdapter(getAdapter());
 
-            ps.addClassPresenter(DetailsOverviewRow.class, mDorPresenter);
-
-            ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
-            adapter.add(detailRow);
-            setAdapter(adapter);
+//            ClassPresenterSelector ps = new ClassPresenterSelector();
+//            // set detail background and style
+//            mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
+//            mDorPresenter.setStyleLarge(true);
+//            mDorPresenter.setOnActionClickedListener(new OnActionClickedListener() {
+//                @Override
+//                public void onActionClicked(Action action) {
+//                    if (action.getId() == ACTION_OPEN_LINK) {
+////                        Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(getActivity(), NewsWebActivity.class);
+//                        intent.putExtra(ARG_NEWS_KEY, mNews);
+//                        startActivity(intent);
+//                    } else if (action.getId() == ACTION_SEE_CONTENT){
+//                        Intent intent = new Intent(getActivity(), NewsContentActivity.class);
+//                        intent.putExtra(ARG_NEWS_KEY, mNews);
+//                        startActivity(intent);
+//                    }
+//                }
+//            });
+//
+//            ps.addClassPresenter(DetailsOverviewRow.class, mDorPresenter);
+//
+//            ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
+//            adapter.add(detailRow);
+//            setAdapter(adapter);
         }
     }
 

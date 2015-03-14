@@ -13,7 +13,7 @@ import com.yooiistudios.newsflow.R;
  *  뉴스 내용을 볼 수 있는 액티비티
  */
 public class NewsActivity extends Activity {
-    public static final String SHARED_ELEMENT_NAME = "hero";
+//    public static final String SHARED_ELEMENT_NAME = "hero";
     /**
      * Called when the activity is first created.
      */

@@ -70,7 +70,7 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
     @Override
     protected void onResume() {
         super.onResume();
-        startPairingTask();
+//        startPairingTask();
     }
 
     private void initViews() {

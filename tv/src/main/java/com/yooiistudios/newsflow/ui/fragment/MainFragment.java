@@ -23,7 +23,6 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.NewsBrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -31,7 +30,6 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -47,8 +45,8 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.ui.activity.NewsActivity;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
+import com.yooiistudios.newsflow.ui.activity.NewsActivity;
 import com.yooiistudios.newsflow.ui.activity.PairActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
@@ -60,6 +58,7 @@ import java.util.TimerTask;
 
 public class MainFragment extends NewsBrowseFragment {
     public static final String ARG_NEWS_KEY = "arg_news_key";
+    public static final String ARG_HAS_IMAGE_KEY = "has_image";
     public static final String TRANSITION_PROPERTY_ARG_KEY = "transition_property_arg_key";
     public static final String DETAIL_CONTENT_KEY = "detail_content_key";
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
@@ -273,8 +272,12 @@ public class MainFragment extends NewsBrowseFragment {
             if (item instanceof News) {
 //                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
+                boolean hasImage =
+                        ((CardPresenter.NewsViewHolder)itemViewHolder).picassoTarget.hasValidImage();
+
                 Intent intent = new Intent(getActivity(), NewsActivity.class);
                 intent.putExtra(ARG_NEWS_KEY, ((News) item));
+                intent.putExtra(ARG_HAS_IMAGE_KEY, hasImage);
 
                 // debug
 //                intent.putExtra(DETAIL_CONTENT_KEY,
@@ -284,11 +287,13 @@ public class MainFragment extends NewsBrowseFragment {
 //                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        NewsActivity.SHARED_ELEMENT_NAME).toBundle();
-                startActivity(intent, bundle);
+//                ImageCardView imageCardView = (ImageCardView) itemViewHolder.view;
+//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        getActivity(),
+//                        imageCardView.getMainImageView(),
+//                        NewsActivity.SHARED_ELEMENT_NAME).toBundle();
+//                startActivity(intent, bundle);
+                startActivity(intent);
             }
             if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.pair_title))) {
