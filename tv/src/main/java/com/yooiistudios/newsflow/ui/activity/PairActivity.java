@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.FrameLayout;
@@ -16,7 +17,6 @@ import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadResult;
 import com.yooiistudios.newsflow.core.connector.TokenCreationRequest;
 import com.yooiistudios.newsflow.core.connector.TokenCreationResult;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PairingTask;
 import com.yooiistudios.newsflow.ui.animation.PairTransitionUtils;
 
@@ -48,6 +48,7 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
     private List<TextView> textViews = new ArrayList<>();
     private PairingTask mPairingTask;
     private String mToken;
+    private boolean mIsBeingPaused = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,9 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
     @Override
     protected void onPause() {
-        super.onPause();
         stopPairingTask();
+        mIsBeingPaused = true;
+        super.onPause();
     }
 
     private void initViews() {
@@ -86,7 +88,7 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
             DownloadRequest request = createDownloadRequest();
 
             mPairingTask = new PairingTask(request);
-            mPairingTask.execute();
+            mPairingTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -169,7 +171,10 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
     @Override
     public void onTransitionAnimationEnd() {
-        requestToken();
+        // 애니메이션 중간에 나갈 경우에도 레퍼런스가 남아 콜백이 불리는데 이를 막기 위함
+        if (!mIsBeingPaused) {
+            requestToken();
+        }
     }
 
     private void putReceivedDataAndFinish(JSONArray jsonArray) throws JSONException {
