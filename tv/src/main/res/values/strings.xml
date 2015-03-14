@@ -7,8 +7,8 @@
 
     <!-- Pair -->
     <string name="pair_title">Pair Now</string>
-    <string name="pair_description">Bring your News Panels on mobile app to Android TV</string>
-    <string name="pair_description2">Please type this numbers on \'Setting\' -> \'Pair Android TV\' in mobile News Flow app.</string>
+    <string name="pair_description">Bring your News Panels from mobile to Android TV</string>
+    <string name="pair_description2">Please type this numbers on \"Setting\" -> \"Pair Android TV\" in mobile News Flow app.</string>
     <string name="pair_error_msg">Pair Failed. Please try again</string>
 
     <!-- Legacy -->

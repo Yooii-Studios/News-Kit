@@ -10,7 +10,7 @@ import android.os.AsyncTask;
  */
 public class Connector {
     public static void execute(ConnectorRequest request) {
-        new ConnectorTask(request).execute();
+        new ConnectorTask(request).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static class ConnectorTask extends AsyncTask<Void, Void, ConnectorResult> {
@@ -26,7 +26,7 @@ public class Connector {
             try {
                 result = mRequest.execute();
             } catch (ConnectorException e) {
-                result = ConnectorResult.getErrorObject();
+                result = ConnectorResult.createErrorObject();
             }
             return result;
         }
@@ -34,7 +34,6 @@ public class Connector {
         @Override
         protected void onPostExecute(ConnectorResult result) {
             super.onPostExecute(result);
-
             mRequest.handleResult(result);
         }
     }

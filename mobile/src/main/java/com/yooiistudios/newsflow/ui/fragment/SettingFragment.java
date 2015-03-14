@@ -251,17 +251,16 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                             if (result.isTokenValid()) {
                                 uploadData(token);
                             } else {
-                                Toast.makeText(getActivity(), "token invalid...",
+                                Toast.makeText(getActivity(), R.string.setting_pair_tv_code_invalidate,
                                         Toast.LENGTH_LONG).show();
-                                // TODO: 토큰이 invalid 하므로 유저에게 알리고 끝내야함
                             }
                         }
                     }
 
                     @Override
                     public void onFail(ConnectorResult result) {
-                        // TODO 요청 도중 문제 생김. UI 처리 필요
-                        Toast.makeText(getActivity(), "Send failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.setting_pair_tv_error_msg,
+                                Toast.LENGTH_SHORT).show();
                     }
                 };
         return new TokenValidationRequest(context, listener, token);
@@ -276,7 +275,8 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
             Connector.execute(request);
         } catch (RssFetchableConverter.RssFetchableConvertException e) {
-            // TODO 인코딩시 문제 생김. UI 처리 필요
+            Toast.makeText(getActivity(), R.string.setting_pair_tv_error_msg,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -297,15 +297,13 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         return new UploadRequest(getActivity().getApplicationContext(), new ConnectorRequest.ResultListener<UploadResult>() {
             @Override
             public void onSuccess(UploadResult result) {
-                // TODO 업로드 성공. UI 처리 필요
                 Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_sent),
                         Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFail(ConnectorResult result) {
-                // TODO 업로드시 문제 생김. UI 처리 필요
-                Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_fail_to_send),
+                Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_error_msg),
                         Toast.LENGTH_SHORT).show();
             }
         }, token, data);

@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.FrameLayout;
@@ -16,7 +17,6 @@ import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 import com.yooiistudios.newsflow.core.connector.DownloadResult;
 import com.yooiistudios.newsflow.core.connector.TokenCreationRequest;
 import com.yooiistudios.newsflow.core.connector.TokenCreationResult;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PairingTask;
 import com.yooiistudios.newsflow.ui.animation.PairTransitionUtils;
 
@@ -48,6 +48,7 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
     private List<TextView> textViews = new ArrayList<>();
     private PairingTask mPairingTask;
     private String mToken;
+    private boolean mIsBeingPaused = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +61,9 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
     @Override
     protected void onPause() {
+        stopPairingTask();
+        mIsBeingPaused = true;
         super.onPause();
-        if (mPairingTask != null) {
-            mPairingTask.cancel(true);
-            mPairingTask = null;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        startPairingTask();
     }
 
     private void initViews() {
@@ -81,18 +74,21 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
         textViews.add(mToken5TextView);
     }
 
-    private void requestToken() {
-        // FIXME: 조금 늦게 뜨는 것을 위해 1초 기다림
-        TokenCreationRequest request = createNewTokenRequest();
-        Connector.execute(request);
+    private void stopPairingTask() {
+        if (mPairingTask != null) {
+            mPairingTask.cancel(true);
+            mPairingTask = null;
+        }
     }
 
     private void startPairingTask() {
+        stopPairingTask();
+
         if (mToken != null && mPairingTask == null) {
             DownloadRequest request = createDownloadRequest();
 
             mPairingTask = new PairingTask(request);
-            mPairingTask.execute();
+            mPairingTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
@@ -108,11 +104,17 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
                     @Override
                     public void onFail(ConnectorResult result) {
-                        // TODO result.resultCode == ConnectorResult.RC_TOKEN_CREATION_FAILED 일 경우 처리
-//                mPairTokenTextView.setText("에러...");
+                        Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                                Toast.LENGTH_SHORT).show();
                     }
                 };
         return new TokenCreationRequest(getApplicationContext(), listener);
+    }
+
+    private void requestToken() {
+        // FIXME: 조금 늦게 뜨는 것을 위해 1초 기다림
+        TokenCreationRequest request = createNewTokenRequest();
+        Connector.execute(request);
     }
 
     private void setTokenToTextViews(String token) {
@@ -138,8 +140,13 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
                     @Override
                     public void onFail(ConnectorResult result) {
-                        // TODO 서버와 통신중 문제 발생. UI 처리 필요.
-                        NLLog.now("Download failed.");
+                        if (result.getResultCode() == ConnectorResult.RC_CONNECTOR_EXPIRED) {
+                            // 일정 시간이 지나 만료될 경우는 새로 토큰을 요청
+                            requestToken();
+                        } else {
+                            Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 };
         return new DownloadRequest(getApplicationContext(), listener, mToken);
@@ -154,7 +161,8 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
             if (jsonArraySize > 0) {
                 putReceivedDataAndFinish(jsonArray);
             } else {
-                // TODO 하나도 받지 않은 상황. 유저에게 알려줘야함.
+                Toast.makeText(PairActivity.this, R.string.pair_error_msg,
+                        Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -163,7 +171,10 @@ public class PairActivity extends Activity implements PairTransitionUtils.PairTr
 
     @Override
     public void onTransitionAnimationEnd() {
-        requestToken();
+        // 애니메이션 중간에 나갈 경우에도 레퍼런스가 남아 콜백이 불리는데 이를 막기 위함
+        if (!mIsBeingPaused) {
+            requestToken();
+        }
     }
 
     private void putReceivedDataAndFinish(JSONArray jsonArray) throws JSONException {

@@ -21,8 +21,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
+import com.yooiistudios.newsflow.core.util.DipToPixel;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
-import com.yooiistudios.newsflow.reference.Utils;
 import com.yooiistudios.newsflow.ui.activity.NewsContentActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsWebActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDescriptionPresenter;
@@ -44,7 +44,6 @@ public class NewsFragment extends DetailsFragment {
 
     private BackgroundManager mBackgroundManager;
     private News mNews;
-//    private boolean mHasImage;
 //    private String mLink;
 
 //    private Drawable mDefaultBackground;
@@ -52,7 +51,6 @@ public class NewsFragment extends DetailsFragment {
     private DisplayMetrics mMetrics;
     private DetailsOverviewRowPresenter mDorPresenter;
     private DetailsOverviewRow mRow;
-//    private Target mImageTarget;
 
     private RequestBitmapTask mImageLoadTask;
     private RequestBitmapTask mBackgroundLoadTask;
@@ -61,7 +59,6 @@ public class NewsFragment extends DetailsFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initNews();
-//        initIntentVariables();
         initMetrics();
         initBackground();
         initPresenter();
@@ -69,9 +66,9 @@ public class NewsFragment extends DetailsFragment {
 
         Context context = getActivity().getApplicationContext();
 
-        int width = Utils.convertDpToPixel(getActivity().getApplicationContext(),
+        int width = DipToPixel.dpToPixel(getActivity().getApplicationContext(),
                 DETAIL_THUMB_WIDTH);
-        int height = Utils.convertDpToPixel(getActivity().getApplicationContext(),
+        int height = DipToPixel.dpToPixel(getActivity().getApplicationContext(),
                 DETAIL_THUMB_HEIGHT);
         String url = mNews.getImageUrl() != null ? mNews.getImageUrl() : "";
         mImageLoadTask = new RequestBitmapTask(context, url, width, height,
@@ -110,10 +107,6 @@ public class NewsFragment extends DetailsFragment {
     private void initNews() {
         mNews = getActivity().getIntent().getExtras().getParcelable(MainFragment.ARG_NEWS_KEY);
     }
-
-//    private void initIntentVariables() {
-//        mHasImage = getActivity().getIntent().getExtras().getBoolean(MainFragment.ARG_HAS_IMAGE_KEY);
-//    }
 
     private void initMetrics() {
         mMetrics = new DisplayMetrics();

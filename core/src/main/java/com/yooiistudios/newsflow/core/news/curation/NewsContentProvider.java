@@ -42,9 +42,11 @@ public class NewsContentProvider {
     private NewsContentProvider(Context context) {
         mNewsProviderLanguageList = new ArrayList<>();
         for (int i = 0; i < NewsProviderLangType.values().length; i++) {
+            NewsProviderLangType type = NewsProviderLangType.valueOf(i);
+
             // int 를 raw id로 변환
             mNewsProviderLanguageList.add(parseNewsProvidersByResource(context,
-                    NewsProviderLangType.valueOf(i).getResourceId()));
+                    type.getResourceId()));
         }
     }
 

@@ -15,8 +15,8 @@ import com.yooiistudios.newsflow.core.connector.DownloadRequest;
 public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
     // 2 min
     private static final long REQUEST_THRESHOLD_MILLI = 2 * 60 * 1000;
-    // 2 sec
-//    private static final long REQUEST_THRESHOLD_MILLI = 2 * 1000;
+    // 3 sec for test
+//    private static final long REQUEST_THRESHOLD_MILLI = 3 * 1000;
 
     private DownloadRequest mRequest;
     private long mRequestStartTimeInMilli;
@@ -45,7 +45,11 @@ public class PairingTask extends AsyncTask<Void, Void, ConnectorResult> {
             }
         }
         if (result == null) {
-            result = ConnectorResult.getErrorObject();
+            result = ConnectorResult.createErrorObject();
+        }
+        // THRESHOLD 동안 결과를 못 얻을 경우는 Expire 을 날려줌
+        if (isExpired()) {
+            result = ConnectorResult.createExpiredObject();
         }
         return result;
     }

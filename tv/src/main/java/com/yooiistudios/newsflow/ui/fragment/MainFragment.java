@@ -31,10 +31,6 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -51,6 +47,7 @@ import com.yooiistudios.newsflow.ui.activity.NewsActivity;
 import com.yooiistudios.newsflow.ui.activity.PairActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsFeedAdapter;
 import com.yooiistudios.newsflow.ui.presenter.CardPresenter;
+import com.yooiistudios.newsflow.ui.presenter.SettingItemPresenter;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -65,10 +62,7 @@ public class MainFragment extends NewsBrowseFragment {
     public static final String DETAIL_REFINED_CONTENT = "detail_refined_content";
     public static final String DETAIL_WEB_CONTENT = "detail_web_content";
 
-    private static final String TAG = "MainFragment";
     private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 400;
-    private static final int GRID_ITEM_HEIGHT = 200;
 
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
@@ -81,13 +75,11 @@ public class MainFragment extends NewsBrowseFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        NLLog.i(TAG, "onAttach");
         initVariables(activity);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        NLLog.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
         prepareBackgroundManager();
@@ -103,7 +95,6 @@ public class MainFragment extends NewsBrowseFragment {
     public void onDestroy() {
         super.onDestroy();
         if (null != mBackgroundTimer) {
-            Log.d(TAG, "onDestroy: " + mBackgroundTimer.toString());
             mBackgroundTimer.cancel();
         }
     }
@@ -118,14 +109,14 @@ public class MainFragment extends NewsBrowseFragment {
             rowsAdapter.add(makeListRow(newsFeed, i + 1));
         }
 
-        HeaderItem gridHeader = new HeaderItem(bottomNewsFeeds.size(), "PREFERENCES", null);
+        HeaderItem SettingHeader = new HeaderItem(bottomNewsFeeds.size(), "Settings", null);
 
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
-        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.pair_title));
-        gridRowAdapter.add(getResources().getString(R.string.remove_db));
-        gridRowAdapter.add(getResources().getString(R.string.copy_db));
-        rowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+        SettingItemPresenter settingItemPresenter = new SettingItemPresenter();
+        ArrayObjectAdapter settingRowAdapter = new ArrayObjectAdapter(settingItemPresenter);
+        settingRowAdapter.add(getResources().getString(R.string.pair_title));
+        settingRowAdapter.add(getResources().getString(R.string.remove_db));
+        settingRowAdapter.add(getResources().getString(R.string.copy_db));
+        rowsAdapter.add(new ListRow(SettingHeader, settingRowAdapter));
 
         setAdapter(rowsAdapter);
     }
@@ -230,10 +221,9 @@ public class MainFragment extends NewsBrowseFragment {
     }
 
     private void setupEventListeners() {
-        // FIXME: 리스너를 달지 않으면 검색창이 보이지 않음
+        // 리스너를 달지 않으면 검색창이 보이지 않음
         /*
         setOnSearchClickedListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
@@ -250,27 +240,6 @@ public class MainFragment extends NewsBrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
-//            if (item instanceof Movie) {
-//                Movie movie = (Movie) item;
-//                Log.d(TAG, "Item: " + item.toString());
-//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//                intent.putExtra(DetailsActivity.MOVIE, movie);
-//
-//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        getActivity(),
-//                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-//                        DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
-//                getActivity().startActivity(intent, bundle);
-//            } else if (item instanceof String) {
-//                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-//                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-//                            .show();
-//                }
-//            }
             if (item instanceof News) {
 //                ActivityTransitionProperty transitionProperty = createTransitionProperty(itemViewHolder);
 
@@ -281,14 +250,7 @@ public class MainFragment extends NewsBrowseFragment {
                 intent.putExtra(ARG_NEWS_KEY, ((News) item));
                 intent.putExtra(ARG_HAS_IMAGE_KEY, hasImage);
 
-                // debug
-//                intent.putExtra(DETAIL_CONTENT_KEY,
-//                        DebugSharedPreferencesUtil.getDetailActivityMode(getActivity()));
-
-//                intent.putExtra(ARG_NEWS_KEY, ((News) item).getLink());
-//                intent.putExtra(TRANSITION_PROPERTY_ARG_KEY, new Gson().toJson(transitionProperty));
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
+                // FIXME: 나중에 시간 여유가 되면 애니메이션을 제대로 추가하자
 //                ImageCardView imageCardView = (ImageCardView) itemViewHolder.view;
 //                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
 //                        getActivity(),
@@ -350,6 +312,7 @@ public class MainFragment extends NewsBrowseFragment {
         }
     }
 
+    /*
     protected void setDefaultBackground(Drawable background) {
         mDefaultBackground = background;
     }
@@ -357,6 +320,7 @@ public class MainFragment extends NewsBrowseFragment {
     protected void setDefaultBackground(int resourceId) {
         mDefaultBackground = getResources().getDrawable(resourceId);
     }
+    */
 
     protected void updateBackground() {
         if (mBackgroundUrl != null && mBackgroundUrl.trim().length() > 0) {
@@ -369,6 +333,7 @@ public class MainFragment extends NewsBrowseFragment {
         }
     }
 
+    /*
     protected void updateBackground(Drawable drawable) {
         BackgroundManager.getInstance(getActivity()).setDrawable(drawable);
     }
@@ -376,6 +341,7 @@ public class MainFragment extends NewsBrowseFragment {
     protected void clearBackground() {
         BackgroundManager.getInstance(getActivity()).setDrawable(mDefaultBackground);
     }
+    */
 
     private void startBackgroundTimer() {
         if (null != mBackgroundTimer) {
@@ -398,28 +364,4 @@ public class MainFragment extends NewsBrowseFragment {
 
         }
     }
-
-    private class GridItemPresenter extends Presenter {
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent) {
-            TextView view = new TextView(parent.getContext());
-            view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
-            view.setFocusable(true);
-            view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.card_background_dark));
-            view.setTextColor(getResources().getColor(R.color.material_white_primary_text));
-            view.setGravity(Gravity.CENTER);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
-        }
-
-        @Override
-        public void onUnbindViewHolder(ViewHolder viewHolder) {
-        }
-    }
-
 }
