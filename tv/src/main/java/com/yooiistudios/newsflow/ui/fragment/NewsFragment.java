@@ -2,8 +2,6 @@ package com.yooiistudios.newsflow.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,10 +15,10 @@ import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.util.DisplayMetrics;
 
-import com.squareup.picasso.Picasso;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.util.DipToPixel;
+import com.yooiistudios.newsflow.model.BitmapLoadTask;
 import com.yooiistudios.newsflow.ui.activity.NewsContentActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsWebActivity;
 import com.yooiistudios.newsflow.ui.presenter.NewsDescriptionPresenter;
@@ -47,8 +45,8 @@ public class NewsFragment extends DetailsFragment {
     private DetailsOverviewRowPresenter mDorPresenter;
     private DetailsOverviewRow mRow;
 
-    private LoadBitmapTask mImageLoadTask;
-    private LoadBitmapTask mBackgroundLoadTask;
+    private BitmapLoadTask mImageLoadTask;
+    private BitmapLoadTask mBackgroundLoadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,10 +116,10 @@ public class NewsFragment extends DetailsFragment {
 
         mRow.addAction(new Action(ACTION_OPEN_LINK,
                 getResources().getString(R.string.open_link), null));
-        if (mNews.getDisplayableNewsContentDescription().length() > NewsContentFragment.MIN_TEXT_LENGTH) {
+//        if (mNews.getDisplayableNewsContentDescription().length() > NewsContentFragment.MIN_TEXT_LENGTH) {
             mRow.addAction(new Action(ACTION_SEE_CONTENT,
                     getResources().getString(R.string.see_content), null));
-        }
+//        }
     }
 
     private void initAdapter() {
@@ -143,8 +141,8 @@ public class NewsFragment extends DetailsFragment {
         int width = DipToPixel.dpToPixel(context, DETAIL_THUMB_WIDTH);
         int height = DipToPixel.dpToPixel(context, DETAIL_THUMB_HEIGHT);
 
-        mImageLoadTask = new LoadBitmapTask(context, mNews.getImageUrl(), width, height,
-                R.drawable.news_dummy2, new LoadBitmapTask.OnSuccessListener() {
+        mImageLoadTask = new BitmapLoadTask(context, mNews.getImageUrl(), width, height,
+                R.drawable.news_dummy2, new BitmapLoadTask.OnSuccessListener() {
             @Override
             public void onLoad(Drawable drawable) {
                 mRow.setImageDrawable(drawable);
@@ -157,66 +155,14 @@ public class NewsFragment extends DetailsFragment {
     private void loadBackgroundImage() {
         Context context = getActivity().getApplicationContext();
 
-        mBackgroundLoadTask = new LoadBitmapTask(context, mNews.getImageUrl(),
+        mBackgroundLoadTask = new BitmapLoadTask(context, mNews.getImageUrl(),
                 mMetrics.widthPixels, mMetrics.heightPixels,
-                R.drawable.default_background, new LoadBitmapTask.OnSuccessListener() {
+                R.drawable.default_background, new BitmapLoadTask.OnSuccessListener() {
             @Override
             public void onLoad(Drawable drawable) {
                 mBackgroundManager.setDrawable(drawable);
             }
         });
         mBackgroundLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    private static class LoadBitmapTask extends AsyncTask<Void, Void, Drawable> {
-        public interface OnSuccessListener {
-            public void onLoad(Drawable drawable);
-        }
-        private Context mContext;
-        private String mUrl;
-        private int mWidth;
-        private int mHeight;
-        private int mDefaultResId;
-        private OnSuccessListener mListener;
-
-        public LoadBitmapTask(Context context, String url, int width, int height,
-                              int defaultResId, OnSuccessListener listener) {
-            mContext = context;
-            mUrl = url;
-            mWidth = width;
-            mHeight = height;
-            mDefaultResId = defaultResId;
-            mListener = listener;
-        }
-
-        @Override
-        protected Drawable doInBackground(Void... params) {
-            Drawable drawable;
-            try {
-                Bitmap bitmap = Picasso.with(mContext)
-                        .load(mUrl)
-                        .resize(mWidth, mHeight)
-                        .centerCrop()
-                        .error(createDefaultImage())
-                        .get();
-                drawable = new BitmapDrawable(mContext.getResources(), bitmap);
-            } catch (Exception e) {
-                drawable = createDefaultImage();
-            }
-
-            return drawable;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable drawable) {
-            super.onPostExecute(drawable);
-            if (mListener != null && !isCancelled()) {
-                mListener.onLoad(drawable);
-            }
-        }
-
-        private Drawable createDefaultImage() {
-            return mContext.getResources().getDrawable(mDefaultResId);
-        }
     }
 }

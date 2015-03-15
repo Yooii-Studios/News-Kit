@@ -1,7 +1,9 @@
 package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,12 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
-import com.yooiistudios.newsflow.ui.widget.PicassoImageViewTarget;
+import com.yooiistudios.newsflow.model.BitmapLoadTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -45,10 +46,11 @@ public class NewsContentFragment extends Fragment {
     @InjectView(R.id.details_content_textview) TextView mContentTextView;
 
     @Getter ActivityTransitionProperty mTransitionProperty;
-    private PicassoImageViewTarget mTopImageTarget;
+//    private PicassoImageViewTarget mTopImageTarget;
     private News mNews;
-    private Drawable mDefaultCardImage;
-//    private String mLink;
+//    private Drawable mDefaultCardImage;
+    //    private String mLink;
+    private BitmapLoadTask mBitmapLoadTask;
 
     @Nullable
     @Override
@@ -69,8 +71,8 @@ public class NewsContentFragment extends Fragment {
     }
 
     private void initVariables() {
-        mTopImageTarget = new PicassoImageViewTarget(mTopImageView);
-        mDefaultCardImage = getActivity().getResources().getDrawable(R.drawable.news_dummy2);
+//        mTopImageTarget = new PicassoImageViewTarget(mTopImageView);
+//        mDefaultCardImage = getActivity().getResources().getDrawable(R.drawable.news_dummy2);
     }
 
     private void initNews() {
@@ -103,18 +105,41 @@ public class NewsContentFragment extends Fragment {
         });
     }
 
+//    private void loadImage() {
+//        Picasso.with(getActivity())
+//                .load(mNews.getImageUrl())
+//                .resize(mTopImageView.getWidth(),
+//                        mTopImageView.getHeight())
+//                .centerCrop()
+//                .error(mDefaultCardImage)
+//                .into(mTopImageTarget);
+//    }
+
     private void loadImage() {
-        Picasso.with(getActivity())
-                .load(mNews.getImageUrl())
-                .resize(mTopImageView.getWidth(),
-                        mTopImageView.getHeight())
-                .centerCrop()
-                .error(mDefaultCardImage)
-                .into(mTopImageTarget);
+        Context context = getActivity().getApplicationContext();
+        int width = mTopImageView.getWidth();
+        int height = mTopImageView.getHeight();
+
+        mBitmapLoadTask = new BitmapLoadTask(context, mNews.getImageUrl(), width, height,
+                R.drawable.news_dummy2, new BitmapLoadTask.OnSuccessListener() {
+            @Override
+            public void onLoad(Drawable drawable) {
+                mTopImageView.setImageDrawable(drawable);
+            }
+        });
+        mBitmapLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     // FIXME: 액티비티의 onAttachFragment 에서 처리하게 변경해주자
     public void setNews(News news) {
         mNews = news;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mBitmapLoadTask != null) {
+            mBitmapLoadTask.cancel(true);
+        }
     }
 }
