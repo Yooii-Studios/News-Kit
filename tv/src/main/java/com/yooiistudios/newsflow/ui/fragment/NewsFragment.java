@@ -116,10 +116,10 @@ public class NewsFragment extends DetailsFragment {
 
         mRow.addAction(new Action(ACTION_OPEN_LINK,
                 getResources().getString(R.string.open_link), null));
-//        if (mNews.getDisplayableNewsContentDescription().length() > NewsContentFragment.MIN_TEXT_LENGTH) {
+        if (mNews.getDisplayableNewsContentDescription().length() > NewsContentFragment.MIN_TEXT_LENGTH) {
             mRow.addAction(new Action(ACTION_SEE_CONTENT,
                     getResources().getString(R.string.see_content), null));
-//        }
+        }
     }
 
     private void initAdapter() {

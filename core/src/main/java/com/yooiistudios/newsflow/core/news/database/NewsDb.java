@@ -101,6 +101,7 @@ public class NewsDb {
 
     public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, int panelCount,
                                                       boolean shuffle) {
+        // TODO Transaction
         String[] newsFeedWhereArgs = {
                 String.valueOf(BOTTOM_NEWS_FEED_INITIAL_INDEX),
                 String.valueOf(panelCount)
@@ -184,6 +185,7 @@ public class NewsDb {
     }
 
     public void saveNewsContentWithGuid(News news) {
+        // TODO Transaction
         if (!news.hasNewsContent()) {
             return;
         }
@@ -210,6 +212,15 @@ public class NewsDb {
 //                new String[]{ guid });
 //        saveNewsContentTextsWithGuid(guid, newsContent.getTextList());
 //        saveNewsContentImagesWithGuid(guid, newsContent.getImages());
+    }
+
+    public void saveTopNewsImageUrlWithGuid(String imageUrl, String guid) {
+        insertNewsImage(imageUrl, TOP_NEWS_FEED_INDEX, guid);
+    }
+
+    public void saveBottomNewsImageUrlWithGuid(String imageUrl,
+                                               int newsFeedPosition, String guid) {
+        insertNewsImage(imageUrl, newsFeedPosition, guid);
     }
 
 //    private void saveNewsContentTextsWithGuid(String guid, List<String> textList) {
@@ -333,15 +344,6 @@ public class NewsDb {
 //        return images;
 //    }
 
-    public void saveTopNewsImageUrlWithGuid(String imageUrl, String guid) {
-        insertNewsImage(imageUrl, TOP_NEWS_FEED_INDEX, guid);
-    }
-
-    public void saveBottomNewsImageUrlWithGuid(String imageUrl,
-                                               int newsFeedPosition, String guid) {
-        insertNewsImage(imageUrl, newsFeedPosition, guid);
-    }
-
     private void insertNewsImage(String imageUrl,
                                  int newsFeedPosition, String guid) {
         ContentValues newsValues = new ContentValues();
@@ -358,6 +360,7 @@ public class NewsDb {
     }
 
     private void insertNewsFeed(NewsFeed newsFeed, int newsFeedIndex) {
+        // TODO Transaction
         String newsFeedIndexStr = String.valueOf(newsFeedIndex);
 
         ContentValues newsFeedValues = new ContentValues();
@@ -407,6 +410,7 @@ public class NewsDb {
     }
 
     private NewsFeed queryNewsFeed(int newsFeedPosition, boolean shuffle) {
+        // TODO Transaction
         String[] newsFeedWhereArgs = { String.valueOf(newsFeedPosition) };
 
         Cursor newsFeedCursor = mDatabase.query(
