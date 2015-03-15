@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -213,33 +212,20 @@ public class News implements Comparable<News>, Parcelable {
         String text;
 
         if (!hasDisplayableDescription()) {
-            NLLog.now("Both does not exists.");
             text = "";
         } else {
-            // TODO 둘 중 하나는 텍스트 있음
             if (hasDescription() && !getNewsContent().hasText()) {
-                // TODO RSS 에만 텍스트 있음
-                NLLog.now("RSS ONLY");
                 text = getDescription();
             } else if (!hasDescription() && getNewsContent().hasText()) {
-                // TODO NewsContent 에만 텍스트 있음
-                NLLog.now("NewsContentText ONLY");
                 text = getNewsContent().getText();
             } else {
-                // TODO 둘 다 있음.
-                NLLog.now("Both exists.");
                 String rssText = getDescription();
                 String newsContentText = getNewsContent().getText();
                 int rssTextLength = rssText.length();
                 int newsContentTextLength = newsContentText.length();
-                NLLog.now("RSS length: " + rssTextLength + ", content length: " + newsContentTextLength);
                 if (rssTextLength > threshold && newsContentTextLength > threshold) {
-                    NLLog.now("Both sufficient. prefer " + (preferRss ? "RSS" : "NewsContent"));
-                    // 1. RSS > Threshold && NewsContent > Threshold => 각 화면에 맞는 텍스트
                     return preferRss ? rssText : newsContentText;
                 } else {
-                    NLLog.now("Does not meet threshold condition. Pic longer one.");
-                    // 2. RSS > NewsContent ? RSS : NewsContent
                     text = rssTextLength > newsContentTextLength ? rssText : newsContentText;
                 }
             }
