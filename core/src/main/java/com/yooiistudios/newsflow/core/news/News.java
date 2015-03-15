@@ -129,6 +129,10 @@ public class News implements Comparable<News>, Parcelable {
         this.mDescription = description;
     }
 
+    public boolean hasDescription() {
+        return mDescription != null && mDescription.trim().length() > 0;
+    }
+
     public String getContent() {
         return mContent;
     }
@@ -188,5 +192,45 @@ public class News implements Comparable<News>, Parcelable {
 
     public boolean hasNewsContent() {
         return !getNewsContent().getFetchState().equals(NewsContentFetchState.NOT_FETCHED_YET);
+    }
+
+    public boolean hasDisplayableDescription() {
+        return hasDescription() || getNewsContent().hasText();
+    }
+
+    public String getDisplayableRssDescription() {
+        return getDisplayableDescription(true);
+    }
+
+    public String getDisplayableNewsContentDescription() {
+        return getDisplayableDescription(false);
+    }
+
+    private String getDisplayableDescription(boolean preferRss) {
+        final int threshold = 150;
+
+        String text;
+
+        if (!hasDisplayableDescription()) {
+            text = "";
+        } else {
+            if (hasDescription() && !getNewsContent().hasText()) {
+                text = getDescription();
+            } else if (!hasDescription() && getNewsContent().hasText()) {
+                text = getNewsContent().getText();
+            } else {
+                String rssText = getDescription();
+                String newsContentText = getNewsContent().getText();
+                int rssTextLength = rssText.length();
+                int newsContentTextLength = newsContentText.length();
+                if (rssTextLength > threshold && newsContentTextLength > threshold) {
+                    return preferRss ? rssText : newsContentText;
+                } else {
+                    text = rssTextLength > newsContentTextLength ? rssText : newsContentText;
+                }
+            }
+        }
+
+        return text;
     }
 }

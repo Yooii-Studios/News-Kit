@@ -35,6 +35,7 @@ import lombok.experimental.Accessors;
 @Accessors(prefix = "m")
 public class NewsContentFragment extends Fragment {
     public static final String NEWS_LINK_ARG = "news_link_arg";
+    public static final int MIN_TEXT_LENGTH = 200;
 
     @Getter @InjectView(R.id.details_layout) FrameLayout mLayout;
     @Getter @InjectView(R.id.details_scrollview) ScrollView mScrollView;
@@ -82,7 +83,8 @@ public class NewsContentFragment extends Fragment {
 
         NewsContent newsContent = mNews.getNewsContent();
         mTitleTextView.setText(newsContent.getTitle());
-        mContentTextView.setText(newsContent.getText());
+        mContentTextView.setText(mNews.getDisplayableNewsContentDescription());
+//        news.getDisplayableRssDescription()
     }
 
     private void initScrollView() {

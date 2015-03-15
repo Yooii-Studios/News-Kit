@@ -371,7 +371,7 @@ public class MainTopContainerLayout extends FrameLayout
                         taskType, this);
                 mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
-                if (news.getImageUrl() == null) {
+                if (!news.hasImageUrl()) {
                     // no image
                     notifyOnReady(taskType);
                 } else {
@@ -404,7 +404,7 @@ public class MainTopContainerLayout extends FrameLayout
         for (int i = 0; i < newsList.size(); i++) {
             News news = newsList.get(i);
 
-            if (news.getImageUrl() == null && !news.isImageUrlChecked()) {
+            if (!news.hasImageUrl() && !news.isImageUrlChecked()) {
                 TopFeedNewsImageUrlFetchTask task =
                         new TopFeedNewsImageUrlFetchTask(news, i, taskType, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

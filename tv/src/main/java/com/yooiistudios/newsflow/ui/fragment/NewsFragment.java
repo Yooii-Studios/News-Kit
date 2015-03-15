@@ -47,8 +47,8 @@ public class NewsFragment extends DetailsFragment {
     private DetailsOverviewRowPresenter mDorPresenter;
     private DetailsOverviewRow mRow;
 
-    private RequestBitmapTask mImageLoadTask;
-    private RequestBitmapTask mBackgroundLoadTask;
+    private LoadBitmapTask mImageLoadTask;
+    private LoadBitmapTask mBackgroundLoadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,32 +59,7 @@ public class NewsFragment extends DetailsFragment {
         initPresenter();
         initUI();
 
-        Context context = getActivity().getApplicationContext();
-
-        int width = DipToPixel.dpToPixel(getActivity().getApplicationContext(),
-                DETAIL_THUMB_WIDTH);
-        int height = DipToPixel.dpToPixel(getActivity().getApplicationContext(),
-                DETAIL_THUMB_HEIGHT);
-        String url = mNews.getImageUrl() != null ? mNews.getImageUrl() : "";
-        mImageLoadTask = new RequestBitmapTask(context, url, width, height,
-                R.drawable.news_dummy2, new RequestBitmapTask.OnSuccessListener() {
-            @Override
-            public void onSuccess(Drawable drawable) {
-                mRow.setImageDrawable(drawable);
-                ((ArrayObjectAdapter)getAdapter()).notifyArrayItemRangeChanged(0, 1);
-            }
-        });
-        mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        mBackgroundLoadTask = new RequestBitmapTask(context, url,
-                mMetrics.widthPixels, mMetrics.heightPixels,
-                R.drawable.default_background, new RequestBitmapTask.OnSuccessListener() {
-            @Override
-            public void onSuccess(Drawable drawable) {
-                mBackgroundManager.setDrawable(drawable);
-            }
-        });
-        mBackgroundLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        loadImages();
     }
 
     @Override
@@ -108,27 +83,7 @@ public class NewsFragment extends DetailsFragment {
     }
 
     private void initPresenter() {
-        mDorPresenter =
-                new DetailsOverviewRowPresenter(new NewsDescriptionPresenter());
-    }
-
-    private void initUI() {
-        initRow();
-        initAdapter();
-    }
-
-    private void initRow() {
-        mRow = new DetailsOverviewRow(mNews);
-
-        mRow.addAction(new Action(ACTION_OPEN_LINK,
-                getResources().getString(R.string.open_link), null));
-        mRow.addAction(new Action(ACTION_SEE_CONTENT,
-                getResources().getString(R.string.see_content),
-                null));
-    }
-
-    private void initAdapter() {
-        ClassPresenterSelector ps = new ClassPresenterSelector();
+        mDorPresenter = new DetailsOverviewRowPresenter(new NewsDescriptionPresenter());
         // set detail background and style
         mDorPresenter.setBackgroundColor(getResources().getColor(R.color.detail_background));
         mDorPresenter.setStyleLarge(true);
@@ -146,10 +101,34 @@ public class NewsFragment extends DetailsFragment {
                 }
             }
         });
+    }
 
-        ps.addClassPresenter(DetailsOverviewRow.class, mDorPresenter);
+    private void initUI() {
+        initRow();
+        initAdapter();
+    }
 
-        ArrayObjectAdapter adapter = new ArrayObjectAdapter(ps);
+    private void loadImages() {
+        loadHeroImage();
+        loadBackgroundImage();
+    }
+
+    private void initRow() {
+        mRow = new DetailsOverviewRow(mNews);
+
+        mRow.addAction(new Action(ACTION_OPEN_LINK,
+                getResources().getString(R.string.open_link), null));
+        if (mNews.getDisplayableNewsContentDescription().length() > NewsContentFragment.MIN_TEXT_LENGTH) {
+            mRow.addAction(new Action(ACTION_SEE_CONTENT,
+                    getResources().getString(R.string.see_content), null));
+        }
+    }
+
+    private void initAdapter() {
+        ClassPresenterSelector presenterSelector = new ClassPresenterSelector();
+        presenterSelector.addClassPresenter(DetailsOverviewRow.class, mDorPresenter);
+
+        ArrayObjectAdapter adapter = new ArrayObjectAdapter(presenterSelector);
         adapter.add(mRow);
         setAdapter(adapter);
     }
@@ -159,9 +138,39 @@ public class NewsFragment extends DetailsFragment {
         mBackgroundManager.attach(getActivity().getWindow());
     }
 
-    private static class RequestBitmapTask extends AsyncTask<Void, Void, Drawable> {
+    private void loadHeroImage() {
+        Context context = getActivity().getApplicationContext();
+        int width = DipToPixel.dpToPixel(context, DETAIL_THUMB_WIDTH);
+        int height = DipToPixel.dpToPixel(context, DETAIL_THUMB_HEIGHT);
+
+        mImageLoadTask = new LoadBitmapTask(context, mNews.getImageUrl(), width, height,
+                R.drawable.news_dummy2, new LoadBitmapTask.OnSuccessListener() {
+            @Override
+            public void onLoad(Drawable drawable) {
+                mRow.setImageDrawable(drawable);
+                ((ArrayObjectAdapter)getAdapter()).notifyArrayItemRangeChanged(0, 1);
+            }
+        });
+        mImageLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void loadBackgroundImage() {
+        Context context = getActivity().getApplicationContext();
+
+        mBackgroundLoadTask = new LoadBitmapTask(context, mNews.getImageUrl(),
+                mMetrics.widthPixels, mMetrics.heightPixels,
+                R.drawable.default_background, new LoadBitmapTask.OnSuccessListener() {
+            @Override
+            public void onLoad(Drawable drawable) {
+                mBackgroundManager.setDrawable(drawable);
+            }
+        });
+        mBackgroundLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private static class LoadBitmapTask extends AsyncTask<Void, Void, Drawable> {
         public interface OnSuccessListener {
-            public void onSuccess(Drawable drawable);
+            public void onLoad(Drawable drawable);
         }
         private Context mContext;
         private String mUrl;
@@ -170,8 +179,8 @@ public class NewsFragment extends DetailsFragment {
         private int mDefaultResId;
         private OnSuccessListener mListener;
 
-        public RequestBitmapTask(Context context, String url, int width, int height,
-                                 int defaultResId, OnSuccessListener listener) {
+        public LoadBitmapTask(Context context, String url, int width, int height,
+                              int defaultResId, OnSuccessListener listener) {
             mContext = context;
             mUrl = url;
             mWidth = width;
@@ -202,7 +211,7 @@ public class NewsFragment extends DetailsFragment {
         protected void onPostExecute(Drawable drawable) {
             super.onPostExecute(drawable);
             if (mListener != null && !isCancelled()) {
-                mListener.onSuccess(drawable);
+                mListener.onLoad(drawable);
             }
         }
 

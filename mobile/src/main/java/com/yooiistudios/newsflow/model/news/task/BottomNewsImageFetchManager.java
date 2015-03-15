@@ -166,7 +166,7 @@ public class BottomNewsImageFetchManager
 
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             } else {
-                if (news.getImageUrl() != null) {
+                if (news.hasImageUrl()) {
                     imageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
                         @Override
                         public void onResponse(ImageLoader.ImageContainer response,

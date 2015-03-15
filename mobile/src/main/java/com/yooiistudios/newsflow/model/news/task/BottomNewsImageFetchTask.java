@@ -51,7 +51,7 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
         if (mListener != null) {
             mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
 
-            if (imageUrl != null) {
+            if (mNews.hasImageUrl()) {
                 mImageLoader.get(mNews.getImageUrl(), new ImageLoader.ImageListener() {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
