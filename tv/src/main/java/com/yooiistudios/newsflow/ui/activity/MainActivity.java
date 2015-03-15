@@ -67,15 +67,11 @@ public class MainActivity extends Activity
                 context, panelMatrix.getPanelCount());
 
         if (NewsFeedValidator.isValid(topNewsFeed) && NewsFeedValidator.isValid(bottomNewsFeeds)) {
-            NLLog.i("Archive", "Archive exists. Show.");
             applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
         } else {
-            NLLog.i("Archive", "Archive does not exists. Fetch.");
-//            fetchDefaultNewsFeeds(context);
             NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
             ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
                     .getDefaultBottomNewsFeedList(getApplicationContext());
-//            ArrayList<NewsFeed> defaultBottomNewsFeeds = new ArrayList<>();
 
             fetch(defaultTopNewsFeed, defaultBottomNewsFeeds);
         }
@@ -131,21 +127,20 @@ public class MainActivity extends Activity
     @Override
     public void onFetchTopNewsContent(News news, NewsContent newsContent, int newsPosition) {
         MainFragment fragment = getMainFragment();
-//        fragment.configOnTopNewsImageUrlLoad(news, newsContent.getImageUrl(), newsPosition);
         fragment.configOnTopNewsContentLoad(news, newsPosition);
+        printNewsContentInfoDebug(news);
     }
 
     @Override
     public void onFetchBottomNewsContent(News news, NewsContent newsContent,
                                          int newsFeedPosition, int newsPosition) {
         MainFragment fragment = getMainFragment();
-//        fragment.configOnBottomNewsImageUrlLoad(news, newsContent.getImageUrl(),
-//                newsFeedPosition, newsPosition);
         fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
+        printNewsContentInfoDebug(news);
     }
 
-//    @Override
-//    public void onPairItemSelected() {
-//        startActivityForResult(new Intent(this, PairActivity.class), RC_PAIR_ACTIVITY);
-//    }
+    private void printNewsContentInfoDebug(News news) {
+        NLLog.now("news url: " + news.getLink());
+        NLLog.now("content length: " + news.getNewsContent().getText().length());
+    }
 }
