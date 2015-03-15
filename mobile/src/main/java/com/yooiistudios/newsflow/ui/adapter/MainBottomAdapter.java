@@ -193,7 +193,7 @@ public class MainBottomAdapter extends
 
         showLoading(viewHolder);
 
-        if (imageUrl == null) {
+        if (!displayingNews.hasImageUrl()) {
             if (displayingNews.isImageUrlChecked()) {
                 showDummyImage(viewHolder);
             }

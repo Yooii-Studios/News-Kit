@@ -171,6 +171,10 @@ public class NewsContent implements Parcelable {
         mJResult.setText(text);
     }
 
+    public boolean hasText() {
+        return getText().trim().length() > 0;
+    }
+
 //    public List<String> getTextList() {
 //        List<String> textList = mJResult.getTextList();
 //        if(textList == null) {

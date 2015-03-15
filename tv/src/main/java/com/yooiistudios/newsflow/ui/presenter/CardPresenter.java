@@ -73,19 +73,18 @@ public class CardPresenter extends Presenter {
         ImageCardView imageCardView = viewHolder.imageCardView;
         imageCardView.setTitleText(news.getTitle());
 //        imageCardView.setContentText(news.getDescription());
-        String url = news.getImageUrl();
-        String message = url != null ? url : "no url";
-        imageCardView.setContentText(url);
+//        String url = news.getImageUrl();
+//        String message = url != null ? url : "no url";
+        imageCardView.setContentText(news.getImageUrl());
 //        imageCardView.setContentText("53 min before");
         imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
     private void applyImage(NewsViewHolder newsViewHolder, News news) {
-        String imageUrl = news.getImageUrl();
-        if (isImageUrlValid(imageUrl)) {
+        if (news.hasImageUrl()) {
             Context context = newsViewHolder.imageCardView.getContext();
             Picasso.with(context)
-                    .load(imageUrl)
+                    .load(news.getImageUrl())
 //                    .resize(Utils.convertDpToPixel(context, CARD_WIDTH),
 //                            Utils.convertDpToPixel(context, CARD_HEIGHT))
                     .resize(DipToPixel.dpToPixel(context, CARD_WIDTH),

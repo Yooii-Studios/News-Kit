@@ -38,7 +38,7 @@ public class NewsFeedAdapter extends ObjectAdapter {
         return mNewsFeed;
     }
 
-    public void applyNewsImageAt(String imageUrl, int newsIndex) {
+    public void notifyNewsImageLoadedAt(int newsIndex) {
 //        mNewsList.get(newsIndex).setImageUrl(imageUrl);
         notifyItemRangeChanged(newsIndex, 1);
     }

@@ -576,7 +576,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
         setResult(RESULT_OK, getIntent());
 
-        if (imgUrl != null) {
+        if (mTopNews.hasImageUrl()) {
             mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {

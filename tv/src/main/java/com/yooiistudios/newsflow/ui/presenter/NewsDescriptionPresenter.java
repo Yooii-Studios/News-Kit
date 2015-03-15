@@ -26,7 +26,8 @@ public class NewsDescriptionPresenter extends AbstractDetailsDescriptionPresente
         if (news != null) {
             viewHolder.getTitle().setText(news.getTitle());
 //            viewHolder.getSubtitle().setText(news.getDescription());
-            viewHolder.getBody().setText(news.getDescription());
+//            viewHolder.getBody().setText(news.getDescription());
+            viewHolder.getBody().setText(news.getDisplayableRssDescription());
         }
     }
 }
