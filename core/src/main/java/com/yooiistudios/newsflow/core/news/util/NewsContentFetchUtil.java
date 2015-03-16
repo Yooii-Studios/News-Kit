@@ -26,16 +26,12 @@ public class NewsContentFetchUtil {
             JResult result = htmlFetcher.fetchAndExtract(url, 30000, true);
             result.setText(getTextWithBreakLine(result));
             fetchResult.newsContent = new NewsContent(result);
-//            fetchResult.imageUrl = result.getImageUrl();
 
             if (result.getOgImages().size() >= 0) {
                 fetchResult.imageUrl = result.getOgImages().get(0);
             } else {
                 fetchResult.imageUrl = result.getImageUrl();
             }
-
-//            NLLog.now("ogImage size: " + result.getOgImages().size());
-//            NLLog.now("srcImage size: " + (result.getImages() != null ? result.getImages().size() : "0"));
         } catch (Exception e) {
             fetchResult.newsContent = NewsContent.createErrorObject();
             fetchResult.imageUrl = "";
@@ -81,21 +77,29 @@ public class NewsContentFetchUtil {
         StringBuilder builder = new StringBuilder();
         List<String> textList = result.getTextList();
         int textLineCount = textList.size();
+        int totalLineTextCount = 0;
         for (int i = 0; i < textLineCount; i++) {
-            builder.append(textList.get(i));
+            String line = textList.get(i);
+            builder.append(line);
+            totalLineTextCount += line.length();
             if (i < textLineCount - 1) {
                 builder.append("\n\n");
             }
         }
 
-        return builder.toString();
+        String text;
+
+        if (totalLineTextCount == 0) {
+            text = result.getText();
+        } else {
+            text = builder.toString();
+        }
+
+        return text;
     }
 
     public static class NewsContentFetchResult {
         public NewsContent newsContent;
         public String imageUrl;
-
-//        public List<ImageResult> imageResults;
-//        public List<String> ogImages;
     }
 }
