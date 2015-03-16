@@ -90,9 +90,9 @@ public class CardPresenter extends Presenter {
                     .resize(DipToPixel.dpToPixel(context, CARD_WIDTH),
                             DipToPixel.dpToPixel(context, CARD_HEIGHT))
                     .centerCrop()
-                    .error(mErrorCardImage)
+//                    .error(mErrorCardImage)
                     .into(newsViewHolder.picassoTarget);
-        } else {
+        } else if (news.isImageUrlChecked()) {
             newsViewHolder.imageCardView.setMainImage(mErrorCardImage);
         }
     }
