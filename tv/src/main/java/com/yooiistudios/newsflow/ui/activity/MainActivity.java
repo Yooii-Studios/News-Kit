@@ -134,7 +134,7 @@ public class MainActivity extends Activity
         NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed(topNewsFeed);
         NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedList(bottomNewsFeeds);
 
-        mTester.onFetchAllNewsFeeds(topNewsFeed, bottomNewsFeeds);
+//        mTester.onFetchAllNewsFeeds(topNewsFeed, bottomNewsFeeds);
 
         applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
     }
@@ -144,7 +144,7 @@ public class MainActivity extends Activity
         MainFragment fragment = getMainFragment();
         fragment.configOnTopNewsContentLoad(news, newsPosition);
 
-        mTester.checkAllTopNewsContentFetched();
+//        mTester.checkAllTopNewsContentFetched();
     }
 
     @Override
@@ -153,6 +153,6 @@ public class MainActivity extends Activity
         MainFragment fragment = getMainFragment();
         fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
 
-        mTester.checkAllBottomNewsContentFetched(newsFeedPosition);
+//        mTester.checkAllBottomNewsContentFetched(newsFeedPosition);
     }
 }
