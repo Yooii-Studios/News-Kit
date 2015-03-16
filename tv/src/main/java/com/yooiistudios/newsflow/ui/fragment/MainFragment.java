@@ -114,7 +114,7 @@ public class MainFragment extends NewsBrowseFragment {
         ArrayObjectAdapter settingRowAdapter = new ArrayObjectAdapter(settingItemPresenter);
         settingRowAdapter.add(getResources().getString(R.string.pair_title));
         settingRowAdapter.add(getResources().getString(R.string.remove_db));
-        settingRowAdapter.add(getResources().getString(R.string.copy_db));
+//        settingRowAdapter.add(getResources().getString(R.string.copy_db));
         rowsAdapter.add(new ListRow(SettingHeader, settingRowAdapter));
 
         setAdapter(rowsAdapter);
@@ -267,8 +267,8 @@ public class MainFragment extends NewsBrowseFragment {
                 if (((String) item).contains(getString(R.string.pair_title))) {
                     clearBackground();
                     startPairActivity(itemViewHolder);
-                } else if (((String) item).contains(getString(R.string.copy_db))) {
-                    NewsDb.copyDbToExternalStorage(getActivity());
+//                } else if (((String) item).contains(getString(R.string.copy_db))) {
+//                    NewsDb.copyDbToExternalStorage(getActivity());
                 } else if (((String) item).contains(getString(R.string.remove_db))) {
                     NewsDb.getInstance(getActivity()).clearArchive();
                 }
