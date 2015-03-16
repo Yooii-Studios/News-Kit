@@ -45,6 +45,8 @@ public class NewsContentFetchUtil {
         ArticleTextExtractor articleTextExtractor = new ArticleTextExtractor();
         // 毎日新聞
         articleTextExtractor.addPositive("NewsBody");
+        // 朝日
+        articleTextExtractor.addPositive("ArticleText");
 
         // 구글 - 연예
 

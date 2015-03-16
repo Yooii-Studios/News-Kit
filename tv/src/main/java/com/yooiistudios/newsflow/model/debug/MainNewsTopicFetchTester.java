@@ -35,15 +35,15 @@ public class MainNewsTopicFetchTester {
 
     public void testFetch() {
         NewsDb.getInstance(mActivity).clearArchive();
-        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("ko", null, "kr", 1));
+        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("ja", null, "jp", 2));
         ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 2)));
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 3)));
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 4)));
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 5)));
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 6)));
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 7)));
-        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 8)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 2)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 3)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 4)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 5)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 6)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 7)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 8)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ja", null, "jp", 3)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ja", null, "jp", 4)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("sv", null, "se", 1)));
@@ -97,7 +97,7 @@ public class MainNewsTopicFetchTester {
     }
 
     private void saveDebug() {
-        if (mTopFetched && mBottomAllFetched) {
+        if (mTopFetched && (mBottomAllFetched || mBottomNewsCount.size() == 0)) {
             NewsDb.copyDbToExternalStorage(mActivity);
             NLLog.now("db copied");
         }
