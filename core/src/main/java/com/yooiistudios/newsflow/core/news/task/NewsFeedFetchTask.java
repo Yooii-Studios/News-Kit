@@ -14,7 +14,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
  *  URL 에서 뉴스피드를 가져와 파싱, 자료구조로 저장.
  */
 public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
-    private static final int DEFAULT_FETCH_LIMIT = 10;
+    private static final int DEFAULT_FETCH_LIMIT = 20;
 //    private static final int DEFAULT_FETCH_LIMIT = 1;
 
     private RssFetchable mRssFetchable;

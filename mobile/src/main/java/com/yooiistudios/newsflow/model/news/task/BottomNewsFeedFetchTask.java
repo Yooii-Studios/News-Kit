@@ -50,7 +50,7 @@ public class BottomNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     @Override
     protected NewsFeed doInBackground(Void... voids) {
         NewsFeed newsFeed =
-                NewsFeedFetchUtil.fetch(mRssFetchable, 10, mShuffle);
+                NewsFeedFetchUtil.fetch(mRssFetchable, 20, mShuffle);
         if (mNewsFeed != null) {
             newsFeed.setTopicIdInfo(mNewsFeed);
         } else if (mRssFetchable instanceof NewsTopic) {
