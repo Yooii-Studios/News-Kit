@@ -41,7 +41,7 @@ import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.MainAdView;
@@ -453,8 +453,9 @@ public class MainActivity extends ActionBarActivity
 
         if (NLLog.isDebug()) {
             subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_slow_anim, 7, "Slow Activity Transition(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_service_log, 8, "Show service log(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
+            subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_service_log, 9, "Show service log(Debug)");
         }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -489,6 +490,8 @@ public class MainActivity extends ActionBarActivity
             // 젠킨스 한글 설정 테스트용 주석
             NewsDb.getInstance(getApplicationContext()).clearArchive();
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+        } else if (id == R.id.action_copy_db) {
+            NewsDb.copyDbToExternalStorage(this);
         } else if (id == R.id.action_slow_anim) {
             NewsFeedDetailTransitionUtils.toggleUseScaledDurationDebug(getApplicationContext());
             item.setChecked(!item.isChecked());

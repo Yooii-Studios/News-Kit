@@ -37,7 +37,8 @@ public class NewsFeedDetailNewsImageUrlFetchTask extends AsyncTask<Void, Void, S
     @Override
     protected void onPostExecute(String imageUrl) {
         super.onPostExecute(imageUrl);
-
+        mNews.setImageUrl(imageUrl);
+        mNews.setImageUrlChecked(true);
         if (mListener != null) {
             if (imageUrl != null) {
                 mListener.onImageUrlFetchSuccess(mNews, imageUrl);

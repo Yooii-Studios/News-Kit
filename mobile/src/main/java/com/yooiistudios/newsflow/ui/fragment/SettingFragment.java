@@ -19,15 +19,28 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.connector.TokenValidationRequest;
+import com.yooiistudios.newsflow.core.connector.TokenValidationResult;
+import com.yooiistudios.newsflow.core.connector.Connector;
+import com.yooiistudios.newsflow.core.connector.ConnectorRequest;
+import com.yooiistudios.newsflow.core.connector.ConnectorResult;
+import com.yooiistudios.newsflow.core.connector.UploadRequest;
+import com.yooiistudios.newsflow.core.connector.UploadResult;
+import com.yooiistudios.newsflow.core.language.Language;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.util.RssFetchableConverter;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.core.language.Language;
-import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,7 +53,8 @@ import butterknife.InjectView;
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener, AutoRefreshIntervalDialogFragment.OnActionListener {
+        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener,
+        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener {
     public enum SettingItem {
         LANGUAGE(R.string.setting_language),
         KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
@@ -49,7 +63,9 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         MAIN_SUB_HEADER(R.string.setting_main_sub_header),
         MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
         MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
-        MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix);
+        MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix),
+
+        PAIR_TV(R.string.setting_pair_tv);
 
         private int mTitleResId;
         private SettingItem(int titleResId) {
@@ -141,6 +157,10 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
                 showPanelMatrixSelectDialog();
                 break;
 
+            case PAIR_TV:
+                showPairTVDialogFragment();
+                break;
+
             case TUTORIAL:
                 showTutorial();
                 break;
@@ -187,6 +207,10 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         showDialogFragment("panel_matrix_dialog", PanelMatrixSelectDialog.newInstance(this));
     }
 
+    private void showPairTVDialogFragment() {
+        showDialogFragment("pair_tv", PairTvDialog.newInstance(this));
+    }
+
     @Override
     public void onSelectMatrix(int position) {
         PanelMatrix selectedPanelMatrix = PanelMatrix.getByUniqueKey(position);
@@ -208,6 +232,81 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             startActivity(new Intent(getActivity(), StoreActivity.class));
             Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onConfirmPairing(final String token) {
+        TokenValidationRequest request = createTokenValidationRequest(token);
+        Connector.execute(request);
+    }
+
+    private TokenValidationRequest createTokenValidationRequest(final String token) {
+        Context context = getActivity().getApplicationContext();
+
+        ConnectorRequest.ResultListener<TokenValidationResult> listener =
+                new ConnectorRequest.ResultListener<TokenValidationResult>() {
+                    @Override
+                    public void onSuccess(TokenValidationResult result) {
+                        if (result.isSuccess()) {
+                            if (result.isTokenValid()) {
+                                uploadData(token);
+                            } else {
+                                Toast.makeText(getActivity(), R.string.setting_pair_tv_code_invalidate,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(ConnectorResult result) {
+                        Toast.makeText(getActivity(), R.string.setting_pair_tv_error_msg,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                };
+        return new TokenValidationRequest(context, listener, token);
+    }
+
+    private void uploadData(String token) {
+        try {
+            Context context = getActivity().getApplicationContext();
+
+            List<NewsFeed> newsFeeds = getSavedNewsFeeds(context);
+            UploadRequest request = createUploadRequest(token, newsFeeds);
+
+            Connector.execute(request);
+        } catch (RssFetchableConverter.RssFetchableConvertException e) {
+            Toast.makeText(getActivity(), R.string.setting_pair_tv_error_msg,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private List<NewsFeed> getSavedNewsFeeds(Context context) {
+        NewsFeed topNewsFeed = NewsDb.getInstance(context).loadTopNewsFeed(context);
+        PanelMatrix currentPanelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
+        List<NewsFeed> bottomNewsFeeds = NewsDb.getInstance(context).loadBottomNewsFeedList(
+                context, currentPanelMatrix.getPanelCount());
+
+        List<NewsFeed> newsFeeds = new ArrayList<>();
+        newsFeeds.add(topNewsFeed);
+        newsFeeds.addAll(bottomNewsFeeds);
+        return newsFeeds;
+    }
+
+    private UploadRequest createUploadRequest(String token, List<NewsFeed> newsFeeds) throws RssFetchableConverter.RssFetchableConvertException {
+        String data = RssFetchableConverter.newsFeedsToBase64String(newsFeeds);
+        return new UploadRequest(getActivity().getApplicationContext(), new ConnectorRequest.ResultListener<UploadResult>() {
+            @Override
+            public void onSuccess(UploadResult result) {
+                Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_data_sent),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail(ConnectorResult result) {
+                Toast.makeText(getActivity(), getString(R.string.setting_pair_tv_error_msg),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }, token, data);
     }
 
     private void showDialogFragment(String tag, DialogFragment dialogFragment) {

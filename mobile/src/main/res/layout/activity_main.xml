@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_background"
+    android:background="@color/material_grey_black_1000"
     android:id="@+id/main_root_layout">
 
     <android.support.v7.widget.Toolbar

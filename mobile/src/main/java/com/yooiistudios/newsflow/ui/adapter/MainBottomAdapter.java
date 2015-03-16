@@ -143,7 +143,8 @@ public class MainBottomAdapter extends
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
         NewsFeed newsFeed = mNewsFeedList.get(position);
 
-        viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.theme_background));
+        viewHolder.itemView.setBackgroundColor(
+                mContext.getResources().getColor(R.color.material_grey_black_1000));
         imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
 
         if (newsFeed == null || !newsFeed.containsNews()) {
@@ -192,7 +193,7 @@ public class MainBottomAdapter extends
 
         showLoading(viewHolder);
 
-        if (imageUrl == null) {
+        if (!displayingNews.hasImageUrl()) {
             if (displayingNews.isImageUrlChecked()) {
                 showDummyImage(viewHolder);
             }

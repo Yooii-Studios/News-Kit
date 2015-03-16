@@ -65,6 +65,7 @@ public class SettingAdapter extends BaseAdapter {
 
                 case LANGUAGE:
                 case MAIN_PANEL_MATRIX:
+                case PAIR_TV:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_base, parent, false);
                     initBaseItem(context, item, view);
                     break;
@@ -121,6 +122,9 @@ public class SettingAdapter extends BaseAdapter {
             PanelMatrix currentPanelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
             descriptionTextView.setText(context.getString(
                     R.string.setting_main_panel_matrix_description, currentPanelMatrix.getDisplayName()));
+        } else if (item == SettingItem.PAIR_TV) {
+            descriptionTextView.setText(context.getString(
+                    R.string.setting_pair_tv_description));
         }
     }
 

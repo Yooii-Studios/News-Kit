@@ -122,7 +122,10 @@
 -dontwarn java.awt.**
 ##---------------End: proguard configuration for Open Sources  ----------
 
-
+##---------------Begin: proguard configuration for News Core  ---------
+-keep class com.yooiistudios.newsflow.core.** { *; }
+-dontwarn com.yooiistudios.newsflow.core.**
+##---------------End: proguard configuration for News Core ----------
 # 기존 테스트하던 레거시 코드
 
 #-keep public class * { public protected private *; }

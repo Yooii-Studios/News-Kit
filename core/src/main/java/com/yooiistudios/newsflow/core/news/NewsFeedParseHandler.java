@@ -15,6 +15,11 @@ public class NewsFeedParseHandler extends DefaultHandler {
     private NewsFeed rssFeed;
     private News rssItem;
     private StringBuilder stringBuilder;
+//    private int mNewsSizeLimit;
+
+//    public NewsFeedParseHandler(int newsSizeLimit) {
+//        mNewsSizeLimit = newsSizeLimit;
+//    }
 
     @Override
     public void startDocument() {

@@ -10,7 +10,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
@@ -166,18 +166,19 @@ public class BackgroundCacheUtils implements
                 @Override
                 public void onTopFeedImageUrlFetch(News news, String url, int position, TopFeedNewsImageUrlFetchTask.TaskType taskType) {
                     NLLog.i(TAG, "T NFI " + position);
-                    news.setImageUrlChecked(true);
+//                    news.setImageUrlChecked(true);
                     mTopNewsImageFetchTaskMap.delete(position);
 
                     if (checkAllImageUrlFetched(newsFeed)) {
-                        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
+                        NewsDb.getInstance(mContext).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//                        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
 //                        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
                     }
 
                     checkAllFetched();
 
                     if (url != null) {
-                        news.setImageUrl(url);
+//                        news.setImageUrl(url);
                         mImageLoader.get(url, new ImageLoader.ImageListener() {
                             @Override
                             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -200,12 +201,12 @@ public class BackgroundCacheUtils implements
     @Override
     public void onTopFeedImageUrlFetch(News news, String url, int position, TopFeedNewsImageUrlFetchTask.TaskType taskType) {
         NLLog.i(TAG, "T NFI " + position);
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
         mTopNewsImageFetchTaskMap.delete(position);
         checkAllFetched();
 
         if (url != null) {
-            news.setImageUrl(url);
+//            news.setImageUrl(url);
             mImageLoader.get(url, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -241,10 +242,10 @@ public class BackgroundCacheUtils implements
                 @Override
                 public void onBottomImageUrlFetchSuccess(News news, String url, int position, int taskType) {
                     NLLog.i(TAG, "B NFI " + newsFeedPosition + " " + position);
-                    news.setImageUrlChecked(true);
-                    if (url != null) {
-                        news.setImageUrl(url);
-                    }
+//                    news.setImageUrlChecked(true);
+//                    if (url != null) {
+//                        news.setImageUrl(url);
+//                    }
 
                     if (checkAllImageUrlFetched(newsFeed)) {
                         // archive

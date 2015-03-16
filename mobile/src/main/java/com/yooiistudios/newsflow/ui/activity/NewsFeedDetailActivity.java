@@ -61,7 +61,7 @@ import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.debug.DebugSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugSettings;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsFeedFetchTask;
@@ -90,8 +90,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         NewsTopicSelectDialogFactory.OnItemClickListener,
         NewsFeedDetailTransitionUtils.OnAnimationEndListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
-
-    private static final int BACKGROUND_COLOR = Color.WHITE;
 
     // Overlay & Shadow
     private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.75f;
@@ -212,7 +210,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initRevealView() {
-        mRevealView.setBackgroundColor(BACKGROUND_COLOR);
+        mRevealView.setBackgroundColor(Color.WHITE);
     }
 
     @Override
@@ -410,17 +408,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initBottomNewsList() {
-        //init ui
-
-        final RecyclerView.ItemAnimator itemAnimator;
-
         mBottomNewsListRecyclerView.setHasFixedSize(true);
         mBottomNewsListRecyclerView.setItemAnimator(
                 new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
 
-        mRecyclerViewBackground = new ColorDrawable(BACKGROUND_COLOR);
+        mRecyclerViewBackground = new ColorDrawable(Color.WHITE);
         mBottomNewsListRecyclerView.setBackground(mRecyclerViewBackground);
 
         notifyBottomNewsChanged();
@@ -463,18 +457,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mBottomNewsListRecyclerView.setLayoutParams(lp);
 //        mBottomNewsListRecyclerView.invalidate();
 //        mAdapter.notifyDataSetChanged();
-        if (Settings.isNewsFeedAutoScroll(this)) {
-            // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
-            // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
-            mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    mScrollContentWrapper.getViewTreeObserver().removeOnPreDrawListener(this);
-                    startAutoScroll();
-                    return true;
-                }
-            });
-        }
     }
 
     @Override
@@ -538,7 +520,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 item.setTitle(autoScrollString);
 
                 if (isAutoScroll) {
-                    stopAutoScroll();
                     startAutoScroll();
                 }
                 return true;
@@ -548,7 +529,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                         new DebugSettingDialogFactory.DebugSettingListener() {
                             @Override
                             public void autoScrollSettingSaved() {
-                                stopAutoScroll();
                                 startAutoScroll();
                             }
                         });
@@ -561,7 +541,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void applyMaxBottomRecyclerViewHeight() {
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
-//        NLLog.now("maxRowHeight : " + maxRowHeight);
 
         int newsListCount = mNewsFeed.getNewsList().size();
         mBottomNewsListRecyclerView.getLayoutParams().height =
@@ -597,7 +576,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
         setResult(RESULT_OK, getIntent());
 
-        if (imgUrl != null) {
+        if (mTopNews.hasImageUrl()) {
             mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -898,8 +877,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     @Override
     public void onImageUrlFetchSuccess(News news, String url) {
-        news.setImageUrl(url);
-        news.setImageUrlChecked(true);
+//        news.setImageUrl(url);
+//        news.setImageUrlChecked(true);
 
         // 아카이빙을 위해 임시로 top news 를 news feed 에 추가.
         mNewsFeed.addNewsAt(0, news);
@@ -913,7 +892,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     public void onImageUrlFetchFail(News news) {
         configAfterRefreshDone();
 
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
 
         applyImage();
     }
@@ -965,6 +944,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void startAutoScroll() {
+        stopAutoScroll();
+
         // 1초 기다렸다가 아래로 스크롤, 스크롤 된 뒤는 다시 위로 올라옴
         // 중간 터치가 있을 때에는 onScrollChanged 애니메이션을 중지
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -1043,5 +1024,21 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     public void onRecyclerScaleAnimationEnd() {
         adjustBottomRecyclerHeight();
+        startScrollIfAutoScrollOn();
+    }
+
+    private void startScrollIfAutoScrollOn() {
+        if (Settings.isNewsFeedAutoScroll(this)) {
+            // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
+            // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
+            mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    mScrollContentWrapper.getViewTreeObserver().removeOnPreDrawListener(this);
+                    startAutoScroll();
+                    return true;
+                }
+            });
+        }
     }
 }

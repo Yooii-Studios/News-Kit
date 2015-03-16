@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * Rss Feed 의 Feed 를 표현하는 클래스
  */
-public class NewsFeed implements Parcelable {
+public class NewsFeed implements Parcelable, RssFetchable {
     public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
 
     private String mTitle;
@@ -107,6 +107,7 @@ public class NewsFeed implements Parcelable {
         this.mTitle = title;
     }
 
+    @Override
     public NewsFeedUrl getNewsFeedUrl() {
         return mNewsFeedUrl;
     }
@@ -142,6 +143,16 @@ public class NewsFeed implements Parcelable {
 
     public ArrayList<News> getNewsList() {
         return mNewsList;
+    }
+
+    public News getNewsByGuid(String guid) {
+        for (News news : mNewsList) {
+            if (news.getGuid().equals(guid)) {
+                return news;
+            }
+        }
+
+        return null;
     }
 
     public boolean containsNews() {
@@ -251,5 +262,37 @@ public class NewsFeed implements Parcelable {
         return getTopicLanguageCode() != null
                 && getTopicProviderId() >= 0
                 && getTopicId() >= 0;
+    }
+
+//    public NewsTopic createNewsTopicInfo() {
+//        NewsTopic topic = new NewsTopic();
+//        topic.languageCode = getTopicLanguageCode();
+//        topic.regionCode = getTopicRegionCode();
+//        topic.countryCode = getTopicCountryCode();
+//        topic.newsProviderId = getTopicProviderId();
+//        topic.id = getTopicId();
+//
+//        return topic;
+//    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Title: ")
+                .append(getTitle())
+                .append("\nDescription: ")
+                .append(getDescription());
+
+        for (int i = 0 ; i < getNewsList().size(); i++) {
+            News news = getNewsList().get(i);
+            builder.append("\nNews At: ")
+                    .append(i)
+                    .append("\nTitle: ")
+                    .append(news.getTitle())
+                    .append("\nDescription: ")
+                    .append(news.getDescription());
+        }
+
+        return builder.toString();
     }
 }

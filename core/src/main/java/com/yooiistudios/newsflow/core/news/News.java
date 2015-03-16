@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,11 +24,13 @@ public class News implements Comparable<News>, Parcelable {
     private String mTitle;
     private String mLink;
     private Date mPubDate;
+    private String mGuid;
     private String mDescription;
     private String mContent;
     private String mImageUrl;
     private boolean mImageUrlChecked;
     private String mOriginalDescription;
+    private NewsContent mNewsContent = NewsContent.createEmptyObject();
 
     public News() {
         mImageUrlChecked = false;
@@ -36,29 +41,33 @@ public class News implements Comparable<News>, Parcelable {
         mTitle = source.readString();
         mLink = source.readString();
         mPubDate = (Date) source.readSerializable();
+        mGuid = source.readString();
         mDescription = source.readString();
         mContent = source.readString();
         mImageUrl = source.readString();
         mImageUrlChecked = source.readInt() == 1;
         mOriginalDescription = source.readString();
+        mNewsContent = source.readParcelable(NewsContent.class.getClassLoader());
     }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mTitle);
         dest.writeString(mLink);
         dest.writeSerializable(mPubDate);
+        dest.writeString(mGuid);
         dest.writeString(mDescription);
         dest.writeString(mContent);
         dest.writeString(mImageUrl);
         dest.writeInt(mImageUrlChecked ? 1 : 0); // 1 for true
         dest.writeString(mOriginalDescription);
+        dest.writeParcelable(mNewsContent, flags);
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-
 
     public static final Parcelable.Creator<News> CREATOR = new Parcelable
             .Creator<News>() {
@@ -104,12 +113,24 @@ public class News implements Comparable<News>, Parcelable {
         }
     }
 
+    public String getGuid() {
+        return mGuid;
+    }
+
+    public void setGuid(String guid) {
+        mGuid = guid;
+    }
+
     public String getDescription() {
         return mDescription;
     }
 
     public void setDescription(String description) {
         this.mDescription = description;
+    }
+
+    public boolean hasDescription() {
+        return mDescription != null && mDescription.trim().length() > 0;
     }
 
     public String getContent() {
@@ -141,14 +162,75 @@ public class News implements Comparable<News>, Parcelable {
         return mImageUrl;
     }
 
+    public boolean hasImageUrl() {
+        return mImageUrl != null && mImageUrl.length() > 0;
+    }
+
     public boolean isImageUrlChecked() {
         return mImageUrlChecked;
     }
+
     public void setImageUrlChecked(boolean checked) {
         mImageUrlChecked = checked;
     }
 
     public void setOriginalDescription(String originalDescription) {
         mOriginalDescription = originalDescription;
+    }
+
+    public NewsContent getNewsContent() {
+        NewsContent newsContent = mNewsContent;
+        if (newsContent == null) {
+            newsContent = NewsContent.createEmptyObject();
+        }
+        return newsContent;
+    }
+
+    public void setNewsContent(NewsContent newsContent) {
+        mNewsContent = newsContent;
+    }
+
+    public boolean hasNewsContent() {
+        return !getNewsContent().getFetchState().equals(NewsContentFetchState.NOT_FETCHED_YET);
+    }
+
+    public boolean hasDisplayableDescription() {
+        return hasDescription() || getNewsContent().hasText();
+    }
+
+    public String getDisplayableRssDescription() {
+        return getDisplayableDescription(true);
+    }
+
+    public String getDisplayableNewsContentDescription() {
+        return getDisplayableDescription(false);
+    }
+
+    private String getDisplayableDescription(boolean preferRss) {
+        final int threshold = 150;
+
+        String text;
+
+        if (!hasDisplayableDescription()) {
+            text = "";
+        } else {
+            if (hasDescription() && !getNewsContent().hasText()) {
+                text = getDescription();
+            } else if (!hasDescription() && getNewsContent().hasText()) {
+                text = getNewsContent().getText();
+            } else {
+                String rssText = getDescription();
+                String newsContentText = getNewsContent().getText();
+                int rssTextLength = rssText.length();
+                int newsContentTextLength = newsContentText.length();
+                if (rssTextLength > threshold && newsContentTextLength > threshold) {
+                    return preferRss ? rssText : newsContentText;
+                } else {
+                    text = rssTextLength > newsContentTextLength ? rssText : newsContentText;
+                }
+            }
+        }
+
+        return text;
     }
 }

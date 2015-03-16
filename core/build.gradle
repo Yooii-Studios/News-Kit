@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'idea'
 
 android {
     compileSdkVersion 21
@@ -18,9 +19,19 @@ android {
     }
 }
 
+idea {
+    module {
+        //if you love browsing Javadoc
+        downloadJavadoc = true
+        // and want to read sources :)
+        downloadSources = true
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libraries:Volley')
+    compile project(':libraries:Snacktory')
     compile 'com.android.support:appcompat-v7:21.0.3'
 
     // (Android Studio 용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
@@ -28,4 +39,6 @@ dependencies {
 
     // html dom parsing 을 위한 라이브러리(BeautifulSoup Java version)
     compile 'org.jsoup:jsoup:1.7.3'
+
+    compile 'com.google.code.gson:gson:2.3'       // json 관련
 }

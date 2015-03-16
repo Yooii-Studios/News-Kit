@@ -138,9 +138,9 @@ public class MainNewsFeedFragment extends Fragment {
         viewHolder.imageView.setImageDrawable(null);
 
         // set image
-        String imgUrl = mNews.getImageUrl();
-        if (imgUrl != null) {
-            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
+//        String imgUrl = mNews.getImageUrl();
+        if (mNews.hasImageUrl()) {
+            mImageLoader.get(mNews.getImageUrl(), new ImageLoader.ImageListener() {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     if (mRecycled) {

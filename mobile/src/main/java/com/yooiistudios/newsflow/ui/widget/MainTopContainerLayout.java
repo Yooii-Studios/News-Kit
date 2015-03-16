@@ -28,10 +28,11 @@ import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
@@ -236,7 +237,8 @@ public class MainTopContainerLayout extends FrameLayout
             mIsReady = false;
             fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
         } else {
-            if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
+            if (NewsFeedValidator.isValid(mTopNewsFeedPagerAdapter.getNewsFeed())) {
+//            if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
 //                notifyIfInitialized();
@@ -369,7 +371,7 @@ public class MainTopContainerLayout extends FrameLayout
                         taskType, this);
                 mTopImageUrlFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
-                if (news.getImageUrl() == null) {
+                if (!news.hasImageUrl()) {
                     // no image
                     notifyOnReady(taskType);
                 } else {
@@ -402,7 +404,7 @@ public class MainTopContainerLayout extends FrameLayout
         for (int i = 0; i < newsList.size(); i++) {
             News news = newsList.get(i);
 
-            if (news.getImageUrl() == null && !news.isImageUrlChecked()) {
+            if (!news.hasImageUrl() && !news.isImageUrlChecked()) {
                 TopFeedNewsImageUrlFetchTask task =
                         new TopFeedNewsImageUrlFetchTask(news, i, taskType, this);
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -461,7 +463,7 @@ public class MainTopContainerLayout extends FrameLayout
     public void configOnNewsImageUrlLoadedAt(String imageUrl, int idx) {
         News news = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsList().get(idx);
         news.setImageUrl(imageUrl);
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
         mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(idx);
 
         mIsReady = true;
@@ -595,12 +597,13 @@ public class MainTopContainerLayout extends FrameLayout
     @Override
     public void onTopFeedImageUrlFetch(News news, String url, final int position,
                                        TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
 
         if (url != null) {
-            news.setImageUrl(url);
+//            news.setImageUrl(url);
             applyImage(url, position, taskType);
-            NewsDb.getInstance(getContext()).saveTopNewsFeed(mTopNewsFeedPagerAdapter.getNewsFeed());
+            NewsDb.getInstance(getContext()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
+//            NewsDb.getInstance(getContext()).saveTopNewsFeed(mTopNewsFeedPagerAdapter.getNewsFeed());
 //            NewsFeedArchiveUtils.saveTopNewsFeed(getContext(), mTopNewsFeedPagerAdapter.getNewsFeed());
         } else {
             mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);

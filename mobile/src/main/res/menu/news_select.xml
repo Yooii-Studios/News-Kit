@@ -6,6 +6,6 @@
     <item android:id="@+id/action_custom_news_feed"
           android:title="@string/custom_news_feed_menu_item_title"
           android:orderInCategory="100"
-          android:icon="@drawable/ic_add"
+          android:icon="@drawable/ic_rss_normal"
           app:showAsAction="always"/>
 </menu>

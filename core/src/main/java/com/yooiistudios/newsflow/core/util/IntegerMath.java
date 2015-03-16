@@ -24,4 +24,17 @@ public class IntegerMath {
 
         return largestInteger;
     }
+
+    public static String convertToBitPresentation(int integerToConvert) {
+        StringBuilder result = new StringBuilder();
+
+        while (integerToConvert > 0) {
+            int lastDigit = integerToConvert % 2;
+            result.insert(0, lastDigit);
+//            result = lastDigit + result;
+            integerToConvert = integerToConvert >> 1;
+        }
+
+        return result.toString();
+    }
 }

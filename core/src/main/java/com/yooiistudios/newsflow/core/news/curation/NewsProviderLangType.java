@@ -1,7 +1,5 @@
 package com.yooiistudios.newsflow.core.news.curation;
 
-import lombok.Getter;
-
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 25.
  *
@@ -18,14 +16,14 @@ public enum NewsProviderLangType {
     KOREAN(6, com.yooiistudios.newsflow.core.R.raw.news_data_ko, "한국어"),
     SWEDISH(7, com.yooiistudios.newsflow.core.R.raw.news_data_sv, "Svenska");
 
-    @Getter private int index;
-    @Getter private int resourceId;
-    @Getter private String title;
+    private int mIndex;
+    private int mResourceId;
+    private String mTitle;
 
     NewsProviderLangType(int index, int resourceId, String title) {
-        this.index = index;
-        this.resourceId = resourceId;
-        this.title = title;
+        mIndex = index;
+        mResourceId = resourceId;
+        mTitle = title;
     }
 
     public static NewsProviderLangType valueOf(int index) {
@@ -41,4 +39,8 @@ public enum NewsProviderLangType {
             default: return ENGLISH;
         }
     }
+
+    public int getIndex() { return mIndex; }
+    public int getResourceId() { return mResourceId; }
+    public String getTitle() { return mTitle; }
 }

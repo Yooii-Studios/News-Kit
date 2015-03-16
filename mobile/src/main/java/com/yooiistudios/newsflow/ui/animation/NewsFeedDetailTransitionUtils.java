@@ -38,10 +38,10 @@ import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionImageViewProperty;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionProperty;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionTextViewProperty;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionImageViewProperty;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionTextViewProperty;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
@@ -191,6 +191,8 @@ public class NewsFeedDetailTransitionUtils {
     private void prepareViewPropertiesBeforeTransition() {
         mToolbar.setAlpha(0.0f);
 
+        hideRootBackground();
+
         mTransitionLayout.setVisibility(View.VISIBLE);
 
         setImageWrapperRect(mThumbnailStartRect);
@@ -222,8 +224,6 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void revealBackground() {
-        mRevealView.setAlpha(0.0f);
-        mRevealView.animate().alpha(1.0f);
         if (Device.hasLollipop()) {
             revealBackgroundAfterLollipop();
         } else {
@@ -306,11 +306,23 @@ public class NewsFeedDetailTransitionUtils {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                showRootBackground();
                 mListener.onRecyclerScaleAnimationEnd();
             }
         });
 
         animator.start();
+    }
+
+    private void hideRootBackground() {
+        mRevealView.setVisibility(View.VISIBLE);
+        mRootLayout.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    private void showRootBackground() {
+        mRevealView.setVisibility(View.INVISIBLE);
+        mRootLayout.setBackgroundColor(
+                mActivity.getResources().getColor(R.color.newsfeed_detail_background_color));
     }
 
     private void animateTopNewsTextAndRecycler() {
@@ -328,7 +340,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private int getRevealStartRadius() {
-        return Math.min(mTransImageViewProperty.getWidth(), mTransImageViewProperty.getHeight()) / 2;
+        return (Math.min(mTransImageViewProperty.getWidth(), mTransImageViewProperty.getHeight()) / 2);
     }
 
     private int getRevealTargetRadius() {
@@ -439,21 +451,21 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void animateTopTitleAndDescriptionIfSizeSufficient() {
-        if (readyToAnimateTopTitle()) {
+        if (isReadyToAnimateTopTitle()) {
             fadeInTopTitle();
         }
-        if (readyToAnimateTopDescription()) {
+        if (isReadyToAnimateTopDescription()) {
             fadeInTopDescription();
         }
     }
 
-    private boolean readyToAnimateTopTitle() {
+    private boolean isReadyToAnimateTopTitle() {
         return !mIsAnimatingTopTitleFadeIn
                 && mTopTextLayout.getVisibility() == View.VISIBLE
                 && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopTitleLocalVisibleRect);
     }
 
-    private boolean readyToAnimateTopDescription() {
+    private boolean isReadyToAnimateTopDescription() {
         return !mIsAnimatingTopDescriptionFadeIn
                 && mTopTextLayout.getVisibility() == View.VISIBLE
                 && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopDescriptionLocalVisibleRect);
@@ -477,29 +489,29 @@ public class NewsFeedDetailTransitionUtils {
 
     private void animateRecyclerChildIfSizeSufficient() {
         for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-            if (isRecyclerTitleReadyForAnimation(i)) {
+            if (isReadyToAnimateRecyclerTitleAt(i)) {
                 prepareRecyclerTitleAt(i);
             }
-            if (readyToAnimateRecyclerChildTitleAt(i)) {
+            if (isReadyToAnimateRecyclerChildTitleAt(i)) {
                 fadeInRecyclerTitleAt(i);
             }
         }
         for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-            if (isRecyclerDescriptionReadyForAnimation(i)) {
+            if (isReadyToAnimateRecyclerDescriptionAt(i)) {
                 prepareRecyclerDescriptionAt(i);
             }
-            if (readyToAnimateRecyclerChildDescriptionAt(i)) {
+            if (isReadyToAnimateRecyclerChildDescriptionAt(i)) {
                 fadeInRecyclerDescriptionAt(i);
             }
         }
     }
 
-    private boolean isRecyclerTitleReadyForAnimation(int index) {
+    private boolean isReadyToAnimateRecyclerTitleAt(int index) {
         return !isAnimatingRecyclerTitleAt(index)
                 && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerTitleRect(index));
     }
 
-    private boolean isRecyclerDescriptionReadyForAnimation(int i) {
+    private boolean isReadyToAnimateRecyclerDescriptionAt(int i) {
         return !isAnimatingRecyclerDescriptionAt(i)
                 && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerDescriptionRect(i));
     }
@@ -520,7 +532,7 @@ public class NewsFeedDetailTransitionUtils {
         }
     }
 
-    private boolean readyToAnimateRecyclerChildTitleAt(int index) {
+    private boolean isReadyToAnimateRecyclerChildTitleAt(int index) {
         Rect rectToInspect = getRecyclerTitleRect(index);
         boolean isAnimating = isAnimatingRecyclerTitleAt(index);
         boolean isRecyclerViewVisible = isRecyclerViewVisible();
@@ -528,7 +540,7 @@ public class NewsFeedDetailTransitionUtils {
                 && isRectFullyVisibleInRecyclerView(rectToInspect);
     }
 
-    private boolean readyToAnimateRecyclerChildDescriptionAt(int index) {
+    private boolean isReadyToAnimateRecyclerChildDescriptionAt(int index) {
         Rect rectToInspect = getRecyclerDescriptionRect(index);
         boolean isAnimating = isAnimatingRecyclerDescriptionAt(index);
         boolean isRecyclerViewVisible = isRecyclerViewVisible();

@@ -26,11 +26,12 @@ import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.model.database.NewsDb;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchManager;
@@ -177,21 +178,25 @@ public class MainBottomContainerLayout extends FrameLayout
                     mBottomNewsFeedAdapter.getNewsFeedList(), this,
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
-            boolean isValid = true;
-            ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
-                    new ArrayList<>();
-            ArrayList<NewsFeed> list = mBottomNewsFeedAdapter.getNewsFeedList();
-            int count = list.size();
-            for (int i = 0; i < count; i++) {
-                NewsFeed newsFeed = list.get(i);
-                if (newsFeed != null && !newsFeed.containsNews()) {
-                    isValid = false;
-                    newsFeedListToFetch.add(new Pair<>(newsFeed, i));
-                }
-            }
-            if (isValid) {
+//            boolean isValid = true;
+//            ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
+//                    new ArrayList<>();
+//            ArrayList<NewsFeed> list = mBottomNewsFeedAdapter.getNewsFeedList();
+//            int count = list.size();
+//            for (int i = 0; i < count; i++) {
+//                NewsFeed newsFeed = list.get(i);
+//                if (newsFeed != null && !newsFeed.containsNews()) {
+//                    isValid = false;
+//                    newsFeedListToFetch.add(new Pair<>(newsFeed, i));
+//                }
+//            }
+//            if (isValid) {
+            ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
+            if (NewsFeedValidator.isValid(newsFeeds)) {
                 notifyOnInitialized();
             } else {
+                ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
+                        NewsFeedValidator.getInvalidNewsFeedPairs(newsFeeds);
                 BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
                         newsFeedListToFetch, this,
                         BottomNewsFeedFetchTask.TASK_INITIALIZE);
@@ -680,13 +685,14 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onBottomNewsImageUrlFetch(News news, String url, int index, int taskType) {
-        news.setImageUrlChecked(true);
+//        news.setImageUrlChecked(true);
         if (url != null) {
-            news.setImageUrl(url);
+//            news.setImageUrl(url);
 
             // archive
-            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);
-            NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, index);
+//            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);
+            NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, index, news.getGuid());
+//            NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, index);
 //            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
 //                    mBottomNewsFeedAdapter.getNewsFeedList().get(index), index);
         } else {
