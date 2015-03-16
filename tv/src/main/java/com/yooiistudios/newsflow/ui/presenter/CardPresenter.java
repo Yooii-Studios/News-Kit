@@ -49,7 +49,9 @@ public class CardPresenter extends Presenter {
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.card_background_dark));
+        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.card_background));
+        cardView.setInfoAreaBackgroundColor(
+                mContext.getResources().getColor(R.color.card_info_background));
 
         return new NewsViewHolder(cardView);
     }

@@ -112,9 +112,15 @@ public class MainFragment extends NewsBrowseFragment {
 
         SettingItemPresenter settingItemPresenter = new SettingItemPresenter();
         ArrayObjectAdapter settingRowAdapter = new ArrayObjectAdapter(settingItemPresenter);
-        settingRowAdapter.add(getResources().getString(R.string.pair_title));
-        settingRowAdapter.add(getResources().getString(R.string.remove_db));
-//        settingRowAdapter.add(getResources().getString(R.string.copy_db));
+
+        SettingItemPresenter.SettingObject pairObject = new SettingItemPresenter.SettingObject(
+                R.string.pair_title,
+                R.drawable.ic_tv_link_white_48dp);
+        settingRowAdapter.add(pairObject);
+
+        SettingItemPresenter.SettingObject removeDbObject = new SettingItemPresenter.SettingObject(
+                R.string.remove_db);
+        settingRowAdapter.add(removeDbObject);
         rowsAdapter.add(new ListRow(SettingHeader, settingRowAdapter));
 
         setAdapter(rowsAdapter);
@@ -259,17 +265,14 @@ public class MainFragment extends NewsBrowseFragment {
 //                        NewsActivity.SHARED_ELEMENT_NAME).toBundle();
 //                startActivity(intent, bundle);
                 startActivity(intent);
-            } else if (item instanceof String) {
-                if (((String) item).contains("Empty")) {
-                    clearBackground();
-                    emptyNewsFeeds();
-                }
-                if (((String) item).contains(getString(R.string.pair_title))) {
+            } else if (item instanceof SettingItemPresenter.SettingObject) {
+                int titleId = ((SettingItemPresenter.SettingObject) item).getTitleId();
+                if (titleId == R.string.pair_title) {
                     clearBackground();
                     startPairActivity(itemViewHolder);
-//                } else if (((String) item).contains(getString(R.string.copy_db))) {
+//                } else if (titleId == R.string.copy_db) {
 //                    NewsDb.copyDbToExternalStorage(getActivity());
-                } else if (((String) item).contains(getString(R.string.remove_db))) {
+                } else if (titleId == R.string.remove_db) {
                     NewsDb.getInstance(getActivity()).clearArchive();
                 }
             }
@@ -308,7 +311,6 @@ public class MainFragment extends NewsBrowseFragment {
                 mBackgroundUrl = ((News) item).getImageUrl();
                 startBackgroundTimer();
             }
-
         }
     }
 
