@@ -67,11 +67,11 @@ public class MainActivity extends Activity
     private void loadContent() {
         Context context = getApplicationContext();
 
-        if (true) {
-            mTester.testFetch();
-
-            return;
-        }
+//        if (true) {
+//            mTester.testFetch();
+//
+//            return;
+//        }
 
         PanelMatrix panelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
 
