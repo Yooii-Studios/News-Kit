@@ -39,6 +39,7 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.model.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
@@ -270,7 +271,7 @@ public class MainFragment extends NewsBrowseFragment {
 //                } else if (((String) item).contains(getString(R.string.copy_db))) {
 //                    NewsDb.copyDbToExternalStorage(getActivity());
                 } else if (((String) item).contains(getString(R.string.remove_db))) {
-                    NewsDb.getInstance(getActivity()).clearArchive();
+                    NewsFeedArchiveUtils.clearArchive(getActivity().getApplicationContext());
                 }
             }
         }

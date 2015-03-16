@@ -630,6 +630,7 @@ public class MainBottomContainerLayout extends FrameLayout
                                               int taskType) {
         switch(taskType) {
             case BottomNewsFeedFetchTask.TASK_INITIALIZE:
+                NewsFeedArchiveUtils.saveRecentCacheMillisec(getContext().getApplicationContext());
                 mBottomNewsFeedAdapter.notifyDataSetChanged();
 
                 NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
@@ -640,6 +641,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 }
                 break;
             case BottomNewsFeedFetchTask.TASK_REFRESH:
+                NewsFeedArchiveUtils.saveRecentCacheMillisec(getContext().getApplicationContext());
                 NewsDb.getInstance(getContext()).saveBottomNewsFeedList(mBottomNewsFeedAdapter.getNewsFeedList());
 //                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
 //                        mBottomNewsFeedAdapter.getNewsFeedList());

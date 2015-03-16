@@ -54,7 +54,7 @@ public class NewsContentFetchManager implements NewsContentFetchTask.OnContentFe
         prepareVariables(listener);
     }
 
-    private void cancelAllTasks() {
+    public void cancelAllTasks() {
         if (mTopNewsContentFetchTask != null) {
             mTopNewsContentFetchTask.cancel(true);
         }
