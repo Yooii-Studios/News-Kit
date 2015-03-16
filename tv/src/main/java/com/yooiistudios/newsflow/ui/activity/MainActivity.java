@@ -30,7 +30,7 @@ import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.debug.MainNewsTopicFetchTester;
 import com.yooiistudios.newsflow.model.news.task.NewsContentFetchManager;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
 import com.yooiistudios.newsflow.ui.fragment.MainFragment;
@@ -45,6 +45,8 @@ public class MainActivity extends Activity
         NewsContentFetchManager.OnFetchListener {
     public static final int RC_PAIR_ACTIVITY = 1001;
 
+    private MainNewsTopicFetchTester mTester;
+
     /**
      * Called when the activity is first created.
      */
@@ -54,11 +56,22 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initVariables();
         loadContent();
+    }
+
+    private void initVariables() {
+        mTester = new MainNewsTopicFetchTester(this);
     }
 
     private void loadContent() {
         Context context = getApplicationContext();
+
+        if (true) {
+            mTester.testFetch();
+
+            return;
+        }
 
         PanelMatrix panelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
 
@@ -77,7 +90,7 @@ public class MainActivity extends Activity
         }
     }
 
-    private void fetch(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+    public void fetch(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
         NewsFeedsFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
     }
 
@@ -121,6 +134,8 @@ public class MainActivity extends Activity
         NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed(topNewsFeed);
         NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedList(bottomNewsFeeds);
 
+        mTester.onFetchAllNewsFeeds(topNewsFeed, bottomNewsFeeds);
+
         applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
     }
 
@@ -128,7 +143,8 @@ public class MainActivity extends Activity
     public void onFetchTopNewsContent(News news, NewsContent newsContent, int newsPosition) {
         MainFragment fragment = getMainFragment();
         fragment.configOnTopNewsContentLoad(news, newsPosition);
-        printNewsContentInfoDebug(news);
+
+        mTester.checkAllTopNewsContentFetched();
     }
 
     @Override
@@ -136,11 +152,7 @@ public class MainActivity extends Activity
                                          int newsFeedPosition, int newsPosition) {
         MainFragment fragment = getMainFragment();
         fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
-        printNewsContentInfoDebug(news);
-    }
 
-    private void printNewsContentInfoDebug(News news) {
-        NLLog.now("news url: " + news.getLink());
-        NLLog.now("content length: " + news.getNewsContent().getText().length());
+        mTester.checkAllBottomNewsContentFetched(newsFeedPosition);
     }
 }

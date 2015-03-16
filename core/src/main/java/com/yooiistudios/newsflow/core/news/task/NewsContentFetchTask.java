@@ -43,6 +43,7 @@ public class NewsContentFetchTask extends AsyncTask<Void, Void, NewsContentFetch
         }
         mNews.setNewsContent(newsContentFetchResult.newsContent);
         mNews.setImageUrl(newsContentFetchResult.imageUrl);
+        mNews.setImageUrlChecked(true);
         if (mListener != null) {
             mListener.onContentFetch(mNews, newsContentFetchResult.newsContent, mNewsFeedPosition, mNewsPosition);
         }

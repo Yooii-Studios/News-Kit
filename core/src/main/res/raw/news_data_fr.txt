@@ -173,7 +173,7 @@
         },
         {
             "country_name": "Canada",
-            "country_code": "2",
+            "country_code": "ca",
             "news_providers": [
                 {
                     "provider_name": "La presse",
