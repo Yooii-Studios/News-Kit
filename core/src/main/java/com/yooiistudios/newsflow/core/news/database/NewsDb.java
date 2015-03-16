@@ -519,6 +519,7 @@ public class NewsDb {
     public void clearArchive() {
         mDatabase.execSQL("DELETE FROM " + NewsFeedEntry.TABLE_NAME);
         mDatabase.execSQL("DELETE FROM " + NewsEntry.TABLE_NAME);
+        mDatabase.execSQL("DELETE FROM " + NewsContentEntry.TABLE_NAME);
     }
 
     public static void copyDbToExternalStorage(Context context) {
