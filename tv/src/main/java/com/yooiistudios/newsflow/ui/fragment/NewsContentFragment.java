@@ -36,7 +36,7 @@ import lombok.experimental.Accessors;
 @Accessors(prefix = "m")
 public class NewsContentFragment extends Fragment {
     public static final String NEWS_LINK_ARG = "news_link_arg";
-    public static final int MIN_TEXT_LENGTH = 200;
+    public static final int MIN_TEXT_LENGTH = 100;
 
     @Getter @InjectView(R.id.details_layout) FrameLayout mLayout;
     @Getter @InjectView(R.id.details_scrollview) ScrollView mScrollView;
