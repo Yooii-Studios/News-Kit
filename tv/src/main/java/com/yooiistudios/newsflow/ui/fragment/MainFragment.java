@@ -161,6 +161,8 @@ public class MainFragment extends NewsBrowseFragment {
         adapter.notifyNewsImageLoadedAt(newsIndex);
     }
 
+    /*
+    // FIXME: 동현이 일단 안쓰고 있어서 주석처리
     private NewsFeed getTopNewsFeed() {
         return getTopNewsFeedAdapter().getNewsFeed();
     }
@@ -168,6 +170,7 @@ public class MainFragment extends NewsBrowseFragment {
     private NewsFeed getBottomNewsFeedAt(int index) {
         return getBottomNewsFeedAdapter(index).getNewsFeed();
     }
+    */
 
     private NewsFeedAdapter getTopNewsFeedAdapter() {
         return getNewsFeedAdapterAt(0);

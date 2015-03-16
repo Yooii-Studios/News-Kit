@@ -487,8 +487,6 @@ public class MainActivity extends ActionBarActivity
             return true;
         // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
-            // 젠킨스 한글 설정 테스트용 주석
-            NewsDb.getInstance(getApplicationContext()).clearArchive();
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_copy_db) {
             NewsDb.copyDbToExternalStorage(this);
@@ -620,7 +618,7 @@ public class MainActivity extends ActionBarActivity
 
             setSwipeRefreshLayoutEnabled(true);
 
-            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
+//            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
             // loaded
             if (mLoadingImageView.getBackground() instanceof AnimationDrawable) {
@@ -637,7 +635,7 @@ public class MainActivity extends ActionBarActivity
             // dismiss loading progress bar
             mSwipeRefreshLayout.setRefreshing(false);
             setSwipeRefreshLayoutEnabled(true);
-            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
+//            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
             startNewsAutoRefresh();
         }
     }

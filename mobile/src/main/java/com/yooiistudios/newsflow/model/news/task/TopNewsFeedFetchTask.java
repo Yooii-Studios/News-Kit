@@ -16,7 +16,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
 public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     public enum TaskType { INITIALIZE, SWIPE_REFRESH, REPLACE, CACHE }
 
-    public static final int FETCH_COUNT = 10;
+    public static final int FETCH_COUNT = 20;
 
     private RssFetchable mRssFetchable;
     private NewsFeed mNewsFeed;

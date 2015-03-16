@@ -96,6 +96,8 @@ public class CardPresenter extends Presenter {
                     .into(newsViewHolder.picassoTarget);
         } else if (news.isImageUrlChecked()) {
             newsViewHolder.imageCardView.setMainImage(mErrorCardImage);
+        } else {
+            newsViewHolder.imageCardView.setMainImage(null);
         }
     }
 

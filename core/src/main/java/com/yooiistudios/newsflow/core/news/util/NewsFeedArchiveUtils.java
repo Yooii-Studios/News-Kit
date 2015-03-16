@@ -3,6 +3,8 @@ package com.yooiistudios.newsflow.core.news.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
+
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 25.
  *
@@ -38,6 +40,10 @@ public class NewsFeedArchiveUtils {
     }
 
     public static boolean newsNeedsToBeRefreshed(Context context) {
+        return newsNeedsToBeRefreshed(context, CACHE_EXPIRATION_LIMIT);
+    }
+
+    public static boolean newsNeedsToBeRefreshed(Context context, long expireLimit) {
         long currentMillisec = System.currentTimeMillis();
 
         long recentRefreshMillisec = getRecentRefreshMillisec(context);
@@ -48,7 +54,8 @@ public class NewsFeedArchiveUtils {
 
         long gap = currentMillisec - recentRefreshMillisec;
 
-        return gap > CACHE_EXPIRATION_LIMIT;
+//        return gap > CACHE_EXPIRATION_LIMIT;
+        return gap > expireLimit;
     }
 
     public static long getRecentRefreshMillisec(Context context) {
@@ -57,6 +64,7 @@ public class NewsFeedArchiveUtils {
     }
 
     public static void clearArchive(Context context) {
+        NewsDb.getInstance(context).clearArchive();
         getSharedPreferences(context).edit().clear().apply();
     }
 }
