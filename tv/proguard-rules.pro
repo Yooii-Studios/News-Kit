@@ -109,20 +109,20 @@
 -keep class com.google.gson.examples.android.model.** { *; }
 ##---------------End: proguard configuration for Gson  ----------
 
-##---------------Begin: proguard configuration for Butterknife ---------
+# Butterknife
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }
 -keepnames class * { @butterknife.InjectView *;}
-##---------------End: proguard configuration for Butterknife  ----------
 
-##---------------Begin: proguard configuration for Open Sources ---------
+# General Open Sources
 -dontwarn lombok.**
 -dontwarn org.joda.time.**
 -dontwarn com.sun.jna.Native.**
 -dontwarn java.awt.**
-##---------------End: proguard configuration for Open Sources  ----------
 
-##---------------Begin: proguard configuration for News Core  ---------
+# News Core
 -keep class com.yooiistudios.newsflow.core.** { *; }
 -dontwarn com.yooiistudios.newsflow.core.**
-##---------------End: proguard configuration for News Core ----------
+
+# Picasso
+-dontwarn com.squareup.okhttp.**
