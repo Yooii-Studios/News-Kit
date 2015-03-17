@@ -28,7 +28,7 @@ import butterknife.InjectView;
 public class NewsWebFragment extends Fragment implements HTML5WebView.HTML5WebViewCallback {
     @InjectView(R.id.details_layout) FrameLayout mContainer;
     @InjectView(R.id.news_detail_progress_bar) ProgressBar mProgressBar;
-    private static final int SCROLL_LENGTH = 50;
+    private static final int SCROLL_LENGTH = 70;
 
     private HTML5WebView mWebView;
     private News mNews;
