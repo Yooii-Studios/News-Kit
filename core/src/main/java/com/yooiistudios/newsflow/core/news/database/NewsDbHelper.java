@@ -19,7 +19,7 @@ import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFe
 public class NewsDbHelper extends SQLiteOpenHelper {
     private static final String TAG = NewsDbHelper.class.getName();
     public static final String DB_NAME = "NewsArchive.db";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     // Macro
     private static final String TEXT_TYPE = " TEXT";
@@ -52,6 +52,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
                     NewsEntry.COLUMN_NAME_TITLE             + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_LINK              + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_GUID              + TEXT_TYPE + COMMA_SEP +
+                    NewsEntry.COLUMN_NAME_PUB_DATE          + INT_TYPE  + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_DESCRIPTION       + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_IMAGE_URL         + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED + INT_TYPE  + COMMA_SEP +
@@ -131,7 +132,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         // 데이터베이스 구조가 바뀐 경우(데이터베이스에 컬럼이 추가되거나 새 테이블이 추가된 경우 등)
         // DB_VERSION 을 증가시키고 버전 체크를 해 필요한 처리를 한다.
         NLLog.i(TAG, "oldVersion : " + oldVersion + "\nnewVersion : " + newVersion);
-        if (oldVersion < 5) {
+        if (oldVersion < 6) {
             dropAllTables(db, oldVersion);
             createAllTables(db);
         }

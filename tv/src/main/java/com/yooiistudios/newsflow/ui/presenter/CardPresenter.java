@@ -74,11 +74,8 @@ public class CardPresenter extends Presenter {
     private void applyNewsInfo(NewsViewHolder viewHolder, News news) {
         ImageCardView imageCardView = viewHolder.imageCardView;
         imageCardView.setTitleText(news.getTitle());
-//        imageCardView.setContentText(news.getDescription());
-//        String url = news.getImageUrl();
-//        String message = url != null ? url : "no url";
-        imageCardView.setContentText(news.getImageUrl());
-//        imageCardView.setContentText("53 min before");
+        imageCardView.setContentText(news.getDisplayableElapsedTimeSincePubDate(mContext));
+//        imageCardView.setContentText(news.getNewsContent().getVideoUrl());
         imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
@@ -87,22 +84,15 @@ public class CardPresenter extends Presenter {
             Context context = newsViewHolder.imageCardView.getContext();
             Picasso.with(context)
                     .load(news.getImageUrl())
-//                    .resize(Utils.convertDpToPixel(context, CARD_WIDTH),
-//                            Utils.convertDpToPixel(context, CARD_HEIGHT))
                     .resize(DipToPixel.dpToPixel(context, CARD_WIDTH),
                             DipToPixel.dpToPixel(context, CARD_HEIGHT))
                     .centerCrop()
-//                    .error(mErrorCardImage)
                     .into(newsViewHolder.picassoTarget);
         } else if (news.isImageUrlChecked()) {
             newsViewHolder.imageCardView.setMainImage(mErrorCardImage);
         } else {
             newsViewHolder.imageCardView.setMainImage(null);
         }
-    }
-
-    private boolean isImageUrlValid(String imageUrl) {
-        return imageUrl != null && imageUrl.length() > 0;
     }
 
     public class NewsViewHolder extends Presenter.ViewHolder {

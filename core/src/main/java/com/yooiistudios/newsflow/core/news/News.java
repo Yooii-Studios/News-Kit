@@ -1,15 +1,19 @@
 package com.yooiistudios.newsflow.core.news;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.yooiistudios.newsflow.core.R;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
+import com.yooiistudios.newsflow.core.util.Device;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+
 import java.util.Locale;
 
 /**
@@ -20,10 +24,11 @@ import java.util.Locale;
  */
 public class News implements Comparable<News>, Parcelable {
     public static final String KEY_CURRENT_NEWS_INDEX = "KEY_CURRENT_NEWS_INDEX";
+    public static final long INVALID_LONG = -1;
 
     private String mTitle;
     private String mLink;
-    private Date mPubDate;
+    private long mPubDateInMillis = INVALID_LONG;
     private String mGuid;
     private String mDescription;
     private String mContent;
@@ -40,7 +45,7 @@ public class News implements Comparable<News>, Parcelable {
         this();
         mTitle = source.readString();
         mLink = source.readString();
-        mPubDate = (Date) source.readSerializable();
+        mPubDateInMillis = source.readLong();
         mGuid = source.readString();
         mDescription = source.readString();
         mContent = source.readString();
@@ -54,7 +59,7 @@ public class News implements Comparable<News>, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mTitle);
         dest.writeString(mLink);
-        dest.writeSerializable(mPubDate);
+        dest.writeLong(mPubDateInMillis);
         dest.writeString(mGuid);
         dest.writeString(mDescription);
         dest.writeString(mContent);
@@ -96,21 +101,85 @@ public class News implements Comparable<News>, Parcelable {
         this.mLink = link;
     }
 
-    public Date getPubDate() {
-        return mPubDate;
+    public long getPubDateInMillis() {
+        return mPubDateInMillis;
     }
 
-    public void setPubDate(Date pubDate) {
-        this.mPubDate = pubDate;
+    private long getElapsedTimeInMillisSincePubDate() {
+        long elapsedTime;
+        if (mPubDateInMillis == INVALID_LONG) {
+            elapsedTime = INVALID_LONG;
+        } else {
+            DateTime curDateTime = new DateTime(DateTimeZone.UTC);
+
+            elapsedTime = curDateTime.getMillis() - mPubDateInMillis;
+        }
+
+        return elapsedTime;
+    }
+
+    public String getDisplayableElapsedTimeSincePubDate(Context context) {
+        long elapsedTime = getElapsedTimeInMillisSincePubDate();
+        String message;
+        if (elapsedTime == INVALID_LONG) {
+            message = "";
+        } else {
+            int inSeconds = (int) (elapsedTime / 1000);
+            int inMinutes = inSeconds / 60;
+            int inHours = inMinutes / 60;
+            int inDays = inHours / 24;
+            int inWeeks = inDays / 7;
+
+//        int seconds = inSeconds % 60;
+            int minutes = inMinutes % 60;
+            int hours = inHours % 24;
+            int days = inDays % 7;
+            int weeks = inWeeks % 4;
+
+            boolean overMonths = inWeeks > 4;
+            boolean overWeeks = inDays > 7;
+            boolean overDays = inHours > 24;
+            boolean overHours = inMinutes > 60;
+
+            if (overMonths) {
+                message = context.getResources().getString(R.string.pub_date_months_ago);
+            } else if (overWeeks) {
+                message = context.getResources().getString(R.string.pub_date_week_ago);
+            } else if (overDays) {
+                if (days > 1) {
+                    message = context.getResources().getString(R.string.pub_date_days_ago, days);
+                } else {
+                    message = context.getResources().getString(R.string.pub_date_day_ago);
+                }
+            } else if (overHours) {
+                if (hours > 1) {
+                    message = context.getResources().getString(R.string.pub_date_hours_ago, hours);
+                } else {
+                    message = context.getResources().getString(R.string.pub_date_hour_ago);
+                }
+            } else {
+                if (minutes > 1) {
+                    message = context.getResources().getString(R.string.pub_date_minutes_ago, minutes);
+                } else {
+                    message = context.getResources().getString(R.string.pub_date_minute_ago);
+                }
+            }
+        }
+
+        return message;
     }
 
     public void setPubDate(String pubDate) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-            this.mPubDate = dateFormat.parse(pubDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        // "EEE MMM dd HH:mm:ss zZZ yyyy"
+        DateTime targetDateTime = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z")
+                .withLocale(Locale.US)
+                .withZoneUTC()
+                .parseDateTime(pubDate);
+        mPubDateInMillis = targetDateTime.getMillis();
+    }
+
+    public void setPubDate(long pubDateInMillis) {
+        mPubDateInMillis = pubDateInMillis;
     }
 
     public String getGuid() {
@@ -143,8 +212,16 @@ public class News implements Comparable<News>, Parcelable {
 
     @Override
     public int compareTo(@NonNull News another) {
-        if(getPubDate() != null && another.getPubDate() != null) {
-            return getPubDate().compareTo(another.getPubDate());
+        if(getPubDateInMillis() != INVALID_LONG && another.getPubDateInMillis() != INVALID_LONG) {
+            long pubDateInMillis = getPubDateInMillis();
+            long targetPubDateInMillis = another.getPubDateInMillis();
+            if (Device.hasJellyBean()) {
+                return Long.compare(pubDateInMillis, targetPubDateInMillis);
+            } else {
+                return pubDateInMillis < targetPubDateInMillis
+                        ? -1
+                        : (pubDateInMillis == targetPubDateInMillis ? 0 : 1);
+            }
         } else {
             return 0;
         }
