@@ -52,7 +52,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
                     NewsEntry.COLUMN_NAME_TITLE             + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_LINK              + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_GUID              + TEXT_TYPE + COMMA_SEP +
-//                    NewsEntry.COLUMN_NAME_PUB_DATE          + TEXT_TYPE + COMMA_SEP +
+                    NewsEntry.COLUMN_NAME_PUB_DATE          + INT_TYPE  + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_DESCRIPTION       + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_IMAGE_URL         + TEXT_TYPE + COMMA_SEP +
                     NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED + INT_TYPE  + COMMA_SEP +

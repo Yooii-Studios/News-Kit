@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
 import com.yooiistudios.newsflow.core.util.Device;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -140,8 +139,6 @@ public class News implements Comparable<News>, Parcelable {
             boolean overDays = inHours > 24;
             boolean overHours = inMinutes > 60;
 
-            NLLog.now(weeks + " weeks " + days + " days " + hours + " hours " + minutes + "minutes");
-
             if (overMonths) {
                 message = "Over months ago";
             } else if (overWeeks) {
@@ -154,39 +151,22 @@ public class News implements Comparable<News>, Parcelable {
                 message = minutes + " minutes ago";
             }
         }
-        NLLog.now("DisplayableElapsedTime: " + message);
 
         return message;
     }
 
     public void setPubDate(String pubDate) {
-//        DateTime targetDateTime = DateTimeFormat.forPattern("EEE MMM dd HH:mm:ss zZZ yyyy")
-//                .withLocale(Locale.US)
-//                .withZoneUTC()
-//                .parseDateTime(pubDate);
+        // "EEE MMM dd HH:mm:ss zZZ yyyy"
         DateTime targetDateTime = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z")
                 .withLocale(Locale.US)
                 .withZoneUTC()
                 .parseDateTime(pubDate);
-        //"EEE, dd MMM yyyy HH:mm:ss z"
-//                .parseDateTime("Mon Mar 16 15:59:22 GMT+09:00 2015");
-        NLLog.now("pubDate: " + pubDate);
-
         mPubDateInMillis = targetDateTime.getMillis();
     }
 
-//    public void setPubDate(Date pubDate) {
-//        this.mPubDate = pubDate;
-//    }
-//
-//    public void setPubDate(String pubDate) {
-//        try {
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-//            this.mPubDate = dateFormat.parse(pubDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void setPubDate(long pubDateInMillis) {
+        mPubDateInMillis = pubDateInMillis;
+    }
 
     public String getGuid() {
         return mGuid;
