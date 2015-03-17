@@ -45,9 +45,10 @@ public class MainActivity extends Activity
         implements NewsFeedsFetchManager.OnFetchListener,
         NewsContentFetchManager.OnFetchListener {
     public static final int RC_PAIR_ACTIVITY = 1001;
-    // 1 Hours * 60 Min * 60 Sec * 1000 millisec = 6 Hours
+    // 1 Hours * 60 Min * 60 Sec * 1000 millisec = 1 Hours
     private static final long CACHE_EXPIRATION_LIMIT = 1 * 60 * 60 * 1000;
 //    private static final long CACHE_EXPIRATION_LIMIT = 1000;
+    private static final boolean ENABLE_DEBUG = false;
 
     private MainNewsTopicFetchTester mTester;
 
@@ -71,11 +72,11 @@ public class MainActivity extends Activity
     private void loadContent() {
         Context context = getApplicationContext();
 
-//        if (true) {
-//            mTester.testFetch();
-//
-//            return;
-//        }
+        if (ENABLE_DEBUG) {
+            mTester.testFetch();
+
+            return;
+        }
 
         PanelMatrix panelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
 
@@ -147,7 +148,9 @@ public class MainActivity extends Activity
         NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedList(bottomNewsFeeds);
         NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
-//        mTester.onFetchAllNewsFeeds(topNewsFeed, bottomNewsFeeds);
+        if (ENABLE_DEBUG) {
+            mTester.onFetchAllNewsFeeds(topNewsFeed, bottomNewsFeeds);
+        }
 
         applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
     }
@@ -157,7 +160,9 @@ public class MainActivity extends Activity
         MainFragment fragment = getMainFragment();
         fragment.configOnTopNewsContentLoad(news, newsPosition);
 
-//        mTester.checkAllTopNewsContentFetched();
+        if (ENABLE_DEBUG) {
+            mTester.checkAllTopNewsContentFetched();
+        }
     }
 
     @Override
@@ -166,6 +171,8 @@ public class MainActivity extends Activity
         MainFragment fragment = getMainFragment();
         fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
 
-//        mTester.checkAllBottomNewsContentFetched(newsFeedPosition);
+        if (ENABLE_DEBUG) {
+            mTester.checkAllBottomNewsContentFetched(newsFeedPosition);
+        }
     }
 }

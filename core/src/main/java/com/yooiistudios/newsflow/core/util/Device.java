@@ -16,6 +16,10 @@ import android.provider.ContactsContract;
 public class Device {
     private Device() { throw new AssertionError("You MUST not create this class!"); }
 
+    public static boolean hasJellyBean() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    }
+
     public static boolean hasLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }

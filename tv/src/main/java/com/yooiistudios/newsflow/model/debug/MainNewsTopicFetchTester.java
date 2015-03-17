@@ -35,8 +35,33 @@ public class MainNewsTopicFetchTester {
 
     public void testFetch() {
         NewsDb.getInstance(mActivity).clearArchive();
-        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("ja", null, "jp", 2));
+
+        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("en", null, "us", 1));
         ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("en", null, "us", 2)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("en", null, "us", 3)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("en", null, "us", 4)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("en", null, "uk", 1)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("en", null, "uk", 2)));
+
+//        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("fr", null, "fr", 1));
+//        ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("fr", null, "fr", 2)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("fr", null, "fr", 3)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("fr", null, "ca", 1)));
+
+//        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("zh", "tw", "hk", 1));
+//        ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("de", null, "de", 1)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("de", null, "de", 2)));
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("de", null, "de", 3)));
+
+//        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("ru", null, "ru", 1));
+//        ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ru", null, "ru", 2)));
+
+//        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("ko", null, "kr", 1));
+//        ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 2)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 3)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 4)));
@@ -44,6 +69,10 @@ public class MainNewsTopicFetchTester {
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 6)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 7)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ko", null, "kr", 8)));
+
+//        NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("ja", null, "jp", 1));
+//        ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();
+//        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ja", null, "jp", 2)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ja", null, "jp", 3)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("ja", null, "jp", 4)));
 //        bottomNewsFeeds.add(new NewsFeed(getDefaultTopic("sv", null, "se", 1)));

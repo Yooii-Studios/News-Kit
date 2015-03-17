@@ -72,11 +72,8 @@ public class CardPresenter extends Presenter {
     private void applyNewsInfo(NewsViewHolder viewHolder, News news) {
         ImageCardView imageCardView = viewHolder.imageCardView;
         imageCardView.setTitleText(news.getTitle());
-//        imageCardView.setContentText(news.getDescription());
-//        String url = news.getImageUrl();
-//        String message = url != null ? url : "no url";
         imageCardView.setContentText(news.getImageUrl());
-//        imageCardView.setContentText("53 min before");
+        imageCardView.setContentText(news.getDisplayableElapsedTimeSincePubDate());
         imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
