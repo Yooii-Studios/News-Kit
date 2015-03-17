@@ -15,10 +15,10 @@ import com.yooiistudios.newsflow.R;
  * Description
  */
 public class SettingItemPresenter extends Presenter {
-    private static final int GRID_ITEM_WIDTH = 250;
-    private static final int GRID_ITEM_HEIGHT = 250;
+    private static final int GRID_ITEM_WIDTH = 360;
+    private static final int GRID_ITEM_HEIGHT = 360;
 
-    private static final int GRID_ITEM_IMG_PADDING = 50;
+    private static final int GRID_ITEM_IMG_PADDING = 70;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {

@@ -32,8 +32,9 @@ import com.yooiistudios.newsflow.ui.widget.MainImageCardViewTarget;
  * It contains an Image CardView
  */
 public class CardPresenter extends Presenter {
-    private static int CARD_WIDTH = 380;
-    private static int CARD_HEIGHT = 180;
+    // 33 * 16 / 33 * 10 / 16:9 비율
+    private static int CARD_WIDTH = 528;
+    private static int CARD_HEIGHT = 297;
 
     private Context mContext;
     private Drawable mErrorCardImage;
