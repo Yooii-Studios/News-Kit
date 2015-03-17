@@ -107,7 +107,7 @@ public class NewsContentFragment extends Fragment {
         int height = mTopImageView.getHeight();
 
         mBitmapLoadTask = new BitmapLoadTask(context, mNews.getImageUrl(), width, height,
-                R.drawable.news_dummy2, new BitmapLoadTask.OnSuccessListener() {
+                R.drawable.news_dummy, new BitmapLoadTask.OnSuccessListener() {
             @Override
             public void onLoad(Drawable drawable) {
                 configOnImageLoad(drawable);

@@ -142,7 +142,7 @@ public class NewsFragment extends DetailsFragment {
         int height = DipToPixel.dpToPixel(context, DETAIL_THUMB_HEIGHT);
 
         mImageLoadTask = new BitmapLoadTask(context, mNews.getImageUrl(), width, height,
-                R.drawable.news_dummy2, new BitmapLoadTask.OnSuccessListener() {
+                R.drawable.news_dummy, new BitmapLoadTask.OnSuccessListener() {
             @Override
             public void onLoad(Drawable drawable) {
                 mRow.setImageDrawable(drawable);

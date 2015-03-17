@@ -42,7 +42,7 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Context context) {
         super();
         mContext = context;
-        mErrorCardImage = context.getResources().getDrawable(R.drawable.news_dummy2);
+        mErrorCardImage = context.getResources().getDrawable(R.drawable.news_dummy);
     }
 
     @Override
