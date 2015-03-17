@@ -192,7 +192,8 @@ public class MainFragment extends NewsBrowseFragment {
         // setBadgeDrawable(getActivity().getResources().getDrawable(
         // R.drawable.videos_by_google_banner));
 //        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
-        setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+//        setBadgeDrawable(getResources().getDrawable(R.drawable.app_badge));
+        setAppBadge();
 
         // over title
         setHeadersState(HEADERS_ENABLED);
@@ -206,16 +207,24 @@ public class MainFragment extends NewsBrowseFragment {
         setupUIElementsExperiments();
     }
 
+    private void setAppBadge() {
+        setBadgeDrawable(getResources().getDrawable(R.drawable.app_badge));
+    }
+
+    private void hideAppBadge() {
+        setBadgeDrawable(null);
+    }
+
     private void setupUIElementsExperiments() {
         setBrowseTransitionListener(new BrowseTransitionListener() {
             @Override
             public void onHeadersTransitionStart(boolean withHeaders) {
                 super.onHeadersTransitionStart(withHeaders);
                 if (isShowingHeaders()) {
-                    setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+                    setAppBadge();
                     setTitle("News Flow");
                 } else {
-                    setBadgeDrawable(null);
+                    hideAppBadge();
                     setTitle("All News");
                 }
             }

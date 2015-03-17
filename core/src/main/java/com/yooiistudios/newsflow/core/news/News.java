@@ -1,9 +1,11 @@
 package com.yooiistudios.newsflow.core.news;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.yooiistudios.newsflow.core.R;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
 import com.yooiistudios.newsflow.core.util.Device;
@@ -116,7 +118,7 @@ public class News implements Comparable<News>, Parcelable {
         return elapsedTime;
     }
 
-    public String getDisplayableElapsedTimeSincePubDate() {
+    public String getDisplayableElapsedTimeSincePubDate(Context context) {
         long elapsedTime = getElapsedTimeInMillisSincePubDate();
         String message;
         if (elapsedTime == INVALID_LONG) {
@@ -140,15 +142,27 @@ public class News implements Comparable<News>, Parcelable {
             boolean overHours = inMinutes > 60;
 
             if (overMonths) {
-                message = "Over months ago";
+                message = context.getResources().getString(R.string.pub_date_months_ago);
             } else if (overWeeks) {
-                message = weeks + " weeks ago";
+                message = context.getResources().getString(R.string.pub_date_week_ago);
             } else if (overDays) {
-                message = days + " days ago";
+                if (days > 1) {
+                    message = context.getResources().getString(R.string.pub_date_days_ago, days);
+                } else {
+                    message = context.getResources().getString(R.string.pub_date_day_ago);
+                }
             } else if (overHours) {
-                message = hours + " hours ago";
+                if (hours > 1) {
+                    message = context.getResources().getString(R.string.pub_date_hours_ago, hours);
+                } else {
+                    message = context.getResources().getString(R.string.pub_date_hour_ago);
+                }
             } else {
-                message = minutes + " minutes ago";
+                if (minutes > 1) {
+                    message = context.getResources().getString(R.string.pub_date_minutes_ago, minutes);
+                } else {
+                    message = context.getResources().getString(R.string.pub_date_minute_ago);
+                }
             }
         }
 
