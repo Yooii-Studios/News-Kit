@@ -37,6 +37,7 @@ public class NewsDbContract {
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_LINK = "link";
         public static final String COLUMN_NAME_GUID = "guid";
+        public static final String COLUMN_NAME_PUB_DATE = "pub_date";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_IMAGE_URL = "image_url";
         public static final String COLUMN_NAME_IMAGE_URL_CHECKED = "image_url_checked";
