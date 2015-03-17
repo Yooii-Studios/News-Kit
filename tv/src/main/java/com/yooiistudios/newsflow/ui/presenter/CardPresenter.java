@@ -32,8 +32,9 @@ import com.yooiistudios.newsflow.ui.widget.MainImageCardViewTarget;
  * It contains an Image CardView
  */
 public class CardPresenter extends Presenter {
-    private static int CARD_WIDTH = 380;
-    private static int CARD_HEIGHT = 180;
+    // 33 * 16 / 33 * 10 / 16:9 비율
+    private static int CARD_WIDTH = 528;
+    private static int CARD_HEIGHT = 297;
 
     private Context mContext;
     private Drawable mErrorCardImage;
@@ -49,7 +50,9 @@ public class CardPresenter extends Presenter {
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.card_background_dark));
+        cardView.setBackgroundColor(mContext.getResources().getColor(R.color.card_background));
+        cardView.setInfoAreaBackgroundColor(
+                mContext.getResources().getColor(R.color.card_info_background));
 
         return new NewsViewHolder(cardView);
     }
@@ -72,11 +75,8 @@ public class CardPresenter extends Presenter {
     private void applyNewsInfo(NewsViewHolder viewHolder, News news) {
         ImageCardView imageCardView = viewHolder.imageCardView;
         imageCardView.setTitleText(news.getTitle());
-//        imageCardView.setContentText(news.getDescription());
-//        String url = news.getImageUrl();
-//        String message = url != null ? url : "no url";
-        imageCardView.setContentText(news.getImageUrl());
-//        imageCardView.setContentText("53 min before");
+        imageCardView.setContentText(news.getDisplayableElapsedTimeSincePubDate(mContext));
+//        imageCardView.setContentText(news.getNewsContent().getVideoUrl());
         imageCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     }
 
@@ -85,20 +85,15 @@ public class CardPresenter extends Presenter {
             Context context = newsViewHolder.imageCardView.getContext();
             Picasso.with(context)
                     .load(news.getImageUrl())
-//                    .resize(Utils.convertDpToPixel(context, CARD_WIDTH),
-//                            Utils.convertDpToPixel(context, CARD_HEIGHT))
                     .resize(DipToPixel.dpToPixel(context, CARD_WIDTH),
                             DipToPixel.dpToPixel(context, CARD_HEIGHT))
                     .centerCrop()
-//                    .error(mErrorCardImage)
                     .into(newsViewHolder.picassoTarget);
         } else if (news.isImageUrlChecked()) {
             newsViewHolder.imageCardView.setMainImage(mErrorCardImage);
+        } else {
+            newsViewHolder.imageCardView.setMainImage(null);
         }
-    }
-
-    private boolean isImageUrlValid(String imageUrl) {
-        return imageUrl != null && imageUrl.length() > 0;
     }
 
     public class NewsViewHolder extends Presenter.ViewHolder {

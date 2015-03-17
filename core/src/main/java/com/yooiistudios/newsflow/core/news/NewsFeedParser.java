@@ -23,7 +23,6 @@ public class NewsFeedParser {
 
     public static NewsFeed read(InputStream stream) throws SAXException, IOException {
         try {
-
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
             XMLReader reader = parser.getXMLReader();

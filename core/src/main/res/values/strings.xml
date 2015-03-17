@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Main -->
+    <string name="pub_date_minute_ago">A minute ago</string>
+    <string name="pub_date_minutes_ago">%1$d minutes ago</string>
+    <string name="pub_date_hour_ago">An hour ago</string>
+    <string name="pub_date_hours_ago">%1$d hours ago</string>
+    <string name="pub_date_day_ago">A day ago</string>
+    <string name="pub_date_days_ago">%1$d days ago</string>
+    <string name="pub_date_week_ago">A week ago</string>
+    <!--<string name="pub_date_weeks_ago">%1$d weeks ago</string>-->
+    <string name="pub_date_months_ago">Months ago</string>
+
     <string name="setting_language_korean">한국어</string>
     <string name="setting_language_english">English</string>
     <string name="setting_language_japanese">日本語</string>

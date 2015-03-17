@@ -569,6 +569,7 @@ public class MainTopContainerLayout extends FrameLayout
 
         mTopNewsFeedPagerAdapter.setNewsFeed(newsFeed);
         NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
+        NewsFeedArchiveUtils.saveRecentCacheMillisec(context);
 
         if (taskType.equals(TopNewsFeedFetchTask.TaskType.INITIALIZE)) {
             if (newsFeed.containsNews()) {

@@ -75,7 +75,7 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
         prepareVariables(listener);
     }
 
-    private void cancelAllTasks() {
+    public void cancelAllTasks() {
         cancelTopFetchTask();
         cancelBottomFetchTasks();
     }

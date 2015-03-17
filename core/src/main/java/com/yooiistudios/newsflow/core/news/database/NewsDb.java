@@ -398,6 +398,7 @@ public class NewsDb {
                 newsValues.put(NewsEntry.COLUMN_NAME_TITLE, news.getTitle());
                 newsValues.put(NewsEntry.COLUMN_NAME_LINK, news.getLink());
                 newsValues.put(NewsEntry.COLUMN_NAME_GUID, news.getGuid());
+                newsValues.put(NewsEntry.COLUMN_NAME_PUB_DATE, news.getPubDateInMillis());
                 newsValues.put(NewsEntry.COLUMN_NAME_DESCRIPTION, news.getDescription());
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL, news.getImageUrl());
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, news.isImageUrlChecked());
@@ -484,6 +485,8 @@ public class NewsDb {
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_LINK));
             String guid = newsListCursor.getString(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_GUID));
+            long pubDateInMillis = newsListCursor.getLong(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_PUB_DATE));
             String newsDescription = newsListCursor.getString(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_DESCRIPTION));
             NewsContent newsContent = queryNewsContentByGuid(guid);
@@ -497,6 +500,7 @@ public class NewsDb {
             news.setTitle(newsTitle);
             news.setLink(newsLink);
             news.setGuid(guid);
+            news.setPubDate(pubDateInMillis);
             news.setDescription(newsDescription);
             news.setImageUrl(newsImageUrl);
             news.setImageUrlChecked(newsImageUrlChecked);

@@ -27,10 +27,11 @@ import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrlType;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.debug.MainNewsTopicFetchTester;
 import com.yooiistudios.newsflow.model.news.task.NewsContentFetchManager;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedsFetchManager;
 import com.yooiistudios.newsflow.ui.fragment.MainFragment;
@@ -44,6 +45,12 @@ public class MainActivity extends Activity
         implements NewsFeedsFetchManager.OnFetchListener,
         NewsContentFetchManager.OnFetchListener {
     public static final int RC_PAIR_ACTIVITY = 1001;
+    // 1 Hours * 60 Min * 60 Sec * 1000 millisec = 1 Hours
+    private static final long CACHE_EXPIRATION_LIMIT = 1 * 60 * 60 * 1000;
+//    private static final long CACHE_EXPIRATION_LIMIT = 1000;
+    private static final boolean ENABLE_DEBUG = false;
+
+    private MainNewsTopicFetchTester mTester;
 
     /**
      * Called when the activity is first created.
@@ -54,11 +61,22 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initVariables();
         loadContent();
+    }
+
+    private void initVariables() {
+        mTester = new MainNewsTopicFetchTester(this);
     }
 
     private void loadContent() {
         Context context = getApplicationContext();
+
+        if (ENABLE_DEBUG) {
+            mTester.testFetch();
+
+            return;
+        }
 
         PanelMatrix panelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
 
@@ -66,18 +84,19 @@ public class MainActivity extends Activity
         ArrayList<NewsFeed> bottomNewsFeeds = NewsDb.getInstance(context).loadBottomNewsFeedList(
                 context, panelMatrix.getPanelCount());
 
-        if (NewsFeedValidator.isValid(topNewsFeed) && NewsFeedValidator.isValid(bottomNewsFeeds)) {
-            applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
-        } else {
+        if (!NewsFeedValidator.isValid(topNewsFeed) || !NewsFeedValidator.isValid(bottomNewsFeeds)
+                || NewsFeedArchiveUtils.newsNeedsToBeRefreshed(context, CACHE_EXPIRATION_LIMIT)) {
             NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
             ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
                     .getDefaultBottomNewsFeedList(getApplicationContext());
 
             fetch(defaultTopNewsFeed, defaultBottomNewsFeeds);
+        } else {
+            applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
         }
     }
 
-    private void fetch(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
+    public void fetch(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
         NewsFeedsFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
     }
 
@@ -90,6 +109,13 @@ public class MainActivity extends Activity
         fragment.applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
 
         NewsContentFetchManager.getInstance().fetch(topNewsFeed, bottomNewsFeeds, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        NewsFeedsFetchManager.getInstance().cancelAllTasks();
+        NewsContentFetchManager.getInstance().cancelAllTasks();
+        super.onDestroy();
     }
 
     @Override
@@ -120,6 +146,11 @@ public class MainActivity extends Activity
     public void onFetchAllNewsFeeds(NewsFeed topNewsFeed, ArrayList<NewsFeed> bottomNewsFeeds) {
         NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed(topNewsFeed);
         NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedList(bottomNewsFeeds);
+        NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
+
+        if (ENABLE_DEBUG) {
+            mTester.onFetchAllNewsFeeds(topNewsFeed, bottomNewsFeeds);
+        }
 
         applyNewsFeeds(topNewsFeed, bottomNewsFeeds);
     }
@@ -128,7 +159,10 @@ public class MainActivity extends Activity
     public void onFetchTopNewsContent(News news, NewsContent newsContent, int newsPosition) {
         MainFragment fragment = getMainFragment();
         fragment.configOnTopNewsContentLoad(news, newsPosition);
-        printNewsContentInfoDebug(news);
+
+        if (ENABLE_DEBUG) {
+            mTester.checkAllTopNewsContentFetched();
+        }
     }
 
     @Override
@@ -136,11 +170,9 @@ public class MainActivity extends Activity
                                          int newsFeedPosition, int newsPosition) {
         MainFragment fragment = getMainFragment();
         fragment.configOnBottomNewsContentLoad(news, newsFeedPosition, newsPosition);
-        printNewsContentInfoDebug(news);
-    }
 
-    private void printNewsContentInfoDebug(News news) {
-        NLLog.now("news url: " + news.getLink());
-        NLLog.now("content length: " + news.getNewsContent().getText().length());
+        if (ENABLE_DEBUG) {
+            mTester.checkAllBottomNewsContentFetched(newsFeedPosition);
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.NewsFeedParser;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import org.xml.sax.SAXException;
 
@@ -72,6 +73,14 @@ public class NewsFeedFetchUtil {
         InputStream inputStream = getInputStreamFromNewsFeedUrl(newsFeedUrl);
         NewsFeed feed = NewsFeedParser.read(inputStream);
         feed.setNewsFeedUrl(newsFeedUrl);
+        for (News news : feed.getNewsList()) {
+            if (news == null) {
+                continue;
+            }
+//            NLLog.now("millis: " + news.getPubDateInMillis());
+//            NLLog.now("DisplayableElapsedTime: " + news.getDisplayableElapsedTimeSincePubDate());
+        }
+
         inputStream.close();
         return feed;
     }

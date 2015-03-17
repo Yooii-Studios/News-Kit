@@ -62,6 +62,7 @@ public class MainFragment extends NewsBrowseFragment {
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
 
+    private Drawable mAppBadge;
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
@@ -112,9 +113,17 @@ public class MainFragment extends NewsBrowseFragment {
 
         SettingItemPresenter settingItemPresenter = new SettingItemPresenter();
         ArrayObjectAdapter settingRowAdapter = new ArrayObjectAdapter(settingItemPresenter);
-        settingRowAdapter.add(getResources().getString(R.string.pair_title));
-        settingRowAdapter.add(getResources().getString(R.string.remove_db));
-//        settingRowAdapter.add(getResources().getString(R.string.copy_db));
+
+        SettingItemPresenter.SettingObject pairObject = new SettingItemPresenter.SettingObject(
+                R.string.pair_title,
+                R.drawable.ic_tv_link_white_48dp);
+        settingRowAdapter.add(pairObject);
+
+        /*
+        SettingItemPresenter.SettingObject removeDbObject = new SettingItemPresenter.SettingObject(
+                R.string.remove_db);
+        settingRowAdapter.add(removeDbObject);
+        */
         rowsAdapter.add(new ListRow(SettingHeader, settingRowAdapter));
 
         setAdapter(rowsAdapter);
@@ -155,6 +164,8 @@ public class MainFragment extends NewsBrowseFragment {
         adapter.notifyNewsImageLoadedAt(newsIndex);
     }
 
+    /*
+    // FIXME: 동현이 일단 안쓰고 있어서 주석처리
     private NewsFeed getTopNewsFeed() {
         return getTopNewsFeedAdapter().getNewsFeed();
     }
@@ -162,6 +173,7 @@ public class MainFragment extends NewsBrowseFragment {
     private NewsFeed getBottomNewsFeedAt(int index) {
         return getBottomNewsFeedAdapter(index).getNewsFeed();
     }
+    */
 
     private NewsFeedAdapter getTopNewsFeedAdapter() {
         return getNewsFeedAdapterAt(0);
@@ -191,7 +203,9 @@ public class MainFragment extends NewsBrowseFragment {
         // setBadgeDrawable(getActivity().getResources().getDrawable(
         // R.drawable.videos_by_google_banner));
 //        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
-        setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
+//        setBadgeDrawable(getResources().getDrawable(R.drawable.app_badge));
+        mAppBadge = getResources().getDrawable(R.drawable.app_badge);
+        setAppBadge();
 
         // over title
         setHeadersState(HEADERS_ENABLED);
@@ -205,17 +219,24 @@ public class MainFragment extends NewsBrowseFragment {
         setupUIElementsExperiments();
     }
 
+    private void setAppBadge() {
+        setBadgeDrawable(mAppBadge);
+    }
+
+    private void hideAppBadge() {
+        setBadgeDrawable(null);
+    }
+
     private void setupUIElementsExperiments() {
         setBrowseTransitionListener(new BrowseTransitionListener() {
             @Override
             public void onHeadersTransitionStart(boolean withHeaders) {
                 super.onHeadersTransitionStart(withHeaders);
                 if (isShowingHeaders()) {
-                    setBadgeDrawable(getResources().getDrawable(R.drawable.videos_by_google_banner));
-                    setTitle("News Flow");
+                    setAppBadge();
                 } else {
-                    setBadgeDrawable(null);
-                    setTitle("All News");
+                    hideAppBadge();
+                    setTitle(getString(R.string.all_news));
                 }
             }
         });
@@ -259,18 +280,15 @@ public class MainFragment extends NewsBrowseFragment {
 //                        NewsActivity.SHARED_ELEMENT_NAME).toBundle();
 //                startActivity(intent, bundle);
                 startActivity(intent);
-            } else if (item instanceof String) {
-                if (((String) item).contains("Empty")) {
-                    clearBackground();
-                    emptyNewsFeeds();
-                }
-                if (((String) item).contains(getString(R.string.pair_title))) {
+            } else if (item instanceof SettingItemPresenter.SettingObject) {
+                int titleId = ((SettingItemPresenter.SettingObject) item).getTitleId();
+                if (titleId == R.string.pair_title) {
                     clearBackground();
                     startPairActivity(itemViewHolder);
-//                } else if (((String) item).contains(getString(R.string.copy_db))) {
+//                } else if (titleId == R.string.copy_db) {
 //                    NewsDb.copyDbToExternalStorage(getActivity());
-                } else if (((String) item).contains(getString(R.string.remove_db))) {
-                    NewsDb.getInstance(getActivity()).clearArchive();
+//                } else if (titleId == R.string.remove_db) {
+//                    NewsDb.getInstance(getActivity()).clearArchive();
                 }
             }
         }
@@ -308,7 +326,6 @@ public class MainFragment extends NewsBrowseFragment {
                 mBackgroundUrl = ((News) item).getImageUrl();
                 startBackgroundTimer();
             }
-
         }
     }
 

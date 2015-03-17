@@ -1,5 +1,6 @@
 package com.yooiistudios.newsflow.ui.fragment;
 
+import android.animation.TimeInterpolator;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -10,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -36,7 +39,7 @@ import lombok.experimental.Accessors;
 @Accessors(prefix = "m")
 public class NewsContentFragment extends Fragment {
     public static final String NEWS_LINK_ARG = "news_link_arg";
-    public static final int MIN_TEXT_LENGTH = 200;
+    public static final int MIN_TEXT_LENGTH = 100;
 
     @Getter @InjectView(R.id.details_layout) FrameLayout mLayout;
     @Getter @InjectView(R.id.details_scrollview) ScrollView mScrollView;
@@ -44,12 +47,10 @@ public class NewsContentFragment extends Fragment {
     @InjectView(R.id.details_title_textview) TextView mTitleTextView;
     @InjectView(R.id.details_top_imageview) ImageView mTopImageView;
     @InjectView(R.id.details_content_textview) TextView mContentTextView;
+    @InjectView(R.id.details_loading_progress_bar) ProgressBar mProgressBar;
 
     @Getter ActivityTransitionProperty mTransitionProperty;
-//    private PicassoImageViewTarget mTopImageTarget;
     private News mNews;
-//    private Drawable mDefaultCardImage;
-    //    private String mLink;
     private BitmapLoadTask mBitmapLoadTask;
 
     @Nullable
@@ -58,21 +59,12 @@ public class NewsContentFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_news_content,  container, false);
         ButterKnife.inject(this, root);
 
-        initVariables();
         initNews();
         initUIElements();
-        initScrollView();
-
-//        DetailsTransitionUtils.runEnterAnimation(this);
 
         loadImageOnImageViewSizeFix();
 
         return root;
-    }
-
-    private void initVariables() {
-//        mTopImageTarget = new PicassoImageViewTarget(mTopImageView);
-//        mDefaultCardImage = getActivity().getResources().getDrawable(R.drawable.news_dummy2);
     }
 
     private void initNews() {
@@ -80,18 +72,22 @@ public class NewsContentFragment extends Fragment {
     }
 
     private void initUIElements() {
-//        mTitleTextView.setTypeface(TypefaceUtils.getMediumTypeface(getActivity()));
-//        mContentTextView.setTypeface(TypefaceUtils.getRegularTypeface(getActivity()));
-
         NewsContent newsContent = mNews.getNewsContent();
-        mTitleTextView.setText(newsContent.getTitle());
-        mContentTextView.setText(mNews.getDisplayableNewsContentDescription());
-//        news.getDisplayableRssDescription()
+
+        String title = newsContent.getTitle().trim();
+        if (title.length() == 0) {
+            title = mNews.getTitle();
+        }
+        setTitle(title);
+        setContentText(mNews.getDisplayableNewsContentDescription());
     }
 
-    private void initScrollView() {
-//        mScrollView.setClipToOutline(true);
-//        mContentLayout.setClipToOutline(true);
+    private void setTitle(String title) {
+        mTitleTextView.setText(title);
+    }
+
+    private void setContentText(String contentText) {
+        mContentTextView.setText(contentText);
     }
 
     private void loadImageOnImageViewSizeFix() {
@@ -105,16 +101,6 @@ public class NewsContentFragment extends Fragment {
         });
     }
 
-//    private void loadImage() {
-//        Picasso.with(getActivity())
-//                .load(mNews.getImageUrl())
-//                .resize(mTopImageView.getWidth(),
-//                        mTopImageView.getHeight())
-//                .centerCrop()
-//                .error(mDefaultCardImage)
-//                .into(mTopImageTarget);
-//    }
-
     private void loadImage() {
         Context context = getActivity().getApplicationContext();
         int width = mTopImageView.getWidth();
@@ -124,10 +110,22 @@ public class NewsContentFragment extends Fragment {
                 R.drawable.news_dummy2, new BitmapLoadTask.OnSuccessListener() {
             @Override
             public void onLoad(Drawable drawable) {
-                mTopImageView.setImageDrawable(drawable);
+                configOnImageLoad(drawable);
             }
         });
         mBitmapLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void configOnImageLoad(Drawable drawable) {
+        mProgressBar.setVisibility(View.GONE);
+        mTopImageView.setImageDrawable(drawable);
+
+
+        Context context = getActivity().getApplicationContext();
+        TimeInterpolator imageFadeInInterpolator =
+                AnimationUtils.loadInterpolator(context, android.R.interpolator.fast_out_slow_in);
+        mTopImageView.setAlpha(0.0f);
+        mTopImageView.animate().alpha(1.0f).setInterpolator(imageFadeInInterpolator).setDuration(1300);
     }
 
     // FIXME: 액티비티의 onAttachFragment 에서 처리하게 변경해주자
