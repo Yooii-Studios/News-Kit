@@ -14,6 +14,8 @@
     <dimen name="details_horizontal_margin">128dp</dimen>
     <dimen name="details_vertical_margin">64dp</dimen>
     <dimen name="details_title_textview_height">128dp</dimen>
+    <dimen name="details_imageview_height">300dp</dimen>
+    <dimen name="details_progress_top_margin">100dp</dimen>
     <dimen name="details_textview_padding">32dp</dimen>
 
     <!-- Pair -->
