@@ -75,12 +75,17 @@ public class NewsWebFragment extends Fragment implements HTML5WebView.HTML5WebVi
     }
 
     public void scrollDownWebView() {
-        int currentScroll = mWebView.getScrollY();
-        int toScroll = currentScroll + SCROLL_LENGTH;
-        if (toScroll >= mWebView.getHeight()) {
-            toScroll = mWebView.getHeight();
+//        int currentScroll = mWebView.getScrollY();
+//        int toScroll = currentScroll + SCROLL_LENGTH;
+//        if (toScroll >= mWebView.getContentHeight()) {
+//            toScroll = mWebView.getContentHeight();
+//        }
+//        mWebView.scrollTo(0, toScroll);
+        int scrollBy = SCROLL_LENGTH;
+        if (mWebView.getScrollY() + scrollBy > mWebView.getContentHeight()) {
+            scrollBy = mWebView.getContentHeight() - mWebView.getScrollY();
         }
-        mWebView.scrollTo(0, toScroll);
+        mWebView.scrollBy(0, scrollBy);
     }
 
     public void scrollUpWebView() {
