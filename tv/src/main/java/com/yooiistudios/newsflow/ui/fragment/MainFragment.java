@@ -62,6 +62,7 @@ public class MainFragment extends NewsBrowseFragment {
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
 
+    private Drawable mAppBadge;
     private Drawable mDefaultBackground;
     private Target mBackgroundTarget;
     private DisplayMetrics mMetrics;
@@ -118,9 +119,11 @@ public class MainFragment extends NewsBrowseFragment {
                 R.drawable.ic_tv_link_white_48dp);
         settingRowAdapter.add(pairObject);
 
+        /*
         SettingItemPresenter.SettingObject removeDbObject = new SettingItemPresenter.SettingObject(
                 R.string.remove_db);
         settingRowAdapter.add(removeDbObject);
+        */
         rowsAdapter.add(new ListRow(SettingHeader, settingRowAdapter));
 
         setAdapter(rowsAdapter);
@@ -201,6 +204,7 @@ public class MainFragment extends NewsBrowseFragment {
         // R.drawable.videos_by_google_banner));
 //        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
 //        setBadgeDrawable(getResources().getDrawable(R.drawable.app_badge));
+        mAppBadge = getResources().getDrawable(R.drawable.app_badge);
         setAppBadge();
 
         // over title
@@ -216,7 +220,7 @@ public class MainFragment extends NewsBrowseFragment {
     }
 
     private void setAppBadge() {
-        setBadgeDrawable(getResources().getDrawable(R.drawable.app_badge));
+        setBadgeDrawable(mAppBadge);
     }
 
     private void hideAppBadge() {
@@ -230,10 +234,9 @@ public class MainFragment extends NewsBrowseFragment {
                 super.onHeadersTransitionStart(withHeaders);
                 if (isShowingHeaders()) {
                     setAppBadge();
-                    setTitle("News Flow");
                 } else {
                     hideAppBadge();
-                    setTitle("All News");
+                    setTitle(getString(R.string.all_news));
                 }
             }
         });
@@ -284,8 +287,8 @@ public class MainFragment extends NewsBrowseFragment {
                     startPairActivity(itemViewHolder);
 //                } else if (titleId == R.string.copy_db) {
 //                    NewsDb.copyDbToExternalStorage(getActivity());
-                } else if (titleId == R.string.remove_db) {
-                    NewsDb.getInstance(getActivity()).clearArchive();
+//                } else if (titleId == R.string.remove_db) {
+//                    NewsDb.getInstance(getActivity()).clearArchive();
                 }
             }
         }
