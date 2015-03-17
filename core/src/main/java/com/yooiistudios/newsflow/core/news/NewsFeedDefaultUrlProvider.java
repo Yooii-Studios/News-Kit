@@ -32,11 +32,11 @@ public class NewsFeedDefaultUrlProvider {
         mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "us", 2, 1);
 
         mBottomNewsTopicList = new ArrayList<>();
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 2, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 2, 3));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "jp", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "kr", 1, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "uk", 2, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "kr", 2, 2));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("fr", null, "fr", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("zh", "tw", "hk", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "jp", 1, 1));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "uk", 1, 4));
     }
 
