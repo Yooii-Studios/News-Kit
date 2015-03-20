@@ -15,7 +15,7 @@ import com.yooiistudios.newsflow.R;
  */
 public class PanelDecoration {
     public static Bitmap getDummyNewsImage(Context context) {
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.news_dummy);
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.img_news_dummy);
     }
 
     /**
