@@ -60,7 +60,7 @@
     <!-- Pair -->
     <string name="setting_pair_tv">Pair Android TV</string>
     <string name="setting_pair_tv_description">Send your news panels to your Android TV</string>
-    <string name="setting_pair_tv_dialog_description">Type 5 numbers shown in the \"Pair Mobile\" tab of your Android TV and press Confirm</string>
+    <string name="setting_pair_tv_dialog_description">Type 5 numbers shown in the \"Pair Now\" tab of your Android TV and press Confirm</string>
     <string name="setting_pair_tv_code_invalidate">Code invalidate. Please check 5 numbers shown in the \"Pair Mobile\" tab of your Android TV</string>
     <string name="setting_pair_tv_data_sent">Succeed to pair with Android TV</string>
     <string name="setting_pair_tv_error_msg">Pair Failed. Please try again</string>

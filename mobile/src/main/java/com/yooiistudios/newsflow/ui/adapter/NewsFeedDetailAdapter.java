@@ -105,12 +105,6 @@ public class NewsFeedDetailAdapter extends
     public static int measureMaximumRowHeight(Context context) {
         ViewHolder viewHolder = NewsFeedDetailAdapter.createViewHolder(context, null);
 
-        // FIXME: 동현이 만들어놓은 코드로 보이는데 우성이 integer 에서 가져오게 변경, 저 스타일은 삭제예정
-        /*
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(R.style.DetailTextStyle,
-                new int[]{android.R.attr.maxLines});
-        int maxLines = typedArray.getInt(0, -1);
-        */
         int titleMaxLine = context.getResources()
                 .getInteger(R.integer.news_feed_detail_title_max_line);
         int descriptionMaxLine = context.getResources()
