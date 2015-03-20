@@ -13,6 +13,7 @@
     <!-- Main -->
     <color name="main_top_indicator">#666</color>
     <color name="main_edit_layout_background">#7fffffff</color>
+    <color name="main_bottom_rss_not_found_img_filter_color">#8523464c</color>
 
     <!-- NewsFeed Detail -->
     <color name="newsfeed_detail_highlight_color">@color/material_white_secondary_text</color>

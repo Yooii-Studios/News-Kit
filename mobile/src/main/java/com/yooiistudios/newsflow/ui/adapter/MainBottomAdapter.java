@@ -149,9 +149,9 @@ public class MainBottomAdapter extends
 
         if (newsFeed == null || !newsFeed.containsNews()) {
             newsFeedTitleView.setText("");
-            titleView.setText(newsFeed != null ? NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
-            viewHolder.progressBar.setVisibility(View.INVISIBLE);
-            showDummyImage(viewHolder);
+            titleView.setText(newsFeed != null ?
+                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
+            showUnknownErrorImage(viewHolder);
             return;
         }
 
@@ -294,6 +294,13 @@ public class MainBottomAdapter extends
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
         viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
 //        setOnClickListener(viewHolder, position);
+    }
+
+    private void showUnknownErrorImage(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.progressBar.setVisibility(View.INVISIBLE);
+        viewHolder.imageView.setImageDrawable(mContext.getResources()
+                .getDrawable(R.drawable.img_rss_url_fail));
+        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
     }
 
     private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {

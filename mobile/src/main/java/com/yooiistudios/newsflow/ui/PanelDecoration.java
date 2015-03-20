@@ -42,6 +42,10 @@ public class PanelDecoration {
         return getBottomGrayFilterColor(context);
     }
 
+    public static int getBottomRssNotFoundImgFilterColor(Context context) {
+        return context.getResources().getColor(R.color.main_bottom_rss_not_found_img_filter_color);
+    }
+
     public static int getMainBottomDefaultBackgroundColor() {
         return Color.argb(200, 16, 16, 16);
     }
