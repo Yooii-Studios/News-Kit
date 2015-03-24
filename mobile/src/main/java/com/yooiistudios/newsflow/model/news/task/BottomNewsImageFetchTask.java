@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -15,7 +16,8 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
  */
 public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
 
-    private ImageLoader mImageLoader;
+//    private ImageLoader mImageLoader;
+    private ResizedImageLoader mImageLoader;
     private News mNews;
     private int mPosition;
     private int mTaskType;
@@ -29,7 +31,7 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
     public static final int TASK_CACHE = 4;
     public static final int TASK_MATRIX_CHANGED = 5;
 
-    public BottomNewsImageFetchTask(ImageLoader imageLoader, News news, int position,
+    public BottomNewsImageFetchTask(ResizedImageLoader imageLoader, News news, int position,
                                     int taskType, OnBottomImageUrlFetchListener listener) {
         mImageLoader = imageLoader;
         mNews = news;

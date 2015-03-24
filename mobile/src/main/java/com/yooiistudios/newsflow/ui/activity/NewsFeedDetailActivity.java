@@ -52,16 +52,18 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.model.debug.DebugSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugSettings;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsFeedFetchTask;
@@ -73,9 +75,6 @@ import com.yooiistudios.newsflow.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newsflow.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newsflow.ui.widget.ObservableScrollView;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.util.ImageMemoryCache;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -139,7 +138,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private Palette mPalette;
 
-    private ImageLoader mImageLoader;
+//    private ImageLoader mImageLoader;
+    private ResizedImageLoader mImageLoader;
 
     private NewsFeed mNewsFeed;
     private News mTopNews;
@@ -172,9 +172,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setContentView(R.layout.activity_news_feed_detail);
         ButterKnife.inject(this);
 
-        Context context = getApplicationContext();
-        mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
-                ImageMemoryCache.getInstance(context));
+//        Context context = getApplicationContext();
+//        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
+//                SimpleImageCache.getInstance().get(this));
+        mImageLoader = ResizedImageLoader.create(this);
 
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
@@ -216,6 +217,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     protected void onPause() {
         super.onPause();
+        mImageLoader.flushCache();
 
         if (mNewsFeedFetchTask != null) {
             mNewsFeedFetchTask.cancel(true);
@@ -997,6 +999,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     protected void onDestroy() {
         stopAutoScroll();
+        mImageLoader.closeCache();
         super.onDestroy();
     }
 

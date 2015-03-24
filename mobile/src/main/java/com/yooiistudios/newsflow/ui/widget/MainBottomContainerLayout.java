@@ -18,20 +18,20 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchManager;
@@ -42,8 +42,6 @@ import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
-import com.yooiistudios.newsflow.util.ImageMemoryCache;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.serialanimator.animator.SerialAnimator;
 import com.yooiistudios.serialanimator.animator.SerialValueAnimator;
@@ -87,8 +85,8 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private OnMainPanelEditModeEventListener mOnMainPanelEditModeEventListener;
-    private Activity mActivity;
-    private ImageLoader mImageLoader;
+    private MainActivity mActivity;
+    private ResizedImageLoader mImageLoader;
     private SerialValueAnimator mAutoAnimator;
 
     private boolean mIsInitialized = false;
@@ -138,12 +136,13 @@ public class MainBottomContainerLayout extends FrameLayout
 
         ButterKnife.inject(this);
 
-        mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
-                ImageMemoryCache.getInstance(context));
-
         setAnimationCacheEnabled(true);
         setDrawingCacheEnabled(true);
         initAnimator();
+    }
+
+    private void initImageLoader() {
+        mImageLoader = mActivity.getImageLoader();
     }
 
     public void init(Activity activity) {
@@ -151,20 +150,15 @@ public class MainBottomContainerLayout extends FrameLayout
             throw new IllegalArgumentException("activity MUST BE an instance of MainActivity");
         }
 
-        mActivity = activity;
+        mActivity = (MainActivity)activity;
         mOnMainBottomLayoutEventListener = (OnMainBottomLayoutEventListener)activity;
         mOnMainPanelEditModeEventListener = (OnMainPanelEditModeEventListener)activity;
 
         mIsInitialized = false;
 
-        //init ui
-        mBottomNewsFeedRecyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
-                COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
-        mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
-
-        mBottomNewsFeedAdapter = new MainBottomAdapter(getContext(), this);
-        mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
+        initImageLoader();
+        initUI();
+        initAdapter();
 
         configOnOrientationChange();
         PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
@@ -178,19 +172,6 @@ public class MainBottomContainerLayout extends FrameLayout
                     mBottomNewsFeedAdapter.getNewsFeedList(), this,
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
-//            boolean isValid = true;
-//            ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
-//                    new ArrayList<>();
-//            ArrayList<NewsFeed> list = mBottomNewsFeedAdapter.getNewsFeedList();
-//            int count = list.size();
-//            for (int i = 0; i < count; i++) {
-//                NewsFeed newsFeed = list.get(i);
-//                if (newsFeed != null && !newsFeed.containsNews()) {
-//                    isValid = false;
-//                    newsFeedListToFetch.add(new Pair<>(newsFeed, i));
-//                }
-//            }
-//            if (isValid) {
             ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
             if (NewsFeedValidator.isValid(newsFeeds)) {
                 notifyOnInitialized();
@@ -205,6 +186,19 @@ public class MainBottomContainerLayout extends FrameLayout
 
         adjustSize();
         mBottomNewsFeedAdapter.setOnBindMainBottomViewHolderListener(this);
+    }
+
+    private void initAdapter() {
+        mBottomNewsFeedAdapter = new MainBottomAdapter(mActivity, mImageLoader, this);
+        mBottomNewsFeedRecyclerView.setAdapter(mBottomNewsFeedAdapter);
+    }
+
+    private void initUI() {
+        //init ui
+        mBottomNewsFeedRecyclerView.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),
+                COLUMN_COUNT_PORTRAIT, GridLayoutManager.VERTICAL, false);
+        mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
     }
 
     private void adjustSize() {

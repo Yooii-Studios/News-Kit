@@ -40,6 +40,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
@@ -105,6 +106,7 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
 
     private MainAdView mBannerAd;
+    private ResizedImageLoader mImageLoader;
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
@@ -178,6 +180,7 @@ public class MainActivity extends ActionBarActivity
         initRefreshLayout();
         initBannerAdView();
         initQuitAdView();
+        initImageLoader();
         mMainTopContainerLayout.init(this);
         mMainBottomContainerLayout.init(this);
         bringLoadingContainerToFront();
@@ -186,6 +189,14 @@ public class MainActivity extends ActionBarActivity
 
         AdUtils.showPopupAdIfSatisfied(this);
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    public ResizedImageLoader getImageLoader() {
+        return mImageLoader;
+    }
+
+    private void initImageLoader() {
+        mImageLoader = ResizedImageLoader.create(this);
     }
 
     private void initToolbar() {
@@ -434,8 +445,15 @@ public class MainActivity extends ActionBarActivity
             mBannerAd.pause();
             mQuitAdView.pause();
             stopNewsAutoRefresh();
+            mImageLoader.flushCache();
         }
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mImageLoader.closeCache();
     }
 
     @Override

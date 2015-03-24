@@ -1,7 +1,7 @@
 package com.yooiistudios.newsflow.ui.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,18 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter.OnItemClickListener;
-import com.yooiistudios.newsflow.util.ImageMemoryCache;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,7 +37,9 @@ public class MainNewsFeedFragment extends Fragment {
     private static final String KEY_NEWS = "KEY_CURRENT_NEWS_INDEX";
     private static final String KEY_POSITION = "KEY_TAB_INDEX";
 
-    private ImageLoader mImageLoader;
+    private MainActivity mActivity;
+//    private ImageLoader mImageLoader;
+    private ResizedImageLoader mImageLoader;
     private NewsFeed mNewsFeed;
     private News mNews;
     private int mPosition;
@@ -61,6 +62,22 @@ public class MainNewsFeedFragment extends Fragment {
     public MainNewsFeedFragment() {}
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mActivity = (MainActivity)activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnActionListener");
+        }
+
+        initImageLoader();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -72,13 +89,17 @@ public class MainNewsFeedFragment extends Fragment {
             mPosition = -1;
         }
         mRecycled = false;
+    }
 
-        Context context = getActivity().getApplicationContext();
-
-        RequestQueue requestQueue = NewsImageRequestQueue.getInstance(context).getRequestQueue();
-        mImageLoader = new ImageLoader(requestQueue,
-                ImageMemoryCache.getInstance(context));
-
+    private void initImageLoader() {
+//        Context context = getActivity().getApplicationContext();
+//
+//        RequestQueue requestQueue = ImageRequestQueue.getInstance(context).getRequestQueue();
+//        mImageLoader = new ImageLoader(requestQueue,
+//                SimpleImageCache.getInstance().get(
+//                        context, mActivity.getSupportFragmentManager()));
+//        mImageLoader = ResizedImageLoader.create(mActivity);
+        mImageLoader = mActivity.getImageLoader();
     }
 
     @Override
@@ -157,6 +178,8 @@ public class MainNewsFeedFragment extends Fragment {
                     }
 
                     if (bitmap != null && viewHolder.imageView != null) {
+                        NLLog.now(String.format("bitmap width: %4d, height: %4d",
+                                bitmap.getWidth(), bitmap.getHeight()));
                         viewHolder.imageView.setImageBitmap(bitmap);
                         viewHolder.imageView.setColorFilter(PanelDecoration.getTopGrayFilterColor());
                         viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);

@@ -8,17 +8,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
-import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
-import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
-import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.util.ImageMemoryCache;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.ArrayList;
 
@@ -38,7 +36,8 @@ public class BackgroundCacheUtils implements
     private Context mContext;
     private SparseArray<AsyncTask> mTopNewsImageFetchTaskMap = null;
     private ArrayList<Integer> mBottomImageFetchMap;
-    private ImageLoader mImageLoader;
+//    private ImageLoader mImageLoader;
+    private ResizedImageLoader mImageLoader;
     private OnCacheDoneListener mOnCacheDoneListener;
 
     private static BackgroundCacheUtils instance;
@@ -83,8 +82,9 @@ public class BackgroundCacheUtils implements
         mIsRunning = true;
 
         mContext = context;
-        mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
-                ImageMemoryCache.getInstance(context));
+//        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
+//                SimpleImageCache.getInstance().getNonRetainingCache(context));
+        ResizedImageLoader imageLoader = ResizedImageLoader.createWithNonRetainingCache(context);
         mTopNewsImageFetchTaskMap = new SparseArray<>();
 
         // cache top news feed

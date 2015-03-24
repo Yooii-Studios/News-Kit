@@ -17,21 +17,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout;
 import com.yooiistudios.newsflow.ui.widget.RatioFrameLayout;
-import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.util.ImageMemoryCache;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -64,6 +63,7 @@ public class MainBottomAdapter extends
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
+    private ResizedImageLoader mImageLoader;
 
     private OnBindMainBottomViewHolderListener mOnBindMainBottomViewHolderListener;
 
@@ -75,15 +75,17 @@ public class MainBottomAdapter extends
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
 
-    public MainBottomAdapter(Context context, OnItemClickListener listener) {
-        this(context, listener, PORTRAIT);
+    public MainBottomAdapter(Context context, ResizedImageLoader imageLoader,
+                             OnItemClickListener listener) {
+        this(context, imageLoader, listener, PORTRAIT);
     }
 
-    public MainBottomAdapter(Context context, OnItemClickListener listener,
-                             @Orientation int orientation) {
-        mContext = context;
+    public MainBottomAdapter(Context context, ResizedImageLoader imageLoader,
+                             OnItemClickListener listener, @Orientation int orientation) {
+        mContext = context.getApplicationContext();
         mNewsFeedList = new ArrayList<>();
         mOnItemClickListener = listener;
+        mImageLoader = imageLoader;
         mOrientation = orientation;
     }
 
@@ -201,13 +203,9 @@ public class MainBottomAdapter extends
             return;
         }
 
-        RequestQueue requestQueue = NewsImageRequestQueue.getInstance(mContext).getRequestQueue();
-        ImageLoader imageLoader = new ImageLoader(requestQueue,
-                ImageMemoryCache.getInstance(mContext));
-
         Object tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request_idx);
 
-        if (tag != null) {
+       if (tag != null) {
             int previousRequestIdx = (Integer)tag;
             int currentNewsIndex = mNewsFeedList.get(position).getDisplayingNewsIndex();
 
@@ -217,7 +215,7 @@ public class MainBottomAdapter extends
             }
         }
         ImageLoader.ImageContainer imageContainer =
-                imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
+                mImageLoader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 final Bitmap bitmap = response.getBitmap();
@@ -233,6 +231,8 @@ public class MainBottomAdapter extends
 //                }
 
                 if (bitmap != null) {
+                    NLLog.now(String.format("bitmap width: %4d, height: %4d",
+                            bitmap.getWidth(), bitmap.getHeight()));
                     viewHolder.progressBar.setVisibility(View.GONE);
 
                     viewHolder.imageView.setImageBitmap(bitmap);

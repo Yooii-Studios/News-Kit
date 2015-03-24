@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class BottomNewsImageFetchManager
         mNewsToFetchMap = new HashMap<>();
     }
 
-    public void fetchAllDisplayingNewsImageList(ImageLoader imageLoader,
+    public void fetchAllDisplayingNewsImageList(ResizedImageLoader imageLoader,
                                                 ArrayList<NewsFeed> newsFeedList,
                                                 OnFetchListener listener, int taskType) {
         SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
@@ -59,7 +60,7 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, false);
     }
 
-    public void fetchAllNextNewsImageList(ImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
+    public void fetchAllNextNewsImageList(ResizedImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                           OnFetchListener listener, int taskType) {
         SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
         for (int i = 0; i < newsFeedList.size(); i++) {
@@ -68,7 +69,7 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, true);
     }
 
-    public void fetchNextNewsImage(ImageLoader imageLoader, NewsFeed newsFeed,
+    public void fetchNextNewsImage(ResizedImageLoader imageLoader, NewsFeed newsFeed,
                                    OnFetchListener listener, int newsFeedIndex, int taskType) {
 
         SparseArray<NewsFeed> list = new SparseArray<>();
@@ -77,7 +78,7 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, list, listener, taskType, true);
     }
 
-    public void fetchDisplayingAndNextImage(ImageLoader imageLoader, NewsFeed newsFeed,
+    public void fetchDisplayingAndNextImage(ResizedImageLoader imageLoader, NewsFeed newsFeed,
                                             OnFetchListener listener, int newsFeedIndex,
                                             int taskType) {
         prepare(listener, taskType);
@@ -96,7 +97,7 @@ public class BottomNewsImageFetchManager
     }
 
 
-    public void fetchDisplayingAndNextImageList(ImageLoader imageLoader,
+    public void fetchDisplayingAndNextImageList(ResizedImageLoader imageLoader,
                                                 ArrayList<NewsFeed> newsFeedList,
                                                 OnFetchListener listener, int taskType) {
         prepare(listener, taskType);
@@ -116,7 +117,7 @@ public class BottomNewsImageFetchManager
         _fetch(imageLoader);
     }
 
-    private void fetch(ImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
+    private void fetch(ResizedImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
                        OnFetchListener listener, int taskType, boolean fetchNextNewsImage) {
         //newsFeedMap의 key는 news feed의 인덱스이어야 한다.
         prepare(listener, taskType);
@@ -155,7 +156,7 @@ public class BottomNewsImageFetchManager
         mTaskType = taskType;
     }
 
-    private void _fetch(ImageLoader imageLoader) {
+    private void _fetch(ResizedImageLoader imageLoader) {
         for (Map.Entry<News, Pair<Boolean, Integer>> entry : mNewsToFetchMap.entrySet()) {
             final News news = entry.getKey();
             final int newsFeedIndex = entry.getValue().second;

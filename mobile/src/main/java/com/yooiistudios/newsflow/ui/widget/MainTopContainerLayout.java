@@ -24,15 +24,16 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.core.news.NewsImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
+import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
-import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
@@ -45,8 +46,6 @@ import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
 import com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
-import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.util.ImageMemoryCache;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 
 import java.lang.reflect.Field;
@@ -90,8 +89,9 @@ public class MainTopContainerLayout extends FrameLayout
     private OnMainPanelEditModeEventListener mOnMainPanelEditModeEventListener;
 
 //    private NewsFeed mTopNewsFeed;
-    private ImageLoader mImageLoader;
-    private Activity mActivity;
+//    private ImageLoader mImageLoader;
+    private ResizedImageLoader mImageLoader;
+    private MainActivity mActivity;
 
     private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
 
@@ -140,10 +140,14 @@ public class MainTopContainerLayout extends FrameLayout
 
         initEditLayer();
 
-        mImageLoader = new ImageLoader(NewsImageRequestQueue.getInstance(context).getRequestQueue(),
-                ImageMemoryCache.getInstance(context));
-
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
+    }
+
+    private void initImageLoader() {
+//        Context context = getContext().getApplicationContext();
+//        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
+//                SimpleImageCache.getInstance().get(mActivity));
+        mImageLoader = mActivity.getImageLoader();
     }
 
     private void initEditLayer() {
@@ -215,16 +219,18 @@ public class MainTopContainerLayout extends FrameLayout
 
     public void init(Activity activity) {
         if (!(activity instanceof MainActivity)) {
-            throw new IllegalArgumentException("activity MUST BE an instance of MainActivity");
+            throw new IllegalArgumentException("activity MUST BE an instance of "
+                    + MainActivity.class.getSimpleName());
         }
 
-        mActivity = activity;
+        mActivity = (MainActivity)activity;
         mOnMainTopLayoutEventListener = (OnMainTopLayoutEventListener)activity;
         mOnMainPanelEditModeEventListener = (OnMainPanelEditModeEventListener)activity;
 
         Context context = getContext();
 
-        initViewPager(context);
+        initImageLoader();
+        initViewPager();
 
         // Fetch
 //        showTopNewsFeedUnavailable(newsFeed.getFetchStateMessage(context));
@@ -250,7 +256,7 @@ public class MainTopContainerLayout extends FrameLayout
 
     }
 
-    private void initViewPager(Context context) {
+    private void initViewPager() {
         // ViewPager
         try {
             Field mScroller;
@@ -259,7 +265,7 @@ public class MainTopContainerLayout extends FrameLayout
             android.view.animation.Interpolator interpolator =
                     (android.view.animation.Interpolator)
                         AnimationFactory.makeViewPagerScrollInterpolator();
-            SlowSpeedScroller scroller = new SlowSpeedScroller(context, interpolator, true);
+            SlowSpeedScroller scroller = new SlowSpeedScroller(getContext(), interpolator, true);
             mScroller.set(mTopNewsFeedViewPager, scroller);
         } catch (Exception e) {
             e.printStackTrace();
