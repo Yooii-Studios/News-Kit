@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
@@ -161,14 +160,12 @@ public class MainNewsFeedFragment extends Fragment {
         // set image
 //        String imgUrl = mNews.getImageUrl();
         if (mNews.hasImageUrl()) {
-            mImageLoader.get(mNews.getImageUrl(), new ImageLoader.ImageListener() {
+            mImageLoader.get(mNews.getImageUrl(), new ResizedImageLoader.ImageListener() {
                 @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
                     if (mRecycled) {
                         return;
                     }
-
-                    Bitmap bitmap = response.getBitmap();
 
                     viewHolder.progressBar.setVisibility(View.GONE);
 
@@ -178,7 +175,7 @@ public class MainNewsFeedFragment extends Fragment {
                     }
 
                     if (bitmap != null && viewHolder.imageView != null) {
-                        NLLog.now(String.format("bitmap width: %4d, height: %4d",
+                        NLLog.now(String.format("Top.\nbitmap width: %4d, height: %4d",
                                 bitmap.getWidth(), bitmap.getHeight()));
                         viewHolder.imageView.setImageBitmap(bitmap);
                         viewHolder.imageView.setColorFilter(PanelDecoration.getTopGrayFilterColor());
@@ -187,7 +184,7 @@ public class MainNewsFeedFragment extends Fragment {
                 }
 
                 @Override
-                public void onErrorResponse(VolleyError error) {
+                public void onFail(VolleyError error) {
                     showDummyImage(viewHolder);
                 }
             });

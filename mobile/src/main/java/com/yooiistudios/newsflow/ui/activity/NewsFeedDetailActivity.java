@@ -43,7 +43,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -579,11 +578,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setResult(RESULT_OK, getIntent());
 
         if (mTopNews.hasImageUrl()) {
-            mImageLoader.get(imgUrl, new ImageLoader.ImageListener() {
+            mImageLoader.get(imgUrl, new ResizedImageLoader.ImageListener() {
                 @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    Bitmap bitmap = response.getBitmap();
-
+                public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
                     if (bitmap == null && isImmediate) {
                         // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
                         return;
@@ -598,7 +595,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 }
 
                 @Override
-                public void onErrorResponse(VolleyError error) {
+                public void onFail(VolleyError error) {
                     applyDummyNewsImageFromTop();
 
 //                    animateTopItems();

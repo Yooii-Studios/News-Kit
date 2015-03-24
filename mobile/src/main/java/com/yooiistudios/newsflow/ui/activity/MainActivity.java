@@ -763,18 +763,14 @@ public class MainActivity extends ActionBarActivity
                             NewsSelectActivity.KEY_RSS_FETCHABLE);
                     if (rssFetchable != null) {
                         hideEditLayout();
-                        NLLog.now("news topic selected");
 
                         newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
                         if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            NLLog.now("bottom");
                             int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
-                            NLLog.now("idx : " + idx);
                             if (idx >= 0) {
                                 mMainBottomContainerLayout.applyNewsTopicAt(rssFetchable, idx);
                             }
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            NLLog.now("top");
                             mMainTopContainerLayout.applyNewsTopic(rssFetchable);
                         }
 //                        replaceNewsFeed(newsTopic);

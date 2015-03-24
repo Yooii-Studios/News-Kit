@@ -12,12 +12,11 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectDetailAdapter;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.ArrayList;
 
@@ -86,8 +85,6 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NLLog.now("position: " + position);
-
         NewsTopic selectedTopic = mNewsProvider.getNewsTopicList().get(position);
 
         getActivity().getIntent().putExtra(NewsSelectActivity.KEY_RSS_FETCHABLE, selectedTopic);

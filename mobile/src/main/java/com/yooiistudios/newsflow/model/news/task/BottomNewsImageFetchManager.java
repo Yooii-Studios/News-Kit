@@ -1,11 +1,11 @@
 package com.yooiistudios.newsflow.model.news.task;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Pair;
 import android.util.SparseArray;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
@@ -168,18 +168,17 @@ public class BottomNewsImageFetchManager
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             } else {
                 if (news.hasImageUrl()) {
-                    imageLoader.get(news.getImageUrl(), new ImageLoader.ImageListener() {
+                    imageLoader.get(news.getImageUrl(), new ResizedImageLoader.ImageListener() {
                         @Override
-                        public void onResponse(ImageLoader.ImageContainer response,
-                                               boolean isImmediate) {
-                            if (response.getBitmap() == null && isImmediate) {
+                        public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
+                            if (bitmap == null && isImmediate) {
                                 return;
                             }
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
                         }
 
                         @Override
-                        public void onErrorResponse(VolleyError error) {
+                        public void onFail(VolleyError error) {
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
                         }
                     });

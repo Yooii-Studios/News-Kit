@@ -211,62 +211,56 @@ public class MainBottomAdapter extends
 
             if (currentNewsIndex != previousRequestIdx) {
                 tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request);
-                ((ImageLoader.ImageContainer) tag).cancelRequest();
+                if (tag != null) {
+                    ((ImageLoader.ImageContainer) tag).cancelRequest();
+                }
             }
         }
         ImageLoader.ImageContainer imageContainer =
-                mImageLoader.get(imageUrl, new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                final Bitmap bitmap = response.getBitmap();
+                mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
+                    @Override
+                    public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
+                        if (bitmap == null && isImmediate) {
+                            // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                            return;
+                        }
 
-                if (bitmap == null && isImmediate) {
-                    // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
-//                    viewHolder.progressBar.setVisibility(View.GONE);
-                    return;
-                }
+                        if (bitmap != null) {
+                            NLLog.now(String.format("Bottom.\nbitmap width: %4d, height: %4d",
+                                    bitmap.getWidth(), bitmap.getHeight()));
+                            viewHolder.progressBar.setVisibility(View.GONE);
 
-//                if (viewHolder.imageView.getAnimation() != null) {
-//                    viewHolder.progressBar.setVisibility(View.GONE);
-//                }
+                            viewHolder.imageView.setImageBitmap(bitmap);
 
-                if (bitmap != null) {
-                    NLLog.now(String.format("bitmap width: %4d, height: %4d",
-                            bitmap.getWidth(), bitmap.getHeight()));
-                    viewHolder.progressBar.setVisibility(View.GONE);
-
-                    viewHolder.imageView.setImageBitmap(bitmap);
-//                    setOnClickListener(viewHolder, position);
-
-                    // apply palette
-                    Palette palette = Palette.generate(bitmap);
-                    int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-                    if (vibrantColor != Color.TRANSPARENT) {
-                        int red = Color.red(vibrantColor);
-                        int green = Color.green(vibrantColor);
-                        int blue = Color.blue(vibrantColor);
-                        int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                        viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-                        viewHolder.imageView.setTag(TintType.PALETTE);
-                    } else {
-                        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+                            // apply palette
+                            Palette palette = Palette.generate(bitmap);
+                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+                            if (vibrantColor != Color.TRANSPARENT) {
+                                int red = Color.red(vibrantColor);
+                                int green = Color.green(vibrantColor);
+                                int blue = Color.blue(vibrantColor);
+                                int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                                viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+                                viewHolder.imageView.setTag(TintType.PALETTE);
+                            } else {
+                                viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+                                viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+                            }
+                        } else {
+                            if (!displayingNews.isImageUrlChecked()) {
+                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
+                                showLoading(viewHolder);
+                            } else {
+                                showDummyImage(viewHolder);
+                            }
+                        }
                     }
-                } else {
-                    if (!displayingNews.isImageUrlChecked()) {
-                        // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
-                        showLoading(viewHolder);
-                    } else {
+
+                    @Override
+                    public void onFail(VolleyError error) {
                         showDummyImage(viewHolder);
                     }
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showDummyImage(viewHolder);
-            }
-        });
+                });
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
                 mNewsFeedList.get(position).getDisplayingNewsIndex());

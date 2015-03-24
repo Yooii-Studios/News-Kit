@@ -1,9 +1,9 @@
 package com.yooiistudios.newsflow.model.news.task;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
@@ -54,17 +54,17 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
             mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
 
             if (mNews.hasImageUrl()) {
-                mImageLoader.get(mNews.getImageUrl(), new ImageLoader.ImageListener() {
+                mImageLoader.get(mNews.getImageUrl(), new ResizedImageLoader.ImageListener() {
                     @Override
-                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                        if (response.getBitmap() == null && isImmediate) {
+                    public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
+                        if (bitmap == null && isImmediate) {
                             return;
                         }
                         mListener.onFetchImage(mNews, mPosition, mTaskType);
                     }
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onFail(VolleyError error) {
                         mListener.onFetchImage(mNews, mPosition, mTaskType);
                     }
                 });

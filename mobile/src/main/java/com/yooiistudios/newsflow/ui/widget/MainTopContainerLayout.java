@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
@@ -477,10 +477,10 @@ public class MainTopContainerLayout extends FrameLayout
 
     private void applyImage(String url, final int position,
                             final TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-        mImageLoader.get(url, new ImageLoader.ImageListener() {
+        mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
             @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                if (response.getBitmap() == null && isImmediate) {
+            public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
+                if (bitmap == null && isImmediate) {
                     return;
                 }
 
@@ -495,7 +495,7 @@ public class MainTopContainerLayout extends FrameLayout
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFail(VolleyError error) {
                 if (position == 0) {
                     notifyOnReady(taskType);
 

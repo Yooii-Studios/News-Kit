@@ -1,17 +1,21 @@
 package com.yooiistudios.newsflow.model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.support.v4.app.FragmentActivity;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.cache.volley.CacheAsyncTask;
 import com.yooiistudios.newsflow.core.cache.volley.ImageCache;
+import com.yooiistudios.newsflow.core.cache.volley.ImageResizer;
 import com.yooiistudios.newsflow.core.news.ImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.SimpleImageCache;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 24.
@@ -20,6 +24,10 @@ import com.yooiistudios.newsflow.core.util.Display;
  *  리사이징을 강제하는 이미지 로더
  */
 public class ResizedImageLoader {
+    public interface ImageListener {
+        public void onSuccess(String url, Bitmap bitmap, boolean isImmediate);
+        public void onFail(VolleyError error);
+    }
     private ImageLoader mImageLoader;
     private ImageCache mCache;
     private Point mImageSize;
@@ -63,9 +71,89 @@ public class ResizedImageLoader {
         return new ResizedImageLoader(context);
     }
 
-    public ImageLoader.ImageContainer get(String requestUrl,
-                                          ImageLoader.ImageListener imageListener) {
-        return mImageLoader.get(requestUrl, imageListener, mImageSize.x, mImageSize.y);
+    public ImageLoader.ImageContainer get(String requestUrl, ImageListener imageListener) {
+        ImageRequest request = new ImageRequest();
+        request.url = requestUrl;
+        request.type = ImageRequest.TYPE_LARGE;
+
+        return get(request, imageListener);
+    }
+
+    public ImageLoader.ImageContainer getThumbnail(String requestUrl, ImageListener imageListener) {
+        Bitmap bitmap = getCachedThumbnail(requestUrl);
+        if (bitmap != null) {
+            imageListener.onSuccess(requestUrl, bitmap, true);
+
+            return null;
+        } else {
+            ImageRequest request = new ImageRequest();
+            request.url = requestUrl;
+            request.type = ImageRequest.TYPE_THUMBNAIL;
+
+            return get(request, imageListener);
+        }
+    }
+
+    private Bitmap getCachedThumbnail(String requestUrl) {
+        return mCache.getBitmap(getThumbnailCacheKey(requestUrl));
+    }
+
+    private ImageLoader.ImageContainer get(final ImageRequest request,
+                                          final ImageListener imageListener) {
+        return mImageLoader.get(request.url, new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                Bitmap bitmap = response.getBitmap();
+                if (bitmap != null) {
+                    NLLog.now(String.format("TYPE_LARGE\nbitmap width: %4d, height: %4d",
+                            bitmap.getWidth(), bitmap.getHeight()));
+                    if (request.type == ImageRequest.TYPE_LARGE) {
+                        imageListener.onSuccess(request.url, bitmap, isImmediate);
+                    }
+                    cacheThumbnail(bitmap, request, imageListener);
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                imageListener.onFail(error);
+            }
+        }, mImageSize.x, mImageSize.y);
+    }
+
+    private void cacheThumbnail(final Bitmap bitmap, final ImageRequest request,
+                                final ImageListener imageListener) {
+        Bitmap thumbnail = getCachedThumbnail(request.url);
+        if (thumbnail == null) {
+            int targetWidth = bitmap.getWidth() / 2;
+            int targetHeight = bitmap.getHeight() / 2;
+            ImageResizer.createScaledBitmap(bitmap, targetWidth, targetHeight, false,
+                    new ImageResizer.ResizeListener() {
+                        @Override
+                        public void onResize(Bitmap resizedBitmap) {
+                            NLLog.now(String.format("TYPE_THUMBNAIL\nbitmap width: %4d, height: %4d",
+                                    resizedBitmap.getWidth(), resizedBitmap.getHeight()));
+                            mCache.putBitmap(getThumbnailCacheKey(request.url), resizedBitmap);
+                            if (request.type == ImageRequest.TYPE_LARGE) {
+//                                resizedBitmap.recycle();
+                            } else if (request.type == ImageRequest.TYPE_THUMBNAIL) {
+                                imageListener.onSuccess(request.url, resizedBitmap, false);
+//                                bitmap.recycle();
+                            }
+                        }
+                    });
+        }
+//        else {
+//            if (request.type == ImageRequest.TYPE_LARGE) {
+//                thumbnail.recycle();
+//            } else if (request.type == ImageRequest.TYPE_THUMBNAIL) {
+//                bitmap.recycle();
+//            }
+//        }
+    }
+
+    private static String getThumbnailCacheKey(String url) {
+        return "th_" + url;
     }
 
     public void flushCache() {
@@ -74,5 +162,12 @@ public class ResizedImageLoader {
 
     public void closeCache() {
         CacheAsyncTask.closeCache(mCache);
+    }
+
+    private static class ImageRequest {
+        public static final int TYPE_LARGE = 0;
+        public static final int TYPE_THUMBNAIL = 1;
+        public String url;
+        public int type;
     }
 }
