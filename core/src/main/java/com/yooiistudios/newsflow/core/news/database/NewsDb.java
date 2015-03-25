@@ -35,7 +35,7 @@ import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFe
 public class NewsDb {
     private static final int TOP_NEWS_FEED_INDEX = -1;
     private static final int BOTTOM_NEWS_FEED_INITIAL_INDEX = 0;
-    private static final boolean DEBUG_BLOCK_SHUFFLE = true;
+    private static final boolean DEBUG_BLOCK_SHUFFLE = false;
 
     private NewsDbHelper mHelper;
     private SQLiteDatabase mDatabase;
