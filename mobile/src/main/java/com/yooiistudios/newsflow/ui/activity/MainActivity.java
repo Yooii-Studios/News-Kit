@@ -610,16 +610,8 @@ public class MainActivity extends ActionBarActivity
     private void showMainContentIfReady() {
         boolean topReady = mMainTopContainerLayout.isReady();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
-
         if (!mLoadingAnimationView.isAnimating()) {
             mLoadingAnimationView.startPanelAnimation();
-        }
-
-        // FIXME: 나중에 이 로직의 필요 여부를 확인하고 만약 필요없다면 삭제 필요
-        // 이 로직의 존재 이유는 모르겠지만 remove 되었을 때에는 바로 return
-        if (mLoadingAnimationView.getParent() != mRootLayout) {
-            NLLog.now("mLoadingAnimationView.getParent() != mRootLayout");
-            return;
         }
 
         if (topReady && bottomReady) {

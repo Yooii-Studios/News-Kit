@@ -36,7 +36,7 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
     private static final int CIRCLE_SCALE_DOWN_ANIM_DURATION = 190;
     private static final int REVEAL_ANIM_START_DELAY = 140;
     private static final int REVEAL_ANIM_DURATION = 520;
-    private static final int BACKGROUND_FADE_ANIM_DURATION = 1200;
+    private static final int BACKGROUND_FADE_ANIM_DURATION = 1000;
 
     private LinearLayout mPanelLayout;
     private View mTopView;
@@ -144,11 +144,8 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
+                            mIsAnimating = false;
                             startPanelAnimation();
-
-                            // test
-//                            stopPanelAnimation();
-//                            mCircleView.startCircleAnimation(LoadingAnimationView.this);
                         }
                     });
                 } else if (needCallback) {
