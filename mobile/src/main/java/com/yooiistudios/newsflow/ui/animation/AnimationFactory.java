@@ -143,6 +143,21 @@ public class AnimationFactory {
         return interpolator;
     }
 
+    public static TimeInterpolator createFastOutSlowInInterpolator() {
+        float oneX = .38f;
+        float oneY = .12f;
+        float twoX = .04f;
+        float twoY = 1.f;
+
+        TimeInterpolator interpolator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = new PathInterpolator(oneX, oneY, twoX, twoY);
+        } else {
+            interpolator = new CubicBezierInterpolator(oneX, oneY, twoX, twoY);
+        }
+        return interpolator;
+    }
+
 //    public static void animateEditLayoutFadeIn(final View viewToAnimate) {
 //        viewToAnimate.setAlpha(0);
 //        viewToAnimate.animate()

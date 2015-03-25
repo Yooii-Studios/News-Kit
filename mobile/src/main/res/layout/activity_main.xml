@@ -54,35 +54,8 @@
         <!--ads:adSize="SMART_BANNER"-->
         <!--ads:adUnitId="ca-app-pub-2310680050309555/9954673820" />-->
 
-    <RelativeLayout
-        android:id="@+id/main_loading_container"
+    <com.yooiistudios.newsflow.ui.widget.LoadingAnimationView
+        android:id="@+id/main_loading_anim_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#6fff">
-        <!-- android:background="#6fff"> -->
-
-        <ImageView
-            android:id="@+id/main_loading_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/main_cover_refresh_anim_drawable"
-            android:contentDescription="@string/content_description"/>
-
-        <!--
-        <ProgressBar
-            android:id="@+id/main_loading_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            style="@android:style/Widget.Material.ProgressBar"/>
-        -->
-
-        <TextView
-            android:id="@+id/main_loading_log"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/main_loading_image_view"/>
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
 </RelativeLayout>

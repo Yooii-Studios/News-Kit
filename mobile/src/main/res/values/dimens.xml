@@ -50,6 +50,15 @@
     <dimen name="main_bottom_text_padding">16dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">6dp</dimen>
 
+    <!-- Loading Animation -->
+    <dimen name="loading_anim_padding">4dp</dimen>
+    <dimen name="loading_anim_top_view_width">50dp</dimen> <!-- bottom * 2 + padding -->
+    <dimen name="loading_anim_bottom_view_width">23dp</dimen> <!-- 4:3 비율 -->
+    <dimen name="loading_anim_view_height">18dp</dimen>
+
+    <dimen name="loading_circle_view_size">106dp</dimen> <!-- 100dp + 1/2 stroke * 2(양쪽)-->
+    <dimen name="loading_circle_stroke_width">6dp</dimen>
+
     <!-- Newsfeed Detail -->
     <dimen name="detail_text_padding">14dp</dimen>
     <dimen name="detail_text_inner_padding">4dp</dimen>

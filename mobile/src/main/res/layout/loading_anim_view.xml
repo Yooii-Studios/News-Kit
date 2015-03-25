@@ -1,0 +1,97 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/loading_panel_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/loading_anim_top_view"
+            android:layout_width="@dimen/loading_anim_top_view_width"
+            android:layout_height="@dimen/loading_anim_view_height"
+            android:background="@android:color/white"/>
+
+        <View
+            android:layout_width="@dimen/loading_anim_top_view_width"
+            android:layout_height="@dimen/loading_anim_padding"
+            android:background="@android:color/transparent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/loading_anim_bottom_view1"
+                android:layout_width="@dimen/loading_anim_bottom_view_width"
+                android:layout_height="@dimen/loading_anim_view_height"
+                android:background="@color/material_white_primary_text"/>
+
+            <View
+                android:layout_width="@dimen/loading_anim_padding"
+                android:layout_height="@dimen/loading_anim_view_height"
+                android:background="@android:color/transparent"/>
+
+            <View
+                android:id="@+id/loading_anim_bottom_view2"
+                android:layout_width="@dimen/loading_anim_bottom_view_width"
+                android:layout_height="@dimen/loading_anim_view_height"
+                android:background="@color/material_white_primary_text"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/loading_anim_top_view_width"
+            android:layout_height="@dimen/loading_anim_padding"
+            android:background="@android:color/transparent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/loading_anim_bottom_view3"
+                android:layout_width="@dimen/loading_anim_bottom_view_width"
+                android:layout_height="@dimen/loading_anim_view_height"
+                android:background="@color/material_white_primary_text"/>
+
+            <View
+                android:layout_width="@dimen/loading_anim_padding"
+                android:layout_height="@dimen/loading_anim_view_height"
+                android:background="@android:color/transparent"/>
+
+            <View
+                android:id="@+id/loading_anim_bottom_view4"
+                android:layout_width="@dimen/loading_anim_bottom_view_width"
+                android:layout_height="@dimen/loading_anim_view_height"
+                android:background="@color/material_white_primary_text"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.yooiistudios.newsflow.ui.widget.ArcProgressView
+        android:id="@+id/loading_circle_view"
+        android:layout_width="@dimen/loading_circle_view_size"
+        android:layout_height="@dimen/loading_circle_view_size"
+        android:layout_gravity="center"/>
+
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:id="@+id/loading_reveal_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|bottom"
+            android:background="@color/material_white_primary_text"
+            android:visibility="gone"/>
+    </io.codetail.widget.RevealFrameLayout>
+</merge>
