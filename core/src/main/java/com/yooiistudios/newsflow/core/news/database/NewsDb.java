@@ -5,13 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.support.v7.graphics.Palette;
 
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
-import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
+import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
 import com.yooiistudios.newsflow.core.util.ExternalStorage;
 
 import java.io.File;
@@ -25,6 +27,7 @@ import java.util.Collections;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.PaletteColorEntry;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 15. 1. 4.
@@ -222,6 +225,42 @@ public class NewsDb {
     public void saveBottomNewsImageUrlWithGuid(String imageUrl,
                                                int newsFeedPosition, String guid) {
         insertNewsImage(imageUrl, newsFeedPosition, guid);
+    }
+
+    public void savePaletteColor(String url, Palette palette) {
+        int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+
+        ContentValues colorValues = new ContentValues();
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_IMAGE_URL, url);
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, vibrantColor);
+
+        mDatabase.delete(PaletteColorEntry.TABLE_NAME,
+                PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?", new String[]{ url });
+        mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
+    }
+
+    public int loadVibrantColor(String url) {
+        String[] colorWhereArgs = { String.valueOf(url) };
+
+        Cursor colorsCursor = mDatabase.query(
+                PaletteColorEntry.TABLE_NAME,
+                null,
+                PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?",
+                colorWhereArgs,
+                null, null, null);
+        colorsCursor.moveToFirst();
+
+        int vibrantColor = Color.TRANSPARENT;
+        while (!colorsCursor.isAfterLast()) {
+            vibrantColor = colorsCursor.getInt(
+                    colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT));
+
+            colorsCursor.moveToNext();
+        }
+
+        colorsCursor.close();
+
+        return vibrantColor;
     }
 
 //    private void saveNewsContentTextsWithGuid(String guid, List<String> textList) {

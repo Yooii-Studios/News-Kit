@@ -85,7 +85,8 @@ public class SimpleImageCache {
         ImageCache.ImageCacheParams cacheParams =
                 new ImageCache.ImageCacheParams(context.getApplicationContext(), "image");
 
-        cacheParams.setMemCacheSizePercent(0.08f); // Set memory cache to 25% of app memory
+        cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
+        cacheParams.diskCacheSize = 50 * 1024 * 1024; // 10MB
         return cacheParams;
     }
 }

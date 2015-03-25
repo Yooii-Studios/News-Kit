@@ -33,6 +33,7 @@ dependencies {
     compile project(':libraries:Volley')
     compile project(':libraries:Snacktory')
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile "com.android.support:palette-v7:21.0.0"
 
     // (Android Studio 용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
     compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근

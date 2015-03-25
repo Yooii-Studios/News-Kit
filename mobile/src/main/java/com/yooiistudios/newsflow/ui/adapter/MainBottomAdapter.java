@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.support.annotation.IntDef;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -219,41 +217,34 @@ public class MainBottomAdapter extends
         ImageLoader.ImageContainer imageContainer =
                 mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
                     @Override
-                    public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
-                        if (bitmap == null && isImmediate) {
-                            // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
-                            return;
-                        }
+                    public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                        Bitmap bitmap = response.bitmap;
+                        viewHolder.progressBar.setVisibility(View.GONE);
 
-                        if (bitmap != null) {
-                            NLLog.now(String.format("Bottom.\nbitmap width: %4d, height: %4d",
-                                    bitmap.getWidth(), bitmap.getHeight()));
-                            viewHolder.progressBar.setVisibility(View.GONE);
+                        viewHolder.imageView.setImageBitmap(bitmap);
 
-                            viewHolder.imageView.setImageBitmap(bitmap);
-
-                            // apply palette
-                            Palette palette = Palette.generate(bitmap);
-                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-                            if (vibrantColor != Color.TRANSPARENT) {
-                                int red = Color.red(vibrantColor);
-                                int green = Color.green(vibrantColor);
-                                int blue = Color.blue(vibrantColor);
-                                int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                                viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-                                viewHolder.imageView.setTag(TintType.PALETTE);
-                            } else {
-                                viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-                                viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
-                            }
+                        // apply palette
+//                            Palette palette = Palette.generate(bitmap);
+//                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+                        int vibrantColor = response.vibrantColor;
+                        if (vibrantColor != Color.TRANSPARENT) {
+                            int red = Color.red(vibrantColor);
+                            int green = Color.green(vibrantColor);
+                            int blue = Color.blue(vibrantColor);
+                            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                            viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+                            viewHolder.imageView.setTag(TintType.PALETTE);
                         } else {
-                            if (!displayingNews.isImageUrlChecked()) {
-                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
-                                showLoading(viewHolder);
-                            } else {
-                                showDummyImage(viewHolder);
-                            }
+                            viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+                            viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
                         }
+//                        } else {
+//                            if (!displayingNews.isImageUrlChecked()) {
+//                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
+//                                showLoading(viewHolder);
+//                            } else {
+//                                showDummyImage(viewHolder);
+//                            }
                     }
 
                     @Override

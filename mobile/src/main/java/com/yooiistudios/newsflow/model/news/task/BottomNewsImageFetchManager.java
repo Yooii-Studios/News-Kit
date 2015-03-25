@@ -1,6 +1,5 @@
 package com.yooiistudios.newsflow.model.news.task;
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -170,10 +169,7 @@ public class BottomNewsImageFetchManager
                 if (news.hasImageUrl()) {
                     imageLoader.get(news.getImageUrl(), new ResizedImageLoader.ImageListener() {
                         @Override
-                        public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
-                            if (bitmap == null && isImmediate) {
-                                return;
-                            }
+                        public void onSuccess(ResizedImageLoader.ImageResponse response) {
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
                         }
 

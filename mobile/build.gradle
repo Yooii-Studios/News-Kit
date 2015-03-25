@@ -76,7 +76,6 @@ dependencies {
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     compile "com.android.support:cardview-v7:21.0.0"
     compile "com.android.support:recyclerview-v7:21.0.0"
-    compile "com.android.support:palette-v7:21.0.0"
 
     // view pager 에 쓰임
     compile "com.android.support:support-v13:20.0.0"

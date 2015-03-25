@@ -9,6 +9,7 @@ import com.yooiistudios.newsflow.core.util.NLLog;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
+import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.PaletteColorEntry;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 15. 1. 4.
@@ -19,7 +20,7 @@ import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFe
 public class NewsDbHelper extends SQLiteOpenHelper {
     private static final String TAG = NewsDbHelper.class.getName();
     public static final String DB_NAME = "NewsArchive.db";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     // Macro
     private static final String TEXT_TYPE = " TEXT";
@@ -72,6 +73,12 @@ public class NewsDbHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY(" + NewsContentEntry.COLUMN_NAME_GUID + ")" +
                     " REFERENCES " + NewsEntry.TABLE_NAME + "(" + NewsEntry.COLUMN_NAME_GUID + ")" +
                     " )";
+    private static final String SQL_CREATE_PALETTE_COLOR_ENTRY =
+            "CREATE TABLE " + PaletteColorEntry.TABLE_NAME + " (" +
+                    PaletteColorEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    PaletteColorEntry.COLUMN_NAME_IMAGE_URL     + TEXT_TYPE + COMMA_SEP +
+                    PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT + INT_TYPE  +
+                    " )";
 //    private static final String SQL_CREATE_NEWS_CONTENT_TEXT_ENTRY =
 //            "CREATE TABLE " + NewsContentTextEntry.TABLE_NAME + " (" +
 //                    NewsContentTextEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -97,6 +104,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
     public static final String SQL_DROP_NEWSFEED_ENTRY = "DROP TABLE " + NewsFeedEntry.TABLE_NAME;
     public static final String SQL_DROP_NEWS_ENTRY = "DROP TABLE " + NewsEntry.TABLE_NAME;
     public static final String SQL_DROP_NEWS_CONTENT_ENTRY = "DROP TABLE " + NewsContentEntry.TABLE_NAME;
+    public static final String SQL_DROP_PALETTE_COLOR_ENTRY = "DROP TABLE " + PaletteColorEntry.TABLE_NAME;
 //    public static final String SQL_DROP_NEWS_CONTENT_TEXT_ENTRY = "DROP TABLE " + NewsContentTextEntry.TABLE_NAME;
 //    public static final String SQL_DROP_NEWS_CONTENT_IMAGE_ENTRY = "DROP TABLE " + NewsContentImageEntry.TABLE_NAME;
 
@@ -113,6 +121,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_NEWSFEED_ENTRY);
         db.execSQL(SQL_CREATE_NEWS_ENTRY);
         db.execSQL(SQL_CREATE_NEWS_CONTENT_ENTRY);
+        db.execSQL(SQL_CREATE_PALETTE_COLOR_ENTRY);
 //        db.execSQL(SQL_CREATE_NEWS_CONTENT_TEXT_ENTRY);
 //        db.execSQL(SQL_CREATE_NEWS_CONTENT_IMAGE_ENTRY);
     }
@@ -122,6 +131,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DROP_NEWS_ENTRY);
         if (oldVersion >= 5) {
             db.execSQL(SQL_DROP_NEWS_CONTENT_ENTRY);
+            db.execSQL(SQL_DROP_PALETTE_COLOR_ENTRY);
 //            db.execSQL(SQL_DROP_NEWS_CONTENT_TEXT_ENTRY);
 //            db.execSQL(SQL_DROP_NEWS_CONTENT_IMAGE_ENTRY);
         }
@@ -132,7 +142,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         // 데이터베이스 구조가 바뀐 경우(데이터베이스에 컬럼이 추가되거나 새 테이블이 추가된 경우 등)
         // DB_VERSION 을 증가시키고 버전 체크를 해 필요한 처리를 한다.
         NLLog.i(TAG, "oldVersion : " + oldVersion + "\nnewVersion : " + newVersion);
-        if (oldVersion < 6) {
+        if (oldVersion < 7) {
             dropAllTables(db, oldVersion);
             createAllTables(db);
         }
