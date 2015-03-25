@@ -189,10 +189,8 @@ public class ResizedImageLoader {
                                 final ThumbnailListener listener) {
         Bitmap thumbnail = getCachedThumbnail(request.url);
         if (thumbnail == null) {
-            NLLog.now("original image. width: " + bitmap.getWidth() + ", height: " + bitmap.getHeight());
             int targetWidth = bitmap.getWidth() / 2;
             int targetHeight = bitmap.getHeight() / 2;
-            NLLog.now("original image. width: " + bitmap.getWidth() + ", height: " + bitmap.getHeight());
             ImageResizer.createScaledBitmap(bitmap, targetWidth, targetHeight, false, false,
                     new ImageResizer.ResizeListener() {
                         @Override

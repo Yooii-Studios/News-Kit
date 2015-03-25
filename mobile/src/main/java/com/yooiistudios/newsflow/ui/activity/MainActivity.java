@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -45,6 +43,7 @@ import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
+import com.yooiistudios.newsflow.ui.widget.LoadingAnimationView;
 import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
 import com.yooiistudios.newsflow.ui.widget.MainRefreshLayout;
@@ -94,11 +93,9 @@ public class MainActivity extends ActionBarActivity
     private boolean mIsHandlerRunning = false;
     private NewsAutoRefreshHandler mNewsAutoRefreshHandler = new NewsAutoRefreshHandler(this);
 
-    @InjectView(R.id.main_root_layout)              RelativeLayout mRootView;
+    @InjectView(R.id.main_root_layout)              RelativeLayout mRootLayout;
     @InjectView(R.id.main_toolbar)                  Toolbar mToolbar;
-    @InjectView(R.id.main_loading_container)        ViewGroup mLoadingContainer;
-    @InjectView(R.id.main_loading_log)              TextView mLoadingLog;
-    @InjectView(R.id.main_loading_image_view)       ImageView mLoadingImageView;
+    @InjectView(R.id.main_loading_anim_view)        LoadingAnimationView mLoadingAnimationView;
     @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
     @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
@@ -237,7 +234,8 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void bringLoadingContainerToFront() {
-        mLoadingContainer.bringToFront();
+//        mLoadingContainer.bringToFront();
+        mLoadingAnimationView.bringToFront();
     }
 
     private void initNetworkUnavailableCoverLayout() {
@@ -296,7 +294,7 @@ public class MainActivity extends ActionBarActivity
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        mRootView.addView(mBannerAd, lp);
+        mRootLayout.addView(mBannerAd, lp);
     }
 
     private void configBannerAdOnInsetChanged() {
@@ -424,7 +422,7 @@ public class MainActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
 
-        if (mRootView != null) {
+        if (mRootLayout != null) {
             onConfigurationChanged(getResources().getConfiguration());
             startNewsAutoRefreshIfReady();
         }
@@ -441,7 +439,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     protected void onPause() {
-        if (mRootView != null) {
+        if (mRootLayout != null) {
             mBannerAd.pause();
             mQuitAdView.pause();
             stopNewsAutoRefresh();
@@ -610,40 +608,29 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void showMainContentIfReady() {
+        NLLog.now("showMainContentIfReady");
         boolean topReady = mMainTopContainerLayout.isReady();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
-
-        String loadingStatus = "Top news feed ready : " + topReady
-                + "\nBottom news feed ready : " + bottomReady;
-
-        mLoadingLog.setText(loadingStatus);
-        if (mLoadingImageView.getBackground() instanceof AnimationDrawable) {
-            AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getBackground();
-            if (!animation.isRunning()) {
-                animation.start();
-            }
+        if (!mLoadingAnimationView.isAnimating()) {
+            mLoadingAnimationView.startPanelAnimation();
         }
 
-        if (mLoadingContainer.getVisibility() == View.GONE) {
+        // FIXME: 나중에 이 로직의 필요 여부를 확인하고 만약 필요없다면 삭제 필요
+        // 이 로직의 존재 이유는 모르겠지만 remove 되었을 때에는 바로 return
+        if (mLoadingAnimationView.getParent() != mRootLayout) {
+            NLLog.now("mLoadingAnimationView.getParent() != mRootLayout");
             return;
         }
 
         if (topReady && bottomReady) {
-            mMainTopContainerLayout.animateOnInit();
-            mMainBottomContainerLayout.animateBottomNewsFeedListOnInit();
-
+            NLLog.now("topReady && bottomReady");
             mSwipeRefreshLayout.setRefreshing(false);
-
             setSwipeRefreshLayoutEnabled(true);
 
 //            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
             // loaded
-            if (mLoadingImageView.getBackground() instanceof AnimationDrawable) {
-                AnimationDrawable animation = (AnimationDrawable) mLoadingImageView.getBackground();
-                animation.stop();
-            }
-            mLoadingContainer.setVisibility(View.GONE);
+            mLoadingAnimationView.stopPanelAnimation();
         }
     }
 
@@ -773,7 +760,6 @@ public class MainActivity extends ActionBarActivity
                         } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
                             mMainTopContainerLayout.applyNewsTopic(rssFetchable);
                         }
-//                        replaceNewsFeed(newsTopic);
                     }
                     break;
                 case RC_SETTING:
@@ -832,7 +818,7 @@ public class MainActivity extends ActionBarActivity
         }
         else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
-                && mRootView != null) {
+                && mRootLayout != null) {
             AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);
             if (adDialog != null) {
                 adDialog.show();
