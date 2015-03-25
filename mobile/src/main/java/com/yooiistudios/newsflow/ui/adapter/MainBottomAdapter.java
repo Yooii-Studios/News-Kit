@@ -24,7 +24,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -226,10 +225,7 @@ public class MainBottomAdapter extends
                         }
 
                         if (bitmap != null) {
-                            NLLog.now(String.format("Bottom.\nbitmap width: %4d, height: %4d",
-                                    bitmap.getWidth(), bitmap.getHeight()));
                             viewHolder.progressBar.setVisibility(View.GONE);
-
                             viewHolder.imageView.setImageBitmap(bitmap);
 
                             // apply palette

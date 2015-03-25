@@ -15,7 +15,6 @@ import com.yooiistudios.newsflow.core.cache.volley.ImageResizer;
 import com.yooiistudios.newsflow.core.news.ImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.SimpleImageCache;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 24.
@@ -105,8 +104,6 @@ public class ResizedImageLoader {
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 Bitmap bitmap = response.getBitmap();
                 if (bitmap != null) {
-                    NLLog.now(String.format("TYPE_LARGE\nbitmap width: %4d, height: %4d",
-                            bitmap.getWidth(), bitmap.getHeight()));
                     if (request.type == ImageRequest.TYPE_LARGE) {
                         imageListener.onSuccess(request.url, bitmap, isImmediate);
                     }
@@ -131,8 +128,6 @@ public class ResizedImageLoader {
                     new ImageResizer.ResizeListener() {
                         @Override
                         public void onResize(Bitmap resizedBitmap) {
-                            NLLog.now(String.format("TYPE_THUMBNAIL\nbitmap width: %4d, height: %4d",
-                                    resizedBitmap.getWidth(), resizedBitmap.getHeight()));
                             mCache.putBitmap(getThumbnailCacheKey(request.url), resizedBitmap);
                             if (request.type == ImageRequest.TYPE_LARGE) {
 //                                resizedBitmap.recycle();

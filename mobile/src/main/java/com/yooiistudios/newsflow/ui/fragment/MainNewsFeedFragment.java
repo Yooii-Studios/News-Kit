@@ -16,7 +16,6 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
@@ -170,13 +169,11 @@ public class MainNewsFeedFragment extends Fragment {
                     viewHolder.progressBar.setVisibility(View.GONE);
 
                     if (bitmap == null && isImmediate) {
-                        // 비트맵이 null이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
+                        // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
                         return;
                     }
 
                     if (bitmap != null && viewHolder.imageView != null) {
-                        NLLog.now(String.format("Top.\nbitmap width: %4d, height: %4d",
-                                bitmap.getWidth(), bitmap.getHeight()));
                         viewHolder.imageView.setImageBitmap(bitmap);
                         viewHolder.imageView.setColorFilter(PanelDecoration.getTopGrayFilterColor());
                         viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
