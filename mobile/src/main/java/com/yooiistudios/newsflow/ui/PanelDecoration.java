@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.util.Timestamp;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 4.
@@ -14,8 +17,45 @@ import com.yooiistudios.newsflow.R;
  *  메인, 뉴스피드 디테일 색, 이미지 관련 클래스
  */
 public class PanelDecoration {
+    public interface OnLoadBitmapListener {
+        public void onLoad(Bitmap bitmap);
+    }
+
     public static Bitmap getDummyNewsImage(Context context) {
         return BitmapFactory.decodeResource(context.getResources(), R.drawable.img_news_dummy);
+    }
+
+    public static void applyDummyNewsImageInto(final Context context, final ImageView imageView) {
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                return getDummyNewsImage(context);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+                imageView.setImageBitmap(bitmap);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public static void getDummyNewsImageAsync(final Context context,
+                                              final OnLoadBitmapListener listener) {
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                return getDummyNewsImage(context);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+                if (listener != null) {
+                    listener.onLoad(bitmap);
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /**

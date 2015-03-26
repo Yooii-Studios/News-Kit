@@ -18,7 +18,6 @@ import com.yooiistudios.newsflow.core.news.ImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.SimpleImageCache;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 3. 24.

@@ -24,6 +24,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.Timestamp;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -272,9 +273,6 @@ public class MainBottomAdapter extends
     }
 
     private void showLoading(BottomNewsFeedViewHolder viewHolder) {
-        // XXX UI 프리징 해결을 위해 안보이게 해둠.
-//        viewHolder.progressBar.setVisibility(View.VISIBLE);
-        viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.statusLayout.setVisibility(View.GONE);
         viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.imageView.setImageDrawable(null);
@@ -285,7 +283,8 @@ public class MainBottomAdapter extends
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.statusLayout.setVisibility(View.GONE);
         viewHolder.progressBar.setVisibility(View.GONE);
-        viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
+//        viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
+        PanelDecoration.applyDummyNewsImageInto(mContext, viewHolder.imageView);
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
         viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
 //        setOnClickListener(viewHolder, position);

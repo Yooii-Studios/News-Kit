@@ -48,6 +48,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
@@ -62,8 +63,8 @@ import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.model.debug.DebugSettingDialogFactory;
-import com.yooiistudios.newsflow.model.debug.DebugSettings;
+import com.yooiistudios.newsflow.model.debug.DebugAnimationSettingDialogFactory;
+import com.yooiistudios.newsflow.model.debug.DebugAnimationSettings;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
@@ -471,7 +472,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             autoScrollString += getString(R.string.on);
         }
 
-        if (NLLog.isDebug()) {
+        if (DebugSettings.isDebugBuild()) {
             subMenu.add(Menu.NONE, R.id.action_select_topic, 0, "Select topics(Debug)");
             subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
         }
@@ -525,8 +526,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 return true;
 
             case R.id.action_auto_scroll_setting_debug:
-                DebugSettingDialogFactory.showAutoScrollSettingDialog(this,
-                        new DebugSettingDialogFactory.DebugSettingListener() {
+                DebugAnimationSettingDialogFactory.showAutoScrollSettingDialog(this,
+                        new DebugAnimationSettingDialogFactory.DebugSettingListener() {
                             @Override
                             public void autoScrollSettingSaved() {
                                 startAutoScroll();
@@ -946,10 +947,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mWindowInsetEnd;
 
-        int startDelay = DebugSettings.getStartDelay(this);
-        final int durationForOneItem = DebugSettings.getDurationForEachItem(this);
+        int startDelay = DebugAnimationSettings.getStartDelay(this);
+        final int durationForOneItem = DebugAnimationSettings.getDurationForEachItem(this);
         final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
-        final int middleDelay = DebugSettings.getMidDelay(this);
+        final int middleDelay = DebugAnimationSettings.getMidDelay(this);
         int downScrollDuration = defaultDuration;
 
         // 아래 스크롤은 시작 위치에 따라 시간이 달라질 수 있음
