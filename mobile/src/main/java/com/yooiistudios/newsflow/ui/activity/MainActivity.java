@@ -608,12 +608,8 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void showMainContentIfReady() {
-        NLLog.now("showMainContentIfReady");
         boolean topReady = mMainTopContainerLayout.isReady();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
-        if (!mLoadingAnimationView.isAnimating()) {
-            mLoadingAnimationView.startPanelAnimation();
-        }
 
         if (topReady && bottomReady) {
             NLLog.now("topReady && bottomReady");
@@ -622,8 +618,18 @@ public class MainActivity extends ActionBarActivity
 
 //            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
 
-            // loaded
-            mLoadingAnimationView.stopPanelAnimation();
+            if (!mLoadingAnimationView.isAnimating()) {
+                NLLog.now("!mLoadingAnimationView.isAnimating()");
+                // onCreate 에서 바로 캐시를 읽어 올 경우
+                mLoadingAnimationView.startCircleAnimation();
+            } else {
+                NLLog.now("mLoadingAnimationView.isAnimating()");
+                // Top, Bottom Layout 에서 불리는 경우, 패널 애니메이션 중
+                mLoadingAnimationView.stopPanelAnimationAndStartArcAnimation();
+            }
+        } else {
+            NLLog.now("!(topReady && bottomReady)");
+            mLoadingAnimationView.startPanelAnimation();
         }
     }
 

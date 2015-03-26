@@ -75,7 +75,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.yooiistudios.newsflow.ui.widget.ArcProgressView
+    <com.yooiistudios.newsflow.ui.widget.LoadingCircleProgressView
         android:id="@+id/loading_circle_view"
         android:layout_width="@dimen/loading_circle_view_size"
         android:layout_height="@dimen/loading_circle_view_size"

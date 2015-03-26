@@ -28,7 +28,7 @@ import io.codetail.animation.SupportAnimator;
  * LoadingAnimationView
  *  첫 로딩 애니메이션을 구현한 뷰
  */
-public class LoadingAnimationView extends FrameLayout implements ArcProgressView.CircleAnimationListener {
+public class LoadingAnimationView extends FrameLayout implements LoadingCircleProgressView.CircleAnimationListener {
     private static final int PANEL_ANIM_DURATION = 400;
     private static final int PANEL_ANIM_START_DELAY = 180;
     private static final float FADE_ALPHA = 0.15f;
@@ -44,11 +44,11 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
     private View mBottomView2; // 우상단
     private View mBottomView3; // 좌하단
     private View mBottomView4; // 우하단
-    private ArcProgressView mCircleView;
+    private LoadingCircleProgressView mCircleProcessView;
     private View mRevealView;
 
     private boolean mIsAnimating = false;
-    private boolean mNeedToFinishAnimation = false;
+    private boolean mNeedToFinishPanelAnimation = false;
 
     public LoadingAnimationView(Context context) {
         super(context);
@@ -76,7 +76,7 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
         mBottomView3 = findViewById(R.id.loading_anim_bottom_view3);
         mBottomView4 = findViewById(R.id.loading_anim_bottom_view4);
 
-        mCircleView = (ArcProgressView) findViewById(R.id.loading_circle_view);
+        mCircleProcessView = (LoadingCircleProgressView) findViewById(R.id.loading_circle_view);
 
         mRevealView = findViewById(R.id.loading_reveal_view);
         mRevealView.setVisibility(View.GONE);
@@ -106,8 +106,15 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
         }
     }
 
-    public void stopPanelAnimation() {
-        mNeedToFinishAnimation = true;
+    public void startCircleAnimation() {
+        if (!mIsAnimating) {
+            mIsAnimating = true;
+            mCircleProcessView.startCircleAnimation(LoadingAnimationView.this);
+        }
+    }
+
+    public void stopPanelAnimationAndStartArcAnimation() {
+        mNeedToFinishPanelAnimation = true;
     }
 
     private void startTopViewAnimation() {
@@ -139,7 +146,7 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
                 super.onAnimationEnd(animation);
                 ValueAnimator fadeOutAnim = ObjectAnimator.ofFloat(target, "alpha", FADE_ALPHA, 1.f);
                 fadeOutAnim.setDuration(PANEL_ANIM_DURATION);
-                if (needCallback && !mNeedToFinishAnimation) {
+                if (needCallback && !mNeedToFinishPanelAnimation) {
                     fadeOutAnim.addListener(new AnimatorListenerImpl() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -153,8 +160,8 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            stopPanelAnimation();
-                            mCircleView.startCircleAnimation(LoadingAnimationView.this);
+                            stopPanelAnimationAndStartArcAnimation();
+                            mCircleProcessView.startCircleAnimation(LoadingAnimationView.this);
                         }
                     });
                 }
@@ -193,15 +200,15 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
     }
 
     private ValueAnimator createCircleScaleUpAnimation() {
-        int originalWidth = mCircleView.getWidth();
-        int targetWidth = (int) (mCircleView.getWidth() * 1.08f);
+        int originalWidth = mCircleProcessView.getWidth();
+        int targetWidth = (int) (mCircleProcessView.getWidth() * 1.08f);
 
         ValueAnimator animator = ValueAnimator.ofInt(originalWidth, targetWidth);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int animatedViewSize = (int) animation.getAnimatedValue();
-                mCircleView.invalidateWidthCircleSize(animatedViewSize);
+                mCircleProcessView.invalidateWidthCircleSize(animatedViewSize);
             }
         });
 
@@ -211,13 +218,13 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
     }
 
     private ValueAnimator createCircleScaleDownAnimation() {
-        int targetWidth = (int) (mCircleView.getWidth() * 1.08f);
+        int targetWidth = (int) (mCircleProcessView.getWidth() * 1.08f);
         ValueAnimator circleScaleDownAnim = ValueAnimator.ofInt(targetWidth, 0);
         circleScaleDownAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int animatedViewSize = (int) animation.getAnimatedValue();
-                mCircleView.invalidateWidthCircleSize(animatedViewSize);
+                mCircleProcessView.invalidateWidthCircleSize(animatedViewSize);
             }
         });
         circleScaleDownAnim.setDuration(CIRCLE_SCALE_DOWN_ANIM_DURATION);
@@ -227,7 +234,7 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
 
     private void startRevealAnimation() {
         // 하얀색으로 화면을 가득 채워야함
-        mCircleView.setVisibility(View.GONE);
+        mCircleProcessView.setVisibility(View.GONE);
         mPanelLayout.setVisibility(View.GONE);
 
         if (Device.hasLollipop()) {
@@ -281,12 +288,10 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
             }
 
             @Override
-            public void onAnimationCancel() {
-            }
+            public void onAnimationCancel() {}
 
             @Override
-            public void onAnimationRepeat() {
-            }
+            public void onAnimationRepeat() {}
 
             @Override
             public void onAnimationEnd() {
@@ -334,7 +339,7 @@ public class LoadingAnimationView extends FrameLayout implements ArcProgressView
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mIsAnimating = false;
-                mNeedToFinishAnimation = false;
+                mNeedToFinishPanelAnimation = false;
                 ((ViewGroup) getParent()).removeView(LoadingAnimationView.this);
             }
         });
