@@ -267,7 +267,9 @@ public class MainBottomAdapter extends
     }
 
     private void showLoading(BottomNewsFeedViewHolder viewHolder) {
-        viewHolder.progressBar.setVisibility(View.VISIBLE);
+        // XXX UI 프리징 해결을 위해 안보이게 해둠.
+//        viewHolder.progressBar.setVisibility(View.VISIBLE);
+        viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageDrawable(null);
         viewHolder.imageView.setColorFilter(null);
 //        viewHolder.itemView.setOnClickListener(null);

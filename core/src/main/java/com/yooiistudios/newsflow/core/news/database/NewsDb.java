@@ -137,6 +137,8 @@ public class NewsDb {
         ArrayList<NewsFeed> newsFeedList = new ArrayList<>();
         if (newsFeedCursor.getCount() <= 0) {
             // no saved top news feed
+            newsFeedCursor.close();
+
             ArrayList<NewsFeed> defaultNewsFeedList =
                     DefaultNewsFeedProvider.getDefaultBottomNewsFeedList(context);
             saveBottomNewsFeedList(defaultNewsFeedList);
@@ -360,6 +362,7 @@ public class NewsDb {
         newsContentCursor.moveToFirst();
 
         if (newsContentCursor.getCount() <= 0) {
+            newsContentCursor.close();
             // no saved news feed
             return NewsContent.createEmptyObject();
         }
@@ -555,6 +558,7 @@ public class NewsDb {
 
         if (newsFeedCursor.getCount() <= 0) {
             // no saved news feed
+            newsFeedCursor.close();
             return null;
         }
         NewsFeed newsFeed = convertCursorToNewsFeed(newsFeedCursor);
