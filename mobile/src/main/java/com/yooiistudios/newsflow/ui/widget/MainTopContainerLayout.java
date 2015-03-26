@@ -30,6 +30,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.Timestamp;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
@@ -566,6 +567,7 @@ public class MainTopContainerLayout extends FrameLayout
      */
     @Override
     public void onTopNewsFeedFetch(NewsFeed newsFeed, TopNewsFeedFetchTask.TaskType taskType) {
+        Timestamp.start("onTopNewsFeedFetch");
         Context context = getContext().getApplicationContext();
 
         mTopNewsFeedPagerAdapter.setNewsFeed(newsFeed);
@@ -594,6 +596,7 @@ public class MainTopContainerLayout extends FrameLayout
                 notifyOnReady(taskType);
             }
         }
+        Timestamp.end("onTopNewsFeedFetch");
     }
 
     @Override

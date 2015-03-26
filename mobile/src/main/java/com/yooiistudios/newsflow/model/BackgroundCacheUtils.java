@@ -83,7 +83,7 @@ public class BackgroundCacheUtils implements
         mContext = context;
 //        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
 //                SimpleImageCache.getInstance().getNonRetainingCache(context));
-        ResizedImageLoader imageLoader = ResizedImageLoader.createWithNonRetainingCache(context);
+        mImageLoader = ResizedImageLoader.createWithNonRetainingCache(context);
         mTopNewsImageFetchTaskMap = new SparseArray<>();
 
         // cache top news feed

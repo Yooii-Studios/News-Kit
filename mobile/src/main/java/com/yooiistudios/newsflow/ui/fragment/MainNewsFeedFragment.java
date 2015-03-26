@@ -190,10 +190,19 @@ public class MainNewsFeedFragment extends Fragment {
         }
     }
 
-    private void showDummyImage(ItemViewHolder viewHolder) {
+    private void showDummyImage(final ItemViewHolder viewHolder) {
         if (!mRecycled && viewHolder.imageView != null) {
-            Bitmap dummyImage = PanelDecoration.getDummyNewsImage(getActivity().getApplicationContext());
-            viewHolder.imageView.setImageBitmap(dummyImage);
+//            Bitmap dummyImage = PanelDecoration.getDummyNewsImage(getActivity().getApplicationContext());
+//            viewHolder.imageView.setImageBitmap(dummyImage);
+            PanelDecoration.getDummyNewsImageAsync(getActivity().getApplicationContext(), new PanelDecoration.OnLoadBitmapListener() {
+                @Override
+                public void onLoad(Bitmap bitmap) {
+                    if (!mRecycled) {
+                        viewHolder.imageView.setImageBitmap(bitmap);
+                    }
+                }
+            });
+            PanelDecoration.applyDummyNewsImageInto(getActivity().getApplicationContext(), viewHolder.imageView);
             viewHolder.imageView.setColorFilter(PanelDecoration.getTopDummyImageFilterColor());
             viewHolder.imageView.setTag(TintType.DUMMY_TOP);
 

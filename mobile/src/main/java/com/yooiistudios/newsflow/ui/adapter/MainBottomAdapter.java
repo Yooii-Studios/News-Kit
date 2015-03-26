@@ -23,6 +23,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.Timestamp;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -120,6 +121,7 @@ public class MainBottomAdapter extends
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
+        Timestamp.start("onBindViewHolder");
         if (mOnBindMainBottomViewHolderListener != null) {
             mOnBindMainBottomViewHolderListener.onBindViewHolder(viewHolder, position);
         }
@@ -152,12 +154,14 @@ public class MainBottomAdapter extends
             titleView.setText(newsFeed != null ?
                     NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
             showUnknownErrorImage(viewHolder);
+            Timestamp.end("onBindViewHolder");
             return;
         }
 
         ArrayList<News> newsList = newsFeed.getNewsList();
 
         if (newsList == null || newsList.size() == 0) {
+            Timestamp.end("onBindViewHolder");
             return;
         }
 
@@ -198,6 +202,7 @@ public class MainBottomAdapter extends
                 showDummyImage(viewHolder);
             }
 
+            Timestamp.end("onBindViewHolder");
             return;
         }
 
@@ -214,6 +219,7 @@ public class MainBottomAdapter extends
                 }
             }
         }
+        Timestamp.start("mImageLoader.getThumbnail");
         ImageLoader.ImageContainer imageContainer =
                 mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
                     @Override
@@ -252,9 +258,11 @@ public class MainBottomAdapter extends
                         showDummyImage(viewHolder);
                     }
                 });
+        Timestamp.end("mImageLoader.getThumbnail");
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
                 mNewsFeedList.get(position).getDisplayingNewsIndex());
+        Timestamp.end("onBindViewHolder");
     }
 
     private void configEditLayer(BottomNewsFeedViewHolder viewHolder, final int position) {
@@ -267,27 +275,33 @@ public class MainBottomAdapter extends
     }
 
     private void showLoading(BottomNewsFeedViewHolder viewHolder) {
-        // XXX UI 프리징 해결을 위해 안보이게 해둠.
-//        viewHolder.progressBar.setVisibility(View.VISIBLE);
-        viewHolder.progressBar.setVisibility(View.GONE);
+        Timestamp.start("showLoading");
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
+//        viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageDrawable(null);
         viewHolder.imageView.setColorFilter(null);
 //        viewHolder.itemView.setOnClickListener(null);
+        Timestamp.end("showLoading");
     }
 
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+        Timestamp.start("showDummyImage");
         viewHolder.progressBar.setVisibility(View.GONE);
-        viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
+//        viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
+        PanelDecoration.applyDummyNewsImageInto(mContext, viewHolder.imageView);
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
         viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
 //        setOnClickListener(viewHolder, position);
+        Timestamp.end("showDummyImage");
     }
 
     private void showUnknownErrorImage(BottomNewsFeedViewHolder viewHolder) {
+        Timestamp.start("showUnknownErrorImage");
         viewHolder.progressBar.setVisibility(View.INVISIBLE);
         viewHolder.imageView.setImageDrawable(mContext.getResources()
                 .getDrawable(R.drawable.img_rss_url_fail));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
+        Timestamp.end("showUnknownErrorImage");
     }
 
     private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {
