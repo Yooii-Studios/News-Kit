@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -479,11 +478,7 @@ public class MainTopContainerLayout extends FrameLayout
                             final TopFeedNewsImageUrlFetchTask.TaskType taskType) {
         mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
             @Override
-            public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
-                if (bitmap == null && isImmediate) {
-                    return;
-                }
-
+            public void onSuccess(ResizedImageLoader.ImageResponse response) {
                 mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 
                 if (position == 0) {

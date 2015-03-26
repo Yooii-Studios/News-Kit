@@ -1,12 +1,10 @@
 package com.yooiistudios.newsflow.model;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.SparseArray;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
@@ -182,7 +180,7 @@ public class BackgroundCacheUtils implements
 //                        news.setImageUrl(url);
                         mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
                             @Override
-                            public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
+                            public void onSuccess(ResizedImageLoader.ImageResponse response) {
 
                             }
 
@@ -210,7 +208,7 @@ public class BackgroundCacheUtils implements
 //            news.setImageUrl(url);
             mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
                 @Override
-                public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
+                public void onSuccess(ResizedImageLoader.ImageResponse response) {
 
                 }
 

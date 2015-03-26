@@ -54,6 +54,12 @@ public class NewsDbContract {
         public static final String COLUMN_NAME_FETCH_STATE = "fetch_state";
     }
 
+    public static abstract class PaletteColorEntry implements BaseColumns {
+        public static final String TABLE_NAME = "palette_colors";
+        public static final String COLUMN_NAME_IMAGE_URL = "image_url";
+        public static final String COLUMN_NAME_COLOR_VIBRANT = "vibrant_color";
+    }
+
 //    public static abstract class NewsContentTextEntry implements BaseColumns {
 //        public static final String TABLE_NAME = "news_content_text";
 //        public static final String COLUMN_NAME_INDEX = "position";

@@ -141,18 +141,31 @@ public class ImageResizer {
     }
 
     public static void createScaledBitmap(final Bitmap src, final int dstWidth, final int dstHeight,
-                                          final boolean filter, final ResizeListener listener) {
+                                          final boolean filter,
+                                          final boolean recycleSrcWhenPossible,
+                                          final ResizeListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return Bitmap.createScaledBitmap(src, dstWidth, dstHeight, filter);
+                int srcWidth = src.getWidth();
+                int srcHeight = src.getHeight();
+                Bitmap bitmap;
+                if (srcWidth != dstWidth && srcHeight != dstHeight) {
+                    bitmap = Bitmap.createScaledBitmap(src, dstWidth, dstHeight, filter);
+                    if (recycleSrcWhenPossible) {
+                        src.recycle();
+                    }
+                } else {
+                    bitmap = src;
+                }
+                return bitmap;
             }
 
             @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
+            protected void onPostExecute(Bitmap resizedBitmap) {
+                super.onPostExecute(resizedBitmap);
                 if (listener != null) {
-                    listener.onResize(bitmap);
+                    listener.onResize(resizedBitmap);
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

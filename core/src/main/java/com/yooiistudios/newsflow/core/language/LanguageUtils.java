@@ -33,7 +33,7 @@ public class LanguageUtils {
             mCurrentLanguage = Language.valueOfCodeAndRegion(locale.getLanguage(), locale.getCountry());
             // 아카이브
             context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                    .edit().putInt(LANGUAGE_MATRIX_KEY, mCurrentLanguage.getUniqueId()).commit();
+                    .edit().putInt(LANGUAGE_MATRIX_KEY, mCurrentLanguage.getUniqueId()).apply();
         } else {
             mCurrentLanguage = Language.valueOfUniqueId(uniqueId);
         }

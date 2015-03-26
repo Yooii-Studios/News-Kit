@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -135,7 +134,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     ObjectAnimator mAutoScrollDownAnimator;
     ObjectAnimator mAutoScrollUpAnimator;
 
-    private Palette mPalette;
+//    private Palette mPalette;
 
 //    private ImageLoader mImageLoader;
     private ResizedImageLoader mImageLoader;
@@ -580,17 +579,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (mTopNews.hasImageUrl()) {
             mImageLoader.get(imgUrl, new ResizedImageLoader.ImageListener() {
                 @Override
-                public void onSuccess(String url, Bitmap bitmap, boolean isImmediate) {
-                    if (bitmap == null && isImmediate) {
-                        // 비트맵이 null 이지만 인터넷을 통하지 않고 바로 불린 콜백이라면 무시하자
-                        return;
-                    }
-
-                    if (bitmap != null) {
-                        setTopNewsImageBitmap(bitmap);
+                public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                    NLLog.i("qwerasdf", "onSuccess");
+                        setTopNewsImageBitmap(response.bitmap);
 
 //                        animateTopItems();
-                    }
                     configAfterRefreshDone();
                 }
 
@@ -660,24 +653,24 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyDummyNewsImageFromTop() {
-        _setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
+        setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
                 TintType.DUMMY_TOP);
     }
 
     private void applyDummyNewsImageFromBottom() {
-        _setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
+        setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
                 TintType.DUMMY_BOTTOM);
     }
 
     private void setTopNewsImageBitmap(Bitmap bitmap) {
-        _setTopNewsImageBitmap(bitmap, null);
+        setTopNewsImageBitmap(bitmap, null);
     }
 
-    private void _setTopNewsImageBitmap(Bitmap bitmap, TintType tintType) {
+    private void setTopNewsImageBitmap(Bitmap bitmap, TintType tintType) {
         mTopImageBitmap = bitmap;
         mTopImageView.setImageBitmap(mTopImageBitmap);
 
-        mPalette = Palette.generate(mTopImageBitmap);
+//        mPalette = Palette.generate(mTopImageBitmap);
 
         if (tintType != null) {
             mTintType = tintType;
@@ -771,7 +764,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private int getTopImageFilterColorPaletteItem() {
-        return mPalette.getVibrantColor(Color.TRANSPARENT);
+        return NewsDb.getInstance(getApplicationContext()).loadVibrantColor(mTopNews.getImageUrl());
+//        return mPalette.getVibrantColor(Color.TRANSPARENT);
     }
 
     @Override

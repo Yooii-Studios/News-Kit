@@ -608,6 +608,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void showMainContentIfReady() {
+        NLLog.now("showMainContentIfReady");
         boolean topReady = mMainTopContainerLayout.isReady();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
         if (!mLoadingAnimationView.isAnimating()) {
@@ -615,6 +616,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         if (topReady && bottomReady) {
+            NLLog.now("topReady && bottomReady");
             mSwipeRefreshLayout.setRefreshing(false);
             setSwipeRefreshLayoutEnabled(true);
 

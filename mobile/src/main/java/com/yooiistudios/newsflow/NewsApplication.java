@@ -2,11 +2,13 @@ package com.yooiistudios.newsflow;
 
 import android.app.Application;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.yooiistudios.newsflow.core.language.Language;
 import com.yooiistudios.newsflow.core.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.InterpolatorHelper;
 
 import java.util.HashMap;
@@ -61,6 +63,7 @@ public class NewsApplication extends Application {
 
     @Override
     public void onCreate() {
+        enableStrictMode();
         super.onCreate();
 
         InterpolatorHelper.saveDefaultSetting(getApplicationContext());
@@ -84,6 +87,28 @@ public class NewsApplication extends Application {
             Class.forName("android.os.AsyncTask");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 엄격 모드는 super.onCreate() 이전에 불러야 하는 듯.
+     * @see android.os.StrictMode
+     */
+    private void enableStrictMode() {
+        if (NLLog.isDebug()) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .penaltyFlashScreen() // 테스트용으로 넣어봄
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
         }
     }
 
