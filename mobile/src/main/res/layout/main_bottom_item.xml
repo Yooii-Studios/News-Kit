@@ -31,6 +31,30 @@
     <!--
         android:background="?android:attr/colorPrimary" -->
 
+    <LinearLayout
+        android:id="@+id/main_bottom_status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/main_bottom_status_imageview"
+            android:layout_width="@dimen/main_bottom_status_image_view_size"
+            android:layout_height="@dimen/main_bottom_status_image_view_size"
+            android:background="@drawable/ic_rss_url_failed_small"/>
+        
+        <TextView
+            android:id="@+id/main_bottom_status_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin_half"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/material_white_primary_text"
+            android:text="RSS not found"/>
+    </LinearLayout>
 
     <com.yooiistudios.newsflow.ui.widget.CoverFrameLayout
         android:id="@+id/main_bottom_edit_layout"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -138,9 +139,11 @@ public class MainBottomAdapter extends
         );
 
         TextView titleView = viewHolder.newsTitleTextView;
+        titleView.setVisibility(View.VISIBLE);
         titleView.setSingleLine(isLandscape());
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
+        newsFeedTitleView.setVisibility(View.VISIBLE);
         NewsFeed newsFeed = mNewsFeedList.get(position);
 
         viewHolder.itemView.setBackgroundColor(
@@ -151,7 +154,10 @@ public class MainBottomAdapter extends
             newsFeedTitleView.setText("");
             titleView.setText(newsFeed != null ?
                     NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
-            showUnknownErrorImage(viewHolder);
+            String msg = newsFeed != null ?
+                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "";
+            itemView.setOnClickListener(null);
+            showUnknownErrorStatus(viewHolder, msg);
             return;
         }
 
@@ -197,7 +203,6 @@ public class MainBottomAdapter extends
             if (displayingNews.isImageUrlChecked()) {
                 showDummyImage(viewHolder);
             }
-
             return;
         }
 
@@ -213,45 +218,45 @@ public class MainBottomAdapter extends
                     ((ImageLoader.ImageContainer) tag).cancelRequest();
                 }
             }
-        }
-        ImageLoader.ImageContainer imageContainer =
-                mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
-                    @Override
-                    public void onSuccess(ResizedImageLoader.ImageResponse response) {
-                        Bitmap bitmap = response.bitmap;
-                        viewHolder.progressBar.setVisibility(View.GONE);
+       }
+       ImageLoader.ImageContainer imageContainer =
+               mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
+                   @Override
+                   public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                       Bitmap bitmap = response.bitmap;
+                       viewHolder.progressBar.setVisibility(View.GONE);
 
-                        viewHolder.imageView.setImageBitmap(bitmap);
+                       viewHolder.imageView.setImageBitmap(bitmap);
 
-                        // apply palette
-//                            Palette palette = Palette.generate(bitmap);
-//                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-                        int vibrantColor = response.vibrantColor;
-                        if (vibrantColor != Color.TRANSPARENT) {
-                            int red = Color.red(vibrantColor);
-                            int green = Color.green(vibrantColor);
-                            int blue = Color.blue(vibrantColor);
-                            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                            viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-                            viewHolder.imageView.setTag(TintType.PALETTE);
-                        } else {
-                            viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-                            viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
-                        }
-//                        } else {
-//                            if (!displayingNews.isImageUrlChecked()) {
-//                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
-//                                showLoading(viewHolder);
-//                            } else {
-//                                showDummyImage(viewHolder);
-//                            }
-                    }
+                       // apply palette
+       //                            Palette palette = Palette.generate(bitmap);
+       //                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+                       int vibrantColor = response.vibrantColor;
+                       if (vibrantColor != Color.TRANSPARENT) {
+                           int red = Color.red(vibrantColor);
+                           int green = Color.green(vibrantColor);
+                           int blue = Color.blue(vibrantColor);
+                           int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                           viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+                           viewHolder.imageView.setTag(TintType.PALETTE);
+                       } else {
+                           viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+                           viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+                       }
+       //                        } else {
+       //                            if (!displayingNews.isImageUrlChecked()) {
+       //                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
+       //                                showLoading(viewHolder);
+       //                            } else {
+       //                                showDummyImage(viewHolder);
+       //                            }
+                   }
 
-                    @Override
-                    public void onFail(VolleyError error) {
+                   @Override
+                   public void onFail(VolleyError error) {
                         showDummyImage(viewHolder);
                     }
-                });
+               });
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
                 mNewsFeedList.get(position).getDisplayingNewsIndex());
@@ -270,12 +275,15 @@ public class MainBottomAdapter extends
         // XXX UI 프리징 해결을 위해 안보이게 해둠.
 //        viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.progressBar.setVisibility(View.GONE);
+        viewHolder.statusLayout.setVisibility(View.GONE);
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.imageView.setImageDrawable(null);
         viewHolder.imageView.setColorFilter(null);
 //        viewHolder.itemView.setOnClickListener(null);
     }
 
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.statusLayout.setVisibility(View.GONE);
         viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
@@ -283,11 +291,19 @@ public class MainBottomAdapter extends
 //        setOnClickListener(viewHolder, position);
     }
 
-    private void showUnknownErrorImage(BottomNewsFeedViewHolder viewHolder) {
+    private void showUnknownErrorStatus(BottomNewsFeedViewHolder viewHolder, String msg) {
         viewHolder.progressBar.setVisibility(View.INVISIBLE);
         viewHolder.imageView.setImageDrawable(mContext.getResources()
                 .getDrawable(R.drawable.img_rss_url_fail));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
+
+        viewHolder.newsTitleTextView.setVisibility(View.INVISIBLE);
+        viewHolder.newsFeedTitleTextView.setVisibility(View.INVISIBLE);
+
+        viewHolder.statusLayout.setVisibility(View.VISIBLE);
+        viewHolder.statusImageView.setImageDrawable(mContext.getResources()
+                .getDrawable(R.drawable.ic_rss_url_failed_small));
+        viewHolder.statusTextView.setText(msg);
     }
 
     private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {
@@ -428,6 +444,9 @@ public class MainBottomAdapter extends
         public TextView newsFeedTitleTextView;
         public FrameLayout editLayout;
         public View changeNewsfeedButton;
+        public LinearLayout statusLayout;
+        public ImageView statusImageView;
+        public TextView statusTextView;
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
@@ -437,6 +456,9 @@ public class MainBottomAdapter extends
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
             editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
             changeNewsfeedButton = itemView.findViewById(R.id.main_bottom_replace_newsfeed);
+            statusLayout = (LinearLayout) itemView.findViewById(R.id.main_bottom_status_layout);
+            statusImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_imageview);
+            statusTextView = (TextView) itemView.findViewById(R.id.main_bottom_status_textview);
         }
     }
 }
