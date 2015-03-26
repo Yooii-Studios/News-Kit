@@ -31,10 +31,10 @@ import android.os.StatFs;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.LruCache;
-import android.util.Log;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.cache.DiskLruCache;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.ui.RecyclingBitmapDrawable;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.NLLog;
@@ -140,9 +140,7 @@ public class ImageCache implements ImageLoader.ImageCache {
         //BEGIN_INCLUDE(init_memory_cache)
         // Set up memory cache
         if (mCacheParams.memoryCacheEnabled) {
-            if (NLLog.isDebug()) {
-                Log.d(TAG, "Memory cache created (size = " + mCacheParams.memCacheSize + ")");
-            }
+            NLLog.d(TAG, "Memory cache created (size = " + mCacheParams.memCacheSize + ")");
 
             // If we're running on Honeycomb or newer, create a set of reusable bitmaps that can be
             // populated into the inBitmap field of BitmapFactory.Options. Note that the set is
@@ -221,12 +219,10 @@ public class ImageCache implements ImageLoader.ImageCache {
                         try {
                             mDiskLruCache = DiskLruCache.open(
                                     diskCacheDir, 1, 1, mCacheParams.diskCacheSize);
-                            if (NLLog.isDebug()) {
-                                Log.d(TAG, "Disk cache initialized");
-                            }
+                            NLLog.d(TAG, "Disk cache initialized");
                         } catch (final IOException e) {
                             mCacheParams.diskCacheDir = null;
-                            Log.e(TAG, "initDiskCache - " + e);
+                            NLLog.e(TAG, "initDiskCache - " + e);
                         }
                     }
                 }
@@ -277,9 +273,9 @@ public class ImageCache implements ImageLoader.ImageCache {
                         snapshot.getInputStream(DISK_CACHE_INDEX).close();
                     }
                 } catch (final IOException e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
+                    NLLog.e(TAG, "addBitmapToCache - " + e);
                 } catch (Exception e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
+                    NLLog.e(TAG, "addBitmapToCache - " + e);
                 } finally {
                     try {
                         if (out != null) {
@@ -306,8 +302,8 @@ public class ImageCache implements ImageLoader.ImageCache {
             memValue = mMemoryCache.get(data);
         }
 
-        if (NLLog.isDebug() && memValue != null) {
-            Log.d(TAG, "Memory cache hit");
+        if (memValue != null) {
+            NLLog.d(TAG, "Memory cache hit");
         }
 
         return memValue;
@@ -336,8 +332,8 @@ public class ImageCache implements ImageLoader.ImageCache {
                 try {
                     final DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key);
                     if (snapshot != null) {
-                        if (NLLog.isDebug()) {
-                            Log.d(TAG, "Disk cache hit");
+                        if (DebugSettings.debugLog()) {
+                            NLLog.d(TAG, "Disk cache hit");
                         }
                         inputStream = snapshot.getInputStream(DISK_CACHE_INDEX);
                         if (inputStream != null) {
@@ -350,7 +346,7 @@ public class ImageCache implements ImageLoader.ImageCache {
                         }
                     }
                 } catch (final IOException e) {
-                    Log.e(TAG, "getBitmapFromDiskCache - " + e);
+                    NLLog.e(TAG, "getBitmapFromDiskCache - " + e);
                 } finally {
                     try {
                         if (inputStream != null) {
@@ -408,9 +404,7 @@ public class ImageCache implements ImageLoader.ImageCache {
     public void clearCache() {
         if (mMemoryCache != null) {
             mMemoryCache.evictAll();
-            if (NLLog.isDebug()) {
-                Log.d(TAG, "Memory cache cleared");
-            }
+            NLLog.d(TAG, "Memory cache cleared");
         }
 
         synchronized (mDiskCacheLock) {
@@ -418,11 +412,9 @@ public class ImageCache implements ImageLoader.ImageCache {
             if (mDiskLruCache != null && !mDiskLruCache.isClosed()) {
                 try {
                     mDiskLruCache.delete();
-                    if (NLLog.isDebug()) {
-                        Log.d(TAG, "Disk cache cleared");
-                    }
+                    NLLog.d(TAG, "Disk cache cleared");
                 } catch (IOException e) {
-                    Log.e(TAG, "clearCache - " + e);
+                    NLLog.e(TAG, "clearCache - " + e);
                 }
                 mDiskLruCache = null;
                 initDiskCache();
@@ -439,11 +431,11 @@ public class ImageCache implements ImageLoader.ImageCache {
             if (mDiskLruCache != null) {
                 try {
                     mDiskLruCache.flush();
-                    if (NLLog.isDebug()) {
-                        Log.d(TAG, "Disk cache flushed");
+                    if (DebugSettings.debugLog()) {
+                        NLLog.d(TAG, "Disk cache flushed");
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "flush - " + e);
+                    NLLog.e(TAG, "flush - " + e);
                 }
             }
         }
@@ -460,12 +452,10 @@ public class ImageCache implements ImageLoader.ImageCache {
                     if (!mDiskLruCache.isClosed()) {
                         mDiskLruCache.close();
                         mDiskLruCache = null;
-                        if (NLLog.isDebug()) {
-                            Log.d(TAG, "Disk cache closed");
-                        }
+                        NLLog.d(TAG, "Disk cache closed");
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "close - " + e);
+                    NLLog.e(TAG, "close - " + e);
                 }
             }
         }

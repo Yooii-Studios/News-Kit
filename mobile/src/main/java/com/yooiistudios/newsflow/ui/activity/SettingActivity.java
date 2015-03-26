@@ -13,10 +13,10 @@ import android.view.View;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.StoreDebugCheckUtils;
 
 import butterknife.ButterKnife;
@@ -59,7 +59,7 @@ public class SettingActivity extends ActionBarActivity
         // Google play service 가 없는 에뮬레이터에서 구동할 경우 스토어에 들어가지 못하기 때문에 디버그 옵션으로 추가.
         View debugBuyFullVersionButton = findViewById(R.id.setting_debug_buy_pro_version);
         View debugResetAllPurchaseButton = findViewById(R.id.setting_debug_reset_all_purchase);
-        if (NLLog.isDebug()) {
+        if (DebugSettings.isDebugBuild()) {
             debugBuyFullVersionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

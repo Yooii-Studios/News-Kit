@@ -32,15 +32,20 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
+import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
-import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.LoadingAnimationView;
@@ -52,11 +57,7 @@ import com.yooiistudios.newsflow.util.AdDialogFactory;
 import com.yooiistudios.newsflow.util.AdUtils;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
 import com.yooiistudios.newsflow.util.AppValidationChecker;
-import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
-import com.yooiistudios.newsflow.core.util.Device;
-import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.util.FacebookUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
@@ -149,7 +150,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (NLLog.isDebug()) {
+        if (DebugSettings.isDebugBuild()) {
             AppValidationChecker.validationCheck(this);
         }
 
@@ -172,7 +173,6 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        // TODO ConcurrentModification 문제 우회를 위해 애니메이션이 끝나기 전 스크롤을 막던지 처리 해야함.
         initToolbar();
         initRefreshLayout();
         initBannerAdView();
@@ -467,7 +467,7 @@ public class MainActivity extends ActionBarActivity
         subMenu.add(Menu.NONE, R.id.action_rate_app, 4, R.string.action_rate_app);
         subMenu.add(Menu.NONE, R.id.action_facebook_like, 5, R.string.action_facebook_like);
 
-        if (NLLog.isDebug()) {
+        if (DebugSettings.isDebugBuild()) {
             subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
             subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
             subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.iab.IabManager;
 import com.yooiistudios.newsflow.iab.IabManagerListener;
 import com.yooiistudios.newsflow.iab.IabProducts;
@@ -269,7 +270,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
      * Debug
      */
     private void checkDebug() {
-        if (NLLog.isDebug()) {
+        if (DebugSettings.isDebugBuild()) {
             mResetButton.setVisibility(View.VISIBLE);
             mDebugButton.setVisibility(View.VISIBLE);
             if (StoreDebugCheckUtils.isUsingStore(this)) {

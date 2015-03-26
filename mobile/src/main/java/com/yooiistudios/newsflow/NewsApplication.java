@@ -6,9 +6,9 @@ import android.os.StrictMode;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.Language;
 import com.yooiistudios.newsflow.core.language.LanguageUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.InterpolatorHelper;
 
 import java.util.HashMap;
@@ -95,7 +95,7 @@ public class NewsApplication extends Application {
      * @see android.os.StrictMode
      */
     private void enableStrictMode() {
-        if (NLLog.isDebug()) {
+        if (DebugSettings.debugStrictMode()) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()

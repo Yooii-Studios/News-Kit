@@ -16,8 +16,8 @@ import com.yooiistudios.newsflow.R;
  * DebugSettingDialogs
  *  디버그 관련 세팅을 할 수 있는 다이얼로그를 생성
  */
-public class DebugSettingDialogFactory {
-    private DebugSettingDialogFactory() { throw new AssertionError("You can't create this class!"); }
+public class DebugAnimationSettingDialogFactory {
+    private DebugAnimationSettingDialogFactory() { throw new AssertionError("You can't create this class!"); }
 
     public interface DebugSettingListener {
         public void autoScrollSettingSaved();
@@ -52,9 +52,9 @@ public class DebugSettingDialogFactory {
                         int midDelay =
                                 Integer.valueOf(midDelayEditText.getText().toString());
 
-                        DebugSettings.setStartDelay(context, startDelay);
-                        DebugSettings.setDurationForEachItem(context, durationForEachItem);
-                        DebugSettings.setMidDelay(context, midDelay);
+                        DebugAnimationSettings.setStartDelay(context, startDelay);
+                        DebugAnimationSettings.setDurationForEachItem(context, durationForEachItem);
+                        DebugAnimationSettings.setMidDelay(context, midDelay);
                         if (listener != null) {
                             listener.autoScrollSettingSaved();
                         }
@@ -77,9 +77,9 @@ public class DebugSettingDialogFactory {
                 EditText midDelayEditText =
                         (EditText) dialogContent.findViewById(R.id.auto_scroll_mid_delay_edit_text);
 
-                startDelayEditText.setText(String.valueOf(DebugSettings.getStartDelay(context)));
-                durationEditText.setText(String.valueOf(DebugSettings.getDurationForEachItem(context)));
-                midDelayEditText.setText(String.valueOf(DebugSettings.getMidDelay(context)));
+                startDelayEditText.setText(String.valueOf(DebugAnimationSettings.getStartDelay(context)));
+                durationEditText.setText(String.valueOf(DebugAnimationSettings.getDurationForEachItem(context)));
+                midDelayEditText.setText(String.valueOf(DebugAnimationSettings.getMidDelay(context)));
             }
         });
         dialog.show();
