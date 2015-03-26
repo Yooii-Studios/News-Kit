@@ -16,10 +16,10 @@ import com.yooiistudios.newsflow.R;
 /**
  * Created by Wooseong Kim in NewsLoadingAnimation from Yooii Studios Co., LTD. on 15. 3. 23.
  *
- * ArcProgressView
+ * LoadingCircleProgressView
  *  로딩이 끝난 후 후속 Arc 애니메이션 뷰
  */
-public class ArcProgressView extends View {
+public class LoadingCircleProgressView extends View {
     public interface CircleAnimationListener {
         public void onCircleAnimationEnd();
     }
@@ -41,17 +41,17 @@ public class ArcProgressView extends View {
     private boolean mNeedToBeAnimated = false;
     private CircleAnimationListener mListener;
 
-    public ArcProgressView(Context context) {
+    public LoadingCircleProgressView(Context context) {
         super(context);
         init();
     }
 
-    public ArcProgressView(Context context, AttributeSet attrs) {
+    public LoadingCircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ArcProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LoadingCircleProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
