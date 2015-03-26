@@ -15,6 +15,7 @@ import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
 import com.yooiistudios.newsflow.core.util.ExternalStorage;
+import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -91,10 +92,13 @@ public class NewsDb {
     }
 
     public NewsFeed loadTopNewsFeed(Context context, boolean shuffle) {
+        long startMilli = System.currentTimeMillis();
         NewsFeed newsFeed = queryNewsFeed(TOP_NEWS_FEED_INDEX, shuffle);
         if (newsFeed == null) {
+            NLLog.i("qwerasdf", "loadTopNewsFeed: " + (System.currentTimeMillis() - startMilli));
             return DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
         } else {
+            NLLog.i("qwerasdf", "loadTopNewsFeed: " + (System.currentTimeMillis() - startMilli));
             return newsFeed;
         }
     }
@@ -104,8 +108,27 @@ public class NewsDb {
     }
 
     public ArrayList<NewsFeed> loadBottomNewsFeedList(Context context, int panelCount,
-                                                      boolean shuffle) {
-        // TODO Transaction
+                                                              boolean shuffle) {
+        ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
+        mDatabase.beginTransaction();
+        try {
+            long startMilli = System.currentTimeMillis();
+            newsFeeds = loadBottomNewsFeedListInternal(context, panelCount, shuffle);
+            NLLog.i("qwerasdf", "loadBottomNewsFeedList: " + (System.currentTimeMillis() - startMilli));
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+
+        return newsFeeds;
+    }
+
+    private ArrayList<NewsFeed> loadBottomNewsFeedListInternal(Context context, int panelCount,
+                                                              boolean shuffle) {
+        // TODO Transaction done
+        long startMilli = System.currentTimeMillis();
+
         String[] newsFeedWhereArgs = {
                 String.valueOf(BOTTOM_NEWS_FEED_INITIAL_INDEX),
                 String.valueOf(panelCount)
@@ -153,10 +176,12 @@ public class NewsDb {
             }
         }
 
+        NLLog.i("qwerasdf", "loadBottomNewsFeedListInternal: " + (System.currentTimeMillis() - startMilli));
         return newsFeedList;
     }
 
     public NewsFeed loadBottomNewsFeedAt(Context context, int position, boolean shuffle) {
+        long startMilli = System.currentTimeMillis();
         NewsFeed newsFeed = queryNewsFeed(position, shuffle);
 
         if (newsFeed == null) {
@@ -170,26 +195,60 @@ public class NewsDb {
             }
             saveBottomNewsFeedAt(newsFeed, position);
         }
+        NLLog.i("qwerasdf", "loadBottomNewsFeedAt: " + (System.currentTimeMillis() - startMilli));
 
         return newsFeed;
     }
 
     public void saveTopNewsFeed(NewsFeed newsFeed) {
+        long startMilli = System.currentTimeMillis();
         insertNewsFeed(newsFeed, TOP_NEWS_FEED_INDEX);
+        NLLog.i("qwerasdf", "saveTopNewsFeed: " + (System.currentTimeMillis() - startMilli));
     }
 
     public void saveBottomNewsFeedList(ArrayList<NewsFeed> bottomNewsFeedList) {
+        mDatabase.beginTransaction();
+        try {
+            long startMilli = System.currentTimeMillis();
+            saveBottomNewsFeedListInternal(bottomNewsFeedList);
+            NLLog.i("qwerasdf", "saveBottomNewsFeedList: " + (System.currentTimeMillis() - startMilli));
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    private void saveBottomNewsFeedListInternal(ArrayList<NewsFeed> bottomNewsFeedList) {
+        // TODO Transaction done
         for (int idx = 0; idx < bottomNewsFeedList.size(); idx++) {
             insertNewsFeed(bottomNewsFeedList.get(idx), idx);
         }
     }
 
     public void saveBottomNewsFeedAt(NewsFeed bottomNewsFeed, int position) {
+        long startMilli = System.currentTimeMillis();
         insertNewsFeed(bottomNewsFeed, position);
+        NLLog.i("qwerasdf", "saveBottomNewsFeedAt: " + (System.currentTimeMillis() - startMilli));
     }
 
     public void saveNewsContentWithGuid(News news) {
-        // TODO Transaction
+        mDatabase.beginTransaction();
+        try {
+            long startMilli = System.currentTimeMillis();
+            saveNewsContentWithGuidInternal(news);
+            NLLog.i("qwerasdf", "saveNewsContentWithGuid: " + (System.currentTimeMillis() - startMilli));
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    private void saveNewsContentWithGuidInternal(News news) {
+        // TODO Transaction done
+        long startMilli = System.currentTimeMillis();
+
         if (!news.hasNewsContent()) {
             return;
         }
@@ -216,18 +275,35 @@ public class NewsDb {
 //                new String[]{ guid });
 //        saveNewsContentTextsWithGuid(guid, newsContent.getTextList());
 //        saveNewsContentImagesWithGuid(guid, newsContent.getImages());
+        NLLog.i("qwerasdf", "saveNewsContentWithGuid: " + (System.currentTimeMillis() - startMilli));
     }
 
     public void saveTopNewsImageUrlWithGuid(String imageUrl, String guid) {
+        long startMilli = System.currentTimeMillis();
         insertNewsImage(imageUrl, TOP_NEWS_FEED_INDEX, guid);
+        NLLog.i("qwerasdf", "saveTopNewsImageUrlWithGuid: " + (System.currentTimeMillis() - startMilli));
     }
 
     public void saveBottomNewsImageUrlWithGuid(String imageUrl,
                                                int newsFeedPosition, String guid) {
+        long startMilli = System.currentTimeMillis();
         insertNewsImage(imageUrl, newsFeedPosition, guid);
+        NLLog.i("qwerasdf", "saveBottomNewsImageUrlWithGuid: " + (System.currentTimeMillis() - startMilli));
     }
 
     public void savePaletteColor(String url, Palette palette) {
+        mDatabase.beginTransaction();
+        try {
+            savePaletteColorInternal(url, palette);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    public void savePaletteColorInternal(String url, Palette palette) {
+        long startMilli = System.currentTimeMillis();
         int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
 
         ContentValues colorValues = new ContentValues();
@@ -237,9 +313,25 @@ public class NewsDb {
         mDatabase.delete(PaletteColorEntry.TABLE_NAME,
                 PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?", new String[]{ url });
         mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
+        NLLog.i("qwerasdf", "savePaletteColor: " + (System.currentTimeMillis() - startMilli));
     }
 
     public int loadVibrantColor(String url) {
+        int vibrantColor = Color.TRANSPARENT;
+        mDatabase.beginTransaction();
+        try {
+            vibrantColor = loadVibrantColorInternal(url);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+
+        return vibrantColor;
+    }
+
+    public int loadVibrantColorInternal(String url) {
+        long startMilli = System.currentTimeMillis();
         String[] colorWhereArgs = { String.valueOf(url) };
 
         Cursor colorsCursor = mDatabase.query(
@@ -259,6 +351,7 @@ public class NewsDb {
         }
 
         colorsCursor.close();
+        NLLog.i("qwerasdf", "loadVibrantColor: " + (System.currentTimeMillis() - startMilli));
 
         return vibrantColor;
     }
@@ -384,8 +477,18 @@ public class NewsDb {
 //        return images;
 //    }
 
-    private void insertNewsImage(String imageUrl,
-                                 int newsFeedPosition, String guid) {
+    private void insertNewsImage(String imageUrl, int newsFeedPosition, String guid) {
+        mDatabase.beginTransaction();
+        try {
+            insertNewsImageInternal(imageUrl, newsFeedPosition, guid);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    private void insertNewsImageInternal(String imageUrl, int newsFeedPosition, String guid) {
         ContentValues newsValues = new ContentValues();
 //        newsValues.put(NewsEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
         newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL, imageUrl);
@@ -400,7 +503,20 @@ public class NewsDb {
     }
 
     private void insertNewsFeed(NewsFeed newsFeed, int newsFeedIndex) {
-        // TODO Transaction
+        mDatabase.beginTransaction();
+        try {
+            insertNewsFeedInternal(newsFeed, newsFeedIndex);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    private void insertNewsFeedInternal(NewsFeed newsFeed, int newsFeedIndex) {
+        // TODO Transaction done
+        long startMilli = System.currentTimeMillis();
+
         String newsFeedIndexStr = String.valueOf(newsFeedIndex);
 
         ContentValues newsFeedValues = new ContentValues();
@@ -448,10 +564,27 @@ public class NewsDb {
                 saveNewsContentWithGuid(news);
             }
         }
+        NLLog.i("qwerasdf", "insertNewsFeed: " + (System.currentTimeMillis() - startMilli));
     }
 
     private NewsFeed queryNewsFeed(int newsFeedPosition, boolean shuffle) {
-        // TODO Transaction
+        NewsFeed newsFeed = null;
+        mDatabase.beginTransaction();
+        try {
+            newsFeed = queryNewsFeedInternal(newsFeedPosition, shuffle);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+
+        return newsFeed;
+    }
+
+    private NewsFeed queryNewsFeedInternal(int newsFeedPosition, boolean shuffle) {
+        // TODO Transaction done
+        long startMilli = System.currentTimeMillis();
+
         String[] newsFeedWhereArgs = { String.valueOf(newsFeedPosition) };
 
         Cursor newsFeedCursor = mDatabase.query(
@@ -471,6 +604,7 @@ public class NewsDb {
 
         newsFeedCursor.close();
 
+        NLLog.i("qwerasdf", "queryNewsFeed: " + (System.currentTimeMillis() - startMilli));
         return newsFeed;
     }
 
@@ -507,6 +641,22 @@ public class NewsDb {
     }
 
     private ArrayList<News> queryNewsListByNewsFeedPosition(int newsFeedPosition, boolean shuffle) {
+        ArrayList<News> newsList = new ArrayList<>();
+        mDatabase.beginTransaction();
+        try {
+            newsList = queryNewsListByNewsFeedPositionInternal(newsFeedPosition, shuffle);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+
+        return newsList;
+    }
+
+    private ArrayList<News> queryNewsListByNewsFeedPositionInternal(
+            int newsFeedPosition, boolean shuffle) {
+        // TODO Transaction done
         String[] newsListWhereArgs = { String.valueOf(newsFeedPosition) };
 
         Cursor newsListCursor = mDatabase.query(
