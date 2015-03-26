@@ -181,7 +181,7 @@ public class MainActivity extends ActionBarActivity
         mMainTopContainerLayout.init(this);
         mMainBottomContainerLayout.init(this);
         bringLoadingContainerToFront();
-        showMainContentIfReady();
+        showMainContentIfReadyInternal(true);
         requestSystemWindowsBottomInset();
 
         AdUtils.showPopupAdIfSatisfied(this);
@@ -608,28 +608,30 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void showMainContentIfReady() {
+        showMainContentIfReadyInternal(false);
+    }
+
+    private void showMainContentIfReadyInternal(boolean isBeingCalledFromActivity) {
         boolean topReady = mMainTopContainerLayout.isReady();
         boolean bottomReady = mMainBottomContainerLayout.isInitialized();
 
-        if (topReady && bottomReady) {
-            NLLog.now("topReady && bottomReady");
-            mSwipeRefreshLayout.setRefreshing(false);
-            setSwipeRefreshLayoutEnabled(true);
-
-//            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
-
-            if (!mLoadingAnimationView.isAnimating()) {
-                NLLog.now("!mLoadingAnimationView.isAnimating()");
-                // onCreate 에서 바로 캐시를 읽어 올 경우
+        // 액티비티에서 불릴 경우에는 무조건 애니메이션 시작만 관장
+        if (isBeingCalledFromActivity) {
+            if (topReady && bottomReady) {
                 mLoadingAnimationView.startCircleAnimation();
             } else {
-                NLLog.now("mLoadingAnimationView.isAnimating()");
-                // Top, Bottom Layout 에서 불리는 경우, 패널 애니메이션 중
-                mLoadingAnimationView.stopPanelAnimationAndStartArcAnimation();
+                mLoadingAnimationView.startPanelAnimation();
             }
         } else {
-            NLLog.now("!(topReady && bottomReady)");
-            mLoadingAnimationView.startPanelAnimation();
+            // 탑, 바텀 레이아웃에서 불릴 경우는 애니메이션 종료만 관장
+            if (topReady && bottomReady) {
+                mLoadingAnimationView.stopPanelAnimationAndStartArcAnimation();
+            }
+        }
+
+        if (topReady && bottomReady) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            setSwipeRefreshLayoutEnabled(true);
         }
     }
 

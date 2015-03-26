@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -32,11 +33,13 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     private static final int PANEL_ANIM_DURATION = 400;
     private static final int PANEL_ANIM_START_DELAY = 180;
     private static final float FADE_ALPHA = 0.15f;
+    private static final int CIRCLE_ANIM_START_DELAY = 380;
+    private static final int CIRCLE_ANIM_START_DELAY_LOLLIPOP = 550;
     private static final int CIRCLE_SCALE_UP_ANIM_DURATION = 140;
     private static final int CIRCLE_SCALE_DOWN_ANIM_DURATION = 190;
     private static final int REVEAL_ANIM_START_DELAY = 140;
     private static final int REVEAL_ANIM_DURATION = 520;
-    private static final int BACKGROUND_FADE_ANIM_DURATION = 1000;
+    private static final int BACKGROUND_FADE_ANIM_DURATION = 800;
 
     private LinearLayout mPanelLayout;
     private View mTopView;
@@ -49,6 +52,8 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
 
     private boolean mIsAnimating = false;
     private boolean mNeedToFinishPanelAnimation = false;
+
+    Handler mCircleAnimHandler = new Handler();
 
     public LoadingAnimationView(Context context) {
         super(context);
@@ -83,6 +88,12 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
 
         setClipChildren(false);
         setBackgroundColor(getResources().getColor(R.color.material_light_blue_A700));
+
+        // 클릭 방지
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {}
+        });
     }
 
     @Override
@@ -109,7 +120,20 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     public void startCircleAnimation() {
         if (!mIsAnimating) {
             mIsAnimating = true;
-            mCircleProcessView.startCircleAnimation(LoadingAnimationView.this);
+
+            int delay;
+            if (Device.hasLollipop()) {
+                delay = CIRCLE_ANIM_START_DELAY_LOLLIPOP;
+            } else {
+                delay = CIRCLE_ANIM_START_DELAY;
+            }
+
+            mCircleAnimHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCircleProcessView.startCircleAnimation(LoadingAnimationView.this);
+                }
+            }, delay);
         }
     }
 
@@ -264,7 +288,10 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
                 startBackgroundFadeOutAnimation();
             }
         });
-        animator.start();
+        // detach 된 뷰를 animating 할 때 크래시 방지
+        if (mRevealView.isAttachedToWindow()) {
+            animator.start();
+        }
     }
 
     private void revealBackgroundBeforeLollipop() {
@@ -298,7 +325,14 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
                 startBackgroundFadeOutAnimation();
             }
         });
-        animator.start();
+        // detach 된 뷰를 animating 할 때 크래시 방지
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (mRevealView.isAttachedToWindow()) {
+                animator.start();
+            }
+        } else {
+            animator.start();
+        }
     }
 
     private Point getRevealCenter() {
