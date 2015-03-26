@@ -35,9 +35,7 @@ public class PanelDecoration {
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 super.onPostExecute(bitmap);
-                Timestamp.start("onPostExecute");
                 imageView.setImageBitmap(bitmap);
-                Timestamp.end("onPostExecute");
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
