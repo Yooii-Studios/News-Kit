@@ -240,7 +240,7 @@ public class News implements Comparable<News>, Parcelable {
     }
 
     public boolean hasImageUrl() {
-        return mImageUrl != null && mImageUrl.length() > 0;
+        return mImageUrl != null/* && mImageUrl.length() > 0*/;
     }
 
     public boolean isImageUrlChecked() {
