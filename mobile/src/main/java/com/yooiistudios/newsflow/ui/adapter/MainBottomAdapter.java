@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -148,10 +150,13 @@ public class MainBottomAdapter extends
         imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
 
         if (newsFeed == null || !newsFeed.containsNews()) {
+            NLLog.now("newsFeed == null || !newsFeed.containsNews()");
             newsFeedTitleView.setText("");
             titleView.setText(newsFeed != null ?
                     NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
-            showUnknownErrorImage(viewHolder);
+            String msg = newsFeed != null ?
+                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "";
+            showUnknownErrorStatus(viewHolder, msg);
             return;
         }
 
@@ -270,12 +275,15 @@ public class MainBottomAdapter extends
         // XXX UI 프리징 해결을 위해 안보이게 해둠.
 //        viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.progressBar.setVisibility(View.GONE);
+        viewHolder.statusLayout.setVisibility(View.GONE);
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.imageView.setImageDrawable(null);
         viewHolder.imageView.setColorFilter(null);
 //        viewHolder.itemView.setOnClickListener(null);
     }
 
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.statusLayout.setVisibility(View.GONE);
         viewHolder.progressBar.setVisibility(View.GONE);
         viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
@@ -283,11 +291,20 @@ public class MainBottomAdapter extends
 //        setOnClickListener(viewHolder, position);
     }
 
-    private void showUnknownErrorImage(BottomNewsFeedViewHolder viewHolder) {
+    private void showUnknownErrorStatus(BottomNewsFeedViewHolder viewHolder, String msg) {
+        NLLog.now("showUnknownErrorStatus");
         viewHolder.progressBar.setVisibility(View.INVISIBLE);
         viewHolder.imageView.setImageDrawable(mContext.getResources()
                 .getDrawable(R.drawable.img_rss_url_fail));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
+
+//        viewHolder.newsTitleTextView.setVisibility(View.INVISIBLE);
+//        viewHolder.newsFeedTitleTextView.setVisibility(View.INVISIBLE);
+
+        viewHolder.statusLayout.setVisibility(View.VISIBLE);
+        viewHolder.statusImageView.setImageDrawable(mContext.getResources()
+                .getDrawable(R.drawable.ic_rss_url_failed_small));
+        viewHolder.statusTextView.setText(msg);
     }
 
     private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {
@@ -428,6 +445,9 @@ public class MainBottomAdapter extends
         public TextView newsFeedTitleTextView;
         public FrameLayout editLayout;
         public View changeNewsfeedButton;
+        public LinearLayout statusLayout;
+        public ImageView statusImageView;
+        public TextView statusTextView;
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
@@ -437,6 +457,9 @@ public class MainBottomAdapter extends
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
             editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
             changeNewsfeedButton = itemView.findViewById(R.id.main_bottom_replace_newsfeed);
+            statusLayout = (LinearLayout) itemView.findViewById(R.id.main_bottom_status_layout);
+            statusImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_imageview);
+            statusTextView = (TextView) itemView.findViewById(R.id.main_bottom_status_textview);
         }
     }
 }
