@@ -24,7 +24,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -140,9 +139,11 @@ public class MainBottomAdapter extends
         );
 
         TextView titleView = viewHolder.newsTitleTextView;
+        titleView.setVisibility(View.VISIBLE);
         titleView.setSingleLine(isLandscape());
         ImageView imageView = viewHolder.imageView;
         TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
+        newsFeedTitleView.setVisibility(View.VISIBLE);
         NewsFeed newsFeed = mNewsFeedList.get(position);
 
         viewHolder.itemView.setBackgroundColor(
@@ -150,12 +151,12 @@ public class MainBottomAdapter extends
         imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
 
         if (newsFeed == null || !newsFeed.containsNews()) {
-            NLLog.now("newsFeed == null || !newsFeed.containsNews()");
             newsFeedTitleView.setText("");
             titleView.setText(newsFeed != null ?
                     NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
             String msg = newsFeed != null ?
                     NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "";
+            itemView.setOnClickListener(null);
             showUnknownErrorStatus(viewHolder, msg);
             return;
         }
@@ -202,7 +203,6 @@ public class MainBottomAdapter extends
             if (displayingNews.isImageUrlChecked()) {
                 showDummyImage(viewHolder);
             }
-
             return;
         }
 
@@ -218,45 +218,45 @@ public class MainBottomAdapter extends
                     ((ImageLoader.ImageContainer) tag).cancelRequest();
                 }
             }
-        }
-        ImageLoader.ImageContainer imageContainer =
-                mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
-                    @Override
-                    public void onSuccess(ResizedImageLoader.ImageResponse response) {
-                        Bitmap bitmap = response.bitmap;
-                        viewHolder.progressBar.setVisibility(View.GONE);
+       }
+       ImageLoader.ImageContainer imageContainer =
+               mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
+                   @Override
+                   public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                       Bitmap bitmap = response.bitmap;
+                       viewHolder.progressBar.setVisibility(View.GONE);
 
-                        viewHolder.imageView.setImageBitmap(bitmap);
+                       viewHolder.imageView.setImageBitmap(bitmap);
 
-                        // apply palette
-//                            Palette palette = Palette.generate(bitmap);
-//                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-                        int vibrantColor = response.vibrantColor;
-                        if (vibrantColor != Color.TRANSPARENT) {
-                            int red = Color.red(vibrantColor);
-                            int green = Color.green(vibrantColor);
-                            int blue = Color.blue(vibrantColor);
-                            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                            viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-                            viewHolder.imageView.setTag(TintType.PALETTE);
-                        } else {
-                            viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-                            viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
-                        }
-//                        } else {
-//                            if (!displayingNews.isImageUrlChecked()) {
-//                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
-//                                showLoading(viewHolder);
-//                            } else {
-//                                showDummyImage(viewHolder);
-//                            }
-                    }
+                       // apply palette
+       //                            Palette palette = Palette.generate(bitmap);
+       //                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+                       int vibrantColor = response.vibrantColor;
+                       if (vibrantColor != Color.TRANSPARENT) {
+                           int red = Color.red(vibrantColor);
+                           int green = Color.green(vibrantColor);
+                           int blue = Color.blue(vibrantColor);
+                           int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+                           viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+                           viewHolder.imageView.setTag(TintType.PALETTE);
+                       } else {
+                           viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+                           viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+                       }
+       //                        } else {
+       //                            if (!displayingNews.isImageUrlChecked()) {
+       //                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
+       //                                showLoading(viewHolder);
+       //                            } else {
+       //                                showDummyImage(viewHolder);
+       //                            }
+                   }
 
-                    @Override
-                    public void onFail(VolleyError error) {
+                   @Override
+                   public void onFail(VolleyError error) {
                         showDummyImage(viewHolder);
                     }
-                });
+               });
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
                 mNewsFeedList.get(position).getDisplayingNewsIndex());
@@ -292,7 +292,6 @@ public class MainBottomAdapter extends
     }
 
     private void showUnknownErrorStatus(BottomNewsFeedViewHolder viewHolder, String msg) {
-        NLLog.now("showUnknownErrorStatus");
         viewHolder.progressBar.setVisibility(View.INVISIBLE);
         viewHolder.imageView.setImageDrawable(mContext.getResources()
                 .getDrawable(R.drawable.img_rss_url_fail));
