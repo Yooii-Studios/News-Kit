@@ -298,8 +298,8 @@ public class MainBottomAdapter extends
                 .getDrawable(R.drawable.img_rss_url_fail));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
 
-//        viewHolder.newsTitleTextView.setVisibility(View.INVISIBLE);
-//        viewHolder.newsFeedTitleTextView.setVisibility(View.INVISIBLE);
+        viewHolder.newsTitleTextView.setVisibility(View.INVISIBLE);
+        viewHolder.newsFeedTitleTextView.setVisibility(View.INVISIBLE);
 
         viewHolder.statusLayout.setVisibility(View.VISIBLE);
         viewHolder.statusImageView.setImageDrawable(mContext.getResources()
