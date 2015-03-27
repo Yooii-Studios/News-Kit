@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="tag_main_bottom_image_url_supplier" type="id"/>
     <item name="tag_main_bottom_image_request" type="id"/>
     <item name="tag_main_bottom_image_request_idx" type="id"/>
 </resources>

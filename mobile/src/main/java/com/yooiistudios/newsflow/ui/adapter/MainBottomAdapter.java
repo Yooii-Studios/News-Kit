@@ -18,13 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.Timestamp;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -90,15 +90,16 @@ public class MainBottomAdapter extends
     }
 
     @Override
+    public void onViewRecycled(BottomNewsFeedViewHolder viewHolder) {
+        super.onViewRecycled(viewHolder);
+        cancelPreviousImageRequest(viewHolder);
+    }
+
+    @Override
     public BottomNewsFeedViewHolder onCreateViewHolder(final ViewGroup parent, int i) {
         Context context = parent.getContext();
         MainBottomItemLayout itemLayout = (MainBottomItemLayout)
                 LayoutInflater.from(context).inflate(R.layout.main_bottom_item, parent, false);
-//        v.setElevation(DipToPixel.dpToPixel(context,
-//                context.getResources().getDimension(
-//                        R.dimen.main_bottom_card_view_elevation)
-//        ));
-//        ((ViewGroup)v).setTransitionGroup(false);
         itemLayout.setOnSupplyTargetAxisLengthListener(new MainBottomItemLayout.OnSupplyTargetAxisLengthListener() {
             @Override
             public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
@@ -117,153 +118,217 @@ public class MainBottomAdapter extends
         BottomNewsFeedViewHolder viewHolder = new BottomNewsFeedViewHolder(itemLayout);
         initEditLayer(viewHolder);
 
+        // TODO 필요한지 체크해야함
+//        viewHolder.itemView.setBackgroundColor(
+//                mContext.getResources().getColor(R.color.material_grey_black_1000));
+//        imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
+
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
+        notifyOnBindViewHolder(viewHolder, position);
+        resetViewStates(viewHolder);
+        initItemView(viewHolder);
+        initEditLayerListener(viewHolder, position);
+
+        final NewsFeed newsFeed = getNewsFeedAt(position);
+
+        NLLog.i("qwerasdf", "position start: " + position);
+        if (newsFeed.isDisplayable()) {
+            NLLog.i("qwerasdf", "isDisplayable: true");
+            setNewsFeedTitle(viewHolder, position);
+            setCurrentNewsTitle(viewHolder, position);
+            setNewsTitleLineCount(viewHolder);
+
+            initOnClickListener(viewHolder, position, newsFeed);
+
+            News displayingNews = newsFeed.getDisplayingNews();
+            if (displayingNews.hasImageUrl()) {
+                NLLog.i("qwerasdf", "hasImageUrl: true");
+                cancelPreviousImageRequestIfNecessary(viewHolder, position);
+                viewHolder.progressBar.setVisibility(View.VISIBLE);
+                loadImage(viewHolder, position);
+            } else {
+                NLLog.i("qwerasdf", "hasImageUrl: false");
+                cancelPreviousImageRequest(viewHolder);
+                if (displayingNews.isImageUrlChecked()) {
+                    NLLog.i("qwerasdf", "isImageUrlChecked: true");
+                    showDummyImage(viewHolder);
+                } else {
+                    NLLog.i("qwerasdf", "isImageUrlChecked: false");
+                    showLoading(viewHolder);
+                }
+            }
+        } else {
+            NLLog.i("qwerasdf", "isDisplayable: false");
+            cancelPreviousImageRequest(viewHolder);
+
+            NewsFeedFetchState fetchState = newsFeed.getNewsFeedFetchState();
+            if (fetchState.equals(NewsFeedFetchState.NOT_FETCHED_YET)) {
+//                NLLog.i("qwerasdf", "Fetch state: NOT_FETCHED_YET");
+                showLoading(viewHolder);
+            } else {
+//                NLLog.i("qwerasdf", "isDisplayable: false");
+                showErrorStatus(viewHolder, position);
+            }
+        }
+        NLLog.i("qwerasdf", "position end: " + position);
+    }
+
+    private void loadImage(final BottomNewsFeedViewHolder viewHolder, int position) {
+        ThumbnailUrlSupplier urlSupplier = createThumbnailUrlSupplier(position);
+
+//        mImageLoader.getThumbnail(displayingNews.getImageUrl(),
+        mImageLoader.getThumbnail(urlSupplier,
+                new ResizedImageLoader.ImageListener() {
+                    @Override
+                    public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                        showNewsContent(viewHolder);
+                        applyImage(viewHolder, response);
+                    }
+
+                    @Override
+                    public void onFail(VolleyError error) {
+                        showDummyImage(viewHolder);
+                    }
+                });
+        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_url_supplier, urlSupplier);
+    }
+
+    private ThumbnailUrlSupplier createThumbnailUrlSupplier(int position) {
+        NewsFeed newsFeed = getNewsFeedAt(position);
+        String url = newsFeed.getDisplayingNews().getImageUrl();
+        return new ThumbnailUrlSupplier(url, position);
+    }
+
+    private NewsFeed getNewsFeedAt(int position) {
+        return mNewsFeedList.get(position);
+    }
+
+    private void resetViewStates(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.newsContentWrapper.setVisibility(View.VISIBLE);
+        viewHolder.itemView.setOnClickListener(null);
+        viewHolder.progressBar.setVisibility(View.GONE);
+        adjustEditLayoutVisibility(viewHolder);
+        viewHolder.statusLayout.setVisibility(View.GONE);
+    }
+
+    private void showNewsContent(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.newsContentWrapper.setVisibility(View.VISIBLE);
+
+        viewHolder.progressBar.setVisibility(View.GONE);
+        viewHolder.statusLayout.setVisibility(View.GONE);
+        viewHolder.statusLayout.setBackground(null);
+        viewHolder.statusImageView.setImageDrawable(null);
+    }
+
+    private void showLoading(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.newsContentWrapper.setVisibility(View.GONE);
+        viewHolder.imageView.setImageDrawable(null);
+        viewHolder.statusLayout.setVisibility(View.GONE);
+        viewHolder.statusLayout.setBackground(null);
+        viewHolder.statusImageView.setImageDrawable(null);
+
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.statusLayout.setVisibility(View.GONE);
+        viewHolder.statusLayout.setBackground(null);
+        viewHolder.statusImageView.setImageDrawable(null);
+        viewHolder.progressBar.setVisibility(View.GONE);
+
+        PanelDecoration.applyDummyNewsImageInto(mContext, viewHolder.imageView);
+        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
+    }
+
+    private void showErrorStatus(BottomNewsFeedViewHolder viewHolder, int position) {
+        NewsFeed newsFeed = getNewsFeedAt(position);
+        viewHolder.newsContentWrapper.setVisibility(View.GONE);
+        viewHolder.imageView.setImageDrawable(null);
+
+        viewHolder.progressBar.setVisibility(View.GONE);
+
+        viewHolder.statusLayout.setVisibility(View.VISIBLE);
+        viewHolder.statusLayout.setBackground(mContext.getResources()
+                .getDrawable(R.drawable.img_rss_url_fail));
+        viewHolder.statusImageView.setImageDrawable(mContext.getResources()
+                .getDrawable(R.drawable.ic_rss_url_failed_small));
+        viewHolder.statusImageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
+        String errorMessage = NewsFeedFetchStateMessage.getMessage(mContext, newsFeed);
+        viewHolder.statusTextView.setText(errorMessage);
+    }
+
+    private void cancelPreviousImageRequest(BottomNewsFeedViewHolder viewHolder) {
+        cancelPreviousImageRequestIfNecessary(viewHolder, null);
+    }
+
+    private void cancelPreviousImageRequestIfNecessary(BottomNewsFeedViewHolder viewHolder,
+                                                       int position) {
+        ThumbnailUrlSupplier currentUrlSupplier = createThumbnailUrlSupplier(position);
+        cancelPreviousImageRequestIfNecessary(viewHolder, currentUrlSupplier);
+    }
+
+    private void cancelPreviousImageRequestIfNecessary(BottomNewsFeedViewHolder viewHolder,
+                                                       ThumbnailUrlSupplier currentImageUrlSupplier) {
+        Object urlSupplierTag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_url_supplier);
+
+        if (urlSupplierTag != null && urlSupplierTag instanceof ThumbnailUrlSupplier) {
+            ThumbnailUrlSupplier urlSupplier = (ThumbnailUrlSupplier) urlSupplierTag;
+            if (currentImageUrlSupplier == null || !currentImageUrlSupplier.equals(urlSupplier)) {
+                mImageLoader.cancelRequest(urlSupplier);
+            }
+        }
+    }
+
+    private void applyImage(BottomNewsFeedViewHolder viewHolder, ResizedImageLoader.ImageResponse response) {
+        Bitmap bitmap = response.bitmap;
+
+        viewHolder.imageView.setImageBitmap(bitmap);
+
+        int vibrantColor = response.vibrantColor;
+        if (vibrantColor != Color.TRANSPARENT) {
+            int red = Color.red(vibrantColor);
+            int green = Color.green(vibrantColor);
+            int blue = Color.blue(vibrantColor);
+            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+            viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+            viewHolder.imageView.setTag(TintType.PALETTE);
+        } else {
+            viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+            viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+        }
+    }
+
+    private void setNewsTitleLineCount(BottomNewsFeedViewHolder viewHolder) {
+        if (isPortrait()) {
+            // TODO 리소스의 maxLines 와 통일시켜야 함
+            viewHolder.newsTitleTextView.setMaxLines(3);
+            viewHolder.newsTitleTextView.setSingleLine(false);
+        } else {
+            viewHolder.newsTitleTextView.setSingleLine(true);
+        }
+    }
+
+    private void notifyOnBindViewHolder(BottomNewsFeedViewHolder viewHolder, int position) {
         if (mOnBindMainBottomViewHolderListener != null) {
             mOnBindMainBottomViewHolderListener.onBindViewHolder(viewHolder, position);
         }
-        adjustEditLayoutVisibility(viewHolder);
-        configEditLayer(viewHolder, position);
-
-        boolean isVertical = mOrientation == PORTRAIT;
-
-        MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
-//        itemView.setBaseAxis(
-//                isVertical ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
-//        );
-        itemView.setBaseAxis(RatioFrameLayout.AXIS_WIDTH);
-        itemView.setOrientation(
-                isVertical ? MainBottomItemLayout.PORTRAIT : MainBottomItemLayout.LANDSCAPE
-        );
-
-        TextView titleView = viewHolder.newsTitleTextView;
-        titleView.setVisibility(View.VISIBLE);
-        titleView.setSingleLine(isLandscape());
-        ImageView imageView = viewHolder.imageView;
-        TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
-        newsFeedTitleView.setVisibility(View.VISIBLE);
-        NewsFeed newsFeed = mNewsFeedList.get(position);
-
-        viewHolder.itemView.setBackgroundColor(
-                mContext.getResources().getColor(R.color.material_grey_black_1000));
-        imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
-
-        if (newsFeed == null || !newsFeed.containsNews()) {
-            newsFeedTitleView.setText("");
-            titleView.setText(newsFeed != null ?
-                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
-            String msg = newsFeed != null ?
-                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "";
-            itemView.setOnClickListener(null);
-            showUnknownErrorStatus(viewHolder, msg);
-            return;
-        }
-
-        ArrayList<News> newsList = newsFeed.getNewsList();
-
-        if (newsList == null || newsList.size() == 0) {
-            return;
-        }
-
-        // 무조건 첫 실행시에는 첫번째 뉴스를 보여주게 변경
-        final News displayingNews = newsList.get(mNewsFeedList.get(position).getDisplayingNewsIndex());
-
-        viewHolder.itemView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        NewsFeed newsFeed = mNewsFeedList.get(position);
-
-                        if (mOnItemClickListener != null &&
-                                newsFeed != null && newsFeed.containsNews()) {
-                            mOnItemClickListener.onClick(viewHolder, newsFeed, position);
-                        }
-                    }
-                }
-        );
-
-        // 뉴스 제목 설정
-        String newsTitle = displayingNews.getTitle();
-        if (newsTitle != null) {
-            titleView.setText(newsTitle);
-        }
-
-        String newsFeedTitle = mNewsFeedList.get(position).getTitle();
-        if (newsFeedTitle != null) {
-            newsFeedTitleView.setText(newsFeedTitle);
-        }
-
-        String imageUrl = displayingNews.getImageUrl();
-
-        showLoading(viewHolder);
-
-        if (!displayingNews.hasImageUrl()) {
-            if (displayingNews.isImageUrlChecked()) {
-                showDummyImage(viewHolder);
-            }
-            return;
-        }
-
-        Object tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request_idx);
-
-       if (tag != null) {
-            int previousRequestIdx = (Integer)tag;
-            int currentNewsIndex = mNewsFeedList.get(position).getDisplayingNewsIndex();
-
-            if (currentNewsIndex != previousRequestIdx) {
-                tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request);
-                if (tag != null) {
-                    ((ImageLoader.ImageContainer) tag).cancelRequest();
-                }
-            }
-       }
-       ImageLoader.ImageContainer imageContainer =
-               mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
-                   @Override
-                   public void onSuccess(ResizedImageLoader.ImageResponse response) {
-                       Bitmap bitmap = response.bitmap;
-                       viewHolder.progressBar.setVisibility(View.GONE);
-
-                       viewHolder.imageView.setImageBitmap(bitmap);
-
-                       // apply palette
-       //                            Palette palette = Palette.generate(bitmap);
-       //                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-                       int vibrantColor = response.vibrantColor;
-                       if (vibrantColor != Color.TRANSPARENT) {
-                           int red = Color.red(vibrantColor);
-                           int green = Color.green(vibrantColor);
-                           int blue = Color.blue(vibrantColor);
-                           int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                           viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-                           viewHolder.imageView.setTag(TintType.PALETTE);
-                       } else {
-                           viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-                           viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
-                       }
-       //                        } else {
-       //                            if (!displayingNews.isImageUrlChecked()) {
-       //                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
-       //                                showLoading(viewHolder);
-       //                            } else {
-       //                                showDummyImage(viewHolder);
-       //                            }
-                   }
-
-                   @Override
-                   public void onFail(VolleyError error) {
-                        showDummyImage(viewHolder);
-                    }
-               });
-        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
-        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
-                mNewsFeedList.get(position).getDisplayingNewsIndex());
     }
 
-    private void configEditLayer(BottomNewsFeedViewHolder viewHolder, final int position) {
+    private void initItemView(BottomNewsFeedViewHolder viewHolder) {
+        MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
+        itemView.setBaseAxis(RatioFrameLayout.AXIS_WIDTH);
+        itemView.setOrientation(
+                usePortraitLayout() ? MainBottomItemLayout.PORTRAIT : MainBottomItemLayout.LANDSCAPE
+        );
+    }
+
+    private void initEditLayerListener(BottomNewsFeedViewHolder viewHolder, final int position) {
+        // TODO 바깥쪽 클릭할 경우 editMode 해제하는 기능 추가해야 함
         viewHolder.changeNewsfeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,38 +337,171 @@ public class MainBottomAdapter extends
         });
     }
 
-    private void showLoading(BottomNewsFeedViewHolder viewHolder) {
-        viewHolder.statusLayout.setVisibility(View.GONE);
-        viewHolder.progressBar.setVisibility(View.VISIBLE);
-        viewHolder.imageView.setImageDrawable(null);
-        viewHolder.imageView.setColorFilter(null);
-//        viewHolder.itemView.setOnClickListener(null);
+    private void setNewsFeedTitle(BottomNewsFeedViewHolder viewHolder, int position) {
+        viewHolder.newsFeedTitleTextView.setText(getNewsFeedAt(position).getTitle());
     }
 
-    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
-        viewHolder.statusLayout.setVisibility(View.GONE);
-        viewHolder.progressBar.setVisibility(View.GONE);
-//        viewHolder.imageView.setImageBitmap(PanelDecoration.getDummyNewsImage(mContext));
-        PanelDecoration.applyDummyNewsImageInto(mContext, viewHolder.imageView);
-        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
-//        setOnClickListener(viewHolder, position);
+    private void setCurrentNewsTitle(BottomNewsFeedViewHolder viewHolder, int position) {
+        News displayingNews = getNewsFeedAt(position).getDisplayingNews();
+        viewHolder.newsTitleTextView.setText(displayingNews.getTitle());
     }
 
-    private void showUnknownErrorStatus(BottomNewsFeedViewHolder viewHolder, String msg) {
-        viewHolder.progressBar.setVisibility(View.INVISIBLE);
-        viewHolder.imageView.setImageDrawable(mContext.getResources()
-                .getDrawable(R.drawable.img_rss_url_fail));
-        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
-
-        viewHolder.newsTitleTextView.setVisibility(View.INVISIBLE);
-        viewHolder.newsFeedTitleTextView.setVisibility(View.INVISIBLE);
-
-        viewHolder.statusLayout.setVisibility(View.VISIBLE);
-        viewHolder.statusImageView.setImageDrawable(mContext.getResources()
-                .getDrawable(R.drawable.ic_rss_url_failed_small));
-        viewHolder.statusTextView.setText(msg);
+    private void initOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position,
+                                     final NewsFeed newsFeed) {
+        viewHolder.itemView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mOnItemClickListener.onClick(viewHolder, newsFeed, position);
+                    }
+                }
+        );
     }
+
+    private boolean usePortraitLayout() {
+        return mOrientation == PORTRAIT;
+    }
+
+//    public void _onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
+//        if (mOnBindMainBottomViewHolderListener != null) {
+//            mOnBindMainBottomViewHolderListener.onBindViewHolder(viewHolder, position);
+//        }
+//        adjustEditLayoutVisibility(viewHolder);
+//        initEditLayerListener(viewHolder, position);
+//
+//        boolean isVertical = mOrientation == PORTRAIT;
+//
+//        MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
+////        itemView.setBaseAxis(
+////                isVertical ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
+////        );
+//        itemView.setBaseAxis(RatioFrameLayout.AXIS_WIDTH);
+//        itemView.setOrientation(
+//                isVertical ? MainBottomItemLayout.PORTRAIT : MainBottomItemLayout.LANDSCAPE
+//        );
+//
+//        TextView titleView = viewHolder.newsTitleTextView;
+//        titleView.setVisibility(View.VISIBLE);
+//        titleView.setSingleLine(isLandscape());
+//        ImageView imageView = viewHolder.imageView;
+//        TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
+//        newsFeedTitleView.setVisibility(View.VISIBLE);
+//        NewsFeed newsFeed = getNewsFeedAt(position);
+//
+//        viewHolder.itemView.setBackgroundColor(
+//                mContext.getResources().getColor(R.color.material_grey_black_1000));
+//        imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
+//
+//        if (newsFeed == null || !newsFeed.containsNews()) {
+//            newsFeedTitleView.setText("");
+//            titleView.setText(newsFeed != null ?
+//                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
+//            String msg = newsFeed != null ?
+//                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "";
+//            itemView.setOnClickListener(null);
+//            showErrorStatus(viewHolder, msg);
+//            return;
+//        }
+//
+//        ArrayList<News> newsList = newsFeed.getNewsList();
+//
+//        if (newsList == null || newsList.size() == 0) {
+//            return;
+//        }
+//
+//        // 무조건 첫 실행시에는 첫번째 뉴스를 보여주게 변경
+//        final News displayingNews = newsList.get(getNewsFeedAt(position).getDisplayingNewsIndex());
+//
+//        viewHolder.itemView.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        NewsFeed newsFeed = getNewsFeedAt(position);
+//
+//                        if (mOnItemClickListener != null &&
+//                                newsFeed != null && newsFeed.containsNews()) {
+//                            mOnItemClickListener.onClick(viewHolder, newsFeed, position);
+//                        }
+//                    }
+//                }
+//        );
+//
+//        // 뉴스 제목 설정
+//        String newsTitle = displayingNews.getTitle();
+//        if (newsTitle != null) {
+//            titleView.setText(newsTitle);
+//        }
+//
+//        String newsFeedTitle = getNewsFeedAt(position).getTitle();
+//        if (newsFeedTitle != null) {
+//            newsFeedTitleView.setText(newsFeedTitle);
+//        }
+//
+//        String imageUrl = displayingNews.getImageUrl();
+//
+//        showLoading(viewHolder);
+//
+//        if (!displayingNews.hasImageUrl()) {
+//            if (displayingNews.isImageUrlChecked()) {
+//                showDummyImage(viewHolder);
+//            }
+//            return;
+//        }
+//
+//        Object tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request_idx);
+//
+//       if (tag != null) {
+//            int previousRequestIdx = (Integer)tag;
+//            int currentNewsIndex = mNewsFeedList.get(position).getDisplayingNewsIndex();
+//
+//            if (currentNewsIndex != previousRequestIdx) {
+//                tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request);
+//                if (tag != null) {
+//                    ((ImageLoader.ImageContainer) tag).cancelRequest();
+//                }
+//            }
+//       }
+//       mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
+//                   @Override
+//                   public void onSuccess(ResizedImageLoader.ImageResponse response) {
+//                       Bitmap bitmap = response.bitmap;
+//                       viewHolder.progressBar.setVisibility(View.GONE);
+//
+//                       viewHolder.imageView.setImageBitmap(bitmap);
+//
+//                       // apply palette
+//       //                            Palette palette = Palette.generate(bitmap);
+//       //                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
+//                       int vibrantColor = response.vibrantColor;
+//                       if (vibrantColor != Color.TRANSPARENT) {
+//                           int red = Color.red(vibrantColor);
+//                           int green = Color.green(vibrantColor);
+//                           int blue = Color.blue(vibrantColor);
+//                           int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+//                           viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
+//                           viewHolder.imageView.setTag(TintType.PALETTE);
+//                       } else {
+//                           viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
+//                           viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+//                       }
+//       //                        } else {
+//       //                            if (!displayingNews.isImageUrlChecked()) {
+//       //                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
+//       //                                showLoading(viewHolder);
+//       //                            } else {
+//       //                                showDummyImage(viewHolder);
+//       //                            }
+//                   }
+//
+//                   @Override
+//                   public void onFail(VolleyError error) {
+//                        showDummyImage(viewHolder);
+//                    }
+//               });
+//        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
+//        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
+//                mNewsFeedList.get(position).getDisplayingNewsIndex());
+//    }
 
     private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {
         setEditMode(mEditMode);
@@ -437,10 +635,11 @@ public class MainBottomAdapter extends
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView.ViewHolder {
+        public View newsContentWrapper;
         public TextView newsTitleTextView;
+        public TextView newsFeedTitleTextView;
         public ImageView imageView;
         public ProgressBar progressBar;
-        public TextView newsFeedTitleTextView;
         public FrameLayout editLayout;
         public View changeNewsfeedButton;
         public LinearLayout statusLayout;
@@ -449,15 +648,56 @@ public class MainBottomAdapter extends
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
+            newsContentWrapper = itemView.findViewById(R.id.main_bottom_content);
             newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
+            newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
-            newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
             editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
             changeNewsfeedButton = itemView.findViewById(R.id.main_bottom_replace_newsfeed);
             statusLayout = (LinearLayout) itemView.findViewById(R.id.main_bottom_status_layout);
             statusImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_imageview);
             statusTextView = (TextView) itemView.findViewById(R.id.main_bottom_status_textview);
+        }
+    }
+
+    private static class ThumbnailUrlSupplier extends ResizedImageLoader.UrlSupplier {
+        private final String mUrl;
+        private final int mNewsFeedPosition;
+
+        public ThumbnailUrlSupplier(String url, int newsFeedPosition) {
+            this.mUrl = url;
+            this.mNewsFeedPosition = newsFeedPosition;
+        }
+
+        public int getNewsFeedPosition() {
+            return mNewsFeedPosition;
+        }
+
+        @Override
+        public String getUrl() {
+            return mUrl;
+        }
+
+        @Override
+        public int hashCode() {
+            return getUrl().hashCode() * mNewsFeedPosition;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o instanceof ThumbnailUrlSupplier) {
+                ThumbnailUrlSupplier supplier = (ThumbnailUrlSupplier) o;
+                return getUrl().equals(supplier.getUrl())
+                        && getNewsFeedPosition() == supplier.getNewsFeedPosition();
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + "\nposition: " + mNewsFeedPosition;
         }
     }
 }

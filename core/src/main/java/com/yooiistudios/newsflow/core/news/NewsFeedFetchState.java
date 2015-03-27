@@ -7,9 +7,31 @@ package com.yooiistudios.newsflow.core.news;
  *  fetch 한 뉴스피드의 상태
  */
 public enum NewsFeedFetchState {
-    NOT_FETCHED_YET, // Default value. This means that the newsfeed hasn't been fetched yet.
-    SUCCESS,
-    ERROR_UNKNOWN,
-    ERROR_INVALID_URL,
-    ERROR_TIMEOUT
+    NOT_FETCHED_YET(0), // Default value. This means that the newsfeed hasn't been fetched yet.
+    SUCCESS(1),
+    ERROR_UNKNOWN(2),
+    ERROR_INVALID_URL(3),
+    ERROR_TIMEOUT(4);
+
+    private static final NewsFeedFetchState DEFAULT_STATE = NOT_FETCHED_YET;
+
+    private int mKey;
+
+    private NewsFeedFetchState(int key) {
+        mKey = key;
+    }
+
+    public int getKey() {
+        return mKey;
+    }
+
+    public static NewsFeedFetchState getByKey(int key) {
+        for (NewsFeedFetchState state : NewsFeedFetchState.values()) {
+            if (state.getKey() == key) {
+                return state;
+            }
+        }
+
+        return DEFAULT_STATE;
+    }
 }
