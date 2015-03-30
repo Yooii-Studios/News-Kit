@@ -84,7 +84,9 @@ public class MainActivity extends Activity
         ArrayList<NewsFeed> bottomNewsFeeds = NewsDb.getInstance(context).loadBottomNewsFeedList(
                 context, panelMatrix.getPanelCount());
 
-        if (!NewsFeedValidator.isValid(topNewsFeed) || !NewsFeedValidator.isValid(bottomNewsFeeds)
+//        topNewsFeed.isDisplayable()
+//        if (!NewsFeedValidator.isDisplayable(topNewsFeed) || !NewsFeedValidator.isDisplayable(bottomNewsFeeds)
+        if (!topNewsFeed.isDisplayable() || !NewsFeedValidator.isDisplayable(bottomNewsFeeds)
                 || NewsFeedArchiveUtils.newsNeedsToBeRefreshed(context, CACHE_EXPIRATION_LIMIT)) {
             NewsFeed defaultTopNewsFeed = DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
             ArrayList<NewsFeed> defaultBottomNewsFeeds = DefaultNewsFeedProvider
