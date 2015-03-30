@@ -250,10 +250,8 @@ public class ResizedImageLoader {
     }
 
     private void notifyOnSuccess(ImageListener listener, ImageResponse response) {
-        NLLog.now("notifyOnSuccess");
         if (!isCancelRequested(response.urlSupplier)) {
             listener.onSuccess(response);
-            NLLog.now("onSuccess");
         }
         markDelivered(response.urlSupplier);
     }

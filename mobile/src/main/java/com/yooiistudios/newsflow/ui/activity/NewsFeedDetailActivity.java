@@ -581,7 +581,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             mImageLoader.get(imgUrl, new ResizedImageLoader.ImageListener() {
                 @Override
                 public void onSuccess(ResizedImageLoader.ImageResponse response) {
-                    NLLog.i("qwerasdf", "onSuccess");
                         setTopNewsImageBitmap(response.bitmap);
 
 //                        animateTopItems();

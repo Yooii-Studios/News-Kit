@@ -24,7 +24,6 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -135,9 +134,7 @@ public class MainBottomAdapter extends
 
         final NewsFeed newsFeed = getNewsFeedAt(position);
 
-        NLLog.i("qwerasdf", "position start: " + position);
         if (newsFeed.isDisplayable()) {
-            NLLog.i("qwerasdf", "isDisplayable: true");
             setNewsFeedTitle(viewHolder, position);
             setCurrentNewsTitle(viewHolder, position);
             setNewsTitleLineCount(viewHolder);
@@ -146,35 +143,27 @@ public class MainBottomAdapter extends
 
             News displayingNews = newsFeed.getDisplayingNews();
             if (displayingNews.hasImageUrl()) {
-                NLLog.i("qwerasdf", "hasImageUrl: true");
                 cancelPreviousImageRequestIfNecessary(viewHolder, position);
                 viewHolder.progressBar.setVisibility(View.VISIBLE);
                 loadImage(viewHolder, position);
             } else {
-                NLLog.i("qwerasdf", "hasImageUrl: false");
                 cancelPreviousImageRequest(viewHolder);
                 if (displayingNews.isImageUrlChecked()) {
-                    NLLog.i("qwerasdf", "isImageUrlChecked: true");
                     showDummyImage(viewHolder);
                 } else {
-                    NLLog.i("qwerasdf", "isImageUrlChecked: false");
                     showLoading(viewHolder);
                 }
             }
         } else {
-            NLLog.i("qwerasdf", "isDisplayable: false");
             cancelPreviousImageRequest(viewHolder);
 
             NewsFeedFetchState fetchState = newsFeed.getNewsFeedFetchState();
             if (fetchState.equals(NewsFeedFetchState.NOT_FETCHED_YET)) {
-//                NLLog.i("qwerasdf", "Fetch state: NOT_FETCHED_YET");
                 showLoading(viewHolder);
             } else {
-//                NLLog.i("qwerasdf", "isDisplayable: false");
                 showErrorStatus(viewHolder, position);
             }
         }
-        NLLog.i("qwerasdf", "position end: " + position);
     }
 
     private void loadImage(final BottomNewsFeedViewHolder viewHolder, int position) {
@@ -185,6 +174,7 @@ public class MainBottomAdapter extends
                 new ResizedImageLoader.ImageListener() {
                     @Override
                     public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_url_supplier, null);
                         showNewsContent(viewHolder);
                         applyImage(viewHolder, response);
                     }
@@ -361,147 +351,6 @@ public class MainBottomAdapter extends
     private boolean usePortraitLayout() {
         return mOrientation == PORTRAIT;
     }
-
-//    public void _onBindViewHolder(final BottomNewsFeedViewHolder viewHolder, final int position) {
-//        if (mOnBindMainBottomViewHolderListener != null) {
-//            mOnBindMainBottomViewHolderListener.onBindViewHolder(viewHolder, position);
-//        }
-//        adjustEditLayoutVisibility(viewHolder);
-//        initEditLayerListener(viewHolder, position);
-//
-//        boolean isVertical = mOrientation == PORTRAIT;
-//
-//        MainBottomItemLayout itemView = (MainBottomItemLayout)viewHolder.itemView;
-////        itemView.setBaseAxis(
-////                isVertical ? RatioFrameLayout.AXIS_WIDTH : RatioFrameLayout.AXIS_HEIGHT
-////        );
-//        itemView.setBaseAxis(RatioFrameLayout.AXIS_WIDTH);
-//        itemView.setOrientation(
-//                isVertical ? MainBottomItemLayout.PORTRAIT : MainBottomItemLayout.LANDSCAPE
-//        );
-//
-//        TextView titleView = viewHolder.newsTitleTextView;
-//        titleView.setVisibility(View.VISIBLE);
-//        titleView.setSingleLine(isLandscape());
-//        ImageView imageView = viewHolder.imageView;
-//        TextView newsFeedTitleView = viewHolder.newsFeedTitleTextView;
-//        newsFeedTitleView.setVisibility(View.VISIBLE);
-//        NewsFeed newsFeed = getNewsFeedAt(position);
-//
-//        viewHolder.itemView.setBackgroundColor(
-//                mContext.getResources().getColor(R.color.material_grey_black_1000));
-//        imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
-//
-//        if (newsFeed == null || !newsFeed.containsNews()) {
-//            newsFeedTitleView.setText("");
-//            titleView.setText(newsFeed != null ?
-//                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "");
-//            String msg = newsFeed != null ?
-//                    NewsFeedFetchStateMessage.getMessage(mContext, newsFeed) : "";
-//            itemView.setOnClickListener(null);
-//            showErrorStatus(viewHolder, msg);
-//            return;
-//        }
-//
-//        ArrayList<News> newsList = newsFeed.getNewsList();
-//
-//        if (newsList == null || newsList.size() == 0) {
-//            return;
-//        }
-//
-//        // 무조건 첫 실행시에는 첫번째 뉴스를 보여주게 변경
-//        final News displayingNews = newsList.get(getNewsFeedAt(position).getDisplayingNewsIndex());
-//
-//        viewHolder.itemView.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        NewsFeed newsFeed = getNewsFeedAt(position);
-//
-//                        if (mOnItemClickListener != null &&
-//                                newsFeed != null && newsFeed.containsNews()) {
-//                            mOnItemClickListener.onClick(viewHolder, newsFeed, position);
-//                        }
-//                    }
-//                }
-//        );
-//
-//        // 뉴스 제목 설정
-//        String newsTitle = displayingNews.getTitle();
-//        if (newsTitle != null) {
-//            titleView.setText(newsTitle);
-//        }
-//
-//        String newsFeedTitle = getNewsFeedAt(position).getTitle();
-//        if (newsFeedTitle != null) {
-//            newsFeedTitleView.setText(newsFeedTitle);
-//        }
-//
-//        String imageUrl = displayingNews.getImageUrl();
-//
-//        showLoading(viewHolder);
-//
-//        if (!displayingNews.hasImageUrl()) {
-//            if (displayingNews.isImageUrlChecked()) {
-//                showDummyImage(viewHolder);
-//            }
-//            return;
-//        }
-//
-//        Object tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request_idx);
-//
-//       if (tag != null) {
-//            int previousRequestIdx = (Integer)tag;
-//            int currentNewsIndex = mNewsFeedList.get(position).getDisplayingNewsIndex();
-//
-//            if (currentNewsIndex != previousRequestIdx) {
-//                tag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_request);
-//                if (tag != null) {
-//                    ((ImageLoader.ImageContainer) tag).cancelRequest();
-//                }
-//            }
-//       }
-//       mImageLoader.getThumbnail(imageUrl, new ResizedImageLoader.ImageListener() {
-//                   @Override
-//                   public void onSuccess(ResizedImageLoader.ImageResponse response) {
-//                       Bitmap bitmap = response.bitmap;
-//                       viewHolder.progressBar.setVisibility(View.GONE);
-//
-//                       viewHolder.imageView.setImageBitmap(bitmap);
-//
-//                       // apply palette
-//       //                            Palette palette = Palette.generate(bitmap);
-//       //                            int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-//                       int vibrantColor = response.vibrantColor;
-//                       if (vibrantColor != Color.TRANSPARENT) {
-//                           int red = Color.red(vibrantColor);
-//                           int green = Color.green(vibrantColor);
-//                           int blue = Color.blue(vibrantColor);
-//                           int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-//                           viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-//                           viewHolder.imageView.setTag(TintType.PALETTE);
-//                       } else {
-//                           viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-//                           viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
-//                       }
-//       //                        } else {
-//       //                            if (!displayingNews.isImageUrlChecked()) {
-//       //                                // 뉴스의 이미지 url 이 있는지 체크가 안된 경우는 아직 기다려야 함.
-//       //                                showLoading(viewHolder);
-//       //                            } else {
-//       //                                showDummyImage(viewHolder);
-//       //                            }
-//                   }
-//
-//                   @Override
-//                   public void onFail(VolleyError error) {
-//                        showDummyImage(viewHolder);
-//                    }
-//               });
-//        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request, imageContainer);
-//        viewHolder.itemView.setTag(R.id.tag_main_bottom_image_request_idx,
-//                mNewsFeedList.get(position).getDisplayingNewsIndex());
-//    }
 
     private void initEditLayer(BottomNewsFeedViewHolder viewHolder) {
         setEditMode(mEditMode);

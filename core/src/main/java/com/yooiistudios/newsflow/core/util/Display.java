@@ -107,10 +107,6 @@ public class Display {
         Point displaySize = getDisplaySize(context);
         Point realSize = getRealDisplaySize(context);
 
-        String tag = "getNavigationBarRect";
-        NLLog.i(tag, "displaySize : " + displaySize.toString());
-        NLLog.i(tag, "realSize : " + realSize.toString());
-
         return new Rect(0, 0, displaySize.x, realSize.y - displaySize.y);
     }
 

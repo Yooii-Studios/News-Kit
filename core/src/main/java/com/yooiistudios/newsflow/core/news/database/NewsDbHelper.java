@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yooiistudios.newsflow.core.util.NLLog;
-
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
@@ -142,7 +140,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 데이터베이스 구조가 바뀐 경우(데이터베이스에 컬럼이 추가되거나 새 테이블이 추가된 경우 등)
         // DB_VERSION 을 증가시키고 버전 체크를 해 필요한 처리를 한다.
-        NLLog.i(TAG, "oldVersion : " + oldVersion + "\nnewVersion : " + newVersion);
+//        NLLog.i(TAG, "oldVersion : " + oldVersion + "\nnewVersion : " + newVersion);
         if (oldVersion < 8) {
             dropAllTables(db, oldVersion);
             createAllTables(db);
