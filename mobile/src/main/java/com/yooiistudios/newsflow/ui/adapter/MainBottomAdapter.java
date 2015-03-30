@@ -247,7 +247,6 @@ public class MainBottomAdapter extends
                 .getDrawable(R.drawable.img_rss_url_fail));
         viewHolder.statusImageView.setImageDrawable(mContext.getResources()
                 .getDrawable(R.drawable.ic_rss_url_failed_small));
-        viewHolder.statusImageView.setColorFilter(PanelDecoration.getBottomRssNotFoundImgFilterColor(mContext));
         String errorMessage = NewsFeedFetchStateMessage.getMessage(mContext, newsFeed);
         viewHolder.statusTextView.setText(errorMessage);
     }
