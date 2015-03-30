@@ -71,7 +71,7 @@ public class NewsApplication extends Application {
         Configuration config = getApplicationContext().getResources().getConfiguration();
 
         // load language from MNLanguage
-        Language currentLanguage = LanguageUtils.getCurrentLanguageType(getApplicationContext());
+        Language currentLanguage = LanguageUtils.getCurrentLanguage(getApplicationContext());
 
         // update locale to current language
         mLocale = new Locale(currentLanguage.getLanguageCode(), currentLanguage.getRegion());

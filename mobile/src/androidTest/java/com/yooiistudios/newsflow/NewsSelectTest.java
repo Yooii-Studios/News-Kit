@@ -60,7 +60,7 @@ public class NewsSelectTest extends AndroidTestCase {
     }
 
     private void sortWithLanguage(Language language) {
-        LanguageUtils.setLanguageType(language, getContext());
+        LanguageUtils.setCurrentLanguage(language, getContext());
         NewsContentProvider.getInstance(getContext()).sortNewsProviderLanguage(getContext());
     }
 

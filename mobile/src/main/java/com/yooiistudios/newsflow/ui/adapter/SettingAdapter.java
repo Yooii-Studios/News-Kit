@@ -113,7 +113,7 @@ public class SettingAdapter extends BaseAdapter {
 
         if (item == SettingItem.LANGUAGE) {
             descriptionTextView.setText(
-                    LanguageUtils.getCurrentLanguageType(context).getLocalNotationStringId());
+                    LanguageUtils.getCurrentLanguage(context).getLocalNotationStringId());
         } else if (item == SettingItem.MAIN_AUTO_REFRESH_INTERVAL) {
             int autoRefreshInterval = Settings.getAutoRefreshInterval(context);
             descriptionTextView.setText(

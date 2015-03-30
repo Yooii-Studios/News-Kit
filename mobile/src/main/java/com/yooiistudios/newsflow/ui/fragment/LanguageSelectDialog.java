@@ -45,7 +45,7 @@ public class LanguageSelectDialog extends DialogFragment {
         }
         String[] languages = languageList.toArray(new String[languageList.size()]);
 
-        Language currentLanguageType = LanguageUtils.getCurrentLanguageType(getActivity());
+        Language currentLanguageType = LanguageUtils.getCurrentLanguage(getActivity());
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.setting_language)

@@ -50,18 +50,18 @@ public class LanguageUtils {
         return instance;
     }
 
-    public static Language getCurrentLanguageType(Context context) {
+    public static Language getCurrentLanguage(Context context) {
         return LanguageUtils.getInstance(context).mCurrentLanguage;
     }
 
-    public static void setLanguageType(Language newLanguage, Context context) {
+    public static void setCurrentLanguage(Language newLanguage, Context context) {
         // archive selection
         LanguageUtils.getInstance(context).mCurrentLanguage = newLanguage;
         context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .edit().putInt(LANGUAGE_MATRIX_KEY, newLanguage.getUniqueId()).commit();
 
         // update locale
-        Language currentLanguage = LanguageUtils.getCurrentLanguageType(context);
+        Language currentLanguage = LanguageUtils.getCurrentLanguage(context);
         Locale locale = new Locale(currentLanguage.getLanguageCode(), currentLanguage.getRegion());
         Locale.setDefault(locale);
         Configuration config = new Configuration();

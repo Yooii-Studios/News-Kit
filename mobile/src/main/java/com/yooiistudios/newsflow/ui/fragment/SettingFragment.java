@@ -169,7 +169,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onSelectLanguage(int index) {
-        LanguageUtils.setLanguageType(Language.valueOf(index), getActivity());
+        LanguageUtils.setCurrentLanguage(Language.valueOf(index), getActivity());
         // TODO: 언어의 선택 통계 Google Analytics 나중에 구현할 것
         mSettingAdapter.notifyDataSetChanged();
     }
