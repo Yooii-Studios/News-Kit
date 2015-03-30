@@ -652,13 +652,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyDummyNewsImageFromTop() {
-        setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
-                TintType.DUMMY_TOP);
+        setTopNewsImageBitmap(mImageLoader.getDummyImage(), TintType.DUMMY_TOP);
     }
 
     private void applyDummyNewsImageFromBottom() {
-        setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
-                TintType.DUMMY_BOTTOM);
+        setTopNewsImageBitmap(mImageLoader.getDummyImage(), TintType.DUMMY_BOTTOM);
     }
 
     private void setTopNewsImageBitmap(Bitmap bitmap) {
