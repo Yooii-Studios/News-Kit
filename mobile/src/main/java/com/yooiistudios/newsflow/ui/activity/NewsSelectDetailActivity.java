@@ -10,9 +10,13 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TypefaceSpan;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectCountryFragment;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectProviderFragment;
 
@@ -25,6 +29,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
     public static final String KEY_NEWS_PROVIDER = "key_news_provider";
 
     @InjectView(R.id.news_select_detail_toolbar) Toolbar mToolbar;
+    @InjectView(R.id.news_select_detail_adView) AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
 
         initToolbar();
         initFragment();
+        initAdView();
     }
 
     private void initToolbar() {
@@ -80,6 +86,17 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
             String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER);
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
                     NewsSelectProviderFragment.newInstance(jsonString)).commit();
+        }
+    }
+
+    private void initAdView() {
+        // NO_ADS 만 체크해도 풀버전까지 체크됨
+        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
+            mAdView.setVisibility(View.GONE);
+        } else {
+            mAdView.setVisibility(View.VISIBLE);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
         }
     }
 
