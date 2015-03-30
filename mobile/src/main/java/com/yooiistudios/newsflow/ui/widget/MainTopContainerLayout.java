@@ -27,7 +27,6 @@ import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
-import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
@@ -242,8 +241,8 @@ public class MainTopContainerLayout extends FrameLayout
             mIsReady = false;
             fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
         } else {
-            if (NewsFeedValidator.isValid(mTopNewsFeedPagerAdapter.getNewsFeed())) {
-//            if (mTopNewsFeedPagerAdapter.getNewsFeed().containsNews()) {
+//            if (NewsFeedValidator.isDisplayable(mTopNewsFeedPagerAdapter.getNewsFeed())) {
+            if (mTopNewsFeedPagerAdapter.getNewsFeed().isDisplayable()) {
                 notifyNewTopNewsFeedSet();
                 fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
 //                notifyIfInitialized();

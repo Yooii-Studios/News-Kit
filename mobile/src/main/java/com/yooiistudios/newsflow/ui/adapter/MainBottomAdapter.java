@@ -135,6 +135,7 @@ public class MainBottomAdapter extends
         final NewsFeed newsFeed = getNewsFeedAt(position);
 
         if (newsFeed.isDisplayable()) {
+            showNewsContent(viewHolder);
             setNewsFeedTitle(viewHolder, position);
             setCurrentNewsTitle(viewHolder, position);
             setNewsTitleLineCount(viewHolder);
@@ -151,7 +152,8 @@ public class MainBottomAdapter extends
                 if (displayingNews.isImageUrlChecked()) {
                     showDummyImage(viewHolder);
                 } else {
-                    showLoading(viewHolder);
+                    viewHolder.progressBar.setVisibility(View.VISIBLE);
+//                    showLoading(viewHolder);
                 }
             }
         } else {

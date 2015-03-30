@@ -106,7 +106,7 @@ public class BottomNewsImageFetchManager
         for (int i = 0 ; i< newsFeedList.size(); i++) {
             NewsFeed newsFeed = newsFeedList.get(i);
             if (newsFeed == null || (newsList = newsFeed.getNewsList()).size() == 0) {
-                return;
+                continue;
             }
 
             mNewsToFetchMap.put(newsList.get(newsFeed.getDisplayingNewsIndex()), new Pair<>(false, i));

@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.core.news.util;
 import android.util.Pair;
 
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 
 import java.util.ArrayList;
 
@@ -18,13 +19,13 @@ public class NewsFeedValidator {
                 + NewsFeedValidator.class.getSimpleName() + "!!");
     }
 
-    public static ArrayList<Pair<NewsFeed, Integer>> getInvalidNewsFeedPairs(
+    public static ArrayList<Pair<NewsFeed, Integer>> getInvalidNewsFeedsPairs(
             ArrayList<NewsFeed> newsFeeds) {
         ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch = new ArrayList<>();
         int count = newsFeeds.size();
         for (int i = 0; i < count; i++) {
             NewsFeed newsFeed = newsFeeds.get(i);
-            if (isInvalid(newsFeed)) {
+            if (!newsFeed.isDisplayable()) {
                 newsFeedListToFetch.add(new Pair<>(newsFeed, i));
             }
         }
@@ -32,11 +33,11 @@ public class NewsFeedValidator {
         return newsFeedListToFetch;
     }
 
-    public static boolean isValid(ArrayList<NewsFeed> newsFeeds) {
+    public static boolean isDisplayable(ArrayList<NewsFeed> newsFeeds) {
         int count = newsFeeds.size();
         for (int i = 0; i < count; i++) {
             NewsFeed newsFeed = newsFeeds.get(i);
-            if (isInvalid(newsFeed)) {
+            if (!newsFeed.isDisplayable()) {
                 return false;
             }
         }
@@ -44,11 +45,24 @@ public class NewsFeedValidator {
         return true;
     }
 
-    public static boolean isValid(NewsFeed newsFeed) {
-        return !isInvalid(newsFeed);
+    public static boolean isAllFetched(ArrayList<NewsFeed> newsFeeds) {
+        int count = newsFeeds.size();
+        for (int i = 0; i < count; i++) {
+            NewsFeed newsFeed = newsFeeds.get(i);
+            if (newsFeed.getNewsFeedFetchState().equals(NewsFeedFetchState.NOT_FETCHED_YET)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    public static boolean isInvalid(NewsFeed newsFeed) {
-        return newsFeed == null || !newsFeed.containsNews();
-    }
+//    public static boolean isDisplayable(NewsFeed newsFeed) {
+//        return !isInvalid(newsFeed);
+//    }
+//
+//    public static boolean isInvalid(NewsFeed newsFeed) {
+//        return !newsFeed.isDisplayable();
+////        return newsFeed == null || !newsFeed.containsNews();
+//    }
 }

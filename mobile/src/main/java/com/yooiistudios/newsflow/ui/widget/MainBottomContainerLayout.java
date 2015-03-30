@@ -173,11 +173,11 @@ public class MainBottomContainerLayout extends FrameLayout
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
             ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
-            if (NewsFeedValidator.isValid(newsFeeds)) {
+            if (NewsFeedValidator.isAllFetched(newsFeeds)) {
                 notifyOnInitialized();
             } else {
                 ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
-                        NewsFeedValidator.getInvalidNewsFeedPairs(newsFeeds);
+                        NewsFeedValidator.getInvalidNewsFeedsPairs(newsFeeds);
                 BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedPairList(
                         newsFeedListToFetch, this,
                         BottomNewsFeedFetchTask.TASK_INITIALIZE);
