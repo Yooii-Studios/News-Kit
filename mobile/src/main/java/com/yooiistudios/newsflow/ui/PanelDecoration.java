@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.util.Timestamp;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 4.
@@ -25,7 +24,30 @@ public class PanelDecoration {
         return BitmapFactory.decodeResource(context.getResources(), R.drawable.img_news_dummy);
     }
 
-    public static void applyDummyNewsImageInto(final Context context, final ImageView imageView) {
+    public static Bitmap getSmallDummyNewsImage(Context context) {
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.img_news_dummy_small);
+    }
+
+    public static void applyDummyNewsImageInto(Context context, final ImageView imageView) {
+        getDummyNewsImageAsync(context, new OnLoadBitmapListener() {
+            @Override
+            public void onLoad(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
+
+    public static void applySmallDummyNewsImageInto(Context context, final ImageView imageView) {
+        getSmallDummyNewsImageAsync(context, new OnLoadBitmapListener() {
+            @Override
+            public void onLoad(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
+
+    public static void getDummyNewsImageAsync(final Context context,
+                                              final OnLoadBitmapListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
@@ -35,17 +57,19 @@ public class PanelDecoration {
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 super.onPostExecute(bitmap);
-                imageView.setImageBitmap(bitmap);
+                if (listener != null) {
+                    listener.onLoad(bitmap);
+                }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public static void getDummyNewsImageAsync(final Context context,
+    public static void getSmallDummyNewsImageAsync(final Context context,
                                               final OnLoadBitmapListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return getDummyNewsImage(context);
+                return getSmallDummyNewsImage(context);
             }
 
             @Override

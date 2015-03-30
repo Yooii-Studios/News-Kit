@@ -232,7 +232,7 @@ public class MainBottomAdapter extends
         viewHolder.statusImageView.setImageDrawable(null);
         viewHolder.progressBar.setVisibility(View.GONE);
 
-        PanelDecoration.applyDummyNewsImageInto(mContext, viewHolder.imageView);
+        PanelDecoration.applySmallDummyNewsImageInto(mContext, viewHolder.imageView);
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
         viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
     }
