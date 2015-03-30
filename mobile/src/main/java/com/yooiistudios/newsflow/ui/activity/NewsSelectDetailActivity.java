@@ -12,9 +12,9 @@ import android.text.style.TypefaceSpan;
 import android.view.MenuItem;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectCountryFragment;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectProviderFragment;
-import com.yooiistudios.newsflow.core.util.Device;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -66,7 +66,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
         spannableTitle.setSpan(new TypefaceSpan(getString(R.string.noto_sans_medium)), 0,
                 spannableTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        mToolbar.setTitle(spannableTitle);
+        setTitle(spannableTitle);
     }
 
     private void initFragment() {

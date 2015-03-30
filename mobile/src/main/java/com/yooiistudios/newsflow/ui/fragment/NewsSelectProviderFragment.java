@@ -67,8 +67,7 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
             ButterKnife.inject(this, rootView);
             initListView();
             if (mNewsProvider != null) {
-                ((NewsSelectDetailActivity)getActivity()).setToolbarTitle(
-                        mNewsProvider.name);
+                ((NewsSelectDetailActivity) getActivity()).setToolbarTitle(mNewsProvider.name);
             }
         }
         return rootView;
