@@ -298,7 +298,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void configBannerAdOnInsetChanged() {
-        if (isPortrait()) {
+        if (Device.isPortrait(this)) {
             mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInsetBottom);
         } else {
             mBannerAd.applyBottomMarginOnPortrait(0);
@@ -326,7 +326,7 @@ public class MainActivity extends ActionBarActivity
         // NO_ADS 만 체크해도 풀버전까지 체크됨
         boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
         if (adPurchased) {
-            if (isPortrait()) {
+            if (Device.isPortrait(this)) {
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom);
             } else {
                 mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
@@ -336,7 +336,7 @@ public class MainActivity extends ActionBarActivity
         } else {
             configBannerAdOnInsetChanged();
 //            configSwipeRefreshLayoutOnOrientationChanged();
-            if (isPortrait()) {
+            if (Device.isPortrait(this)) {
 //                int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
@@ -354,7 +354,7 @@ public class MainActivity extends ActionBarActivity
 
     private void configNavigationTranslucentState() {
         boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
-        if (adPurchased && isPortrait()) {
+        if (adPurchased && Device.isPortrait(this)) {
             Display.applyTranslucentNavigationBarAfterLollipop(this);
         } else {
             Display.removeTranslucentNavigationBarAfterLollipop(this);
@@ -366,7 +366,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void setSwipeRefreshLayoutEnabled(boolean enable) {
-        if (isPortrait()) {
+        if (Device.isPortrait(this)) {
             boolean readyForRefresh = mMainTopContainerLayout.isReady()
                     && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
             mSwipeRefreshLayout.setEnabled(enable && readyForRefresh);
@@ -683,10 +683,6 @@ public class MainActivity extends ActionBarActivity
 
         mMainTopContainerLayout.configOnOrientationChange();
         mMainBottomContainerLayout.configOnOrientationChange();
-    }
-
-    private boolean isPortrait() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     @Override

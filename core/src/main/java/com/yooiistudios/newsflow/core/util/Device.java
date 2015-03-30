@@ -2,10 +2,15 @@ package com.yooiistudios.newsflow.core.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 2. 19.
@@ -44,6 +49,31 @@ public class Device {
 
     public static boolean hasLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    @IntDef({Configuration.ORIENTATION_PORTRAIT,
+            Configuration.ORIENTATION_LANDSCAPE,
+            Configuration.ORIENTATION_UNDEFINED})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Orientation {}
+
+    @Orientation
+    public static int getOrientation(Context context) {
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            return Configuration.ORIENTATION_PORTRAIT;
+        } else if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return Configuration.ORIENTATION_LANDSCAPE;
+        } else {
+            return Configuration.ORIENTATION_UNDEFINED;
+        }
+    }
+
+    public static boolean isPortrait(Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public static boolean isLandscape(Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     public static class Profile {

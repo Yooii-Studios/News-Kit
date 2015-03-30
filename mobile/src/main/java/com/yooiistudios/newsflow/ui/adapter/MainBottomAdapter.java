@@ -1,7 +1,6 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
@@ -21,6 +20,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -247,6 +247,8 @@ public class MainBottomAdapter extends
                 .getDrawable(R.drawable.ic_rss_url_failed_small));
         String errorMessage = NewsFeedFetchStateMessage.getMessage(mContext, newsFeed);
         viewHolder.statusTextView.setText(errorMessage);
+
+        // 방향에 따라 orientation 과 마진 설정 필요
     }
 
     private void cancelPreviousImageRequest(BottomNewsFeedViewHolder viewHolder) {
@@ -291,7 +293,7 @@ public class MainBottomAdapter extends
     }
 
     private void setNewsTitleLineCount(BottomNewsFeedViewHolder viewHolder) {
-        if (isPortrait()) {
+        if (Device.isPortrait(mContext)) {
             // TODO 리소스의 maxLines 와 통일시켜야 함
             viewHolder.newsTitleTextView.setMaxLines(3);
             viewHolder.newsTitleTextView.setSingleLine(false);
@@ -374,14 +376,6 @@ public class MainBottomAdapter extends
 
     public boolean isInEditingMode() {
         return mEditMode.equals(PanelEditMode.EDITING);
-    }
-
-    private boolean isPortrait() {
-        return mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-    }
-
-    private boolean isLandscape() {
-        return !isPortrait();
     }
 
     @Override

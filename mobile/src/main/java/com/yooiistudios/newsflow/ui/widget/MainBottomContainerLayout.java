@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,6 +28,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
@@ -202,10 +202,9 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void adjustSize() {
-        int orientation = getResources().getConfiguration().orientation;
         ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
         Context context = getContext().getApplicationContext();
-        if (isPortrait(orientation)) {
+        if (Device.isPortrait(getContext())) {
             // 메인 하단의 뉴스피드 RecyclerView 의 높이를 set
             recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnPortrait(context,
                     mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
@@ -221,10 +220,6 @@ public class MainBottomContainerLayout extends FrameLayout
         }
 
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
-    }
-
-    private boolean isPortrait(int orientation) {
-        return orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     private void initAnimator() {
@@ -477,15 +472,14 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void configOnOrientationChange() {
-        int orientation = getResources().getConfiguration().orientation;
         GridLayoutManager layoutManager =
                 (GridLayoutManager)mBottomNewsFeedRecyclerView.getLayoutManager();
 
-        if (isPortrait(orientation)) {
+        if (Device.isPortrait(getContext())) {
             layoutManager.setSpanCount(COLUMN_COUNT_PORTRAIT);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.PORTRAIT);
-        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        } else if (Device.isLandscape(getContext())) {
             layoutManager.setSpanCount(COLUMN_COUNT_LANDSCAPE);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);

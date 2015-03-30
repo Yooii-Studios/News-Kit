@@ -28,6 +28,7 @@ import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
+import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
@@ -501,10 +502,9 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     public void configOnOrientationChange() {
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (Device.isPortrait(getContext())) {
             configOnPortraitOrientation();
-        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        } else if (Device.isLandscape(getContext())) {
             configOnLandscapeOrientation();
         }
         invalidate();
