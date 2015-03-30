@@ -13,7 +13,6 @@
         android:minHeight="?attr/actionBarSize"
         android:background="@color/app_color_primary"
         android:layout_alignParentTop="true"
-        app:title="@string/store_topic_select_title"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
     <com.google.android.gms.ads.AdView
