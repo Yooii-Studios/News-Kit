@@ -49,7 +49,8 @@
     <dimen name="main_bottom_card_view_title_size">20sp</dimen>
     <dimen name="main_bottom_text_padding">16dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">6dp</dimen>
-    <dimen name="main_bottom_status_image_view_size">55dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_portrait">55dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_landscape">35dp</dimen>
 
     <!-- Loading Animation -->
     <dimen name="loading_anim_padding">4dp</dimen>

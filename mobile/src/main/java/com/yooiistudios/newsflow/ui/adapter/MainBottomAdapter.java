@@ -1,6 +1,7 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
@@ -249,6 +250,31 @@ public class MainBottomAdapter extends
         viewHolder.statusTextView.setText(errorMessage);
 
         // 방향에 따라 orientation 과 마진 설정 필요
+        Resources resources = mContext.getResources();
+        LinearLayout.LayoutParams textViewParams =
+                (LinearLayout.LayoutParams) viewHolder.statusTextView.getLayoutParams();
+        LinearLayout.LayoutParams imageViewParams =
+                (LinearLayout.LayoutParams) viewHolder.statusImageView.getLayoutParams();
+
+        if (Device.isPortrait(mContext)) {
+            viewHolder.statusLayout.setOrientation(LinearLayout.VERTICAL);
+            textViewParams.leftMargin = 0;
+            textViewParams.topMargin = resources.getDimensionPixelSize(R.dimen.base_margin_half);
+
+            int imageViewSize = resources.getDimensionPixelSize(
+                    R.dimen.main_bottom_status_image_view_size_portrait);
+            imageViewParams.width = imageViewSize;
+            imageViewParams.height = imageViewSize;
+        } else if (Device.isLandscape(mContext)) {
+            viewHolder.statusLayout.setOrientation(LinearLayout.HORIZONTAL);
+            textViewParams.leftMargin = resources.getDimensionPixelSize(R.dimen.base_margin);
+            textViewParams.topMargin = 0;
+
+            int imageViewSize = resources.getDimensionPixelSize(
+                    R.dimen.main_bottom_status_image_view_size_landscape);
+            imageViewParams.width = imageViewSize;
+            imageViewParams.height = imageViewSize;
+        }
     }
 
     private void cancelPreviousImageRequest(BottomNewsFeedViewHolder viewHolder) {

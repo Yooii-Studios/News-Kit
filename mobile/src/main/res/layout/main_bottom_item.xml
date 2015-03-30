@@ -46,8 +46,8 @@
 
         <ImageView
             android:id="@+id/main_bottom_status_imageview"
-            android:layout_width="@dimen/main_bottom_status_image_view_size"
-            android:layout_height="@dimen/main_bottom_status_image_view_size"
+            android:layout_width="@dimen/main_bottom_status_image_view_size_portrait"
+            android:layout_height="@dimen/main_bottom_status_image_view_size_portrait"
             android:scaleType="centerInside"
             android:src="@drawable/ic_rss_url_failed_small"/>
         
