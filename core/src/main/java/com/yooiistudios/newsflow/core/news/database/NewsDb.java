@@ -11,6 +11,7 @@ import android.support.v7.graphics.Palette;
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContent;
 import com.yooiistudios.newsflow.core.news.newscontent.NewsContentFetchState;
@@ -490,6 +491,9 @@ public class NewsDb {
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FEED_URL, newsFeed.getNewsFeedUrl().getUrl());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FEED_URL_TYPE_KEY,
                 newsFeed.getNewsFeedUrl().getType().getUniqueKey());
+        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FETCH_STATE_KEY,
+                newsFeed.getNewsFeedFetchState().getKey());
+
 //        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_IS_VALID, newsFeed.containsNews());
 //        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_LINK, newsFeed.getLink());
 //        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_DESCRIPTION, newsFeed.getDescription());
@@ -576,6 +580,8 @@ public class NewsDb {
                 NewsFeedEntry.COLUMN_NAME_FEED_URL));
         int newsFeedUrlTypeKey = newsFeedCursor.getInt(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_FEED_URL_TYPE_KEY));
+        int newsFeedFetchStateKey = newsFeedCursor.getInt(newsFeedCursor.getColumnIndex(
+                NewsFeedEntry.COLUMN_NAME_FETCH_STATE_KEY));
 
         String topicRegionCode = newsFeedCursor.getString(newsFeedCursor.getColumnIndex(
                 NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE));
@@ -592,6 +598,7 @@ public class NewsDb {
         newsFeed.setTitle(title);
         newsFeed.setNewsFeedUrl(new NewsFeedUrl(newsFeedUrl, newsFeedUrlTypeKey));
         newsFeed.setDisplayingNewsIndex(0);
+        newsFeed.setNewsFeedFetchState(NewsFeedFetchState.getByKey(newsFeedFetchStateKey));
         newsFeed.setTopicLanguageCode(topicLanguageCode);
         newsFeed.setTopicRegionCode(topicRegionCode);
         newsFeed.setTopicCountryCode(topicCountryCode);

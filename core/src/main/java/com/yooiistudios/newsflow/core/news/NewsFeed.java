@@ -155,6 +155,14 @@ public class NewsFeed implements Parcelable, RssFetchable {
         return null;
     }
 
+    /**
+     * 뉴스피드가 화면에 보여질 수 있는 상태인지 체크한다.
+     * @return 뉴스피드 fetch 에 성공했으며 가지고 뉴스가 존재할 경우
+     */
+    public boolean isDisplayable() {
+        return getNewsFeedFetchState().equals(NewsFeedFetchState.SUCCESS) && containsNews();
+    }
+
     public boolean containsNews() {
         return getNewsList() != null && getNewsList().size() > 0;
     }
@@ -174,6 +182,11 @@ public class NewsFeed implements Parcelable, RssFetchable {
     public int getDisplayingNewsIndex() {
         return mDisplayingNewsIndex;
     }
+
+    public News getDisplayingNews() {
+        return mNewsList.get(mDisplayingNewsIndex);
+    }
+
     public void setDisplayingNewsIndex(int index) {
         this.mDisplayingNewsIndex = index;
     }

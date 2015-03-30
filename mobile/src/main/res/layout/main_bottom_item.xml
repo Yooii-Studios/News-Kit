@@ -7,13 +7,6 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/main_bottom_margin_small">
 
-    <ImageView
-        android:id="@+id/main_bottom_item_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/content_description"/>
-
     <ProgressBar
         android:id="@+id/main_bottom_item_progress"
         android:layout_width="wrap_content"
@@ -21,22 +14,33 @@
         android:layout_gravity="center"
         style="@style/Base.Widget.AppCompat.ProgressBar"/>
 
-    <TextView
-        android:id="@+id/main_bottom_item_title"
-        style="@style/MainBottomItemTextStyle"/>
+    <FrameLayout
+        android:id="@+id/main_bottom_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/main_bottom_item_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/content_description"/>
 
-    <TextView
-        android:id="@+id/main_bottom_news_feed_title"
-        style="@style/MainBottomItemNewsFeedTitleTextStyle"/>
+        <TextView
+            android:id="@+id/main_bottom_item_title"
+            style="@style/MainBottomItemTextStyle"/>
+
+        <TextView
+            android:id="@+id/main_bottom_news_feed_title"
+            style="@style/MainBottomItemNewsFeedTitleTextStyle"/>
+    </FrameLayout>
     <!--
         android:background="?android:attr/colorPrimary" -->
 
     <LinearLayout
         android:id="@+id/main_bottom_status_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:visibility="gone"
         android:orientation="vertical">
 
@@ -44,7 +48,8 @@
             android:id="@+id/main_bottom_status_imageview"
             android:layout_width="@dimen/main_bottom_status_image_view_size"
             android:layout_height="@dimen/main_bottom_status_image_view_size"
-            android:background="@drawable/ic_rss_url_failed_small"/>
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_rss_url_failed_small"/>
         
         <TextView
             android:id="@+id/main_bottom_status_textview"

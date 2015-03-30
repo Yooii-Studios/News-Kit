@@ -15,6 +15,7 @@ public class NewsFeedFetchStateMessage {
     private NewsFeedFetchStateMessage() {
         throw new AssertionError("You MUST NOT create this class!");
     }
+
     public static String getMessage(Context context, NewsFeed newsFeed) {
         switch (newsFeed.getNewsFeedFetchState()) {
             case NOT_FETCHED_YET:
