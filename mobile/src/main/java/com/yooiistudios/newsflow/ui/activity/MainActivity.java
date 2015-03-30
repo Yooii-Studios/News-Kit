@@ -33,6 +33,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
+import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
@@ -673,6 +674,10 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+        // 강제로 Locale 고정 필요(안그러면 풀림)
+        LocaleUtils.updateLocale(this);
+
         requestSystemWindowsBottomInset();
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {

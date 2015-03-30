@@ -56,34 +56,34 @@
             android:name=".ui.activity.NewsSelectActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
             android:label="@string/select_newsfeed_title"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="sensor"
             android:theme="@style/NewsSelectTheme" />
         <activity
             android:name=".ui.activity.SettingActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/action_settings"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="sensor"
             android:theme="@style/SettingTheme" />
         <activity
             android:name=".ui.activity.InfoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/action_info"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensor" />
         <activity
             android:name=".ui.activity.MoreInfoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/info_news_info"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensor" />
         <activity
             android:name=".ui.activity.CreditActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/info_credit"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensor" />
         <activity
             android:name=".ui.activity.LicenseActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/more_info_license"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensor" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
@@ -96,7 +96,7 @@
         <activity
             android:name=".ui.activity.NewsSelectDetailActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
-            android:screenOrientation="sensorPortrait"/>
+            android:screenOrientation="sensor"/>
         <service
             android:name=".service.BackgroundCacheIntentService"
             android:exported="false" />
