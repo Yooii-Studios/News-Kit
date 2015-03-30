@@ -18,7 +18,6 @@ import com.yooiistudios.newsflow.core.news.ImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.SimpleImageCache;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -135,21 +134,20 @@ public class ResizedImageLoader {
         if (mRequestedUrlSuppliers.containsKey(urlSupplier)
                 && mRequestedUrlSuppliers.get(urlSupplier).equals(REQUESTED)) {
             mRequestedUrlSuppliers.put(urlSupplier, CANCEL_REQUESTED);
-            NLLog.now("cancelRequest");
-            print();
+//            print();
         }
     }
 
-    private void print() {
-        NLLog.now("size: " + mRequestedUrlSuppliers.size());
-        for (UrlSupplier supplier : mRequestedUrlSuppliers.keySet()) {
-            mRequestedUrlSuppliers.get(supplier);
-//            NLLog.now(supplier.toString());
-            int state = mRequestedUrlSuppliers.get(supplier);
-            String message = state == REQUESTED ? "REQUESTED" : "CANCEL_REQUESTED";
-            NLLog.now("state: " + message);
-        }
-    }
+//    private void print() {
+////        NLLog.now("size: " + mRequestedUrlSuppliers.size());
+//        for (UrlSupplier supplier : mRequestedUrlSuppliers.keySet()) {
+//            mRequestedUrlSuppliers.get(supplier);
+////            NLLog.now(supplier.toString());
+//            int state = mRequestedUrlSuppliers.get(supplier);
+//            String message = state == REQUESTED ? "REQUESTED" : "CANCEL_REQUESTED";
+////            NLLog.now("state: " + message);
+//        }
+//    }
 
     private Bitmap getCachedThumbnail(String url) {
         return mCache.getBitmap(getThumbnailCacheKey(url));
@@ -257,10 +255,8 @@ public class ResizedImageLoader {
     }
 
     private void notifyOnFail(ImageListener listener, UrlSupplier urlSupplier, VolleyError error) {
-        NLLog.now("notifyOnFail");
         if (!isCancelRequested(urlSupplier)) {
             listener.onFail(error);
-            NLLog.now("onFail");
         }
         markDelivered(urlSupplier);
     }
@@ -288,8 +284,8 @@ public class ResizedImageLoader {
 
     private void markDelivered(UrlSupplier supplier) {
         mRequestedUrlSuppliers.remove(supplier);
-        NLLog.now("markDelivered");
-        print();
+//        NLLog.now("markDelivered");
+//        print();
     }
 
 //    private void markCancelled(String url) {
