@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v4.app.FragmentActivity;
@@ -120,6 +121,26 @@ public class ResizedImageLoader {
         request.type = ImageRequest.TYPE_THUMBNAIL;
 
         get(request, imageListener);
+    }
+
+    public Bitmap getDummyImage() {
+        final String key = "dummy";
+        Bitmap bitmap = mCache.getBitmap(key);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img_news_dummy);
+            mCache.putBitmap(key, bitmap);
+        }
+        return bitmap;
+    }
+
+    public Bitmap getSmallDummyImage() {
+        final String key = "small_dummy";
+        Bitmap bitmap = mCache.getBitmap(key);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img_news_dummy_small);
+            mCache.putBitmap(key, bitmap);
+        }
+        return bitmap;
     }
 
     public void cancelRequest(String url) {

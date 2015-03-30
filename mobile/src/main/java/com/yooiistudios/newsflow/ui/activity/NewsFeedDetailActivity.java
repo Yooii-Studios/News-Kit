@@ -58,7 +58,6 @@ import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
@@ -653,13 +652,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyDummyNewsImageFromTop() {
-        setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
-                TintType.DUMMY_TOP);
+        setTopNewsImageBitmap(mImageLoader.getDummyImage(), TintType.DUMMY_TOP);
     }
 
     private void applyDummyNewsImageFromBottom() {
-        setTopNewsImageBitmap(PanelDecoration.getDummyNewsImage(getApplicationContext()),
-                TintType.DUMMY_BOTTOM);
+        setTopNewsImageBitmap(mImageLoader.getDummyImage(), TintType.DUMMY_BOTTOM);
     }
 
     private void setTopNewsImageBitmap(Bitmap bitmap) {

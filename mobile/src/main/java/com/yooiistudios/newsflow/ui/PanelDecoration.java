@@ -2,12 +2,12 @@ package com.yooiistudios.newsflow.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.model.ResizedImageLoader;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 4.
@@ -20,16 +20,31 @@ public class PanelDecoration {
         public void onLoad(Bitmap bitmap);
     }
 
-    public static Bitmap getDummyNewsImage(Context context) {
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.img_news_dummy);
-    }
+    private static final int RES_DUMMY_IMAGE = R.drawable.img_news_dummy;
+    private static final int RES_SMALL_DUMMY_IMAGE = R.drawable.img_news_dummy_small;
 
-    public static Bitmap getSmallDummyNewsImage(Context context) {
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.img_news_dummy_small);
-    }
+//    public static Bitmap getDummyNewsImage(ResizedImageLoader imageLoader) {
+//        return ImageResizer.decodeBitmapFromResource(activity.getResources(),
+//                RES_DUMMY_IMAGE, SimpleImageCache.getInstance().get(activity));
+////        return BitmapFactory.decodeResource(context.getResources(), RES_DUMMY_IMAGE);
+//    }
 
-    public static void applyDummyNewsImageInto(Context context, final ImageView imageView) {
-        getDummyNewsImageAsync(context, new OnLoadBitmapListener() {
+//    public static Bitmap getSmallDummyNewsImage(ResizedImageLoader imageLoader) {
+//        return imageLoader.getSmallDummyImage();
+//    }
+
+//    public static void applyDummyNewsImageInto(Context context, final ImageView imageView) {
+//        getDummyNewsImageAsync(context, new OnLoadBitmapListener() {
+//            @Override
+//            public void onLoad(Bitmap bitmap) {
+//                imageView.setImageBitmap(bitmap);
+//            }
+//        });
+//    }
+
+    public static void applySmallDummyNewsImageInto(ResizedImageLoader imageLoader,
+                                                    final ImageView imageView) {
+        getSmallDummyNewsImageAsync(imageLoader, new OnLoadBitmapListener() {
             @Override
             public void onLoad(Bitmap bitmap) {
                 imageView.setImageBitmap(bitmap);
@@ -37,21 +52,13 @@ public class PanelDecoration {
         });
     }
 
-    public static void applySmallDummyNewsImageInto(Context context, final ImageView imageView) {
-        getSmallDummyNewsImageAsync(context, new OnLoadBitmapListener() {
-            @Override
-            public void onLoad(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
-            }
-        });
-    }
-
-    public static void getDummyNewsImageAsync(final Context context,
+    public static void getDummyNewsImageAsync(final ResizedImageLoader imageLoader,
                                               final OnLoadBitmapListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return getDummyNewsImage(context);
+                return imageLoader.getDummyImage();
+//                return getDummyNewsImage(activity);
             }
 
             @Override
@@ -64,12 +71,13 @@ public class PanelDecoration {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public static void getSmallDummyNewsImageAsync(final Context context,
-                                              final OnLoadBitmapListener listener) {
+    public static void getSmallDummyNewsImageAsync(final ResizedImageLoader imageLoader,
+                                                   final OnLoadBitmapListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return getSmallDummyNewsImage(context);
+                return imageLoader.getSmallDummyImage();
+//                return getSmallDummyNewsImage(activity);
             }
 
             @Override

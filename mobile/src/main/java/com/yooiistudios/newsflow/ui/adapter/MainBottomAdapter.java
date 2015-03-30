@@ -147,6 +147,7 @@ public class MainBottomAdapter extends
                 cancelPreviousImageRequestIfNecessary(viewHolder, position);
                 viewHolder.progressBar.setVisibility(View.VISIBLE);
                 loadImage(viewHolder, position);
+//                showDummyImage(viewHolder);
             } else {
                 cancelPreviousImageRequest(viewHolder);
                 if (displayingNews.isImageUrlChecked()) {
@@ -232,7 +233,7 @@ public class MainBottomAdapter extends
         viewHolder.statusImageView.setImageDrawable(null);
         viewHolder.progressBar.setVisibility(View.GONE);
 
-        PanelDecoration.applySmallDummyNewsImageInto(mContext, viewHolder.imageView);
+        PanelDecoration.applySmallDummyNewsImageInto(mImageLoader, viewHolder.imageView);
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
         viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
     }
