@@ -36,7 +36,6 @@ public class MainNewsFeedFragment extends Fragment {
     private static final String KEY_POSITION = "KEY_TAB_INDEX";
 
     private MainActivity mActivity;
-//    private ImageLoader mImageLoader;
     private ResizedImageLoader mImageLoader;
     private NewsFeed mNewsFeed;
     private News mNews;
@@ -90,13 +89,6 @@ public class MainNewsFeedFragment extends Fragment {
     }
 
     private void initImageLoader() {
-//        Context context = getActivity().getApplicationContext();
-//
-//        RequestQueue requestQueue = ImageRequestQueue.getInstance(context).getRequestQueue();
-//        mImageLoader = new ImageLoader(requestQueue,
-//                SimpleImageCache.getInstance().get(
-//                        context, mActivity.getSupportFragmentManager()));
-//        mImageLoader = ResizedImageLoader.create(mActivity);
         mImageLoader = mActivity.getImageLoader();
     }
 
@@ -192,17 +184,15 @@ public class MainNewsFeedFragment extends Fragment {
 
     private void showDummyImage(final ItemViewHolder viewHolder) {
         if (!mRecycled && viewHolder.imageView != null) {
-//            Bitmap dummyImage = PanelDecoration.getDummyNewsImage(getActivity().getApplicationContext());
-//            viewHolder.imageView.setImageBitmap(dummyImage);
-            PanelDecoration.getDummyNewsImageAsync(getActivity().getApplicationContext(), new PanelDecoration.OnLoadBitmapListener() {
-                @Override
-                public void onLoad(Bitmap bitmap) {
-                    if (!mRecycled) {
-                        viewHolder.imageView.setImageBitmap(bitmap);
-                    }
-                }
-            });
-            PanelDecoration.applyDummyNewsImageInto(getActivity().getApplicationContext(), viewHolder.imageView);
+            PanelDecoration.getDummyNewsImageAsync(mImageLoader,
+                    new PanelDecoration.OnLoadBitmapListener() {
+                        @Override
+                        public void onLoad(Bitmap bitmap) {
+                            if (!mRecycled) {
+                                viewHolder.imageView.setImageBitmap(bitmap);
+                            }
+                        }
+                    });
             viewHolder.imageView.setColorFilter(PanelDecoration.getTopDummyImageFilterColor());
             viewHolder.imageView.setTag(TintType.DUMMY_TOP);
 
