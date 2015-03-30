@@ -207,10 +207,10 @@ public class MainBottomContainerLayout extends FrameLayout
         Context context = getContext().getApplicationContext();
         if (isPortrait(orientation)) {
             // 메인 하단의 뉴스피드 RecyclerView 의 높이를 set
-            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnPortrait(context,
+            recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnPortrait(context,
                     mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
         } else {
-            recyclerViewLp.height = MainBottomAdapter.measureMaximumHeightOnLandscape(context,
+            recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnLandscape(context,
                     recyclerViewLp);
 
 //            if (!IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {

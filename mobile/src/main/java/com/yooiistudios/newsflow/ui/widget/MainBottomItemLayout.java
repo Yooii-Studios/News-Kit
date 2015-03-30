@@ -1,10 +1,14 @@
 package com.yooiistudios.newsflow.ui.widget;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 
-import com.yooiistudios.newsflow.ui.adapter.MainBottomAdapter;
+import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.util.Display;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,6 +37,8 @@ public class MainBottomItemLayout extends RatioFrameLayout {
 
     public static final int PORTRAIT = 0;
     public static final int LANDSCAPE = 1;
+
+    public static final float HEIGHT_OVER_WIDTH_RATIO = 3.3f / 4.0f;
 
     private OnSupplyTargetAxisLengthListener mOnSupplyTargetAxisLengthListener;
     private int mOrientation = PORTRAIT;
@@ -68,7 +74,7 @@ public class MainBottomItemLayout extends RatioFrameLayout {
                 }
             }
             if (mOrientation == PORTRAIT) {
-                return MainBottomAdapter.getRowHeight(baseAxisLength);
+                return getRowHeight(baseAxisLength);
             } else {
                 return -1;
             }
@@ -76,5 +82,47 @@ public class MainBottomItemLayout extends RatioFrameLayout {
             // 가로축 지원 안함.
             return 0;
         }
+    }
+
+    public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
+        // get display width
+        Point displaySize = Display.getDisplaySize(context);
+        int displayWidth = displaySize.x;
+
+        // main_bottom_margin_small : item padding = recyclerView margin
+        float recyclerViewMargin = context.getResources().
+                getDimension(R.dimen.main_bottom_margin_small);
+
+        float rowWidth = (displayWidth - (recyclerViewMargin * 2)) / columnCount;
+        float rowHeight = getRowHeight(rowWidth);
+
+        int rowCount = itemCount / columnCount;
+        if (itemCount % columnCount != 0) {
+            rowCount += 1;
+        }
+
+        return Math.round(rowHeight * rowCount);
+    }
+
+    public static int measureMaximumHeightOnLandscape(Context context, ViewGroup.LayoutParams lp) {
+        int height = Display.getDisplaySize(context).y;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
+            height -= Display.getStatusBarHeight(context);
+        }
+        if (lp instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)lp;
+            height -= (marginLayoutParams.topMargin + marginLayoutParams.bottomMargin);
+        }
+
+        return height;
+    }
+
+    public static float getRowHeight(float width) {
+        return width * (HEIGHT_OVER_WIDTH_RATIO);
+    }
+
+    public static float getRowWidth(float height) {
+        return height * (1 / HEIGHT_OVER_WIDTH_RATIO);
     }
 }

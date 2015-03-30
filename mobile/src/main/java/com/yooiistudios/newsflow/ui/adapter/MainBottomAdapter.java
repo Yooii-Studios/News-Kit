@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +21,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.TintType;
-import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
@@ -57,7 +54,6 @@ public class MainBottomAdapter extends
     public static final int LANDSCAPE = 1;
     private static final String TAG = MainBottomAdapter.class.getName();
     private static final String VIEW_NAME_POSTFIX = "_bottom_";
-    private static final float HEIGHT_OVER_WIDTH_RATIO = 3.3f / 4.0f;
 
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
@@ -106,7 +102,7 @@ public class MainBottomAdapter extends
                         orientation == MainBottomItemLayout.LANDSCAPE) {
                     ViewGroup.LayoutParams lp = parent.getLayoutParams();
                     double ratio = mNewsFeedList.size() <= 4 ? 0.25 : 0.23;
-                    double height = MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
+                    double height = MainBottomItemLayout.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
                     return (int) Math.floor(height);
 //                    return MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
                 } else {
@@ -378,48 +374,6 @@ public class MainBottomAdapter extends
 
     public boolean isInEditingMode() {
         return mEditMode.equals(PanelEditMode.EDITING);
-    }
-
-    public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
-        // get display width
-        Point displaySize = Display.getDisplaySize(context);
-        int displayWidth = displaySize.x;
-
-        // main_bottom_margin_small : item padding = recyclerView margin
-        float recyclerViewMargin = context.getResources().
-                getDimension(R.dimen.main_bottom_margin_small);
-
-        float rowWidth = (displayWidth - (recyclerViewMargin * 2)) / columnCount;
-        float rowHeight = getRowHeight(rowWidth);
-
-        int rowCount = itemCount / columnCount;
-        if (itemCount % columnCount != 0) {
-            rowCount += 1;
-        }
-
-        return Math.round(rowHeight * rowCount);
-    }
-
-    public static int measureMaximumHeightOnLandscape(Context context, ViewGroup.LayoutParams lp) {
-        int height = Display.getDisplaySize(context).y;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
-            height -= Display.getStatusBarHeight(context);
-        }
-        if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)lp;
-            height -= (marginLayoutParams.topMargin + marginLayoutParams.bottomMargin);
-        }
-
-        return height;
-    }
-
-    public static float getRowHeight(float width) {
-        return width * (HEIGHT_OVER_WIDTH_RATIO);
-    }
-
-    public static float getRowWidth(float height) {
-        return height * (1 / HEIGHT_OVER_WIDTH_RATIO);
     }
 
     private boolean isPortrait() {
