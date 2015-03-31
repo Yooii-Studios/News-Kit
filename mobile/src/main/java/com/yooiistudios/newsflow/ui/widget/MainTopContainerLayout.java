@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
@@ -12,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -145,9 +143,6 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     private void initImageLoader() {
-//        Context context = getContext().getApplicationContext();
-//        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
-//                SimpleImageCache.getInstance().get(mActivity));
         mImageLoader = mActivity.getImageLoader();
     }
 
@@ -173,36 +168,6 @@ public class MainTopContainerLayout extends FrameLayout
 
     public NewsFeed getNewsFeed() {
         return mTopNewsFeedPagerAdapter.getNewsFeed();
-    }
-
-    public void animateOnInit() {
-//        final View view = findViewById(R.id.main_top_root);
-        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                getViewTreeObserver().removeOnPreDrawListener(this);
-
-                // get display height
-                Point displaySize = new Point();
-                mActivity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-                int displayHeight = displaySize.y;
-
-                // calculate translation Y for animation.
-                int translationY = displayHeight - getTop();
-
-                // animate
-                setTranslationY(translationY);
-
-                int duration = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_duration);
-                animate()
-                    .setDuration(duration)
-                    .translationY(0)
-                    .setInterpolator(AnimationFactory.makeDefaultReversePathInterpolator())
-                    .start();
-
-                return false;
-            }
-        });
     }
 
     public void autoRefreshTopNewsFeed() {

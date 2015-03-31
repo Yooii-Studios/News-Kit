@@ -391,33 +391,6 @@ public class MainBottomContainerLayout extends FrameLayout
 //                fetchDisplayingNewsImage);
 //    }
 
-    public void animateBottomNewsFeedListOnInit() {
-        mBottomNewsFeedRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                mBottomNewsFeedRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                int recyclerViewHeight = mBottomNewsFeedRecyclerView.getHeight();
-                int childCount = mBottomNewsFeedRecyclerView.getChildCount();
-
-                for (int i = 0; i < childCount; i++) {
-                    View child = mBottomNewsFeedRecyclerView.getChildAt(i);
-                    child.setTranslationY((float) (recyclerViewHeight * 1.5));
-                    int startDelay = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_delay) * (i + 1);
-                    int duration = getResources().getInteger(R.integer.bottom_news_feed_init_move_up_anim_duration);
-                    child.animate()
-                            .translationY(0)
-                            .setStartDelay(startDelay)
-                            .setDuration(duration)
-                            .setInterpolator(
-                                    AnimationFactory.makeDefaultReversePathInterpolator())
-                            .start();
-                }
-                return true;
-            }
-        });
-    }
-
     public void refreshBottomNewsFeeds() {
         mIsRefreshingBottomNewsFeeds = true;
 
