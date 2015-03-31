@@ -42,19 +42,19 @@ import java.util.ArrayList;
 public class MainBottomAdapter extends
         RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
     public interface OnBindMainBottomViewHolderListener {
-        public void onBindViewHolder(BottomNewsFeedViewHolder viewHolder, int i);
+        void onBindViewHolder(BottomNewsFeedViewHolder viewHolder, int i);
     }
 
     public interface OnItemClickListener {
-        public void onClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
-        public void onLongClick();
-        public void onClickEditButton(int position);
+        void onClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
+        void onLongClick();
+        void onClickEditButton(int position);
     }
 
     public static final int PORTRAIT = 0;
     public static final int LANDSCAPE = 1;
-    private static final String TAG = MainBottomAdapter.class.getName();
-    private static final String VIEW_NAME_POSTFIX = "_bottom_";
+//    private static final String TAG = MainBottomAdapter.class.getName();
+//    private static final String VIEW_NAME_POSTFIX = "_bottom_";
 
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
@@ -415,6 +415,8 @@ public class MainBottomAdapter extends
         notifyItemInserted(mNewsFeedList.size() - 1);
     }
 
+
+    /*
     public void addNewsFeedAt(NewsFeed newsFeed, int idx) {
         mNewsFeedList.add(idx, newsFeed);
         notifyItemInserted(idx);
@@ -425,6 +427,7 @@ public class MainBottomAdapter extends
 //        mNewsFeedList.addAll(newsFeedListToAdd);
 //        notifyItemRangeInserted(notifyStartIdx, newsFeedListToAdd.size());
 //    }
+    */
 
     public boolean contains(NewsFeed newsFeed) {
         return mNewsFeedList.contains(newsFeed);
