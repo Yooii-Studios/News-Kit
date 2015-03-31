@@ -202,32 +202,26 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setOnClickListener(null);
         viewHolder.progressBar.setVisibility(View.GONE);
         adjustEditLayoutVisibility(viewHolder);
-        viewHolder.statusLayout.setVisibility(View.GONE);
+
+        setErrorLayoutGone(viewHolder);
     }
 
     private void showNewsContent(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.newsContentWrapper.setVisibility(View.VISIBLE);
-
         viewHolder.progressBar.setVisibility(View.GONE);
-        viewHolder.statusLayout.setVisibility(View.GONE);
-        viewHolder.statusLayout.setBackground(null);
-        viewHolder.statusImageView.setImageDrawable(null);
+        setErrorLayoutGone(viewHolder);
     }
 
     private void showLoading(BottomNewsFeedViewHolder viewHolder) {
         viewHolder.newsContentWrapper.setVisibility(View.GONE);
         viewHolder.imageView.setImageDrawable(null);
-        viewHolder.statusLayout.setVisibility(View.GONE);
-        viewHolder.statusLayout.setBackground(null);
-        viewHolder.statusImageView.setImageDrawable(null);
-
         viewHolder.progressBar.setVisibility(View.VISIBLE);
+        setErrorLayoutGone(viewHolder);
     }
 
     private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
-        viewHolder.statusLayout.setVisibility(View.GONE);
-        viewHolder.statusLayout.setBackground(null);
-        viewHolder.statusImageView.setImageDrawable(null);
+        setErrorLayoutGone(viewHolder);
+
         viewHolder.progressBar.setVisibility(View.GONE);
 
         PanelDecoration.applySmallDummyNewsImageInto(mImageLoader, viewHolder.imageView);
@@ -236,17 +230,13 @@ public class MainBottomAdapter extends
     }
 
     private void showErrorStatus(BottomNewsFeedViewHolder viewHolder, int position) {
-        NewsFeed newsFeed = getNewsFeedAt(position);
         viewHolder.newsContentWrapper.setVisibility(View.GONE);
         viewHolder.imageView.setImageDrawable(null);
-
         viewHolder.progressBar.setVisibility(View.GONE);
 
-        viewHolder.statusLayout.setVisibility(View.VISIBLE);
-        viewHolder.statusLayout.setBackground(mContext.getResources()
-                .getDrawable(R.drawable.img_rss_url_failed_small));
-        viewHolder.statusImageView.setImageDrawable(mContext.getResources()
-                .getDrawable(R.drawable.ic_rss_url_failed_small));
+        setErrorLayoutVisible(viewHolder);
+
+        NewsFeed newsFeed = getNewsFeedAt(position);
         String errorMessage = NewsFeedFetchStateMessage.getMessage(mContext, newsFeed);
         viewHolder.statusTextView.setText(errorMessage);
 
@@ -255,7 +245,7 @@ public class MainBottomAdapter extends
         LinearLayout.LayoutParams textViewParams =
                 (LinearLayout.LayoutParams) viewHolder.statusTextView.getLayoutParams();
         LinearLayout.LayoutParams imageViewParams =
-                (LinearLayout.LayoutParams) viewHolder.statusImageView.getLayoutParams();
+                (LinearLayout.LayoutParams) viewHolder.statusIconImageView.getLayoutParams();
 
         if (Device.isPortrait(mContext)) {
             viewHolder.statusLayout.setOrientation(LinearLayout.VERTICAL);
@@ -276,6 +266,22 @@ public class MainBottomAdapter extends
             imageViewParams.width = imageViewSize;
             imageViewParams.height = imageViewSize;
         }
+    }
+
+    private void setErrorLayoutVisible(BottomNewsFeedViewHolder viewHolder) {
+//        viewHolder.statusLayout.setVisibility(View.VISIBLE);
+//        viewHolder.statusLayout.setBackgroundResource(R.drawable.img_rss_url_failed_small);
+        viewHolder.statusWrapper.setVisibility(View.VISIBLE);
+        viewHolder.statusBackgroundImageView.setImageResource(R.drawable.img_rss_url_failed_small);
+        viewHolder.statusIconImageView.setImageResource(R.drawable.ic_rss_url_failed_small);
+    }
+
+    private void setErrorLayoutGone(BottomNewsFeedViewHolder viewHolder) {
+//        viewHolder.statusLayout.setVisibility(View.GONE);
+//        viewHolder.statusLayout.setBackground(null);
+        viewHolder.statusWrapper.setVisibility(View.GONE);
+        viewHolder.statusBackgroundImageView.setImageBitmap(null);
+        viewHolder.statusIconImageView.setImageDrawable(null);
     }
 
     private void cancelPreviousImageRequest(BottomNewsFeedViewHolder viewHolder) {
@@ -470,8 +476,10 @@ public class MainBottomAdapter extends
         public ProgressBar progressBar;
         public FrameLayout editLayout;
         public View changeNewsfeedButton;
+        public FrameLayout statusWrapper;
         public LinearLayout statusLayout;
-        public ImageView statusImageView;
+        public ImageView statusBackgroundImageView;
+        public ImageView statusIconImageView;
         public TextView statusTextView;
 
         public BottomNewsFeedViewHolder(View itemView) {
@@ -483,8 +491,10 @@ public class MainBottomAdapter extends
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
             editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
             changeNewsfeedButton = itemView.findViewById(R.id.main_bottom_replace_newsfeed);
+            statusWrapper = (FrameLayout) itemView.findViewById(R.id.main_bottom_status_wrapper);
             statusLayout = (LinearLayout) itemView.findViewById(R.id.main_bottom_status_layout);
-            statusImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_imageview);
+            statusBackgroundImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_background_imageview);
+            statusIconImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_icon_imageview);
             statusTextView = (TextView) itemView.findViewById(R.id.main_bottom_status_textview);
         }
     }

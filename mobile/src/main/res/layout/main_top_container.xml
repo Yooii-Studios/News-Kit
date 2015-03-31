@@ -44,13 +44,15 @@
                     android:id="@+id/main_top_unavailable_icon_imageview"
                     android:layout_width="@dimen/main_top_news_status_icon_image_view_size"
                     android:layout_height="@dimen/main_top_news_status_icon_image_view_size"
+                    android:scaleType="centerCrop"
                     android:contentDescription="@string/content_description"/>
 
                 <TextView
                     android:id="@+id/main_top_unavailable_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/base_margin"
+                    android:padding="@dimen/base_margin"
+                    android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/material_white_primary_text"/>
         </LinearLayout>
