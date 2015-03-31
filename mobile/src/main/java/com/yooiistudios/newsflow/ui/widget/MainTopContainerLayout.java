@@ -71,9 +71,9 @@ public class MainTopContainerLayout extends FrameLayout
     @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mViewPager;
     @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mViewPagerIndicator;
     @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mNewsFeedTitleTextView;
-    @InjectView(R.id.main_top_unavailable_wrapper)          LinearLayout mErrorWrapper;
-    @InjectView(R.id.main_top_unavailable_icon_imageview)   ImageView mErrorIconImageView;
-    @InjectView(R.id.main_top_unavailable_textview)         TextView mErrorTextView;
+    @InjectView(R.id.main_top_unavailable_wrapper)          LinearLayout mUnavailableWrapper;
+    @InjectView(R.id.main_top_unavailable_icon_imageview)   ImageView mUnavailableIconImageView;
+    @InjectView(R.id.main_top_unavailable_textview)         TextView mUnavailableTextView;
     @InjectView(R.id.main_top_edit_layout)                  FrameLayout mEditLayout;
     @InjectView(R.id.main_top_replace_newsfeed)             View mReplaceButton;
 
@@ -316,8 +316,8 @@ public class MainTopContainerLayout extends FrameLayout
     private void notifyNewTopNewsFeedSet() {
         // show view pager wrapper
         mViewPagerWrapper.setVisibility(View.VISIBLE);
-        mErrorWrapper.setBackground(null);
-        mErrorWrapper.setVisibility(View.GONE);
+        mUnavailableWrapper.setBackground(null);
+        mUnavailableWrapper.setVisibility(View.GONE);
         mViewPagerIndicator.setVisibility(View.VISIBLE);
 
         mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
@@ -355,11 +355,11 @@ public class MainTopContainerLayout extends FrameLayout
         mViewPagerWrapper.setVisibility(View.GONE);
         mViewPagerIndicator.setVisibility(View.INVISIBLE);
 
-        mErrorWrapper.setVisibility(View.VISIBLE);
-        mErrorWrapper.setBackgroundResource(R.drawable.img_rss_url_fail);
+        mUnavailableWrapper.setVisibility(View.VISIBLE);
+        mUnavailableWrapper.setBackgroundResource(R.drawable.img_rss_url_failed);
 
-        mErrorIconImageView.setImageResource(R.drawable.ic_rss_url_failed_large);
-        mErrorTextView.setText(message);
+        mUnavailableIconImageView.setImageResource(R.drawable.ic_rss_url_failed_large);
+        mUnavailableTextView.setText(message);
 
         adjustUnavailableIconImageViewTopMargin();
     }
@@ -368,7 +368,7 @@ public class MainTopContainerLayout extends FrameLayout
         if (Device.hasLollipop()) {
             int statusBarHeight = Display.getStatusBarHeight(getContext());
             if (statusBarHeight > 0) {
-                mErrorWrapper.setPadding(0, statusBarHeight, 0, 0);
+                mUnavailableWrapper.setPadding(0, statusBarHeight, 0, 0);
             }
         }
     }

@@ -244,7 +244,7 @@ public class MainBottomAdapter extends
 
         viewHolder.statusLayout.setVisibility(View.VISIBLE);
         viewHolder.statusLayout.setBackground(mContext.getResources()
-                .getDrawable(R.drawable.img_rss_url_fail));
+                .getDrawable(R.drawable.img_rss_url_failed_small));
         viewHolder.statusImageView.setImageDrawable(mContext.getResources()
                 .getDrawable(R.drawable.ic_rss_url_failed_small));
         String errorMessage = NewsFeedFetchStateMessage.getMessage(mContext, newsFeed);
