@@ -138,7 +138,7 @@ public class MainTopContainerLayout extends FrameLayout
         ButterKnife.inject(this);
 
         initEditLayer();
-
+        setOnLongClickListener(this);
         mTopNewsFeedViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_page_margin));
     }
 
