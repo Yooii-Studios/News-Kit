@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -67,15 +68,16 @@ public class MainTopContainerLayout extends FrameLayout
         TopNewsFeedFetchTask.OnFetchListener,
         MainTopPagerAdapter.OnItemClickListener,
         View.OnLongClickListener {
-    @InjectView(R.id.main_top_content_wrapper)              FrameLayout mTopContentWrapper;
-    @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mTopNewsFeedViewPager;
-    @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mTopNewsFeedViewPagerWrapper;
-    @InjectView(R.id.main_top_unavailable_wrapper)          FrameLayout mTopNewsFeedUnavailableWrapper;
-    @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mTopViewPagerIndicator;
-    @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mTopNewsFeedTitleTextView;
-    @InjectView(R.id.main_top_unavailable_description)      TextView mTopNewsFeedUnavailableDescription;
-    @InjectView(R.id.main_top_replace_newsfeed)             View mChangeNewsFeedButton;
-    @InjectView(R.id.main_top_edit_layout)                  FrameLayout mEditLayout;
+    @InjectView(R.id.main_top_content_wrapper)                  FrameLayout mTopContentWrapper;
+    @InjectView(R.id.main_top_view_pager)                       MainTopViewPager mTopNewsFeedViewPager;
+    @InjectView(R.id.main_top_view_pager_wrapper)               FrameLayout mTopNewsFeedViewPagerWrapper;
+    @InjectView(R.id.main_top_view_pager_indicator)             ParallexViewPagerIndicator mTopViewPagerIndicator;
+    @InjectView(R.id.main_top_news_feed_title_text_view)        TextView mTopNewsFeedTitleTextView;
+    @InjectView(R.id.main_top_unavailable_wrapper)              LinearLayout mTopNewsFeedUnavailableWrapper;
+    @InjectView(R.id.main_top_unavailable_icon_imageview)       ImageView mTopNewsFeedUnavailableIconImageView;
+    @InjectView(R.id.main_top_unavailable_textview)             TextView mTopNewsFeedUnavailableTextView;
+    @InjectView(R.id.main_top_replace_newsfeed)                 View mChangeNewsFeedButton;
+    @InjectView(R.id.main_top_edit_layout)                      FrameLayout mEditLayout;
 
     private static final String TAG = MainTopContainerLayout.class.getName();
 
@@ -356,6 +358,7 @@ public class MainTopContainerLayout extends FrameLayout
     private void notifyNewTopNewsFeedSet() {
         // show view pager wrapper
         mTopNewsFeedViewPagerWrapper.setVisibility(View.VISIBLE);
+        mTopNewsFeedUnavailableWrapper.setBackground(null);
         mTopNewsFeedUnavailableWrapper.setVisibility(View.GONE);
         mTopViewPagerIndicator.setVisibility(View.VISIBLE);
 
@@ -380,7 +383,7 @@ public class MainTopContainerLayout extends FrameLayout
                     // no image
                     notifyOnReady(taskType);
                 } else {
-                    // 이미지 url은 가져온 상태.
+                    // 이미지 url 은 가져온 상태.
                     applyImage(news.getImageUrl(), 0, taskType);
                 }
             }
@@ -392,10 +395,24 @@ public class MainTopContainerLayout extends FrameLayout
     private void showTopNewsFeedUnavailable(String message) {
         // show top unavailable wrapper
         mTopNewsFeedViewPagerWrapper.setVisibility(View.GONE);
-        mTopNewsFeedUnavailableWrapper.setVisibility(View.VISIBLE);
         mTopViewPagerIndicator.setVisibility(View.INVISIBLE);
 
-        mTopNewsFeedUnavailableDescription.setText(message);
+        mTopNewsFeedUnavailableWrapper.setVisibility(View.VISIBLE);
+        mTopNewsFeedUnavailableWrapper.setBackgroundResource(R.drawable.img_rss_url_fail);
+
+        mTopNewsFeedUnavailableIconImageView.setImageResource(R.drawable.ic_rss_url_failed_large);
+        mTopNewsFeedUnavailableTextView.setText(message);
+
+        adjustUnavailableIconImageViewTopMargin();
+    }
+
+    private void adjustUnavailableIconImageViewTopMargin() {
+        if (Device.hasLollipop()) {
+            int statusBarHeight = Display.getStatusBarHeight(getContext());
+            if (statusBarHeight > 0) {
+                mTopNewsFeedUnavailableWrapper.setPadding(0, statusBarHeight, 0, 0);
+            }
+        }
     }
 
     private void fetchTopNewsFeedImages(TopFeedNewsImageUrlFetchTask.TaskType taskType) {
@@ -571,27 +588,22 @@ public class MainTopContainerLayout extends FrameLayout
         NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
         NewsFeedArchiveUtils.saveRecentCacheMillisec(context);
 
+        TopFeedNewsImageUrlFetchTask.TaskType imageFetchTaskType;
         if (taskType.equals(TopNewsFeedFetchTask.TaskType.INITIALIZE)) {
-            if (newsFeed.containsNews()) {
-                notifyNewTopNewsFeedSet();
-                fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
-            } else {
-                showTopNewsFeedUnavailable(NewsFeedFetchStateMessage.getMessage(context, newsFeed));
-                notifyOnReady(taskType);
-            }
+            imageFetchTaskType = TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE;
         } else {
-            TopFeedNewsImageUrlFetchTask.TaskType imageFetchTaskType =
+            imageFetchTaskType =
                     taskType.equals(TopNewsFeedFetchTask.TaskType.SWIPE_REFRESH)
                         ? TopFeedNewsImageUrlFetchTask.TaskType.REFRESH
                         : TopFeedNewsImageUrlFetchTask.TaskType.REPLACE;
+        }
 
-            if (newsFeed.containsNews()) {
-                notifyNewTopNewsFeedSet();
-                fetchFirstNewsImage(imageFetchTaskType);
-            } else {
-                showTopNewsFeedUnavailable(NewsFeedFetchStateMessage.getMessage(context, newsFeed));
-                notifyOnReady(taskType);
-            }
+        if (newsFeed.containsNews()) {
+            notifyNewTopNewsFeedSet();
+            fetchFirstNewsImage(imageFetchTaskType);
+        } else {
+            showTopNewsFeedUnavailable(NewsFeedFetchStateMessage.getMessage(context, newsFeed));
+            notifyOnReady(taskType);
         }
     }
 
