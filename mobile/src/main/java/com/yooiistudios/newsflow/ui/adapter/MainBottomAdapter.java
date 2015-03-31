@@ -260,7 +260,7 @@ public class MainBottomAdapter extends
         if (Device.isPortrait(mContext)) {
             viewHolder.statusLayout.setOrientation(LinearLayout.VERTICAL);
             textViewParams.leftMargin = 0;
-            textViewParams.topMargin = resources.getDimensionPixelSize(R.dimen.base_margin_half);
+            textViewParams.topMargin = resources.getDimensionPixelSize(R.dimen.base_margin_middle);
 
             int imageViewSize = resources.getDimensionPixelSize(
                     R.dimen.main_bottom_status_image_view_size_portrait);

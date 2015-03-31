@@ -27,6 +27,7 @@
     <dimen name="margin_outer">6dp</dimen>
 
     <dimen name="base_margin">16dp</dimen>
+    <dimen name="base_margin_middle">12dp</dimen>
     <dimen name="base_margin_half">8dp</dimen>
     <dimen name="base_margin_small">4dp</dimen>
 
@@ -49,7 +50,7 @@
     <dimen name="main_bottom_card_view_title_size">20sp</dimen>
     <dimen name="main_bottom_text_padding">16dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">6dp</dimen>
-    <dimen name="main_bottom_status_image_view_size_portrait">50dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_portrait">55dp</dimen>
     <dimen name="main_bottom_status_image_view_size_landscape">35dp</dimen>
 
     <!-- Loading Animation -->
