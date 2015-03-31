@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/main_top_root">
@@ -17,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/main_top_view_pager_indicator">
+
         <FrameLayout
             android:id="@+id/main_top_view_pager_wrapper"
             android:layout_width="match_parent"
@@ -33,25 +33,28 @@
                 style="@style/MainTopItemNewsFeedTitleTextStyle"/>
         </FrameLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/main_top_unavailable_wrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher"
-                android:contentDescription="@string/content_description"/>
-            <TextView
-                android:id="@+id/main_top_unavailable_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:background="#a33"/>
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/main_top_unavailable_icon_imageview"
+                    android:layout_width="@dimen/main_top_news_status_icon_image_view_size"
+                    android:layout_height="@dimen/main_top_news_status_icon_image_view_size"
+                    android:contentDescription="@string/content_description"/>
+
+                <TextView
+                    android:id="@+id/main_top_unavailable_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/material_white_primary_text"/>
+        </LinearLayout>
     </FrameLayout>
 
     <com.yooiistudios.newsflow.ui.widget.CoverFrameLayout

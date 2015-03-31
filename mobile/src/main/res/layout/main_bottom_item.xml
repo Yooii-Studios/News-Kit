@@ -48,7 +48,6 @@
             android:id="@+id/main_bottom_status_imageview"
             android:layout_width="@dimen/main_bottom_status_image_view_size_portrait"
             android:layout_height="@dimen/main_bottom_status_image_view_size_portrait"
-            android:scaleType="centerInside"
             android:src="@drawable/ic_rss_url_failed_small"/>
         
         <TextView
@@ -57,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_margin_middle"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/text_size_body_1_material"
             android:textColor="@color/material_white_primary_text"
             android:text="RSS not found"/>
     </LinearLayout>
