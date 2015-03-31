@@ -52,7 +52,7 @@
     <dimen name="main_bottom_text_padding">16dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">6dp</dimen>
     <dimen name="main_bottom_status_image_view_size_portrait">55dp</dimen>
-    <dimen name="main_bottom_status_image_view_size_landscape">35dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_landscape">42dp</dimen>
 
     <!-- Loading Animation -->
     <dimen name="loading_anim_padding">4dp</dimen>
@@ -179,5 +179,4 @@
     <dimen name="store_ad_dialog_image_text_height">62dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">45dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">15sp</dimen>
-
 </resources>
