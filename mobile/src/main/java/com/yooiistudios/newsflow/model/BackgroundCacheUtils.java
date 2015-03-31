@@ -27,7 +27,6 @@ import java.util.ArrayList;
  */
 public class BackgroundCacheUtils implements
         TopNewsFeedFetchTask.OnFetchListener,
-        TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener,
         BottomNewsFeedFetchTask.OnFetchListener {
 
     private static final String TAG = BackgroundCacheUtils.class.getName();
@@ -35,7 +34,7 @@ public class BackgroundCacheUtils implements
     private Context mContext;
     private SparseArray<AsyncTask> mTopNewsImageFetchTaskMap = null;
     private ArrayList<Integer> mBottomImageFetchMap;
-//    private ImageLoader mImageLoader;
+    //    private ImageLoader mImageLoader;
     private ResizedImageLoader mImageLoader;
     private OnCacheDoneListener mOnCacheDoneListener;
 
@@ -192,31 +191,11 @@ public class BackgroundCacheUtils implements
                     }
                 }
             });
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            // Volley ImageLoader 에서 이미지를 가져올 때 메모리 부족으로 OOM 발생, 크래시되는 문제 있었음.
+            // 싱글 태스크로 바꿔 GC 될 시간을 충분히 줘 OOM 을 방지함.
+//            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            task.execute();
             mTopNewsImageFetchTaskMap.put(i, task);
-        }
-    }
-
-    @Override
-    public void onTopFeedImageUrlFetch(News news, String url, int position, TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-        NLLog.i(TAG, "T NFI " + position);
-//        news.setImageUrlChecked(true);
-        mTopNewsImageFetchTaskMap.delete(position);
-        checkAllFetched();
-
-        if (url != null) {
-//            news.setImageUrl(url);
-            mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
-                @Override
-                public void onSuccess(ResizedImageLoader.ImageResponse response) {
-
-                }
-
-                @Override
-                public void onFail(VolleyError error) {
-
-                }
-            });
         }
     }
 
@@ -241,17 +220,8 @@ public class BackgroundCacheUtils implements
                 @Override
                 public void onBottomImageUrlFetchSuccess(News news, String url, int position, int taskType) {
                     NLLog.i(TAG, "B NFI " + newsFeedPosition + " " + position);
-//                    news.setImageUrlChecked(true);
-//                    if (url != null) {
-//                        news.setImageUrl(url);
-//                    }
-
                     if (checkAllImageUrlFetched(newsFeed)) {
-                        // archive
-
                         NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
-//                        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext,
-//                                newsFeed, newsFeedPosition);
                         mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
 
                         checkAllFetched();
@@ -262,7 +232,9 @@ public class BackgroundCacheUtils implements
                 public void onFetchImage(News news, int position, int taskType) {
 
                 }
-            }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                // Top news 이미지 로딩 주석 참고
+//            }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }).execute();
         }
     }
 
