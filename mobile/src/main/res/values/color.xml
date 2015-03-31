@@ -38,6 +38,7 @@
     <!-- Store -->
     <color name="store_color_primary">@color/material_grey_300</color>
     <color name="store_color_primary_dark">@color/material_grey_600</color>
+    <color name="store_color_accent">#65ffffff</color>
     <color name="store_title_color">#eef0e0</color>
     <color name="store_no_ads_color">#ff9999</color>
     <color name="store_original_price_color">#cc3333</color>

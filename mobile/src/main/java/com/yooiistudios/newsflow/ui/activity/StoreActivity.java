@@ -29,6 +29,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
+import com.yooiistudios.newsflow.core.util.Md5Utils;
 import com.yooiistudios.newsflow.iab.IabManager;
 import com.yooiistudios.newsflow.iab.IabManagerListener;
 import com.yooiistudios.newsflow.iab.IabProducts;
@@ -39,8 +40,6 @@ import com.yooiistudios.newsflow.iab.util.Purchase;
 import com.yooiistudios.newsflow.ui.adapter.StoreProductItemAdapter;
 import com.yooiistudios.newsflow.ui.widget.AutoResizeTextView;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
-import com.yooiistudios.newsflow.core.util.Md5Utils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.util.StoreDebugCheckUtils;
 
 import java.util.List;
@@ -398,6 +397,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
                     mPurchasedTextView.setVisibility(View.VISIBLE);
                     mThankYouTextView.setVisibility(View.VISIBLE);
                     mBannerImageView.setClickable(false);
+                    mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
                     mPriceImageView.setClickable(false);
                 } else {
                     if (inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL) != null) {
@@ -410,6 +410,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
                             inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION).getPrice());
 
                     mBannerImageView.setClickable(true);
+                    mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);
                     mPriceImageView.setClickable(true);
                 }
                 mProductListView.setAdapter(new StoreProductItemAdapter(this, inventory, this));
@@ -428,6 +429,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
             mPurchasedTextView.setVisibility(View.VISIBLE);
             mThankYouTextView.setVisibility(View.VISIBLE);
             mBannerImageView.setClickable(false);
+            mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
             mPriceImageView.setClickable(false);
         }
         ((StoreProductItemAdapter)mProductListView.getAdapter()).updateOnPurchase();
@@ -442,6 +444,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
             mPurchasedTextView.setVisibility(View.VISIBLE);
             mThankYouTextView.setVisibility(View.VISIBLE);
             mBannerImageView.setClickable(false);
+            mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
             mPriceImageView.setClickable(false);
         } else {
             mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_price_selector);
@@ -450,6 +453,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
             mPurchasedTextView.setVisibility(View.INVISIBLE);
             mThankYouTextView.setVisibility(View.INVISIBLE);
             mBannerImageView.setClickable(true);
+            mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);
             mPriceImageView.setClickable(true);
         }
     }
