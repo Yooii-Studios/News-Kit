@@ -108,28 +108,28 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     public static final int REQ_SELECT_NEWS_FEED = 13841;
 
-    @Getter @InjectView(R.id.newsfeed_detail_toolbar)               Toolbar mToolbar;
-    @Getter @InjectView(R.id.detail_content_layout)                 RelativeLayout mRootLayout;
-    @Getter @InjectView(R.id.detail_transition_content_layout)      FrameLayout mTransitionLayout;
-    @Getter @InjectView(R.id.detail_toolbar_overlay_view)           View mToolbarOverlayView;
-    @Getter @InjectView(R.id.detail_top_gradient_shadow_view)       View mTopGradientShadowView;
-    @InjectView(R.id.detail_scrollView)                             ObservableScrollView mScrollView;
-    @InjectView(R.id.detail_scroll_content_wrapper)                 RelativeLayout mScrollContentWrapper;
-    @InjectView(R.id.newsfeed_detail_swipe_refresh_layout)          SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectView(R.id.detail_loading_cover)                          View mLoadingCoverView;
-    @Getter @InjectView(R.id.newsfeed_detail_reveal_view)           View mRevealView;
+    @Getter @InjectView(R.id.newsfeed_detail_toolbar)                        Toolbar mToolbar;
+    @Getter @InjectView(R.id.newsfeed_detail_content_layout)                 RelativeLayout mRootLayout;
+    @Getter @InjectView(R.id.newsfeed_detail_transition_content_layout)      FrameLayout mTransitionLayout;
+    @Getter @InjectView(R.id.newsfeed_detail_toolbar_overlay_view)           View mToolbarOverlayView;
+    @Getter @InjectView(R.id.newsfeed_detail_top_gradient_shadow_view)       View mTopGradientShadowView;
+    @InjectView(R.id.newsfeed_detail_scroll_view)                            ObservableScrollView mScrollView;
+    @InjectView(R.id.newsfeed_detail_scroll_content_wrapper)                 RelativeLayout mScrollContentWrapper;
+    @InjectView(R.id.newsfeed_detail_swipe_refresh_layout)                   SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.newsfeed_detail_loading_cover)                          View mLoadingCoverView;
+    @Getter @InjectView(R.id.newsfeed_detail_reveal_view)                    View mRevealView;
 
     // Top
-    @Getter @InjectView(R.id.detail_top_news_image_wrapper)         FrameLayout mTopNewsImageWrapper;
-    @InjectView(R.id.detail_top_news_image_ripple_view)             View mTopNewsImageRippleView;
-    @Getter @InjectView(R.id.detail_top_news_image_view)            ImageView mTopImageView;
-    @Getter @InjectView(R.id.detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
-    @InjectView(R.id.detail_top_news_text_ripple_layout)            LinearLayout mTopNewsTextRippleLayout;
-    @Getter @InjectView(R.id.detail_top_news_title_text_view)       TextView mTopTitleTextView;
-    @Getter @InjectView(R.id.detail_top_news_description_text_view) TextView mTopDescriptionTextView;
+    @Getter @InjectView(R.id.newsfeed_detail_top_news_image_wrapper)         FrameLayout mTopNewsImageWrapper;
+    @InjectView(R.id.newsfeed_detail_top_news_image_ripple_view)             View mTopNewsImageRippleView;
+    @Getter @InjectView(R.id.newsfeed_detail_top_news_image_view)            ImageView mTopImageView;
+    @Getter @InjectView(R.id.newsfeed_detail_top_news_text_layout)           LinearLayout mTopNewsTextLayout;
+    @InjectView(R.id.newsfeed_detail_top_news_text_ripple_layout)            LinearLayout mTopNewsTextRippleLayout;
+    @Getter @InjectView(R.id.newsfeed_detail_top_news_title_text_view)       TextView mTopTitleTextView;
+    @Getter @InjectView(R.id.newsfeed_detail_top_news_description_text_view) TextView mTopDescriptionTextView;
 
     // Bottom
-    @Getter @InjectView(R.id.detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
+    @Getter @InjectView(R.id.newsfeed_detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
 
     ObjectAnimator mAutoScrollDownAnimator;
     ObjectAnimator mAutoScrollUpAnimator;
