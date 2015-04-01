@@ -172,6 +172,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setContentView(R.layout.activity_news_feed_detail);
         ButterKnife.inject(this);
 
+        // 방향에 따라 soft key 부터 처리
+        onConfigurationChanged(getResources().getConfiguration());
+
 //        Context context = getApplicationContext();
 //        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
 //                SimpleImageCache.getInstance().get(this));
@@ -1032,6 +1035,19 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     return true;
                 }
             });
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (Device.hasLollipop()) {
+            if (Device.isPortrait(this)) {
+                Display.applyTranslucentNavigationBarAfterLollipop(this);
+            } else {
+                Display.removeTranslucentNavigationBarAfterLollipop(this);
+            }
         }
     }
 }
