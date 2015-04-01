@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.android.volley.VolleyError;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -16,7 +16,7 @@ import com.yooiistudios.newsflow.model.ResizedImageLoader;
 public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
 
 //    private ImageLoader mImageLoader;
-    private ResizedImageLoader mImageLoader;
+    private CacheImageLoader mImageLoader;
     private News mNews;
     private int mPosition;
     private int mTaskType;
@@ -30,7 +30,7 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
     public static final int TASK_CACHE = 4;
     public static final int TASK_MATRIX_CHANGED = 5;
 
-    public BottomNewsImageFetchTask(ResizedImageLoader imageLoader, News news, int position,
+    public BottomNewsImageFetchTask(CacheImageLoader imageLoader, News news, int position,
                                     int taskType, OnBottomImageUrlFetchListener listener) {
         mImageLoader = imageLoader;
         mNews = news;
@@ -53,9 +53,9 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
             mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
 
             if (mNews.hasImageUrl()) {
-                mImageLoader.get(mNews.getImageUrl(), new ResizedImageLoader.ImageListener() {
+                mImageLoader.get(mNews.getImageUrl(), new CacheImageLoader.ImageListener() {
                     @Override
-                    public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                    public void onSuccess(CacheImageLoader.ImageResponse response) {
                         mListener.onFetchImage(mNews, mPosition, mTaskType);
                     }
 

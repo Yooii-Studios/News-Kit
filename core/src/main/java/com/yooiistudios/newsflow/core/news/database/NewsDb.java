@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.support.v7.graphics.Palette;
 
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
@@ -25,6 +23,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader.ImageResponse.PaletteColor;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
@@ -263,10 +262,10 @@ public class NewsDb {
         insertNewsImage(imageUrl, newsFeedPosition, guid);
     }
 
-    public void savePaletteColor(String url, Palette palette) {
+    public void savePaletteColor(String url, PaletteColor paletteColor) {
         mDatabase.beginTransaction();
         try {
-            savePaletteColorInternal(url, palette);
+            savePaletteColorInternal(url, paletteColor);
             mDatabase.setTransactionSuccessful();
         } catch (Exception e) {
         } finally {
@@ -274,33 +273,33 @@ public class NewsDb {
         }
     }
 
-    public void savePaletteColorInternal(String url, Palette palette) {
-        int vibrantColor = palette.getVibrantColor(Color.TRANSPARENT);
-
+    public void savePaletteColorInternal(String url, PaletteColor paletteColor) {
         ContentValues colorValues = new ContentValues();
         colorValues.put(PaletteColorEntry.COLUMN_NAME_IMAGE_URL, url);
-        colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, vibrantColor);
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, paletteColor.getVibrantColor());
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_IS_FETCHED, paletteColor.isFetched() ? 0 : 1);
 
         mDatabase.delete(PaletteColorEntry.TABLE_NAME,
                 PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?", new String[]{ url });
         mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
     }
 
-    public int loadVibrantColor(String url) {
-        int vibrantColor = Color.TRANSPARENT;
+    public PaletteColor loadPaletteColor(String url) {
+        PaletteColor paletteColor;
         mDatabase.beginTransaction();
         try {
-            vibrantColor = loadVibrantColorInternal(url);
+            paletteColor = loadVibrantColorInternal(url);
             mDatabase.setTransactionSuccessful();
         } catch (Exception e) {
+            paletteColor = PaletteColor.createDefault();
         } finally {
             mDatabase.endTransaction();
         }
 
-        return vibrantColor;
+        return paletteColor;
     }
 
-    public int loadVibrantColorInternal(String url) {
+    private PaletteColor loadVibrantColorInternal(String url) {
         String[] colorWhereArgs = { String.valueOf(url) };
 
         Cursor colorsCursor = mDatabase.query(
@@ -311,17 +310,21 @@ public class NewsDb {
                 null, null, null);
         colorsCursor.moveToFirst();
 
-        int vibrantColor = Color.TRANSPARENT;
-        while (!colorsCursor.isAfterLast()) {
-            vibrantColor = colorsCursor.getInt(
+//        int vibrantColor = Color.TRANSPARENT;
+        PaletteColor paletteColor;
+        if (!colorsCursor.isAfterLast()) {
+            int vibrantColor = colorsCursor.getInt(
                     colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT));
-
-            colorsCursor.moveToNext();
+            int fetchStatusInt = colorsCursor.getInt(
+                    colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_IS_FETCHED));
+            paletteColor = new PaletteColor(vibrantColor, fetchStatusInt == 0);
+        } else {
+            paletteColor = PaletteColor.createDefault();
         }
 
         colorsCursor.close();
 
-        return vibrantColor;
+        return paletteColor;
     }
 
 //    private void saveNewsContentTextsWithGuid(String guid, List<String> textList) {

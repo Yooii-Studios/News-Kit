@@ -32,6 +32,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
@@ -44,8 +45,8 @@ import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
+import com.yooiistudios.newsflow.model.NewsImageLoader;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
@@ -72,7 +73,7 @@ public class MainActivity extends ActionBarActivity
         MainBottomContainerLayout.OnMainBottomLayoutEventListener,
         OnMainPanelEditModeEventListener {
     public static final String TAG = MainActivity.class.getName();
-    public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
+//    public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
     // 뉴스 새로고침시 사용할 인텐트 변수
     public static final String INTENT_KEY_NEWS_FEED_LOCATION = "INTENT_KEY_NEWS_FEED_LOCATION";
@@ -105,7 +106,7 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
 
     private MainAdView mBannerAd;
-    private ResizedImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
@@ -189,12 +190,12 @@ public class MainActivity extends ActionBarActivity
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
-    public ResizedImageLoader getImageLoader() {
+    public CacheImageLoader getImageLoader() {
         return mImageLoader;
     }
 
     private void initImageLoader() {
-        mImageLoader = ResizedImageLoader.create(this);
+        mImageLoader = NewsImageLoader.create(this);
     }
 
     private void initToolbar() {

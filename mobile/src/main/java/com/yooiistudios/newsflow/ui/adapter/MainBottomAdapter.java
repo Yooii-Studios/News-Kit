@@ -3,7 +3,6 @@ package com.yooiistudios.newsflow.ui.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +16,12 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
-import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout;
@@ -42,13 +40,13 @@ import java.util.ArrayList;
 public class MainBottomAdapter extends
         RecyclerView.Adapter<MainBottomAdapter.BottomNewsFeedViewHolder> {
     public interface OnBindMainBottomViewHolderListener {
-        public void onBindViewHolder(BottomNewsFeedViewHolder viewHolder, int i);
+        void onBindViewHolder(BottomNewsFeedViewHolder viewHolder, int i);
     }
 
     public interface OnItemClickListener {
-        public void onClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
-        public void onLongClick();
-        public void onClickEditButton(int position);
+        void onClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
+        void onLongClick();
+        void onClickEditButton(int position);
     }
 
     public static final int PORTRAIT = 0;
@@ -59,7 +57,7 @@ public class MainBottomAdapter extends
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
-    private ResizedImageLoader mImageLoader;
+    private CacheImageLoader mImageLoader;
 
     private OnBindMainBottomViewHolderListener mOnBindMainBottomViewHolderListener;
 
@@ -71,12 +69,12 @@ public class MainBottomAdapter extends
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
 
-    public MainBottomAdapter(Context context, ResizedImageLoader imageLoader,
+    public MainBottomAdapter(Context context, CacheImageLoader imageLoader,
                              OnItemClickListener listener) {
         this(context, imageLoader, listener, PORTRAIT);
     }
 
-    public MainBottomAdapter(Context context, ResizedImageLoader imageLoader,
+    public MainBottomAdapter(Context context, CacheImageLoader imageLoader,
                              OnItemClickListener listener, @Orientation int orientation) {
         mContext = context.getApplicationContext();
         mNewsFeedList = new ArrayList<>();
@@ -171,9 +169,9 @@ public class MainBottomAdapter extends
 
 //        mImageLoader.getThumbnail(displayingNews.getImageUrl(),
         mImageLoader.getThumbnail(urlSupplier,
-                new ResizedImageLoader.ImageListener() {
+                new CacheImageLoader.ImageListener() {
                     @Override
-                    public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                    public void onSuccess(CacheImageLoader.ImageResponse response) {
                         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_url_supplier, null);
                         showNewsContent(viewHolder);
                         applyImage(viewHolder, response);
@@ -230,9 +228,10 @@ public class MainBottomAdapter extends
         viewHolder.statusImageView.setImageDrawable(null);
         viewHolder.progressBar.setVisibility(View.GONE);
 
-        PanelDecoration.applySmallDummyNewsImageInto(mImageLoader, viewHolder.imageView);
-        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
+        PanelDecoration.applySmallDummyNewsImageInto(mContext, mImageLoader, viewHolder.imageView);
+//        viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultBottomPaletteColor(mContext));
+        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomDummyImageFilterColor(mContext));
+//        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
     }
 
     private void showErrorStatus(BottomNewsFeedViewHolder viewHolder, int position) {
@@ -300,22 +299,22 @@ public class MainBottomAdapter extends
         }
     }
 
-    private void applyImage(BottomNewsFeedViewHolder viewHolder, ResizedImageLoader.ImageResponse response) {
+    private void applyImage(BottomNewsFeedViewHolder viewHolder, CacheImageLoader.ImageResponse response) {
         Bitmap bitmap = response.bitmap;
 
         viewHolder.imageView.setImageBitmap(bitmap);
 
-        int vibrantColor = response.vibrantColor;
-        if (vibrantColor != Color.TRANSPARENT) {
-            int red = Color.red(vibrantColor);
-            int green = Color.green(vibrantColor);
-            int blue = Color.blue(vibrantColor);
-            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-            viewHolder.imageView.setColorFilter(Color.argb(alpha, red, green, blue));
-            viewHolder.imageView.setTag(TintType.PALETTE);
+        int vibrantColor = response.paletteColor.getVibrantColor();
+        if (response.paletteColor.hasValidVibrantColor()) {
+//            int red = Color.red(vibrantColor);
+//            int green = Color.green(vibrantColor);
+//            int blue = Color.blue(vibrantColor);
+//            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+
+            int filterColor = PanelDecoration.getPaletteColorWithAlpha(mContext, vibrantColor);
+            viewHolder.imageView.setColorFilter(filterColor);
         } else {
-            viewHolder.imageView.setColorFilter(PanelDecoration.getBottomGrayFilterColor(mContext));
-            viewHolder.imageView.setTag(TintType.GRAY_SCALE_BOTTOM);
+            viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultBottomPaletteColor(mContext));
         }
     }
 
@@ -486,7 +485,7 @@ public class MainBottomAdapter extends
         }
     }
 
-    private static class ThumbnailUrlSupplier extends ResizedImageLoader.UrlSupplier {
+    private static class ThumbnailUrlSupplier extends CacheImageLoader.UrlSupplier {
         private final String mUrl;
         private final int mNewsFeedPosition;
 

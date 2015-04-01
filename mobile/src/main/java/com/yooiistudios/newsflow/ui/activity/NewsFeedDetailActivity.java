@@ -48,19 +48,19 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
-import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+import com.yooiistudios.newsflow.model.NewsImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.debug.DebugAnimationSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugAnimationSettings;
@@ -137,13 +137,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 //    private Palette mPalette;
 
 //    private ImageLoader mImageLoader;
-    private ResizedImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
 
     private NewsFeed mNewsFeed;
     private News mTopNews;
     private Bitmap mTopImageBitmap;
     private NewsFeedDetailAdapter mAdapter;
-    private TintType mTintType;
+    private int mFilterColor;
+//    private TintType mTintType;
 //    @Getter private ColorDrawable mRootLayoutBackground;
     private ColorDrawable mRecyclerViewBackground;
     private Drawable mToolbarHomeIcon;
@@ -173,24 +174,19 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 //        Context context = getApplicationContext();
 //        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
 //                SimpleImageCache.getInstance().get(this));
-        mImageLoader = ResizedImageLoader.create(this);
+        mImageLoader = NewsImageLoader.create(this);
 
         // retrieve feed from intent
         mNewsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
-        Object tintTypeObj = getIntent().getExtras().getSerializable(MainActivity.INTENT_KEY_TINT_TYPE);
-        mTintType = tintTypeObj != null ? (TintType)tintTypeObj : null;
-
-        int topNewsIndex = getIntent().getExtras().getInt(News.KEY_CURRENT_NEWS_INDEX);
-        if (topNewsIndex < mNewsFeed.getNewsList().size()) {
-            mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
-        }
+//        Object tintTypeObj = getIntent().getExtras().getSerializable(MainActivity.INTENT_KEY_TINT_TYPE);
+//        mTintType = tintTypeObj != null ? (TintType)tintTypeObj : null;
 
         applySystemWindowsBottomInset();
         initRevealView();
         initToolbar();
         initSwipeRefreshView();
         initCustomScrollView();
-        initTopNews();
+        initTopNewsContent();
         initBottomNewsList();
         initLoadingCoverView();
         initAdView();
@@ -381,7 +377,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         });
     }
 
-    private void initTopNews() {
+    private void initTopNewsContent() {
         mTopNewsImageRippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -402,8 +398,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             }
         });
 
-        if (mTopNews != null) {
-            notifyTopNewsChanged();
+        initTopNews();
+        notifyTopNewsChanged();
+    }
+
+    private void initTopNews() {
+        int topNewsIndex = getIntent().getExtras().getInt(News.KEY_CURRENT_NEWS_INDEX);
+        if (topNewsIndex < mNewsFeed.getNewsList().size()) {
+            mTopNews = mNewsFeed.getNewsList().remove(topNewsIndex);
         }
     }
 
@@ -550,7 +552,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private void notifyTopNewsChanged() {
         // set action bar title
         applyToolbarTitle();
+        applyTopNewsText();
+        applyImage();
+    }
 
+    private void applyTopNewsText() {
         // set title
         mTopTitleTextView.setText(mTopNews.getTitle());
 
@@ -566,57 +572,32 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         } else {
             mTopDescriptionTextView.setVisibility(View.GONE);
         }
-        applyImage();
     }
 
     private void applyImage() {
-        // set image
         String imgUrl = mTopNews.getImageUrl();
         getIntent().putExtra(INTENT_KEY_IMAGE_LOADED, true);
         getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
         setResult(RESULT_OK, getIntent());
 
         if (mTopNews.hasImageUrl()) {
-            mImageLoader.get(imgUrl, new ResizedImageLoader.ImageListener() {
+            mImageLoader.get(imgUrl, new CacheImageLoader.ImageListener() {
                 @Override
-                public void onSuccess(ResizedImageLoader.ImageResponse response) {
-                        setTopNewsImageBitmap(response.bitmap);
-
-//                        animateTopItems();
+                public void onSuccess(CacheImageLoader.ImageResponse response) {
+                    applyImage(response);
                     configAfterRefreshDone();
                 }
 
                 @Override
                 public void onFail(VolleyError error) {
-                    applyDummyNewsImageFromTop();
-
-//                    animateTopItems();
-
+                    applyDummyImage();
                     configAfterRefreshDone();
                 }
             });
         } else if (mTopNews.isImageUrlChecked()) {
-            // 상하단 뉴스피드에 따라 필터 색을 각각 다른 색으로 지정
-            String newsLocation = getIntent().getExtras().getString(
-                    MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
-
-            if (newsLocation != null) {
-                switch (newsLocation) {
-                    case MainActivity.INTENT_VALUE_TOP_NEWS_FEED:
-                    default:
-                        applyDummyNewsImageFromTop();
-                        break;
-                    case MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED:
-                        applyDummyNewsImageFromBottom();
-                        break;
-                }
-            } else {
-                applyDummyNewsImageFromTop();
-            }
-//            animateTopItems();
+            applyDummyImage();
         } else {
             showLoadingCover();
-//            animateTopItems();
             mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
             mTopNewsImageFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -651,62 +632,57 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mLoadingCoverView.setVisibility(View.GONE);
     }
 
-    private void applyDummyNewsImageFromTop() {
-        setTopNewsImageBitmap(mImageLoader.getDummyImage(), TintType.DUMMY_TOP);
+    private void applyImage(CacheImageLoader.ImageResponse response) {
+        setImage(response.bitmap);
+        applyFilterColor(response.paletteColor);
     }
 
-    private void applyDummyNewsImageFromBottom() {
-        setTopNewsImageBitmap(mImageLoader.getDummyImage(), TintType.DUMMY_BOTTOM);
+    private void applyDummyImage() {
+        Bitmap dummyImage = PanelDecoration.getDummyImage(getApplicationContext(), mImageLoader);
+        setImage(dummyImage);
+        applyDummyFilterColor();
     }
 
-    private void setTopNewsImageBitmap(Bitmap bitmap) {
-        setTopNewsImageBitmap(bitmap, null);
-    }
-
-    private void setTopNewsImageBitmap(Bitmap bitmap, TintType tintType) {
-        mTopImageBitmap = bitmap;
-        mTopImageView.setImageBitmap(mTopImageBitmap);
-
-//        mPalette = Palette.generate(mTopImageBitmap);
-
-        if (tintType != null) {
-            mTintType = tintType;
-        } else if (mTintType == null) {
-            // 이미지가 set 되기 전에 이 액티비티로 들어온 경우 mTintType == null 이다
-            // 그러므로 이 상황에서 이미지가 set 된다면
-            // 1. 메인 상단에서 들어온 경우 : TintType.GRAY_SCALE_TOP
-            // 2. 메인 하단에서 들어온 경우 :
-            // 2.1 palette 에서 색을 꺼내 사용할 수 있는 경우 : TintType.PALETTE
-            // 2.2 palette 에서 색을 꺼내 사용할 수 없는 경우 : TintType.GRAY_SCALE_TOP(default)
-
-            // 상단 뉴스피드인지 하단 뉴스피드인지 구분
-            String newsLocation = getIntent().getExtras().getString(
-                    MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
-
-            if (newsLocation != null) {
-                switch (newsLocation) {
-                    case MainActivity.INTENT_VALUE_TOP_NEWS_FEED:
-                        // 메인 상단에서 온 경우
-                        mTintType = TintType.GRAY_SCALE_TOP;
-                        break;
-                    case MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED:
-                        // 메인 하단에서 온 경우
-                        int filterColor = getTopImageFilterColorPaletteItem();
-                        if (filterColor != Color.TRANSPARENT) {
-                            mTintType = TintType.PALETTE;
-                        } else {
-                            mTintType = TintType.GRAY_SCALE_TOP;
-                        }
-                        break;
-                    default:
-                        mTintType = TintType.GRAY_SCALE_TOP;
-                        break;
-                }
+    private void applyFilterColor(CacheImageLoader.ImageResponse.PaletteColor paletteColor) {
+        int filterColor;
+        if (isFromTopNewsFeed()) {
+            filterColor = PanelDecoration.getDefaultTopPaletteColor();
+        } else {
+            if (paletteColor.hasValidVibrantColor()) {
+                filterColor = PanelDecoration.getPaletteColorWithAlpha(
+                        getApplicationContext(), paletteColor.getVibrantColor());
             } else {
-                mTintType = TintType.GRAY_SCALE_TOP;
+                filterColor = PanelDecoration.getDefaultBottomPaletteColor(getApplicationContext());
             }
         }
+        setFilterColor(filterColor);
+    }
+
+    private void applyDummyFilterColor() {
+        int filterColor;
+        if (isFromTopNewsFeed()) {
+            filterColor = PanelDecoration.getTopDummyImageFilterColor();
+        } else {
+            filterColor = PanelDecoration.getBottomDummyImageFilterColor(getApplicationContext());
+        }
+        setFilterColor(filterColor);
+    }
+
+    private void setImage(Bitmap bitmap) {
+        mTopImageBitmap = bitmap;
+        mTopImageView.setImageBitmap(mTopImageBitmap);
+    }
+
+    private void setFilterColor(int color) {
+        mFilterColor = color;
         applyPalette();
+    }
+
+    private boolean isFromTopNewsFeed() {
+        String newsLocation = getIntent().getExtras().getString(
+                MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
+
+        return newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
     }
 
     private void applyPalette() {
@@ -726,43 +702,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     public int getFilterColor() {
-        int color;
-        int alpha;
-        TintType tintType = mTintType != null ? mTintType : TintType.GRAY_SCALE_TOP;
-
-        switch(tintType) {
-            case DUMMY_TOP:
-                color = PanelDecoration.getTopDummyImageFilterColor();
-                alpha = Color.alpha(color);
-                break;
-            case DUMMY_BOTTOM:
-                color = PanelDecoration.getBottomDummyImageFilterColor(this);
-                alpha = Color.alpha(color);
-                break;
-            case PALETTE:
-                int filterColor = getTopImageFilterColorPaletteItem();
-                if (filterColor != Color.TRANSPARENT) {
-                    color = filterColor;
-                    alpha = getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-                    break;
-                }
-                // filterColor == null 이라면 아래의 구문으로 넘어간다.
-            case GRAY_SCALE_TOP:
-            default:
-                color = PanelDecoration.getTopGrayFilterColor();
-                alpha = Color.alpha(color);
-                break;
-            case GRAY_SCALE_BOTTOM:
-                color = PanelDecoration.getBottomGrayFilterColor(this);
-                alpha = Color.alpha(color);
-                break;
-        }
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
-    }
-
-    private int getTopImageFilterColorPaletteItem() {
-        return NewsDb.getInstance(getApplicationContext()).loadVibrantColor(mTopNews.getImageUrl());
-//        return mPalette.getVibrantColor(Color.TRANSPARENT);
+        return mFilterColor;
     }
 
     @Override
@@ -898,20 +838,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void archiveNewsFeed(NewsFeed newsFeed) {
-        // 이전 intent 를 사용, 상단 뉴스피드인지 하단 뉴스피드인지 구분
-        String newsLocation = getIntent().getExtras().getString(
-                MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, null);
-
-        // 저장
-        if (newsLocation != null) {
-            Context context = getApplicationContext();
-            if (newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED)) {
-                NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
-            } else if (newsLocation.equals(MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                int idx = getIntent().getExtras().getInt(
-                        MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
-                NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, idx);
-            }
+        Context context = getApplicationContext();
+        if (isFromTopNewsFeed()) {
+            NewsDb.getInstance(context).saveTopNewsFeed(newsFeed);
+        } else {
+            int idx = getIntent().getExtras().getInt(
+                    MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
+            NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, idx);
         }
     }
 
