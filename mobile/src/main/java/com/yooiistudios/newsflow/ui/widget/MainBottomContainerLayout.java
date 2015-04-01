@@ -14,7 +14,6 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.yooiistudios.newsflow.R;
@@ -29,7 +28,6 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Device;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.ResizedImageLoader;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
@@ -504,9 +502,6 @@ public class MainBottomContainerLayout extends FrameLayout
     @Override
     public void onClick(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
                         NewsFeed newsFeed, int position) {
-        NLLog.i(TAG, "onClick");
-        NLLog.i(TAG, "newsFeed : " + newsFeed.getTitle());
-
         Intent intent = makeIntentForNewsFeedDetail(viewHolder, newsFeed, position);
         mOnMainBottomLayoutEventListener.onStartNewsFeedDetailActivityFromBottomNewsFeed(intent);
     }

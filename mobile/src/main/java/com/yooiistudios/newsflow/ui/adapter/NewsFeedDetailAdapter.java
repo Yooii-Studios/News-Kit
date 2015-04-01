@@ -26,7 +26,7 @@ public class NewsFeedDetailAdapter extends
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        public void onItemClick(ViewHolder viewHolder, News news);
+        void onItemClick(ViewHolder viewHolder, News news);
     }
 
     public NewsFeedDetailAdapter(OnItemClickListener onItemClickListener) {
@@ -88,9 +88,7 @@ public class NewsFeedDetailAdapter extends
             }
         }
 
-        viewHolder.itemView.setClickable(true);
-        viewHolder.itemView.setFocusable(true);
-        viewHolder.itemView.setOnClickListener(
+        viewHolder.rippleView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -140,11 +138,6 @@ public class NewsFeedDetailAdapter extends
         return mNewsList.size();
     }
 
-//    public void addNews(News news) {
-//        mNewsList.add(news);
-//        notifyItemInserted(mNewsList.size() - 1);
-//    }
-
     public void setNewsFeed(ArrayList<News> newsList) {
         mNewsList = newsList;
     }
@@ -152,11 +145,13 @@ public class NewsFeedDetailAdapter extends
     public static class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView newsTitleTextView;
         protected TextView newsDescriptionTextView;
+        protected View rippleView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            newsTitleTextView = (TextView)itemView.findViewById(R.id.detail_bottom_news_item_title);
+            newsTitleTextView = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_title);
             newsDescriptionTextView = (TextView) itemView.findViewById(R.id.detail_bottom_news_item_description);
+            rippleView = itemView.findViewById(R.id.detail_bottom_news_item_ripple_view);
         }
     }
 }

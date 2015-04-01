@@ -16,7 +16,7 @@
     <color name="main_bottom_rss_not_found_img_filter_color">#8523464c</color>
 
     <!-- NewsFeed Detail -->
-    <color name="newsfeed_detail_highlight_color">@color/material_white_secondary_text</color>
+    <color name="newsfeed_detail_highlight_color">@color/material_white_disabled_and_hint_text</color>
     <color name="newsfeed_detail_background_color">@android:color/white</color>
 
     <!-- NewsFeed Select -->
