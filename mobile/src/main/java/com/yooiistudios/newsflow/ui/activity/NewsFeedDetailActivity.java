@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -57,6 +58,7 @@ import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
@@ -129,7 +131,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Getter @InjectView(R.id.newsfeed_detail_top_news_description_text_view) TextView mTopDescriptionTextView;
 
     // Bottom
-    @Getter @InjectView(R.id.newsfeed_detail_bottom_news_recycler_view)      RecyclerView mBottomNewsListRecyclerView;
+    @Getter @InjectView(R.id.newsfeed_detail_bottom_news_recycler_view)      RecyclerView mBottomRecyclerView;
 
     ObjectAnimator mAutoScrollDownAnimator;
     ObjectAnimator mAutoScrollUpAnimator;
@@ -408,21 +410,21 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initBottomNewsList() {
-        mBottomNewsListRecyclerView.setHasFixedSize(true);
-        mBottomNewsListRecyclerView.setItemAnimator(
-                new DetailNewsItemAnimator(mBottomNewsListRecyclerView));
+        mBottomRecyclerView.setHasFixedSize(true);
+        mBottomRecyclerView.setItemAnimator(
+                new DetailNewsItemAnimator(mBottomRecyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        mBottomNewsListRecyclerView.setLayoutManager(layoutManager);
+        mBottomRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerViewBackground = new ColorDrawable(Color.WHITE);
-        mBottomNewsListRecyclerView.setBackground(mRecyclerViewBackground);
+        mBottomRecyclerView.setBackground(mRecyclerViewBackground);
 
         notifyBottomNewsChanged();
     }
 
     private void notifyBottomNewsChanged() {
         mAdapter = new NewsFeedDetailAdapter(this);
-        mBottomNewsListRecyclerView.setAdapter(mAdapter);
+        mBottomRecyclerView.setAdapter(mAdapter);
         mAdapter.setNewsFeed(mNewsFeed.getNewsList());
 
         adjustBottomRecyclerHeight();
@@ -434,11 +436,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void applyActualRecyclerViewHeightOnPreDraw() {
-        ViewTreeObserver observer = mBottomNewsListRecyclerView.getViewTreeObserver();
+        ViewTreeObserver observer = mBottomRecyclerView.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
-                mBottomNewsListRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                mBottomRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
                 applyActualRecyclerViewHeight();
                 return true;
             }
@@ -447,15 +449,15 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void applyActualRecyclerViewHeight() {
         int totalHeight = 0;
-        int childCount = mBottomNewsListRecyclerView.getChildCount();
+        int childCount = mBottomRecyclerView.getChildCount();
         for (int i = 0; i < childCount; i++) {
-            totalHeight += mBottomNewsListRecyclerView.getChildAt(i).getHeight();
+            totalHeight += mBottomRecyclerView.getChildAt(i).getHeight();
         }
 
-        ViewGroup.LayoutParams lp = mBottomNewsListRecyclerView.getLayoutParams();
+        ViewGroup.LayoutParams lp = mBottomRecyclerView.getLayoutParams();
         lp.height = totalHeight;
-        mBottomNewsListRecyclerView.setLayoutParams(lp);
-//        mBottomNewsListRecyclerView.invalidate();
+        mBottomRecyclerView.setLayoutParams(lp);
+//        mBottomRecyclerView.invalidate();
 //        mAdapter.notifyDataSetChanged();
     }
 
@@ -543,7 +545,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
 
         int newsListCount = mNewsFeed.getNewsList().size();
-        mBottomNewsListRecyclerView.getLayoutParams().height =
+        mBottomRecyclerView.getLayoutParams().height =
                 maxRowHeight * newsListCount;
     }
 
@@ -945,7 +947,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         int startDelay = DebugAnimationSettings.getStartDelay(this);
         final int durationForOneItem = DebugAnimationSettings.getDurationForEachItem(this);
-        final int defaultDuration = mBottomNewsListRecyclerView.getChildCount() * durationForOneItem;
+        final int defaultDuration = mBottomRecyclerView.getChildCount() * durationForOneItem;
         final int middleDelay = DebugAnimationSettings.getMidDelay(this);
         int downScrollDuration = defaultDuration;
 

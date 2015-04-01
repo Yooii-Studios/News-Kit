@@ -674,7 +674,7 @@ public class NewsFeedDetailTransitionUtils {
         mTopDescriptionTextView = mActivity.getTopDescriptionTextView();
 
         // Bottom
-        mRecyclerView = mActivity.getBottomNewsListRecyclerView();
+        mRecyclerView = mActivity.getBottomRecyclerView();
     }
 
     private void initRecyclerVariables() {
