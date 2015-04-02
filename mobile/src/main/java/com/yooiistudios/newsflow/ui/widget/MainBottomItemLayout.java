@@ -111,8 +111,8 @@ public class MainBottomItemLayout extends RatioFrameLayout {
             height -= Display.getStatusBarHeight(context);
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)lp;
-            height -= (marginLayoutParams.topMargin + marginLayoutParams.bottomMargin);
+            ViewGroup.MarginLayoutParams marginLp = (ViewGroup.MarginLayoutParams)lp;
+            height -= (marginLp.topMargin + marginLp.bottomMargin);
         }
 
         return height;

@@ -566,6 +566,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         } else {
             mTopDescriptionTextView.setVisibility(View.GONE);
         }
+
+        mTopNewsTextLayout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
     }
 
     private void invalidateImage() {
