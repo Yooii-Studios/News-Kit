@@ -292,6 +292,7 @@ public class MainActivity extends ActionBarActivity
     private void initBannerAdView() {
         mBannerAd = new MainAdView(this);
         mBannerAd.setId(R.id.main_banner);
+        mBannerAd.setBackgroundResource(R.color.material_grey_900);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
