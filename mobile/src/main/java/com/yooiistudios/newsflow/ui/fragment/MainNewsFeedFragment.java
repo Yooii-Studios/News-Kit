@@ -15,8 +15,8 @@ import com.android.volley.VolleyError;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.TintType;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+//import com.yooiistudios.newsflow.core.news.TintType;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter.OnItemClickListener;
@@ -36,7 +36,7 @@ public class MainNewsFeedFragment extends Fragment {
     private static final String KEY_POSITION = "KEY_TAB_INDEX";
 
     private MainActivity mActivity;
-    private ResizedImageLoader mImageLoader;
+    private CacheImageLoader mImageLoader;
     private NewsFeed mNewsFeed;
     private News mNews;
     private int mPosition;
@@ -151,9 +151,9 @@ public class MainNewsFeedFragment extends Fragment {
         // set image
 //        String imgUrl = mNews.getImageUrl();
         if (mNews.hasImageUrl()) {
-            mImageLoader.get(mNews.getImageUrl(), new ResizedImageLoader.ImageListener() {
+            mImageLoader.get(mNews.getImageUrl(), new CacheImageLoader.ImageListener() {
                 @Override
-                public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                public void onSuccess(CacheImageLoader.ImageResponse response) {
                     if (mRecycled) {
                         return;
                     }
@@ -162,8 +162,8 @@ public class MainNewsFeedFragment extends Fragment {
 
                     if (response.bitmap != null && viewHolder.imageView != null) {
                         viewHolder.imageView.setImageBitmap(response.bitmap);
-                        viewHolder.imageView.setColorFilter(PanelDecoration.getTopGrayFilterColor());
-                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
+                        viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultTopPaletteColor());
+//                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
                     }
                 }
 
@@ -184,8 +184,8 @@ public class MainNewsFeedFragment extends Fragment {
 
     private void showDummyImage(final ItemViewHolder viewHolder) {
         if (!mRecycled && viewHolder.imageView != null) {
-            PanelDecoration.getDummyNewsImageAsync(mImageLoader,
-                    new PanelDecoration.OnLoadBitmapListener() {
+            PanelDecoration.getDummyNewsImageAsync(getActivity().getApplicationContext(),
+                    mImageLoader, new PanelDecoration.OnLoadBitmapListener() {
                         @Override
                         public void onLoad(Bitmap bitmap) {
                             if (!mRecycled) {
@@ -194,7 +194,7 @@ public class MainNewsFeedFragment extends Fragment {
                         }
                     });
             viewHolder.imageView.setColorFilter(PanelDecoration.getTopDummyImageFilterColor());
-            viewHolder.imageView.setTag(TintType.DUMMY_TOP);
+//            viewHolder.imageView.setTag(TintType.DUMMY_TOP);
 
             viewHolder.progressBar.setVisibility(View.GONE);
         }

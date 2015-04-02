@@ -18,7 +18,7 @@ import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.Palett
 public class NewsDbHelper extends SQLiteOpenHelper {
     private static final String TAG = NewsDbHelper.class.getName();
     public static final String DB_NAME = "NewsArchive.db";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 9;
 
     // Macro
     private static final String TEXT_TYPE = " TEXT";
@@ -76,7 +76,8 @@ public class NewsDbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + PaletteColorEntry.TABLE_NAME + " (" +
                     PaletteColorEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     PaletteColorEntry.COLUMN_NAME_IMAGE_URL     + TEXT_TYPE + COMMA_SEP +
-                    PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT + INT_TYPE  +
+                    PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT + INT_TYPE  + COMMA_SEP +
+                    PaletteColorEntry.COLUMN_NAME_IS_FETCHED    + INT_TYPE  +
                     " )";
 //    private static final String SQL_CREATE_NEWS_CONTENT_TEXT_ENTRY =
 //            "CREATE TABLE " + NewsContentTextEntry.TABLE_NAME + " (" +
@@ -141,7 +142,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         // 데이터베이스 구조가 바뀐 경우(데이터베이스에 컬럼이 추가되거나 새 테이블이 추가된 경우 등)
         // DB_VERSION 을 증가시키고 버전 체크를 해 필요한 처리를 한다.
 //        NLLog.i(TAG, "oldVersion : " + oldVersion + "\nnewVersion : " + newVersion);
-        if (oldVersion < 8) {
+        if (oldVersion < 9) {
             dropAllTables(db, oldVersion);
             createAllTables(db);
         }

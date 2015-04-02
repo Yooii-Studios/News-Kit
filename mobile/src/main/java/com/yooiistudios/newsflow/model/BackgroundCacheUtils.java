@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.SparseArray;
 
 import com.android.volley.VolleyError;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
@@ -35,7 +36,7 @@ public class BackgroundCacheUtils implements
     private SparseArray<AsyncTask> mTopNewsImageFetchTaskMap = null;
     private ArrayList<Integer> mBottomImageFetchMap;
     //    private ImageLoader mImageLoader;
-    private ResizedImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
     private OnCacheDoneListener mOnCacheDoneListener;
 
     private static BackgroundCacheUtils instance;
@@ -82,7 +83,7 @@ public class BackgroundCacheUtils implements
         mContext = context;
 //        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
 //                SimpleImageCache.getInstance().getNonRetainingCache(context));
-        mImageLoader = ResizedImageLoader.createWithNonRetainingCache(context);
+        mImageLoader = NewsImageLoader.createWithNonRetainingCache(context);
         mTopNewsImageFetchTaskMap = new SparseArray<>();
 
         // cache top news feed
@@ -177,9 +178,9 @@ public class BackgroundCacheUtils implements
 
                     if (url != null) {
 //                        news.setImageUrl(url);
-                        mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
+                        mImageLoader.get(url, new CacheImageLoader.ImageListener() {
                             @Override
-                            public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                            public void onSuccess(CacheImageLoader.ImageResponse response) {
 
                             }
 
@@ -239,6 +240,6 @@ public class BackgroundCacheUtils implements
     }
 
     public interface OnCacheDoneListener {
-        public void onDone();
+        void onDone();
     }
 }

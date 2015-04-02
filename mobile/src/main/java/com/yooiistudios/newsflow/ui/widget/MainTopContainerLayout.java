@@ -23,7 +23,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
-import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
@@ -31,7 +30,7 @@ import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
@@ -86,7 +85,7 @@ public class MainTopContainerLayout extends FrameLayout
     private OnMainTopLayoutEventListener mOnEventListener;
     private OnMainPanelEditModeEventListener mEditModeListener;
 
-    private ResizedImageLoader mImageLoader;
+    private CacheImageLoader mImageLoader;
     private MainActivity mActivity;
 
     private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
@@ -436,9 +435,9 @@ public class MainTopContainerLayout extends FrameLayout
 
     private void applyImage(String url, final int position,
                             final TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-        mImageLoader.get(url, new ResizedImageLoader.ImageListener() {
+        mImageLoader.get(url, new CacheImageLoader.ImageListener() {
             @Override
-            public void onSuccess(ResizedImageLoader.ImageResponse response) {
+            public void onSuccess(CacheImageLoader.ImageResponse response) {
                 mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 
                 if (position == 0) {
@@ -575,7 +574,7 @@ public class MainTopContainerLayout extends FrameLayout
         Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);
         intent = putNewsFeedInfoToIntent(intent, newsFeed, position);
         intent = putNewsFeedLocationInfoToIntent(intent);
-        intent = putImageTintTypeToIntent(intent, viewHolder);
+//        intent = putImageTintTypeToIntent(intent, viewHolder);
         intent = putActivityTransitionInfo(intent, viewHolder);
 
         mOnEventListener.onStartNewsFeedDetailActivityFromTopNewsFeed(intent);
@@ -587,13 +586,13 @@ public class MainTopContainerLayout extends FrameLayout
         return intent;
     }
 
-    private Intent putImageTintTypeToIntent(Intent intent, MainNewsFeedFragment.ItemViewHolder viewHolder) {
-        Object tintTag = viewHolder.imageView.getTag();
-        TintType tintType = tintTag != null ? (TintType)tintTag : null;
-        intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
-
-        return intent;
-    }
+//    private Intent putImageTintTypeToIntent(Intent intent, MainNewsFeedFragment.ItemViewHolder viewHolder) {
+//        Object tintTag = viewHolder.imageView.getTag();
+//        TintType tintType = tintTag != null ? (TintType)tintTag : null;
+//        intent.putExtra(MainActivity.INTENT_KEY_TINT_TYPE, tintType);
+//
+//        return intent;
+//    }
 
     private Intent putActivityTransitionInfo(Intent intent, MainNewsFeedFragment.ItemViewHolder viewHolder) {
         // ActivityOptions 를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수

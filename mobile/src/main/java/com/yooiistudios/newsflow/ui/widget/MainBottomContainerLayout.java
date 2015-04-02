@@ -20,7 +20,6 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
-import com.yooiistudios.newsflow.core.news.TintType;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedValidator;
@@ -29,7 +28,7 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchManager;
@@ -53,7 +52,6 @@ import butterknife.InjectView;
 
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX;
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_NEWS_FEED_LOCATION;
-import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TINT_TYPE;
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRANSITION_PROPERTY;
 import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_VALUE_BOTTOM_NEWS_FEED;
 
@@ -84,7 +82,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private OnMainPanelEditModeEventListener mOnMainPanelEditModeEventListener;
     private MainActivity mActivity;
-    private ResizedImageLoader mImageLoader;
+    private CacheImageLoader mImageLoader;
     private SerialValueAnimator mAutoAnimator;
 
     private boolean mIsInitialized = false;
@@ -516,7 +514,7 @@ public class MainBottomContainerLayout extends FrameLayout
         Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);
         intent = putNewsFeedInfoToIntent(intent, newsFeed);
         intent = putNewsFeedLocationInfoToIntent(intent, position);
-        intent = putImageTintTypeToIntent(intent, viewHolder);
+//        intent = putImageTintTypeToIntent(intent, viewHolder);
         intent = putActivityTransitionInfo(intent, viewHolder);
         return intent;
     }
@@ -536,14 +534,14 @@ public class MainBottomContainerLayout extends FrameLayout
         return intent;
     }
 
-    // 미리 이미지뷰에 set 해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
-    private Intent putImageTintTypeToIntent(Intent intent, MainBottomAdapter.BottomNewsFeedViewHolder viewHolder) {
-        Object tintTag = viewHolder.imageView.getTag();
-        TintType tintType = tintTag != null ? (TintType)tintTag : null;
-        intent.putExtra(INTENT_KEY_TINT_TYPE, tintType);
-
-        return intent;
-    }
+//    // 미리 이미지뷰에 set 해 놓은 태그(TintType)를 인텐트로 보내 적용할 틴트의 종류를 알려줌
+//    private Intent putImageTintTypeToIntent(Intent intent, MainBottomAdapter.BottomNewsFeedViewHolder viewHolder) {
+//        Object tintTag = viewHolder.imageView.getTag();
+//        TintType tintType = tintTag != null ? (TintType)tintTag : null;
+//        intent.putExtra(INTENT_KEY_FROM, tintType);
+//
+//        return intent;
+//    }
 
     private Intent putActivityTransitionInfo(Intent intent,
                                              MainBottomAdapter.BottomNewsFeedViewHolder viewHolder) {
