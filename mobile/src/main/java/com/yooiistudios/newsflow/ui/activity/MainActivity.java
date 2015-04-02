@@ -332,24 +332,19 @@ public class MainActivity extends ActionBarActivity
                 mScrollingContent.setPadding(0, 0, 0, 0);
             }
             mBannerAd.hide();
-//            mBannerAd.setVisibility(View.GONE);
         } else {
             configBannerAdOnInsetChanged();
-//            configSwipeRefreshLayoutOnOrientationChanged();
             if (Device.isPortrait(this)) {
-//                int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
             } else {
                 mScrollingContent.setPadding(0, 0, 0, 0);
             }
             mBannerAd.show();
-//            mBannerAd.setVisibility(View.VISIBLE);
 
             mBannerAd.resume();
             mQuitAdView.resume();
         }
-//        configNavigationTranslucentState();
     }
 
     private void configNavigationTranslucentState() {
