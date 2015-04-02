@@ -609,6 +609,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             });
         } else if (mTopNews.isImageUrlChecked()) {
             applyDummyImage();
+            configAfterRefreshDone();
         } else {
             showLoadingCover();
             mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
@@ -639,10 +640,16 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void showLoadingCover() {
         mLoadingCoverView.setVisibility(View.VISIBLE);
+        mLoadingCoverView.animate().alpha(1.0f);
     }
 
     private void hideLoadingCover() {
-        mLoadingCoverView.setVisibility(View.GONE);
+        mLoadingCoverView.animate().alpha(0.0f).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mLoadingCoverView.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void setImage(CacheImageLoader.ImageResponse response) {
@@ -833,9 +840,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     @Override
     public void onImageUrlFetchFail(News news) {
+        applyDummyImage();
         configAfterRefreshDone();
-
-        invalidateImage();
     }
 
     @Override
