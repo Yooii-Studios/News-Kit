@@ -100,7 +100,7 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.main_toolbar)                  Toolbar mToolbar;
     @InjectView(R.id.main_loading_anim_view)        LoadingAnimationView mLoadingAnimationView;
     @InjectView(R.id.main_scroll_view)              ScrollView mScrollView;
-    @InjectView(R.id.main_scrolling_content)        View mScrollingContent;
+    @InjectView(R.id.main_scrolling_content)        RelativeLayout mScrollingContent;
     @InjectView(R.id.main_swipe_refresh_layout)     MainRefreshLayout mSwipeRefreshLayout;
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
@@ -443,7 +443,9 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mImageLoader.closeCache();
+        if (mRootLayout != null) {
+            mImageLoader.closeCache();
+        }
     }
 
     @Override
@@ -638,38 +640,14 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    private void configOnPortraitOrientation() {
-        RelativeLayout.LayoutParams bottomLayoutParams =
-                ((RelativeLayout.LayoutParams)mMainBottomContainerLayout.getLayoutParams());
-
-        bottomLayoutParams.addRule(RelativeLayout.BELOW, mMainTopContainerLayout.getId());
-        bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
-
-        setSwipeRefreshLayoutEnabled(true);
-
-        mScrollView.setEnabled(true);
-        mToolbar.setVisibility(View.VISIBLE);
-    }
-
-    private void configOnLandscapeOrientation() {
-        RelativeLayout.LayoutParams bottomLayoutParams =
-                ((RelativeLayout.LayoutParams)mMainBottomContainerLayout.getLayoutParams());
-
-        bottomLayoutParams.addRule(RelativeLayout.BELOW, 0);
-        bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, mMainTopContainerLayout.getId());
-
-        setSwipeRefreshLayoutEnabled(false);
-
-        mScrollView.setEnabled(false);
-        mToolbar.setVisibility(View.INVISIBLE);
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // 강제로 Locale 고정 필요(안그러면 풀림)
         LocaleUtils.updateLocale(this);
+
+//        configBannerAdLayoutParams();
 
         requestSystemWindowsBottomInset();
 
@@ -684,6 +662,56 @@ public class MainActivity extends ActionBarActivity
 
         AnalyticsUtils.trackMainOrientation((NewsApplication) getApplication(), TAG,
                 newConfig.orientation);
+    }
+
+//    private void configBannerAdLayoutParams() {
+//        ViewGroup adParent = (ViewGroup)mBannerAd.getParent();
+//        if (adParent != null) {
+//            adParent.removeView(mBannerAd);
+//        }
+//        if (Device.isPortrait(getApplicationContext())) {
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+//                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//
+//            mRootLayout.addView(mBannerAd, lp);
+//        } else {
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+//                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//
+//            mScrollingContent.addView(mBannerAd, lp);
+//        }
+//    }
+
+    private void configOnPortraitOrientation() {
+        RelativeLayout.LayoutParams bottomLayoutParams =
+                ((RelativeLayout.LayoutParams)mMainBottomContainerLayout.getLayoutParams());
+
+        bottomLayoutParams.addRule(RelativeLayout.BELOW, mMainTopContainerLayout.getId());
+        bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
+//        bottomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+//        bottomLayoutParams.addRule(RelativeLayout.ABOVE, 0);
+
+        setSwipeRefreshLayoutEnabled(true);
+
+        mScrollView.setEnabled(true);
+        mToolbar.setVisibility(View.VISIBLE);
+    }
+
+    private void configOnLandscapeOrientation() {
+        RelativeLayout.LayoutParams bottomLayoutParams =
+                ((RelativeLayout.LayoutParams)mMainBottomContainerLayout.getLayoutParams());
+
+        bottomLayoutParams.addRule(RelativeLayout.BELOW, 0);
+        bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, mMainTopContainerLayout.getId());
+//        bottomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//        bottomLayoutParams.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+
+        setSwipeRefreshLayoutEnabled(false);
+
+        mScrollView.setEnabled(false);
+        mToolbar.setVisibility(View.INVISIBLE);
     }
 
     @Override

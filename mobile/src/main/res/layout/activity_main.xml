@@ -29,17 +29,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout
-                    android:id="@+id/main_bottom_layout_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/main_top_layout_container"/>
-
                 <com.yooiistudios.newsflow.ui.widget.MainTopContainerLayout
                     android:id="@+id/main_top_layout_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"/>
+
+                <com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout
+                    android:id="@+id/main_bottom_layout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/main_top_layout_container"/>
             </RelativeLayout>
         </ScrollView>
     </com.yooiistudios.newsflow.ui.widget.MainRefreshLayout>
