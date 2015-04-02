@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
@@ -27,8 +29,8 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchManager;
@@ -69,7 +71,7 @@ public class MainBottomContainerLayout extends FrameLayout
         SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
         ViewProperty.AnimationListener,
         MainBottomAdapter.OnBindMainBottomViewHolderListener {
-    @InjectView(R.id.bottomNewsFeedRecyclerView)    RecyclerView mBottomNewsFeedRecyclerView;
+    @InjectView(R.id.bottom_news_feed_recycler_view)    RecyclerView mBottomNewsFeedRecyclerView;
 
     private static final String TAG = MainBottomContainerLayout.class.getName();
     private static final int COLUMN_COUNT_PORTRAIT = 2;
@@ -204,15 +206,18 @@ public class MainBottomContainerLayout extends FrameLayout
             // 메인 하단의 뉴스피드 RecyclerView 의 높이를 set
             recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnPortrait(context,
                     mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
+            mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, 0);
         } else {
             recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnLandscape(context,
                     recyclerViewLp);
 
-//            if (!IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {
-//                int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height_landscape);
-//                lp.height -= adViewHeight;
-//                contentWrapperLp.height -= adViewHeight;
-//            }
+            boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
+            if (!adPurchased) {
+                int adHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
+                mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, adHeight);
+            } else {
+                mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, 0);
+            }
         }
 
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
