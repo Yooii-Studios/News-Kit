@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -288,6 +289,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initToolbarTitle() {
+        mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
         mToolbarTitleColorSpan = new AlphaForegroundColorSpan(
                 getResources().getColor(R.color.material_white_primary_text));
 
@@ -971,15 +973,26 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             } else {
                 Display.removeTranslucentNavigationBarAfterLollipop(this);
             }
-            adjustViewsWidth();
+            adjustViewsWidthOnLollipop();
             mRevealView.setVisibility(View.INVISIBLE);
         }
+        adjustToolbarHeight();
     }
 
-    private void adjustViewsWidth() {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void adjustViewsWidthOnLollipop() {
         Point deviceSize = Display.getDisplaySize(this);
         mToolbar.getLayoutParams().width = deviceSize.x;
         mTopNewsTextLayout.getLayoutParams().width = deviceSize.x;
         mBottomRecyclerView.getLayoutParams().width = deviceSize.x;
+    }
+
+    private void adjustToolbarHeight() {
+        final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+
+        mToolbar.getLayoutParams().height = toolbarHeight;
     }
 }
