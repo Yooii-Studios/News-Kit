@@ -976,6 +976,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         adjustToolbarHeight();
         adjustShadowGradientViews();
         adjustToolbarTextAppearance();
+
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
+                newConfig.orientation);
     }
 
     private void adjustToolbarTextAppearance() {

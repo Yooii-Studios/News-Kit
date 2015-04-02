@@ -660,7 +660,7 @@ public class MainActivity extends ActionBarActivity
         mMainTopContainerLayout.configOnOrientationChange();
         mMainBottomContainerLayout.configOnOrientationChange();
 
-        AnalyticsUtils.trackMainOrientation((NewsApplication) getApplication(), TAG,
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
                 newConfig.orientation);
     }
 

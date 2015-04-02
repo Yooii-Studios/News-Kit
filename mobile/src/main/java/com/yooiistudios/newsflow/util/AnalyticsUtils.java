@@ -36,14 +36,14 @@ public class AnalyticsUtils {
         t.send(new HitBuilders.AppViewBuilder().build());
     }
 
-    // 메인화면 회전 체크
-    public static void trackMainOrientation(NewsApplication application, String TAG, int orientation) {
+    // 각 액티비티 회전 체크
+    public static void trackActivityOrientation(NewsApplication application, String activityName, int orientation) {
         // Get tracker.
         Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
 
         // Build and send an Event.
         t.send(new HitBuilders.EventBuilder()
-                .setCategory(TAG)
+                .setCategory(activityName)
                 .setAction("Orientation")
                 .setLabel(orientation == Configuration.ORIENTATION_PORTRAIT ? "Portrait" : "Landscape")
                 .build());

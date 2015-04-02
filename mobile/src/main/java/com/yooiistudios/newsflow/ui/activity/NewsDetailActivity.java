@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -177,5 +178,12 @@ public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5We
         // Activity no longer visible
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
+                newConfig.orientation);
     }
 }
