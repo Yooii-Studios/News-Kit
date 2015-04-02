@@ -169,6 +169,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         ButterKnife.inject(this);
 
         // 새로 생성될 경우에도 방향에 따른 처리를 최초 한 번은 실행
+        // 먼저 width 들을 디바이스 width 에 맞춘 뒤 애니메이션을 하기 위해 이 위치에서 호출 필요
         onConfigurationChanged(getResources().getConfiguration());
 
         mImageLoader = NewsImageLoader.create(this);
@@ -289,7 +290,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void initToolbarTitle() {
-        mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
         mToolbarTitleColorSpan = new AlphaForegroundColorSpan(
                 getResources().getColor(R.color.material_white_primary_text));
 
@@ -437,6 +437,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
         checkAdView();
+        mRevealView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -970,22 +971,29 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         super.onConfigurationChanged(newConfig);
 
         if (Device.hasLollipop()) {
-            if (Device.isPortrait(this)) {
-                Display.applyTranslucentNavigationBarAfterLollipop(this);
-            } else {
-                Display.removeTranslucentNavigationBarAfterLollipop(this);
-            }
             adjustViewsWidthOnLollipop();
-            mRevealView.setVisibility(View.INVISIBLE);
         }
         adjustToolbarHeight();
         adjustShadowGradientViews();
+        adjustToolbarTextAppearance();
+
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
+                newConfig.orientation);
+    }
+
+    private void adjustToolbarTextAppearance() {
+        if (Device.isPortrait(this)) {
+            mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
+        } else {
+            mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Subhead);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void adjustViewsWidthOnLollipop() {
         Point deviceSize = Display.getDisplaySize(this);
         mToolbar.getLayoutParams().width = deviceSize.x;
+        mTopNewsImageWrapper.getLayoutParams().width = deviceSize.x;
         mTopNewsTextLayout.getLayoutParams().width = deviceSize.x;
         mBottomRecyclerView.getLayoutParams().width = deviceSize.x;
     }
