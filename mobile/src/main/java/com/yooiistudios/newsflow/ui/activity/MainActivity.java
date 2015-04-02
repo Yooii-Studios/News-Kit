@@ -112,7 +112,6 @@ public class MainActivity extends ActionBarActivity
     private AdView mQuitAdView;
 
     private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
-    private int mSystemWindowInsetRight = INVALID_WINDOW_INSET;
 
     private static class NewsAutoRefreshHandler extends Handler {
         private WeakReference<MainActivity> mMainActivityRef;
@@ -330,7 +329,7 @@ public class MainActivity extends ActionBarActivity
             if (Device.isPortrait(this)) {
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
+                mScrollingContent.setPadding(0, 0, 0, 0);
             }
             mBannerAd.hide();
 //            mBannerAd.setVisibility(View.GONE);
@@ -342,7 +341,7 @@ public class MainActivity extends ActionBarActivity
                 int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
             } else {
-                mScrollingContent.setPadding(0, 0, mSystemWindowInsetRight, 0);
+                mScrollingContent.setPadding(0, 0, 0, 0);
             }
             mBannerAd.show();
 //            mBannerAd.setVisibility(View.VISIBLE);
@@ -385,38 +384,34 @@ public class MainActivity extends ActionBarActivity
                 configOnSystemInsetChanged();
             }
         } else {
-            setSystemWindowInset(0, 0);
+            setSystemWindowInset(0);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void requestSystemWindowsBottomInsetAfterLollipop() {
-        // TODO 아래 코드에 대해
-        // TODO 1. 있는 경우 모든 inset 이 0으로 들어옴.
-        // TODO 2. 없는 경우 필요한 inset 값이 들어온다.
-        // TODO 나중에 최적화? 정리? 해야함
+        // TODO setFitsSystemWindows 코드 정리 or 최적화 필요:
+        // 1. 있는 경우 모든 inset 이 0으로 들어옴
+        // 2. 없는 경우 필요한 inset 값이 들어온다
         mScrollingContent.setFitsSystemWindows(true);
+
         mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                setSystemWindowInset(
-                        windowInsets.getSystemWindowInsetRight(),
-                        windowInsets.getSystemWindowInsetBottom());
+                setSystemWindowInset(windowInsets.getSystemWindowInsetBottom());
 //                configOnSystemInsetChanged(); // onResume 보다 늦게 호출되기에 최초 한 번은 여기서 확인이 필요
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
     }
 
-    private void setSystemWindowInset(int rightInset, int bottomInset) {
-        mSystemWindowInsetRight = rightInset;
+    private void setSystemWindowInset(int bottomInset) {
         mSystemWindowInsetBottom = bottomInset;
         configOnSystemInsetChanged();
     }
 
     private boolean isSystemWindowInsetInvalid() {
-        return mSystemWindowInsetRight == INVALID_WINDOW_INSET
-                || mSystemWindowInsetBottom == INVALID_WINDOW_INSET;
+        return mSystemWindowInsetBottom == INVALID_WINDOW_INSET;
     }
 
     @Override
