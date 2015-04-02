@@ -474,20 +474,22 @@ public class MainTopContainerLayout extends FrameLayout
         adjustContentWrapperLayoutParamsOnPortrait();
     }
 
+    private void configOnLandscapeOrientation() {
+        adjustLayoutParamsOnLandscape();
+        adjustContentWrapperLayoutParamsOnLandscape();
+    }
+
     private void adjustLayoutParamsOnPortrait() {
         ViewGroup.LayoutParams lp = getLayoutParams();
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         lp.height = getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_height);
+
+        setPadding(0, 0, 0, 0);
     }
 
     private void adjustContentWrapperLayoutParamsOnPortrait() {
         ViewGroup.LayoutParams contentWrapperLp = mContentWrapper.getLayoutParams();
         contentWrapperLp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-    }
-
-    private void configOnLandscapeOrientation() {
-        adjustLayoutParamsOnLandscape();
-        adjustContentWrapperLayoutParamsOnLandscape();
     }
 
     private void adjustLayoutParamsOnLandscape() {
@@ -497,6 +499,15 @@ public class MainTopContainerLayout extends FrameLayout
         lp.height = Display.getDisplaySize(getContext()).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             lp.height -= Display.getStatusBarHeight(getContext().getApplicationContext());
+        }
+
+        Context context = getContext().getApplicationContext();
+        boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
+        if (!adPurchased) {
+            int adHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
+            setPadding(0, 0, 0, adHeight);
+        } else {
+            setPadding(0, 0, 0, 0);
         }
     }
 
