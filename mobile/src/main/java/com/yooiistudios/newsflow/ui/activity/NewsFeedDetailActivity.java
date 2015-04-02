@@ -168,7 +168,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setContentView(R.layout.activity_news_feed_detail);
         ButterKnife.inject(this);
 
-        // 방향에 따라 soft key 부터 처리
+        // 새로 생성될 경우에도 방향에 따른 처리를 최초 한 번은 실행
         onConfigurationChanged(getResources().getConfiguration());
 
         mImageLoader = NewsImageLoader.create(this);
@@ -977,6 +977,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             mRevealView.setVisibility(View.INVISIBLE);
         }
         adjustToolbarHeight();
+        adjustShadowGradientViews();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -994,5 +995,17 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         styledAttributes.recycle();
 
         mToolbar.getLayoutParams().height = toolbarHeight;
+    }
+
+    private void adjustShadowGradientViews() {
+        mScrollView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                onScrollChanged(0, 0); // 회전시 툴바와 그라디언트 알파값 조절을 위함
+                return false;
+            }
+        });
     }
 }
