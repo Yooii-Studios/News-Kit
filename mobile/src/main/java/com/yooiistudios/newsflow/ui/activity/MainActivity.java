@@ -657,6 +657,7 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(true);
 
         mScrollView.setEnabled(true);
+        mToolbar.setVisibility(View.VISIBLE);
     }
 
     private void configOnLandscapeOrientation() {
@@ -669,6 +670,7 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(false);
 
         mScrollView.setEnabled(false);
+        mToolbar.setVisibility(View.INVISIBLE);
     }
 
     @Override
