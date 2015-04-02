@@ -279,6 +279,12 @@ public class NewsFeedDetailTransitionUtils {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+
+                // 애니메이션 이수 wrapper 의 너비를 match parent 로 설정
+                mTopNewsImageWrapper.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                mTopTextLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                mRecyclerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+
                 fadeInToolbar();
                 fadeInTopOverlay();
             }
@@ -668,7 +674,7 @@ public class NewsFeedDetailTransitionUtils {
         mTopDescriptionTextView = mActivity.getTopDescriptionTextView();
 
         // Bottom
-        mRecyclerView = mActivity.getBottomNewsListRecyclerView();
+        mRecyclerView = mActivity.getBottomRecyclerView();
     }
 
     private void initRecyclerVariables() {
