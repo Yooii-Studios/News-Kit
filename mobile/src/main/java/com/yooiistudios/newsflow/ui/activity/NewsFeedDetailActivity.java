@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -170,6 +171,18 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         setContentView(R.layout.activity_news_feed_detail);
         ButterKnife.inject(this);
+
+        Button button = new Button(this);
+        button.setText("replace image(debug)");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap dummyImage = PanelDecoration.getDummyImage(getApplicationContext(), mImageLoader);
+                setImageBitmap(dummyImage);
+                applyDummyFilterColor();
+            }
+        });
+        addContentView(button, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
 //        Context context = getApplicationContext();
 //        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
@@ -553,7 +566,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         // set action bar title
         applyToolbarTitle();
         applyTopNewsText();
-        applyImage();
+        invalidateImage();
     }
 
     private void applyTopNewsText() {
@@ -574,7 +587,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    private void applyImage() {
+    private void invalidateImage() {
         String imgUrl = mTopNews.getImageUrl();
         getIntent().putExtra(INTENT_KEY_IMAGE_LOADED, true);
         getIntent().putExtra(INTENT_KEY_IMAGE_URL, imgUrl);
@@ -584,7 +597,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             mImageLoader.get(imgUrl, new CacheImageLoader.ImageListener() {
                 @Override
                 public void onSuccess(CacheImageLoader.ImageResponse response) {
-                    applyImage(response);
+                    setImage(response);
                     configAfterRefreshDone();
                 }
 
@@ -632,14 +645,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mLoadingCoverView.setVisibility(View.GONE);
     }
 
-    private void applyImage(CacheImageLoader.ImageResponse response) {
-        setImage(response.bitmap);
+    private void setImage(CacheImageLoader.ImageResponse response) {
+        setImageBitmap(response.bitmap);
         applyFilterColor(response.paletteColor);
     }
 
     private void applyDummyImage() {
         Bitmap dummyImage = PanelDecoration.getDummyImage(getApplicationContext(), mImageLoader);
-        setImage(dummyImage);
+        setImageBitmap(dummyImage);
         applyDummyFilterColor();
     }
 
@@ -668,7 +681,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setFilterColor(filterColor);
     }
 
-    private void setImage(Bitmap bitmap) {
+    private void setImageBitmap(Bitmap bitmap) {
         mTopImageBitmap = bitmap;
         mTopImageView.setImageBitmap(mTopImageBitmap);
     }
@@ -815,16 +828,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         archiveNewsFeed(mNewsFeed);
         mNewsFeed.removeNewsAt(0);
 
-        applyImage();
+        invalidateImage();
     }
 
     @Override
     public void onImageUrlFetchFail(News news) {
         configAfterRefreshDone();
 
-//        news.setImageUrlChecked(true);
-
-        applyImage();
+        invalidateImage();
     }
 
     @Override
