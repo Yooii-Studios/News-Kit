@@ -2,7 +2,6 @@
 <resources>
     <!-- General -->
     <string name="app_name">News Flow</string>
-    <string name="action_newsfeed">뉴스피드 교체</string>
     <string name="action_info">정보</string>
     <string name="action_settings">설정</string>
     <string name="action_rate_app">앱 평가하기</string>
