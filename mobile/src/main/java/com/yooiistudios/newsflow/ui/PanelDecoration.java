@@ -2,49 +2,31 @@ package com.yooiistudios.newsflow.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 4.
  *
- * PanelDecoration
+ * PanelImageLoader
  *  메인, 뉴스피드 디테일 색, 이미지 관련 클래스
  */
 public class PanelDecoration {
     public interface OnLoadBitmapListener {
-        public void onLoad(Bitmap bitmap);
+        void onLoad(Bitmap bitmap);
     }
 
-    private static final int RES_DUMMY_IMAGE = R.drawable.img_news_dummy;
-    private static final int RES_SMALL_DUMMY_IMAGE = R.drawable.img_news_dummy_small;
+//    private static final int RES_DUMMY_IMAGE = R.drawable.img_news_dummy;
+//    private static final int RES_SMALL_DUMMY_IMAGE = R.drawable.img_news_dummy_small;
 
-//    public static Bitmap getDummyNewsImage(ResizedImageLoader imageLoader) {
-//        return ImageResizer.decodeBitmapFromResource(activity.getResources(),
-//                RES_DUMMY_IMAGE, SimpleImageCache.getInstance().get(activity));
-////        return BitmapFactory.decodeResource(context.getResources(), RES_DUMMY_IMAGE);
-//    }
-
-//    public static Bitmap getSmallDummyNewsImage(ResizedImageLoader imageLoader) {
-//        return imageLoader.getSmallDummyImage();
-//    }
-
-//    public static void applyDummyNewsImageInto(Context context, final ImageView imageView) {
-//        getDummyNewsImageAsync(context, new OnLoadBitmapListener() {
-//            @Override
-//            public void onLoad(Bitmap bitmap) {
-//                imageView.setImageBitmap(bitmap);
-//            }
-//        });
-//    }
-
-    public static void applySmallDummyNewsImageInto(ResizedImageLoader imageLoader,
+    public static void applySmallDummyNewsImageInto(Context context, CacheImageLoader imageLoader,
                                                     final ImageView imageView) {
-        getSmallDummyNewsImageAsync(imageLoader, new OnLoadBitmapListener() {
+        getSmallDummyNewsImageAsync(context, imageLoader, new OnLoadBitmapListener() {
             @Override
             public void onLoad(Bitmap bitmap) {
                 imageView.setImageBitmap(bitmap);
@@ -52,13 +34,13 @@ public class PanelDecoration {
         });
     }
 
-    public static void getDummyNewsImageAsync(final ResizedImageLoader imageLoader,
+    public static void getDummyNewsImageAsync(final Context context,
+                                              final CacheImageLoader imageLoader,
                                               final OnLoadBitmapListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return imageLoader.getDummyImage();
-//                return getDummyNewsImage(activity);
+                return getDummyImage(context, imageLoader);
             }
 
             @Override
@@ -71,12 +53,13 @@ public class PanelDecoration {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public static void getSmallDummyNewsImageAsync(final ResizedImageLoader imageLoader,
+    public static void getSmallDummyNewsImageAsync(final Context context,
+                                                   final CacheImageLoader imageLoader,
                                                    final OnLoadBitmapListener listener) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return imageLoader.getSmallDummyImage();
+                return getSmallDummyImage(context, imageLoader);
 //                return getSmallDummyNewsImage(activity);
             }
 
@@ -90,18 +73,48 @@ public class PanelDecoration {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public static Bitmap getDummyImage(Context context, CacheImageLoader imageLoader) {
+        final String key = "dummy";
+        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.img_news_dummy);
+            imageLoader.getCache().putBitmap(key, bitmap);
+        }
+        return bitmap;
+    }
+
+    public static Bitmap getSmallDummyImage(Context context, CacheImageLoader imageLoader) {
+        final String key = "small_dummy";
+        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.img_news_dummy_small);
+            imageLoader.getCache().putBitmap(key, bitmap);
+        }
+        return bitmap;
+    }
+
     /**
      * Color used to Main Top news image and Dummy image
      */
-    public static int getTopGrayFilterColor() {
+    public static int getDefaultTopPaletteColor() {
         return Color.argb(127, 16, 16, 16);
     }
 
     public static int getTopDummyImageFilterColor() {
-        return getTopGrayFilterColor();
+        return getDefaultTopPaletteColor();
     }
 
-    public static int getBottomGrayFilterColor(Context context) {
+    public static int getPaletteColorWithAlpha(Context context, int color) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        int alpha = context.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    public static int getDefaultBottomPaletteColor(Context context) {
         int grayColor = context.getResources().getColor(R.color.material_blue_grey_500);
         int red = Color.red(grayColor);
         int green = Color.green(grayColor);
@@ -111,11 +124,7 @@ public class PanelDecoration {
     }
 
     public static int getBottomDummyImageFilterColor(Context context) {
-        return getBottomGrayFilterColor(context);
-    }
-
-    public static int getBottomRssNotFoundImgFilterColor(Context context) {
-        return context.getResources().getColor(R.color.main_bottom_rss_not_found_img_filter_color);
+        return getDefaultBottomPaletteColor(context);
     }
 
     public static int getMainBottomDefaultBackgroundColor() {

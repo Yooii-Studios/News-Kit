@@ -111,19 +111,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/newsfeed_detail_top_news_text_layout"/>
-
-                <FrameLayout
-                    android:id="@+id/newsfeed_detail_loading_cover"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#aaaa"
-                    android:visibility="gone">
-
-                    <ProgressBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"/>
-                </FrameLayout>
             </RelativeLayout>
         </com.yooiistudios.newsflow.ui.widget.ObservableScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -137,6 +124,13 @@
         android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-2310680050309555/8477940628"/>
+
+    <View
+        android:id="@+id/newsfeed_detail_loading_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_black_secondary_text"
+        android:visibility="gone"/>
 
     <View
         android:id="@+id/newsfeed_detail_ad_upper_view"

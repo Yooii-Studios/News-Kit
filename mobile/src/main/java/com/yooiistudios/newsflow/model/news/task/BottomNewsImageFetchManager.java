@@ -7,7 +7,7 @@ import android.util.SparseArray;
 import com.android.volley.VolleyError;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.model.ResizedImageLoader;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class BottomNewsImageFetchManager
         mNewsToFetchMap = new HashMap<>();
     }
 
-    public void fetchAllDisplayingNewsImageList(ResizedImageLoader imageLoader,
+    public void fetchAllDisplayingNewsImageList(CacheImageLoader imageLoader,
                                                 ArrayList<NewsFeed> newsFeedList,
                                                 OnFetchListener listener, int taskType) {
         SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
@@ -59,7 +59,7 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, false);
     }
 
-    public void fetchAllNextNewsImageList(ResizedImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
+    public void fetchAllNextNewsImageList(CacheImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                           OnFetchListener listener, int taskType) {
         SparseArray<NewsFeed> newsFeedToIndexSparseArray = new SparseArray<>();
         for (int i = 0; i < newsFeedList.size(); i++) {
@@ -68,7 +68,7 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, newsFeedToIndexSparseArray, listener, taskType, true);
     }
 
-    public void fetchNextNewsImage(ResizedImageLoader imageLoader, NewsFeed newsFeed,
+    public void fetchNextNewsImage(CacheImageLoader imageLoader, NewsFeed newsFeed,
                                    OnFetchListener listener, int newsFeedIndex, int taskType) {
 
         SparseArray<NewsFeed> list = new SparseArray<>();
@@ -77,7 +77,7 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, list, listener, taskType, true);
     }
 
-    public void fetchDisplayingAndNextImage(ResizedImageLoader imageLoader, NewsFeed newsFeed,
+    public void fetchDisplayingAndNextImage(CacheImageLoader imageLoader, NewsFeed newsFeed,
                                             OnFetchListener listener, int newsFeedIndex,
                                             int taskType) {
         prepare(listener, taskType);
@@ -96,7 +96,7 @@ public class BottomNewsImageFetchManager
     }
 
 
-    public void fetchDisplayingAndNextImageList(ResizedImageLoader imageLoader,
+    public void fetchDisplayingAndNextImageList(CacheImageLoader imageLoader,
                                                 ArrayList<NewsFeed> newsFeedList,
                                                 OnFetchListener listener, int taskType) {
         prepare(listener, taskType);
@@ -116,7 +116,7 @@ public class BottomNewsImageFetchManager
         _fetch(imageLoader);
     }
 
-    private void fetch(ResizedImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
+    private void fetch(CacheImageLoader imageLoader, SparseArray<NewsFeed> newsFeedMap,
                        OnFetchListener listener, int taskType, boolean fetchNextNewsImage) {
         //newsFeedMap의 key는 news feed의 인덱스이어야 한다.
         prepare(listener, taskType);
@@ -155,7 +155,7 @@ public class BottomNewsImageFetchManager
         mTaskType = taskType;
     }
 
-    private void _fetch(ResizedImageLoader imageLoader) {
+    private void _fetch(CacheImageLoader imageLoader) {
         for (Map.Entry<News, Pair<Boolean, Integer>> entry : mNewsToFetchMap.entrySet()) {
             final News news = entry.getKey();
             final int newsFeedIndex = entry.getValue().second;
@@ -167,9 +167,9 @@ public class BottomNewsImageFetchManager
                 mBottomNewsFeedNewsToImageTaskMap.put(news, task);
             } else {
                 if (news.hasImageUrl()) {
-                    imageLoader.get(news.getImageUrl(), new ResizedImageLoader.ImageListener() {
+                    imageLoader.get(news.getImageUrl(), new CacheImageLoader.ImageListener() {
                         @Override
-                        public void onSuccess(ResizedImageLoader.ImageResponse response) {
+                        public void onSuccess(CacheImageLoader.ImageResponse response) {
                             notifyOnImageFetch(news, newsFeedIndex, mTaskType);
                         }
 
