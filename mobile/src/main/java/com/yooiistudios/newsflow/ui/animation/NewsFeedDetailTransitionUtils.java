@@ -34,14 +34,14 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.util.Device;
-import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.IntegerMath;
-import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionImageViewProperty;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionProperty;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionTextViewProperty;
+import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.IntegerMath;
+import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
@@ -279,11 +279,6 @@ public class NewsFeedDetailTransitionUtils {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-
-                // 애니메이션 이수 wrapper 의 너비를 match parent 로 설정
-                mTopNewsImageWrapper.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                mTopTextLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                mRecyclerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
                 fadeInToolbar();
                 fadeInTopOverlay();

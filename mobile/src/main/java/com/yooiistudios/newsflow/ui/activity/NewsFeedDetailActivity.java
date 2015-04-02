@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -181,7 +182,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mImageLoader = ResizedImageLoader.create(this);
 
         // retrieve feed from intent
-        mNewsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        initNewsFeed();
+
         Object tintTypeObj = getIntent().getExtras().getSerializable(MainActivity.INTENT_KEY_TINT_TYPE);
         mTintType = tintTypeObj != null ? (TintType)tintTypeObj : null;
 
@@ -205,7 +207,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (savedInstanceState == null) {
             if (mTopImageView.getDrawable() != null) {
                 NewsFeedDetailTransitionUtils.runEnterAnimation(this);
-//                startTransitionAnimation();
             } else {
                 showLoadingCover();
             }
@@ -213,21 +214,17 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
-    private void initRevealView() {
-        mRevealView.setBackgroundColor(Color.WHITE);
+    private void initNewsFeed() {
+        NewsFeed newsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        Parcel parcel = Parcel.obtain();
+        newsFeed.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
+        mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+        parcel.recycle();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mImageLoader.flushCache();
-
-        if (mNewsFeedFetchTask != null) {
-            mNewsFeedFetchTask.cancel(true);
-        }
-        if (mTopNewsImageFetchTask != null) {
-            mTopNewsImageFetchTask.cancel(true);
-        }
+    private void initRevealView() {
+        mRevealView.setBackgroundColor(Color.WHITE);
     }
 
     private void initAdView() {
@@ -286,18 +283,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 return true;
             }
         });
-    }
-
-    @Override
-    public void finish() {
-        if (mTopImageView.getDrawable() == null) {
-            super.finish();
-        } else {
-            if (true || !mIsAnimatingActivityTransitionAnimation) {
-                super.finish();
-//                runExitAnimation();
-            }
-        }
     }
 
     private void initToolbar() {
@@ -363,12 +348,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 return false;
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkAdView();
     }
 
     private void initSwipeRefreshView() {
@@ -462,6 +441,25 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mBottomRecyclerView.setLayoutParams(lp);
 //        mBottomRecyclerView.invalidate();
 //        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAdView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mImageLoader.flushCache();
+
+        if (mNewsFeedFetchTask != null) {
+            mNewsFeedFetchTask.cancel(true);
+        }
+        if (mTopNewsImageFetchTask != null) {
+            mTopNewsImageFetchTask.cancel(true);
+        }
     }
 
     @Override
@@ -1047,6 +1045,27 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 Display.applyTranslucentNavigationBarAfterLollipop(this);
             } else {
                 Display.removeTranslucentNavigationBarAfterLollipop(this);
+            }
+            adjustViewsWidth();
+            mRevealView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void adjustViewsWidth() {
+        Point deviceSize = Display.getDisplaySize(this);
+        mToolbar.getLayoutParams().width = deviceSize.x;
+        mTopNewsTextLayout.getLayoutParams().width = deviceSize.x;
+        mBottomRecyclerView.getLayoutParams().width = deviceSize.x;
+    }
+
+    @Override
+    public void finish() {
+        if (mTopImageView.getDrawable() == null) {
+            super.finish();
+        } else {
+            if (true || !mIsAnimatingActivityTransitionAnimation) {
+                super.finish();
+//                runExitAnimation();
             }
         }
     }

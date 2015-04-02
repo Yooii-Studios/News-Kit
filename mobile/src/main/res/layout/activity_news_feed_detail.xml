@@ -5,9 +5,8 @@
     tools:context="com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity"
     android:id="@+id/newsfeed_detail_content_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!-- android:background="@color/newsfeed_detail_background_color" -->
+    android:layout_height="match_parent"
+    android:background="@color/newsfeed_detail_background_color">
 
     <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"

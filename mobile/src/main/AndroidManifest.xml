@@ -44,17 +44,17 @@
         </activity>
         <activity
             android:name=".ui.activity.NewsFeedDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:screenOrientation="sensor"
             android:theme="@style/NewsFeedDetailTheme" />
         <activity
             android:name=".ui.activity.NewsDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:screenOrientation="sensor"
             android:theme="@style/NewsDetailTheme" />
         <activity
             android:name=".ui.activity.NewsSelectActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|locale|layoutDirection"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|locale|layoutDirection"
             android:label="@string/select_newsfeed_title"
             android:screenOrientation="sensor"
             android:theme="@style/NewsSelectTheme" />
