@@ -512,6 +512,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
                 if (isAutoScroll) {
                     startAutoScroll();
+                } else {
+                    stopAutoScroll();
                 }
                 return true;
 
