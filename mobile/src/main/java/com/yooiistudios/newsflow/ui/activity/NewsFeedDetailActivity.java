@@ -324,11 +324,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             @Override
             public boolean onPreDraw() {
                 mToolbar.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Device.hasLollipop()) {
                     mTopGradientShadowView.getLayoutParams().height = (mToolbar.getHeight() + statusBarSize) * 2;
                     mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight() + statusBarSize;
                 } else {
-                    mTopGradientShadowView.getLayoutParams().height = mToolbar.getHeight() * 2;
+                    mTopGradientShadowView.getLayoutParams().height = mToolbar.getHeight() * 3;
                     mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight();
                 }
                 return false;
