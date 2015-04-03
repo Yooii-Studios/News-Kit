@@ -18,7 +18,7 @@
     <!-- NewsFeed Detail -->
     <color name="newsfeed_detail_highlight_color">@color/material_white_disabled_and_hint_text</color>
     <color name="newsfeed_detail_background_color">@android:color/white</color>
-    <color name="newsfeed_detail_gradient_start_color">#a8000000</color>
+    <color name="newsfeed_detail_gradient_start_color">#af000000</color>
 
     <!-- NewsFeed Select -->
     <color name="news_select_color_primary">@color/material_grey_300</color>
