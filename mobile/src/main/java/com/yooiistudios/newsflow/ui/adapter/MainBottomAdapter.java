@@ -468,6 +468,7 @@ public class MainBottomAdapter extends
     }
 
     public static class BottomNewsFeedViewHolder extends RecyclerView.ViewHolder {
+        public View contentWrapper;
         public View newsContentWrapper;
         public TextView newsTitleTextView;
         public TextView newsFeedTitleTextView;
@@ -483,7 +484,8 @@ public class MainBottomAdapter extends
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            newsContentWrapper = itemView.findViewById(R.id.main_bottom_content);
+            contentWrapper = itemView.findViewById(R.id.main_bottom_item_content);
+            newsContentWrapper = itemView.findViewById(R.id.main_bottom_item_news_content);
             newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);

@@ -7,31 +7,36 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/main_bottom_margin_small">
 
-    <ProgressBar
-        android:id="@+id/main_bottom_item_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        style="@style/Base.Widget.AppCompat.ProgressBar"/>
-
     <FrameLayout
-        android:id="@+id/main_bottom_content"
+        android:id="@+id/main_bottom_item_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/main_bottom_item_image_view"
+        <ProgressBar
+            android:id="@+id/main_bottom_item_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/Base.Widget.AppCompat.ProgressBar"/>
+
+        <FrameLayout
+            android:id="@+id/main_bottom_item_news_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/content_description"/>
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/main_bottom_item_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/content_description"/>
 
-        <TextView
-            android:id="@+id/main_bottom_item_title"
-            style="@style/MainBottomItemTextStyle"/>
+            <TextView
+                android:id="@+id/main_bottom_item_title"
+                style="@style/MainBottomItemTextStyle"/>
 
-        <TextView
-            android:id="@+id/main_bottom_news_feed_title"
-            style="@style/MainBottomItemNewsFeedTitleTextStyle"/>
+            <TextView
+                android:id="@+id/main_bottom_news_feed_title"
+                style="@style/MainBottomItemNewsFeedTitleTextStyle"/>
+        </FrameLayout>
     </FrameLayout>
     <!--
         android:background="?android:attr/colorPrimary" -->

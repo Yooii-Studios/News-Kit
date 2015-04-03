@@ -298,7 +298,7 @@ public class MainBottomContainerLayout extends FrameLayout
     public void onBindViewHolder(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder, int i) {
         ViewProperty property =
                 new ViewProperty.Builder()
-                        .setView(viewHolder.itemView)
+                        .setView(viewHolder.contentWrapper)
                         .setViewIndex(i)
                         .setAnimationListener(this)
                         .build();
