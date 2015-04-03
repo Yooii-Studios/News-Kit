@@ -11,6 +11,9 @@
     <dimen name="margin_inner">4.5dp</dimen>
     <dimen name="margin_outer">9dp</dimen>
 
+    <!-- Main General -->
+    <dimen name="main_newsfeed_title_text_size">15sp</dimen>
+
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>

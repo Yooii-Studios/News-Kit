@@ -37,6 +37,7 @@
     <dimen name="main_edit_button_size">48dp</dimen>
     <dimen name="main_edit_button_margin">4dp</dimen>
     <dimen name="main_edit_button_margin_large">8dp</dimen>
+    <dimen name="main_newsfeed_title_text_size">10sp</dimen>
 
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">280dp</dimen>      <!-- 56 * 5 -->
