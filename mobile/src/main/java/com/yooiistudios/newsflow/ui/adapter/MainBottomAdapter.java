@@ -223,9 +223,7 @@ public class MainBottomAdapter extends
         viewHolder.progressBar.setVisibility(View.GONE);
 
         PanelDecoration.applySmallDummyNewsImageInto(mContext, mImageLoader, viewHolder.imageView);
-//        viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultBottomPaletteColor(mContext));
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomDummyImageFilterColor(mContext));
-//        viewHolder.imageView.setTag(TintType.DUMMY_BOTTOM);
     }
 
     private void showErrorStatus(BottomNewsFeedViewHolder viewHolder, int position) {
@@ -271,7 +269,7 @@ public class MainBottomAdapter extends
 //        viewHolder.statusLayout.setVisibility(View.VISIBLE);
 //        viewHolder.statusLayout.setBackgroundResource(R.drawable.img_rss_url_failed_small);
         viewHolder.statusWrapper.setVisibility(View.VISIBLE);
-        viewHolder.statusBackgroundImageView.setImageResource(R.drawable.img_rss_url_failed_small);
+        PanelDecoration.applyRssUrlFailedSmallBackgroundInto(mContext, mImageLoader, viewHolder.statusBackgroundImageView);
         viewHolder.statusIconImageView.setImageResource(R.drawable.ic_rss_url_failed_small);
     }
 
