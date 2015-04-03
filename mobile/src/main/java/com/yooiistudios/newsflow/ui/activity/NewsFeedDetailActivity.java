@@ -7,7 +7,6 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -168,13 +167,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setContentView(R.layout.activity_news_feed_detail);
         ButterKnife.inject(this);
 
-        // 새로 생성될 경우에도 방향에 따른 처리를 최초 한 번은 실행
-        // 먼저 width 들을 디바이스 width 에 맞춘 뒤 애니메이션을 하기 위해 이 위치에서 호출 필요
-        onConfigurationChanged(getResources().getConfiguration());
-
+        // retrieve feed from intent
         mImageLoader = NewsImageLoader.create(this);
 
-        // retrieve feed from intent
+        initViewsWidth();
         applySystemWindowsBottomInset();
         initRevealView();
         initToolbar();
@@ -194,8 +190,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             } else {
                 showLoadingCover();
             }
+        } else {
+            adjustShadowGradientViews();
         }
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
+                getResources().getConfiguration().orientation);
     }
 
     private void initNewsFeed() {
@@ -274,13 +274,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adjustToolbarTopMargin();
         initToolbarGradientView();
         initToolbarIcon();
         initToolbarTitle();
+        initToolbarTopMargin();
+        initToolbarHeight();
     }
 
-    private void adjustToolbarTopMargin() {
+    private void initToolbarTopMargin() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int statusBarHeight = Display.getStatusBarHeight(this);
             if (statusBarHeight > 0) {
@@ -293,6 +294,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mToolbarTitleColorSpan = new AlphaForegroundColorSpan(
                 getResources().getColor(R.color.material_white_primary_text));
 
+        initToolbarTextAppearance();
         applyToolbarTitle();
     }
 
@@ -966,22 +968,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        if (Device.hasLollipop()) {
-            adjustViewsWidthOnLollipop();
-        }
-        adjustToolbarHeight();
-        adjustShadowGradientViews();
-        adjustToolbarTextAppearance();
-
-        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
-                newConfig.orientation);
-    }
-
-    private void adjustToolbarTextAppearance() {
+    private void initToolbarTextAppearance() {
         if (Device.isPortrait(this)) {
             mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
         } else {
@@ -989,8 +976,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void adjustViewsWidthOnLollipop() {
+    private void initViewsWidth() {
         Point deviceSize = Display.getDisplaySize(this);
         mToolbar.getLayoutParams().width = deviceSize.x;
         mTopNewsImageWrapper.getLayoutParams().width = deviceSize.x;
@@ -998,7 +984,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mBottomRecyclerView.getLayoutParams().width = deviceSize.x;
     }
 
-    private void adjustToolbarHeight() {
+    private void initToolbarHeight() {
         final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
                 new int[] { android.R.attr.actionBarSize });
         int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
