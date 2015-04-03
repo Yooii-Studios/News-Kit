@@ -21,9 +21,6 @@ public class PanelDecoration {
         void onLoad(Bitmap bitmap);
     }
 
-//    private static final int RES_DUMMY_IMAGE = R.drawable.img_news_dummy;
-//    private static final int RES_SMALL_DUMMY_IMAGE = R.drawable.img_news_dummy_small;
-
     public static void applySmallDummyNewsImageInto(Context context, CacheImageLoader imageLoader,
                                                     final ImageView imageView) {
         getSmallDummyNewsImageAsync(context, imageLoader, new OnLoadBitmapListener() {
@@ -34,21 +31,33 @@ public class PanelDecoration {
         });
     }
 
+    public static void applyRssUrlFailedBackgroundInto(Context context, CacheImageLoader imageLoader,
+                                                            final ImageView imageView) {
+        getRssUrlFailedBackgroundAsync(context, imageLoader, new OnLoadBitmapListener() {
+            @Override
+            public void onLoad(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
+
+    public static void applyRssUrlFailedSmallBackgroundInto(Context context, CacheImageLoader imageLoader,
+                                                            final ImageView imageView) {
+        getRssUrlFailedSmallBackgroundAsync(context, imageLoader, new OnLoadBitmapListener() {
+            @Override
+            public void onLoad(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+    }
+
     public static void getDummyNewsImageAsync(final Context context,
                                               final CacheImageLoader imageLoader,
                                               final OnLoadBitmapListener listener) {
-        new AsyncTask<Void, Void, Bitmap>() {
+        new DecodeResourceAsync(listener) {
             @Override
             protected Bitmap doInBackground(Void... params) {
                 return getDummyImage(context, imageLoader);
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
-                if (listener != null) {
-                    listener.onLoad(bitmap);
-                }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -56,19 +65,32 @@ public class PanelDecoration {
     public static void getSmallDummyNewsImageAsync(final Context context,
                                                    final CacheImageLoader imageLoader,
                                                    final OnLoadBitmapListener listener) {
-        new AsyncTask<Void, Void, Bitmap>() {
+        new DecodeResourceAsync(listener) {
             @Override
             protected Bitmap doInBackground(Void... params) {
                 return getSmallDummyImage(context, imageLoader);
-//                return getSmallDummyNewsImage(activity);
             }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
 
+    public static void getRssUrlFailedBackgroundAsync(final Context context,
+                                                           final CacheImageLoader imageLoader,
+                                                           final OnLoadBitmapListener listener) {
+        new DecodeResourceAsync(listener) {
             @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
-                if (listener != null) {
-                    listener.onLoad(bitmap);
-                }
+            protected Bitmap doInBackground(Void... params) {
+                return getRssUrlFailedBackground(context, imageLoader);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public static void getRssUrlFailedSmallBackgroundAsync(final Context context,
+                                                           final CacheImageLoader imageLoader,
+                                                           final OnLoadBitmapListener listener) {
+        new DecodeResourceAsync(listener) {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                return getRssUrlFailedSmallBackground(context, imageLoader);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -90,6 +112,28 @@ public class PanelDecoration {
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.img_news_dummy_small);
+            imageLoader.getCache().putBitmap(key, bitmap);
+        }
+        return bitmap;
+    }
+
+    public static Bitmap getRssUrlFailedBackground(Context context, CacheImageLoader imageLoader) {
+        final String key = "rss_url_failed_background";
+        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.img_rss_url_failed);
+            imageLoader.getCache().putBitmap(key, bitmap);
+        }
+        return bitmap;
+    }
+
+    public static Bitmap getRssUrlFailedSmallBackground(Context context, CacheImageLoader imageLoader) {
+        final String key = "small_rss_url_failed_background";
+        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.img_rss_url_failed_small);
             imageLoader.getCache().putBitmap(key, bitmap);
         }
         return bitmap;
@@ -129,5 +173,25 @@ public class PanelDecoration {
 
     public static int getMainBottomDefaultBackgroundColor() {
         return Color.argb(200, 16, 16, 16);
+    }
+
+    private static abstract class DecodeResourceAsync extends AsyncTask<Void, Void, Bitmap> {
+        private OnLoadBitmapListener mListener;
+
+        public DecodeResourceAsync(
+                final OnLoadBitmapListener listener) {
+            mListener = listener;
+        }
+
+        @Override
+        protected abstract Bitmap doInBackground(Void... params);
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (mListener != null) {
+                mListener.onLoad(bitmap);
+            }
+        }
     }
 }

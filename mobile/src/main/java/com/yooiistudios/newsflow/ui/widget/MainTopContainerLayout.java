@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
@@ -30,10 +30,10 @@ import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
+import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
@@ -65,16 +65,17 @@ public class MainTopContainerLayout extends FrameLayout
         TopNewsFeedFetchTask.OnFetchListener,
         MainTopPagerAdapter.OnItemClickListener,
         View.OnLongClickListener {
-    @InjectView(R.id.main_top_content_wrapper)              FrameLayout mContentWrapper;
-    @InjectView(R.id.main_top_view_pager_wrapper)           FrameLayout mViewPagerWrapper;
-    @InjectView(R.id.main_top_view_pager)                   MainTopViewPager mViewPager;
-    @InjectView(R.id.main_top_view_pager_indicator)         ParallexViewPagerIndicator mViewPagerIndicator;
-    @InjectView(R.id.main_top_news_feed_title_text_view)    TextView mNewsFeedTitleTextView;
-    @InjectView(R.id.main_top_unavailable_wrapper)          LinearLayout mUnavailableWrapper;
-    @InjectView(R.id.main_top_unavailable_icon_imageview)   ImageView mUnavailableIconImageView;
-    @InjectView(R.id.main_top_unavailable_textview)         TextView mUnavailableTextView;
-    @InjectView(R.id.main_top_edit_layout)                  FrameLayout mEditLayout;
-    @InjectView(R.id.main_top_replace_newsfeed)             View mReplaceButton;
+    @InjectView(R.id.main_top_content_wrapper)                  FrameLayout mContentWrapper;
+    @InjectView(R.id.main_top_view_pager_wrapper)               FrameLayout mViewPagerWrapper;
+    @InjectView(R.id.main_top_view_pager)                       MainTopViewPager mViewPager;
+    @InjectView(R.id.main_top_view_pager_indicator)             ParallexViewPagerIndicator mViewPagerIndicator;
+    @InjectView(R.id.main_top_news_feed_title_text_view)        TextView mNewsFeedTitleTextView;
+    @InjectView(R.id.main_top_unavailable_wrapper)              FrameLayout mUnavailableWrapper;
+    @InjectView(R.id.main_top_unavailable_background_imageview) ImageView mUnavailableBackgroundImageView;
+    @InjectView(R.id.main_top_unavailable_icon_imageview)       ImageView mUnavailableIconImageView;
+    @InjectView(R.id.main_top_unavailable_textview)             TextView mUnavailableTextView;
+    @InjectView(R.id.main_top_edit_layout)                      FrameLayout mEditLayout;
+    @InjectView(R.id.main_top_replace_newsfeed)                 View mReplaceButton;
 
 //    private static final String TAG = MainTopContainerLayout.class.getName();
 
@@ -315,7 +316,7 @@ public class MainTopContainerLayout extends FrameLayout
     private void notifyNewTopNewsFeedSet() {
         // show view pager wrapper
         mViewPagerWrapper.setVisibility(View.VISIBLE);
-        mUnavailableWrapper.setBackground(null);
+//        mUnavailableWrapper.setBackground(null);
         mUnavailableWrapper.setVisibility(View.GONE);
         mViewPagerIndicator.setVisibility(View.VISIBLE);
 
@@ -355,9 +356,11 @@ public class MainTopContainerLayout extends FrameLayout
         mViewPagerIndicator.setVisibility(View.INVISIBLE);
 
         mUnavailableWrapper.setVisibility(View.VISIBLE);
-        mUnavailableWrapper.setBackgroundResource(R.drawable.img_rss_url_failed);
 
+        Context context = getContext().getApplicationContext();
         mUnavailableIconImageView.setImageResource(R.drawable.ic_rss_url_failed_large);
+        PanelDecoration.applyRssUrlFailedBackgroundInto(
+                context, mImageLoader, mUnavailableBackgroundImageView);
         mUnavailableTextView.setText(message);
 
         adjustUnavailableIconImageViewTopMargin();
