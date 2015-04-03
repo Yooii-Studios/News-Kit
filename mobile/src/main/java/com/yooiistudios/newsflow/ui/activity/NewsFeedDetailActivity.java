@@ -324,11 +324,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             @Override
             public boolean onPreDraw() {
                 mToolbar.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Device.hasLollipop()) {
                     mTopGradientShadowView.getLayoutParams().height = (mToolbar.getHeight() + statusBarSize) * 2;
                     mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight() + statusBarSize;
                 } else {
-                    mTopGradientShadowView.getLayoutParams().height = mToolbar.getHeight() * 2;
+                    mTopGradientShadowView.getLayoutParams().height = mToolbar.getHeight() * 3;
                     mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight();
                 }
                 return false;
@@ -761,12 +761,19 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             mTopNewsImageWrapper.setTranslationY(scrollY * TOP_SCROLL_PARALLAX_RATIO);
 
             float ratio = 0.0008f;
-            mToolbarOverlayView.setAlpha(scrollY * ratio);
-            if (scrollY * ratio >= TOP_OVERLAY_ALPHA_LIMIT) {
-                mToolbarOverlayView.setAlpha(TOP_OVERLAY_ALPHA_LIMIT);
-                mTopGradientShadowView.setAlpha(0);
+            float toolbarAlpha;
+            if (scrollY * ratio < TOP_OVERLAY_ALPHA_LIMIT) {
+                toolbarAlpha = scrollY * ratio;
             } else {
-                mTopGradientShadowView.setAlpha(1.f - scrollY * ratio);
+                toolbarAlpha = TOP_OVERLAY_ALPHA_LIMIT;
+            }
+            mToolbarOverlayView.setAlpha(toolbarAlpha);
+
+            float topGradientAlpha = 1.f - scrollY * ratio;
+            if (topGradientAlpha >= 0) {
+                mTopGradientShadowView.setAlpha(topGradientAlpha);
+            } else {
+                mTopGradientShadowView.setAlpha(0);
             }
         } else {
             mTopNewsImageWrapper.setTranslationY(0);
