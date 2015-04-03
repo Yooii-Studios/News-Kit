@@ -482,7 +482,7 @@ public class MainBottomAdapter extends
 
         public BottomNewsFeedViewHolder(View itemView) {
             super(itemView);
-            contentWrapper = itemView.findViewById(R.id.main_bottom_item_content);
+            contentWrapper = itemView.findViewById(R.id.main_bottom_item_anim_content);
             newsContentWrapper = itemView.findViewById(R.id.main_bottom_item_news_content);
             newsTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_item_title);
             newsFeedTitleTextView = (TextView) itemView.findViewById(R.id.main_bottom_news_feed_title);
