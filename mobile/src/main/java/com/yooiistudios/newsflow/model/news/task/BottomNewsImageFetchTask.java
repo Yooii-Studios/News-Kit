@@ -6,6 +6,8 @@ import com.android.volley.VolleyError;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
 import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 18.
@@ -14,11 +16,16 @@ import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
  *  뉴스의 이미지 url 을 뽑아내는 태스크
  */
 public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
+    public interface OnBottomImageUrlFetchListener {
+        void onBottomImageUrlFetchSuccess(News news, String url,
+                                          int newsFeedPosition, int newsPosition, int taskType);
+        void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType);
+    }
 
-//    private ImageLoader mImageLoader;
-    private CacheImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
     private News mNews;
-    private int mPosition;
+    private int mNewsFeedIndex;
+    private int mNewsIndex;
     private int mTaskType;
     private OnBottomImageUrlFetchListener mListener;
 
@@ -30,11 +37,13 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
     public static final int TASK_CACHE = 4;
     public static final int TASK_MATRIX_CHANGED = 5;
 
-    public BottomNewsImageFetchTask(CacheImageLoader imageLoader, News news, int position,
+    public BottomNewsImageFetchTask(NewsImageLoader imageLoader, News news,
+                                    int newsFeedIndex, int newsIndex,
                                     int taskType, OnBottomImageUrlFetchListener listener) {
         mImageLoader = imageLoader;
         mNews = news;
-        mPosition = position;
+        mNewsFeedIndex = newsFeedIndex;
+        mNewsIndex = newsIndex;
         mTaskType = taskType;
         mListener = listener;
     }
@@ -50,31 +59,23 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
         mNews.setImageUrl(imageUrl);
         mNews.setImageUrlChecked(true);
         if (mListener != null) {
-            mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mPosition, mTaskType);
+            mListener.onBottomImageUrlFetchSuccess(mNews, imageUrl, mNewsFeedIndex, mNewsIndex, mTaskType);
 
             if (mNews.hasImageUrl()) {
-                mImageLoader.get(mNews.getImageUrl(), new CacheImageLoader.ImageListener() {
+                mImageLoader.get(new NewsUrlSupplier(mNews, mNewsFeedIndex), new CacheImageLoader.ImageListener() {
                     @Override
                     public void onSuccess(CacheImageLoader.ImageResponse response) {
-                        mListener.onFetchImage(mNews, mPosition, mTaskType);
+                        mListener.onFetchImage(mNews, mNewsFeedIndex, mNewsIndex, mTaskType);
                     }
 
                     @Override
                     public void onFail(VolleyError error) {
-                        mListener.onFetchImage(mNews, mPosition, mTaskType);
+                        mListener.onFetchImage(mNews, mNewsFeedIndex, mNewsIndex, mTaskType);
                     }
                 });
             } else {
-                mListener.onFetchImage(mNews, mPosition, mTaskType);
+                mListener.onFetchImage(mNews, mNewsFeedIndex, mNewsIndex, mTaskType);
             }
         }
-    }
-
-
-
-    public interface OnBottomImageUrlFetchListener {
-        public void onBottomImageUrlFetchSuccess(News news, String url,
-                                                 int position, int taskType);
-        public void onFetchImage(News news, int position, int taskType);
     }
 }

@@ -63,8 +63,9 @@ import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newsflow.model.NewsImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
+import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.model.debug.DebugAnimationSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugAnimationSettings;
 import com.yooiistudios.newsflow.model.news.task.NewsFeedDetailNewsFeedFetchTask;
@@ -579,19 +580,27 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         setResult(RESULT_OK, getIntent());
 
         if (mTopNews.hasImageUrl()) {
-            mImageLoader.get(imgUrl, new CacheImageLoader.ImageListener() {
-                @Override
-                public void onSuccess(CacheImageLoader.ImageResponse response) {
-                    setImage(response);
-                    configAfterRefreshDone();
-                }
+            int newsFeedIndex;
+            if (isFromTopNewsFeed()) {
+                newsFeedIndex = NewsFeed.INDEX_TOP;
+            } else {
+                newsFeedIndex = getIntent().getExtras().getInt(
+                        MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
+            }
+            mImageLoader.get(new NewsUrlSupplier(mTopNews, newsFeedIndex),
+                    new CacheImageLoader.ImageListener() {
+                        @Override
+                        public void onSuccess(CacheImageLoader.ImageResponse response) {
+                            setImage(response);
+                            configAfterRefreshDone();
+                        }
 
-                @Override
-                public void onFail(VolleyError error) {
-                    applyDummyImage();
-                    configAfterRefreshDone();
-                }
-            });
+                        @Override
+                        public void onFail(VolleyError error) {
+                            applyDummyImage();
+                            configAfterRefreshDone();
+                        }
+                    });
         } else if (mTopNews.isImageUrlChecked()) {
             applyDummyImage();
             configAfterRefreshDone();
@@ -648,7 +657,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         applyDummyFilterColor();
     }
 
-    private void applyFilterColor(CacheImageLoader.ImageResponse.PaletteColor paletteColor) {
+    private void applyFilterColor(CacheImageLoader.PaletteColor paletteColor) {
         int filterColor;
         if (isFromTopNewsFeed()) {
             filterColor = PanelDecoration.getDefaultTopPaletteColor();

@@ -1,9 +1,9 @@
 package com.yooiistudios.newsflow.core.util;
 
-import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -15,66 +15,67 @@ import java.io.IOException;
 public class ExternalStorage {
     private static final String SD_CARD_FOLDER_PATH = "/NewsFlow";
 
-    public static File getFileFromExternalDirectory(String fileName) {
-        if (isExternalStorageReadable() && isExternalStorageWritable()) {
-            File f = new File(createExternalDirectory(), fileName);
+    public static File getFileFromExternalDirectory(String fileName)
+            throws FileNotFoundException, ExternalStorageException {
+        File f = new File(createOrGetExternalDirectory(), fileName);
+
+        if (f.exists()){
+            return f;
+        } else {
+            throw new FileNotFoundException();
+        }
+    }
+
+    public static boolean deleteFileFromExternalDirectory(String fileName)
+            throws FileNotFoundException, ExternalStorageException {
+        File f = new File(createOrGetExternalDirectory(), fileName);
+
+        if (f.exists()){
+            return f.delete();
+        } else {
+            throw new FileNotFoundException();
+        }
+    }
+
+    public static File createFileInExternalDirectory(String fileName)
+            throws ExternalStorageException {
+        try{
+            File f = new File(createOrGetExternalDirectory(), fileName);
 
             if (f.exists()){
-                return f;
+                f.delete();
             }
+            f.createNewFile();
+
+            return f;
+        } catch(IOException e) {
+            throw new ExternalStorageException("ERROR occurred during IO.");
         }
-
-        return null;
     }
 
-    public static boolean deleteFileFromExternalDirectory(String fileName) {
-        if (isExternalStorageReadable() && isExternalStorageWritable()) {
-            File f = new File(createExternalDirectory(), fileName);
+    public static File createOrGetExternalDirectory() throws ExternalStorageException {
+        checkExternalStorageReadable();
+        checkExternalStorageWritable();
 
-            if (f.exists()){
-                return f.delete();
-            }
+        File dir = new File(Environment.getExternalStorageDirectory(), SD_CARD_FOLDER_PATH);
+        if (!dir.exists()){
+            dir.mkdir();
         }
-
-        return false;
+        return dir;
     }
 
-    public static File createExternalDirectory() {
-        if (isExternalStorageReadable() && isExternalStorageWritable()) {
-            File dir = new File(Environment.getExternalStorageDirectory(), SD_CARD_FOLDER_PATH);
-            if (!dir.exists()){
-                dir.mkdir();
-            }
-            return dir;
+    private static void checkExternalStorageReadable() throws ExternalStorageNotReadableException {
+        if (!isExternalStorageReadable()) {
+            throw new ExternalStorageNotReadableException();
         }
-        return null;
     }
 
-    public static File createFileInExternalDirectory(Context context, String fileName) {
-        if (isExternalStorageReadable() && isExternalStorageWritable()) {
-            try{
-                File f = new File(createExternalDirectory(), fileName);
-
-                if (f.exists()){
-                    f.delete();
-                }
-
-                boolean created = f.createNewFile();
-                if (created){
-                    return f;
-                }
-            } catch(IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+    private static void checkExternalStorageWritable() throws ExternalStorageNotWritableException {
+        if (!isExternalStorageWritable()) {
+            throw new ExternalStorageNotWritableException();
         }
-        return null;
     }
-
-    private static boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
+    //
 
     private static boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
@@ -82,4 +83,29 @@ public class ExternalStorage {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
+    private static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    public static class ExternalStorageException extends Exception {
+        public ExternalStorageException() {
+        }
+
+        public ExternalStorageException(String detailMessage) {
+            super(detailMessage);
+        }
+    }
+
+    public static class ExternalStorageNotReadableException extends ExternalStorageException {
+        public ExternalStorageNotReadableException() {
+            super("External storage is NOT READABLE.");
+        }
+    }
+
+    public static class ExternalStorageNotWritableException extends ExternalStorageException {
+        public ExternalStorageNotWritableException() {
+            super("External storage is NOT WRITABLE.");
+        }
+    }
 }

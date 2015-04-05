@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
@@ -23,7 +24,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader.ImageResponse.PaletteColor;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
@@ -36,8 +36,6 @@ import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.Palett
  *  쿼리, 삽입, 삭제, 업데이트 기능 래핑
  */
 public class NewsDb {
-    private static final int TOP_NEWS_FEED_INDEX = -1;
-    private static final int BOTTOM_NEWS_FEED_INITIAL_INDEX = 0;
     private static final boolean DEBUG_BLOCK_SHUFFLE = false;
 
     private NewsDbHelper mHelper;
@@ -91,7 +89,7 @@ public class NewsDb {
     }
 
     public NewsFeed loadTopNewsFeed(Context context, boolean shuffle) {
-        NewsFeed newsFeed = queryNewsFeed(TOP_NEWS_FEED_INDEX, shuffle);
+        NewsFeed newsFeed = queryNewsFeed(NewsFeed.INDEX_TOP, shuffle);
         if (newsFeed == null) {
             return DefaultNewsFeedProvider.getDefaultTopNewsFeed(context);
         } else {
@@ -110,7 +108,7 @@ public class NewsDb {
         try {
             newsFeeds = loadBottomNewsFeedListInternal(context, panelCount, shuffle);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -121,7 +119,7 @@ public class NewsDb {
     private ArrayList<NewsFeed> loadBottomNewsFeedListInternal(Context context, int panelCount,
                                                               boolean shuffle) {
         String[] newsFeedWhereArgs = {
-                String.valueOf(BOTTOM_NEWS_FEED_INITIAL_INDEX),
+                String.valueOf(NewsFeed.INDEX_BOTTOM_START),
                 String.valueOf(panelCount)
         };
 
@@ -189,7 +187,7 @@ public class NewsDb {
     }
 
     public void saveTopNewsFeed(NewsFeed newsFeed) {
-        insertNewsFeed(newsFeed, TOP_NEWS_FEED_INDEX);
+        insertNewsFeed(newsFeed, NewsFeed.INDEX_TOP);
     }
 
     public void saveBottomNewsFeedList(ArrayList<NewsFeed> bottomNewsFeedList) {
@@ -197,7 +195,7 @@ public class NewsDb {
         try {
             saveBottomNewsFeedListInternal(bottomNewsFeedList);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -218,7 +216,7 @@ public class NewsDb {
         try {
             saveNewsContentWithGuidInternal(news);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -236,25 +234,16 @@ public class NewsDb {
         newsFeedValues.put(NewsContentEntry.COLUMN_NAME_URL, newsContent.getUrl());
         newsFeedValues.put(NewsContentEntry.COLUMN_NAME_TITLE, newsContent.getTitle());
         newsFeedValues.put(NewsContentEntry.COLUMN_NAME_TEXT, newsContent.getText());
-//        newsFeedValues.put(NewsContentEntry.COLUMN_NAME_IMAGE_URL, newsContent.getImageUrl());
         newsFeedValues.put(NewsContentEntry.COLUMN_NAME_VIDEO_URL, newsContent.getVideoUrl());
         newsFeedValues.put(NewsContentEntry.COLUMN_NAME_FETCH_STATE, newsContent.getFetchState().getIndex());
 
         mDatabase.delete(NewsContentEntry.TABLE_NAME, NewsContentEntry.COLUMN_NAME_GUID + "=?",
                 new String[]{ guid });
         mDatabase.insert(NewsContentEntry.TABLE_NAME, null, newsFeedValues);
-
-        // insert news list
-//        mDatabase.delete(NewsContentTextEntry.TABLE_NAME, NewsContentTextEntry.COLUMN_NAME_GUID + "=?",
-//                new String[]{ guid });
-//        mDatabase.delete(NewsContentImageEntry.TABLE_NAME, NewsContentImageEntry.COLUMN_NAME_GUID + "=?",
-//                new String[]{ guid });
-//        saveNewsContentTextsWithGuid(guid, newsContent.getTextList());
-//        saveNewsContentImagesWithGuid(guid, newsContent.getImages());
     }
 
     public void saveTopNewsImageUrlWithGuid(String imageUrl, String guid) {
-        insertNewsImage(imageUrl, TOP_NEWS_FEED_INDEX, guid);
+        insertNewsImage(imageUrl, NewsFeed.INDEX_TOP, guid);
     }
 
     public void saveBottomNewsImageUrlWithGuid(String imageUrl,
@@ -262,18 +251,18 @@ public class NewsDb {
         insertNewsImage(imageUrl, newsFeedPosition, guid);
     }
 
-    public void savePaletteColor(String url, PaletteColor paletteColor) {
+    public void savePaletteColor(String url, CacheImageLoader.PaletteColor paletteColor) {
         mDatabase.beginTransaction();
         try {
             savePaletteColorInternal(url, paletteColor);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
     }
 
-    public void savePaletteColorInternal(String url, PaletteColor paletteColor) {
+    public void savePaletteColorInternal(String url, CacheImageLoader.PaletteColor paletteColor) {
         ContentValues colorValues = new ContentValues();
         colorValues.put(PaletteColorEntry.COLUMN_NAME_IMAGE_URL, url);
         colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, paletteColor.getVibrantColor());
@@ -284,14 +273,14 @@ public class NewsDb {
         mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
     }
 
-    public PaletteColor loadPaletteColor(String url) {
-        PaletteColor paletteColor;
+    public CacheImageLoader.PaletteColor loadPaletteColor(String url) {
+        CacheImageLoader.PaletteColor paletteColor;
         mDatabase.beginTransaction();
         try {
             paletteColor = loadVibrantColorInternal(url);
             mDatabase.setTransactionSuccessful();
         } catch (Exception e) {
-            paletteColor = PaletteColor.createDefault();
+            paletteColor = CacheImageLoader.PaletteColor.createDefault();
         } finally {
             mDatabase.endTransaction();
         }
@@ -299,7 +288,7 @@ public class NewsDb {
         return paletteColor;
     }
 
-    private PaletteColor loadVibrantColorInternal(String url) {
+    private CacheImageLoader.PaletteColor loadVibrantColorInternal(String url) {
         String[] colorWhereArgs = { String.valueOf(url) };
 
         Cursor colorsCursor = mDatabase.query(
@@ -310,51 +299,21 @@ public class NewsDb {
                 null, null, null);
         colorsCursor.moveToFirst();
 
-//        int vibrantColor = Color.TRANSPARENT;
-        PaletteColor paletteColor;
+        CacheImageLoader.PaletteColor paletteColor;
         if (!colorsCursor.isAfterLast()) {
             int vibrantColor = colorsCursor.getInt(
                     colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT));
             int fetchStatusInt = colorsCursor.getInt(
                     colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_IS_FETCHED));
-            paletteColor = new PaletteColor(vibrantColor, fetchStatusInt == 0);
+            paletteColor = new CacheImageLoader.PaletteColor(vibrantColor, fetchStatusInt == 0);
         } else {
-            paletteColor = PaletteColor.createDefault();
+            paletteColor = CacheImageLoader.PaletteColor.createDefault();
         }
 
         colorsCursor.close();
 
         return paletteColor;
     }
-
-//    private void saveNewsContentTextsWithGuid(String guid, List<String> textList) {
-//        for (int i = 0; i < textList.size(); i++) {
-//            String text = textList.get(i);
-//
-//            ContentValues newsValues = new ContentValues();
-//            newsValues.put(NewsContentTextEntry.COLUMN_NAME_INDEX, i);
-//            newsValues.put(NewsContentTextEntry.COLUMN_NAME_GUID, guid);
-//            newsValues.put(NewsContentTextEntry.COLUMN_NAME_TEXT, text);
-//
-//            mDatabase.insert(NewsContentTextEntry.TABLE_NAME, null, newsValues);
-//        }
-//    }
-
-//    private void saveNewsContentImagesWithGuid(String guid, List<NewsContentImage> images) {
-//        for (int i = 0; i < images.size(); i++) {
-//            NewsContentImage image = images.get(i);
-//
-//            ContentValues newsValues = new ContentValues();
-//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_INDEX, i);
-//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_GUID, guid);
-//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_IMAGE_URL, image.getImageUrl());
-//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_WEIGHT, image.getWeight());
-//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_WIDTH, image.getWidth());
-//            newsValues.put(NewsContentImageEntry.COLUMN_NAME_HEIGHT, image.getHeight());
-//
-//            mDatabase.insert(NewsContentImageEntry.TABLE_NAME, null, newsValues);
-//        }
-//    }
 
     private NewsContent queryNewsContentByGuid(String guid) {
         Cursor newsContentCursor = mDatabase.query(
@@ -376,8 +335,6 @@ public class NewsDb {
                 newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_TEXT));
         String url = newsContentCursor.getString(
                 newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_URL));
-//        String imageUrl = newsContentCursor.getString(
-//                newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_IMAGE_URL));
         String videoUrl = newsContentCursor.getString(
                 newsContentCursor.getColumnIndex(NewsContentEntry.COLUMN_NAME_VIDEO_URL));
         int fetchStateIndex = newsContentCursor.getInt(
@@ -387,11 +344,8 @@ public class NewsDb {
                 .setTitle(title)
                 .setText(text)
                 .setUrl(url)
-//                .setImageUrl(imageUrl)
                 .setVideoUrl(videoUrl)
                 .setFetchState(fetchState)
-//                .setTexts(queryNewsContentTextsByGuid(guid))
-//                .setImages(queryNewsContentImagesByGuid(guid))
                 .build();
 
         newsContentCursor.close();
@@ -399,62 +353,12 @@ public class NewsDb {
         return newsContent;
     }
 
-//    private List<String> queryNewsContentTextsByGuid(String guid) {
-//        Cursor newsContentTextsCursor = mDatabase.query(
-//                NewsContentTextEntry.TABLE_NAME,
-//                null,
-//                NewsContentTextEntry.COLUMN_NAME_GUID + "=?",
-//                new String[]{ guid },
-//                null, null, NewsContentTextEntry.COLUMN_NAME_INDEX);
-//        newsContentTextsCursor.moveToFirst();
-//
-//        List<String> texts = new ArrayList<>();
-//        while (!newsContentTextsCursor.isAfterLast()) {
-//            String text = newsContentTextsCursor.getString(
-//                    newsContentTextsCursor.getColumnIndex(NewsContentTextEntry.COLUMN_NAME_TEXT));
-//            texts.add(text);
-//        }
-//
-//        newsContentTextsCursor.close();
-//
-//        return texts;
-//    }
-
-//    private List<NewsContentImage> queryNewsContentImagesByGuid(String guid) {
-//        Cursor newsContentImagesCursor = mDatabase.query(
-//                NewsContentImageEntry.TABLE_NAME,
-//                null,
-//                NewsContentImageEntry.COLUMN_NAME_GUID + "=?",
-//                new String[]{ guid },
-//                null, null, NewsContentImageEntry.COLUMN_NAME_INDEX);
-//        newsContentImagesCursor.moveToFirst();
-//
-//        List<NewsContentImage> images = new ArrayList<>();
-//        while (!newsContentImagesCursor.isAfterLast()) {
-//            String url = newsContentImagesCursor.getString(
-//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_IMAGE_URL));
-//            int weight = newsContentImagesCursor.getInt(
-//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_WEIGHT));
-//            int width = newsContentImagesCursor.getInt(
-//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_WIDTH));
-//            int height = newsContentImagesCursor.getInt(
-//                    newsContentImagesCursor.getColumnIndex(NewsContentImageEntry.COLUMN_NAME_HEIGHT));
-//
-//            NewsContentImage image = new NewsContentImage(url, weight, width, height);
-//            images.add(image);
-//        }
-//
-//        newsContentImagesCursor.close();
-//
-//        return images;
-//    }
-
     private void insertNewsImage(String imageUrl, int newsFeedPosition, String guid) {
         mDatabase.beginTransaction();
         try {
             insertNewsImageInternal(imageUrl, newsFeedPosition, guid);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -462,7 +366,6 @@ public class NewsDb {
 
     private void insertNewsImageInternal(String imageUrl, int newsFeedPosition, String guid) {
         ContentValues newsValues = new ContentValues();
-//        newsValues.put(NewsEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
         newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL, imageUrl);
         newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, true);
 
@@ -479,7 +382,7 @@ public class NewsDb {
         try {
             insertNewsFeedInternal(newsFeed, newsFeedIndex);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -497,10 +400,6 @@ public class NewsDb {
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_FETCH_STATE_KEY,
                 newsFeed.getNewsFeedFetchState().getKey());
 
-//        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_IS_VALID, newsFeed.containsNews());
-//        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_LINK, newsFeed.getLink());
-//        newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_DESCRIPTION, newsFeed.getDescription());
-
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_LANGUAGE_CODE, newsFeed.getTopicLanguageCode());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_REGION_CODE, newsFeed.getTopicRegionCode());
         newsFeedValues.put(NewsFeedEntry.COLUMN_NAME_TOPIC_COUNTRY_CODE, newsFeed.getTopicCountryCode());
@@ -512,7 +411,6 @@ public class NewsDb {
         mDatabase.insert(NewsFeedEntry.TABLE_NAME, null, newsFeedValues);
 
         // insert news list
-
         mDatabase.delete(NewsEntry.TABLE_NAME, NewsEntry.COLUMN_NAME_FEED_POSITION + "=?",
                 new String[]{ newsFeedIndexStr });
         ArrayList<News> newsList = newsFeed.getNewsList();
@@ -544,7 +442,7 @@ public class NewsDb {
         try {
             newsFeed = queryNewsFeedInternal(newsFeedPosition, shuffle);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -617,7 +515,7 @@ public class NewsDb {
         try {
             newsList = queryNewsListByNewsFeedPositionInternal(newsFeedPosition, shuffle);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -686,10 +584,9 @@ public class NewsDb {
         mDatabase.execSQL("DELETE FROM " + NewsContentEntry.TABLE_NAME);
     }
 
-    public static void copyDbToExternalStorage(Context context) {
+    public static void copyDbToExternalStorage(Context context) throws ExternalStorage.ExternalStorageException {
         String dbFilePath = context.getDatabasePath(NewsDbHelper.DB_NAME).toString();
-        File outputFile = ExternalStorage.createFileInExternalDirectory(context,
-                NewsDbHelper.DB_NAME);
+        File outputFile = ExternalStorage.createFileInExternalDirectory(NewsDbHelper.DB_NAME);
 
         InputStream in = null;
         OutputStream out = null;
