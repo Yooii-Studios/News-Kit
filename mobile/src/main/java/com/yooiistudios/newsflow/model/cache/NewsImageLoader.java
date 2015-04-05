@@ -47,12 +47,13 @@ public class NewsImageLoader extends CacheImageLoader<NewsUrlSupplier> {
 
     @Override
     protected PaletteColor loadPaletteColor(NewsUrlSupplier urlSupplier) {
-//        urlSupplier.mNewsPosition
-        return NewsDb.getInstance(getContext()).loadPaletteColor(urlSupplier.getUrl());
+        return NewsDb.getInstance(getContext()).loadPaletteColor(
+                urlSupplier.getNewsFeedPosition(), urlSupplier.getGuid());
     }
 
     @Override
     protected void savePaletteColor(NewsUrlSupplier urlSupplier, PaletteColor paletteColor) {
-        NewsDb.getInstance(getContext()).savePaletteColor(urlSupplier.getUrl(), paletteColor);
+        NewsDb.getInstance(getContext()).savePaletteColor(
+                urlSupplier.getNewsFeedPosition(), urlSupplier.getGuid(), paletteColor);
     }
 }

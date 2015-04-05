@@ -20,6 +20,14 @@ public class NewsUrlSupplier implements CacheImageLoader.UrlSupplier {
         mGuid = news.getGuid();
     }
 
+    public int getNewsFeedPosition() {
+        return mNewsFeedPosition;
+    }
+
+    public String getGuid() {
+        return mGuid;
+    }
+
     @Override
     public String getUrl() {
         return mNews.getImageUrl();

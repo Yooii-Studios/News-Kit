@@ -251,10 +251,10 @@ public class NewsDb {
         insertNewsImage(imageUrl, newsFeedPosition, guid);
     }
 
-    public void savePaletteColor(String url, CacheImageLoader.PaletteColor paletteColor) {
+    public void savePaletteColor(int newsFeedPosition, String guid, CacheImageLoader.PaletteColor paletteColor) {
         mDatabase.beginTransaction();
         try {
-            savePaletteColorInternal(url, paletteColor);
+            savePaletteColorInternal(newsFeedPosition, guid, paletteColor);
             mDatabase.setTransactionSuccessful();
         } catch (Exception ignored) {
         } finally {
@@ -262,22 +262,36 @@ public class NewsDb {
         }
     }
 
-    public void savePaletteColorInternal(String url, CacheImageLoader.PaletteColor paletteColor) {
+    public void savePaletteColorInternal(int newsFeedPosition, String guid,
+                                         CacheImageLoader.PaletteColor paletteColor) {
         ContentValues colorValues = new ContentValues();
-        colorValues.put(PaletteColorEntry.COLUMN_NAME_IMAGE_URL, url);
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_GUID, guid);
         colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, paletteColor.getVibrantColor());
-        colorValues.put(PaletteColorEntry.COLUMN_NAME_IS_FETCHED, paletteColor.isFetched() ? 0 : 1);
 
         mDatabase.delete(PaletteColorEntry.TABLE_NAME,
-                PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?", new String[]{ url });
+                PaletteColorEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
+                        PaletteColorEntry.COLUMN_NAME_GUID + "=?",
+                new String[]{ String.valueOf(newsFeedPosition), guid });
         mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
     }
 
-    public CacheImageLoader.PaletteColor loadPaletteColor(String url) {
+//    public void savePaletteColorInternal(String url, CacheImageLoader.PaletteColor paletteColor) {
+//        ContentValues colorValues = new ContentValues();
+//        colorValues.put(PaletteColorEntry.COLUMN_NAME_IMAGE_URL, url);
+//        colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, paletteColor.getVibrantColor());
+//        colorValues.put(PaletteColorEntry.COLUMN_NAME_IS_FETCHED, paletteColor.isFetched() ? 0 : 1);
+//
+//        mDatabase.delete(PaletteColorEntry.TABLE_NAME,
+//                PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?", new String[]{ url });
+//        mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
+//    }
+
+    public CacheImageLoader.PaletteColor loadPaletteColor(int newsFeedPosition, String guid) {
         CacheImageLoader.PaletteColor paletteColor;
         mDatabase.beginTransaction();
         try {
-            paletteColor = loadVibrantColorInternal(url);
+            paletteColor = loadVibrantColorInternal(newsFeedPosition, guid);
             mDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             paletteColor = CacheImageLoader.PaletteColor.createDefault();
@@ -288,24 +302,27 @@ public class NewsDb {
         return paletteColor;
     }
 
-    private CacheImageLoader.PaletteColor loadVibrantColorInternal(String url) {
-        String[] colorWhereArgs = { String.valueOf(url) };
-
+    private CacheImageLoader.PaletteColor loadVibrantColorInternal(int newsFeedPosition, String guid) {
         Cursor colorsCursor = mDatabase.query(
                 PaletteColorEntry.TABLE_NAME,
                 null,
-                PaletteColorEntry.COLUMN_NAME_IMAGE_URL + "=?",
-                colorWhereArgs,
+                PaletteColorEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
+                        PaletteColorEntry.COLUMN_NAME_GUID + "=?",
+                new String[]{ String.valueOf(newsFeedPosition), guid },
                 null, null, null);
         colorsCursor.moveToFirst();
 
         CacheImageLoader.PaletteColor paletteColor;
         if (!colorsCursor.isAfterLast()) {
-            int vibrantColor = colorsCursor.getInt(
-                    colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT));
-            int fetchStatusInt = colorsCursor.getInt(
-                    colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_IS_FETCHED));
-            paletteColor = new CacheImageLoader.PaletteColor(vibrantColor, fetchStatusInt == 0);
+            boolean isFetched = !colorsCursor.isNull(colorsCursor.getColumnIndex(PaletteColorEntry
+                    .COLUMN_NAME_COLOR_VIBRANT));
+            if (isFetched) {
+                int vibrantColor = colorsCursor.getInt(
+                        colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT));
+                paletteColor = new CacheImageLoader.PaletteColor(vibrantColor);
+            } else {
+                paletteColor = CacheImageLoader.PaletteColor.createDefault();
+            }
         } else {
             paletteColor = CacheImageLoader.PaletteColor.createDefault();
         }
@@ -374,7 +391,7 @@ public class NewsDb {
                 newsValues,
                 NewsEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
                         NewsEntry.COLUMN_NAME_GUID + "=?",
-                new String[]{ String.valueOf(newsFeedPosition), String.valueOf(guid) });
+                new String[]{ String.valueOf(newsFeedPosition), guid });
     }
 
     private void insertNewsFeed(NewsFeed newsFeed, int newsFeedIndex) {
@@ -412,6 +429,8 @@ public class NewsDb {
 
         // insert news list
         mDatabase.delete(NewsEntry.TABLE_NAME, NewsEntry.COLUMN_NAME_FEED_POSITION + "=?",
+                new String[]{ newsFeedIndexStr });
+        mDatabase.delete(PaletteColorEntry.TABLE_NAME, PaletteColorEntry.COLUMN_NAME_FEED_POSITION + "=?",
                 new String[]{ newsFeedIndexStr });
         ArrayList<News> newsList = newsFeed.getNewsList();
         if (newsList != null && newsList.size() > 0) {

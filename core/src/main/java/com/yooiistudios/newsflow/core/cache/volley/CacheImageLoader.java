@@ -216,7 +216,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
                     final int vibrantColor = palette.getVibrantColor(
                             PaletteColor.FALLBACK_COLOR);
                     PaletteColor paletteColor
-                            = new PaletteColor(vibrantColor, true);
+                            = new PaletteColor(vibrantColor);
                     savePaletteColor(urlSupplier, paletteColor);
 //                    NewsDb.getInstance(mContext).savePaletteColor(url, paletteColor);
                     listener.onSuccess(paletteColor);
@@ -345,7 +345,12 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         private final int mVibrantColor;
         private final boolean mIsFetched;
 
-        public PaletteColor(int vibrantColor, boolean isFetched) {
+        public PaletteColor(int vibrantColor) {
+            mVibrantColor = vibrantColor;
+            mIsFetched = true;
+        }
+
+        private PaletteColor(int vibrantColor, boolean isFetched) {
             mVibrantColor = vibrantColor;
             mIsFetched = isFetched;
         }
