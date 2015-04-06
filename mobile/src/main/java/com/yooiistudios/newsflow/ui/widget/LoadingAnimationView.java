@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -36,11 +37,11 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     private static final float FADE_ALPHA = 0.15f;
     private static final int CIRCLE_ANIM_START_DELAY = 380;
     private static final int CIRCLE_ANIM_START_DELAY_LOLLIPOP = 550;
-    private static final int CIRCLE_SCALE_UP_ANIM_DURATION = 140;
-    private static final int CIRCLE_SCALE_DOWN_ANIM_DURATION = 190;
+    private static final int CIRCLE_SCALE_UP_ANIM_DURATION = 120;
+    private static final int CIRCLE_SCALE_DOWN_ANIM_DURATION = 140;
     private static final int REVEAL_ANIM_START_DELAY = 140;
-    private static final int REVEAL_ANIM_DURATION = 520;
-    private static final int BACKGROUND_FADE_ANIM_DURATION = 800;
+    private static final int REVEAL_ANIM_DURATION = 470;
+    private static final int BACKGROUND_FADE_ANIM_DURATION = 780;
 
     private LinearLayout mPanelLayout;
     private View mTopView;
@@ -96,9 +97,11 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
         setBackgroundColor(getResources().getColor(R.color.material_light_blue_A700));
 
         // 클릭 방지
-        setOnClickListener(new OnClickListener() {
+        setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View v) {}
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
         });
     }
 
@@ -297,6 +300,7 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+
                 startBackgroundFadeOutAnimation();
             }
         });
@@ -377,6 +381,14 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     }
 
     private void startBackgroundFadeOutAnimation() {
+        // 이 때부터는 터치를 풀어주기
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
         ValueAnimator animator = ObjectAnimator.ofFloat(this, "alpha", 1.f, 0.f);
         animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.setDuration(BACKGROUND_FADE_ANIM_DURATION);
