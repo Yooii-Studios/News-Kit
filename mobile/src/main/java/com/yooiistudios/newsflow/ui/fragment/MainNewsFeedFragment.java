@@ -13,16 +13,19 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-//import com.yooiistudios.newsflow.core.news.TintType;
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter.OnItemClickListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+//import com.yooiistudios.newsflow.core.news.TintType;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 23.
@@ -36,7 +39,7 @@ public class MainNewsFeedFragment extends Fragment {
     private static final String KEY_POSITION = "KEY_TAB_INDEX";
 
     private MainActivity mActivity;
-    private CacheImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
     private NewsFeed mNewsFeed;
     private News mNews;
     private int mPosition;
@@ -151,27 +154,28 @@ public class MainNewsFeedFragment extends Fragment {
         // set image
 //        String imgUrl = mNews.getImageUrl();
         if (mNews.hasImageUrl()) {
-            mImageLoader.get(mNews.getImageUrl(), new CacheImageLoader.ImageListener() {
-                @Override
-                public void onSuccess(CacheImageLoader.ImageResponse response) {
-                    if (mRecycled) {
-                        return;
-                    }
+            mImageLoader.get(new NewsUrlSupplier(mNews, NewsFeed.INDEX_TOP),
+                    new CacheImageLoader.ImageListener() {
+                        @Override
+                        public void onSuccess(CacheImageLoader.ImageResponse response) {
+                            if (mRecycled) {
+                                return;
+                            }
 
-                    viewHolder.progressBar.setVisibility(View.GONE);
+                            viewHolder.progressBar.setVisibility(View.GONE);
 
-                    if (response.bitmap != null && viewHolder.imageView != null) {
-                        viewHolder.imageView.setImageBitmap(response.bitmap);
-                        viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultTopPaletteColor());
+                            if (response.bitmap != null && viewHolder.imageView != null) {
+                                viewHolder.imageView.setImageBitmap(response.bitmap);
+                                viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultTopPaletteColor());
 //                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
-                    }
-                }
+                            }
+                        }
 
-                @Override
-                public void onFail(VolleyError error) {
-                    showDummyImage(viewHolder);
-                }
-            });
+                        @Override
+                        public void onFail(VolleyError error) {
+                            showDummyImage(viewHolder);
+                        }
+                    });
         } else if (!mNews.isImageUrlChecked()) {
             // image url not yet fetched. show loading progress dialog
             viewHolder.progressBar.setVisibility(View.VISIBLE);

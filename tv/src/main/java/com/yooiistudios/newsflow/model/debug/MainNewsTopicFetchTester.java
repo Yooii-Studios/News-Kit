@@ -8,6 +8,7 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.util.ExternalStorage;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 
@@ -127,8 +128,12 @@ public class MainNewsTopicFetchTester {
 
     private void saveDebug() {
         if (mTopFetched && (mBottomAllFetched || mBottomNewsCount.size() == 0)) {
-            NewsDb.copyDbToExternalStorage(mActivity);
-            NLLog.now("db copied");
+            try {
+                NewsDb.copyDbToExternalStorage(mActivity);
+                NLLog.now("db copied");
+            } catch (ExternalStorage.ExternalStorageException ignored) {
+                // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+            }
         }
     }
 

@@ -23,6 +23,8 @@ import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.ui.PanelDecoration;
 import com.yooiistudios.newsflow.ui.widget.MainBottomItemLayout;
@@ -58,7 +60,7 @@ public class MainBottomAdapter extends
     private Context mContext;
     private ArrayList<NewsFeed> mNewsFeedList;
     private OnItemClickListener mOnItemClickListener;
-    private CacheImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
 
     private OnBindMainBottomViewHolderListener mOnBindMainBottomViewHolderListener;
 
@@ -70,12 +72,12 @@ public class MainBottomAdapter extends
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
 
-    public MainBottomAdapter(Context context, CacheImageLoader imageLoader,
+    public MainBottomAdapter(Context context, NewsImageLoader imageLoader,
                              OnItemClickListener listener) {
         this(context, imageLoader, listener, PORTRAIT);
     }
 
-    public MainBottomAdapter(Context context, CacheImageLoader imageLoader,
+    public MainBottomAdapter(Context context, NewsImageLoader imageLoader,
                              OnItemClickListener listener, @Orientation int orientation) {
         mContext = context.getApplicationContext();
         mNewsFeedList = new ArrayList<>();
@@ -112,11 +114,6 @@ public class MainBottomAdapter extends
         });
         BottomNewsFeedViewHolder viewHolder = new BottomNewsFeedViewHolder(itemLayout);
         initEditLayer(viewHolder);
-
-        // TODO 필요한지 체크해야함
-//        viewHolder.itemView.setBackgroundColor(
-//                mContext.getResources().getColor(R.color.material_grey_black_1000));
-//        imageView.setBackgroundColor(PanelDecoration.getMainBottomDefaultBackgroundColor());
 
         return viewHolder;
     }
@@ -166,9 +163,8 @@ public class MainBottomAdapter extends
     }
 
     private void loadImage(final BottomNewsFeedViewHolder viewHolder, int position) {
-        ThumbnailUrlSupplier urlSupplier = createThumbnailUrlSupplier(position);
+        NewsUrlSupplier urlSupplier = createThumbnailUrlSupplier(position);
 
-//        mImageLoader.getThumbnail(displayingNews.getImageUrl(),
         mImageLoader.getThumbnail(urlSupplier,
                 new CacheImageLoader.ImageListener() {
                     @Override
@@ -186,10 +182,10 @@ public class MainBottomAdapter extends
         viewHolder.itemView.setTag(R.id.tag_main_bottom_image_url_supplier, urlSupplier);
     }
 
-    private ThumbnailUrlSupplier createThumbnailUrlSupplier(int position) {
+    private NewsUrlSupplier createThumbnailUrlSupplier(int position) {
         NewsFeed newsFeed = getNewsFeedAt(position);
-        String url = newsFeed.getDisplayingNews().getImageUrl();
-        return new ThumbnailUrlSupplier(url, position);
+        News news = newsFeed.getDisplayingNews();
+        return new NewsUrlSupplier(news, position);
     }
 
     private NewsFeed getNewsFeedAt(int position) {
@@ -288,16 +284,16 @@ public class MainBottomAdapter extends
 
     private void cancelPreviousImageRequestIfNecessary(BottomNewsFeedViewHolder viewHolder,
                                                        int position) {
-        ThumbnailUrlSupplier currentUrlSupplier = createThumbnailUrlSupplier(position);
+        NewsUrlSupplier currentUrlSupplier = createThumbnailUrlSupplier(position);
         cancelPreviousImageRequestIfNecessary(viewHolder, currentUrlSupplier);
     }
 
     private void cancelPreviousImageRequestIfNecessary(BottomNewsFeedViewHolder viewHolder,
-                                                       ThumbnailUrlSupplier currentImageUrlSupplier) {
+                                                       NewsUrlSupplier currentImageUrlSupplier) {
         Object urlSupplierTag = viewHolder.itemView.getTag(R.id.tag_main_bottom_image_url_supplier);
 
-        if (urlSupplierTag != null && urlSupplierTag instanceof ThumbnailUrlSupplier) {
-            ThumbnailUrlSupplier urlSupplier = (ThumbnailUrlSupplier) urlSupplierTag;
+        if (urlSupplierTag != null && urlSupplierTag instanceof NewsUrlSupplier) {
+            NewsUrlSupplier urlSupplier = (NewsUrlSupplier) urlSupplierTag;
             if (currentImageUrlSupplier == null || !currentImageUrlSupplier.equals(urlSupplier)) {
                 mImageLoader.cancelRequest(urlSupplier);
             }
@@ -498,46 +494,6 @@ public class MainBottomAdapter extends
             statusBackgroundImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_background_imageview);
             statusIconImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_icon_imageview);
             statusTextView = (TextView) itemView.findViewById(R.id.main_bottom_status_textview);
-        }
-    }
-
-    private static class ThumbnailUrlSupplier extends CacheImageLoader.UrlSupplier {
-        private final String mUrl;
-        private final int mNewsFeedPosition;
-
-        public ThumbnailUrlSupplier(String url, int newsFeedPosition) {
-            this.mUrl = url;
-            this.mNewsFeedPosition = newsFeedPosition;
-        }
-
-        public int getNewsFeedPosition() {
-            return mNewsFeedPosition;
-        }
-
-        @Override
-        public String getUrl() {
-            return mUrl;
-        }
-
-        @Override
-        public int hashCode() {
-            return getUrl().hashCode() * mNewsFeedPosition;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o instanceof ThumbnailUrlSupplier) {
-                ThumbnailUrlSupplier supplier = (ThumbnailUrlSupplier) o;
-                return getUrl().equals(supplier.getUrl())
-                        && getNewsFeedPosition() == supplier.getNewsFeedPosition();
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + "\nposition: " + mNewsFeedPosition;
         }
     }
 }

@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 3. 4.
@@ -21,7 +21,7 @@ public class PanelDecoration {
         void onLoad(Bitmap bitmap);
     }
 
-    public static void applySmallDummyNewsImageInto(Context context, CacheImageLoader imageLoader,
+    public static void applySmallDummyNewsImageInto(Context context, NewsImageLoader imageLoader,
                                                     final ImageView imageView) {
         getSmallDummyNewsImageAsync(context, imageLoader, new OnLoadBitmapListener() {
             @Override
@@ -31,7 +31,7 @@ public class PanelDecoration {
         });
     }
 
-    public static void applyRssUrlFailedBackgroundInto(Context context, CacheImageLoader imageLoader,
+    public static void applyRssUrlFailedBackgroundInto(Context context, NewsImageLoader imageLoader,
                                                             final ImageView imageView) {
         getRssUrlFailedBackgroundAsync(context, imageLoader, new OnLoadBitmapListener() {
             @Override
@@ -41,7 +41,7 @@ public class PanelDecoration {
         });
     }
 
-    public static void applyRssUrlFailedSmallBackgroundInto(Context context, CacheImageLoader imageLoader,
+    public static void applyRssUrlFailedSmallBackgroundInto(Context context, NewsImageLoader imageLoader,
                                                             final ImageView imageView) {
         getRssUrlFailedSmallBackgroundAsync(context, imageLoader, new OnLoadBitmapListener() {
             @Override
@@ -52,7 +52,7 @@ public class PanelDecoration {
     }
 
     public static void getDummyNewsImageAsync(final Context context,
-                                              final CacheImageLoader imageLoader,
+                                              final NewsImageLoader imageLoader,
                                               final OnLoadBitmapListener listener) {
         new DecodeResourceAsync(listener) {
             @Override
@@ -63,7 +63,7 @@ public class PanelDecoration {
     }
 
     public static void getSmallDummyNewsImageAsync(final Context context,
-                                                   final CacheImageLoader imageLoader,
+                                                   final NewsImageLoader imageLoader,
                                                    final OnLoadBitmapListener listener) {
         new DecodeResourceAsync(listener) {
             @Override
@@ -74,7 +74,7 @@ public class PanelDecoration {
     }
 
     public static void getRssUrlFailedBackgroundAsync(final Context context,
-                                                           final CacheImageLoader imageLoader,
+                                                           final NewsImageLoader imageLoader,
                                                            final OnLoadBitmapListener listener) {
         new DecodeResourceAsync(listener) {
             @Override
@@ -85,7 +85,7 @@ public class PanelDecoration {
     }
 
     public static void getRssUrlFailedSmallBackgroundAsync(final Context context,
-                                                           final CacheImageLoader imageLoader,
+                                                           final NewsImageLoader imageLoader,
                                                            final OnLoadBitmapListener listener) {
         new DecodeResourceAsync(listener) {
             @Override
@@ -95,7 +95,7 @@ public class PanelDecoration {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public static Bitmap getDummyImage(Context context, CacheImageLoader imageLoader) {
+    public static Bitmap getDummyImage(Context context, NewsImageLoader imageLoader) {
         final String key = "dummy";
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
@@ -106,7 +106,7 @@ public class PanelDecoration {
         return bitmap;
     }
 
-    public static Bitmap getSmallDummyImage(Context context, CacheImageLoader imageLoader) {
+    public static Bitmap getSmallDummyImage(Context context, NewsImageLoader imageLoader) {
         final String key = "small_dummy";
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
@@ -117,7 +117,7 @@ public class PanelDecoration {
         return bitmap;
     }
 
-    public static Bitmap getRssUrlFailedBackground(Context context, CacheImageLoader imageLoader) {
+    public static Bitmap getRssUrlFailedBackground(Context context, NewsImageLoader imageLoader) {
         final String key = "rss_url_failed_background";
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
@@ -128,7 +128,7 @@ public class PanelDecoration {
         return bitmap;
     }
 
-    public static Bitmap getRssUrlFailedSmallBackground(Context context, CacheImageLoader imageLoader) {
+    public static Bitmap getRssUrlFailedSmallBackground(Context context, NewsImageLoader imageLoader) {
         final String key = "small_rss_url_failed_background";
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
