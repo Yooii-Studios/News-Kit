@@ -111,6 +111,10 @@
     <string name="store_buy_pro_version">Buy the Pro Version!</string>
     <string name="store_sub_description">All Functions and Features + No Ads</string>
 
+    <!-- Notification -->
+    <string name="notification_title">Good Morning!</string>
+    <string name="notification_description">Your News Flow is ready to read.</string>
+
     <!-- Error Message -->
     <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable</string>
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url</string>

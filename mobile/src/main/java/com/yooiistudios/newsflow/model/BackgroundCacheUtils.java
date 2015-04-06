@@ -12,13 +12,13 @@ import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
+import com.yooiistudios.newsflow.util.NotificationUtils;
 
 import java.util.ArrayList;
 
@@ -39,6 +39,7 @@ public class BackgroundCacheUtils implements
     private ArrayList<Integer> mBottomImageFetchMap;
     //    private ImageLoader mImageLoader;
     private NewsImageLoader mImageLoader;
+    private BackgroundServiceUtils.CacheTime mCacheTime;
     private OnCacheDoneListener mOnCacheDoneListener;
 
     private static BackgroundCacheUtils instance;
@@ -54,22 +55,16 @@ public class BackgroundCacheUtils implements
 
     private BackgroundCacheUtils() { }
 
-    public void cache(Context context, OnCacheDoneListener listener) {
+    public void cache(Context context, BackgroundServiceUtils.CacheTime cacheTime,
+                      OnCacheDoneListener listener) {
         mOnCacheDoneListener = listener;
+        mCacheTime = cacheTime;
 
         cache(context);
     }
 
-    public void cache(Context context) {
+    private void cache(Context context) {
         if (mIsRunning) {
-            NLLog.i(TAG, "Already caching...");
-            return;
-        }
-
-        if (BackgroundServiceUtils.DEBUG) {
-            if (mOnCacheDoneListener != null) {
-                mOnCacheDoneListener.onDone();
-            }
             return;
         }
 
@@ -79,10 +74,14 @@ public class BackgroundCacheUtils implements
 //                System.currentTimeMillis() - recentRefreshMillisec < BackgroundServiceUtils.CACHE_INTERVAL_DAILY) {
 //            return;
 //        }
-        NLLog.i(TAG, "Start caching...");
         mIsRunning = true;
 
         mContext = context;
+
+        if (BackgroundServiceUtils.DEBUG) {
+            notifyCacheDone();
+            return;
+        }
 //        mImageLoader = new ImageLoader(ImageRequestQueue.getInstance(context).getRequestQueue(),
 //                SimpleImageCache.getInstance().getNonRetainingCache(context));
         mImageLoader = NewsImageLoader.createWithNonRetainingCache(context);
@@ -128,32 +127,37 @@ public class BackgroundCacheUtils implements
     }
 
     private void checkAllFetched() {
-        if (mTopNewsImageFetchTaskMap != null) {
-            NLLog.i(TAG, "top img count remaining : " + mTopNewsImageFetchTaskMap.size());
-        }
-        NLLog.i(TAG, "bottom img count remaining : " + mBottomImageFetchMap.size());
-        for (Integer pos : mBottomImageFetchMap) {
-            NLLog.i(TAG, "bottom img remaining idx : " + pos);
-        }
+//        if (mTopNewsImageFetchTaskMap != null) {
+//            NLLog.i(TAG, "top img count remaining : " + mTopNewsImageFetchTaskMap.size());
+//        }
+//        NLLog.i(TAG, "bottom img count remaining : " + mBottomImageFetchMap.size());
+//        for (Integer pos : mBottomImageFetchMap) {
+//            NLLog.i(TAG, "bottom img remaining idx : " + pos);
+//        }
         if (mTopNewsImageFetchTaskMap.size() == 0 &&
                 mBottomImageFetchMap.size() == 0) {
-            NLLog.i(TAG, "All cached. Saving recent cache time...");
+//            NLLog.i(TAG, "All cached. Saving recent cache time...");
             NewsFeedArchiveUtils.saveRecentCacheMillisec(mContext);
 
-            if (mOnCacheDoneListener != null) {
-                mOnCacheDoneListener.onDone();
-            }
-
-            mIsRunning = false;
+            notifyCacheDone();
         }
+    }
+
+    private void notifyCacheDone() {
+        if (BackgroundServiceUtils.CacheTime.isTimeToIssueNotification(mCacheTime)) {
+            NotificationUtils.issueAsync(mContext);
+        }
+        if (mOnCacheDoneListener != null) {
+            mOnCacheDoneListener.onDone();
+        }
+
+        mIsRunning = false;
     }
 
     @Override
     public void onTopNewsFeedFetch(final NewsFeed newsFeed,
                                    TopNewsFeedFetchTask.TaskType taskType) {
-        NLLog.i(TAG, "T NF");
         NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
-//        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
 
         if (newsFeed == null || !newsFeed.containsNews()) {
             checkAllFetched();
@@ -166,21 +170,15 @@ public class BackgroundCacheUtils implements
                     news, i, TopFeedNewsImageUrlFetchTask.TaskType.CACHE, new TopFeedNewsImageUrlFetchTask.OnTopFeedImageUrlFetchListener() {
                 @Override
                 public void onTopFeedImageUrlFetch(News news, String url, int position, TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-                    NLLog.i(TAG, "T NFI " + position);
-//                    news.setImageUrlChecked(true);
                     mTopNewsImageFetchTaskMap.delete(position);
 
                     if (checkAllImageUrlFetched(newsFeed)) {
                         NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
-//                        NewsDb.getInstance(mContext).saveTopNewsImageUrlWithGuid(url, news.getGuid());
-//                        NewsDb.getInstance(mContext).saveTopNewsFeed(newsFeed);
-//                        NewsFeedArchiveUtils.saveTopNewsFeed(mContext, newsFeed);
                     }
 
                     checkAllFetched();
 
                     if (url != null) {
-//                        news.setImageUrl(url);
                         mImageLoader.get(new NewsUrlSupplier(news, NewsFeed.INDEX_TOP),
                                 new CacheImageLoader.ImageListener() {
                                     @Override
@@ -207,9 +205,7 @@ public class BackgroundCacheUtils implements
     @Override
     public void onBottomNewsFeedFetch(final NewsFeed newsFeed, final int newsFeedPosition,
                                       int taskType) {
-        NLLog.i(TAG, "B NF " + newsFeedPosition);
         NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
-//        NewsFeedArchiveUtils.saveBottomNewsFeedAt(mContext, newsFeed, newsFeedPosition);
 
         if (newsFeed == null || !newsFeed.containsNews()) {
             mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
@@ -226,7 +222,6 @@ public class BackgroundCacheUtils implements
                 public void onBottomImageUrlFetchSuccess(News news, String url,
                                                          int newsFeedPosition, int newsPosition,
                                                          int taskType) {
-                    NLLog.i(TAG, "B NFI " + newsFeedPosition + " " + newsPosition);
                     if (checkAllImageUrlFetched(newsFeed)) {
                         NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
                         mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));

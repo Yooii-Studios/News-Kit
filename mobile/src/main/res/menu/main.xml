@@ -61,6 +61,11 @@
                   android:title="Show service log(Debug)"
                   android:orderInCategory="10000"
                   android:showAsAction="never"/>
+
+            <item android:id="@+id/action_trigger_notification"
+                  android:title="Notification(Debug)"
+                  android:orderInCategory="10000"
+                  android:showAsAction="never"/>
         </menu>
     </item>
 </menu>

@@ -7,12 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.model.BackgroundCacheUtils;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
-import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.LinkedList;
+
+import static com.yooiistudios.newsflow.model.BackgroundServiceUtils.CacheTime;
 
 /**
  * Created by Dongheyon Jeong on in ServiceWithTaskTest from Yooii Studios Co., LTD. on 14. 11. 6.
@@ -45,29 +46,12 @@ public class BackgroundCacheJobService extends JobService {
             jobFinished(params, false);
             return true;
         }
-//        int jobId = params.getJobId();
-//        int jobType = BackgroundServiceUtils.getJobType(jobId);
-//        String message = "job type : " + jobType
-//                + ", cache time : " + BackgroundServiceUtils.getCacheTime(jobId);
 
-//        Context context = getApplicationContext();
-//
-//        switch (jobType) {
-//            case BackgroundServiceUtils.JOB_LATENCY:
-//                BackgroundServiceUtils.rescheduleAfterLollipop(
-//                        context, jobId, BackgroundServiceUtils.JOB_PERIODIC);
-//                break;
-//            case BackgroundServiceUtils.JOB_PERIODIC:
-//                break;
-//            default:
-//                // Do Nothing, just end current job.
-//                jobFinished(params, false);
-//                return true;
-//        }
-
-        if (BackgroundServiceUtils.isTimeToCache(getApplicationContext())) {
+        int cacheTimeKey = BackgroundServiceUtils.getCacheTimeKeyIfNecessary(getApplicationContext());
+        if (CacheTime.isValidKey(cacheTimeKey)) {
+            CacheTime cacheTime = CacheTime.getByUniqueKey(cacheTimeKey);
             BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Start caching.");
-            BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
+            BackgroundCacheUtils.getInstance().cache(getApplicationContext(), cacheTime,
                     new BackgroundCacheUtils.OnCacheDoneListener() {
                         @Override
                         public void onDone() {
@@ -77,7 +61,6 @@ public class BackgroundCacheJobService extends JobService {
                     });
         } else {
             jobFinished(params, false);
-            NLLog.i(BackgroundServiceUtils.class.getName(), "Cache exists");
         }
 
 
