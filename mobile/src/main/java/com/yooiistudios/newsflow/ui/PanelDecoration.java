@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.util.AppInfo;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 
 /**
@@ -96,29 +98,35 @@ public class PanelDecoration {
     }
 
     public static Bitmap getDummyImage(Context context, NewsImageLoader imageLoader) {
-        final String key = "dummy";
+        final String key = getKeyWithVersionCode(context, "dummy");
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.img_news_dummy);
             imageLoader.getCache().putBitmap(key, bitmap);
+            NLLog.now("getDummyImage miss");
+        } else {
+            NLLog.now("getDummyImage hit");
         }
         return bitmap;
     }
 
     public static Bitmap getSmallDummyImage(Context context, NewsImageLoader imageLoader) {
-        final String key = "small_dummy";
+        final String key = getKeyWithVersionCode(context, "small_dummy");
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.img_news_dummy_small);
             imageLoader.getCache().putBitmap(key, bitmap);
+            NLLog.now("getSmallDummyImage miss");
+        } else {
+            NLLog.now("getSmallDummyImage hit");
         }
         return bitmap;
     }
 
     public static Bitmap getRssUrlFailedBackground(Context context, NewsImageLoader imageLoader) {
-        final String key = "rss_url_failed_background";
+        final String key = getKeyWithVersionCode(context, "rss_url_failed_background");
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
@@ -129,7 +137,7 @@ public class PanelDecoration {
     }
 
     public static Bitmap getRssUrlFailedSmallBackground(Context context, NewsImageLoader imageLoader) {
-        final String key = "small_rss_url_failed_background";
+        final String key = getKeyWithVersionCode(context, "small_rss_url_failed_background");
         Bitmap bitmap = imageLoader.getCache().getBitmap(key);
         if (bitmap == null) {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
@@ -137,6 +145,10 @@ public class PanelDecoration {
             imageLoader.getCache().putBitmap(key, bitmap);
         }
         return bitmap;
+    }
+
+    private static String getKeyWithVersionCode(Context context, String key) {
+        return key + "_" + AppInfo.getVersionCode(context);
     }
 
     /**
