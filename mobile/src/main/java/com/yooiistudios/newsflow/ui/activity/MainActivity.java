@@ -60,6 +60,7 @@ import com.yooiistudios.newsflow.util.AdUtils;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
 import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.FacebookUtils;
+import com.yooiistudios.newsflow.util.NotificationUtils;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
@@ -471,6 +472,7 @@ public class MainActivity extends ActionBarActivity
             subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
             subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");
             subMenu.add(Menu.NONE, R.id.action_service_log, 9, "Show service log(Debug)");
+            subMenu.add(Menu.NONE, R.id.action_trigger_notification, 10, "Notification(Debug)");
         }
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -514,6 +516,8 @@ public class MainActivity extends ActionBarActivity
             item.setChecked(!item.isChecked());
         } else if (id == R.id.action_service_log) {
             BackgroundServiceUtils.showDialog(this);
+        } else if (id == R.id.action_trigger_notification) {
+            NotificationUtils.issueAsync(getApplicationContext());
         }
         return super.onOptionsItemSelected(item);
     }

@@ -110,6 +110,10 @@
     <!-- Store Ad -->
     <string name="store_buy_pro_version">풀버전을 구매하세요!</string>
 
+    <!-- Notification -->
+    <string name="notification_title">좋은 아침입니다!</string>
+    <string name="notification_description">새 뉴스 플로가 도착했습니다.</string>
+
     <!-- Error Message -->
     <string name="news_feed_fetch_error_invalid_topic_url">이 뉴스를 사용할 수 없습니다</string>
     <string name="news_feed_fetch_error_invalid_custom_url">유효하지 않은 RSS 주소</string>
