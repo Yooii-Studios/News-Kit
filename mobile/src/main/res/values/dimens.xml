@@ -168,7 +168,7 @@
     <dimen name="more_info_license_description_text_size">16sp</dimen>
 
     <!-- Store Ad Dialog -->
-    <dimen name="store_ad_dialog_layout_width">299dp</dimen>
+    <dimen name="store_ad_dialog_layout_width">298dp</dimen>
     <dimen name="store_ad_dialog_title_text_size">19sp</dimen>
     <dimen name="store_ad_dialog_title_padding_top_bottom">11dp</dimen>
     <dimen name="store_ad_dialog_title_padding_left_right">15dp</dimen>
@@ -177,7 +177,11 @@
     <dimen name="store_ad_dialog_image_layout_padding">3dp</dimen>
     <dimen name="store_ad_dialog_image_width">296dp</dimen>
     <dimen name="store_ad_dialog_image_text_margin_top">1dp</dimen>
-    <dimen name="store_ad_dialog_image_text_height">62dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">45dp</dimen>
+    <dimen name="store_ad_dialog_sub_desc_text_size">11sp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_width">82dp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_margin_top">88dp</dimen>
+    <dimen name="store_ad_dialog_icon_img_width">44dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">45dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">15sp</dimen>
 </resources>

@@ -16,8 +16,11 @@
     <dimen name="store_ad_dialog_image_layout_padding">5.1dp</dimen>
     <dimen name="store_ad_dialog_image_width">503.2dp</dimen>
     <dimen name="store_ad_dialog_image_text_margin_top">1.7dp</dimen>
-    <dimen name="store_ad_dialog_image_text_height">105.4dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">76.5dp</dimen>
+    <dimen name="store_ad_dialog_sub_desc_text_size">18.7sp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_width">144.5dp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_margin_top">149.6dp</dimen>
+    <dimen name="store_ad_dialog_icon_img_width">74.8dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">76.5dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">25.5sp</dimen>
-
 </resources>

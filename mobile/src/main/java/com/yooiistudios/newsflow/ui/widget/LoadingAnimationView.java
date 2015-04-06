@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -54,6 +55,11 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     private boolean mNeedToFinishPanelAnimation = false;
 
     Handler mCircleAnimHandler = new Handler();
+    private LoadingAnimListener mListener;
+
+    public interface LoadingAnimListener {
+        void onBackgroundFadeOutAnimationEnd();
+    }
 
     public LoadingAnimationView(Context context) {
         super(context);
@@ -99,14 +105,18 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        startPanelAnimation();
+        startPanelAnimation(mListener);
     }
 
+    /*
     public boolean isAnimating() {
         return mIsAnimating;
     }
+    */
 
-    public void startPanelAnimation() {
+    public void startPanelAnimation(@Nullable LoadingAnimListener listener) {
+        mListener = listener;
+
         if (!mIsAnimating) {
             mIsAnimating = true;
             startTopViewAnimation();
@@ -117,7 +127,9 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
         }
     }
 
-    public void startCircleAnimation() {
+    public void startCircleAnimation(@Nullable LoadingAnimListener listener) {
+        mListener = listener;
+
         if (!mIsAnimating) {
             mIsAnimating = true;
 
@@ -176,7 +188,7 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             mIsAnimating = false;
-                            startPanelAnimation();
+                            startPanelAnimation(mListener);
                         }
                     });
                 } else if (needCallback) {
@@ -374,6 +386,10 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
                 super.onAnimationEnd(animation);
                 mIsAnimating = false;
                 mNeedToFinishPanelAnimation = false;
+                if (mListener != null) {
+                    mListener.onBackgroundFadeOutAnimationEnd();
+                    mListener = null;
+                }
                 ((ViewGroup) getParent()).removeView(LoadingAnimationView.this);
             }
         });

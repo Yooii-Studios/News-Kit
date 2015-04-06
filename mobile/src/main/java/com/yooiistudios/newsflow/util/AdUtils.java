@@ -11,14 +11,11 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.yooiistudios.newsflow.NewsApplication;
+import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
-import com.yooiistudios.newsflow.R;
 
 import java.util.List;
 
@@ -31,18 +28,19 @@ import java.util.List;
  */
 public class AdUtils {
     private AdUtils() { throw new AssertionError("You MUST not create this class!"); }
-    private static final String KEY = "MNAdUtils";
-    private static final String LAUNCH_COUNT = "LAUNCH_COUNT";
-    private static final String EACH_LAUNCH_COUNT = "EACH_LAUNCH_COUNT";
-    private static final String EACH_AD_COUNT = "EACH_AD_COUNT";
+    private static final String KEY = "AdUtils";
+    private static final String LAUNCH_COUNT = "launch_count";
+    private static final String EACH_LAUNCH_COUNT = "each_launch_count";
+    private static final String EACH_AD_COUNT = "each_ad_count";
 
     // 전면 광고 아이디는 각자의 앱에 맞는 전면 광고 ID를 추가
-    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/8912992223";
+//    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/8912992223";
 
     public static void showPopupAdIfSatisfied(Context context) {
         if (context == null) {
             return;
         }
+
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(context);
 
         // 광고 or 풀버전 구매 아이템이 없을 경우만 진행
@@ -97,6 +95,7 @@ public class AdUtils {
         return false;
     }
 
+    /*
     private static void showInterstitialAd(Context context) {
         // 전체 광고 표시
         final InterstitialAd interstitialAdView = new InterstitialAd(context);
@@ -115,6 +114,7 @@ public class AdUtils {
                 .build();
         interstitialAdView.loadAd(fullAdRequest);
     }
+    */
 
     private static void showInHouseStoreAd(final Context context) {
         final Dialog dialog = new Dialog(context);

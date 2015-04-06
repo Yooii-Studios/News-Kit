@@ -71,7 +71,7 @@ import butterknife.InjectView;
 public class MainActivity extends ActionBarActivity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener,
-        OnMainPanelEditModeEventListener {
+        OnMainPanelEditModeEventListener, LoadingAnimationView.LoadingAnimListener {
     public static final String TAG = MainActivity.class.getName();
 //    public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
@@ -185,7 +185,6 @@ public class MainActivity extends ActionBarActivity
         showMainContentIfReadyInternal(true);
         requestSystemWindowsBottomInset();
 
-        AdUtils.showPopupAdIfSatisfied(this);
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
@@ -450,6 +449,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public void onBackgroundFadeOutAnimationEnd() {
+        AdUtils.showPopupAdIfSatisfied(this);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
@@ -617,9 +621,9 @@ public class MainActivity extends ActionBarActivity
         // 액티비티에서 불릴 경우에는 무조건 애니메이션 시작만 관장
         if (isBeingCalledFromActivity) {
             if (topReady && bottomReady) {
-                mLoadingAnimationView.startCircleAnimation();
+                mLoadingAnimationView.startCircleAnimation(this);
             } else {
-                mLoadingAnimationView.startPanelAnimation();
+                mLoadingAnimationView.startPanelAnimation(this);
             }
         } else {
             // 탑, 바텀 레이아웃에서 불릴 경우는 애니메이션 종료만 관장
