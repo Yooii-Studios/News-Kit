@@ -61,10 +61,11 @@ import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.Settings;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.model.debug.DebugAnimationSettingDialogFactory;
 import com.yooiistudios.newsflow.model.debug.DebugAnimationSettings;
@@ -261,7 +262,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         getWindowManager().getDefaultDisplay().getSize(displaySize);
 
         mLoadingCoverView.getLayoutParams().height = displaySize.y;
-
         mLoadingCoverView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -798,6 +798,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     public void onScrollStarted() {
         stopAutoScroll();
+    }
+
+    @Override
+    public void onSwipeLeft() {
+        finish();
     }
 
     @Override

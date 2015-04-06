@@ -22,6 +22,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
+import com.yooiistudios.newsflow.core.util.DipToPixel;
+
 import java.util.ArrayList;
 
 /**
@@ -32,6 +34,10 @@ import java.util.ArrayList;
  */
 public class ObservableScrollView extends ScrollView {
     private ArrayList<Callbacks> mCallbacks = new ArrayList<>();
+
+    // Swipe 기능
+    private float downX, downY;
+    private final int MIN_DISTANCE_DP = 60;
 
     public ObservableScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -50,10 +56,31 @@ public class ObservableScrollView extends ScrollView {
     public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                downX = event.getX();
+                downY = event.getY();
+
                 for (Callbacks c : mCallbacks) {
                     c.onScrollStarted();
                 }
                 break;
+
+            case MotionEvent.ACTION_UP: {
+                float upX = event.getX();
+                float upY = event.getY();
+
+                float deltaX = downX - upX;
+                float deltaY = downY - upY;
+
+                // 가로 스와이프를 할 때 세로로는 조금만 움직일 때만 스와이프로 인식하기
+                int MIN_DISTANCE = DipToPixel.dpToPixel(getContext(), MIN_DISTANCE_DP);
+                if(Math.abs(deltaX) > MIN_DISTANCE && deltaX < 0 &&
+                        Math.abs(deltaY) < MIN_DISTANCE * 3){
+                    for (Callbacks c : mCallbacks) {
+                        c.onSwipeLeft();
+                    }
+                    return true;
+                }
+            }
         }
         return super.onInterceptTouchEvent(event);
     }
@@ -69,8 +96,9 @@ public class ObservableScrollView extends ScrollView {
         }
     }
 
-    public static interface Callbacks {
-        public void onScrollChanged(int deltaX, int deltaY);
-        public void onScrollStarted();
+    public interface Callbacks {
+        void onScrollChanged(int deltaX, int deltaY);
+        void onScrollStarted();
+        void onSwipeLeft();
     }
 }
