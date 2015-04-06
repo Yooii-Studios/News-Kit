@@ -11,7 +11,7 @@
     <color name="toolbar_title_color">@color/material_black_primary_text</color>
 
     <!-- Main -->
-    <color name="main_top_indicator">#666</color>
+    <color name="main_top_indicator">#999</color>
     <color name="main_edit_layout_background">#7fffffff</color>
     <color name="main_bottom_rss_not_found_img_filter_color">#8523464c</color>
 
