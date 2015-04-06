@@ -498,7 +498,9 @@ public class MainTopContainerLayout extends FrameLayout
     private void adjustLayoutParamsOnLandscape() {
         ViewGroup.LayoutParams lp = getLayoutParams();
 
-        lp.width = (int)(Display.getDisplaySize(getContext()).x * 0.5);
+        // 유진님 기준에 따라 세로모드의 bottomHeight 만큼을 width 로 잡아줄 것
+        float portraitHeight = getResources().getDimension(R.dimen.main_top_view_pager_height);
+        lp.width = (int)(Display.getDisplaySize(getContext()).x - portraitHeight);
         lp.height = Display.getDisplaySize(getContext()).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             lp.height -= Display.getStatusBarHeight(getContext().getApplicationContext());
