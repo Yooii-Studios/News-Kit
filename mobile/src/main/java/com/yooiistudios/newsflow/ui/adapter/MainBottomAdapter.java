@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,8 +130,8 @@ public class MainBottomAdapter extends
         if (newsFeed.isDisplayable()) {
             showNewsContent(viewHolder);
             setNewsFeedTitle(viewHolder, position);
-            setCurrentNewsTitle(viewHolder, position);
             setNewsTitleLineCount(viewHolder);
+            setCurrentNewsTitle(viewHolder, position);
 
             initOnClickListener(viewHolder, position, newsFeed);
 
@@ -319,11 +320,13 @@ public class MainBottomAdapter extends
     }
 
     private void setNewsTitleLineCount(BottomNewsFeedViewHolder viewHolder) {
+        viewHolder.newsTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
         if (Device.isPortrait(mContext)) {
             // TODO 리소스의 maxLines 와 통일시켜야 함
             viewHolder.newsTitleTextView.setMaxLines(3);
             viewHolder.newsTitleTextView.setSingleLine(false);
         } else {
+            viewHolder.newsTitleTextView.setMaxLines(1);
             viewHolder.newsTitleTextView.setSingleLine(true);
         }
     }
