@@ -513,7 +513,7 @@ public class MainActivity extends ActionBarActivity
         } else if (id == R.id.action_service_log) {
             BackgroundServiceUtils.showDialog(this);
         } else if (id == R.id.action_trigger_notification) {
-            NotificationUtils.issue(getApplicationContext());
+            NotificationUtils.issueAsync(getApplicationContext());
         }
         return super.onOptionsItemSelected(item);
     }

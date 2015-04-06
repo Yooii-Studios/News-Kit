@@ -21,6 +21,17 @@ import com.yooiistudios.newsflow.ui.activity.MainActivity;
  *  Notification 관리 유틸
  */
 public class NotificationUtils {
+    public static void issueAsync(final Context context) {
+        new android.os.AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                issue(context);
+                return null;
+            }
+        }.execute();
+    }
+
     public static void issue(Context context) {
         NotificationCompat.Builder builder = createNotificationBuilder(context);
         TaskStackBuilder stackBuilder = createTaskStackBuilder(context);
