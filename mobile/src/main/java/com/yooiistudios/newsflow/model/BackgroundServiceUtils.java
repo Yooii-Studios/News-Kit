@@ -20,9 +20,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.service.BackgroundCacheIntentService;
 import com.yooiistudios.newsflow.service.BackgroundCacheJobService;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +39,7 @@ public class BackgroundServiceUtils {
     public static final String KEY_CACHE_TIME_ID = "KEY_CACHE_TIME_ID";
 
     public static final boolean DEBUG = false;
+//    public static final boolean DEBUG = true;
 
 //    public static final int JOB_PERIODIC = 0;
 //    public static final int JOB_LATENCY = 1;
@@ -66,14 +67,37 @@ public class BackgroundServiceUtils {
         NOON            ( 5, 12,  0),
         SIX_PM          ( 6, 18,  0);
 
+        public static final int INVALID_KEY = -1;
+        private static final CacheTime DEFAULT = MIDNIGHT;
+
         private int uniqueKey;
         private int hour;
         private int minute;
 
-        private CacheTime(int uniqueKey, int hour, int minute) {
+        CacheTime(int uniqueKey, int hour, int minute) {
             this.uniqueKey = uniqueKey;
             this.hour = hour;
             this.minute = minute;
+        }
+
+        public static CacheTime getByUniqueKey(int uniqueKey) {
+            for (CacheTime cacheTime : CacheTime.values()) {
+                if (cacheTime.uniqueKey == uniqueKey) {
+                    return cacheTime;
+                }
+            }
+
+            return DEFAULT;
+        }
+
+        public static boolean isValidKey(int key) {
+            CacheTime[] values = CacheTime.values();
+
+            return values.length > 0 && key >= values[0].uniqueKey;
+        }
+
+        public static boolean isTimeToIssueNotification(CacheTime cacheTime) {
+            return cacheTime.equals(SIX_AM);
         }
     }
 
@@ -255,13 +279,14 @@ public class BackgroundServiceUtils {
         return targetCalendar;
     }
 
-    public static boolean isTimeToCache(Context context) {
+    public static int getCacheTimeKeyIfNecessary(Context context) {
         Calendar currentCalendar = Calendar.getInstance();
 
         long recentRefreshMillisec = NewsFeedArchiveUtils.getRecentRefreshMillisec(context);
         Calendar recentCacheCalendar = Calendar.getInstance();
         recentCacheCalendar.setTimeInMillis(recentRefreshMillisec);
 
+        int cacheTimeKey = CacheTime.INVALID_KEY;
         for (CacheTime cacheTime : CacheTime.values()) {
             Calendar toCalendar = Calendar.getInstance();
             toCalendar.set(Calendar.HOUR_OF_DAY, cacheTime.hour);
@@ -278,13 +303,14 @@ public class BackgroundServiceUtils {
             }
 
             if (compareCalendar(currentCalendar, fromCalendar, toCalendar)) {
-
                 // 해당 범위(-30 ~ 해당 시간) 안에서 캐시한 적이 있으면 캐시 안함.
-                return !compareCalendar(recentCacheCalendar, fromCalendar, toCalendar);
+                if (!compareCalendar(recentCacheCalendar, fromCalendar, toCalendar)) {
+                    cacheTimeKey = cacheTime.uniqueKey;
+                }
             }
         }
 
-        return false;
+        return cacheTimeKey;
     }
 
     public static void saveMessageAndPrintLogDebug(Context context, String message) {

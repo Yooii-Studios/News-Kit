@@ -3,9 +3,11 @@ package com.yooiistudios.newsflow.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.model.BackgroundCacheUtils;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
-import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
+
+import static com.yooiistudios.newsflow.model.BackgroundServiceUtils.CacheTime;
 
 /**
  * Created by Dongheyon Jeong on in ServiceWithTaskTest from Yooii Studios Co., LTD. on 14. 11. 6.
@@ -32,17 +34,15 @@ public class BackgroundCacheIntentService extends IntentService
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // intent.getExtras().getString("url")
         if (!ConnectivityUtils.isWifiAvailable(getApplicationContext())) {
             BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Wifi unavailable.");
             return;
         }
-        BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Start caching.");
-        BackgroundCacheUtils.getInstance().cache(getApplicationContext(), this);
+        int uniqueKey = intent.getExtras().getInt(BackgroundServiceUtils.KEY_CACHE_TIME_ID);
+        CacheTime cacheTime = BackgroundServiceUtils.CacheTime.getByUniqueKey(uniqueKey);
 
-//        int uniqueKey = intent.getExtras().getInt(BackgroundServiceUtils.KEY_CACHE_TIME_ID);
-//        BackgroundServiceUtils.CacheTime cacheTime = BackgroundServiceUtils.CacheTime.getByUniqueKey(uniqueKey);
-//        NLLog.i("BackgroundServiceUtils", "onHandleIntent : " + cacheTime.name());
+        BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Start caching.");
+        BackgroundCacheUtils.getInstance().cache(getApplicationContext(), cacheTime, this);
     }
 
     @Override
