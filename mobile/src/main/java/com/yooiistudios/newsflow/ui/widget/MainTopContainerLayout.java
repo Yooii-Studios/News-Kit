@@ -30,6 +30,8 @@ import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.model.news.NewsFeedFetchStateMessage;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopNewsFeedFetchTask;
@@ -86,7 +88,7 @@ public class MainTopContainerLayout extends FrameLayout
     private OnMainTopLayoutEventListener mOnEventListener;
     private OnMainPanelEditModeEventListener mEditModeListener;
 
-    private CacheImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
     private MainActivity mActivity;
 
     private PanelEditMode mEditMode = PanelEditMode.DEFAULT;
@@ -342,7 +344,7 @@ public class MainTopContainerLayout extends FrameLayout
                     notifyOnReady(taskType);
                 } else {
                     // 이미지 url 은 가져온 상태.
-                    applyImage(news.getImageUrl(), 0, taskType);
+                    applyImage(news, 0, taskType);
                 }
             }
         } else {
@@ -436,31 +438,32 @@ public class MainTopContainerLayout extends FrameLayout
         mIsReady = true;
     }
 
-    private void applyImage(String url, final int position,
+    private void applyImage(News news, final int position,
                             final TopFeedNewsImageUrlFetchTask.TaskType taskType) {
-        mImageLoader.get(url, new CacheImageLoader.ImageListener() {
-            @Override
-            public void onSuccess(CacheImageLoader.ImageResponse response) {
-                mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
+        mImageLoader.get(new NewsUrlSupplier(news, NewsFeed.INDEX_TOP),
+                new CacheImageLoader.ImageListener() {
+                    @Override
+                    public void onSuccess(CacheImageLoader.ImageResponse response) {
+                        mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
 
-                if (position == 0) {
-                    notifyOnReady(taskType);
+                        if (position == 0) {
+                            notifyOnReady(taskType);
 
-                    // fetch other images
-                    fetchTopNewsFeedImages(taskType);
-                }
-            }
+                            // fetch other images
+                            fetchTopNewsFeedImages(taskType);
+                        }
+                    }
 
-            @Override
-            public void onFail(VolleyError error) {
-                if (position == 0) {
-                    notifyOnReady(taskType);
+                    @Override
+                    public void onFail(VolleyError error) {
+                        if (position == 0) {
+                            notifyOnReady(taskType);
 
-                    // fetch other images
-                    fetchTopNewsFeedImages(taskType);
-                }
-            }
-        });
+                            // fetch other images
+                            fetchTopNewsFeedImages(taskType);
+                        }
+                    }
+                });
     }
 
     public void configOnOrientationChange() {
@@ -569,7 +572,7 @@ public class MainTopContainerLayout extends FrameLayout
     public void onTopFeedImageUrlFetch(News news, String url, final int position,
                                        TopFeedNewsImageUrlFetchTask.TaskType taskType) {
         if (url != null) {
-            applyImage(url, position, taskType);
+            applyImage(news, position, taskType);
             NewsDb.getInstance(getContext()).saveTopNewsImageUrlWithGuid(url, news.getGuid());
         } else {
             mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);

@@ -32,7 +32,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
@@ -42,12 +41,13 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
+import com.yooiistudios.newsflow.core.util.ExternalStorage;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
-import com.yooiistudios.newsflow.model.NewsImageLoader;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.Settings;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.LoadingAnimationView;
@@ -189,7 +189,7 @@ public class MainActivity extends ActionBarActivity
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
-    public CacheImageLoader getImageLoader() {
+    public NewsImageLoader getImageLoader() {
         return mImageLoader;
     }
 
@@ -500,7 +500,11 @@ public class MainActivity extends ActionBarActivity
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
         } else if (id == R.id.action_copy_db) {
-            NewsDb.copyDbToExternalStorage(this);
+            try {
+                NewsDb.copyDbToExternalStorage(this);
+            } catch (ExternalStorage.ExternalStorageException ignored) {
+                // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+            }
         } else if (id == R.id.action_slow_anim) {
             NewsFeedDetailTransitionUtils.toggleUseScaledDurationDebug(getApplicationContext());
             item.setChecked(!item.isChecked());

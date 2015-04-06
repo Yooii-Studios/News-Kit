@@ -13,6 +13,8 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
+import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.newsflow.model.news.task.TopFeedNewsImageUrlFetchTask;
@@ -179,17 +181,18 @@ public class BackgroundCacheUtils implements
 
                     if (url != null) {
 //                        news.setImageUrl(url);
-                        mImageLoader.get(url, new CacheImageLoader.ImageListener() {
-                            @Override
-                            public void onSuccess(CacheImageLoader.ImageResponse response) {
+                        mImageLoader.get(new NewsUrlSupplier(news, NewsFeed.INDEX_TOP),
+                                new CacheImageLoader.ImageListener() {
+                                    @Override
+                                    public void onSuccess(CacheImageLoader.ImageResponse response) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onFail(VolleyError error) {
+                                    @Override
+                                    public void onFail(VolleyError error) {
 
-                            }
-                        });
+                                    }
+                                });
                     }
                 }
             });
@@ -217,11 +220,13 @@ public class BackgroundCacheUtils implements
 
         for (int i = 0; i < newsFeed.getNewsList().size(); i++) {
             News news = newsFeed.getNewsList().get(i);
-            new BottomNewsImageFetchTask(mImageLoader, news, i,
+            new BottomNewsImageFetchTask(mImageLoader, news, newsFeedPosition, i,
                     BottomNewsImageFetchTask.TASK_CACHE, new BottomNewsImageFetchTask.OnBottomImageUrlFetchListener() {
                 @Override
-                public void onBottomImageUrlFetchSuccess(News news, String url, int position, int taskType) {
-                    NLLog.i(TAG, "B NFI " + newsFeedPosition + " " + position);
+                public void onBottomImageUrlFetchSuccess(News news, String url,
+                                                         int newsFeedPosition, int newsPosition,
+                                                         int taskType) {
+                    NLLog.i(TAG, "B NFI " + newsFeedPosition + " " + newsPosition);
                     if (checkAllImageUrlFetched(newsFeed)) {
                         NewsDb.getInstance(mContext).saveBottomNewsFeedAt(newsFeed, newsFeedPosition);
                         mBottomImageFetchMap.remove(Integer.valueOf(newsFeedPosition));
@@ -231,7 +236,7 @@ public class BackgroundCacheUtils implements
                 }
 
                 @Override
-                public void onFetchImage(News news, int position, int taskType) {
+                public void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType) {
 
                 }
                 // Top news 이미지 로딩 주석 참고

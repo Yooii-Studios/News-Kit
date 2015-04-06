@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class NewsFeed implements Parcelable, RssFetchable {
     public static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
+    public static final int INDEX_TOP = -1;
+    public static final int INDEX_BOTTOM_START = 0;
 
     private String mTitle;
     private NewsFeedUrl mNewsFeedUrl;

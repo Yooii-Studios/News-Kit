@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
@@ -31,6 +30,7 @@ import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTr
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
+import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedFetchTask;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsFeedListFetchManager;
 import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchManager;
@@ -84,7 +84,7 @@ public class MainBottomContainerLayout extends FrameLayout
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
     private OnMainPanelEditModeEventListener mOnMainPanelEditModeEventListener;
     private MainActivity mActivity;
-    private CacheImageLoader mImageLoader;
+    private NewsImageLoader mImageLoader;
     private SerialValueAnimator mAutoAnimator;
 
     private boolean mIsInitialized = false;
@@ -439,7 +439,7 @@ public class MainBottomContainerLayout extends FrameLayout
                 getNewsList().get(newsIndex);
 
         BottomNewsImageFetchManager.getInstance().notifyOnImageFetchedManually(news, imageUrl,
-                newsIndex);
+                newsFeedIndex, newsIndex);
 
         news.setImageUrl(imageUrl);
         mBottomNewsFeedAdapter.notifyItemChanged(newsFeedIndex);
@@ -645,26 +645,20 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     @Override
-    public void onBottomNewsImageUrlFetch(News news, String url, int index, int taskType) {
-//        news.setImageUrlChecked(true);
+    public void onBottomNewsImageUrlFetch(News news, String url, int newsFeedPosition,
+                                          int newsPosition, int taskType) {
         if (url != null) {
-//            news.setImageUrl(url);
-
-            // archive
-//            NewsFeed newsFeed = mBottomNewsFeedAdapter.getNewsFeedList().get(index);
-            NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, index, news.getGuid());
-//            NewsDb.getInstance(getContext()).saveBottomNewsFeedAt(newsFeed, index);
-//            NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(),
-//                    mBottomNewsFeedAdapter.getNewsFeedList().get(index), index);
+            NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
+                    news.getGuid());
         } else {
             // 이미지 url이 없는 경우. 바로 notify 해서 더미 이미지 보여줌.
-            mBottomNewsFeedAdapter.notifyItemChanged(index);
+            mBottomNewsFeedAdapter.notifyItemChanged(newsFeedPosition);
         }
     }
 
     @Override
-    public void onBottomNewsImageFetch(int position) {
-        mBottomNewsFeedAdapter.notifyItemChanged(position);
+    public void onBottomNewsImageFetch(int newsFeedPosition, int newsPosition) {
+        mBottomNewsFeedAdapter.notifyItemChanged(newsFeedPosition);
     }
 
     @Override

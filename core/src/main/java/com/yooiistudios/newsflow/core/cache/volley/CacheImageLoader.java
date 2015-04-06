@@ -13,7 +13,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.ImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.SimpleImageCache;
-import com.yooiistudios.newsflow.core.news.database.NewsDb;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,19 +25,26 @@ import java.util.Map;
  * ResizedImageLoader
  *  리사이징을 강제하는 이미지 로더
  */
-public abstract class CacheImageLoader {
+public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     public interface ImageListener {
-        void onSuccess(ImageResponse response);
+        void onSuccess(CacheImageLoader.ImageResponse response);
         void onFail(VolleyError error);
     }
+
+    @IntDef(value = {TYPE_LARGE, TYPE_THUMBNAIL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Type {}
 
     private interface ThumbnailListener {
         void onSuccess(Bitmap resizedBitmap);
     }
 
     private interface PaletteListener {
-        void onSuccess(ImageResponse.PaletteColor paletteColor);
+        void onSuccess(PaletteColor paletteColor);
     }
+
+    public static final int TYPE_LARGE = 0;
+    public static final int TYPE_THUMBNAIL = 1;
 
     private static final int REQUESTED = 0;
     private static final int CANCEL_REQUESTED = 1;
@@ -50,7 +56,7 @@ public abstract class CacheImageLoader {
 //    private Point mImageSize;
 //    private List<String> mUrlsToCancel = new ArrayList<>();
 //    private Map<String, Integer> mRequestedUrls = new HashMap<>();
-    private Map<UrlSupplier, Integer> mRequestedUrlSuppliers = new HashMap<>();
+    private Map<T, Integer> mRequestedUrlSuppliers = new HashMap<>();
 
     protected CacheImageLoader(FragmentActivity activity) {
         mContext = activity.getApplicationContext();
@@ -78,36 +84,33 @@ public abstract class CacheImageLoader {
         mImageLoader = new ImageLoader(requestQueue, mCache);
     }
 
-    public void get(String requestUrl, ImageListener imageListener) {
-        ImageRequest request = new ImageRequest(
-                createSimpleUrlSupplier(requestUrl),
-                ImageRequest.TYPE_LARGE
-        );
+    public void get(T urlSupplier, ImageListener imageListener) {
+        ImageRequest request = new ImageRequest(urlSupplier, CacheImageLoader.TYPE_LARGE);
         get(request, imageListener);
     }
 
-    public void getThumbnail(String requestUrl, ImageListener imageListener) {
-        ImageRequest request = new ImageRequest(
-                createSimpleUrlSupplier(requestUrl),
-                ImageRequest.TYPE_THUMBNAIL
-        );
+//    public void getThumbnail(String requestUrl, ImageListener imageListener) {
+//        ImageRequest request = new ImageRequest(
+//                createSimpleUrlSupplier(requestUrl),
+//                ImageRequest.TYPE_THUMBNAIL
+//        );
+//        get(request, imageListener);
+//    }
+
+    public void getThumbnail(T urlSupplier, ImageListener imageListener) {
+        ImageRequest request = new ImageRequest(urlSupplier, CacheImageLoader.TYPE_THUMBNAIL);
         get(request, imageListener);
     }
 
-    public void getThumbnail(UrlSupplier urlSupplier, ImageListener imageListener) {
-        ImageRequest request = new ImageRequest(urlSupplier, ImageRequest.TYPE_THUMBNAIL);
-        get(request, imageListener);
-    }
+//    public void cancelRequest(String url) {
+//        cancelRequest(createSimpleUrlSupplier(url));
+//    }
 
-    public void cancelRequest(String url) {
-        cancelRequest(createSimpleUrlSupplier(url));
-    }
+//    private SimpleUrlSupplier createSimpleUrlSupplier(T data) {
+//        return new SimpleUrlSupplier();
+//    }
 
-    private SimpleUrlSupplier createSimpleUrlSupplier(String url) {
-        return new SimpleUrlSupplier(url);
-    }
-
-    public void cancelRequest(UrlSupplier urlSupplier) {
+    public void cancelRequest(T urlSupplier) {
         if (mRequestedUrlSuppliers.containsKey(urlSupplier)
                 && mRequestedUrlSuppliers.get(urlSupplier).equals(REQUESTED)) {
             mRequestedUrlSuppliers.put(urlSupplier, CANCEL_REQUESTED);
@@ -142,12 +145,12 @@ public abstract class CacheImageLoader {
 
     private void get(final ImageRequest request, final ImageListener imageListener) {
         markRequested(request.urlSupplier);
-        if (request.type == ImageRequest.TYPE_THUMBNAIL) {
+        if (request.type == CacheImageLoader.TYPE_THUMBNAIL) {
             final Bitmap bitmap = getCachedThumbnail(request.urlSupplier.getUrl());
             if (bitmap != null) {
-                getPaletteColors(request.urlSupplier.getUrl(), bitmap, new PaletteListener() {
+                getPaletteColors(request.urlSupplier, bitmap, new PaletteListener() {
                     @Override
-                    public void onSuccess(ImageResponse.PaletteColor paletteColor) {
+                    public void onSuccess(PaletteColor paletteColor) {
                         notifyOnSuccess(imageListener,
                                 new ImageResponse(request.urlSupplier, bitmap, paletteColor));
                     }
@@ -167,18 +170,18 @@ public abstract class CacheImageLoader {
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 final Bitmap bitmap = response.getBitmap();
                 if (bitmap != null) {
-                    getPaletteColors(request.urlSupplier.getUrl(), bitmap, new PaletteListener() {
+                    getPaletteColors(request.urlSupplier, bitmap, new PaletteListener() {
 
                         @Override
-                        public void onSuccess(final ImageResponse.PaletteColor paletteColor) {
-                            if (request.type == ImageRequest.TYPE_LARGE) {
+                        public void onSuccess(final PaletteColor paletteColor) {
+                            if (request.type == CacheImageLoader.TYPE_LARGE) {
                                 notifyOnSuccess(imageListener,
                                         new ImageResponse(request.urlSupplier, bitmap, paletteColor));
                             }
                             cacheThumbnail(bitmap, request, new ThumbnailListener() {
                                 @Override
                                 public void onSuccess(Bitmap thumbnailBitmap) {
-                                    if (request.type == ImageRequest.TYPE_THUMBNAIL) {
+                                    if (request.type == CacheImageLoader.TYPE_THUMBNAIL) {
                                         ImageResponse imageResponse = new ImageResponse(
                                                 request.urlSupplier,
                                                 thumbnailBitmap,
@@ -200,23 +203,31 @@ public abstract class CacheImageLoader {
         }, getImageSize().x, getImageSize().y);
     }
 
-    private void getPaletteColors(final String url, Bitmap bitmap, final PaletteListener listener) {
-        ImageResponse.PaletteColor paletteColor = NewsDb.getInstance(mContext).loadPaletteColor(url);
+    private void getPaletteColors(final T urlSupplier, Bitmap bitmap,
+                                  final PaletteListener listener) {
+//        PaletteColor paletteColor = NewsDb.getInstance(mContext).loadPaletteColor(url);
+        PaletteColor paletteColor = loadPaletteColor(urlSupplier);
         if (paletteColor.isFetched()) {
             listener.onSuccess(paletteColor);
         } else {
             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
-                    final int vibrantColor = palette.getVibrantColor(ImageResponse.PaletteColor.FALLBACK_COLOR);
-                    ImageResponse.PaletteColor paletteColor
-                            = new ImageResponse.PaletteColor(vibrantColor, true);
-                    NewsDb.getInstance(mContext).savePaletteColor(url, paletteColor);
+                    final int vibrantColor = palette.getVibrantColor(
+                            PaletteColor.FALLBACK_COLOR);
+                    PaletteColor paletteColor
+                            = new PaletteColor(vibrantColor);
+                    savePaletteColor(urlSupplier, paletteColor);
+//                    NewsDb.getInstance(mContext).savePaletteColor(url, paletteColor);
                     listener.onSuccess(paletteColor);
                 }
             });
         }
     }
+
+    protected abstract PaletteColor loadPaletteColor(T urlSupplier);
+
+    protected abstract void savePaletteColor(T urlSupplier, PaletteColor paletteColor);
 
     private void cacheThumbnail(final Bitmap bitmap, final ImageRequest request,
                                 final ThumbnailListener listener) {
@@ -243,7 +254,7 @@ public abstract class CacheImageLoader {
         markDelivered(response.urlSupplier);
     }
 
-    private void notifyOnFail(ImageListener listener, UrlSupplier urlSupplier, VolleyError error) {
+    private void notifyOnFail(ImageListener listener, T urlSupplier, VolleyError error) {
         if (!isCancelRequested(urlSupplier)) {
             listener.onFail(error);
         }
@@ -254,7 +265,7 @@ public abstract class CacheImageLoader {
 //        return mRequestedUrls.get(url) == CANCELLED;
 //    }
 
-    private boolean isCancelRequested(UrlSupplier supplier) {
+    private boolean isCancelRequested(T supplier) {
         return mRequestedUrlSuppliers.containsKey(supplier)
                 && mRequestedUrlSuppliers.get(supplier) == CANCEL_REQUESTED;
     }
@@ -263,7 +274,7 @@ public abstract class CacheImageLoader {
 //        mRequestedUrls.put(url, REQUESTED);
 //    }
 
-    private void markRequested(UrlSupplier supplier) {
+    private void markRequested(T supplier) {
         mRequestedUrlSuppliers.put(supplier, REQUESTED);
     }
 
@@ -271,7 +282,7 @@ public abstract class CacheImageLoader {
 //        mRequestedUrls.remove(url);
 //    }
 
-    private void markDelivered(UrlSupplier supplier) {
+    private void markDelivered(T supplier) {
         mRequestedUrlSuppliers.remove(supplier);
 //        NLLog.now("markDelivered");
 //        print();
@@ -297,108 +308,111 @@ public abstract class CacheImageLoader {
         CacheAsyncTask.closeCache(mCache);
     }
 
-    private static class ImageRequest {
-        @IntDef(value = {TYPE_LARGE, TYPE_THUMBNAIL})
-        @Retention(RetentionPolicy.SOURCE)
-        public @interface Type {}
-
-        public static final int TYPE_LARGE = 0;
-        public static final int TYPE_THUMBNAIL = 1;
-
+    private class ImageRequest {
         private static final int PALETTE_FALLBACK = Color.TRANSPARENT;
 
-        public final UrlSupplier urlSupplier;
+        public final T urlSupplier;
         public final @Type int type;
         public int filterColor = PALETTE_FALLBACK;
 
-        public ImageRequest(UrlSupplier urlSupplier, @Type int type) {
+        public ImageRequest(T urlSupplier, @Type int type) {
             this.urlSupplier = urlSupplier;
             this.type = type;
         }
     }
 
-    public static class ImageResponse {
-        public final UrlSupplier urlSupplier;
+    public class ImageResponse {
+        public final T urlSupplier;
         public final Bitmap bitmap;
         public final PaletteColor paletteColor;
 //        public final int vibrantColor;
 
-        public ImageResponse(UrlSupplier urlSupplier, Bitmap bitmap, PaletteColor paletteColor) {
+        public ImageResponse(T urlSupplier, Bitmap bitmap, PaletteColor paletteColor) {
             this.urlSupplier = urlSupplier;
             this.bitmap = bitmap;
             this.paletteColor = paletteColor;
         }
+    }
 
-        public static class PaletteColor {
-            public static final int FALLBACK_COLOR = Color.TRANSPARENT;
+    public static class PaletteColor {
+        public static final int FALLBACK_COLOR = Color.TRANSPARENT;
 
-//            public static final int STATUS_INVALID_VIBRANT_COLOR = 0;
+        //            public static final int STATUS_INVALID_VIBRANT_COLOR = 0;
 //            public static final int STATUS_VALID_VIBRANT_COLOR = 1;
-            public static final int STATUS_FETCHED = 0;
-            public static final int STATUS_NOT_FETCHED = 1;
+        public static final int STATUS_FETCHED = 0;
+        public static final int STATUS_NOT_FETCHED = 1;
 
-            private final int mVibrantColor;
-            private final boolean mIsFetched;
+        private final int mVibrantColor;
+        private final boolean mIsFetched;
 
-            public PaletteColor(int vibrantColor, boolean isFetched) {
-                mVibrantColor = vibrantColor;
-                mIsFetched = isFetched;
-            }
+        public PaletteColor(int vibrantColor) {
+            mVibrantColor = vibrantColor;
+            mIsFetched = true;
+        }
 
-            public int getVibrantColor() {
-                return mVibrantColor;
-            }
+        private PaletteColor(int vibrantColor, boolean isFetched) {
+            mVibrantColor = vibrantColor;
+            mIsFetched = isFetched;
+        }
 
-            public boolean isFetched() {
-                return mIsFetched;
-            }
+        public int getVibrantColor() {
+            return mVibrantColor;
+        }
 
-            public boolean hasValidVibrantColor() {
-                return mVibrantColor != ImageResponse.PaletteColor.FALLBACK_COLOR;
-            }
+        public boolean isFetched() {
+            return mIsFetched;
+        }
 
-            public static PaletteColor createDefault() {
-                return new PaletteColor(FALLBACK_COLOR, false);
-            }
+        public boolean hasValidVibrantColor() {
+            return mVibrantColor != PaletteColor.FALLBACK_COLOR;
+        }
+
+        public static PaletteColor createDefault() {
+            return new PaletteColor(PaletteColor.FALLBACK_COLOR, false);
         }
     }
 
-    public static abstract class UrlSupplier {
-        public abstract String getUrl();
+    public interface UrlSupplier {
+//        private S mData;
+//
+//        protected UrlSupplier(S data) {
+//            mData = data;
+//        }
+//
+//        public S getData() {
+//            return mData;
+//        }
+
+        String getUrl();
 
         @Override
-        public abstract int hashCode();
+        int hashCode();
 
         @Override
-        public abstract boolean equals(Object o);
-
-        @Override
-        public String toString() {
-            return "url: " + getUrl();
-        }
+        boolean equals(Object o);
     }
 
-    private static class SimpleUrlSupplier extends UrlSupplier {
-        private String mUrl;
-
-        public SimpleUrlSupplier(String url) {
-            mUrl = url;
-        }
-
-        @Override
-        public String getUrl() {
-            return mUrl;
-        }
-
-        @Override
-        public int hashCode() {
-            return mUrl.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return o instanceof SimpleUrlSupplier
-                    && getUrl().equals(((SimpleUrlSupplier)o).getUrl());
-        }
-    }
+//    private static abstract class SimpleUrlSupplier extends UrlSupplier {
+//        private String mUrl;
+//
+//        public SimpleUrlSupplier(String url) {
+//            mUrl = url;
+//        }
+//
+//        @Override
+//        public String getUrl() {
+//            return mUrl;
+//        }
+//
+//        @Override
+//        public int hashCode() {
+//            return mUrl.hashCode();
+//        }
+//
+//        @Override
+//        public boolean equals(Object o) {
+//            return o instanceof SimpleUrlSupplier
+//                    && getUrl().equals(((SimpleUrlSupplier)o).getUrl());
+//        }
+//    }
 }
