@@ -1,21 +1,21 @@
 <resources>
     <!-- Main -->
-    <style name="MainTopTitleTextStyle" parent="MainTopTitleTextBaseStyle">
+    <style name="MainTopTitleText" parent="MainTopTitleTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
     </style>
 
-    <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
+    <style name="MainBottomItemTitleText" parent="MainBottomItemTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
     </style>
 
-    <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainTopItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
         <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
         <!--<item name="android:textSize">11sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
-    <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainBottomItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <!--<item name="android:textSize">12sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->

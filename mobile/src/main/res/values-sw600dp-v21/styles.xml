@@ -6,18 +6,18 @@
     </style>
 
     <!-- Main -->
-    <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
+    <style name="MainBottomItemTitleText" parent="MainBottomItemTextBase">
         <item name="android:textAppearance">@android:style/TextAppearance.Material.Headline</item>
     </style>
 
-    <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainTopItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
         <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Material.Subhead</item>
         <!--<item name="android:textSize">11sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
-    <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainBottomItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
         <item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>
         <!--<item name="android:textSize">12sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->

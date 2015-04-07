@@ -90,14 +90,14 @@
                             android:id="@+id/newsfeed_detail_top_news_title_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            style="@style/NewsFeedDetailTitleStyle"
+                            style="@style/NewsFeedDetailTitle"
                             android:textColor="@color/material_white_primary_text"/>
 
                         <TextView
                             android:id="@+id/newsfeed_detail_top_news_description_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            style="@style/NewsFeedDetailDescriptionStyle"
+                            style="@style/NewsFeedDetailDescription"
                             android:textColor="@color/material_white_secondary_text"/>
 
                         <View

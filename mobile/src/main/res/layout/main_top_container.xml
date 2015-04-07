@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/main_top_news_feed_title_text_view"
-                style="@style/MainTopItemNewsFeedTitleTextStyle"/>
+                style="@style/MainTopItemNewsFeedTitleText"/>
         </FrameLayout>
 
         <FrameLayout
