@@ -8,20 +8,27 @@
     <integer name="bottom_news_feed_fade_anim_duration_milli">550</integer>
 
     <!-- 리빌 시간 -->
-    <integer name="news_feed_detail_reveal_duration_milli">550</integer>
-
+    <integer name="news_feed_detail_reveal_duration">700</integer>
+    <!-- 리빌 다음 오프셋 -->
+    <integer name="news_feed_detail_image_filter_start_offset">200</integer>
     <!-- 동현에게 세부 내용 물어볼 것 -->
-    <integer name="news_feed_detail_image_filter_duration_milli">550</integer>
+    <integer name="news_feed_detail_image_filter_duration">800</integer>
     <!-- 동현에게 세부 내용 물어볼 것 -->
-    <integer name="news_feed_detail_image_translation_duration_milli">550</integer>
+    <integer name="news_feed_detail_image_translation_duration">800</integer>
     <!-- 동현에게 세부 내용 물어볼 것 -->
-    <integer name="news_feed_detail_image_scale_duration_milli">550</integer>
+    <integer name="news_feed_detail_image_scale_duration">800</integer>
     <!-- 메인에서 썸네일 기사가 사라지는 시간 -->
-    <integer name="news_feed_detail_thumbnail_text_duration_milli">200</integer>
+    <integer name="news_feed_detail_thumbnail_text_duration">180</integer>
     <!-- 툴바 -->
-    <integer name="news_feed_detail_toolbar_duration_milli">550</integer>
+    <integer name="news_feed_detail_toolbar_duration">500</integer>
     <!-- 툴바 그라디언트 -->
-    <integer name="news_feed_detail_toolbar_bg_duration_milli">550</integer>
+    <integer name="news_feed_detail_toolbar_bg_duration">500</integer>
+    <!-- 리사이클러 하이트 스타트 딜레이 -->
+    <integer name="news_feed_detail_recycler_height_start_delay">250</integer>
+    <!-- 리사이클러 하이트 -->
+    <integer name="news_feed_detail_recycler_height_duration">900</integer>
+    <!-- 텍스트 페이드 -->
+    <integer name="news_feed_detail_text_fade_duration">400</integer>
 
     <integer name="news_feed_detail_debug_transition_scale">10</integer>
 </resources>

@@ -60,7 +60,7 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRAN
  */
 public class NewsFeedDetailTransitionUtils {
     public interface OnAnimationEndListener {
-        public void onRecyclerScaleAnimationEnd();
+        void onRecyclerScaleAnimationEnd();
     }
 
     private static final String SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION
@@ -68,21 +68,21 @@ public class NewsFeedDetailTransitionUtils {
     private static final String KEY_USE_SCALED_DURATION = "key_use_scale_duration";
 
     /**
-     * Thumbnail properties extracted from intent.
+     * Thumbnail properties extracted from intent
      */
     private ActivityTransitionImageViewProperty mTransImageViewProperty;
     private ActivityTransitionTextViewProperty mTransTitleViewProperty;
     private ActivityTransitionTextViewProperty mTransFeedTitleViewProperty;
 
     /**
-     * Scale, translation properties for "Top image".
+     * Scale, translation properties for "Top image"
      */
     private Rect mImageWrapperRect;
     private Rect mThumbnailStartRect;
     private Rect mThumbnailEndRect;
 
     /**
-     * Scale, translation properties for "Top text layout and it's components".
+     * Scale, translation properties for "Top text layout and it's components"
      */
     private Rect mTopTextLayoutLocalVisibleRect;
     private Rect mTopTextLayoutAnimatingLocalVisibleRect = new Rect();
@@ -101,14 +101,17 @@ public class NewsFeedDetailTransitionUtils {
     private TextView mNewsTitleThumbnailTextView;
     private TextView mNewsFeedTitleThumbnailTextView;
 
-    private long mDebugTempDuration;
-    private long mRevealAnimationDuration;
-    private long mImageFilterAnimationDuration;
-    private long mImageScaleAnimationDuration;
-    private long mImageTranslationAnimationDuration;
-    private long mThumbnailTextAnimationDuration;
-    private long mToolbarAnimationDuration;
-    private long mToolbarBgAnimationDuration;
+//    private long mDebugTempDuration;
+    private long mRevealAnimDuration;
+    private long mImageFilterAnimDuration;
+//    private long mImageScaleAnimDuration;
+    private long mImageTranslationAnimDuration;
+    private long mThumbnailTextAnimDuration;
+    private long mToolbarAnimDuration;
+    private long mToolbarBgAnimDuration;
+    private long mRecyclerHeightAnimDuration;
+    private long mRecyclerHeightAnimStartDelay;
+    private long mTextFadeAnimDuration;
 
     private long mImageAnimationStartOffset;
 
@@ -184,6 +187,118 @@ public class NewsFeedDetailTransitionUtils {
         initDurationVariables();
     }
 
+    private void extractActivityTransitionProperties() {
+        Bundle extras = mActivity.getIntent().getExtras();
+
+        String transitionPropertyStr = extras.getString(INTENT_KEY_TRANSITION_PROPERTY);
+        Type type = new TypeToken<ActivityTransitionHelper>(){}.getType();
+        ActivityTransitionHelper transitionProperty =
+                new Gson().fromJson(transitionPropertyStr, type);
+        mTransImageViewProperty =
+                transitionProperty.getImageViewProperty(ActivityTransitionHelper.KEY_IMAGE);
+        mTransTitleViewProperty =
+                transitionProperty.getTextViewProperty(ActivityTransitionHelper.KEY_TEXT);
+        mTransFeedTitleViewProperty =
+                transitionProperty.getTextViewProperty(ActivityTransitionHelper.KEY_SUB_TEXT);
+    }
+
+    private void initImageTransitionVariables() {
+        initTopImageWrapperRect();
+        initThumbnailStartRect();
+        initThumbnailEndRect();
+    }
+
+    private void initTopImageWrapperRect() {
+        mImageWrapperRect = new Rect();
+        mTopNewsImageWrapper.getGlobalVisibleRect(mImageWrapperRect);
+    }
+
+    private void initThumbnailStartRect() {
+        int thumbnailLeftDelta = mTransImageViewProperty.getLeft() - mImageWrapperRect.left;
+        int thumbnailTopDelta = mTransImageViewProperty.getTop() - mImageWrapperRect.top;
+        mThumbnailStartRect = new Rect(thumbnailLeftDelta, thumbnailTopDelta,
+                thumbnailLeftDelta + mTransImageViewProperty.getWidth(),
+                thumbnailTopDelta + mTransImageViewProperty.getHeight());
+    }
+
+    private void initThumbnailEndRect() {
+        float widthScaleRatio = mTopNewsImageWrapper.getWidth()
+                / (float)mTransImageViewProperty.getWidth();
+        float heightScaleRatio = mTopNewsImageWrapper.getHeight()
+                / (float)mTransImageViewProperty.getHeight();
+        boolean fitWidth = widthScaleRatio > heightScaleRatio;
+        float scaleRatio = fitWidth ? widthScaleRatio : heightScaleRatio;
+
+        int targetWidth = (int)(mTransImageViewProperty.getWidth() * scaleRatio);
+        int imageWrapperLeft = mTopNewsImageWrapper.getLeft();
+        int thumbnailLeftTarget = fitWidth
+                ? imageWrapperLeft
+                : imageWrapperLeft - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
+        int thumbnailTopTarget = mTopNewsImageWrapper.getTop();
+
+        mThumbnailEndRect = new Rect(thumbnailLeftTarget, thumbnailTopTarget,
+                thumbnailLeftTarget + (int)(mTransImageViewProperty.getWidth() * scaleRatio),
+                thumbnailTopTarget + (int)(mTransImageViewProperty.getHeight() * scaleRatio));
+    }
+
+    private void initTopTextLayoutVariables() {
+        mTopTextLayoutLocalVisibleRect = new Rect(
+                mTopTextLayout.getLeft(),
+                mTopTextLayout.getTop(),
+                mTopTextLayout.getRight(),
+                mTopTextLayout.getBottom()
+        );
+        mTopTitleLocalVisibleRect = new Rect(
+                mTopTitleTextView.getLeft(),
+                mTopTitleTextView.getTop(),
+                mTopTitleTextView.getRight(),
+                mTopTitleTextView.getBottom()
+        );
+        mTopDescriptionLocalVisibleRect = new Rect(
+                mTopDescriptionTextView.getLeft(),
+                mTopDescriptionTextView.getTop(),
+                mTopDescriptionTextView.getRight(),
+                mTopDescriptionTextView.getBottom()
+        );
+    }
+
+    private void initDurationVariables() {
+        Resources resources = mActivity.getResources();
+
+        int animatorScale = isUseScaledDurationDebug(mActivity.getApplicationContext()) ?
+                resources.getInteger(R.integer.news_feed_detail_debug_transition_scale) : 1;
+
+        mRevealAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_reveal_duration) * animatorScale;
+        mImageAnimationStartOffset = resources.getInteger(
+                R.integer.news_feed_detail_image_filter_start_offset) * animatorScale;
+        mImageFilterAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_image_filter_duration) * animatorScale;
+//        mImageScaleAnimDuration = resources.getInteger(
+//                R.integer.news_feed_detail_image_scale_duration) * animatorScale;
+        mImageTranslationAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_image_translation_duration) * animatorScale;
+
+        mThumbnailTextAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_thumbnail_text_duration) * animatorScale;
+
+        mToolbarAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_toolbar_duration) * animatorScale;
+        mToolbarBgAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_toolbar_bg_duration) * animatorScale;
+
+        mRecyclerHeightAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_recycler_height_duration) * animatorScale;
+
+        mRecyclerHeightAnimStartDelay = resources.getInteger(
+                R.integer.news_feed_detail_recycler_height_start_delay) * animatorScale;
+
+        mTextFadeAnimDuration = resources.getInteger(
+                R.integer.news_feed_detail_text_fade_duration) * animatorScale;
+
+//        mDebugTempDuration = mImageScaleAnimDuration;
+    }
+
     /**
      * 기본적으로 모든 트랜지션은 트랜지션이 시작되기 직전, 혹은 트랜지션의 시작값으로 초기값을 설정해준다.
      * 그러므로 트랜지션들중 처음부터 시작되지 않는 뷰들의 속성은 여기에서 미리 설정해준다.
@@ -203,7 +318,10 @@ public class NewsFeedDetailTransitionUtils {
         mTopTextLayout.setVisibility(View.INVISIBLE);
         mTopTextLayout.getLayoutParams().height = 0;
         mRecyclerView.setVisibility(View.INVISIBLE);
-        mRecyclerView.getLayoutParams().height = 0;
+
+        // 현재 액티비티에서 onPreDraw 에서 다시 높이를 잡아주고 있기 때문에 의미가 없는 로직
+        // 추후 수정이 된다면 여기서 잡아줘도 괜찮을듯
+//        mRecyclerView.getLayoutParams().height = 0;
 
         saveTopOverlayAlphaState();
         mTopGradientShadowView.setAlpha(0);
@@ -221,6 +339,7 @@ public class NewsFeedDetailTransitionUtils {
     private void startTransition() {
         revealBackground();
         animateThumbnailImageAndTexts();
+        animateTopNewsTextAndRecycler();
     }
 
     private void revealBackground() {
@@ -241,32 +360,18 @@ public class NewsFeedDetailTransitionUtils {
     private void revealBackgroundAfterLollipop() {
         Animator animator = ViewAnimationUtils.createCircularReveal(
                 mRevealView, getRevealCenter().x, getRevealCenter().y, getRevealStartRadius(), getRevealTargetRadius());
-        animator.setDuration((int) mRevealAnimationDuration);
-        animator.addListener(new AnimatorListenerImpl() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-
-                animateTopNewsTextAndRecycler();
-            }
-        });
+        animator.setDuration((int) mRevealAnimDuration);
+        animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.start();
     }
 
     private void revealBackgroundBeforeLollipop() {
         SupportAnimator animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                 mRevealView, getRevealCenter().x, getRevealCenter().y, getRevealStartRadius(), getRevealTargetRadius());
-        animator.setDuration((int) mRevealAnimationDuration);
-        animator.addListener(new SupportAnimator.AnimatorListener() {
-            @Override public void onAnimationStart() {}
-            @Override public void onAnimationCancel() {}
-            @Override public void onAnimationRepeat() {}
-
-            @Override
-            public void onAnimationEnd() {
-                animateTopNewsTextAndRecycler();
-            }
-        });
+        animator.setDuration((int) mRevealAnimDuration);
+        android.view.animation.Interpolator interpolator = (android.view.animation.Interpolator)
+                AnimationFactory.createFastOutSlowInInterpolator();
+        animator.setInterpolator(interpolator);
         animator.start();
     }
 
@@ -274,7 +379,8 @@ public class NewsFeedDetailTransitionUtils {
         ObjectAnimator imageWrapperRectAnimator = ObjectAnimator.ofObject(
                 this, "imageWrapperRect", new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
         imageWrapperRectAnimator.setStartDelay(mImageAnimationStartOffset);
-        imageWrapperRectAnimator.setDuration(mImageTranslationAnimationDuration);
+        imageWrapperRectAnimator.setDuration(mImageTranslationAnimDuration);
+        imageWrapperRectAnimator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         imageWrapperRectAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -289,21 +395,35 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void scaleTopNewsTextLayoutHeight() {
-        mTopTextLayout.setVisibility(View.VISIBLE);
-        ObjectAnimator topNewsTextLayoutHeightAnimator = ObjectAnimator.ofInt(
+        ObjectAnimator animator = ObjectAnimator.ofInt(
                 this, "TopTextLayoutHeight", 0, mTopTextLayoutLocalVisibleRect.height());
-        topNewsTextLayoutHeightAnimator.setDuration(mImageScaleAnimationDuration);
+        animator.setStartDelay(mRecyclerHeightAnimStartDelay);
+        animator.setDuration(mRecyclerHeightAnimDuration);
+        animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
+        animator.addListener(new AnimatorListenerImpl() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mTopTextLayout.setVisibility(View.VISIBLE);
+            }
+        });
 
-        topNewsTextLayoutHeightAnimator.start();
+        animator.start();
     }
 
     private void scaleRecyclerHeight() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-
         ObjectAnimator animator = ObjectAnimator.ofInt(
                 this, "recyclerViewHeight", 0, mRecyclerGlobalVisibleRect.height());
-        animator.setDuration(mDebugTempDuration);
+        animator.setStartDelay(mRecyclerHeightAnimStartDelay);
+        animator.setDuration(mRecyclerHeightAnimDuration);
+        animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.addListener(new AnimatorListenerImpl() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mRecyclerView.setVisibility(View.VISIBLE);
+            }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -400,7 +520,7 @@ public class NewsFeedDetailTransitionUtils {
         int width = getTopTextAndRecyclerTargetWidth(imageRect);
 
         setTopTextLayoutWidth(width);
-        setRecyclerWidth(width);
+        setRecyclerViewWidth(width);
     }
 
     private int getTopTextAndRecyclerTargetWidth(Rect imageRect) {
@@ -430,7 +550,7 @@ public class NewsFeedDetailTransitionUtils {
         animateTopTitleAndDescriptionIfSizeSufficient();
     }
 
-    private void setRecyclerWidth(int width) {
+    private void setRecyclerViewWidth(int width) {
         ViewGroup.LayoutParams recyclerLp = mRecyclerView.getLayoutParams();
         recyclerLp.width = width;
         mRecyclerView.setLayoutParams(recyclerLp);
@@ -476,7 +596,7 @@ public class NewsFeedDetailTransitionUtils {
         mIsAnimatingTopTitleFadeIn = true;
 
         mTopTitleTextView.animate()
-                .setDuration(mDebugTempDuration)
+                .setDuration(mTextFadeAnimDuration)
                 .alpha(1.0f);
     }
 
@@ -484,7 +604,7 @@ public class NewsFeedDetailTransitionUtils {
         mIsAnimatingTopDescriptionFadeIn = true;
 
         mTopDescriptionTextView.animate()
-                .setDuration(mDebugTempDuration)
+                .setDuration(mTextFadeAnimDuration)
                 .alpha(1.0f);
     }
 
@@ -619,7 +739,7 @@ public class NewsFeedDetailTransitionUtils {
         try {
             View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
             viewToAnimate.animate()
-                    .setDuration(mDebugTempDuration)
+                    .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
         } catch(ChildNotFoundException ignored) {
@@ -630,7 +750,7 @@ public class NewsFeedDetailTransitionUtils {
         try {
             View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
             viewToAnimate.animate()
-                    .setDuration(mDebugTempDuration)
+                    .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
         } catch(ChildNotFoundException ignored) {
@@ -638,7 +758,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeInToolbar() {
-        mToolbar.animate().alpha(1.0f).setDuration(mToolbarAnimationDuration);
+        mToolbar.animate().alpha(1.0f).setDuration(mToolbarAnimDuration);
     }
 
     private void initViewsAndVariables(NewsFeedDetailActivity activity) {
@@ -748,108 +868,6 @@ public class NewsFeedDetailTransitionUtils {
         return rectToInspect;
     }
 
-    private void initImageTransitionVariables() {
-        initTopImageWrapperRect();
-        initThumbnailStartRect();
-        initThumbnailEndRect();
-    }
-
-    private void initTopImageWrapperRect() {
-        mImageWrapperRect = new Rect();
-        mTopNewsImageWrapper.getGlobalVisibleRect(mImageWrapperRect);
-    }
-
-    private void initThumbnailStartRect() {
-        int thumbnailLeftDelta = mTransImageViewProperty.getLeft() - mImageWrapperRect.left;
-        int thumbnailTopDelta = mTransImageViewProperty.getTop() - mImageWrapperRect.top;
-        mThumbnailStartRect = new Rect(thumbnailLeftDelta, thumbnailTopDelta,
-                thumbnailLeftDelta + mTransImageViewProperty.getWidth(),
-                thumbnailTopDelta + mTransImageViewProperty.getHeight());
-    }
-
-    private void initThumbnailEndRect() {
-        float widthScaleRatio = mTopNewsImageWrapper.getWidth()
-                / (float)mTransImageViewProperty.getWidth();
-        float heightScaleRatio = mTopNewsImageWrapper.getHeight()
-                / (float)mTransImageViewProperty.getHeight();
-        boolean fitWidth = widthScaleRatio > heightScaleRatio;
-        float scaleRatio = fitWidth ? widthScaleRatio : heightScaleRatio;
-
-        int targetWidth = (int)(mTransImageViewProperty.getWidth() * scaleRatio);
-        int imageWrapperLeft = mTopNewsImageWrapper.getLeft();
-        int thumbnailLeftTarget = fitWidth
-                ? imageWrapperLeft
-                : imageWrapperLeft - (targetWidth - mTopNewsImageWrapper.getWidth())/2;
-        int thumbnailTopTarget = mTopNewsImageWrapper.getTop();
-
-        mThumbnailEndRect = new Rect(thumbnailLeftTarget, thumbnailTopTarget,
-                thumbnailLeftTarget + (int)(mTransImageViewProperty.getWidth() * scaleRatio),
-                thumbnailTopTarget + (int)(mTransImageViewProperty.getHeight() * scaleRatio));
-    }
-
-    private void extractActivityTransitionProperties() {
-        Bundle extras = mActivity.getIntent().getExtras();
-
-        String transitionPropertyStr = extras.getString(INTENT_KEY_TRANSITION_PROPERTY);
-        Type type = new TypeToken<ActivityTransitionHelper>(){}.getType();
-        ActivityTransitionHelper transitionProperty =
-                new Gson().fromJson(transitionPropertyStr, type);
-        mTransImageViewProperty =
-                transitionProperty.getImageViewProperty(ActivityTransitionHelper.KEY_IMAGE);
-        mTransTitleViewProperty =
-                transitionProperty.getTextViewProperty(ActivityTransitionHelper.KEY_TEXT);
-        mTransFeedTitleViewProperty =
-                transitionProperty.getTextViewProperty(ActivityTransitionHelper.KEY_SUB_TEXT);
-    }
-
-    private void initTopTextLayoutVariables() {
-        mTopTextLayoutLocalVisibleRect = new Rect(
-                mTopTextLayout.getLeft(),
-                mTopTextLayout.getTop(),
-                mTopTextLayout.getRight(),
-                mTopTextLayout.getBottom()
-        );
-        mTopTitleLocalVisibleRect = new Rect(
-                mTopTitleTextView.getLeft(),
-                mTopTitleTextView.getTop(),
-                mTopTitleTextView.getRight(),
-                mTopTitleTextView.getBottom()
-        );
-        mTopDescriptionLocalVisibleRect = new Rect(
-                mTopDescriptionTextView.getLeft(),
-                mTopDescriptionTextView.getTop(),
-                mTopDescriptionTextView.getRight(),
-                mTopDescriptionTextView.getBottom()
-        );
-    }
-
-    private void initDurationVariables() {
-        Resources resources = mActivity.getResources();
-
-        int animatorScale = isUseScaledDurationDebug(mActivity.getApplicationContext()) ?
-                resources.getInteger(R.integer.news_feed_detail_debug_transition_scale) : 1;
-
-        mRevealAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_reveal_duration_milli) * animatorScale;
-        mImageAnimationStartOffset = (long) (mRevealAnimationDuration * .5f);
-        mImageFilterAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_image_filter_duration_milli) * animatorScale;
-        mImageScaleAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_image_scale_duration_milli) * animatorScale;
-        mImageTranslationAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_image_translation_duration_milli) * animatorScale;
-
-        mThumbnailTextAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_thumbnail_text_duration_milli) * animatorScale;
-
-        mToolbarAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_toolbar_duration_milli) * animatorScale;
-        mToolbarBgAnimationDuration = resources.getInteger(
-                R.integer.news_feed_detail_toolbar_bg_duration_milli) * animatorScale;
-        
-        mDebugTempDuration = mImageScaleAnimationDuration;
-    }
-
     private void fadeOutImageColorFilter() {
         int filterColor = mActivity.getFilterColor();
 
@@ -857,19 +875,19 @@ public class NewsFeedDetailTransitionUtils {
         int green = Color.green(filterColor);
         int blue = Color.blue(filterColor);
         int argb = Color.argb(Color.alpha(filterColor), red, green, blue);
-        ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimationDuration,
+        ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimDuration,
                 mImageAnimationStartOffset);
     }
 
     private void fadeOutThumbnailTexts() {
         mNewsTitleThumbnailTextView.animate()
                 .alpha(0.0f)
-                .setDuration(mThumbnailTextAnimationDuration)
+                .setDuration(mThumbnailTextAnimDuration)
                 .start();
 
         mNewsFeedTitleThumbnailTextView.animate()
                 .alpha(0.0f)
-                .setDuration(mThumbnailTextAnimationDuration)
+                .setDuration(mThumbnailTextAnimDuration)
                 .withEndAction(new Runnable() {
                     @Override
                     public void run() {
@@ -912,11 +930,11 @@ public class NewsFeedDetailTransitionUtils {
             return;
         }
         mTopGradientShadowView.animate()
-                .setDuration(mToolbarBgAnimationDuration)
+                .setDuration(mToolbarBgAnimDuration)
                 .alpha((Float) mTopGradientShadowView.getTag())
                 .setInterpolator(new DecelerateInterpolator());
         mToolbarOverlayView.animate()
-                .setDuration(mToolbarBgAnimationDuration)
+                .setDuration(mToolbarBgAnimDuration)
                 .alpha((Float) mToolbarOverlayView.getTag())
                 .setInterpolator(new DecelerateInterpolator());
     }
@@ -924,11 +942,11 @@ public class NewsFeedDetailTransitionUtils {
     private void fadeOutTopOverlay() {
         saveTopOverlayAlphaState();
         mTopGradientShadowView.animate()
-                .setDuration(mToolbarBgAnimationDuration)
+                .setDuration(mToolbarBgAnimDuration)
                 .alpha(0f)
                 .setInterpolator(new DecelerateInterpolator());
         mToolbarOverlayView.animate()
-                .setDuration(mToolbarBgAnimationDuration)
+                .setDuration(mToolbarBgAnimDuration)
                 .alpha(0f)
                 .setInterpolator(new DecelerateInterpolator());
     }
