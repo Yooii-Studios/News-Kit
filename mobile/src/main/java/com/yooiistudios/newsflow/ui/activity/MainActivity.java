@@ -168,6 +168,7 @@ public class MainActivity extends ActionBarActivity
             return;
         }
 
+        initImageLoader();
         init();
     }
 
@@ -179,7 +180,6 @@ public class MainActivity extends ActionBarActivity
         initRefreshLayout();
         initBannerAdView();
         initQuitAdView();
-        initImageLoader();
         mMainTopContainerLayout.init(this);
         mMainBottomContainerLayout.init(this);
         bringLoadingContainerToFront();

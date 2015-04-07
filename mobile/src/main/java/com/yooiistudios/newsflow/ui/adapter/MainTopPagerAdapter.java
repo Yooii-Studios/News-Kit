@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
+import com.yooiistudios.newsflow.ui.fragment.MainTopFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import java.util.ArrayList;
  */
 public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
-    private SparseArray<MainNewsFeedFragment> mFragmentSparseArray;
+    private SparseArray<MainTopFragment> mFragmentSparseArray;
     private NewsFeed mNewsFeed;
 
     public interface OnItemClickListener extends Serializable {
-        public void onTopItemClick(MainNewsFeedFragment.ItemViewHolder viewHolder,
+        public void onTopItemClick(MainTopFragment.ItemViewHolder viewHolder,
                                    NewsFeed newsFeed, int position);
     }
 
@@ -37,8 +37,8 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
 //        NLTopNewsFeedViewPagerItem item = new NLTopNewsFeedViewPagerItem();
-        MainNewsFeedFragment item =
-                MainNewsFeedFragment.newInstance(mNewsFeed,
+        MainTopFragment item =
+                MainTopFragment.newInstance(mNewsFeed,
                         mNewsFeed.getNewsList().get(i), i);
         mFragmentSparseArray.put(i, item);
 
@@ -56,7 +56,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
 
-        MainNewsFeedFragment frag = mFragmentSparseArray.get(position);
+        MainTopFragment frag = mFragmentSparseArray.get(position);
         if (frag != null) {
             frag.setRecycled(true);
         }
@@ -64,7 +64,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void notifyImageUrlLoaded(int position) {
-        MainNewsFeedFragment item = mFragmentSparseArray.get(position);
+        MainTopFragment item = mFragmentSparseArray.get(position);
         if (item != null) {
             item.applyImage();
         }
@@ -81,7 +81,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
         return mNewsFeed;
     }
 
-    public SparseArray<MainNewsFeedFragment> getFragmentSparseArray() {
+    public SparseArray<MainTopFragment> getFragmentSparseArray() {
         return mFragmentSparseArray;
     }
 

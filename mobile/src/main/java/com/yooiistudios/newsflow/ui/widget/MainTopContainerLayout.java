@@ -41,7 +41,7 @@ import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter;
 import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
-import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
+import com.yooiistudios.newsflow.ui.fragment.MainTopFragment;
 import com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager;
 import com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
@@ -585,7 +585,7 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     @Override
-    public void onTopItemClick(MainNewsFeedFragment.ItemViewHolder viewHolder, NewsFeed newsFeed, int position) {
+    public void onTopItemClick(MainTopFragment.ItemViewHolder viewHolder, NewsFeed newsFeed, int position) {
         if (!newsFeed.containsNews()) {
             return;
         }
@@ -613,7 +613,7 @@ public class MainTopContainerLayout extends FrameLayout
 //        return intent;
 //    }
 
-    private Intent putActivityTransitionInfo(Intent intent, MainNewsFeedFragment.ItemViewHolder viewHolder) {
+    private Intent putActivityTransitionInfo(Intent intent, MainTopFragment.ItemViewHolder viewHolder) {
         // ActivityOptions 를 사용하지 않고 액티비티 트랜지션을 오버라이드해서 직접 애니메이트 하기 위한 변수
         int titleViewPadding =
                 getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_title_padding);
