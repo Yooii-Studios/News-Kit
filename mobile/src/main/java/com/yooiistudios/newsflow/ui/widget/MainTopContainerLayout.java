@@ -512,8 +512,10 @@ public class MainTopContainerLayout extends FrameLayout
         Context context = getContext().getApplicationContext();
         boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
         if (!adPurchased) {
+            // indicator 간격 만큼 하단 띄우기 위함
+            int smallPadding = context.getResources().getDimensionPixelSize(R.dimen.base_margin_small);
             int adHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
-            setPadding(0, 0, 0, adHeight);
+            setPadding(0, 0, 0, adHeight + smallPadding);
         } else {
             setPadding(0, 0, 0, 0);
         }
