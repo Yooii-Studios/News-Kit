@@ -2,7 +2,7 @@
 <resources>
     <!-- General -->
     <string name="app_name">News Flow</string>
-    <string name="action_info">Info</string>
+    <string name="action_info">Infomation</string>
     <string name="action_settings">Settings</string>
     <string name="action_rate_app">Rate News Flow</string>
     <string name="action_facebook_like">Like us on Facebook</string>
