@@ -41,6 +41,7 @@ import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTr
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
@@ -760,6 +761,7 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
+            NLLog.now("fadeInRecyclerTitleAt: " + index);
         } catch(ChildNotFoundException ignored) {
         }
     }
@@ -771,6 +773,7 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
+            NLLog.now("fadeInRecyclerDescriptionAt: " + index);
         } catch(ChildNotFoundException ignored) {
         }
     }
@@ -824,16 +827,34 @@ public class NewsFeedDetailTransitionUtils {
         int offsetFromRecyclerTop = 0;
         for (int i = 0 ; i < childCount; i++) {
             Rect childRect = getRecyclerChildRect(i);
-            if (isRecyclerChildRectPartiallyOrFullyVisible(childRect)) {
+            if (isRecyclerChildRectInvisible(childRect)) {
                 break;
             }
             try {
-                putRecyclerChildTitleAndDescriptionAt(i, offsetFromRecyclerTop);
+                putRecyclerChildTitleAt(i, offsetFromRecyclerTop);
+            } catch (ChildNotFoundException e) {
+                break;
+            }
+            try {
+                putRecyclerChildDescriptionAt(i, offsetFromRecyclerTop);
             } catch (ChildNotFoundException e) {
                 break;
             }
 
             offsetFromRecyclerTop += childRect.height();
+        }
+
+        for (int i = 0; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
+            Rect rect = mRecyclerChildTitleLocalVisibleRects.get(i);
+            NLLog.now("Title index: " + i);
+            NLLog.now("Title rect: " + rect.toShortString());
+            NLLog.now("Title height: " + rect.height());
+        }
+        for (int i = 0; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
+            Rect rect = mRecyclerChildDescriptionLocalVisibleRects.get(i);
+            NLLog.now("Description index: " + i);
+            NLLog.now("Description rect: " + rect.toShortString());
+            NLLog.now("Description height: " + rect.height());
         }
     }
 
@@ -848,32 +869,41 @@ public class NewsFeedDetailTransitionUtils {
         );
     }
 
-    private boolean isRecyclerChildRectPartiallyOrFullyVisible(Rect childRect) {
+    private boolean isRecyclerChildRectInvisible(Rect childRect) {
         return childRect.top > mRecyclerGlobalVisibleRect.height();
     }
 
-    private void putRecyclerChildTitleAndDescriptionAt(int index, int offsetFromRecyclerTop) throws ChildNotFoundException {
+    private void putRecyclerChildTitleAt(int index, int offsetFromRecyclerTop) throws ChildNotFoundException {
         View title = getTitleViewFromRecyclerChildAt(index);
-        View description = getDescriptionViewFromRecyclerChildAt(index);
         Rect titleRect = new Rect(
                 title.getLeft(),
                 title.getTop() + offsetFromRecyclerTop,
                 title.getRight(),
                 title.getBottom() + offsetFromRecyclerTop
         );
+
+        if (isRecyclerChildRectInvisible(titleRect)) {
+            throw new ChildNotFoundException();
+        }
+        titleRect = adjustRectIfIntersectsWithRecyclerBottom(titleRect);
+        mRecyclerChildTitleLocalVisibleRects.add(titleRect);
+        mIsAnimatingRecyclerChildTitleArray.put(index, false);
+    }
+
+    private void putRecyclerChildDescriptionAt(int index, int offsetFromRecyclerTop) throws ChildNotFoundException {
+        View description = getDescriptionViewFromRecyclerChildAt(index);
         Rect descriptionRect = new Rect(
                 description.getLeft(),
                 description.getTop() + offsetFromRecyclerTop,
                 description.getRight(),
                 description.getBottom() + offsetFromRecyclerTop
         );
-        titleRect = adjustRectIfIntersectsWithRecyclerBottom(titleRect);
+
+        if (isRecyclerChildRectInvisible(descriptionRect)) {
+            throw new ChildNotFoundException();
+        }
         descriptionRect = adjustRectIfIntersectsWithRecyclerBottom(descriptionRect);
-
-        mRecyclerChildTitleLocalVisibleRects.add(titleRect);
         mRecyclerChildDescriptionLocalVisibleRects.add(descriptionRect);
-
-        mIsAnimatingRecyclerChildTitleArray.put(index, false);
         mIsAnimatingRecyclerChildDescriptionArray.put(index, false);
     }
 

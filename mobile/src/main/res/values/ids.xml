@@ -7,4 +7,5 @@
     <item name="action_select_topic" type="id"/>
     <item name="action_auto_scroll_setting_debug" type="id"/>
     <item name="action_auto_scroll" type="id"/>
+    <item name="news_feed_detail_recycler_view_height" type="id"/>
 </resources>
