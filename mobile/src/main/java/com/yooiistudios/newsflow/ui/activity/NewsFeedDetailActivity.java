@@ -61,7 +61,6 @@ import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.Settings;
@@ -662,9 +661,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (isFromTopNewsFeed()) {
             filterColor = PanelDecoration.getDefaultTopPaletteColor();
         } else {
-            if (paletteColor.hasValidVibrantColor()) {
+            if (paletteColor.hasValidPaletteColor()) {
                 filterColor = PanelDecoration.getPaletteColorWithAlpha(
-                        getApplicationContext(), paletteColor.getVibrantColor());
+                        getApplicationContext(), paletteColor.getPaletteColor());
             } else {
                 filterColor = PanelDecoration.getDefaultBottomPaletteColor(getApplicationContext());
             }

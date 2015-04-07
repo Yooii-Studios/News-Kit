@@ -59,7 +59,7 @@ public class NewsDbContract {
         public static final String TABLE_NAME = "palette_colors";
         public static final String COLUMN_NAME_FEED_POSITION = "news_feed_position";
         public static final String COLUMN_NAME_GUID = "guid";
-        public static final String COLUMN_NAME_COLOR_VIBRANT = "vibrant_color";
+        public static final String COLUMN_NAME_PALETTE_COLOR = "palette_color";
     }
 
 //    public static abstract class NewsContentTextEntry implements BaseColumns {

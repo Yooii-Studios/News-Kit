@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -305,17 +306,13 @@ public class MainBottomAdapter extends
 
         viewHolder.imageView.setImageBitmap(bitmap);
 
-        int vibrantColor = response.paletteColor.getVibrantColor();
-        if (response.paletteColor.hasValidVibrantColor()) {
-//            int red = Color.red(vibrantColor);
-//            int green = Color.green(vibrantColor);
-//            int blue = Color.blue(vibrantColor);
-//            int alpha = mContext.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
-
+        int vibrantColor = response.paletteColor.getPaletteColor();
+        if (response.paletteColor.hasValidPaletteColor()) {
             int filterColor = PanelDecoration.getPaletteColorWithAlpha(mContext, vibrantColor);
-            viewHolder.imageView.setColorFilter(filterColor);
+            viewHolder.imageView.setColorFilter(filterColor, PorterDuff.Mode.SRC_OVER);
         } else {
-            viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultBottomPaletteColor(mContext));
+            viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultBottomPaletteColor(mContext),
+                    PorterDuff.Mode.SRC_OVER); // SRC_OVER 를 통해 색을 더 반투명하게 넣을 수 있음(정확X)
         }
     }
 
