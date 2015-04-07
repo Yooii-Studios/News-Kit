@@ -33,7 +33,7 @@ import butterknife.InjectView;
  * MainNewsFeedFragment
  *  메인화면 상단의 뷰페이저에 들어갈 프레그먼트
  */
-public class MainNewsFeedFragment extends Fragment {
+public class MainTopFragment extends Fragment {
     private static final String KEY_NEWS_FEED = "KEY_NEWS_FEED";
     private static final String KEY_NEWS = "KEY_CURRENT_NEWS_INDEX";
     private static final String KEY_POSITION = "KEY_TAB_INDEX";
@@ -45,8 +45,8 @@ public class MainNewsFeedFragment extends Fragment {
     private int mPosition;
     private boolean mRecycled;
 
-    public static MainNewsFeedFragment newInstance(NewsFeed newsFeed, News news, int position) {
-        MainNewsFeedFragment f = new MainNewsFeedFragment();
+    public static MainTopFragment newInstance(NewsFeed newsFeed, News news, int position) {
+        MainTopFragment f = new MainTopFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -59,7 +59,7 @@ public class MainNewsFeedFragment extends Fragment {
     }
     
     @SuppressWarnings("UnusedDeclaration")
-    public MainNewsFeedFragment() {}
+    public MainTopFragment() {}
 
     @Override
     public void onAttach(Activity activity) {

@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.ui.adapter.MainTopPagerAdapter;
-import com.yooiistudios.newsflow.ui.fragment.MainNewsFeedFragment;
+import com.yooiistudios.newsflow.ui.fragment.MainTopFragment;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 2014. 9. 26.
@@ -55,8 +55,8 @@ public class MainTopViewPager extends ViewPager {
 
         // 프래그먼트를 꺼내어 이미지뷰 얻기
         MainTopPagerAdapter adapter = (MainTopPagerAdapter) getAdapter();
-        MainNewsFeedFragment currentFragment = adapter.getFragmentSparseArray().get(currentPageIndex);
-        MainNewsFeedFragment nextFragment;
+        MainTopFragment currentFragment = adapter.getFragmentSparseArray().get(currentPageIndex);
+        MainTopFragment nextFragment;
 
         // 중요: nextFragment
         // 미리 어느 정도 이미지를 움직여 놓고 그곳에서 천천이 다시 오른쪽으로 들어와서 최종적으로 딱 맞게 한다
