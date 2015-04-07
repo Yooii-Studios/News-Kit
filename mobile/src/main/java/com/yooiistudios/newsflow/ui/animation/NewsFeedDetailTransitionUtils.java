@@ -122,6 +122,8 @@ public class NewsFeedDetailTransitionUtils {
     private View mTopGradientShadowView;
     private View mRevealView;
 
+    private int mRevealTargetRadius;
+
     // Top
     private FrameLayout mTopNewsImageWrapper;
     private ImageView mTopImageView;
@@ -376,9 +378,11 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void transitImageWrapper() {
-        ObjectAnimator imageWrapperRectAnimator = ObjectAnimator.ofObject(
-                this, "imageWrapperRect", new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
-        imageWrapperRectAnimator.setStartDelay(mImageAnimationStartOffset);
+        ObjectAnimator imageWrapperRectAnimator = ObjectAnimator.ofObject(this, "imageWrapperRect",
+                new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
+
+        double radiusRatio = getRevealTargetRadius() / getRevealRadiusFromDeviceCenter();
+        imageWrapperRectAnimator.setStartDelay((long) (mImageAnimationStartOffset * radiusRatio));
         imageWrapperRectAnimator.setDuration(mImageTranslationAnimDuration);
         imageWrapperRectAnimator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         imageWrapperRectAnimator.addListener(new AnimatorListenerAdapter() {
@@ -397,7 +401,9 @@ public class NewsFeedDetailTransitionUtils {
     private void scaleTopNewsTextLayoutHeight() {
         ObjectAnimator animator = ObjectAnimator.ofInt(
                 this, "TopTextLayoutHeight", 0, mTopTextLayoutLocalVisibleRect.height());
-        animator.setStartDelay(mRecyclerHeightAnimStartDelay);
+
+        double radiusRatio = getRevealTargetRadius() / getRevealRadiusFromDeviceCenter();
+        animator.setStartDelay((long) (mRecyclerHeightAnimStartDelay * radiusRatio));
         animator.setDuration(mRecyclerHeightAnimDuration);
         animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.addListener(new AnimatorListenerImpl() {
@@ -414,7 +420,9 @@ public class NewsFeedDetailTransitionUtils {
     private void scaleRecyclerHeight() {
         ObjectAnimator animator = ObjectAnimator.ofInt(
                 this, "recyclerViewHeight", 0, mRecyclerGlobalVisibleRect.height());
-        animator.setStartDelay(mRecyclerHeightAnimStartDelay);
+
+        double radiusRatio = getRevealTargetRadius() / getRevealRadiusFromDeviceCenter();
+        animator.setStartDelay((long) (mRecyclerHeightAnimStartDelay * radiusRatio));
         animator.setDuration(mRecyclerHeightAnimDuration);
         animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.addListener(new AnimatorListenerImpl() {
@@ -465,10 +473,14 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private int getRevealTargetRadius() {
-        return getFarthestLengthFromRevealCenterToRevealCorner();
+        return calculateFarthestLengthFromRevealCenterToRevealCorner();
     }
 
-    private int getFarthestLengthFromRevealCenterToRevealCorner() {
+    private int calculateFarthestLengthFromRevealCenterToRevealCorner() {
+        if (mRevealTargetRadius != 0) {
+            return mRevealTargetRadius;
+        }
+
         Point center = getRevealCenter();
         int distanceToRevealViewLeft = center.x - mRevealView.getLeft();
         int distanceToRevealViewTop = center.y - mRevealView.getTop();
@@ -476,17 +488,23 @@ public class NewsFeedDetailTransitionUtils {
         int distanceToRevealViewBottom = mRevealView.getBottom() - center.y;
 
         int distanceToRevealLeftTop =
-                (int)Math.hypot(distanceToRevealViewLeft, distanceToRevealViewTop);
+                (int) Math.hypot(distanceToRevealViewLeft, distanceToRevealViewTop);
         int distanceToRevealRightTop =
-                (int)Math.hypot(distanceToRevealViewRight, distanceToRevealViewTop);
+                (int) Math.hypot(distanceToRevealViewRight, distanceToRevealViewTop);
         int distanceToRevealRightBottom =
-                (int)Math.hypot(distanceToRevealViewRight, distanceToRevealViewBottom);
+                (int) Math.hypot(distanceToRevealViewRight, distanceToRevealViewBottom);
         int distanceToRevealLeftBottom =
-                (int)Math.hypot(distanceToRevealViewLeft, distanceToRevealViewBottom);
+                (int) Math.hypot(distanceToRevealViewLeft, distanceToRevealViewBottom);
 
-        return IntegerMath.getLargestInteger(distanceToRevealLeftTop,
-                distanceToRevealRightTop,
-                distanceToRevealRightBottom, distanceToRevealLeftBottom);
+        mRevealTargetRadius = IntegerMath.getLargestInteger(distanceToRevealLeftTop,
+                distanceToRevealRightTop, distanceToRevealRightBottom, distanceToRevealLeftBottom);
+
+        return mRevealTargetRadius;
+    }
+
+    private double getRevealRadiusFromDeviceCenter() {
+        Point displaySize = Display.getDisplaySize(mActivity);
+        return (Math.hypot(displaySize.x, displaySize.y) / 2);
     }
 
     @SuppressWarnings("UnusedDeclaration")
