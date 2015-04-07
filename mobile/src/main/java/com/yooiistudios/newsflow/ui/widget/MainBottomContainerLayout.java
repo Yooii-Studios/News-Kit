@@ -451,10 +451,12 @@ public class MainBottomContainerLayout extends FrameLayout
 
         if (Device.isPortrait(getContext())) {
             layoutManager.setSpanCount(COLUMN_COUNT_PORTRAIT);
+            mBottomNewsFeedRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.PORTRAIT);
         } else if (Device.isLandscape(getContext())) {
             layoutManager.setSpanCount(COLUMN_COUNT_LANDSCAPE);
+            mBottomNewsFeedRecyclerView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
 
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);
         }
