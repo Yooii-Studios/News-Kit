@@ -28,6 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
@@ -111,7 +112,8 @@ public class MainActivity extends ActionBarActivity
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
-    private AdView mQuitAdView;
+    private AdView mQuitMediumAdView;
+    private AdView mQuitLargeBannerAdView;
 
     private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
 
@@ -321,7 +323,10 @@ public class MainActivity extends ActionBarActivity
     private void initQuitAdView() {
         // make AdView earlier for showing ad fast in the quit dialog
         mQuitAdRequest = new AdRequest.Builder().build();
-        mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
+        mQuitMediumAdView = AdDialogFactory.initAdView(this, AdSize.MEDIUM_RECTANGLE,
+                AdDialogFactory.AD_UNIT_ID_PORT, mQuitAdRequest);
+        mQuitLargeBannerAdView = AdDialogFactory.initAdView(this, AdSize.LARGE_BANNER,
+                AdDialogFactory.AD_UNIT_ID_LAND ,mQuitAdRequest);
     }
 
     private void configOnSystemInsetChanged() {
@@ -345,7 +350,7 @@ public class MainActivity extends ActionBarActivity
             mBannerAd.show();
 
             mBannerAd.resume();
-            mQuitAdView.resume();
+            mQuitLargeBannerAdView.resume();
         }
     }
 
@@ -434,7 +439,7 @@ public class MainActivity extends ActionBarActivity
     protected void onPause() {
         if (mRootLayout != null) {
             mBannerAd.pause();
-            mQuitAdView.pause();
+            mQuitLargeBannerAdView.pause();
             stopNewsAutoRefresh();
             mImageLoader.flushCache();
         }
@@ -854,16 +859,18 @@ public class MainActivity extends ActionBarActivity
     public void onBackPressed() {
         if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode()) {
             hideEditLayout();
-        }
-        else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
+        } else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
                 && mRootLayout != null) {
-            AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this, mQuitAdView);
+            AlertDialog adDialog = AdDialogFactory.makeAdDialog(MainActivity.this,
+                    mQuitMediumAdView, mQuitLargeBannerAdView);
             if (adDialog != null) {
                 adDialog.show();
                 // make AdView again for next quit dialog
                 // prevent child reference
-                mQuitAdView = AdDialogFactory.initAdView(this, mQuitAdRequest);
+                // 가로 모드는 7.5% 가량 사용하고 있기에 속도를 위해서 광고를 계속 불러오지 않음
+                mQuitMediumAdView = AdDialogFactory.initAdView(this, AdSize.MEDIUM_RECTANGLE,
+                        AdDialogFactory.AD_UNIT_ID_PORT, mQuitAdRequest);
             } else {
                 // just finish activity when dialog is null
                 super.onBackPressed();
