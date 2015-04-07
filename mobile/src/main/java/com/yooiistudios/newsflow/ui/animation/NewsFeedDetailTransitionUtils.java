@@ -629,7 +629,7 @@ public class NewsFeedDetailTransitionUtils {
 
     private void animateRecyclerChildIfSizeSufficient() {
         for (int i = 0 ; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-            if (isReadyToAnimateRecyclerTitleAt(i)) {
+            if (shouldPrepareToAnimateRecyclerTitleAt(i)) {
                 prepareRecyclerTitleAt(i);
             }
             if (isReadyToAnimateRecyclerChildTitleAt(i)) {
@@ -637,7 +637,7 @@ public class NewsFeedDetailTransitionUtils {
             }
         }
         for (int i = 0 ; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-            if (isReadyToAnimateRecyclerDescriptionAt(i)) {
+            if (shouldPrepareToAnimateRecyclerDescriptionAt(i)) {
                 prepareRecyclerDescriptionAt(i);
             }
             if (isReadyToAnimateRecyclerChildDescriptionAt(i)) {
@@ -646,12 +646,12 @@ public class NewsFeedDetailTransitionUtils {
         }
     }
 
-    private boolean isReadyToAnimateRecyclerTitleAt(int index) {
+    private boolean shouldPrepareToAnimateRecyclerTitleAt(int index) {
         return !isAnimatingRecyclerTitleAt(index)
                 && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerTitleRect(index));
     }
 
-    private boolean isReadyToAnimateRecyclerDescriptionAt(int i) {
+    private boolean shouldPrepareToAnimateRecyclerDescriptionAt(int i) {
         return !isAnimatingRecyclerDescriptionAt(i)
                 && isRectPartiallyVisibleInAnimatingRecyclerView(getRecyclerDescriptionRect(i));
     }
@@ -761,7 +761,12 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
+
             NLLog.now("fadeInRecyclerTitleAt: " + index);
+            if (index == mRecyclerChildTitleLocalVisibleRects.size() - 1
+                    && index == mRecyclerChildDescriptionLocalVisibleRects.size()) {
+                NLLog.now("Last title.");
+            }
         } catch(ChildNotFoundException ignored) {
         }
     }
@@ -773,7 +778,12 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
+
             NLLog.now("fadeInRecyclerDescriptionAt: " + index);
+            if (index == mRecyclerChildTitleLocalVisibleRects.size() - 1
+                    && index == mRecyclerChildDescriptionLocalVisibleRects.size() - 1) {
+                NLLog.now("Last description.");
+            }
         } catch(ChildNotFoundException ignored) {
         }
     }
