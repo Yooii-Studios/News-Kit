@@ -42,9 +42,11 @@ public class NotificationUtils {
 
     private static NotificationCompat.Builder createNotificationBuilder(Context context) {
         Resources resources = context.getResources();
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setColor(context.getResources().getColor(R.color.app_color_accent))
+                        .setSmallIcon(R.drawable.ic_notification_24dp)
                         .setContentTitle(resources.getString(R.string.notification_title))
                         .setContentText(resources.getString(R.string.notification_description))
                         .setAutoCancel(true);
