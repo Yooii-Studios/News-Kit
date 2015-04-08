@@ -21,11 +21,15 @@
     <style name="MainTopTitleTextBase">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/base_margin</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">2</item>
         <item name="android:gravity">start</item>
         <item name="android:padding">@dimen/main_top_view_pager_title_padding</item>
         <item name="android:textColor">@android:color/white</item>
+
+        <!-- For testing layout -->
+        <!--<item name="android:background">@color/material_orange_200</item>-->
     </style>
 
     <style name="MainTopTitleText" parent="MainTopTitleTextBase">
