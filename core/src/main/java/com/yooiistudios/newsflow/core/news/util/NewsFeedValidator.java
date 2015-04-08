@@ -45,6 +45,21 @@ public class NewsFeedValidator {
         return true;
     }
 
+    public static boolean containsNewsFeedToFetch(ArrayList<NewsFeed> newsFeeds) {
+        int count = newsFeeds.size();
+        for (int i = 0; i < count; i++) {
+            NewsFeed newsFeed = newsFeeds.get(i);
+            NewsFeedFetchState state = newsFeed.getNewsFeedFetchState();
+            if (state.equals(NewsFeedFetchState.NOT_FETCHED_YET)
+                    || state.equals(NewsFeedFetchState.ERROR_TIMEOUT)
+                    || state.equals(NewsFeedFetchState.ERROR_UNKNOWN)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean isAllFetched(ArrayList<NewsFeed> newsFeeds) {
         int count = newsFeeds.size();
         for (int i = 0; i < count; i++) {
