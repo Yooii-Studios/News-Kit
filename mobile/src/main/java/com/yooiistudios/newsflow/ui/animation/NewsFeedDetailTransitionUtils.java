@@ -143,12 +143,17 @@ public class NewsFeedDetailTransitionUtils {
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mToolbarTitleColorSpan;
 
+    private boolean mIsAnimating;
+
     private NewsFeedDetailTransitionUtils(NewsFeedDetailActivity activity) {
         initViewsAndVariables(activity);
     }
 
-    public static void runEnterAnimation(NewsFeedDetailActivity activity) {
-        new NewsFeedDetailTransitionUtils(activity).requestActivityTransition();
+    public static NewsFeedDetailTransitionUtils runEnterAnimation(NewsFeedDetailActivity activity) {
+        NewsFeedDetailTransitionUtils animator = new NewsFeedDetailTransitionUtils(activity);
+        animator.requestActivityTransition();
+
+        return animator;
     }
 
     public static void animateTopOverlayFadeOut(NewsFeedDetailActivity activity) {
@@ -157,6 +162,10 @@ public class NewsFeedDetailTransitionUtils {
 
     public static void animateTopOverlayFadeIn(NewsFeedDetailActivity activity) {
         new NewsFeedDetailTransitionUtils(activity).fadeInTopOverlay();
+    }
+
+    public boolean isAnimating() {
+        return mIsAnimating;
     }
 
     private void requestActivityTransition() {
@@ -170,6 +179,7 @@ public class NewsFeedDetailTransitionUtils {
             public boolean onPreDraw() {
                 mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
+                mIsAnimating = true;
                 initTransitionVariablesAfterViewLocationFix();
                 prepareViewPropertiesBeforeTransition();
 
@@ -770,6 +780,7 @@ public class NewsFeedDetailTransitionUtils {
                     @Override
                     public void run() {
                         NLLog.now("Last title:" + index);
+                        mIsAnimating = false;
                         mListener.onTransitionEnd();
                     }
                 });
@@ -792,6 +803,7 @@ public class NewsFeedDetailTransitionUtils {
                     @Override
                     public void run() {
                         NLLog.now("Last description:" + index);
+                        mIsAnimating = false;
                         mListener.onTransitionEnd();
                     }
                 });

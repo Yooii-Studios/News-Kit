@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -150,6 +151,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private BitmapDrawable mToolbarOverflowIcon;
     @Getter private SpannableString mToolbarTitle;
     @Getter private AlphaForegroundColorSpan mToolbarTitleColorSpan;
+    private NewsFeedDetailTransitionUtils mTransitionUtils;
 
     private NewsFeedDetailNewsFeedFetchTask mNewsFeedFetchTask;
     private NewsFeedDetailNewsImageUrlFetchTask mTopNewsImageFetchTask;
@@ -187,7 +189,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         // we're recreated automatically by the window manager (e.g., device rotation)
         if (savedInstanceState == null) {
             if (mTopImageView.getDrawable() != null) {
-                NewsFeedDetailTransitionUtils.runEnterAnimation(this);
+                mTransitionUtils = NewsFeedDetailTransitionUtils.runEnterAnimation(this);
             } else {
                 showLoadingCover();
             }
@@ -1030,5 +1032,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
+        boolean isAnimating = mTransitionUtils != null && mTransitionUtils.isAnimating();
+        return isAnimating || super.dispatchTouchEvent(event);
     }
 }
