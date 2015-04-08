@@ -541,8 +541,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
 
         int newsListCount = mNewsFeed.getNewsList().size();
-        mBottomRecyclerView.getLayoutParams().height =
-                maxRowHeight * newsListCount;
+        ViewGroup.LayoutParams lp = mBottomRecyclerView.getLayoutParams();
+        lp.height = maxRowHeight * newsListCount;
+        mBottomRecyclerView.setLayoutParams(lp);
     }
 
     private void notifyTopNewsChanged() {
@@ -967,8 +968,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 "Back Button");
     }
 
+//    @Override
+//    public void onRecyclerScaleAnimationEnd() {
+//        adjustBottomRecyclerHeight();
+//        startScrollIfAutoScrollOn();
+//    }
+
     @Override
-    public void onRecyclerScaleAnimationEnd() {
+    public void onTransitionEnd() {
         adjustBottomRecyclerHeight();
         startScrollIfAutoScrollOn();
     }
