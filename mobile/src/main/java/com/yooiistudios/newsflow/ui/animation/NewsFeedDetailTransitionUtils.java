@@ -344,12 +344,19 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void addThumbnailTextViews() {
-        mNewsTitleThumbnailTextView = (TextView) LayoutInflater.from(mActivity)
-                .inflate(R.layout.main_bottom_title_textview, null);
-
-        mNewsFeedTitleThumbnailTextView = (TextView) LayoutInflater.from(mActivity)
-                .inflate(R.layout.main_bottom_newsfeed_title_textview, null);
-
+        if (mActivity.isFromTopNewsFeed()) {
+            // 탑에서 불렸을 때
+            mNewsTitleThumbnailTextView = (TextView) LayoutInflater.from(mActivity)
+                    .inflate(R.layout.main_top_title_textview, null);
+            mNewsFeedTitleThumbnailTextView = (TextView) LayoutInflater.from(mActivity)
+                    .inflate(R.layout.main_top_newsfeed_title_textview, null);
+        } else {
+            // 바텀에서 불렸을 때
+            mNewsTitleThumbnailTextView = (TextView) LayoutInflater.from(mActivity)
+                    .inflate(R.layout.main_bottom_title_textview, null);
+            mNewsFeedTitleThumbnailTextView = (TextView) LayoutInflater.from(mActivity)
+                    .inflate(R.layout.main_bottom_newsfeed_title_textview, null);
+        }
         addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
         addThumbnailTextView(mNewsFeedTitleThumbnailTextView, mTransFeedTitleViewProperty);
     }

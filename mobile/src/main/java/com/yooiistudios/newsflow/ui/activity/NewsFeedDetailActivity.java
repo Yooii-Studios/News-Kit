@@ -694,7 +694,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         applyPalette();
     }
 
-    private boolean isFromTopNewsFeed() {
+    public boolean isFromTopNewsFeed() {
         String newsLocation = getIntent().getExtras().getString(
                 MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
 
