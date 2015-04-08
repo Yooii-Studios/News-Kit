@@ -222,7 +222,8 @@ public class MainBottomAdapter extends
         viewHolder.progressBar.setVisibility(View.GONE);
 
         PanelDecoration.applySmallDummyNewsImageInto(mContext, mImageLoader, viewHolder.imageView);
-        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomDummyImageFilterColor(mContext));
+        viewHolder.imageView.setColorFilter(PanelDecoration.getBottomDummyImageFilterColor(mContext),
+                PorterDuff.Mode.SRC_OVER);
     }
 
     private void showErrorStatus(BottomNewsFeedViewHolder viewHolder, int position) {

@@ -166,21 +166,27 @@ public class PanelDecoration {
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);
-        int alpha = context.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+        int alpha = context.getResources().getInteger(R.integer.palette_color_alpha);
         return Color.argb(alpha, red, green, blue);
     }
 
     public static int getDefaultBottomPaletteColor(Context context) {
-        int grayColor = context.getResources().getColor(R.color.material_blue_grey_500);
+        int grayColor = context.getResources().getColor(R.color.material_light_blue_900);
         int red = Color.red(grayColor);
         int green = Color.green(grayColor);
         int blue = Color.blue(grayColor);
-        int alpha = context.getResources().getInteger(R.integer.vibrant_color_tint_alpha);
+        int alpha = context.getResources().getInteger(R.integer.bottom_default_palette_color_alpha);
         return Color.argb(alpha, red, green, blue);
     }
 
     public static int getBottomDummyImageFilterColor(Context context) {
-        return getDefaultBottomPaletteColor(context);
+        int grayColor = context.getResources().getColor(R.color.material_brown_700);
+        int red = Color.red(grayColor);
+        int green = Color.green(grayColor);
+        int blue = Color.blue(grayColor);
+        int alpha = context.getResources().getInteger(R.integer.bottom_dummy_palette_color_alpha);
+//        int alpha = context.getResources().getInteger(R.integer.palette_color_alpha);
+        return Color.argb(alpha, red, green, blue);
     }
 
 //    public static int getMainBottomDefaultBackgroundColor() {

@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -166,7 +167,9 @@ public class MainTopFragment extends Fragment {
 
                             if (response.bitmap != null && viewHolder.imageView != null) {
                                 viewHolder.imageView.setImageBitmap(response.bitmap);
-                                viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultTopPaletteColor());
+                                viewHolder.imageView.setColorFilter(
+                                        PanelDecoration.getDefaultTopPaletteColor(),
+                                        PorterDuff.Mode.SRC_OVER);
 //                        viewHolder.imageView.setTag(TintType.GRAY_SCALE_TOP);
                             }
                         }
@@ -197,7 +200,8 @@ public class MainTopFragment extends Fragment {
                             }
                         }
                     });
-            viewHolder.imageView.setColorFilter(PanelDecoration.getTopDummyImageFilterColor());
+            viewHolder.imageView.setColorFilter(PanelDecoration.getTopDummyImageFilterColor(),
+                    PorterDuff.Mode.SRC_OVER);
 //            viewHolder.imageView.setTag(TintType.DUMMY_TOP);
 
             viewHolder.progressBar.setVisibility(View.GONE);
