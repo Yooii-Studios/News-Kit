@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.ads.AdSize;
@@ -200,16 +199,23 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void adjustSize() {
-        ViewGroup.LayoutParams recyclerViewLp = mBottomNewsFeedRecyclerView.getLayoutParams();
+        LayoutParams recyclerViewParams = (LayoutParams) mBottomNewsFeedRecyclerView.getLayoutParams();
         Context context = getContext().getApplicationContext();
+
+        // 우상하단 간격을 딱 맞추기 위함
+        int margin = context.getResources().getDimensionPixelSize(
+                R.dimen.main_bottom_margin_small);
+
         if (Device.isPortrait(getContext())) {
             // 메인 하단의 뉴스피드 RecyclerView 의 높이를 set
-            recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnPortrait(context,
+            recyclerViewParams.height = MainBottomItemLayout.measureMaximumHeightOnPortrait(context,
                     mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
             mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, 0);
+
+            recyclerViewParams.setMargins(margin, margin, margin, margin);
         } else {
-            recyclerViewLp.height = MainBottomItemLayout.measureMaximumHeightOnLandscape(context,
-                    recyclerViewLp);
+            recyclerViewParams.height = MainBottomItemLayout.measureMaximumHeightOnLandscape(context,
+                    recyclerViewParams);
 
             boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
             if (!adPurchased) {
@@ -218,9 +224,12 @@ public class MainBottomContainerLayout extends FrameLayout
             } else {
                 mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, 0);
             }
-        }
 
-        mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewLp);
+            recyclerViewParams.topMargin = -margin * 2;
+            recyclerViewParams.rightMargin = -margin * 2;
+            recyclerViewParams.bottomMargin = -margin * 2;
+        }
+        mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewParams);
     }
 
     private void initAnimator() {

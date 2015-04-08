@@ -2,7 +2,7 @@
     <!-- BaseStyle 들은 폰, 태블릿 둘 다 지원 위함 -->
     <!-- Main -->
     <!-- Top -->
-    <style name="MainTopTitleTextBaseStyle">
+    <style name="MainTopTitleTextBase">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
@@ -12,13 +12,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="MainTopTitleTextStyle" parent="MainTopTitleTextBaseStyle">
+    <style name="MainTopTitleText" parent="MainTopTitleTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
         <!--<item name="android:textSize">26sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
-    <style name="MainBottomItemTextBaseStyle">
+    <style name="MainBottomItemTextBase">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -27,13 +27,13 @@
         <item name="android:textColor">@color/material_white_primary_text</item>
     </style>
 
-    <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
+    <style name="MainBottomItemTitleText" parent="MainBottomItemTextBase">
         <!--<item name="android:textStyle">bold</item>-->
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:textSize">19sp</item>
     </style>
 
-    <style name="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainNewsFeedTitleTextBase">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">right|bottom</item>
@@ -44,21 +44,21 @@
         <item name="android:textColor">@color/material_white_primary_text</item>
     </style>
 
-    <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainTopItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
         <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:textSize">@dimen/text_size_body_1_material</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
-    <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
+    <style name="MainBottomItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
         <item name="android:textSize">@dimen/main_newsfeed_title_text_size</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <!-- Detail -->
-    <style name="NewsFeedDetailTitleStyle">
+    <style name="NewsFeedDetailTitle">
         <item name="android:paddingTop">@dimen/detail_text_padding</item>
         <item name="android:paddingLeft">@dimen/detail_text_padding</item>
         <item name="android:paddingRight">@dimen/detail_text_padding</item>
@@ -69,7 +69,7 @@
         <item name="android:text">U.S. Weighs Military Action Against ISIS in Syria</item>
     </style>
 
-    <style name="NewsFeedDetailDescriptionStyle">
+    <style name="NewsFeedDetailDescription">
         <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
         <item name="android:paddingLeft">@dimen/detail_text_padding</item>
         <item name="android:paddingRight">@dimen/detail_text_padding</item>
@@ -83,7 +83,7 @@
     </style>
 
     <!-- Debug -->
-    <style name="AutoScrollSettingDialogEditTextStyle" >
+    <style name="AutoScrollSettingDialogEditText" >
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
         <item name="android:layout_weight">1</item>
@@ -95,7 +95,7 @@
     </style>
 
     <!-- Debug -->
-    <style name="BezierDialogEditTextStyle" >
+    <style name="BezierDialogEditText" >
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
         <item name="android:layout_weight">1</item>
@@ -103,5 +103,4 @@
         <item name="android:selectAllOnFocus">true</item>
         <item name="android:imeOptions">actionNext</item>
     </style>
-
 </resources>

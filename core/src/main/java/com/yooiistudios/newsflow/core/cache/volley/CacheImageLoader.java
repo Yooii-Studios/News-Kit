@@ -213,12 +213,12 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
-                    final int vibrantColor = palette.getVibrantColor(
+                    final int darkVibrantColor = palette.getDarkVibrantColor(
                             PaletteColor.FALLBACK_COLOR);
                     PaletteColor paletteColor
-                            = new PaletteColor(vibrantColor);
+                            = new PaletteColor(darkVibrantColor);
                     savePaletteColor(urlSupplier, paletteColor);
-//                    NewsDb.getInstance(mContext).savePaletteColor(url, paletteColor);
+//                    NewsDb.getInstance(mContext).savePaletteColor(url, filterColor);
                     listener.onSuccess(paletteColor);
                 }
             });
@@ -342,29 +342,29 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         public static final int STATUS_FETCHED = 0;
         public static final int STATUS_NOT_FETCHED = 1;
 
-        private final int mVibrantColor;
+        private final int mPaletteColor;
         private final boolean mIsFetched;
 
-        public PaletteColor(int vibrantColor) {
-            mVibrantColor = vibrantColor;
+        public PaletteColor(int paletteColor) {
+            mPaletteColor = paletteColor;
             mIsFetched = true;
         }
 
-        private PaletteColor(int vibrantColor, boolean isFetched) {
-            mVibrantColor = vibrantColor;
+        private PaletteColor(int paletteColor, boolean isFetched) {
+            mPaletteColor = paletteColor;
             mIsFetched = isFetched;
         }
 
-        public int getVibrantColor() {
-            return mVibrantColor;
+        public int getPaletteColor() {
+            return mPaletteColor;
         }
 
         public boolean isFetched() {
             return mIsFetched;
         }
 
-        public boolean hasValidVibrantColor() {
-            return mVibrantColor != PaletteColor.FALLBACK_COLOR;
+        public boolean hasValidPaletteColor() {
+            return mPaletteColor != PaletteColor.FALLBACK_COLOR;
         }
 
         public static PaletteColor createDefault() {

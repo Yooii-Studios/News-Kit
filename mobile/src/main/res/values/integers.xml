@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="vibrant_color_tint_alpha">200</integer>
+    <integer name="vibrant_color_tint_alpha">170</integer>
     <integer name="news_feed_detail_title_max_line">2</integer>
     <integer name="news_feed_detail_description_text_max_line">3</integer>
 </resources>

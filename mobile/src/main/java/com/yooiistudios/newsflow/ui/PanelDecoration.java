@@ -183,9 +183,9 @@ public class PanelDecoration {
         return getDefaultBottomPaletteColor(context);
     }
 
-    public static int getMainBottomDefaultBackgroundColor() {
-        return Color.argb(200, 16, 16, 16);
-    }
+//    public static int getMainBottomDefaultBackgroundColor() {
+//        return Color.argb(200, 16, 16, 16);
+//    }
 
     private static abstract class DecodeResourceAsync extends AsyncTask<Void, Void, Bitmap> {
         private OnLoadBitmapListener mListener;

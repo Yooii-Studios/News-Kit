@@ -267,7 +267,7 @@ public class NewsDb {
         ContentValues colorValues = new ContentValues();
         colorValues.put(PaletteColorEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
         colorValues.put(PaletteColorEntry.COLUMN_NAME_GUID, guid);
-        colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, paletteColor.getVibrantColor());
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_PALETTE_COLOR, paletteColor.getPaletteColor());
 
         mDatabase.delete(PaletteColorEntry.TABLE_NAME,
                 PaletteColorEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
@@ -279,7 +279,7 @@ public class NewsDb {
 //    public void savePaletteColorInternal(String url, CacheImageLoader.PaletteColor paletteColor) {
 //        ContentValues colorValues = new ContentValues();
 //        colorValues.put(PaletteColorEntry.COLUMN_NAME_IMAGE_URL, url);
-//        colorValues.put(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT, paletteColor.getVibrantColor());
+//        colorValues.put(PaletteColorEntry.COLUMN_NAME_PALETTE_COLOR, paletteColor.getPaletteColor());
 //        colorValues.put(PaletteColorEntry.COLUMN_NAME_IS_FETCHED, paletteColor.isFetched() ? 0 : 1);
 //
 //        mDatabase.delete(PaletteColorEntry.TABLE_NAME,
@@ -315,10 +315,10 @@ public class NewsDb {
         CacheImageLoader.PaletteColor paletteColor;
         if (!colorsCursor.isAfterLast()) {
             boolean isFetched = !colorsCursor.isNull(colorsCursor.getColumnIndex(PaletteColorEntry
-                    .COLUMN_NAME_COLOR_VIBRANT));
+                    .COLUMN_NAME_PALETTE_COLOR));
             if (isFetched) {
                 int vibrantColor = colorsCursor.getInt(
-                        colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_COLOR_VIBRANT));
+                        colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_PALETTE_COLOR));
                 paletteColor = new CacheImageLoader.PaletteColor(vibrantColor);
             } else {
                 paletteColor = CacheImageLoader.PaletteColor.createDefault();
