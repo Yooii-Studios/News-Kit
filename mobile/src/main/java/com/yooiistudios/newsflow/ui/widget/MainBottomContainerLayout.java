@@ -171,7 +171,7 @@ public class MainBottomContainerLayout extends FrameLayout
                     BottomNewsFeedFetchTask.TASK_INITIALIZE);
         } else {
             ArrayList<NewsFeed> newsFeeds = mBottomNewsFeedAdapter.getNewsFeedList();
-            if (NewsFeedValidator.isAllFetched(newsFeeds)) {
+            if (!NewsFeedValidator.containsNewsFeedToFetch(newsFeeds)) {
                 notifyOnInitialized();
             } else {
                 ArrayList<Pair<NewsFeed, Integer>> newsFeedListToFetch =
