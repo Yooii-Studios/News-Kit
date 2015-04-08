@@ -23,6 +23,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -61,7 +62,8 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRAN
  */
 public class NewsFeedDetailTransitionUtils {
     public interface OnAnimationEndListener {
-        void onRecyclerScaleAnimationEnd();
+//        void onRecyclerScaleAnimationEnd();
+        void onTransitionEnd();
     }
 
     private static final String SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION
@@ -437,7 +439,7 @@ public class NewsFeedDetailTransitionUtils {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 showRootBackground();
-                mListener.onRecyclerScaleAnimationEnd();
+//                mListener.onRecyclerScaleAnimationEnd();
             }
         });
 
@@ -754,38 +756,58 @@ public class NewsFeedDetailTransitionUtils {
                 && Rect.intersects(mRecyclerAnimatingLocalVisibleRect, rectToInspect);
     }
 
-    private void fadeInRecyclerTitleAt(int index) {
+    private void fadeInRecyclerTitleAt(final int index) {
         try {
             View viewToAnimate = getTitleViewFromRecyclerChildAt(index);
-            viewToAnimate.animate()
+            ViewPropertyAnimator animator = viewToAnimate.animate()
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
+            if (isLastRecyclerTitle(index)) {
+                animator.withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        NLLog.now("Last title:" + index);
+                        mListener.onTransitionEnd();
+                    }
+                });
+            }
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
 
             NLLog.now("fadeInRecyclerTitleAt: " + index);
-            if (index == mRecyclerChildTitleLocalVisibleRects.size() - 1
-                    && index == mRecyclerChildDescriptionLocalVisibleRects.size()) {
-                NLLog.now("Last title.");
-            }
         } catch(ChildNotFoundException ignored) {
         }
     }
 
-    private void fadeInRecyclerDescriptionAt(int index) {
+    private void fadeInRecyclerDescriptionAt(final int index) {
         try {
             View viewToAnimate = getDescriptionViewFromRecyclerChildAt(index);
-            viewToAnimate.animate()
+            ViewPropertyAnimator animator = viewToAnimate.animate()
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
+            if (isLastRecyclerDescription(index)) {
+                animator.withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        NLLog.now("Last description:" + index);
+                        mListener.onTransitionEnd();
+                    }
+                });
+            }
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
 
             NLLog.now("fadeInRecyclerDescriptionAt: " + index);
-            if (index == mRecyclerChildTitleLocalVisibleRects.size() - 1
-                    && index == mRecyclerChildDescriptionLocalVisibleRects.size() - 1) {
-                NLLog.now("Last description.");
-            }
         } catch(ChildNotFoundException ignored) {
         }
+    }
+
+    private boolean isLastRecyclerTitle(int index) {
+        return index == mRecyclerChildTitleLocalVisibleRects.size() - 1
+                && index == mRecyclerChildDescriptionLocalVisibleRects.size();
+    }
+
+    private boolean isLastRecyclerDescription(int index) {
+        return index == mRecyclerChildTitleLocalVisibleRects.size() - 1
+                && index == mRecyclerChildDescriptionLocalVisibleRects.size() - 1;
     }
 
     private void fadeInToolbar() {

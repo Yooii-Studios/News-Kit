@@ -61,7 +61,6 @@ import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.model.Settings;
@@ -542,8 +541,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int maxRowHeight = NewsFeedDetailAdapter.measureMaximumRowHeight(getApplicationContext());
 
         int newsListCount = mNewsFeed.getNewsList().size();
-        mBottomRecyclerView.getLayoutParams().height =
-                maxRowHeight * newsListCount;
+        ViewGroup.LayoutParams lp = mBottomRecyclerView.getLayoutParams();
+        lp.height = maxRowHeight * newsListCount;
+        mBottomRecyclerView.setLayoutParams(lp);
     }
 
     private void notifyTopNewsChanged() {
@@ -968,8 +968,14 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 "Back Button");
     }
 
+//    @Override
+//    public void onRecyclerScaleAnimationEnd() {
+//        adjustBottomRecyclerHeight();
+//        startScrollIfAutoScrollOn();
+//    }
+
     @Override
-    public void onRecyclerScaleAnimationEnd() {
+    public void onTransitionEnd() {
         adjustBottomRecyclerHeight();
         startScrollIfAutoScrollOn();
     }
