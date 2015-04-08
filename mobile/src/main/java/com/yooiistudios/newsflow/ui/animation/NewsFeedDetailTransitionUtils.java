@@ -19,6 +19,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -1001,10 +1002,12 @@ public class NewsFeedDetailTransitionUtils {
 
     private void addThumbnailTextView(TextView textView,
                                       ActivityTransitionTextViewProperty textViewProperty) {
-        textView.setText(textViewProperty.getText());
         textView.setEllipsize(
                 TextUtils.TruncateAt.values()[textViewProperty.getEllipsizeOrdinal()]);
         textView.setMaxLines(textViewProperty.getMaxLine());
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textViewProperty.getTextSize());
+        textView.setGravity(textViewProperty.getGravity());
+        textView.setText(textViewProperty.getText());
 
         addThumbnailView(textView, textViewProperty);
     }

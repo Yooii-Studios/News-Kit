@@ -24,6 +24,7 @@
     <dimen name="main_bottom_margin_small">3dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1.5dp</dimen>
     <dimen name="main_bottom_card_view_title_size">30sp</dimen>
+    <dimen name="main_bottom_title_text_size">27sp</dimen> <!-- 나중에 머티리얼에서 사이즈 찾자 -->
     <dimen name="main_bottom_text_padding">24dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">12dp</dimen>
 
