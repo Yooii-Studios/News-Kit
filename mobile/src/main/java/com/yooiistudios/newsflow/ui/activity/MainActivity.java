@@ -715,7 +715,7 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(true);
 
         mScrollView.setEnabled(true);
-        mToolbar.setVisibility(View.VISIBLE);
+        toggleToolbarVisibility();
     }
 
     private void configOnLandscapeOrientation() {
@@ -730,7 +730,7 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(false);
 
         mScrollView.setEnabled(false);
-        mToolbar.setVisibility(View.INVISIBLE);
+        toggleToolbarVisibility();
     }
 
     @Override
@@ -757,7 +757,7 @@ public class MainActivity extends ActionBarActivity
         setSwipeRefreshLayoutEnabled(false);
         // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
 //        mMainBottomContainerLayout.cancelAutoRefresh();
-        mToolbar.setVisibility(View.INVISIBLE);
+        toggleToolbarVisibility();
     }
 
     private void hideEditLayout() {
@@ -765,7 +765,19 @@ public class MainActivity extends ActionBarActivity
         mMainBottomContainerLayout.hideEditLayout();
         startNewsAutoRefreshIfReady();
         setSwipeRefreshLayoutEnabled(true);
-        mToolbar.setVisibility(View.VISIBLE);
+        toggleToolbarVisibility();
+    }
+
+    private void toggleToolbarVisibility() {
+        if (isShowingEditLayout()) {
+            mToolbar.setVisibility(View.INVISIBLE);
+        } else {
+            if (Device.isLandscape(getApplicationContext())) {
+                mToolbar.setVisibility(View.INVISIBLE);
+            } else {
+                mToolbar.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private boolean isShowingEditLayout() {
