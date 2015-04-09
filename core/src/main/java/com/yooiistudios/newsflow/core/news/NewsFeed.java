@@ -32,6 +32,10 @@ public class NewsFeed implements Parcelable, RssFetchable {
     private int mTopicId = -1;
 
     public NewsFeed() {
+        init();
+    }
+
+    private void init() {
         mNewsList = new ArrayList<>();
         mDisplayingNewsIndex = 0;
         mNewsFeedFetchState = NewsFeedFetchState.NOT_FETCHED_YET;
@@ -105,6 +109,7 @@ public class NewsFeed implements Parcelable, RssFetchable {
     public String getTitle() {
         return mTitle;
     }
+
     public void setTitle(String title) {
         this.mTitle = title;
     }
@@ -113,10 +118,14 @@ public class NewsFeed implements Parcelable, RssFetchable {
     public NewsFeedUrl getNewsFeedUrl() {
         return mNewsFeedUrl;
     }
+
     public void setNewsFeedUrl(NewsFeedUrl newsFeedUrl) {
         mNewsFeedUrl = newsFeedUrl;
     }
 
+    public boolean isCustomRss() {
+        return getNewsFeedUrl().getType().equals(NewsFeedUrlType.CUSTOM);
+    }
 
     public String getLink() {
         return mLink;
@@ -281,6 +290,14 @@ public class NewsFeed implements Parcelable, RssFetchable {
         return getTopicLanguageCode() != null
                 && getTopicProviderId() >= 0
                 && getTopicId() >= 0;
+    }
+
+    public void clearFetchedInfo() {
+        init();
+        setTitle(null);
+        setLink(null);
+        setDescription(null);
+        setLanguage(null);
     }
 
 //    public NewsTopic createNewsTopicInfo() {

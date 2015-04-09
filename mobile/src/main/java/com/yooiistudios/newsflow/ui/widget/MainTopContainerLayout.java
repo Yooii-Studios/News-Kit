@@ -21,7 +21,6 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
@@ -404,13 +403,13 @@ public class MainTopContainerLayout extends FrameLayout
     private void refreshTopNewsFeed(TopNewsFeedFetchTask.TaskType taskType, boolean shuffle) {
         mIsReady = false;
 
-        NewsFeedUrl topNewsFeedUrl = mTopNewsFeedPagerAdapter.getNewsFeed().getNewsFeedUrl();
-        NewsFeed topNewsFeed = new NewsFeed();
-        topNewsFeed.setNewsFeedUrl(topNewsFeedUrl);
-        topNewsFeed.getNewsList().add(null);
+        NewsFeed newsFeed = mTopNewsFeedPagerAdapter.getNewsFeed();
+        newsFeed.clearFetchedInfo();
+        // 뉴스가 로드되기 전 프로그레스 바를 보여주기 위해 임의로 null 을 하나 추가함
+        newsFeed.addNews(null);
 
         mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager());
-        mTopNewsFeedPagerAdapter.setNewsFeed(topNewsFeed);
+        mTopNewsFeedPagerAdapter.setNewsFeed(newsFeed);
         mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
         mViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mViewPager);
         mNewsFeedTitleTextView.setText("");

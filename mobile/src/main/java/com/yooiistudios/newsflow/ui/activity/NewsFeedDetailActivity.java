@@ -472,7 +472,9 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (DebugSettings.isDebugBuild()) {
             subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
         }
-        subMenu.add(Menu.NONE, R.id.action_select_topic, 0, getString(R.string.newsfeed_select_news_section));
+        if (!mNewsFeed.isCustomRss()) {
+            subMenu.add(Menu.NONE, R.id.action_select_topic, 0, getString(R.string.newsfeed_select_news_section));
+        }
         subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
 
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
