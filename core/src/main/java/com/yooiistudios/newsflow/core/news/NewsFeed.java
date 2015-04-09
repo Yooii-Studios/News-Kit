@@ -109,6 +109,7 @@ public class NewsFeed implements Parcelable, RssFetchable {
     public String getTitle() {
         return mTitle;
     }
+
     public void setTitle(String title) {
         this.mTitle = title;
     }
@@ -117,10 +118,14 @@ public class NewsFeed implements Parcelable, RssFetchable {
     public NewsFeedUrl getNewsFeedUrl() {
         return mNewsFeedUrl;
     }
+
     public void setNewsFeedUrl(NewsFeedUrl newsFeedUrl) {
         mNewsFeedUrl = newsFeedUrl;
     }
 
+    public boolean isCustomRss() {
+        return getNewsFeedUrl().getType().equals(NewsFeedUrlType.CUSTOM);
+    }
 
     public String getLink() {
         return mLink;
