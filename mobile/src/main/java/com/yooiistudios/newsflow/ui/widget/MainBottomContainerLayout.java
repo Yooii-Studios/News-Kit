@@ -402,16 +402,10 @@ public class MainBottomContainerLayout extends FrameLayout
     public void refreshBottomNewsFeeds() {
         mIsRefreshingBottomNewsFeeds = true;
 
-        ArrayList<NewsFeed> newBottomNewsFeedList = new ArrayList<>();
         for (NewsFeed newsFeed : mBottomNewsFeedAdapter.getNewsFeedList()) {
-            NewsFeed newNewsFeed = new NewsFeed();
-            newNewsFeed.setNewsFeedUrl(newsFeed.getNewsFeedUrl());
-
-            newBottomNewsFeedList.add(newNewsFeed);
+            newsFeed.clearFetchedInfo();
         }
-
-        // 프로그레스바를 나타내기 위해 NewsFeedUrl만 가지고 있는 뉴스피드를 넣음
-        mBottomNewsFeedAdapter.setNewsFeedList(newBottomNewsFeedList);
+        mBottomNewsFeedAdapter.notifyDataSetChanged();
 
         BottomNewsFeedListFetchManager.getInstance().fetchNewsFeedList(
                 mBottomNewsFeedAdapter.getNewsFeedList(), this,
