@@ -220,14 +220,13 @@ public class MainBottomContainerLayout extends FrameLayout
             boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
             if (!adPurchased) {
                 int adHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
-                mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, adHeight);
+                mBottomNewsFeedRecyclerView.setPadding(0, margin, 0, adHeight + margin);
             } else {
-                mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, 0);
+                mBottomNewsFeedRecyclerView.setPadding(0, margin, 0, margin);
             }
 
-            recyclerViewParams.topMargin = -margin * 2;
-            recyclerViewParams.rightMargin = -margin * 2;
-            recyclerViewParams.bottomMargin = -margin * 2;
+            // 왼쪽, 오른쪽은 기본 마진, 상하단은 마진은 0으로 처리하고 패딩으로 더 늘려줄 것
+            recyclerViewParams.setMargins(margin, 0, margin, 0);
         }
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewParams);
     }

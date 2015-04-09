@@ -510,14 +510,18 @@ public class MainTopContainerLayout extends FrameLayout
         }
 
         Context context = getContext().getApplicationContext();
+
+        // 바텀과 상하단 맞추기 위함
+        int margin = context.getResources().getDimensionPixelSize(
+                R.dimen.main_bottom_margin_small);
+
         boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
         if (!adPurchased) {
             // indicator 간격 만큼 하단 띄우기 위함
-            int smallPadding = context.getResources().getDimensionPixelSize(R.dimen.base_margin_small);
             int adHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
-            setPadding(0, 0, 0, adHeight + smallPadding);
+            setPadding(0, margin * 2, 0, adHeight + margin * 2);
         } else {
-            setPadding(0, 0, 0, 0);
+            setPadding(0, margin * 2, 0, margin * 2);
         }
     }
 
