@@ -78,42 +78,32 @@ public class BottomNewsImageFetchManager
         fetch(imageLoader, list, listener, taskType, true);
     }
 
-    public void fetchDisplayingAndNextImage(NewsImageLoader imageLoader, NewsFeed newsFeed,
-                                            OnFetchListener listener, int newsFeedIndex,
-                                            int taskType) {
+    public void fetchDisplayingImage(NewsImageLoader imageLoader, NewsFeed newsFeed,
+                                     OnFetchListener listener, int newsFeedIndex,
+                                     int taskType) {
         prepare(listener, taskType);
-
-        ArrayList<News> newsList;
-        if (newsFeed == null || (newsList = newsFeed.getNewsList()).size() == 0) {
-            return;
-        }
 
         mNewsToFetchMap.put(newsFeed.getDisplayingNews(),
                 new Request(newsFeedIndex, newsFeed.getDisplayingNewsIndex(), false));
-        mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
-                new Request(newsFeedIndex, newsFeed.getNextNewsIndex(), false));
 
         _fetch(imageLoader);
     }
 
 
-    public void fetchDisplayingAndNextImageList(NewsImageLoader imageLoader,
-                                                ArrayList<NewsFeed> newsFeedList,
-                                                OnFetchListener listener, int taskType) {
+    public void fetchDisplayingImageList(NewsImageLoader imageLoader,
+                                         ArrayList<NewsFeed> newsFeedList,
+                                         OnFetchListener listener, int taskType) {
         prepare(listener, taskType);
 
-        ArrayList<News> newsList;
 
         for (int i = 0 ; i< newsFeedList.size(); i++) {
             NewsFeed newsFeed = newsFeedList.get(i);
-            if (newsFeed == null || (newsList = newsFeed.getNewsList()).size() == 0) {
+            if (newsFeed == null) {
                 continue;
             }
 
             mNewsToFetchMap.put(newsFeed.getDisplayingNews(),
                     new Request(i, newsFeed.getDisplayingNewsIndex(), false));
-            mNewsToFetchMap.put(newsList.get(newsFeed.getNextNewsIndex()),
-                    new Request(i, newsFeed.getNextNewsIndex(), false));
         }
 
         _fetch(imageLoader);

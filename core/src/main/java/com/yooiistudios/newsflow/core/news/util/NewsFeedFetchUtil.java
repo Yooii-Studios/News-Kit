@@ -8,16 +8,15 @@ import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.news.NewsFeedParser;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
-import com.yooiistudios.newsflow.core.util.NLLog;
 
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,19 +69,26 @@ public class NewsFeedFetchUtil {
     }
 
     private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl) throws IOException, SAXException {
-        InputStream inputStream = getInputStreamFromNewsFeedUrl(newsFeedUrl);
-        NewsFeed feed = NewsFeedParser.read(inputStream);
-        feed.setNewsFeedUrl(newsFeedUrl);
-        for (News news : feed.getNewsList()) {
-            if (news == null) {
-                continue;
-            }
-//            NLLog.now("millis: " + news.getPubDateInMillis());
-//            NLLog.now("DisplayableElapsedTime: " + news.getDisplayableElapsedTimeSincePubDate());
-        }
+        InputStream inputStream = null;
+        URL url = new URL(newsFeedUrl.getUrl());
+        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        try {
+            conn.setConnectTimeout(TIMEOUT_MILLI);
+            conn.setReadTimeout(TIMEOUT_MILLI);
+            inputStream = conn.getInputStream();
+//            inputStream = getInputStreamFromNewsFeedUrl(newsFeedUrl);
+            NewsFeed feed = NewsFeedParser.read(inputStream);
+            feed.setNewsFeedUrl(newsFeedUrl);
 
-        inputStream.close();
-        return feed;
+            return feed;
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
     }
 
     private static void shuffleNewsList(NewsFeed feed) {
@@ -118,11 +124,11 @@ public class NewsFeedFetchUtil {
         return fetchLimit > 0 && fetchLimit < feed.getNewsList().size();
     }
 
-    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {
-        URL url = new URL(newsFeedUrl.getUrl());
-        URLConnection conn = url.openConnection();
-        conn.setConnectTimeout(TIMEOUT_MILLI);
-        conn.setReadTimeout(TIMEOUT_MILLI);
-        return conn.getInputStream();
-    }
+//    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {
+//        URL url = new URL(newsFeedUrl.getUrl());
+//        URLConnection conn = url.openConnection();
+//        conn.setConnectTimeout(TIMEOUT_MILLI);
+//        conn.setReadTimeout(TIMEOUT_MILLI);
+//        return conn.getInputStream();
+//    }
 }

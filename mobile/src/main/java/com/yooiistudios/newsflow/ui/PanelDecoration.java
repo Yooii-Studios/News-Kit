@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.util.AppInfo;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 
 /**
@@ -104,9 +103,6 @@ public class PanelDecoration {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.img_news_dummy);
             imageLoader.getCache().putBitmap(key, bitmap);
-            NLLog.now("getDummyImage miss");
-        } else {
-            NLLog.now("getDummyImage hit");
         }
         return bitmap;
     }
@@ -118,9 +114,6 @@ public class PanelDecoration {
             bitmap = BitmapFactory.decodeResource(context.getResources(),
                     R.drawable.img_news_dummy_small);
             imageLoader.getCache().putBitmap(key, bitmap);
-            NLLog.now("getSmallDummyImage miss");
-        } else {
-            NLLog.now("getSmallDummyImage hit");
         }
         return bitmap;
     }

@@ -36,7 +36,6 @@ import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
-import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
@@ -648,6 +647,8 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void configAfterRefreshDone() {
+        NLLog.now("mMainTopContainerLayout.isReady()" + mMainTopContainerLayout.isReady());
+        NLLog.now("!mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()" + !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds());
         if (mMainTopContainerLayout.isReady() &&
                 !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
             // dismiss loading progress bar
@@ -762,7 +763,7 @@ public class MainActivity extends ActionBarActivity
     private void hideEditLayout() {
         mMainTopContainerLayout.hideEditLayout();
         mMainBottomContainerLayout.hideEditLayout();
-        startNewsAutoRefresh();
+        startNewsAutoRefreshIfReady();
         setSwipeRefreshLayoutEnabled(true);
         mToolbar.setVisibility(View.VISIBLE);
     }
@@ -790,21 +791,27 @@ public class MainActivity extends ActionBarActivity
                     }
                     break;
                 case RC_NEWS_FEED_SELECT:
-                    RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
-                            NewsSelectActivity.KEY_RSS_FETCHABLE);
-                    if (rssFetchable != null) {
-                        hideEditLayout();
+                    newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
 
-                        newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
-                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
-                            int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
-                            if (idx >= 0) {
-                                mMainBottomContainerLayout.applyNewsTopicAt(rssFetchable, idx);
-                            }
-                        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
-                            mMainTopContainerLayout.applyNewsTopic(rssFetchable);
-                        }
+                    if (newsFeedType != null) {
+                        configOnNewsFeedReplaced(extras);
                     }
+                    hideEditLayout();
+//                    RssFetchable rssFetchable = (RssFetchable)data.getExtras().getSerializable(
+//                            NewsSelectActivity.KEY_RSS_FETCHABLE);
+//                    if (rssFetchable != null) {
+//                        hideEditLayout();
+//
+//                        newsFeedType = extras.getString(INTENT_KEY_NEWS_FEED_LOCATION, null);
+//                        if (newsFeedType.equals(INTENT_VALUE_BOTTOM_NEWS_FEED)) {
+//                            int idx = extras.getInt(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, -1);
+//                            if (idx >= 0) {
+//                                mMainBottomContainerLayout.applyNewsTopicAt(rssFetchable, idx);
+//                            }
+//                        } else if (newsFeedType.equals(INTENT_VALUE_TOP_NEWS_FEED)) {
+//                            mMainTopContainerLayout.applyNewsTopic(rssFetchable);
+//                        }
+//                    }
                     break;
                 case RC_SETTING:
                     boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);

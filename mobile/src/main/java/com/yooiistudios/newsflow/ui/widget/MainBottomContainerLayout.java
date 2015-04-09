@@ -365,7 +365,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mIsFetchingAddedBottomNewsFeeds = true;
         if (newsFeedToIndexPairListToFetch.size() == 0) {
-            BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
+            BottomNewsImageFetchManager.getInstance().fetchDisplayingImageList(
                     mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
                     BottomNewsImageFetchTask.TASK_MATRIX_CHANGED
             );
@@ -428,7 +428,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         mIsReplacingBottomNewsFeed = true;
         if (newsFeed.containsNews()) {
-            BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+            BottomNewsImageFetchManager.getInstance().fetchDisplayingImage(
                     mImageLoader, newsFeed, this, idx, BottomNewsImageFetchTask.TASK_REPLACE
             );
         } else {
@@ -438,6 +438,9 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void applyNewsTopicAt(RssFetchable rssFetchable, int index) {
+        NewsFeed newsFeed = new NewsFeed(rssFetchable);
+        mBottomNewsFeedAdapter.replaceNewsFeedAt(index, newsFeed);
+
         BottomNewsFeedListFetchManager.getInstance().fetchRssFetchables(
                 rssFetchable, index, this, BottomNewsFeedFetchTask.TASK_REPLACE);
     }
@@ -618,7 +621,7 @@ public class MainBottomContainerLayout extends FrameLayout
 //                NewsFeedArchiveUtils.saveBottomNewsFeedList(getContext(),
 //                        mBottomNewsFeedAdapter.getNewsFeedList());
 
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
+                BottomNewsImageFetchManager.getInstance().fetchDisplayingImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
                         BottomNewsImageFetchTask.TASK_SWIPE_REFRESH
                 );
@@ -632,7 +635,7 @@ public class MainBottomContainerLayout extends FrameLayout
 //                    NewsFeedArchiveUtils.saveBottomNewsFeedAt(getContext(), newsFeed,
 //                            newsFeedPair.second);
 
-                    BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImage(
+                    BottomNewsImageFetchManager.getInstance().fetchDisplayingImage(
                             mImageLoader, newsFeed, this, newsFeedPair.second,
                             BottomNewsImageFetchTask.TASK_REPLACE
                     );
@@ -647,7 +650,7 @@ public class MainBottomContainerLayout extends FrameLayout
 //                            newsFeedToIndexPair.second);
                 }
 
-                BottomNewsImageFetchManager.getInstance().fetchDisplayingAndNextImageList(
+                BottomNewsImageFetchManager.getInstance().fetchDisplayingImageList(
                         mImageLoader, mBottomNewsFeedAdapter.getNewsFeedList(), this,
                         BottomNewsImageFetchTask.TASK_MATRIX_CHANGED
                 );

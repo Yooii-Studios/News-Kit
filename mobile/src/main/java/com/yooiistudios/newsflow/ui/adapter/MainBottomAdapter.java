@@ -148,8 +148,9 @@ public class MainBottomAdapter extends
                 if (displayingNews.isImageUrlChecked()) {
                     showDummyImage(viewHolder);
                 } else {
-                    viewHolder.progressBar.setVisibility(View.VISIBLE);
-//                    showLoading(viewHolder);
+//                    viewHolder.progressBar.setVisibility(View.VISIBLE);
+                    showLoading(viewHolder);
+                    viewHolder.newsContentWrapper.setVisibility(View.VISIBLE);
                 }
             }
         } else {
