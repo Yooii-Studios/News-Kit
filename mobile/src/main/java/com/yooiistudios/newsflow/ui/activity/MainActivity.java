@@ -107,7 +107,7 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
 
-    private MainAdView mBannerAd;
+    private MainAdView mBannerAdView;
     private NewsImageLoader mImageLoader;
 
     // Quit Ad Dialog
@@ -292,20 +292,20 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void initBannerAdView() {
-        mBannerAd = new MainAdView(this);
-        mBannerAd.setId(R.id.main_banner);
-        mBannerAd.setBackgroundResource(R.color.material_grey_900);
+        mBannerAdView = new MainAdView(this);
+        mBannerAdView.setId(R.id.main_banner);
+        mBannerAdView.setBackgroundResource(R.color.material_grey_900);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        mRootLayout.addView(mBannerAd, lp);
+        mRootLayout.addView(mBannerAdView, lp);
     }
 
     private void configBannerAdOnInsetChanged() {
         if (Device.isPortrait(this)) {
-            mBannerAd.applyBottomMarginOnPortrait(mSystemWindowInsetBottom);
+            mBannerAdView.applyBottomMarginOnPortrait(mSystemWindowInsetBottom);
         } else {
-            mBannerAd.applyBottomMarginOnPortrait(0);
+            mBannerAdView.applyBottomMarginOnPortrait(0);
         }
 
         bringLoadingContainerToFront();
@@ -316,7 +316,7 @@ public class MainActivity extends ActionBarActivity
 //        if (isPortrait()) {
 //            lp.addRule(RelativeLayout.ABOVE, View.NO_ID);
 //        } else {
-//            lp.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+//            lp.addRule(RelativeLayout.ABOVE, mBannerAdView.getId());
 //        }
 //    }
 
@@ -338,7 +338,7 @@ public class MainActivity extends ActionBarActivity
             } else {
                 mScrollingContent.setPadding(0, 0, 0, 0);
             }
-            mBannerAd.hide();
+            mBannerAdView.hide();
         } else {
             configBannerAdOnInsetChanged();
             if (Device.isPortrait(this)) {
@@ -347,9 +347,9 @@ public class MainActivity extends ActionBarActivity
             } else {
                 mScrollingContent.setPadding(0, 0, 0, 0);
             }
-            mBannerAd.show();
+            mBannerAdView.show();
 
-            mBannerAd.resume();
+            mBannerAdView.resume();
             mQuitLargeBannerAdView.resume();
         }
     }
@@ -438,7 +438,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onPause() {
         if (mRootLayout != null) {
-            mBannerAd.pause();
+            mBannerAdView.pause();
             mQuitLargeBannerAdView.pause();
             stopNewsAutoRefresh();
             mImageLoader.flushCache();
@@ -683,22 +683,22 @@ public class MainActivity extends ActionBarActivity
     }
 
 //    private void configBannerAdLayoutParams() {
-//        ViewGroup adParent = (ViewGroup)mBannerAd.getParent();
+//        ViewGroup adParent = (ViewGroup)mBannerAdView.getParent();
 //        if (adParent != null) {
-//            adParent.removeView(mBannerAd);
+//            adParent.removeView(mBannerAdView);
 //        }
 //        if (Device.isPortrait(getApplicationContext())) {
 //            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
 //                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 //
-//            mRootLayout.addView(mBannerAd, lp);
+//            mRootLayout.addView(mBannerAdView, lp);
 //        } else {
 //            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
 //                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 //
-//            mScrollingContent.addView(mBannerAd, lp);
+//            mScrollingContent.addView(mBannerAdView, lp);
 //        }
 //    }
 
@@ -724,7 +724,7 @@ public class MainActivity extends ActionBarActivity
         bottomLayoutParams.addRule(RelativeLayout.BELOW, 0);
         bottomLayoutParams.addRule(RelativeLayout.RIGHT_OF, mMainTopContainerLayout.getId());
 //        bottomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-//        bottomLayoutParams.addRule(RelativeLayout.ABOVE, mBannerAd.getId());
+//        bottomLayoutParams.addRule(RelativeLayout.ABOVE, mBannerAdView.getId());
 
         setSwipeRefreshLayoutEnabled(false);
 
