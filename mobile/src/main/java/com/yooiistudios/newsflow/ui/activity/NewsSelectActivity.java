@@ -21,11 +21,14 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
+import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectRecyclerAdapter;
@@ -179,7 +182,10 @@ public class NewsSelectActivity extends ActionBarActivity
 
     @Override
     public void onEnterCustomRss(NewsFeedUrl feedUrl) {
-        getIntent().putExtra(KEY_RSS_FETCHABLE, feedUrl);
+//        getIntent().putExtra(KEY_RSS_FETCHABLE, feedUrl);
+//        setResult(Activity.RESULT_OK, getIntent());
+//        finish();
+        archive(feedUrl);
         setResult(Activity.RESULT_OK, getIntent());
         finish();
     }
@@ -192,13 +198,35 @@ public class NewsSelectActivity extends ActionBarActivity
             switch (requestCode) {
                 case RC_NEWS_SELECT_DETAIL:
                     NewsTopic newsTopic = (NewsTopic) extras.getSerializable(KEY_RSS_FETCHABLE);
-                    if (newsTopic != null) {
-                        getIntent().putExtra(KEY_RSS_FETCHABLE, newsTopic);
-                        setResult(Activity.RESULT_OK, getIntent());
-                    }
+//                    if (newsTopic != null) {
+//                        getIntent().putExtra(KEY_RSS_FETCHABLE, newsTopic);
+//                        setResult(Activity.RESULT_OK, getIntent());
+//                    }
+//                    finish();
+
+                    archive(newsTopic);
+                    setResult(Activity.RESULT_OK, getIntent());
                     finish();
                     break;
             }
         }
+    }
+
+    private void archive(RssFetchable fetchable) {
+        NewsFeed newsFeed = new NewsFeed(fetchable);
+        if (isFromTopNewsFeed()) {
+            NewsDb.getInstance(getApplicationContext()).saveTopNewsFeed(newsFeed);
+        } else {
+            int idx = getIntent().getExtras().getInt(
+                    MainActivity.INTENT_KEY_BOTTOM_NEWS_FEED_INDEX);
+            NewsDb.getInstance(getApplicationContext()).saveBottomNewsFeedAt(newsFeed, idx);
+        }
+    }
+
+    private boolean isFromTopNewsFeed() {
+        String newsLocation = getIntent().getExtras().getString(
+                MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
+
+        return newsLocation.equals(MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
     }
 }

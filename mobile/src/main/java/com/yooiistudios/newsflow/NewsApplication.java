@@ -107,7 +107,7 @@ public class NewsApplication extends Application {
                     .detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects()
                     .penaltyLog()
-                    .penaltyDeath()
+                    .penaltyDropBox()
                     .build());
         }
     }

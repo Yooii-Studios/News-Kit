@@ -18,6 +18,10 @@ public class MethodHierarchy {
         return get(DEFAULT_FROM_DEPTH, elements.length);
     }
 
+    public static String get(int depthCount) {
+        return get(DEFAULT_FROM_DEPTH, DEFAULT_FROM_DEPTH + depthCount);
+    }
+
 
     // TODO: 아래의 리스트들은 system 에서 불리는 메소드로, 제거할 수 있으면 하자
     // android.app.Activity.performCreate

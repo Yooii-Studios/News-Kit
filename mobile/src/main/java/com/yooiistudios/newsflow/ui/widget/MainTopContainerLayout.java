@@ -456,6 +456,8 @@ public class MainTopContainerLayout extends FrameLayout
 
                     @Override
                     public void onFail(VolleyError error) {
+                        mTopNewsFeedPagerAdapter.notifyImageUrlLoaded(position);
+
                         if (position == 0) {
                             notifyOnReady(taskType);
 
