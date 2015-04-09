@@ -469,6 +469,9 @@ public class MainBottomContainerLayout extends FrameLayout
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);
         }
         adjustSize();
+
+        layoutManager.scrollToPositionWithOffset(0, 0);
+
         mBottomNewsFeedAdapter.notifyDataSetChanged();
 
         invalidate();
