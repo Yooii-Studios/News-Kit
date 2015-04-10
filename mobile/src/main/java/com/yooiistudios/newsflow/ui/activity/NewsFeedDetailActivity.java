@@ -1017,12 +1017,18 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mBottomRecyclerView.getLayoutParams().width = deviceSize.x;
 
         // height
-        if (Device.hasLollipop()) {
-            int originalWrapperHeight = getResources().getDimensionPixelSize(
-                    R.dimen.detail_top_image_view_height);
-            mTopNewsImageWrapper.getLayoutParams().height =
-                    originalWrapperHeight + Display.getStatusBarHeight(this);
+        int imageWrapperHeight;
+        if (Device.isPortrait(this)) {
+            imageWrapperHeight = getResources().getDimensionPixelSize(
+                    R.dimen.detail_top_image_view_height_port);
+        } else {
+            imageWrapperHeight = getResources().getDimensionPixelSize(
+                    R.dimen.detail_top_image_view_height_land);
         }
+        if (Device.hasLollipop()) {
+            imageWrapperHeight += Display.getStatusBarHeight(this);
+        }
+        mTopNewsImageWrapper.getLayoutParams().height = imageWrapperHeight;
     }
 
     private void initToolbarHeight() {

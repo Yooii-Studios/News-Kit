@@ -254,7 +254,7 @@ public class NewsFeedDetailTransitionUtils {
 
         mThumbnailEndRect = new Rect(thumbnailLeftTarget, thumbnailTopTarget,
                 thumbnailLeftTarget + (int)(mTransImageViewProperty.getWidth() * scaleRatio),
-                thumbnailTopTarget + (int)(mTransImageViewProperty.getHeight() * scaleRatio));
+                thumbnailTopTarget + mTopNewsImageWrapper.getHeight());
     }
 
     private void initTopTextLayoutVariables() {

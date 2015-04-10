@@ -35,8 +35,10 @@ public class NewsImageLoader extends CacheImageLoader<NewsUrlSupplier> {
 
     @Override
     protected Point getImageSize() {
-        Point imageSize = Display.getDisplaySize(getContext());
-        imageSize.y = getContext().getResources().getDimensionPixelSize(R.dimen.detail_top_image_view_height);
+        // 무조건 세로 기준에서 이미지 사이즈를 얻어냄
+        Point imageSize = Display.getDisplaySizeOnPortrait(getContext());
+        imageSize.y = getContext().getResources().getDimensionPixelSize(
+                R.dimen.detail_top_image_view_height_port);
         if (Device.hasLollipop()) {
             imageSize.y += Display.getStatusBarHeight(getContext());
         }
