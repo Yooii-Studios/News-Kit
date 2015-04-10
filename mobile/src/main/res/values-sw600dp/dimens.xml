@@ -34,7 +34,8 @@
     <dimen name="detail_text_wide_padding">30dp</dimen>
 
     <!-- Detail Top -->
-    <dimen name="detail_top_image_view_height">512dp</dimen>    <!-- 64 * 8 -->
+    <dimen name="detail_top_image_view_height_port">512dp</dimen> <!-- 64 * 8 -->
+    <dimen name="detail_top_image_view_height_land">285dp</dimen>
     <dimen name="detail_top_text_layout_elevation">15dp</dimen>
 
     <!-- Detail Bottom -->
