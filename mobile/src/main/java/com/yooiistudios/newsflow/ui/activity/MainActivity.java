@@ -161,19 +161,19 @@ public class MainActivity extends ActionBarActivity
         NLLog.i("BackgroundServiceUtils", "onCreate");
         BackgroundServiceUtils.startService(getApplicationContext());
 
-        // TODO off-line configuration
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getApplicationContext());
         boolean isOnline = ConnectivityUtils.isNetworkAvailable(getApplicationContext());
         if (needsRefresh && !isOnline) {
             initNetworkUnavailableCoverLayout();
             return;
         }
-
-        initImageLoader();
         init();
     }
 
     private void init() {
+        // setContentView 에서 MainTopContainerLayout, MainBottomContainerLayout 이 초기화되기 때문에
+        // 그 이전에 이미지로더를 초기화해줌
+        initImageLoader();
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
