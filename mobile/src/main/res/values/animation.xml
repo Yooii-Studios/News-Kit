@@ -10,7 +10,7 @@
     <!-- 리빌 시간 -->
     <integer name="news_feed_detail_reveal_duration">700</integer>
     <!-- 리빌 다음 오프셋 -->
-    <integer name="news_feed_detail_image_filter_start_offset">140</integer>
+    <integer name="news_feed_detail_image_filter_start_offset">160</integer>
     <!-- 동현에게 세부 내용 물어볼 것 -->
     <integer name="news_feed_detail_image_filter_duration">800</integer>
     <!-- 동현에게 세부 내용 물어볼 것 -->
