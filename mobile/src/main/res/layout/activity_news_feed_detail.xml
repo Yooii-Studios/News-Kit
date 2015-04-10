@@ -51,7 +51,7 @@
                 <FrameLayout
                     android:id="@+id/newsfeed_detail_top_news_image_wrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/detail_top_image_view_height">
+                    android:layout_height="@dimen/detail_top_image_view_height_port">
 
                     <ImageView
                         android:id="@+id/newsfeed_detail_top_news_image_view"

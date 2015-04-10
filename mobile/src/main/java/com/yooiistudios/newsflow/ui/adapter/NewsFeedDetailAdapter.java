@@ -105,6 +105,7 @@ public class NewsFeedDetailAdapter extends
 
         int titleMaxLine = context.getResources()
                 .getInteger(R.integer.news_feed_detail_title_max_line);
+
         int descriptionMaxLine = context.getResources()
                 .getInteger(R.integer.news_feed_detail_description_text_max_line);
 

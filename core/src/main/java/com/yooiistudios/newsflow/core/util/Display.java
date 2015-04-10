@@ -73,6 +73,15 @@ public class Display {
         return statusBarHeight;
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
+    public static Point getDisplaySizeOnPortrait(Context context) {
+        Point displaySize = getDisplaySize(context);
+        if (Device.isLandscape(context)) {
+            displaySize = new Point(displaySize.y, displaySize.x);
+        }
+        return displaySize;
+    }
+
     public static Point getDisplaySize(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         android.view.Display display = wm.getDefaultDisplay();

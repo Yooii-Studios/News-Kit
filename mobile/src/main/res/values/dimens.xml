@@ -74,7 +74,8 @@
     <dimen name="news_feed_detail_shadow_gradient_height">100dp</dimen>
 
     <!-- Detail Top -->
-    <dimen name="detail_top_image_view_height">336dp</dimen>    <!-- 56 * 6 -->
+    <dimen name="detail_top_image_view_height_port">336dp</dimen>    <!-- 56 * 6 -->
+    <dimen name="detail_top_image_view_height_land">190dp</dimen>
     <dimen name="detail_top_text_layout_elevation">10dp</dimen>
 
     <!-- Detail Bottom -->
