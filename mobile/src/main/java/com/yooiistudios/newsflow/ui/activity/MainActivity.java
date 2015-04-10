@@ -185,6 +185,7 @@ public class MainActivity extends ActionBarActivity
         mMainBottomContainerLayout.init(this);
         bringLoadingContainerToFront();
         showMainContentIfReadyInternal(true);
+        adjustLayoutOnOrientationChanged();
         requestSystemWindowsBottomInset();
 
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
@@ -667,7 +668,17 @@ public class MainActivity extends ActionBarActivity
         LocaleUtils.updateLocale(this);
 
 //        configBannerAdLayoutParams();
+        adjustLayoutOnOrientationChanged(newConfig);
 
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
+                newConfig.orientation);
+    }
+
+    private void adjustLayoutOnOrientationChanged() {
+        adjustLayoutOnOrientationChanged(getResources().getConfiguration());
+    }
+
+    private void adjustLayoutOnOrientationChanged(Configuration newConfig) {
         requestSystemWindowsBottomInset();
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -678,9 +689,6 @@ public class MainActivity extends ActionBarActivity
 
         mMainTopContainerLayout.configOnOrientationChange();
         mMainBottomContainerLayout.configOnOrientationChange();
-
-        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
-                newConfig.orientation);
     }
 
 //    private void configBannerAdLayoutParams() {
