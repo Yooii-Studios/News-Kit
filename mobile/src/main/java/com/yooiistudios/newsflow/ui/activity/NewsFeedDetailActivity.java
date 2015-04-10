@@ -173,7 +173,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         // retrieve feed from intent
         mImageLoader = NewsImageLoader.create(this);
 
-        initViewsWidth();
+        initViewsSize();
         applySystemWindowsBottomInset();
         initRevealView();
         initToolbar();
@@ -1007,12 +1007,22 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    private void initViewsWidth() {
+    private void initViewsSize() {
         Point deviceSize = Display.getDisplaySize(this);
+
+        // width
         mToolbar.getLayoutParams().width = deviceSize.x;
         mTopNewsImageWrapper.getLayoutParams().width = deviceSize.x;
         mTopNewsTextLayout.getLayoutParams().width = deviceSize.x;
         mBottomRecyclerView.getLayoutParams().width = deviceSize.x;
+
+        // height
+        if (Device.hasLollipop()) {
+            int originalWrapperHeight = getResources().getDimensionPixelSize(
+                    R.dimen.detail_top_image_view_height);
+            mTopNewsImageWrapper.getLayoutParams().height =
+                    originalWrapperHeight + Display.getStatusBarHeight(this);
+        }
     }
 
     private void initToolbarHeight() {
