@@ -16,28 +16,28 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
  *  뉴스 피드 디테일 액티비티의 뉴스를 교체하는 데에 사용됨
  */
 public class NewsFeedDetailNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
-    public static final int FETCH_COUNT = 20;
-
     private RssFetchable mFetchable;
     private OnFetchListener mListener;
+    private int mFetchCount;
     private boolean mShuffle;
 
     public interface OnFetchListener {
-        public void onNewsFeedFetchSuccess(NewsFeed newsFeed);
-        public void onNewsFeedFetchFail();
+        void onNewsFeedFetchSuccess(NewsFeed newsFeed);
+        void onNewsFeedFetchFail();
     }
 
-    public NewsFeedDetailNewsFeedFetchTask(RssFetchable fetchable,
-                                           OnFetchListener listener, boolean shuffle) {
+    public NewsFeedDetailNewsFeedFetchTask(RssFetchable fetchable, OnFetchListener listener,
+                                           int fetchCount, boolean shuffle) {
         mFetchable = fetchable;
         mListener = listener;
+        mFetchCount = fetchCount;
         mShuffle = shuffle;
     }
 
     @Override
     protected NewsFeed doInBackground(Void... voids) {
         NewsFeedUrl newsFeedUrl = mFetchable.getNewsFeedUrl();
-        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(newsFeedUrl, FETCH_COUNT, mShuffle);
+        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(newsFeedUrl, mFetchCount, mShuffle);
 
         if (mFetchable instanceof NewsTopic) {
             newsFeed.setTopicIdInfo(((NewsTopic) mFetchable));

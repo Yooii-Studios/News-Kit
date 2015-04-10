@@ -62,8 +62,6 @@ public class NewsFeedDetailAdapter extends
 
     public static void configView(final ViewHolder viewHolder, final News news,
                                   final OnItemClickListener listener) {
-        Context context = viewHolder.itemView.getContext();
-
         TextView titleTextView = viewHolder.newsTitleTextView;
         if (titleTextView != null) {
 //            titleTextView.setTypeface(TypefaceUtils.getMediumTypeface(context));

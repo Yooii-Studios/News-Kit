@@ -29,10 +29,20 @@ import java.util.Random;
  *  url 을 받아 뉴스피드를 파싱해 가져오는 유틸
  */
 public class NewsFeedFetchUtil {
+    // 추후 변경사항에 대비해 남겨둠
+    public static final int FETCH_LIMIT_TOP = 20;
+    public static final int FETCH_LIMIT_BOTTOM = 20;
+    public static final int FETCH_LIMIT_TV = 20;
+    public static final int INVALID_FETCH_LIMIT = -1;
+
     private static final int MAX_DESCRIPTION_LENGTH = 200;
     private static final String ILLEGAL_CHARACTER_OBJ = Character.toString((char) 65532);
 
     private static final int TIMEOUT_MILLI = 5000;
+
+//    public static NewsFeed fetch(RssFetchable fetchable, boolean shuffle) {
+//        return fetch(fetchable, DEFAULT_FETCH_LIMIT, shuffle);
+//    }
 
     public static NewsFeed fetch(RssFetchable fetchable, int fetchLimit, boolean shuffle) {
         NewsFeed newsFeed;
@@ -54,7 +64,7 @@ public class NewsFeedFetchUtil {
                 }
             }
             refactorDescription(newsFeed);
-        } catch(MalformedURLException| UnknownHostException e) {
+        } catch(MalformedURLException | UnknownHostException e) {
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
         } catch(SocketTimeoutException e) {
@@ -121,7 +131,9 @@ public class NewsFeedFetchUtil {
     }
 
     private static boolean shouldTrimNewsList(NewsFeed feed, int fetchLimit) {
-        return fetchLimit > 0 && fetchLimit < feed.getNewsList().size();
+        return fetchLimit != INVALID_FETCH_LIMIT
+                && fetchLimit > 0
+                && fetchLimit < feed.getNewsList().size();
     }
 
 //    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {

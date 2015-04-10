@@ -60,6 +60,7 @@ import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
@@ -616,7 +617,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void fetchNewsFeed(RssFetchable fetchable) {
-        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(fetchable, this, false);
+        int fetchLimit = isFromTopNewsFeed()
+                ? NewsFeedFetchUtil.FETCH_LIMIT_TOP
+                : NewsFeedFetchUtil.FETCH_LIMIT_BOTTOM;
+        mNewsFeedFetchTask = new NewsFeedDetailNewsFeedFetchTask(fetchable, this, fetchLimit, false);
         mNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         configBeforeRefresh();

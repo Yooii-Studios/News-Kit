@@ -16,8 +16,6 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
 public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     public enum TaskType { INITIALIZE, SWIPE_REFRESH, REPLACE, CACHE }
 
-    public static final int FETCH_COUNT = 20;
-
     private RssFetchable mRssFetchable;
     private NewsFeed mNewsFeed;
     private OnFetchListener mListener;
@@ -45,7 +43,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     @Override
     protected NewsFeed doInBackground(Void... voids) {
         NewsFeed newsFeed =
-                NewsFeedFetchUtil.fetch(mRssFetchable, FETCH_COUNT, mShuffle);
+                NewsFeedFetchUtil.fetch(mRssFetchable, NewsFeedFetchUtil.FETCH_LIMIT_TOP, mShuffle);
         if (mNewsFeed != null) {
             newsFeed.setTopicIdInfo(mNewsFeed);
         } else if (mRssFetchable instanceof NewsTopic) {
