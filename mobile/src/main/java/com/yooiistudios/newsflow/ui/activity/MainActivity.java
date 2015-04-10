@@ -161,19 +161,19 @@ public class MainActivity extends ActionBarActivity
         NLLog.i("BackgroundServiceUtils", "onCreate");
         BackgroundServiceUtils.startService(getApplicationContext());
 
-        // TODO off-line configuration
         boolean needsRefresh = NewsFeedArchiveUtils.newsNeedsToBeRefreshed(getApplicationContext());
         boolean isOnline = ConnectivityUtils.isNetworkAvailable(getApplicationContext());
         if (needsRefresh && !isOnline) {
             initNetworkUnavailableCoverLayout();
             return;
         }
-
-        initImageLoader();
         init();
     }
 
     private void init() {
+        // setContentView 에서 MainTopContainerLayout, MainBottomContainerLayout 이 초기화되기 때문에
+        // 그 이전에 이미지로더를 초기화해줌
+        initImageLoader();
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
@@ -185,6 +185,7 @@ public class MainActivity extends ActionBarActivity
         mMainBottomContainerLayout.init(this);
         bringLoadingContainerToFront();
         showMainContentIfReadyInternal(true);
+        adjustLayoutOnOrientationChanged();
         requestSystemWindowsBottomInset();
 
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
@@ -667,7 +668,17 @@ public class MainActivity extends ActionBarActivity
         LocaleUtils.updateLocale(this);
 
 //        configBannerAdLayoutParams();
+        adjustLayoutOnOrientationChanged(newConfig);
 
+        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
+                newConfig.orientation);
+    }
+
+    private void adjustLayoutOnOrientationChanged() {
+        adjustLayoutOnOrientationChanged(getResources().getConfiguration());
+    }
+
+    private void adjustLayoutOnOrientationChanged(Configuration newConfig) {
         requestSystemWindowsBottomInset();
 
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -678,9 +689,6 @@ public class MainActivity extends ActionBarActivity
 
         mMainTopContainerLayout.configOnOrientationChange();
         mMainBottomContainerLayout.configOnOrientationChange();
-
-        AnalyticsUtils.trackActivityOrientation((NewsApplication) getApplication(), TAG,
-                newConfig.orientation);
     }
 
 //    private void configBannerAdLayoutParams() {
