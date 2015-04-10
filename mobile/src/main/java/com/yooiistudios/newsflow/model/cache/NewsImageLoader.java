@@ -32,10 +32,6 @@ public class NewsImageLoader extends CacheImageLoader<NewsUrlSupplier> {
         return new NewsImageLoader(context);
     }
 
-    public void get(NewsUrlSupplier urlSupplier, ImageListener imageListener) {
-        super.get(urlSupplier, imageListener);
-    }
-
     @Override
     protected Point getImageSize() {
         Point imageSize = Display.getDisplaySize(getContext());
