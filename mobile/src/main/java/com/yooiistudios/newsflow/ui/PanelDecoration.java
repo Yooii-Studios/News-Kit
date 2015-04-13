@@ -164,21 +164,21 @@ public class PanelDecoration {
     }
 
     public static int getDefaultBottomPaletteColor(Context context) {
-        int grayColor = context.getResources().getColor(R.color.material_light_blue_900);
-        int red = Color.red(grayColor);
-        int green = Color.green(grayColor);
-        int blue = Color.blue(grayColor);
+        int paletteColor = RandomMaterialColors.get(context);
+        int red = Color.red(paletteColor);
+        int green = Color.green(paletteColor);
+        int blue = Color.blue(paletteColor);
         int alpha = context.getResources().getInteger(R.integer.bottom_default_palette_color_alpha);
         return Color.argb(alpha, red, green, blue);
     }
 
+    //
     public static int getBottomDummyImageFilterColor(Context context) {
         int grayColor = context.getResources().getColor(R.color.material_brown_700);
         int red = Color.red(grayColor);
         int green = Color.green(grayColor);
         int blue = Color.blue(grayColor);
         int alpha = context.getResources().getInteger(R.integer.bottom_dummy_palette_color_alpha);
-//        int alpha = context.getResources().getInteger(R.integer.palette_color_alpha);
         return Color.argb(alpha, red, green, blue);
     }
 
