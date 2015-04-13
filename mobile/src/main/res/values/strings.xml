@@ -2,7 +2,8 @@
 <resources>
     <!-- General -->
     <string name="app_name">News Flow</string>
-    <string name="action_info">Infomation</string>
+    <string name="news">News</string>
+    <string name="action_info">Information</string>
     <string name="action_settings">Settings</string>
     <string name="action_rate_app">Rate News Flow</string>
     <string name="action_facebook_like">Like us on Facebook</string>
@@ -114,6 +115,7 @@
     <!-- Notification -->
     <string name="notification_title">Good Morning!</string>
     <string name="notification_description">Your News Flow is ready to read.</string>
+    <string name="notification_ask_description">Would you like to receive news notification?</string>
 
     <!-- Error Message -->
     <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable</string>

@@ -2,6 +2,7 @@
 <resources>
     <!-- General -->
     <string name="app_name">News Flow</string>
+    <string name="news">뉴스</string>
     <string name="action_info">정보</string>
     <string name="action_settings">설정</string>
     <string name="action_rate_app">앱 평가하기</string>
@@ -109,10 +110,12 @@
 
     <!-- Store Ad -->
     <string name="store_buy_pro_version">풀버전을 구매하세요!</string>
+    <string name="store_sub_description">앱의 모든 기능 + 광고 제거</string>
 
     <!-- Notification -->
     <string name="notification_title">좋은 아침입니다!</string>
     <string name="notification_description">새 뉴스 플로가 도착했습니다.</string>
+    <string name="notification_ask_description">뉴스 알림을 받으시겠습니까?</string>
 
     <!-- Error Message -->
     <string name="news_feed_fetch_error_invalid_topic_url">이 뉴스를 사용할 수 없습니다</string>
