@@ -58,8 +58,10 @@ import com.yooiistudios.newsflow.ui.widget.MainTopContainerLayout;
 import com.yooiistudios.newsflow.util.AdDialogFactory;
 import com.yooiistudios.newsflow.util.AdUtils;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
+import com.yooiistudios.newsflow.util.AppLaunchCount;
 import com.yooiistudios.newsflow.util.AppValidationChecker;
 import com.yooiistudios.newsflow.util.FacebookUtils;
+import com.yooiistudios.newsflow.util.NotificationAskUtils;
 import com.yooiistudios.newsflow.util.NotificationUtils;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newsflow.util.ReviewUtils;
@@ -457,6 +459,9 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onBackgroundFadeOutAnimationEnd() {
         AdUtils.showPopupAdIfSatisfied(this);
+        if (AppLaunchCount.isFirstAppLaunch(this)) {
+            NotificationAskUtils.showAskNotificationDialog(this);
+        }
     }
 
     @Override

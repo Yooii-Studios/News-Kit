@@ -21,6 +21,7 @@ public class Settings {
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
     private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 7;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
+    private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
 
     private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000;
 
@@ -113,5 +114,15 @@ public class Settings {
             // y = - 1/100x + 1.5
             return (float) (-1.f / 100.f * speedProgress + 1.5);
         }
+    }
+
+    public static void setNotification(Context context, boolean isNotificationOn) {
+        context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .edit().putBoolean(IS_NOTIFICATION_ON_KEY, isNotificationOn).apply();
+    }
+
+    public static boolean isNotificationOn(Context context) {
+        return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getBoolean(IS_NOTIFICATION_ON_KEY, true);
     }
 }
