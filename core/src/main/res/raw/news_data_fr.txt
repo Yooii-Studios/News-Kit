@@ -6,7 +6,7 @@
     "countries": [
         {
             "country_name": "France",
-            "country_code": "fr",
+            "country_code": "FR",
             "news_providers": [
                 {
                     "provider_name": "Le Pigaro",
@@ -173,7 +173,7 @@
         },
         {
             "country_name": "Canada",
-            "country_code": "ca",
+            "country_code": "CA",
             "news_providers": [
                 {
                     "provider_name": "La presse",

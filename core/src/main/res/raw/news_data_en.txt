@@ -44,7 +44,7 @@
         },
         {
             "country_name": "US",
-            "country_code": "us",
+            "country_code": "US",
             "news_providers": [
                 {
                     "provider_name": "Google",
@@ -99,8 +99,206 @@
                     ]
                 },
                 {
-                    "provider_name": "CNN",
+                    "provider_name": "New York Times",
             	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories (U.S.)",
+                            "topic_id": "1",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Top Stories (International)",
+                            "topic_id": "2",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "3",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/World.xml"
+                        },
+                        {
+                            "topic_name": "U.S.",
+                            "topic_id": "4",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/US.xml"
+                        },
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "5",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Politics.xml"
+                        },
+                        {
+                            "topic_name": "N.Y.Region",
+                            "topic_id": "6",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/NYRegion.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "7",
+                            "url": "http://feeds.nytimes.com/nyt/rss/Business"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "8",
+                            "url": "http://feeds.nytimes.com/nyt/rss/Technology"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "9",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Sports.xml"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "10",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Science.xml"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "11",
+                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Health.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Washington Post",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "1",
+                            "url": "http://feeds.washingtonpost.com/rss/politics",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Opinions",
+                            "topic_id": "2",
+                            "url": "http://feeds.washingtonpost.com/rss/opinions"
+                        },
+                        {
+                            "topic_name": "Local",
+                            "topic_id": "3",
+                            "url": "http://feeds.washingtonpost.com/rss/local"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "4",
+                            "url": "http://feeds.washingtonpost.com/rss/sports"
+                        },
+                        {
+                            "topic_name": "National",
+                            "topic_id": "5",
+                            "url": "http://feeds.washingtonpost.com/rss/national"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "6",
+                            "url": "http://feeds.washingtonpost.com/rss/world"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "7",
+                            "url": "http://feeds.washingtonpost.com/rss/business"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "8",
+                            "url": "http://feeds.washingtonpost.com/rss/lifestyle"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "9",
+                            "url": "http://feeds.washingtonpost.com/rss/entertainment"
+                        },
+                        {
+                            "topic_name": "Real Estate",
+                            "topic_id": "10",
+                            "url": "http://www.washingtonpost.com/realestate/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "USA Today",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=news1",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "2",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=life1"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "3",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=sports1"
+                        },
+                        {
+                            "topic_name": "Money",
+                            "topic_id": "4",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=money1"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "5",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=tech1"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "6",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=travel1"
+                        },
+                        {
+                            "topic_name": "Weather",
+                            "topic_id": "7",
+                            "url": "http://content.usatoday.com/marketing/rss/rsstrans.aspx?feedId=weather1"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Wall Street Journal",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "U.S. Business",
+                            "topic_id": "3",
+                            "url": "http://www.wsj.com/xml/rss/3_7014.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World News",
+                            "topic_id": "2",
+                            "url": "http://www.wsj.com/xml/rss/3_7085.xml"
+                        },
+                        {
+                            "topic_name": "Market News",
+                            "topic_id": "4",
+                            "url": "http://www.wsj.com/xml/rss/3_7031.xml"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "5",
+                            "url": "http://www.wsj.com/xml/rss/3_7455.xml"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "6",
+                            "url": "http://www.wsj.com/xml/rss/3_7201.xml"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "1",
+                            "url": "http://www.wsj.com/xml/rss/3_7041.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "CNN",
+            	    "provider_id": "6",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -146,8 +344,134 @@
                     ]
                 },
                 {
-                    "provider_name": "TIME",
-            	    "provider_id": "3",
+                    "provider_name": "Los Angeles Times",
+            	    "provider_id": "7",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.latimes.com/rss2.0.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "2",
+                            "url": "http://www.latimes.com/sports/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "3",
+                            "url": "http://www.latimes.com/entertainment/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Nation",
+                            "topic_id": "4",
+                            "url": "http://www.latimes.com/nation/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "5",
+                            "url": "http://www.latimes.com/world/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://www.latimes.com/business/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "7",
+                            "url": "http://www.latimes.com/opinion/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "8",
+                            "url": "http://www.latimes.com/style/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "9",
+                            "url": "http://www.latimes.com/travel/rss2.0.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "LA Daily News ",
+            	    "provider_id": "8",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.dailynews.com/section?template=RSS&profile=4000019&mime=xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "2",
+                            "url": "http://www.dailynews.com/section?template=RSS&profile=4000070&mime=xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "3",
+                            "url": "http://www.dailynews.com/section?template=RSS&profile=4000040&mime=xml"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "4",
+                            "url": "http://www.dailynews.com/section?template=RSS&profile=4000054&mime=xml"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "5",
+                            "url": "http://www.dailynews.com/section?template=RSS&profile=4000182&mime=xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "NY Daily News",
+            	    "provider_id": "9",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.nydailynews.com/services/feeds#america",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "New York",
+                            "topic_id": "2",
+                            "url": "http://www.nydailynews.com/services/feeds#local"
+                        },
+                        {
+                            "topic_name": "News",
+                            "topic_id": "3",
+                            "url": "http://www.nydailynews.com/services/feeds#news"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "4",
+                            "url": "http://www.nydailynews.com/services/feeds#sports"
+                        },
+                        {
+                            "topic_name": "Showbiz",
+                            "topic_id": "5",
+                            "url": "http://www.nydailynews.com/services/feeds#entertainment"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "6",
+                            "url": "http://www.nydailynews.com/services/feeds#opinion"
+                        },
+                        {
+                            "topic_name": "Living",
+                            "topic_id": "7",
+                            "url": "http://www.nydailynews.com/services/feeds#lifestyle"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Time",
+            	    "provider_id": "10",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -196,66 +520,260 @@
                             "url": "http://feeds2.feedburner.com/time/entertainment"
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "country_name": "Canada",
+            "country_code": "CA",
+            "news_providers": [
                 {
-                    "provider_name": "New York Times",
-            	    "provider_id": "4",
+                    "provider_name": "Toronto Star",
+            	    "provider_id": "1",
             	    "topics": [
                         {
-                            "topic_name": "Home Page (U.S.)",
+                            "topic_name": "Top Stories",
                             "topic_id": "1",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"
-                        },
-                        {
-                            "topic_name": "Home Page (International)",
-                            "topic_id": "2",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/InternationalHome.xml",
+                            "url": "http://www.thestar.com/feeds.topstories.rss",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "World",
+                            "topic_name": "All News Stories",
+                            "topic_id": "2",
+                            "url": "http://www.thestar.com/feeds.articles.news.rss"
+                        },
+                        {
+                            "topic_name": "Your Toronto",
                             "topic_id": "3",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/World.xml"
+                            "url": "http://www.thestar.com/feeds.articles.yourtoronto.rss"
                         },
                         {
-                            "topic_name": "U.S.",
+                            "topic_name": "Opinion",
                             "topic_id": "4",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/US.xml"
-                        },
-                        {
-                            "topic_name": "Politics",
-                            "topic_id": "5",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Politics.xml"
-                        },
-                        {
-                            "topic_name": "N.Y./Region",
-                            "topic_id": "6",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/NYRegion.xml"
+                            "url": "http://www.thestar.com/feeds.articles.opinion.rss"
                         },
                         {
                             "topic_name": "Business",
-                            "topic_id": "7",
-                            "url": "http://feeds.nytimes.com/nyt/rss/Business"
-                        },
-                        {
-                            "topic_name": "Technology",
-                            "topic_id": "8",
-                            "url": "http://feeds.nytimes.com/nyt/rss/Technology"
+                            "topic_id": "5",
+                            "url": "http://www.thestar.com/feeds.articles.business.rss"
                         },
                         {
                             "topic_name": "Sports",
-                            "topic_id": "9",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Sports.xml"
+                            "topic_id": "6",
+                            "url": "http://www.thestar.com/feeds.articles.sports.rss"
                         },
                         {
-                            "topic_name": "Science",
-                            "topic_id": "10",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Science.xml"
+                            "topic_name": "Entertainment",
+                            "topic_id": "7",
+                            "url": "http://www.thestar.com/feeds.articles.entertainment.rss"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "8",
+                            "url": "http://www.thestar.com/feeds.articles.life.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Toronto Sun",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.torontosun.com/news/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "2",
+                            "url": "http://www.torontosun.com/sports/rss.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "3",
+                            "url": "http://www.torontosun.com/entertainment/rss.xml"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "4",
+                            "url": "http://www.torontosun.com/life/rss.xml"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "5",
+                            "url": "http://www.torontosun.com/tech/rss.xml"
+                        },
+                        {
+                            "topic_name": "Money",
+                            "topic_id": "6",
+                            "url": "http://www.torontosun.com/money/rss.xml"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "7",
+                            "url": "http://www.torontosun.com/travel/rss.xml"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "8",
+                            "url": "http://www.torontosun.com/opinion/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Vancouver Sun",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://rss.canada.com/get/?F229",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Entertainment & Arts",
+                            "topic_id": "2",
+                            "url": "http://rss.canada.com/get/?F6962"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "3",
+                            "url": "http://rss.canada.com/get/?F7439"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "4",
+                            "url": "http://rss.canada.com/get/?F7450"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "5",
+                            "url": "http://rss.canada.com/get/?F6966"
                         },
                         {
                             "topic_name": "Health",
-                            "topic_id": "11",
-                            "url": "http://www.nytimes.com/services/xml/rss/nyt/Health.xml"
+                            "topic_id": "6",
+                            "url": "http://rss.canada.com/get/?F7462"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://rss.canada.com/get/?F260"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "8",
+                            "url": "http://rss.canada.com/get/?F7477"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "9",
+                            "url": "http://rss.canada.com/get/?F7481"
+                        },
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "10",
+                            "url": "http://rss.canada.com/get/?F1919"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Winnipeg Free Press",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "1",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/breakingnews",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "2",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/business"
+                        },
+                        {
+                            "topic_name": "Finance",
+                            "topic_id": "3",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/business/finance"
+                        },
+                        {
+                            "topic_name": "Local News",
+                            "topic_id": "4",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/local"
+                        },
+                        {
+                            "topic_name": "Canada News",
+                            "topic_id": "5",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/canada"
+                        },
+                        {
+                            "topic_name": "World News",
+                            "topic_id": "6",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/world"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://www.winnipegfreepress.com/rss?path=/sports"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Edmonton Journal",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://rss.canada.com/get/?F264",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Entertainment & Arts",
+                            "topic_id": "2",
+                            "url": "http://rss.canada.com/get/?F6922"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "3",
+                            "url": "http://rss.canada.com/get/?F7716"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "4",
+                            "url": "http://rss.canada.com/get/?F232"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "5",
+                            "url": "http://rss.canada.com/get/?F7733"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "6",
+                            "url": "http://rss.canada.com/get/?F7738"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://rss.canada.com/get/?F266"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "8",
+                            "url": "http://rss.canada.com/get/?F268"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "9",
+                            "url": "http://rss.canada.com/get/?F7756"
+                        },
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "10",
+                            "url": "http://rss.canada.com/get/?F1909"
                         }
                     ]
                 }
@@ -263,11 +781,135 @@
         },
         {
             "country_name": "UK",
-            "country_code": "uk",
+            "country_code": "UK",
             "news_providers": [
                 {
-                    "provider_name": "The guardian",
+                    "provider_name": "Daily Mail",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Latest Stories",
+                            "topic_id": "1",
+                            "url": "http://www.dailymail.co.uk/articles.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "2",
+                            "url": "http://www.dailymail.co.uk/home/index.rss"
+                        },
+                        {
+                            "topic_name": "News",
+                            "topic_id": "3",
+                            "url": "http://www.dailymail.co.uk/news/index.rss"
+                        },
+                        {
+                            "topic_name": "U.S.",
+                            "topic_id": "4",
+                            "url": "http://www.dailymail.co.uk/ushome/index.rss"
+                        },
+                        {
+                            "topic_name": "Australia",
+                            "topic_id": "5",
+                            "url": "http://www.dailymail.co.uk/auhome/index.rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://www.dailymail.co.uk/sport/index.rss"
+                        },
+                        {
+                            "topic_name": "TV & Showbiz",
+                            "topic_id": "7",
+                            "url": "http://www.dailymail.co.uk/tvshowbiz/index.rss"
+                        },
+                        {
+                            "topic_name": "Femail",
+                            "topic_id": "8",
+                            "url": "http://www.dailymail.co.uk/femail/index.rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://www.dailymail.co.uk/health/index.rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "10",
+                            "url": "http://www.dailymail.co.uk/sciencetech/index.rss"
+                        },
+                        {
+                            "topic_name": "Money",
+                            "topic_id": "11",
+                            "url": "http://www.dailymail.co.uk/money/index.rss"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "12",
+                            "url": "http://www.dailymail.co.uk/travel/index.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Daily Telegraph",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "News",
+                            "topic_id": "1",
+                            "url": "http://www.telegraph.co.uk/news/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "2",
+                            "url": "http://www.telegraph.co.uk/sport/rss"
+                        },
+                        {
+                            "topic_name": "Finance",
+                            "topic_id": "3",
+                            "url": "http://www.telegraph.co.uk/finance/rss"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "4",
+                            "url": "http://www.telegraph.co.uk/travel/rss"
+                        },
+                        {
+                            "topic_name": "Comment",
+                            "topic_id": "5",
+                            "url": "http://www.telegraph.co.uk/comment/rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "6",
+                            "url": "http://www.telegraph.co.uk/culture/rss"
+                        },
+                        {
+                            "topic_name": "Motoring",
+                            "topic_id": "7",
+                            "url": "http://www.telegraph.co.uk/motoring/rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "8",
+                            "url": "http://www.telegraph.co.uk/technology/rss"
+                        },
+                        {
+                            "topic_name": "Property",
+                            "topic_id": "9",
+                            "url": "http://www.telegraph.co.uk/finance/property/rss"
+                        },
+                        {
+                            "topic_name": "Food and Drink",
+                            "topic_id": "10",
+                            "url": "http://www.telegraph.co.uk/foodanddrink/rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "The Guardian",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "UK News",
@@ -276,45 +918,149 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Politics",
-                            "topic_id": "2",
-                            "url": "http://feeds.theguardian.com/theguardian/politics/rss"
-                        },
-                        {
-                            "topic_name": "Business",
-                            "topic_id": "3",
-                            "url": "http://feeds.theguardian.com/theguardian/uk/business/rss"
-                        },
-                        {
-                            "topic_name": "Society",
-                            "topic_id": "4",
-                            "url": "http://feeds.theguardian.com/theguardian/society/rss"
-                        },
-                        {
                             "topic_name": "World",
-                            "topic_id": "5",
+                            "topic_id": "2",
                             "url": "http://feeds.theguardian.com/theguardian/world/rss"
                         },
                         {
-                            "topic_name": "Europe",
-                            "topic_id": "6",
-                            "url": "http://www.theguardian.com/uk/rss"
+                            "topic_name": "Sport",
+                            "topic_id": "3",
+                            "url": "http://www.theguardian.com/uk/sport/rss"
                         },
                         {
-                            "topic_name": "Life & Style",
-                            "topic_id": "7",
-                            "url": "http://feeds.theguardian.com/theguardian/lifeandstyle/rss"
+                            "topic_name": "Football",
+                            "topic_id": "4",
+                            "url": "http://www.theguardian.com/football/rss"
+                        },
+                        {
+                            "topic_name": "Economy",
+                            "topic_id": "5",
+                            "url": "http://www.theguardian.com/uk/business/rss"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "6",
+                            "url": "http://www.theguardian.com/lifeandstyle/rss"
                         },
                         {
                             "topic_name": "Comment",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://feeds.theguardian.com/theguardian/uk/commentisfree/rss"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "8",
+                            "url": "http://www.theguardian.com/uk/commentisfree/rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "9",
+                            "url": "http://www.theguardian.com/uk/culture/rss"
+                        },
+                        {
+                            "topic_name": "Fashion",
+                            "topic_id": "10",
+                            "url": "http://www.theguardian.com/fashion/rss"
+                        },
+                        {
+                            "topic_name": "Environment",
+                            "topic_id": "11",
+                            "url": "http://www.theguardian.com/uk/environment/rss"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "12",
+                            "url": "http://www.theguardian.com/uk/technology"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "13",
+                            "url": "http://www.theguardian.com/travel/rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Independent",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "News",
+                            "topic_id": "1",
+                            "url": "http://www.independent.co.uk/news/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Environment",
+                            "topic_id": "2",
+                            "url": "http://www.independent.co.uk/environment/rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "3",
+                            "url": "http://www.independent.co.uk/sport/rss"
+                        },
+                        {
+                            "topic_name": "Life & Style",
+                            "topic_id": "4",
+                            "url": "http://www.independent.co.uk/life-style/rss"
+                        },
+                        {
+                            "topic_name": "Art & Entertainment",
+                            "topic_id": "5",
+                            "url": "http://www.independent.co.uk/arts-entertainment/rss"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "6",
+                            "url": "http://www.independent.co.uk/travel/rss"
+                        },
+                        {
+                            "topic_name": "Money",
+                            "topic_id": "7",
+                            "url": "http://www.independent.co.uk/money/rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Financial Times",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "UK",
+                            "topic_id": "1",
+                            "url": "http://www.ft.com/rss/home/uk",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Europe",
+                            "topic_id": "2",
+                            "url": "http://www.ft.com/rss/home/europe"
+                        },
+                        {
+                            "topic_name": "US",
+                            "topic_id": "3",
+                            "url": "http://www.ft.com/rss/home/us"
+                        },
+                        {
+                            "topic_name": "Asia",
+                            "topic_id": "4",
+                            "url": "http://www.ft.com/rss/home/asia"
+                        },
+                        {
+                            "topic_name": "Middle East",
+                            "topic_id": "5",
+                            "url": "http://www.ft.com/rss/home/middleeast"
+                        },
+                        {
+                            "topic_name": "India",
+                            "topic_id": "6",
+                            "url": "http://www.ft.com/rss/home/india"
                         }
                     ]
                 },
                 {
                     "provider_name": "BBC",
-            	    "provider_id": "2",
+            	    "provider_id": "6",
             	    "topics": [
                         {
                             "topic_name": "Top Series",
@@ -361,6 +1107,885 @@
                             "topic_name": "Entertainment & Art",
                             "topic_id": "9",
                             "url": "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml#"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Ireland",
+            "country_code": "IE",
+            "news_providers": [
+                {
+                    "provider_name": "Independent",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "1",
+                            "url": "http://www.independent.ie/breaking-news/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "National News",
+                            "topic_id": "2",
+                            "url": "http://www.independent.ie/breaking-news/national-news/rss"
+                        },
+                        {
+                            "topic_name": "World News",
+                            "topic_id": "3",
+                            "url": "http://www.independent.ie/world-news/rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "4",
+                            "url": "http://www.independent.ie/sport/rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://www.independent.ie/business/rss"
+                        },
+                        {
+                            "topic_name": "Farming",
+                            "topic_id": "6",
+                            "url": "http://www.independent.ie/farming/rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "7",
+                            "url": "http://www.independent.ie/entertainment/rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "8",
+                            "url": "http://www.independent.ie/health/rss"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "9",
+                            "url": "http://www.independent.ie/lifestyle/rss"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "10",
+                            "url": "http://www.independent.ie/travel/rss"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Australia",
+            "country_code": "AU",
+            "news_providers": [
+                {
+                    "provider_name": "Herald Sun",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "1",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_breakingnews_2800.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "2",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_topstories_2803.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "3",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_worldnews_2793.xml"
+                        },
+                        {
+                            "topic_name": "Victoria and National",
+                            "topic_id": "4",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_morenews_2794.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "5",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_sport_2789.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_business_2783.xml"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "7",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_technology_2790.xml"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "8",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_opinion_2788.xml"
+                        },
+                        {
+                            "topic_name": "AFL",
+                            "topic_id": "9",
+                            "url": "http://feeds.news.com.au/heraldsun/rss/heraldsun_news_afl_topstories_2781.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Daily Telegraph",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "1",
+                            "url": "http://feeds.feedburner.com/dailytelegraphbreakingnewsndm",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "New South Wales",
+                            "topic_id": "2",
+                            "url": "http://feeds.feedburner.com/dailytelegraphnswact"
+                        },
+                        {
+                            "topic_name": "National",
+                            "topic_id": "3",
+                            "url": "http://feeds.feedburner.com/dailytelegraphnationalnewsndm"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://feeds.feedburner.com/dailytelegraphworldnewsndm"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://feeds.feedburner.com/dailytelegraphbusinessnewsndm"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://feeds.feedburner.com/dailytelegraphentertainmentnewsndm"
+                        },
+                        {
+                            "topic_name": "Celebrity",
+                            "topic_id": "7",
+                            "url": "http://feeds.feedburner.com/dailytelegraphconfidentialnewsndm"
+                        },
+                        {
+                            "topic_name": "Music",
+                            "topic_id": "8",
+                            "url": "http://feeds.feedburner.com/dailytelegraphmusicndm"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "9",
+                            "url": "http://feeds.feedburner.com/dailytelegraphlifestylenewsndm"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Courier Mail",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_top_stories_257.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "2",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_breaking_news_67.xml"
+                        },
+                        {
+                            "topic_name": "Queensland",
+                            "topic_id": "3",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_queensland_news_70.xml"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "4",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_technology_news_66.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "5",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_entertainment_news_256.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_business_news_64.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/bcm_sports_news_65.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Sydney Morning Herald",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://feeds.smh.com.au/rssheadlines/top.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "New News",
+                            "topic_id": "2",
+                            "url": "http://www.smh.com.au/rssheadlines/nsw/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "3",
+                            "url": "http://www.smh.com.au/rssheadlines/federal-politics/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://www.smh.com.au/rssheadlines/world/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "National",
+                            "topic_id": "5",
+                            "url": "http://www.smh.com.au/rssheadlines/national/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "Comment",
+                            "topic_id": "6",
+                            "url": "http://www.smh.com.au/rssheadlines/comment/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "7",
+                            "url": "http://www.smh.com.au/rssheadlines/business.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "8",
+                            "url": "http://feeds.smh.com.au/rssheadlines/entertainment.xml"
+                        },
+                        {
+                            "topic_name": "Digital Life",
+                            "topic_id": "9",
+                            "url": "http://www.smh.com.au/rssheadlines/digital-life-news/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "10",
+                            "url": "http://www.smh.com.au/rssheadlines/technology-news/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "11",
+                            "url": "http://www.smh.com.au/rssheadlines/health/article/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "12",
+                            "url": "http://feeds.smh.com.au/rssheadlines/sport.xml"
+                        },
+                        {
+                            "topic_name": "Real Estate",
+                            "topic_id": "13",
+                            "url": "http://www.smh.com.au/rssheadlines/real-estate-news/article/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Advertiser",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_topstories_250.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "South Australia",
+                            "topic_id": "2",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_state_191.xml"
+                        },
+                        {
+                            "topic_name": "National",
+                            "topic_id": "3",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_national_188.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_world_193.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "5",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_entertainment_187.xml"
+                        },
+                        {
+                            "topic_name": "Arts",
+                            "topic_id": "6",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_arts_401.xml"
+                        },
+                        {
+                            "topic_name": "Music",
+                            "topic_id": "7",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_music_451.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "8",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_business_186.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "9",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_sport_190.xml"
+                        },
+                        {
+                            "topic_name": "AFL",
+                            "topic_id": "10",
+                            "url": "http://feeds.news.com.au/public/rss/2.0/anow_afl_185.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "New Zealand",
+            "country_code": "NZ",
+            "news_providers": [
+                {
+                    "provider_name": "New Zealand Herald",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "1",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_001503711.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "2",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000003.xml"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "3",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_001501119.xml"
+                        },
+                        {
+                            "topic_name": "Life & Style",
+                            "topic_id": "4",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000006.xml"
+                        },
+                        {
+                            "topic_name": "Living",
+                            "topic_id": "5",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_001503648.xml"
+                        },
+                        {
+                            "topic_name": "National",
+                            "topic_id": "6",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000001.xml"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "7",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000466.xml"
+                        },
+                        {
+                            "topic_name": "Property",
+                            "topic_id": "8",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000008.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "9",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000004.xml"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "10",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000005.xml"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "11",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000007.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "12",
+                            "url": "http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000002.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Stuff",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.stuff.co.nz/rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Singapore",
+            "country_code": "SG",
+            "news_providers": [
+                {
+                    "provider_name": "Straits Times",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.straitstimes.com/sites/straitstimes.com/files/st_rss/rss_breaking_news.opml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Singapore",
+                            "topic_id": "2",
+                            "url": "http://www.straitstimes.com/news/singapore/rss.xml"
+                        },
+                        {
+                            "topic_name": "Asia",
+                            "topic_id": "3",
+                            "url": "http://www.straitstimes.com/news/asia/rss.xml"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://www.straitstimes.com/news/world/rss.xml"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://www.straitstimes.com/news/business/rss.xml"
+                        },
+                        {
+                            "topic_name": "Digital Life",
+                            "topic_id": "6",
+                            "url": "http://www.straitstimes.com/news/digital-life/rss.xml"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "7",
+                            "url": "http://www.straitstimes.com/news/lifestyle/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "8",
+                            "url": "http://www.straitstimes.com/news/sport/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Today",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Hot News",
+                            "topic_id": "1",
+                            "url": "http://www.todayonline.com/hot-news/feed",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Singapore",
+                            "topic_id": "2",
+                            "url": "http://www.todayonline.com/feed/singapore"
+                        },
+                        {
+                            "topic_name": "Daily Focus",
+                            "topic_id": "3",
+                            "url": "http://www.todayonline.com/feed/daily-focus"
+                        },
+                        {
+                            "topic_name": "China & India",
+                            "topic_id": "4",
+                            "url": "http://www.todayonline.com/feed/china&india"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "5",
+                            "url": "http://www.todayonline.com/feed/world"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://www.todayonline.com/feed/business"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "7",
+                            "url": "http://www.todayonline.com/feed/tech"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "8",
+                            "url": "http://www.todayonline.com/feed/sports"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "9",
+                            "url": "http://www.todayonline.com/feed/entertainment"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "10",
+                            "url": "http://www.todayonline.com/feed/lifestyle"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "India",
+            "country_code": "IN",
+            "news_providers": [
+                {
+                    "provider_name": "Times of India",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Most Recent Stories",
+                            "topic_id": "2",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/1221656.cms"
+                        },
+                        {
+                            "topic_name": "India",
+                            "topic_id": "3",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/296589292.cms"
+                        },
+                        {
+                            "topic_name": "NRI",
+                            "topic_id": "5",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/7098551.cms"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/1898055.cms"
+                        },
+                        {
+                            "topic_name": "Cricket",
+                            "topic_id": "7",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/4719161.cms"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "8",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/4719148.cms"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/3908999.cms"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "10",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/-2128672765.cms"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "11",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/5880659.cms"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "12",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/784865811.cms"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "13",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/1081479906.cms"
+                        },
+                        {
+                            "topic_name": "Life & Style",
+                            "topic_id": "14",
+                            "url": "http://timesofindia.indiatimes.com/rssfeeds/2886704.cms"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Hindustan Times",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Latest News",
+                            "topic_id": "1",
+                            "url": "http://feeds.hindustantimes.com/HT-HomePage-TopStories",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Don't Miss",
+                            "topic_id": "2",
+                            "url": "http://feeds.hindustantimes.com/HT-Dontmiss"
+                        },
+                        {
+                            "topic_name": "India",
+                            "topic_id": "3",
+                            "url": "http://feeds.hindustantimes.com/HT-India"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://feeds.hindustantimes.com/HT-World"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "5",
+                            "url": "http://feeds.hindustantimes.com/HT-Sport"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://feeds.hindustantimes.com/HT-Entertainment"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "7",
+                            "url": "http://feeds.hindustantimes.com/HT-Entertainment"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "8",
+                            "url": "http://feeds.hindustantimes.com/HT-auto"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Philippines",
+            "country_code": "PH",
+            "news_providers": [
+                {
+                    "provider_name": "Philippine Star",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "1",
+                            "url": "http://www.philstar.com/rss/breakingnews",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Headlines",
+                            "topic_id": "2",
+                            "url": "http://www.philstar.com/rss/headlines"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "3",
+                            "url": "http://www.philstar.com/rss/opinion"
+                        },
+                        {
+                            "topic_name": "Nation",
+                            "topic_id": "4",
+                            "url": "http://www.philstar.com/rss/nation"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "5",
+                            "url": "http://www.philstar.com/rss/world"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://www.philstar.com/rss/business"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://www.philstar.com/rss/sports"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "8",
+                            "url": "http://www.philstar.com/rss/entertainment"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Sun Star",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Local News",
+                            "topic_id": "1",
+                            "url": "http://www.sunstar.com.ph/rss/local-news",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "2",
+                            "url": "http://www.sunstar.com.ph/rss/business"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "3",
+                            "url": "http://www.sunstar.com.ph/rss/opinion"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "4",
+                            "url": "http://www.sunstar.com.ph/rss/sports"
+                        },
+                        {
+                            "topic_name": "Feature",
+                            "topic_id": "5",
+                            "url": "http://www.sunstar.com.ph/rss/feature"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "6",
+                            "url": "http://www.sunstar.com.ph/rss/lifestyle"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "7",
+                            "url": "http://www.sunstar.com.ph/rss/entertainment"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "South Africa",
+            "country_code": "ZA",
+            "news_providers": [
+                {
+                    "provider_name": "Sunday Times",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "News",
+                            "topic_id": "1",
+                            "url": "http://www.timeslive.co.za/?service=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "2",
+                            "url": "http://www.timeslive.co.za/politics/?service=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "3",
+                            "url": "http://www.timeslive.co.za/sport/?service=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "4",
+                            "url": "http://www.timeslive.co.za/entertainment/?service=rss"
+                        },
+                        {
+                            "topic_name": "Sci Tech",
+                            "topic_id": "5",
+                            "url": "http://www.timeslive.co.za/scitech/?service=rss"
+                        },
+                        {
+                            "topic_name": "Life & Style",
+                            "topic_id": "6",
+                            "url": "http://www.timeslive.co.za/lifestyle/?service=rss"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "7",
+                            "url": "http://www.timeslive.co.za/opinion/?service=rss"
+                        },
+                        {
+                            "topic_name": "iLive",
+                            "topic_id": "8",
+                            "url": "http://www.timeslive.co.za/ilive/?service=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "City Press",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://www.citypress.co.za/feature-type/top-stories/feed/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "2",
+                            "url": "http://www.citypress.co.za/category/sport/feed/"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "3",
+                            "url": "http://www.citypress.co.za/category/entertainment/feed/"
+                        },
+                        {
+                            "topic_name": "City Press Says",
+                            "topic_id": "4",
+                            "url": "http://www.citypress.co.za/category/citypress-says/feed/"
+                        },
+                        {
+                            "topic_name": "You Say",
+                            "topic_id": "5",
+                            "url": "http://www.citypress.co.za/category/you-say/feed/"
+                        },
+                        {
+                            "topic_name": "Politics",
+                            "topic_id": "6",
+                            "url": "http://www.citypress.co.za/politics/feed/"
+                        },
+                        {
+                            "topic_name": "News",
+                            "topic_id": "7",
+                            "url": "http://www.citypress.co.za/news/feed/"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "8",
+                            "url": "http://www.citypress.co.za/business/feed/"
+                        },
+                        {
+                            "topic_name": "Multimedia",
+                            "topic_id": "9",
+                            "url": "http://www.citypress.co.za/multimedia/feed/"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "10",
+                            "url": "http://www.citypress.co.za/lifestyle/feed/"
+                        },
+                        {
+                            "topic_name": "Columnists",
+                            "topic_id": "11",
+                            "url": "http://www.citypress.co.za/columnists/feed/"
                         }
                     ]
                 }
