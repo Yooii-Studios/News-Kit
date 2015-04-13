@@ -2,9 +2,11 @@ package com.yooiistudios.newsflow.core.news;
 
 import android.content.Context;
 
+import com.yooiistudios.newsflow.core.language.DefaultLocale;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 25.
@@ -27,6 +29,9 @@ public class NewsFeedDefaultUrlProvider {
 
     private NewsFeedDefaultUrlProvider(Context context) {
         NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(context);
+
+        // TODO: 첫 실행시 기존에 사용하고 있던 Locale 정보를 통해 이사님 추가 기획을 가지고 초기 패널을 구현할 것
+        Locale locale = DefaultLocale.loadDefaultLocale(context);
 
         // TODO: 출시 전 로직 정상화 후 다시 초기화 뉴스를 기획 참고해 지정해줄 것
         mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "us", 2, 1);

@@ -34,6 +34,9 @@ public class LanguageUtils {
             // 아카이브
             context.getSharedPreferences(LANGUAGE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                     .edit().putInt(LANGUAGE_MATRIX_KEY, mCurrentLanguage.getUniqueId()).apply();
+
+            // 기존 Locale 을 저장. 초기 패널 지정시 사용
+            DefaultLocale.saveDefaultLocale(context, locale);
         } else {
             mCurrentLanguage = Language.valueOfUniqueId(uniqueId);
         }
