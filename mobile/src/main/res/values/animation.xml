@@ -26,7 +26,7 @@
     <!-- 리사이클러 하이트 스타트 딜레이 -->
     <integer name="news_feed_detail_recycler_height_start_delay">300</integer>
     <!-- 리사이클러 하이트 -->
-    <integer name="news_feed_detail_recycler_height_duration">950</integer>
+    <integer name="news_feed_detail_recycler_height_duration">850</integer>
     <!-- 텍스트 페이드 -->
     <integer name="news_feed_detail_text_fade_duration">400</integer>
 
