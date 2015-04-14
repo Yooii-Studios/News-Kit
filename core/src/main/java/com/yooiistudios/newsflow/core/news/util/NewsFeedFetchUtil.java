@@ -51,6 +51,7 @@ public class NewsFeedFetchUtil {
 
             newsFeed = getNewsFeedFromUrl(newsFeedUrl);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
+            trimNewsContents(newsFeed);
 
             if (shuffle) {
                 shuffleNewsList(newsFeed);
@@ -101,8 +102,28 @@ public class NewsFeedFetchUtil {
         }
     }
 
+    // 뉴스 내용에 앞뒤로 공간이 있을 경우가 있어 첫 로딩 시 trim 을 적용해줌
+    private static void trimNewsContents(NewsFeed newsFeed) {
+        for (News news : newsFeed.getNewsList()) {
+            news.setTitle(news.getTitle().trim());
+            news.setDescription(news.getDescription().trim());
+        }
+    }
+
     private static void shuffleNewsList(NewsFeed feed) {
         Collections.shuffle(feed.getNewsList(), new Random(System.nanoTime()));
+    }
+
+    private static boolean shouldTrimNewsList(NewsFeed feed, int fetchLimit) {
+        return fetchLimit != INVALID_FETCH_LIMIT
+                && fetchLimit > 0
+                && fetchLimit < feed.getNewsList().size();
+    }
+
+    private static void trimNewsList(NewsFeed feed, int fetchLimit) {
+        ArrayList<News> trimmedNewsList =
+                new ArrayList<>(feed.getNewsList().subList(0, fetchLimit));
+        feed.setNewsList(trimmedNewsList);
     }
 
     private static void refactorDescription(NewsFeed feed) {
@@ -122,18 +143,6 @@ public class NewsFeedFetchUtil {
                 item.setDescription(refinedDesc);
             }
         }
-    }
-
-    private static void trimNewsList(NewsFeed feed, int fetchLimit) {
-        ArrayList<News> trimmedNewsList =
-                new ArrayList<>(feed.getNewsList().subList(0, fetchLimit));
-        feed.setNewsList(trimmedNewsList);
-    }
-
-    private static boolean shouldTrimNewsList(NewsFeed feed, int fetchLimit) {
-        return fetchLimit != INVALID_FETCH_LIMIT
-                && fetchLimit > 0
-                && fetchLimit < feed.getNewsList().size();
     }
 
 //    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {
