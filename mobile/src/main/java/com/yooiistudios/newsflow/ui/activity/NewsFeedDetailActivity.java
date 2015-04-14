@@ -434,8 +434,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         ViewGroup.LayoutParams lp = mBottomRecyclerView.getLayoutParams();
         lp.height = totalHeight;
         mBottomRecyclerView.setLayoutParams(lp);
-//        mBottomRecyclerView.invalidate();
-//        mAdapter.notifyDataSetChanged();
     }
 
     @Override
