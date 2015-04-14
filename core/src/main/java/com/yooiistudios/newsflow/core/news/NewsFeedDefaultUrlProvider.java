@@ -34,17 +34,17 @@ public class NewsFeedDefaultUrlProvider {
         Locale locale = DefaultLocale.loadDefaultLocale(context);
 
         // TODO: 출시 전 로직 정상화 후 다시 초기화 뉴스를 기획 참고해 지정해줄 것
-        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "us", 2, 1);
+        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "US", 2, 1);
 
         mBottomNewsTopicList = new ArrayList<>();
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "uk", 2, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "kr", 2, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("fr", null, "fr", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("zh", "tw", "hk", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "jp", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "uk", 1, 4));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "kr", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "us", 4, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 2, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("fr", null, "FR", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("zh", "tw", "TW", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 1, 4));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 4, 2));
     }
 
     public NewsTopic getTopNewsTopic() {
