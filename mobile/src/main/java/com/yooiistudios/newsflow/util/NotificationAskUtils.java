@@ -14,7 +14,7 @@ import com.yooiistudios.newsflow.model.Settings;
  */
 public class NotificationAskUtils {
     public static void showAskNotificationDialog(final Context context) {
-        new MaterialDialog.Builder(context)
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(R.string.app_name)
                 .content(R.string.notification_ask_description)
                 .positiveText(R.string.yes)
@@ -26,6 +26,10 @@ public class NotificationAskUtils {
                         Settings.setNotification(context, true);
                     }
                 })
-                .show();
+                .build();
+
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 }
