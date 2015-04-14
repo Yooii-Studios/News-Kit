@@ -75,13 +75,17 @@ public class BottomNewsImageFetchManager
     }
 
     private void addDisplayingNews(NewsFeed newsFeed, int newsFeedIndex) {
-        mNewsToFetchMap.put(newsFeed.getDisplayingNews(),
-                new Request(newsFeedIndex, newsFeed.getDisplayingNewsIndex(), false));
+        if (newsFeed.isDisplayable()) {
+            mNewsToFetchMap.put(newsFeed.getDisplayingNews(),
+                    new Request(newsFeedIndex, newsFeed.getDisplayingNewsIndex(), false));
+        }
     }
 
     private void addNextNews(NewsFeed newsFeed, int newsFeedIndex) {
-        mNewsToFetchMap.put(newsFeed.getNextNews(),
-                new Request(newsFeedIndex, newsFeed.getNextNewsIndex(), false));
+        if (newsFeed.isDisplayable()) {
+            mNewsToFetchMap.put(newsFeed.getNextNews(),
+                    new Request(newsFeedIndex, newsFeed.getNextNewsIndex(), false));
+        }
     }
 
     private void prepare(OnFetchListener listener, int taskType) {
