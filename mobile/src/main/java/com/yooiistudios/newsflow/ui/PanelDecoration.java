@@ -149,7 +149,7 @@ public class PanelDecoration {
      */
     public static int getDefaultTopPaletteColor() {
 //        return Color.argb(127, 16, 16, 16);
-        return Color.argb(110, 16, 16, 16);
+        return Color.argb(100, 16, 16, 16);
     }
 
     public static int getTopDummyImageFilterColor() {
