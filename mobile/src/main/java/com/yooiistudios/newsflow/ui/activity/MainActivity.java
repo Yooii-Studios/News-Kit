@@ -652,8 +652,6 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void configAfterRefreshDone() {
-        NLLog.now("mMainTopContainerLayout.isReady()" + mMainTopContainerLayout.isReady());
-        NLLog.now("!mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()" + !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds());
         if (mMainTopContainerLayout.isReady() &&
                 !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
             // dismiss loading progress bar
