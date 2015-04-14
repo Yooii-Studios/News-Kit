@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="palette_color_alpha">170</integer>
-    <integer name="bottom_dummy_palette_color_alpha">140</integer>
+    <integer name="palette_color_alpha">140</integer>
+    <integer name="bottom_dummy_palette_color_alpha">120</integer>
     <integer name="bottom_default_palette_color_alpha">90</integer>
 
     <integer name="news_feed_detail_title_max_line">2</integer>

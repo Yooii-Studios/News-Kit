@@ -148,7 +148,8 @@ public class PanelDecoration {
      * Color used to Main Top news image and Dummy image
      */
     public static int getDefaultTopPaletteColor() {
-        return Color.argb(127, 16, 16, 16);
+//        return Color.argb(127, 16, 16, 16);
+        return Color.argb(110, 16, 16, 16);
     }
 
     public static int getTopDummyImageFilterColor() {

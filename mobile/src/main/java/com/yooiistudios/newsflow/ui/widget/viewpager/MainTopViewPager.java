@@ -16,7 +16,7 @@ import com.yooiistudios.newsflow.ui.fragment.MainTopFragment;
  *  메인 상단에 사용되는 뷰페이저
  */
 public class MainTopViewPager extends ViewPager {
-    private static final float PARALLAX_SCROLL_RATIO = 0.6f; // 0.47f
+    private static final float PARALLAX_SCROLL_RATIO = 0.55f; // 0.47f
 
     public MainTopViewPager(Context context) {
         super(context);
