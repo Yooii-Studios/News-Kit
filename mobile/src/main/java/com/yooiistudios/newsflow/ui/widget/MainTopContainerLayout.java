@@ -322,9 +322,17 @@ public class MainTopContainerLayout extends FrameLayout
         mViewPagerIndicator.setVisibility(View.VISIBLE);
 
         mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
-        mViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mViewPager);
+        initViewPagerIndicator();
 
         mNewsFeedTitleTextView.setText(mTopNewsFeedPagerAdapter.getNewsFeed().getTitle());
+    }
+
+    private void initViewPagerIndicator() {
+        if (mViewPager.getAdapter() != null) {
+            mViewPagerIndicator.setVisibility(View.VISIBLE);
+            mViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mViewPager);
+            mViewPagerIndicator.setPage(mViewPager.getCurrentItem());
+        }
     }
 
     private void fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType taskType) {
@@ -411,7 +419,9 @@ public class MainTopContainerLayout extends FrameLayout
         mTopNewsFeedPagerAdapter = new MainTopPagerAdapter(mActivity.getFragmentManager());
         mTopNewsFeedPagerAdapter.setNewsFeed(newsFeed);
         mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
-        mViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mViewPager);
+
+        // 리프레시를 할 경우에는 로딩이 되기 전까지 안보이게 하기
+        mViewPagerIndicator.setVisibility(View.INVISIBLE);
         mNewsFeedTitleTextView.setText("");
 
         fetchTopNewsFeed(taskType, shuffle);
@@ -473,6 +483,7 @@ public class MainTopContainerLayout extends FrameLayout
         } else if (Device.isLandscape(getContext())) {
             configOnLandscapeOrientation();
         }
+        initViewPagerIndicator();
         invalidate();
     }
 
