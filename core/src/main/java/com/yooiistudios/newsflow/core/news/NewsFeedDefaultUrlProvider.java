@@ -44,7 +44,7 @@ public class NewsFeedDefaultUrlProvider {
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 1, 1));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 1, 4));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 4, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 5, 3));
     }
 
     public NewsTopic getTopNewsTopic() {
