@@ -1,5 +1,6 @@
 package com.yooiistudios.newsflow.ui.animation;
 
+import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -19,7 +20,8 @@ import com.yooiistudios.newsflow.core.util.Device;
 public class ImageFilterAnimator {
     // DOUBT 파라미터가 많은데 팩토리로 빼야 하나?
     public static void animate(final ImageView imageView, int startArgb,
-                               int endArgb, long duration, long startOffset) {
+                               int endArgb, long duration, long startOffset,
+                               Animator.AnimatorListener listener) {
         imageView.setColorFilter(startArgb);
 
         ValueAnimator animator;
@@ -36,12 +38,13 @@ public class ImageFilterAnimator {
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int animatedValue = (Integer)valueAnimator.getAnimatedValue();
+                    int animatedValue = (Integer) valueAnimator.getAnimatedValue();
                     imageView.getDrawable().setColorFilter(animatedValue, PorterDuff.Mode.SRC_ATOP);
                     imageView.setColorFilter(animatedValue, PorterDuff.Mode.SRC_ATOP);
                 }
             });
         }
+        animator.addListener(listener);
         animator.setStartDelay(startOffset);
         animator.setDuration(duration).start();
     }

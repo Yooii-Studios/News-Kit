@@ -43,13 +43,13 @@ import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTr
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.serialanimator.AnimatorListenerImpl;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.codetail.animation.SupportAnimator;
 
@@ -63,13 +63,31 @@ import static com.yooiistudios.newsflow.ui.activity.MainActivity.INTENT_KEY_TRAN
  */
 public class NewsFeedDetailTransitionUtils {
     public interface OnAnimationEndListener {
-//        void onRecyclerScaleAnimationEnd();
         void onTransitionEnd();
     }
 
     private static final String SHARED_PREFERENCES_NEWSFEED_DETAIL_TRANSITION
             = "shared_preferences_newsfeed_detail_transition";
     private static final String KEY_USE_SCALED_DURATION = "key_use_scale_duration";
+
+    private static final String ANIM_TOOLBAR = "anim_toolbar";
+    private static final String ANIM_TOP_OVERLAY = "anim_top_overlay";
+    private static final String ANIM_COLOR_FILTER = "anim_color_filter";
+    private static final String ANIM_THUMBNAIL_TEXT = "anim_thumbnail_text";
+    private static final String ANIM_TOP_TITLE = "anim_top_title";
+    private static final String ANIM_TOP_DESCRIPTION = "anim_top_description";
+    private static final String ANIM_RECYCLER_TITLE = "anim_recycler_title";
+    private static final String ANIM_RECYCLER_DESCRIPTION = "anim_recycler_description";
+    private static final String[] TRACKING_ANIMATIONS = {
+            ANIM_TOOLBAR,
+            ANIM_TOP_OVERLAY,
+            ANIM_COLOR_FILTER,
+            ANIM_THUMBNAIL_TEXT,
+            ANIM_TOP_TITLE,
+            ANIM_TOP_DESCRIPTION,
+            ANIM_RECYCLER_TITLE,
+            ANIM_RECYCLER_DESCRIPTION
+    };
 
     /**
      * Thumbnail properties extracted from intent
@@ -92,8 +110,6 @@ public class NewsFeedDetailTransitionUtils {
     private Rect mTopTextLayoutAnimatingLocalVisibleRect = new Rect();
     private Rect mTopTitleLocalVisibleRect;
     private Rect mTopDescriptionLocalVisibleRect;
-    private boolean mIsAnimatingTopTitleFadeIn = false;
-    private boolean mIsAnimatingTopDescriptionFadeIn = false;
 
     private Rect mRecyclerGlobalVisibleRect;
     private Rect mRecyclerAnimatingLocalVisibleRect = new Rect();
@@ -105,10 +121,8 @@ public class NewsFeedDetailTransitionUtils {
     private TextView mNewsTitleThumbnailTextView;
     private TextView mNewsFeedTitleThumbnailTextView;
 
-//    private long mDebugTempDuration;
     private long mRevealAnimDuration;
     private long mImageFilterAnimDuration;
-//    private long mImageScaleAnimDuration;
     private long mImageTranslationAnimDuration;
     private long mThumbnailTextAnimDuration;
     private long mToolbarAnimDuration;
@@ -144,7 +158,7 @@ public class NewsFeedDetailTransitionUtils {
     private SpannableString mToolbarTitle;
     private AlphaForegroundColorSpan mToolbarTitleColorSpan;
 
-    private boolean mIsAnimating;
+    private HashMap<String, Boolean> mFinishedAnimations;
 
     private NewsFeedDetailTransitionUtils(NewsFeedDetailActivity activity) {
         initViewsAndVariables(activity);
@@ -166,7 +180,14 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     public boolean isAnimating() {
-        return mIsAnimating;
+        return mFinishedAnimations != null
+                && mFinishedAnimations.containsValue(false);
+    }
+
+    private boolean isAnimatingElement(String animKey) {
+        return mFinishedAnimations != null
+                && mFinishedAnimations.containsKey(animKey)
+                && !mFinishedAnimations.get(animKey);
     }
 
     private void requestActivityTransition() {
@@ -180,7 +201,6 @@ public class NewsFeedDetailTransitionUtils {
             public boolean onPreDraw() {
                 mRootLayout.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                mIsAnimating = true;
                 initTransitionVariablesAfterViewLocationFix();
                 prepareViewPropertiesBeforeTransition();
 
@@ -360,6 +380,20 @@ public class NewsFeedDetailTransitionUtils {
         }
         addThumbnailTextView(mNewsTitleThumbnailTextView, mTransTitleViewProperty);
         addThumbnailTextView(mNewsFeedTitleThumbnailTextView, mTransFeedTitleViewProperty);
+    }
+
+    private void notifyAnimationStart(String animKey) {
+        mFinishedAnimations.put(animKey, false);
+    }
+
+    private void notifyAnimationEnd(String animKey) {
+        if (mFinishedAnimations.containsKey(animKey)) {
+            mFinishedAnimations.put(animKey, true);
+        }
+
+        if (!mFinishedAnimations.containsValue(false)) {
+            mListener.onTransitionEnd();
+        }
     }
 
     private void startTransition() {
@@ -623,31 +657,43 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private boolean isReadyToAnimateTopTitle() {
-        return !mIsAnimatingTopTitleFadeIn
+        return !isAnimatingElement(ANIM_TOP_TITLE)
                 && mTopTextLayout.getVisibility() == View.VISIBLE
                 && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopTitleLocalVisibleRect);
     }
 
     private boolean isReadyToAnimateTopDescription() {
-        return !mIsAnimatingTopDescriptionFadeIn
+        return !isAnimatingElement(ANIM_TOP_DESCRIPTION)
                 && mTopTextLayout.getVisibility() == View.VISIBLE
                 && mTopTextLayoutAnimatingLocalVisibleRect.contains(mTopDescriptionLocalVisibleRect);
     }
 
     private void fadeInTopTitle() {
-        mIsAnimatingTopTitleFadeIn = true;
+        notifyAnimationStart(ANIM_TOP_TITLE);
 
         mTopTitleTextView.animate()
                 .setDuration(mTextFadeAnimDuration)
-                .alpha(1.0f);
+                .alpha(1.0f)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyAnimationEnd(ANIM_TOP_TITLE);
+                    }
+                });
     }
 
     private void fadeInTopDescription() {
-        mIsAnimatingTopDescriptionFadeIn = true;
+        notifyAnimationStart(ANIM_TOP_DESCRIPTION);
 
         mTopDescriptionTextView.animate()
                 .setDuration(mTextFadeAnimDuration)
-                .alpha(1.0f);
+                .alpha(1.0f)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyAnimationEnd(ANIM_TOP_DESCRIPTION);
+                    }
+                });
     }
 
     private void animateRecyclerChildIfSizeSufficient() {
@@ -784,18 +830,15 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             if (isLastRecyclerTitle(index)) {
+                notifyAnimationStart(ANIM_RECYCLER_TITLE);
                 animator.withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        NLLog.now("Last title:" + index);
-                        mIsAnimating = false;
-                        mListener.onTransitionEnd();
+                        notifyAnimationEnd(ANIM_RECYCLER_TITLE);
                     }
                 });
             }
             mIsAnimatingRecyclerChildTitleArray.put(index, true);
-
-            NLLog.now("fadeInRecyclerTitleAt: " + index);
         } catch(ChildNotFoundException ignored) {
         }
     }
@@ -807,18 +850,16 @@ public class NewsFeedDetailTransitionUtils {
                     .setDuration(mTextFadeAnimDuration)
                     .alpha(1.0f);
             if (isLastRecyclerDescription(index)) {
+                notifyAnimationStart(ANIM_RECYCLER_DESCRIPTION);
                 animator.withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        NLLog.now("Last description:" + index);
-                        mIsAnimating = false;
-                        mListener.onTransitionEnd();
+                        notifyAnimationEnd(ANIM_RECYCLER_DESCRIPTION);
                     }
                 });
             }
             mIsAnimatingRecyclerChildDescriptionArray.put(index, true);
 
-            NLLog.now("fadeInRecyclerDescriptionAt: " + index);
         } catch(ChildNotFoundException ignored) {
         }
     }
@@ -834,7 +875,16 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeInToolbar() {
-        mToolbar.animate().alpha(1.0f).setDuration(mToolbarAnimDuration);
+        notifyAnimationStart(ANIM_TOOLBAR);
+        mToolbar.animate().
+                alpha(1.0f).
+                setDuration(mToolbarAnimDuration).
+                withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyAnimationEnd(ANIM_TOOLBAR);
+                    }
+                });
     }
 
     private void initViewsAndVariables(NewsFeedDetailActivity activity) {
@@ -847,6 +897,7 @@ public class NewsFeedDetailTransitionUtils {
         mListener = activity;
         mToolbarTitle = activity.getToolbarTitle();
         mToolbarTitleColorSpan = activity.getToolbarTitleColorSpan();
+        mFinishedAnimations = new HashMap<>();
     }
 
     private void initViews() {
@@ -897,19 +948,6 @@ public class NewsFeedDetailTransitionUtils {
             }
 
             offsetFromRecyclerTop += childRect.height();
-        }
-
-        for (int i = 0; i < mRecyclerChildTitleLocalVisibleRects.size(); i++) {
-            Rect rect = mRecyclerChildTitleLocalVisibleRects.get(i);
-            NLLog.now("Title index: " + i);
-            NLLog.now("Title rect: " + rect.toShortString());
-            NLLog.now("Title height: " + rect.height());
-        }
-        for (int i = 0; i < mRecyclerChildDescriptionLocalVisibleRects.size(); i++) {
-            Rect rect = mRecyclerChildDescriptionLocalVisibleRects.get(i);
-            NLLog.now("Description index: " + i);
-            NLLog.now("Description rect: " + rect.toShortString());
-            NLLog.now("Description height: " + rect.height());
         }
     }
 
@@ -972,6 +1010,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeOutImageColorFilter() {
+        notifyAnimationStart(ANIM_COLOR_FILTER);
         int filterColor = mActivity.getFilterColor();
 
         int red = Color.red(filterColor);
@@ -979,7 +1018,13 @@ public class NewsFeedDetailTransitionUtils {
         int blue = Color.blue(filterColor);
         int argb = Color.argb(Color.alpha(filterColor), red, green, blue);
         ImageFilterAnimator.animate(mTopImageView, argb, 0, mImageFilterAnimDuration,
-                mImageAnimationStartOffset);
+                mImageAnimationStartOffset, new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        notifyAnimationEnd(ANIM_COLOR_FILTER);
+                    }
+                });
     }
 
     private void fadeOutThumbnailTexts() {
@@ -988,6 +1033,7 @@ public class NewsFeedDetailTransitionUtils {
                 .setDuration(mThumbnailTextAnimDuration)
                 .start();
 
+        notifyAnimationStart(ANIM_THUMBNAIL_TEXT);
         mNewsFeedTitleThumbnailTextView.animate()
                 .alpha(0.0f)
                 .setDuration(mThumbnailTextAnimDuration)
@@ -995,6 +1041,7 @@ public class NewsFeedDetailTransitionUtils {
                     @Override
                     public void run() {
                         mTransitionLayout.setVisibility(View.GONE);
+                        notifyAnimationEnd(ANIM_THUMBNAIL_TEXT);
                     }
                 })
                 .start();
@@ -1032,10 +1079,18 @@ public class NewsFeedDetailTransitionUtils {
                 .setDuration(mToolbarBgAnimDuration)
                 .alpha((Float) mTopGradientShadowView.getTag())
                 .setInterpolator(new DecelerateInterpolator());
+
+        notifyAnimationStart(ANIM_TOP_OVERLAY);
         mToolbarOverlayView.animate()
                 .setDuration(mToolbarBgAnimDuration)
                 .alpha((Float) mToolbarOverlayView.getTag())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator())
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyAnimationEnd(ANIM_TOP_OVERLAY);
+                    }
+                });
     }
 
     private void fadeOutTopOverlay() {
