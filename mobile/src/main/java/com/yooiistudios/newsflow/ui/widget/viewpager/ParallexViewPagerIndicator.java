@@ -6,15 +6,14 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.core.util.DipToPixel;
+import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 
 /**
  * Created by Wooseong Kim in ViewPagerIndicatorTest from Yooii Studios Co., LTD. on 14. 11. 4.
@@ -28,10 +27,8 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
     private int mCount;
     private ViewPager mViewPager;
 
-    private int mDeviceWidth;
-    private int mIndicatorViewWidth;
-    private static final int INDICATOR_WIDTH_DP = 100;
-    private static final int ANIMATION_DURATION = 200;
+    private static final int INDICATOR_WIDTH_DP = 85;
+    private static final int ANIMATION_DURATION = 250;
 
     public ParallexViewPagerIndicator(Context context) {
         super(context);
@@ -46,16 +43,13 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ParallexViewPagerIndicator(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ParallexViewPagerIndicator(Context context, AttributeSet attrs, int defStyleAttr,
+                                      int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public void initialize(int count, ViewPager viewPager) {
         mCount = count;
-
-        // device
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        mDeviceWidth = displayMetrics.widthPixels;
 
         // indicator
         if (mIndicatorView != null) {
@@ -69,16 +63,6 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
         mIndicatorView.setLayoutParams(layoutParams);
         mIndicatorView.setBackgroundColor(getResources().getColor(R.color.main_top_indicator));
         addView(mIndicatorView);
-
-        // indicator width
-        mIndicatorView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                mIndicatorView.getViewTreeObserver().removeOnPreDrawListener(this);
-                mIndicatorViewWidth = mIndicatorView.getWidth();
-                return false;
-            }
-        });
 
         setViewPager(viewPager);
     }
@@ -104,18 +88,32 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
 
     @Override
     public void onPageSelected(int position) {
-//        Random rnd = new Random();
-//        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-//        mIndicatorView.setBackgroundColor(color);
-
         if (mCount > 0) {
-            int transitionX = ((mDeviceWidth - mIndicatorViewWidth) / (mCount - 1)) * position;
+            int transitionX = ((getWidth() - mIndicatorView.getWidth()) / (mCount - 1)) * position;
             ObjectAnimator translationAnim =
                     ObjectAnimator.ofFloat(mIndicatorView, "translationX", transitionX);
             translationAnim.setDuration(ANIMATION_DURATION);
             translationAnim.setInterpolator(
                     AnimationFactory.makeDefaultReversePathInterpolator());
             translationAnim.start();
+        }
+    }
+
+    public void setPage(final int position) {
+        if (mCount > 0) {
+            mIndicatorView.getViewTreeObserver().addOnPreDrawListener(
+                    new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    mIndicatorView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if (mViewPager.getAdapter() != null) {
+                        int transitionX = ((getWidth() - mIndicatorView.getWidth()) / (mCount - 1))
+                                * position;
+                        mIndicatorView.setTranslationX(transitionX);
+                    }
+                    return true;
+                }
+            });
         }
     }
 

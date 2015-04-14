@@ -76,7 +76,6 @@ public class MainActivity extends ActionBarActivity
         MainBottomContainerLayout.OnMainBottomLayoutEventListener,
         OnMainPanelEditModeEventListener, LoadingAnimationView.LoadingAnimListener {
     public static final String TAG = MainActivity.class.getName();
-//    public static final String INTENT_KEY_TINT_TYPE = "INTENT_KEY_TINT_TYPE";
 
     // 뉴스 새로고침시 사용할 인텐트 변수
     public static final String INTENT_KEY_NEWS_FEED_LOCATION = "INTENT_KEY_NEWS_FEED_LOCATION";
