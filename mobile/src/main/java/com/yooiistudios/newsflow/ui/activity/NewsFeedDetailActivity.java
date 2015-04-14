@@ -672,6 +672,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 filterColor = PanelDecoration.getPaletteColorWithAlpha(
                         getApplicationContext(), paletteColor.getPaletteColor());
             } else {
+                // FIXME: 팔레트 컬러를 못 가져올 경우 NewsImageLoader 단에서 랜덤 팔라트를 생성해 저장하므로 의미없는 로직이 됨
                 filterColor = PanelDecoration.getDefaultBottomPaletteColor(getApplicationContext());
             }
         }
