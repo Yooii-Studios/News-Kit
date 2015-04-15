@@ -84,7 +84,7 @@ public class MainBottomItemLayout extends RatioFrameLayout {
         }
     }
 
-    public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
+    public static int measureParentHeightOnPortrait(Context context, int itemCount, int columnCount) {
         // get display width
         Point displaySize = Display.getDisplaySize(context);
         int displayWidth = displaySize.x;
@@ -104,16 +104,15 @@ public class MainBottomItemLayout extends RatioFrameLayout {
         return Math.round(rowHeight * rowCount);
     }
 
-    public static int measureMaximumHeightOnLandscape(Context context, ViewGroup.LayoutParams lp) {
+    public static int measureParentHeightOnLandscape(ViewGroup parent) {
+        Context context = parent.getContext();
         int height = Display.getDisplaySize(context).y;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
             height -= Display.getStatusBarHeight(context);
         }
-        if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams marginLp = (ViewGroup.MarginLayoutParams)lp;
-            height -= (marginLp.topMargin + marginLp.bottomMargin);
-        }
+
+        height -= (parent.getPaddingTop() + parent.getPaddingBottom());
 
         return height;
     }
