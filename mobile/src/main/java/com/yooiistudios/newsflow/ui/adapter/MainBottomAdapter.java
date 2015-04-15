@@ -310,13 +310,14 @@ public class MainBottomAdapter extends
         viewHolder.imageView.setImageBitmap(bitmap);
 
         int paletteColor = response.paletteColor.getPaletteColor();
-        if (response.paletteColor.hasValidPaletteColor()) {
+        if (response.paletteColor.isGenerated()) {
+            // TODO: 팔레트에서 생성된 색상일 경우
             int filterColor = PanelDecoration.getPaletteColorWithAlpha(mContext, paletteColor);
             viewHolder.imageView.setColorFilter(filterColor, PorterDuff.Mode.SRC_OVER);
         } else {
-            // FIXME: 팔레트 컬러를 못 가져올 경우 NewsImageLoader 단에서 랜덤 팔라트를 생성해 저장하므로 의미없는 로직이 됨
-//            viewHolder.imageView.setColorFilter(PanelDecoration.getDefaultBottomPaletteColor(mContext),
-//                    PorterDuff.Mode.SRC_OVER); // SRC_OVER 를 통해 색을 더 반투명하게 넣을 수 있음(정확X)
+            // TODO: 팔레트에서 색을 생성하지 못한 경우(RandomMaterialColor 의 경우)
+            int filterColor = PanelDecoration.getPaletteColorWithAlpha(mContext, paletteColor);
+            viewHolder.imageView.setColorFilter(filterColor, PorterDuff.Mode.SRC_OVER);
         }
     }
 

@@ -1,9 +1,9 @@
-package com.yooiistudios.newsflow.ui;
+package com.yooiistudios.newsflow.core.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.R;
 
 import java.util.Random;
 

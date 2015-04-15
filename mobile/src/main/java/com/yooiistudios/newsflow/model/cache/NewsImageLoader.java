@@ -9,7 +9,6 @@ import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
-import com.yooiistudios.newsflow.ui.RandomMaterialColors;
 
 /**
  * Created by Dongheyon Jeong in News Flow from Yooii Studios Co., LTD. on 15. 4. 1.
@@ -56,10 +55,6 @@ public class NewsImageLoader extends CacheImageLoader<NewsUrlSupplier> {
 
     @Override
     protected void savePaletteColor(NewsUrlSupplier urlSupplier, PaletteColor paletteColor) {
-        // 팔레트가 안 뽑힐 경우 랜덤 팔레트 컬러를 만들어 넣어주게 기획을 변경
-        if (paletteColor.getPaletteColor() == PaletteColor.FALLBACK_COLOR) {
-            paletteColor = new PaletteColor(RandomMaterialColors.get(getContext()));
-        }
         NewsDb.getInstance(getContext()).savePaletteColor(
                 urlSupplier.getNewsFeedPosition(), urlSupplier.getGuid(), paletteColor);
     }

@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.yooiistudios.newsflow.core.news.ImageRequestQueue;
 import com.yooiistudios.newsflow.core.news.SimpleImageCache;
+import com.yooiistudios.newsflow.core.ui.RandomMaterialColors;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -183,7 +184,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     private void getPaletteColors(final T urlSupplier, Bitmap bitmap,
                                   final PaletteListener listener) {
         PaletteColor paletteColor = loadPaletteColor(urlSupplier);
-        if (paletteColor.isFetched()) {
+        if (paletteColor != null) {
             listener.onSuccess(paletteColor);
         } else {
             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
@@ -191,8 +192,14 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
                 public void onGenerated(Palette palette) {
                     final int darkVibrantColor = palette.getDarkVibrantColor(
                             PaletteColor.FALLBACK_COLOR);
-                    PaletteColor paletteColor
-                            = new PaletteColor(darkVibrantColor);
+                    PaletteColor paletteColor;
+                    if (darkVibrantColor != PaletteColor.FALLBACK_COLOR) {
+                        paletteColor = new PaletteColor(darkVibrantColor, PaletteColor.TYPE.GENERATED);
+                    } else {
+                        // 팔레트가 안 뽑힐 경우 랜덤 팔레트 컬러를 만들어 넣어주게 기획을 변경
+                        paletteColor = new PaletteColor(
+                                RandomMaterialColors.get(getContext()), PaletteColor.TYPE.CUSTOM);
+                    }
                     savePaletteColor(urlSupplier, paletteColor);
                     listener.onSuccess(paletteColor);
                 }
@@ -308,32 +315,32 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         public static final int FALLBACK_COLOR = Color.TRANSPARENT;
 
         private final int mPaletteColor;
-        private final boolean mIsFetched;
+        private final TYPE mType;
 
-        public PaletteColor(int paletteColor) {
+        public PaletteColor(int paletteColor, TYPE type) {
             mPaletteColor = paletteColor;
-            mIsFetched = true;
-        }
-
-        private PaletteColor(int paletteColor, boolean isFetched) {
-            mPaletteColor = paletteColor;
-            mIsFetched = isFetched;
+            mType = type;
         }
 
         public int getPaletteColor() {
             return mPaletteColor;
         }
 
-        public boolean isFetched() {
-            return mIsFetched;
+        public TYPE getType() {
+            return mType;
         }
 
-        public boolean hasValidPaletteColor() {
-            return mPaletteColor != PaletteColor.FALLBACK_COLOR;
+        public boolean isGenerated() {
+            return mType.equals(TYPE.GENERATED);
         }
 
-        public static PaletteColor createDefault() {
-            return new PaletteColor(PaletteColor.FALLBACK_COLOR, false);
+        public boolean isCustom() {
+            return mType.equals(TYPE.CUSTOM);
+        }
+
+        public enum TYPE {
+            GENERATED,
+            CUSTOM
         }
     }
 

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newsflow.core.news.DefaultNewsFeedProvider;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
@@ -24,6 +23,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader.PaletteColor;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsContentEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsEntry;
 import static com.yooiistudios.newsflow.core.news.database.NewsDbContract.NewsFeedEntry;
@@ -251,7 +251,7 @@ public class NewsDb {
         insertNewsImage(imageUrl, newsFeedPosition, guid);
     }
 
-    public void savePaletteColor(int newsFeedPosition, String guid, CacheImageLoader.PaletteColor paletteColor) {
+    public void savePaletteColor(int newsFeedPosition, String guid, PaletteColor paletteColor) {
         mDatabase.beginTransaction();
         try {
             savePaletteColorInternal(newsFeedPosition, guid, paletteColor);
@@ -263,11 +263,12 @@ public class NewsDb {
     }
 
     public void savePaletteColorInternal(int newsFeedPosition, String guid,
-                                         CacheImageLoader.PaletteColor paletteColor) {
+                                         PaletteColor paletteColor) {
         ContentValues colorValues = new ContentValues();
         colorValues.put(PaletteColorEntry.COLUMN_NAME_FEED_POSITION, newsFeedPosition);
         colorValues.put(PaletteColorEntry.COLUMN_NAME_GUID, guid);
         colorValues.put(PaletteColorEntry.COLUMN_NAME_PALETTE_COLOR, paletteColor.getPaletteColor());
+        colorValues.put(PaletteColorEntry.COLUMN_NAME_TYPE, paletteColor.getType().ordinal());
 
         mDatabase.delete(PaletteColorEntry.TABLE_NAME,
                 PaletteColorEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
@@ -287,14 +288,13 @@ public class NewsDb {
 //        mDatabase.insert(PaletteColorEntry.TABLE_NAME, null, colorValues);
 //    }
 
-    public CacheImageLoader.PaletteColor loadPaletteColor(int newsFeedPosition, String guid) {
-        CacheImageLoader.PaletteColor paletteColor;
+    public PaletteColor loadPaletteColor(int newsFeedPosition, String guid) {
+        PaletteColor paletteColor = null;
         mDatabase.beginTransaction();
         try {
             paletteColor = loadVibrantColorInternal(newsFeedPosition, guid);
             mDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            paletteColor = CacheImageLoader.PaletteColor.createDefault();
+        } catch (Exception ignored) {
         } finally {
             mDatabase.endTransaction();
         }
@@ -302,7 +302,7 @@ public class NewsDb {
         return paletteColor;
     }
 
-    private CacheImageLoader.PaletteColor loadVibrantColorInternal(int newsFeedPosition, String guid) {
+    private PaletteColor loadVibrantColorInternal(int newsFeedPosition, String guid) {
         Cursor colorsCursor = mDatabase.query(
                 PaletteColorEntry.TABLE_NAME,
                 null,
@@ -312,19 +312,14 @@ public class NewsDb {
                 null, null, null);
         colorsCursor.moveToFirst();
 
-        CacheImageLoader.PaletteColor paletteColor;
+        PaletteColor paletteColor = null;
         if (!colorsCursor.isAfterLast()) {
-            boolean isFetched = !colorsCursor.isNull(colorsCursor.getColumnIndex(PaletteColorEntry
-                    .COLUMN_NAME_PALETTE_COLOR));
-            if (isFetched) {
-                int vibrantColor = colorsCursor.getInt(
-                        colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_PALETTE_COLOR));
-                paletteColor = new CacheImageLoader.PaletteColor(vibrantColor);
-            } else {
-                paletteColor = CacheImageLoader.PaletteColor.createDefault();
-            }
-        } else {
-            paletteColor = CacheImageLoader.PaletteColor.createDefault();
+            int vibrantColor = colorsCursor.getInt(
+                    colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_PALETTE_COLOR));
+            int typeOrdinal = colorsCursor.getInt(
+                    colorsCursor.getColumnIndex(PaletteColorEntry.COLUMN_NAME_TYPE));
+            PaletteColor.TYPE type = PaletteColor.TYPE.values()[typeOrdinal];
+            paletteColor = new PaletteColor(vibrantColor, type);
         }
 
         colorsCursor.close();
