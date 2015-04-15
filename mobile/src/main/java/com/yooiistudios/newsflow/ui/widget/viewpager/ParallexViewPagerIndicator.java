@@ -89,7 +89,9 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
     @Override
     public void onPageSelected(int position) {
         if (mCount > 0) {
-            int transitionX = ((getWidth() - mIndicatorView.getWidth()) / (mCount - 1)) * position;
+            // 나누는 부분에 float 처리를 해 줘야 끝이 버려지지 않아 맨 끝 스크롤 시 아귀가 잘 맞음
+            float transitionX = ((getWidth() - mIndicatorView.getWidth()) / (float)(mCount - 1)
+                     * position);
             ObjectAnimator translationAnim =
                     ObjectAnimator.ofFloat(mIndicatorView, "translationX", transitionX);
             translationAnim.setDuration(ANIMATION_DURATION);
@@ -107,8 +109,9 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
                 public boolean onPreDraw() {
                     mIndicatorView.getViewTreeObserver().removeOnPreDrawListener(this);
                     if (mViewPager.getAdapter() != null) {
-                        int transitionX = ((getWidth() - mIndicatorView.getWidth()) / (mCount - 1))
-                                * position;
+                        // 나누는 부분에 float 처리를 해 줘야 끝이 버려지지 않아 맨 끝 스크롤 시 아귀가 잘 맞음
+                        float transitionX = ((getWidth() - mIndicatorView.getWidth()) /
+                                (float)(mCount - 1) * position);
                         mIndicatorView.setTranslationX(transitionX);
                     }
                     return true;
