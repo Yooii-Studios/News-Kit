@@ -92,6 +92,15 @@ public class Display {
         return displaySize;
     }
 
+    public static int getDisplayHeightWithoutStatusBar(Context context) {
+        int height = Display.getDisplaySize(context).y;
+        if (!Device.hasLollipop()) {
+            // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
+            height -= Display.getStatusBarHeight(context);
+        }
+        return height;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void applyTranslucentNavigationBarAfterLollipop(Activity activity) {
         if (Device.hasLollipop()) {

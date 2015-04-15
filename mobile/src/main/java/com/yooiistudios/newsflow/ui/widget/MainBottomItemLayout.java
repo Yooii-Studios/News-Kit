@@ -2,7 +2,6 @@ package com.yooiistudios.newsflow.ui.widget;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -84,7 +83,7 @@ public class MainBottomItemLayout extends RatioFrameLayout {
         }
     }
 
-    public static int measureMaximumHeightOnPortrait(Context context, int itemCount, int columnCount) {
+    public static int measureParentHeightOnPortrait(Context context, int itemCount, int columnCount) {
         // get display width
         Point displaySize = Display.getDisplaySize(context);
         int displayWidth = displaySize.x;
@@ -104,16 +103,15 @@ public class MainBottomItemLayout extends RatioFrameLayout {
         return Math.round(rowHeight * rowCount);
     }
 
-    public static int measureMaximumHeightOnLandscape(Context context, ViewGroup.LayoutParams lp) {
-        int height = Display.getDisplaySize(context).y;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
-            height -= Display.getStatusBarHeight(context);
-        }
-        if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams marginLp = (ViewGroup.MarginLayoutParams)lp;
-            height -= (marginLp.topMargin + marginLp.bottomMargin);
-        }
+    public static int measureParentHeightOnLandscape(ViewGroup parent) {
+        Context context = parent.getContext();
+        int height = Display.getDisplayHeightWithoutStatusBar(context);
+
+        // 마진 대신 패딩으로 바꾸었기 때문에 광고 상관없이 바깥 패딩을 빼주고 계산
+        int padding = context.getResources().getDimensionPixelSize(
+                R.dimen.main_bottom_margin_small);
+
+        height -= padding * 2;
 
         return height;
     }

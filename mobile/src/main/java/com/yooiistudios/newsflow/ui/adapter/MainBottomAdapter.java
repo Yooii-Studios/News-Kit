@@ -103,12 +103,11 @@ public class MainBottomAdapter extends
             @Override
             public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
                 if (axis == RatioFrameLayout.AXIS_WIDTH &&
-                        orientation == MainBottomItemLayout.LANDSCAPE) {
-                    ViewGroup.LayoutParams lp = parent.getLayoutParams();
-                    double ratio = mNewsFeedList.size() <= 4 ? 0.25 : 0.23;
-                    double height = MainBottomItemLayout.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
-                    return (int) Math.floor(height);
-//                    return MainBottomAdapter.measureMaximumHeightOnLandscape(mContext, lp) * ratio;
+                         orientation == MainBottomItemLayout.LANDSCAPE) {
+                    // 4개 이상일 경우 넥5 기준으로 5번째 아이템 제목 밑 공간이 조금 보일 정도로 ratio 를 잡아줌
+                    float ratio = mNewsFeedList.size() <= 4 ? 0.25f : 0.215f;
+                    float parentHeight = MainBottomItemLayout.measureParentHeightOnLandscape(parent);
+                    return (int) Math.floor(parentHeight * ratio);
                 } else {
                     return -1;
                 }
