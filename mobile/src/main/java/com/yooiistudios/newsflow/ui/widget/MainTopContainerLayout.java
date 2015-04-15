@@ -485,6 +485,13 @@ public class MainTopContainerLayout extends FrameLayout
         } else if (Device.isLandscape(getContext())) {
             configOnLandscapeOrientation();
         }
+
+        // 애니메이션 도중 회전시 이미지뷰가 어긋나는 현상을 조금이라도 막기 위한 로직
+        int currentItem = mViewPager.getCurrentItem();
+        if (mTopNewsFeedPagerAdapter != null) {
+            mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
+            mViewPager.setCurrentItem(currentItem);
+        }
         initViewPagerIndicator();
         invalidate();
     }

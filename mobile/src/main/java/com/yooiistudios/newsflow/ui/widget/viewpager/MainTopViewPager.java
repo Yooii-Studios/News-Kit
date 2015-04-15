@@ -66,13 +66,27 @@ public class MainTopViewPager extends ViewPager {
         currentFragTransition = scrollX * PARALLAX_SCROLL_RATIO;
 
         nextFragment = adapter.getFragmentSparseArray().get(currentPageIndex + 1);
-        nextFragTransition = pageWidth * PARALLAX_SCROLL_RATIO * -1.0f + scrollX * PARALLAX_SCROLL_RATIO;
+        nextFragTransition = pageWidth * PARALLAX_SCROLL_RATIO * -1.0f +
+                scrollX * PARALLAX_SCROLL_RATIO;
         if (scrollX == 0) {
             nextFragTransition = 0; // 스크롤이 끝난 후엔 원래 위치로 돌려주기
             currentFragTransition = 0;
         }
 
-        /*
+        // Translation
+        if (currentFragment != null && currentFragment.getView() != null) {
+            ImageView imageView = (ImageView) currentFragment.getView()
+                    .findViewById(R.id.main_top_feed_image_view);
+            imageView.setTranslationX((float) currentFragTransition);
+        }
+        if (nextFragment != null && nextFragment.getView() != null) {
+            ImageView imageView = (ImageView) nextFragment.getView()
+                    .findViewById(R.id.main_top_feed_image_view);
+            imageView.setTranslationX((float) nextFragTransition);
+        }
+    }
+
+    /*
         // 예전 로직인데 position < currentPageIndex 가 되는 경우가 없는데 이 때문에 문제가 생겨서 주석 처리
         // 일단 레거시 코드로 남겨서 지켜볼 예정
         if (position >= currentPageIndex) {
@@ -98,16 +112,5 @@ public class MainTopViewPager extends ViewPager {
                 currentFragTransition = 0;
             }
         }
-        */
-
-        // Translation
-        if (currentFragment != null && currentFragment.getView() != null) {
-            ImageView imageView = (ImageView) currentFragment.getView().findViewById(R.id.main_top_feed_image_view);
-            imageView.setTranslationX(currentFragTransition);
-        }
-        if (nextFragment != null && nextFragment.getView() != null) {
-            ImageView imageView = (ImageView) nextFragment.getView().findViewById(R.id.main_top_feed_image_view);
-            imageView.setTranslationX(nextFragTransition);
-        }
-    }
+    */
 }
