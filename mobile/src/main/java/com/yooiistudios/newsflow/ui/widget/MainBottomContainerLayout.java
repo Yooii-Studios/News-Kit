@@ -249,15 +249,11 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void cancelAutoRefresh() {
-        mAutoAnimator.cancelAllTransitions();
+        mAutoAnimator.cancelAndResetAllTransitions();
     }
 
     @Override
     public void onAnimationEnd(ViewProperty viewProperty) {
-//        String message = String.format("Animation end. (view, transition) : (%d, %d)"
-//                , viewProperty.getViewIndex(), viewProperty.getTransitionInfo().index);
-//        NLLog.i("onAnimationEnd", message);
-
         int transitionIndex = viewProperty.getTransitionInfo().index;
 
         // TODO 인덱스 0에 대한 명세 필요

@@ -621,6 +621,7 @@ public class MainActivity extends ActionBarActivity
         }
         mIsHandlerRunning = false;
         mNewsAutoRefreshHandler.removeMessages(0);
+        mMainBottomContainerLayout.cancelAutoRefresh();
     }
 
     private void showMainContentIfReady() {
@@ -765,8 +766,6 @@ public class MainActivity extends ActionBarActivity
         mMainBottomContainerLayout.showEditLayout();
         stopNewsAutoRefresh();
         setSwipeRefreshLayoutEnabled(false);
-        // TODO 애니메이션을 취소시킬때 중간에서 끊길 경우 생각해보기
-//        mMainBottomContainerLayout.cancelAutoRefresh();
         toggleToolbarVisibility();
     }
 
