@@ -319,9 +319,12 @@ public class MainTopContainerLayout extends FrameLayout
         mViewPagerWrapper.setVisibility(View.VISIBLE);
 //        mUnavailableWrapper.setBackground(null);
         mUnavailableWrapper.setVisibility(View.GONE);
-        mViewPagerIndicator.setVisibility(View.VISIBLE);
 
         mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
+
+        // init 안에 VISIBLE 을 안 넣은 이유는 탑 뉴스를 교체하고 돌아와서
+        // onResume 이 불리거나 할 경우에 보이는 것을 방지하기 위함
+        mViewPagerIndicator.setVisibility(View.VISIBLE);
         initViewPagerIndicator();
 
         mNewsFeedTitleTextView.setText(mTopNewsFeedPagerAdapter.getNewsFeed().getTitle());
@@ -329,7 +332,6 @@ public class MainTopContainerLayout extends FrameLayout
 
     private void initViewPagerIndicator() {
         if (mViewPager.getAdapter() != null) {
-            mViewPagerIndicator.setVisibility(View.VISIBLE);
             mViewPagerIndicator.initialize(mTopNewsFeedPagerAdapter.getCount(), mViewPager);
             mViewPagerIndicator.setPage(mViewPager.getCurrentItem());
         }
