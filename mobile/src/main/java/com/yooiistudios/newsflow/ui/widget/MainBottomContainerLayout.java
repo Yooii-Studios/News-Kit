@@ -26,6 +26,7 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
@@ -75,8 +76,6 @@ public class MainBottomContainerLayout extends FrameLayout
     private static final int COLUMN_COUNT_PORTRAIT = 2;
     private static final int COLUMN_COUNT_LANDSCAPE = 1;
 
-//    private ArrayList<NewsFeed> mBottomNewsFeedList;
-
     private MainBottomAdapter mBottomNewsFeedAdapter;
 
     private OnMainBottomLayoutEventListener mOnMainBottomLayoutEventListener;
@@ -94,13 +93,13 @@ public class MainBottomContainerLayout extends FrameLayout
 
     // interface
     public interface OnMainBottomLayoutEventListener {
-        public void onMainBottomInitialLoad();
-        public void onMainBottomRefresh();
-        public void onMainBottomNewsImageInitiallyAllFetched();
-        public void onMainBottomNewsReplaceDone();
-        public void onMainBottomMatrixChanged();
-        public void onStartNewsFeedDetailActivityFromBottomNewsFeed(Intent intent);
-        public void onStartNewsFeedSelectActivityFromBottomNewsFeed(Intent intent);
+        void onMainBottomInitialLoad();
+        void onMainBottomRefresh();
+        void onMainBottomNewsImageInitiallyAllFetched();
+        void onMainBottomNewsReplaceDone();
+        void onMainBottomMatrixChanged();
+        void onStartNewsFeedDetailActivityFromBottomNewsFeed(Intent intent);
+        void onStartNewsFeedSelectActivityFromBottomNewsFeed(Intent intent);
     }
 
     public MainBottomContainerLayout(Context context) {
@@ -207,14 +206,13 @@ public class MainBottomContainerLayout extends FrameLayout
 
         if (Device.isPortrait(getContext())) {
             // 메인 하단의 뉴스피드 RecyclerView 의 높이를 set
-            recyclerViewParams.height = MainBottomItemLayout.measureMaximumHeightOnPortrait(context,
+            recyclerViewParams.height = MainBottomItemLayout.measureParentHeightOnPortrait(context,
                     mBottomNewsFeedAdapter.getNewsFeedList().size(), COLUMN_COUNT_PORTRAIT);
             mBottomNewsFeedRecyclerView.setPadding(0, 0, 0, 0);
 
             recyclerViewParams.setMargins(margin, margin, margin, margin);
         } else {
-            recyclerViewParams.height = MainBottomItemLayout.measureMaximumHeightOnLandscape(context,
-                    recyclerViewParams);
+            recyclerViewParams.height = Display.getDisplayHeightWithoutStatusBar(context);
 
             boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
             if (!adPurchased) {
