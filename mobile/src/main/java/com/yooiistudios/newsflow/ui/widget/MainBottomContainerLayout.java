@@ -26,6 +26,7 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
@@ -211,10 +212,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
             recyclerViewParams.setMargins(margin, margin, margin, margin);
         } else {
-            recyclerViewParams.height = MainBottomItemLayout.measureParentHeightOnLandscape(
-                    mBottomNewsFeedRecyclerView);
-//            MainBottomItemLayout.measureDeviceHeightOnLandscape(context,
-//                    recyclerViewParams);
+            recyclerViewParams.height = Display.getDisplayHeightWithoutStatusBar(context);
 
             boolean adPurchased = IabProducts.containsSku(context, IabProducts.SKU_NO_ADS);
             if (!adPurchased) {

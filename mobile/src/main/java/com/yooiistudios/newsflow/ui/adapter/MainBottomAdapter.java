@@ -103,13 +103,10 @@ public class MainBottomAdapter extends
             @Override
             public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
                 if (axis == RatioFrameLayout.AXIS_WIDTH &&
-                        orientation == MainBottomItemLayout.LANDSCAPE) {
-//                    ViewGroup.LayoutParams lp = parent.getLayoutParams();
+                         orientation == MainBottomItemLayout.LANDSCAPE) {
                     float ratio = mNewsFeedList.size() <= 4 ? 0.25f : 0.23f;
                     float parentHeight = MainBottomItemLayout.measureParentHeightOnLandscape(parent);
-//                    double height = MainBottomItemLayout.measureDeviceHeightOnLandscape(mContext, lp) * ratio;
                     return (int) Math.floor(parentHeight * ratio);
-//                    return (int) Math.floor(height);
                 } else {
                     return -1;
                 }

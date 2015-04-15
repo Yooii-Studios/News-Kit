@@ -2,7 +2,6 @@ package com.yooiistudios.newsflow.ui.widget;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -106,13 +105,13 @@ public class MainBottomItemLayout extends RatioFrameLayout {
 
     public static int measureParentHeightOnLandscape(ViewGroup parent) {
         Context context = parent.getContext();
-        int height = Display.getDisplaySize(context).y;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // 롤리팝 이상 디바이스에서만 투명 스테이터스바가 적용된다.
-            height -= Display.getStatusBarHeight(context);
-        }
+        int height = Display.getDisplayHeightWithoutStatusBar(context);
 
-        height -= (parent.getPaddingTop() + parent.getPaddingBottom());
+        // 마진 대신 패딩으로 바꾸었기 때문에 광고 상관없이 바깥 패딩을 빼주고 계산
+        int padding = context.getResources().getDimensionPixelSize(
+                R.dimen.main_bottom_margin_small);
+
+        height -= padding * 2;
 
         return height;
     }
