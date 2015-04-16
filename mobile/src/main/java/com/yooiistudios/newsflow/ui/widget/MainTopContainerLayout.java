@@ -486,7 +486,8 @@ public class MainTopContainerLayout extends FrameLayout
             configOnLandscapeOrientation();
         }
 
-        // 애니메이션 도중 회전시 이미지뷰가 어긋나는 현상을 조금이라도 막기 위한 로직
+        // 애니메이션 도중 회전시 프래그먼트 밑 이미지뷰가 어긋나는 현상(ViewPager 내부 버그) 막기 위해 다시 어댑터를 새로 대입
+        // 하지만 Sync 로 교체를 하기에 회전시 화면전환 속도가 1/2 정도로 꽤 떨어지는 점을 알아두자
         int currentItem = mViewPager.getCurrentItem();
         if (mTopNewsFeedPagerAdapter != null) {
             mViewPager.setAdapter(mTopNewsFeedPagerAdapter);
