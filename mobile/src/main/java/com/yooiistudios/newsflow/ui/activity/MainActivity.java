@@ -135,6 +135,9 @@ public class MainActivity extends ActionBarActivity
                 if (isInEditingMode) {
                     mainActivity.stopNewsAutoRefresh();
                 } else {
+                    // 오토리프레시 타이밍을 제어하고 싶을 때를 위한 디버그 로직
+//                    if (mAutoRefreshOn) {
+//                    }
                     mainTopContainerLayout.autoRefreshTopNewsFeed();
                     mainBottomContainerLayout.autoRefreshBottomNewsFeeds();
 
@@ -917,4 +920,17 @@ public class MainActivity extends ActionBarActivity
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
+
+    // Debug: 오토 리프레시 타이밍을 제어하고 싶을 때 다시 사용하기 위해 주석 처리. 출시 시 코드를 제거하면 될 듯
+    /*
+    private static boolean mAutoRefreshOn = true;
+    public void onAutoRefreshButtonClick(View view) {
+        mAutoRefreshOn = !mAutoRefreshOn;
+        if (mAutoRefreshOn) {
+            ((TextView) view).setText("Auto Refresh On");
+        } else {
+            ((TextView) view).setText("Auto Refresh Off");
+        }
+    }
+    */
 }

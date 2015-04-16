@@ -102,7 +102,7 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
     }
 
     public void setPage(final int position) {
-        if (mCount > 0 && position > 1) {
+        if (mCount > 0 && position > 0) {
             mIndicatorView.getViewTreeObserver().addOnPreDrawListener(
                     new ViewTreeObserver.OnPreDrawListener() {
                 @Override

@@ -58,4 +58,17 @@
         android:id="@+id/main_loading_anim_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <!--
+    Debug 용으로 주석 처리
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/base_margin"
+        android:text="Auto Refresh On"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:onClick="onAutoRefreshButtonClick"/>
+    -->
 </RelativeLayout>
