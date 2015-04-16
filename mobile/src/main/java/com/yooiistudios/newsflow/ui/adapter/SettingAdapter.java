@@ -1,7 +1,7 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +12,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
+import com.yooiistudios.newsflow.model.Settings;
 
 import static com.yooiistudios.newsflow.ui.fragment.SettingFragment.SettingItem;
 
@@ -48,6 +47,7 @@ public class SettingAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return SettingItemFactory.inflate(mContext, parent, position);
@@ -128,15 +128,13 @@ public class SettingAdapter extends BaseAdapter {
         }
     }
 
-    private static void initKeepScreenOnItem(Context context, View view) {
+    private static void initKeepScreenOnItem(final Context context, View view) {
         SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
-        final SharedPreferences preferences = context.getSharedPreferences(
-                SettingFragment.KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
-        keepScreenSwitch.setChecked(preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false));
+        keepScreenSwitch.setChecked(Settings.isKeepScreenOn(context));
         keepScreenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                preferences.edit().putBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, isChecked).apply();
+                Settings.setKeepScreenOn(context, isChecked);
             }
         });
     }
@@ -202,24 +200,25 @@ public class SettingAdapter extends BaseAdapter {
         if (oldSpeed == -1) {
             isFirstLoad = true;
         }
+        // very slow 를 제외하고는 전부 oldSpeed 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad를 확인하면 됨
         if (newSpeed < 20) {
             if (oldSpeed >= 20 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_slow);
             }
         } else if (newSpeed >= 20 && newSpeed < 40) {
-            if (oldSpeed < 20 || oldSpeed >= 40 || isFirstLoad) {
+            if (oldSpeed < 20 || oldSpeed >= 40) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_slow);
             }
         } else if (newSpeed >= 40 && newSpeed < 60) {
-            if (oldSpeed < 40 || oldSpeed >= 60 || isFirstLoad) {
+            if (oldSpeed < 40 || oldSpeed >= 60) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_normal);
             }
         } else if (newSpeed >= 60 && newSpeed < 80) {
-            if (oldSpeed < 60 || oldSpeed >= 80 || isFirstLoad) {
+            if (oldSpeed < 60 || oldSpeed >= 80) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_fast);
             }
         } else if (newSpeed >= 80){
-            if (oldSpeed < 80 || isFirstLoad) {
+            if (oldSpeed < 80) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_fast);
             }
         }

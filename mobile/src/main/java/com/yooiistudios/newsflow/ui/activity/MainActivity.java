@@ -3,9 +3,7 @@ package com.yooiistudios.newsflow.ui.activity;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,7 +47,6 @@ import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.Settings;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.ui.animation.NewsFeedDetailTransitionUtils;
-import com.yooiistudios.newsflow.ui.fragment.SettingFragment;
 import com.yooiistudios.newsflow.ui.widget.LoadingAnimationView;
 import com.yooiistudios.newsflow.ui.widget.MainAdView;
 import com.yooiistudios.newsflow.ui.widget.MainBottomContainerLayout;
@@ -427,9 +424,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         // 화면 켜짐 유지 설정
-        SharedPreferences preferences = getSharedPreferences(
-                SettingFragment.KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
-        if (preferences.getBoolean(SettingFragment.KEEP_SCREEN_ON_KEY, false)) {
+        if (Settings.isKeepScreenOn(this)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

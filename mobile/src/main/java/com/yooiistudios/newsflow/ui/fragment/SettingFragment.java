@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -19,11 +18,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.connector.TokenValidationRequest;
-import com.yooiistudios.newsflow.core.connector.TokenValidationResult;
 import com.yooiistudios.newsflow.core.connector.Connector;
 import com.yooiistudios.newsflow.core.connector.ConnectorRequest;
 import com.yooiistudios.newsflow.core.connector.ConnectorResult;
+import com.yooiistudios.newsflow.core.connector.TokenValidationRequest;
+import com.yooiistudios.newsflow.core.connector.TokenValidationResult;
 import com.yooiistudios.newsflow.core.connector.UploadRequest;
 import com.yooiistudios.newsflow.core.connector.UploadResult;
 import com.yooiistudios.newsflow.core.language.Language;
@@ -68,7 +67,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         PAIR_TV(R.string.setting_pair_tv);
 
         private int mTitleResId;
-        private SettingItem(int titleResId) {
+        SettingItem(int titleResId) {
             mTitleResId = titleResId;
         }
         public int getTitleResId() {
@@ -76,10 +75,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         }
     }
 
-    public static final String KEEP_SCREEN_ON_PREFS = "KEEP_SCREEN_ON_PREFS";
-    public static final String KEEP_SCREEN_ON_KEY = "KEEP_SCREEN_ON_KEY";
-    private static final String PANEL_MATRIX_KEY = "PANEL_MATRIX_KEY";
-
+    private static final String PANEL_MATRIX_KEY = "panel_matrix_key";
     @InjectView(R.id.setting_list_view) ListView mListView;
     @InjectView(R.id.setting_adView) AdView mAdView;
 
@@ -87,7 +83,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     private int mPreviousPanelMatrixUniqueId = -1;
 
     public interface OnSettingChangedListener {
-        public void onPanelMatrixSelect(boolean changed);
+        void onPanelMatrixSelect(boolean changed);
     }
 
     public SettingFragment() {}
@@ -179,10 +175,8 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void toggleKeepScreenOption(View view) {
-        SharedPreferences preferences = getActivity().getSharedPreferences(
-                KEEP_SCREEN_ON_PREFS, Context.MODE_PRIVATE);
-        boolean isChecked = preferences.getBoolean(KEEP_SCREEN_ON_KEY, false);
-        preferences.edit().putBoolean(KEEP_SCREEN_ON_KEY, !isChecked).apply();
+        boolean isChecked = Settings.isKeepScreenOn(getActivity());
+        Settings.setKeepScreenOn(getActivity(), !isChecked);
 
         SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
         keepScreenSwitch.setChecked(!isChecked);
