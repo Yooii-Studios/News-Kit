@@ -330,17 +330,13 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
             return mType;
         }
 
-        public boolean isGenerated() {
-            return mType.equals(TYPE.GENERATED);
-        }
-
         public boolean isCustom() {
             return mType.equals(TYPE.CUSTOM);
         }
 
         public enum TYPE {
-            GENERATED,
-            CUSTOM
+            GENERATED,      // 이미지에서 색상을 추출 성공
+            CUSTOM          // 그러지 못해 임의로 색을 정함
         }
     }
 

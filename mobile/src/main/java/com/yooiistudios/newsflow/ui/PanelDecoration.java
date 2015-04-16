@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
-import com.yooiistudios.newsflow.core.ui.RandomMaterialColors;
 import com.yooiistudios.newsflow.core.util.AppInfo;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 
@@ -165,6 +164,17 @@ public class PanelDecoration {
         return Color.argb(alpha, red, green, blue);
     }
 
+    public static int getRandomPaletteColorWithAlpha(Context context, int color) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        int alpha = context.getResources().getInteger(R.integer.bottom_default_palette_color_alpha);
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    /*
+    // 테스트 용도로 사용하자. 이걸 사용하고 바텀에서 이걸 사용한 패널에 에딧 모드를 할 경우 색이 계속 바뀌기에
+    // 어떤 패널이 랜덤컬러를 사용하고 있는지 확인할 수 있어서 알파값 비교하는데 용이할 것으로 생각
     public static int getDefaultBottomPaletteColor(Context context) {
         int paletteColor = RandomMaterialColors.get(context);
         int red = Color.red(paletteColor);
@@ -173,6 +183,7 @@ public class PanelDecoration {
         int alpha = context.getResources().getInteger(R.integer.bottom_default_palette_color_alpha);
         return Color.argb(alpha, red, green, blue);
     }
+    */
 
     //
     public static int getBottomDummyImageFilterColor(Context context) {

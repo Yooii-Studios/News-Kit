@@ -668,12 +668,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (isFromTopNewsFeed()) {
             filterColor = PanelDecoration.getDefaultTopPaletteColor();
         } else {
-            if (paletteColor.isGenerated()) {
-                // TODO: 팔레트에서 생성된 색상일 경우
-                filterColor = PanelDecoration.getPaletteColorWithAlpha(
+            if (paletteColor.isCustom()) {
+                filterColor = PanelDecoration.getRandomPaletteColorWithAlpha(
                         getApplicationContext(), paletteColor.getPaletteColor());
             } else {
-                // TODO: 팔레트에서 색을 생성하지 못한 경우(RandomMaterialColor 의 경우)
                 filterColor = PanelDecoration.getPaletteColorWithAlpha(
                         getApplicationContext(), paletteColor.getPaletteColor());
             }

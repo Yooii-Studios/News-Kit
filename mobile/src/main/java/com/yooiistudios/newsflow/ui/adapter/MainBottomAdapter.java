@@ -309,12 +309,10 @@ public class MainBottomAdapter extends
         viewHolder.imageView.setImageBitmap(bitmap);
 
         int paletteColor = response.paletteColor.getPaletteColor();
-        if (response.paletteColor.isGenerated()) {
-            // TODO: 팔레트에서 생성된 색상일 경우
-            int filterColor = PanelDecoration.getPaletteColorWithAlpha(mContext, paletteColor);
+        if (response.paletteColor.isCustom()) {
+            int filterColor = PanelDecoration.getRandomPaletteColorWithAlpha(mContext, paletteColor);
             viewHolder.imageView.setColorFilter(filterColor, PorterDuff.Mode.SRC_OVER);
         } else {
-            // TODO: 팔레트에서 색을 생성하지 못한 경우(RandomMaterialColor 의 경우)
             int filterColor = PanelDecoration.getPaletteColorWithAlpha(mContext, paletteColor);
             viewHolder.imageView.setColorFilter(filterColor, PorterDuff.Mode.SRC_OVER);
         }
