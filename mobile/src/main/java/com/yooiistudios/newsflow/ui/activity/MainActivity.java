@@ -42,6 +42,7 @@ import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.ExternalStorage;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
+import com.yooiistudios.newsflow.model.BackgroundCacheUtils;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.Settings;
@@ -145,6 +146,8 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+//    private static int test = 0;
+
     /**
      * init
      */
@@ -153,6 +156,19 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         if (DebugSettings.isDebugBuild()) {
             AppValidationChecker.validationCheck(this);
+        }
+
+        if (true) {
+            BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
+                    BackgroundServiceUtils.CacheTime.SIX_AM,
+                    new BackgroundCacheUtils.OnCacheDoneListener() {
+                        @Override
+                        public void onDone() {
+                            NLLog.now("onDone");
+                        }
+                    });
+            finish();
+            return;
         }
 
         // start service on starting app

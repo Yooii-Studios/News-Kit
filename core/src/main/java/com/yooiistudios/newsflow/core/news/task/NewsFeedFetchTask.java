@@ -20,7 +20,7 @@ public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     private boolean mShuffle;
 
     public interface OnFetchListener {
-        public void onFetch(NewsFeed newsFeed, int position);
+        void onFetchNewsFeed(NewsFeed newsFeed, int position);
     }
 
     public NewsFeedFetchTask(RssFetchable rssFetchable, OnFetchListener listener, int position) {
@@ -62,7 +62,7 @@ public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
             return;
         }
         if (mListener != null) {
-            mListener.onFetch(newsFeed, mPosition);
+            mListener.onFetchNewsFeed(newsFeed, mPosition);
         }
     }
 }

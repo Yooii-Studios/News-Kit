@@ -102,7 +102,7 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
     }
 
     @Override
-    public void onFetch(NewsFeed newsFeed, int position) {
+    public void onFetchNewsFeed(NewsFeed newsFeed, int position) {
         configOnFetch(newsFeed, position);
 
         if (allFetched()) {

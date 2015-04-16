@@ -98,7 +98,6 @@ public class NewsFeedImageUrlFetchUtil {
             // HttpGet 생성
             HttpGet httpget = new HttpGet(url);
 
-            System.out.println("executing request " + httpget.getURI());
             HttpResponse response = httpclient.execute(httpget);
             HttpEntity entity = response.getEntity();
 
