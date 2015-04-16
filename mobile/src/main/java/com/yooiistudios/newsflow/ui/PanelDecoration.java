@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.ui.RandomMaterialColors;
 import com.yooiistudios.newsflow.core.util.AppInfo;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 
