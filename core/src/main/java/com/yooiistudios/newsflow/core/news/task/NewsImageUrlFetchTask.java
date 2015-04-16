@@ -13,7 +13,7 @@ import com.yooiistudios.newsflow.core.news.util.NewsFeedImageUrlFetchUtil;
  */
 public class NewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
     public interface OnImageUrlFetchListener {
-        void onImageUrlFetch(News news, String url, int newsFeedPosition);
+        void onFetchImageUrl(News news, String url, int newsFeedPosition);
     }
     private News mNews;
     private OnImageUrlFetchListener mListener;
@@ -44,7 +44,7 @@ public class NewsImageUrlFetchTask extends AsyncTask<Void, Void, String> {
         mNews.setImageUrl(url);
         mNews.setImageUrlChecked(true);
         if (mListener != null) {
-            mListener.onImageUrlFetch(mNews, url, mNewsFeedPosition);
+            mListener.onFetchImageUrl(mNews, url, mNewsFeedPosition);
         }
     }
 }

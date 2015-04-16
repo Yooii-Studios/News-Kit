@@ -146,7 +146,7 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-//    private static int test = 0;
+    private static int test = 0;
 
     /**
      * init
@@ -158,12 +158,17 @@ public class MainActivity extends ActionBarActivity
             AppValidationChecker.validationCheck(this);
         }
 
-        if (true) {
+        if (test++ % 2 ==  0) {
             BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
                     BackgroundServiceUtils.CacheTime.SIX_AM,
                     new BackgroundCacheUtils.OnCacheDoneListener() {
                         @Override
                         public void onDone() {
+                            try {
+                                NewsDb.copyDbToExternalStorage(getApplicationContext());
+                            } catch (ExternalStorage.ExternalStorageException ignored) {
+                                // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+                            }
                             NLLog.now("onDone");
                         }
                     });

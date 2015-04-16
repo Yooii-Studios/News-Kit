@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.RssFetchable;
 import com.yooiistudios.newsflow.core.news.task.NewsFeedFetchTask;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.newsflow.core.util.ArrayUtils;
 
 import java.util.ArrayList;
@@ -56,7 +57,8 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
     }
 
     private void fetchTopNewsFeed(RssFetchable topFetchable) {
-        mTopNewsFeedFetchTask = new NewsFeedFetchTask(topFetchable, this, TOP_FETCH_TASK_INDEX);
+        mTopNewsFeedFetchTask = new NewsFeedFetchTask(topFetchable, this, TOP_FETCH_TASK_INDEX,
+                NewsFeedFetchUtil.FETCH_LIMIT_TV);
         mTopNewsFeedFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -64,7 +66,8 @@ public class NewsFeedsFetchManager implements NewsFeedFetchTask.OnFetchListener 
         for (int i = 0; i < bottomFetchables.size(); i++) {
             RssFetchable rssFetchable = bottomFetchables.get(i);
             int taskId = i + BOTTOM_FETCH_TASK_START_INDEX;
-            NewsFeedFetchTask task = new NewsFeedFetchTask(rssFetchable, this, taskId);
+            NewsFeedFetchTask task = new NewsFeedFetchTask(rssFetchable, this, taskId,
+                    NewsFeedFetchUtil.FETCH_LIMIT_TV);
             mBottomNewsFeedsFetchTasks.put(taskId, task);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }

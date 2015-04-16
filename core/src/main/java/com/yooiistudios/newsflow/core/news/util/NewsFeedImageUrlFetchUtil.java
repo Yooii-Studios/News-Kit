@@ -115,12 +115,10 @@ public class NewsFeedImageUrlFetchUtil {
                 }
             }
             httpget.abort();
-//            System.out.println("----------------------------------------");
             httpclient.getConnectionManager().shutdown();
 
             return null;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         } finally {
             httpclient.getConnectionManager().shutdown();
         }

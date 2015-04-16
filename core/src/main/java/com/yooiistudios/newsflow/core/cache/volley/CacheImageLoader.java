@@ -62,7 +62,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
     protected CacheImageLoader(Context context) {
         mContext = context;
-        initImageLoaderWithNonRetainingCache(context);
+        initImageLoaderForBackgroundCache(context);
     }
 
     private void initImageLoader(FragmentActivity activity) {
@@ -72,10 +72,10 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         mImageLoader = new ImageLoader(requestQueue, SimpleImageCache.getInstance().get(activity));
     }
 
-    private void initImageLoaderWithNonRetainingCache(Context context) {
+    private void initImageLoaderForBackgroundCache(Context context) {
         RequestQueue requestQueue = ImageRequestQueue.getInstance(context.getApplicationContext())
                 .getRequestQueue();
-        mCache = SimpleImageCache.getInstance().getNonRetainingCache(context);
+        mCache = SimpleImageCache.getInstance().getNonRetainingDiskOnlyImageCache(context);
         mImageLoader = new ImageLoader(requestQueue, mCache);
     }
 
@@ -171,6 +171,10 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
                             });
                         }
                     });
+                } else {
+                    if (!isImmediate) {
+                        notifyOnFail(imageListener, request.urlSupplier, null);
+                    }
                 }
             }
 

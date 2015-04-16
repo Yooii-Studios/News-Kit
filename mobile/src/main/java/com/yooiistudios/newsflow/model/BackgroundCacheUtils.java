@@ -12,6 +12,7 @@ import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.task.NewsFeedFetchTask;
 import com.yooiistudios.newsflow.core.news.task.NewsImageUrlFetchTask;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.NLLog;
@@ -86,7 +87,8 @@ public class BackgroundCacheUtils implements
 
     private void fetchTopNewsFeed() {
         NewsFeed topNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext);
-        NewsFeedFetchTask task = new NewsFeedFetchTask(topNewsFeed, this, NewsFeed.INDEX_TOP);
+        NewsFeedFetchTask task = new NewsFeedFetchTask(topNewsFeed, this, NewsFeed.INDEX_TOP,
+                NewsFeedFetchUtil.FETCH_LIMIT_TOP);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         mNewsFeedFetchTasks.put(NewsFeed.INDEX_TOP, task);
@@ -103,7 +105,8 @@ public class BackgroundCacheUtils implements
             if (bottomNewsFeed == null) {
                 continue;
             }
-            NewsFeedFetchTask task = new NewsFeedFetchTask(bottomNewsFeed, this, i);
+            NewsFeedFetchTask task = new NewsFeedFetchTask(bottomNewsFeed, this, i,
+                    NewsFeedFetchUtil.FETCH_LIMIT_BOTTOM);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mNewsFeedFetchTasks.put(i, task);
         }
@@ -162,13 +165,11 @@ public class BackgroundCacheUtils implements
                 new CacheImageLoader.ImageListener() {
                     @Override
                     public void onSuccess(CacheImageLoader.ImageResponse response) {
-                        NLLog.i("image fetch", "onSuccess");
                         notifyImageFetched(news, newsFeedPosition);
                     }
 
                     @Override
                     public void onFail(VolleyError error) {
-                        NLLog.i("image fetch", "onFail");
                         notifyImageFetched(news, newsFeedPosition);
                     }
                 });
@@ -210,7 +211,7 @@ public class BackgroundCacheUtils implements
     }
 
     @Override
-    public void onImageUrlFetch(final News news, String url, final int newsFeedPosition) {
+    public void onFetchImageUrl(final News news, String url, final int newsFeedPosition) {
         archiveNewsImageUrl(news, url, newsFeedPosition);
         cacheImages(news, newsFeedPosition);
     }
