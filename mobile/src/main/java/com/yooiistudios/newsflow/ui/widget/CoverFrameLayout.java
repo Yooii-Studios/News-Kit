@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
  *  메인화면 편집 모드에서 사용될 커버 레이아웃
  */
 public class CoverFrameLayout extends FrameLayout {
+    OnClickListener mOnClickListener;
+
     public CoverFrameLayout(Context context) {
         super(context);
     }
@@ -32,7 +34,13 @@ public class CoverFrameLayout extends FrameLayout {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return true;
+    public void setOnClickListener(OnClickListener l) {
+        super.setOnClickListener(l);
+        mOnClickListener = l;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return mOnClickListener != null;
     }
 }

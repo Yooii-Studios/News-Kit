@@ -541,6 +541,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public void onTouchTopHideLayout() {
+        hideEditLayout();
+    }
+
+    @Override
     public void onMainBottomInitialLoad() {
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
