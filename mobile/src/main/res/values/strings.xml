@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General -->
-    <string name="app_name">News Flow</string>
+    <string name="app_name">News Kit</string>
     <string name="news">News</string>
     <string name="action_info">Information</string>
     <string name="action_settings">Settings</string>
