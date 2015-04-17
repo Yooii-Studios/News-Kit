@@ -158,7 +158,7 @@ public class MainTopContainerLayout extends FrameLayout
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, NewsSelectActivity.class);
-                intent = putNewsFeedLocationInfoToIntent(intent);
+                intent = makeNewsSelectIntent(intent);
                 mOnEventListener.onStartNewsFeedSelectActivityFromTopNewsFeed(intent);
             }
         });
@@ -627,15 +627,16 @@ public class MainTopContainerLayout extends FrameLayout
 
         Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);
         intent = putNewsFeedInfoToIntent(intent, newsFeed, position);
-        intent = putNewsFeedLocationInfoToIntent(intent);
+        intent = makeNewsSelectIntent(intent);
 //        intent = putImageTintTypeToIntent(intent, viewHolder);
         intent = putActivityTransitionInfo(intent, viewHolder);
 
         mOnEventListener.onStartNewsFeedDetailActivityFromTopNewsFeed(intent);
     }
 
-    private Intent putNewsFeedLocationInfoToIntent(Intent intent) {
+    private Intent makeNewsSelectIntent(Intent intent) {
         intent.putExtra(MainActivity.INTENT_KEY_NEWS_FEED_LOCATION, MainActivity.INTENT_VALUE_TOP_NEWS_FEED);
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mTopNewsFeedPagerAdapter.getNewsFeed());
 
         return intent;
     }
