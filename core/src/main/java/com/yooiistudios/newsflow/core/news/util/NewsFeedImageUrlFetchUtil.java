@@ -98,7 +98,6 @@ public class NewsFeedImageUrlFetchUtil {
             // HttpGet 생성
             HttpGet httpget = new HttpGet(url);
 
-            System.out.println("executing request " + httpget.getURI());
             HttpResponse response = httpclient.execute(httpget);
             HttpEntity entity = response.getEntity();
 
@@ -116,12 +115,10 @@ public class NewsFeedImageUrlFetchUtil {
                 }
             }
             httpget.abort();
-//            System.out.println("----------------------------------------");
             httpclient.getConnectionManager().shutdown();
 
             return null;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         } finally {
             httpclient.getConnectionManager().shutdown();
         }

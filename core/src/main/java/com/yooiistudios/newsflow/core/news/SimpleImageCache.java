@@ -14,6 +14,8 @@ import com.yooiistudios.newsflow.core.cache.volley.ImageCache;
  *  L2 디스크 캐시를 초기화하는 코드의 래퍼
  */
 public class SimpleImageCache {
+    private static final int DEFAULT_DISK_CACHE_SIZE = 50 * 1024 * 1024; // 10MB
+
     private static SimpleImageCache instance;
 
     private ImageCache mRetainingImageCache;
@@ -54,9 +56,9 @@ public class SimpleImageCache {
         return mRetainingImageCache;
     }
 
-    public ImageCache getNonRetainingCache(Context context) {
+    public ImageCache getNonRetainingDiskOnlyImageCache(Context context) {
         if (mNonRetainingImageCache == null) {
-            createNonRetainingImageCache(context);
+            createNonRetainingDiskOnlyImageCache(context);
             initDiskCache(mNonRetainingImageCache);
         }
         return mNonRetainingImageCache;
@@ -66,14 +68,14 @@ public class SimpleImageCache {
         mRetainingImageCache = ImageCache.getInstance(
                 context.getResources(),
                 fragmentManager,
-                createImageCacheParams(context)
+                createCacheParams(context)
         );
     }
 
-    private void createNonRetainingImageCache(Context context) {
+    private void createNonRetainingDiskOnlyImageCache(Context context) {
         mNonRetainingImageCache = ImageCache.createNewInstance(
                 context.getResources(),
-                createImageCacheParams(context)
+                createDiskOnlyImageCacheParams(context)
         );
     }
 
@@ -81,12 +83,22 @@ public class SimpleImageCache {
         CacheAsyncTask.initDiskCache(imageCache);
     }
 
-    private ImageCache.ImageCacheParams createImageCacheParams(Context context) {
-        ImageCache.ImageCacheParams cacheParams =
-                new ImageCache.ImageCacheParams(context.getApplicationContext(), "image");
+    private ImageCache.ImageCacheParams createCacheParams(Context context) {
+        ImageCache.ImageCacheParams cacheParams = createDefaultCacheParams(context);
+        cacheParams.setMemCacheSizePercent(0.25f);
+        cacheParams.diskCacheSize = DEFAULT_DISK_CACHE_SIZE;
 
-        cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
-        cacheParams.diskCacheSize = 50 * 1024 * 1024; // 10MB
         return cacheParams;
+    }
+
+    private ImageCache.ImageCacheParams createDiskOnlyImageCacheParams(Context context) {
+        ImageCache.ImageCacheParams cacheParams = createDefaultCacheParams(context);
+        cacheParams.memoryCacheEnabled = false;
+        cacheParams.diskCacheSize = DEFAULT_DISK_CACHE_SIZE;
+        return cacheParams;
+    }
+
+    private ImageCache.ImageCacheParams createDefaultCacheParams(Context context) {
+        return new ImageCache.ImageCacheParams(context.getApplicationContext(), "image");
     }
 }

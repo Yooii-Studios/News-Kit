@@ -51,7 +51,7 @@ public class NewsFeedFetchUtil {
 
             newsFeed = getNewsFeedFromUrl(newsFeedUrl);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
-            trimNewsContents(newsFeed);
+            cleanUpNewsContents(newsFeed);
 
             if (shuffle) {
                 shuffleNewsList(newsFeed);
@@ -102,11 +102,13 @@ public class NewsFeedFetchUtil {
         }
     }
 
-    // 뉴스 내용에 앞뒤로 공간이 있을 경우가 있어 첫 로딩 시 trim 을 적용해줌
-    private static void trimNewsContents(NewsFeed newsFeed) {
+    private static void cleanUpNewsContents(NewsFeed newsFeed) {
         for (News news : newsFeed.getNewsList()) {
+            // 뉴스 내용에 앞뒤로 공간이 있을 경우가 있어 첫 로딩 시 trim 을 적용해줌
             news.setTitle(news.getTitle().trim());
             news.setDescription(news.getDescription().trim());
+
+            news.setLink(news.getLink().replaceAll("(\\r|\\n|\\t)", "").trim());
         }
     }
 
@@ -126,6 +128,7 @@ public class NewsFeedFetchUtil {
         feed.setNewsList(trimmedNewsList);
     }
 
+    // TODO: cleanUpNewsContents 메서드로 넣어야 할듯
     private static void refactorDescription(NewsFeed feed) {
         for (News item : feed.getNewsList()) {
             String desc = item.getDescription();
