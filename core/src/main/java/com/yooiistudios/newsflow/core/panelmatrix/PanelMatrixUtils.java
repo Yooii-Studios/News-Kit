@@ -11,9 +11,11 @@ import android.content.Context;
 public class PanelMatrixUtils {
     public static final String PANEL_MATRIX_SHARED_PREFERENCES = "panel_matrix_shared_preferences";
     public static final String PANEL_MATRIX_KEY = "panel_matrix_key";
+    public static final String PANEL_MATRIX_CHANGED_KEY = "panel_matrix_changed_key";
 
     private volatile static PanelMatrixUtils instance;
     private PanelMatrix mCurrentPanelMatrix;
+    private boolean mIsPanelMatrixChanged;
 
     /**
      * Singleton
@@ -25,9 +27,10 @@ public class PanelMatrixUtils {
         if (uniqueId == -1) {
             uniqueId = PanelMatrix.TWO_BY_TWO.getUniqueId();
             context.getSharedPreferences(PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                    .edit().putInt(PANEL_MATRIX_KEY, uniqueId).commit();
+                    .edit().putInt(PANEL_MATRIX_KEY, uniqueId).apply();
         }
         mCurrentPanelMatrix = PanelMatrix.getByUniqueKey(uniqueId);
+        mIsPanelMatrixChanged = false;
     }
 
     public static PanelMatrixUtils getInstance(Context context) {
@@ -48,6 +51,17 @@ public class PanelMatrixUtils {
     public static void setCurrentPanelMatrix(PanelMatrix newPanelMatrix, Context context) {
         PanelMatrixUtils.getInstance(context).mCurrentPanelMatrix = newPanelMatrix;
         context.getSharedPreferences(PANEL_MATRIX_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .edit().putInt(PANEL_MATRIX_KEY, newPanelMatrix.getUniqueId()).commit();
+                .edit().putInt(PANEL_MATRIX_KEY, newPanelMatrix.getUniqueId()).apply();
+
+        setPanelMatrixChanged(context, true);
+    }
+
+    // 이 변수는 동적으로만 사용될 것이기에 SharedPreferences 에 저장을 하지는 않음
+    public static void setPanelMatrixChanged(Context context, boolean changed) {
+        PanelMatrixUtils.getInstance(context).mIsPanelMatrixChanged = changed;
+    }
+
+    public static boolean isPanelMatrixChanged(Context context) {
+        return PanelMatrixUtils.getInstance(context).mIsPanelMatrixChanged;
     }
 }

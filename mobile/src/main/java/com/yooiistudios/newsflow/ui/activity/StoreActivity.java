@@ -29,6 +29,8 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.Md5Utils;
 import com.yooiistudios.newsflow.iab.IabManager;
 import com.yooiistudios.newsflow.iab.IabManagerListener;
@@ -68,14 +70,10 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     @InjectView(R.id.store_icon_banner_no_ads_image_view) ImageView mNoAdsImageView;
     @InjectView(R.id.store_icon_banner_discount_image_view) ImageView mDiscountImageView;
 
-    @InjectView(R.id.store_discounted_price_text_view)
-    AutoResizeTextView mDiscountedPriceTextView;
-    @InjectView(R.id.store_original_price_text_view)
-    AutoResizeTextView mOriginalPriceTextView;
-    @InjectView(R.id.store_thank_you_text_view)
-    AutoResizeTextView mThankYouTextView;
-    @InjectView(R.id.store_purchase_text_view)
-    AutoResizeTextView mPurchasedTextView;
+    @InjectView(R.id.store_discounted_price_text_view) AutoResizeTextView mDiscountedPriceTextView;
+    @InjectView(R.id.store_original_price_text_view) AutoResizeTextView mOriginalPriceTextView;
+    @InjectView(R.id.store_thank_you_text_view) AutoResizeTextView mThankYouTextView;
+    @InjectView(R.id.store_purchase_text_view) AutoResizeTextView mPurchasedTextView;
     @InjectView(R.id.store_price_image_view) ImageView mPriceImageView;
     @InjectView(R.id.store_product_list_view) ListView mProductListView;
 
@@ -252,6 +250,8 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
             IabProducts.saveIabProduct(IabProducts.SKU_PRO_VERSION, this);
             initUI();
             initUIOnQueryFinishedDebug();
+            // 풀버전 구매시 2X3으로 변경해줌
+            PanelMatrixUtils.setCurrentPanelMatrix(PanelMatrix.THREE_BY_TWO, this);
         }
     }
 
@@ -431,6 +431,8 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
             mBannerImageView.setClickable(false);
             mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
             mPriceImageView.setClickable(false);
+            // 풀버전 구매시 2X3으로 변경해줌
+            PanelMatrixUtils.setCurrentPanelMatrix(PanelMatrix.THREE_BY_TWO, this);
         }
         ((StoreProductItemAdapter)mProductListView.getAdapter()).updateOnPurchase();
     }

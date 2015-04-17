@@ -36,6 +36,7 @@ import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.core.util.ConnectivityUtils;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
@@ -84,8 +85,7 @@ public class MainActivity extends ActionBarActivity
     public static final String INTENT_KEY_TRANSITION_PROPERTY = "INTENT_KEY_TRANSITION_PROPERTY";
 
     public static final int RC_NEWS_FEED_DETAIL = 10001;
-    public static final int RC_SETTING = 10002;
-    public static final int RC_NEWS_FEED_SELECT = 10003;
+    public static final int RC_NEWS_FEED_SELECT = 10002;
     private static final int INVALID_WINDOW_INSET = -1;
 
     /**
@@ -421,6 +421,12 @@ public class MainActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
 
+        // 모든 패널 설정 관련 화면에서 패널이 바뀔 경우 가장 먼저 패널 매트릭스를 잡아줄 것
+        if (PanelMatrixUtils.isPanelMatrixChanged(this)) {
+            PanelMatrixUtils.setPanelMatrixChanged(this, false);
+            mMainBottomContainerLayout.notifyPanelMatrixChanged();
+        }
+
         if (mRootLayout != null) {
             onConfigurationChanged(getResources().getConfiguration());
             startNewsAutoRefreshIfReady();
@@ -501,7 +507,7 @@ public class MainActivity extends ActionBarActivity
             startActivity(new Intent(MainActivity.this, InfoActivity.class));
             return true;
         } else if (id == R.id.action_settings) {
-            startActivityForResult(new Intent(MainActivity.this, SettingActivity.class), RC_SETTING);
+            startActivity(new Intent(MainActivity.this, SettingActivity.class));
             return true;
         } else if (id == R.id.action_rate_app) {
             ReviewUtils.showReviewActivity(this);
@@ -841,13 +847,6 @@ public class MainActivity extends ActionBarActivity
 //                            mMainTopContainerLayout.applyNewsTopic(rssFetchable);
 //                        }
 //                    }
-                    break;
-                case RC_SETTING:
-                    boolean panelMatrixChanged = extras.getBoolean(SettingActivity.PANEL_MATRIX_CHANGED);
-
-                    if (panelMatrixChanged) {
-                        mMainBottomContainerLayout.notifyPanelMatrixChanged();
-                    }
                     break;
             }
         }

@@ -82,10 +82,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     private SettingAdapter mSettingAdapter;
     private int mPreviousPanelMatrixUniqueId = -1;
 
-    public interface OnSettingChangedListener {
-        void onPanelMatrixSelect(boolean changed);
-    }
-
     public SettingFragment() {}
 
     @Override
@@ -209,19 +205,17 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     public void onSelectMatrix(int position) {
         PanelMatrix selectedPanelMatrix = PanelMatrix.getByUniqueKey(position);
         if (IabProducts.isMatrixAvailable(getActivity(), selectedPanelMatrix)) {
-            PanelMatrixUtils.setCurrentPanelMatrix(selectedPanelMatrix, getActivity());
-            mSettingAdapter.notifyDataSetChanged();
 
-            // 패널이 변경되었으면 메인에서 구조 변경을 할 수 있게 콜백으로 알림
-            if (getActivity() instanceof OnSettingChangedListener) {
-                ((OnSettingChangedListener)getActivity()).onPanelMatrixSelect(
-                        selectedPanelMatrix.getUniqueId() != mPreviousPanelMatrixUniqueId);
+            // 선택한 매트릭스가 다를 경우에만 적용
+            if (PanelMatrixUtils.getCurrentPanelMatrix(getActivity()) != selectedPanelMatrix) {
+                PanelMatrixUtils.setCurrentPanelMatrix(selectedPanelMatrix, getActivity());
+                mSettingAdapter.notifyDataSetChanged();
+
+                // Google Analytics
+                AnalyticsUtils.trackNewsPanelMatrixSelection(
+                        (NewsApplication) getActivity().getApplication(), "Settings",
+                        selectedPanelMatrix.toString());
             }
-
-            // Google Analytics
-            AnalyticsUtils.trackNewsPanelMatrixSelection(
-                    (NewsApplication) getActivity().getApplication(), "Settings",
-                    selectedPanelMatrix.toString());
         } else {
             startActivity(new Intent(getActivity(), StoreActivity.class));
             Toast.makeText(getActivity(), R.string.store_buy_pro_version, Toast.LENGTH_SHORT).show();

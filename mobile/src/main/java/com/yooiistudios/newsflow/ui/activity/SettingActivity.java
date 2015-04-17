@@ -28,12 +28,8 @@ import butterknife.InjectView;
  * SettingActivity
  *  설정화면 액티비티
  */
-public class SettingActivity extends ActionBarActivity
-        implements SettingFragment.OnSettingChangedListener {
+public class SettingActivity extends ActionBarActivity {
     private static final String TAG = SettingActivity.class.getName();
-    public static final String PANEL_MATRIX_CHANGED = "PANEL_MATRIX_CHANGED";
-
-    private boolean mIsPanelMatrixChanged = false;
 
     @InjectView(R.id.setting_toolbar) Toolbar mToolbar;
 
@@ -97,20 +93,6 @@ public class SettingActivity extends ActionBarActivity
                 titleString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         mToolbar.setTitle(titleString);
-    }
-
-    @Override
-    public void onPanelMatrixSelect(boolean isChanged) {
-        mIsPanelMatrixChanged = isChanged;
-    }
-
-    @Override
-    public void finish() {
-        if (mIsPanelMatrixChanged) {
-            getIntent().putExtra(PANEL_MATRIX_CHANGED, true);
-            setResult(RESULT_OK, getIntent());
-        }
-        super.finish();
     }
 
     @Override
