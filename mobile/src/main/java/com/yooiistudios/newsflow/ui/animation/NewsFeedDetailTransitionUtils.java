@@ -263,9 +263,13 @@ public class NewsFeedDetailTransitionUtils {
         float heightScaleRatio = mTopNewsImageWrapper.getHeight()
                 / (float)mTransImageViewProperty.getHeight();
         boolean fitWidth = widthScaleRatio > heightScaleRatio;
-        float scaleRatio = fitWidth ? widthScaleRatio : heightScaleRatio;
+//        float scaleRatio = fitWidth ? widthScaleRatio : heightScaleRatio;
 
-        int targetWidth = (int)(mTransImageViewProperty.getWidth() * scaleRatio);
+        int targetWidth = fitWidth
+                ? mTopNewsImageWrapper.getWidth()
+                : (int)Math.ceil(mTransImageViewProperty.getWidth() * heightScaleRatio);
+
+//        int targetWidth = (int)(mTransImageViewProperty.getWidth() * scaleRatio);
         int imageWrapperLeft = mTopNewsImageWrapper.getLeft();
         int thumbnailLeftTarget = fitWidth
                 ? imageWrapperLeft
@@ -273,7 +277,7 @@ public class NewsFeedDetailTransitionUtils {
         int thumbnailTopTarget = mTopNewsImageWrapper.getTop();
 
         mThumbnailEndRect = new Rect(thumbnailLeftTarget, thumbnailTopTarget,
-                thumbnailLeftTarget + (int)(mTransImageViewProperty.getWidth() * scaleRatio),
+                thumbnailLeftTarget + targetWidth,
                 thumbnailTopTarget + mTopNewsImageWrapper.getHeight());
     }
 
