@@ -9,5 +9,6 @@ import com.yooiistudios.newsflow.model.PanelEditMode;
  *  Edit mode 가 변경될 경우 불릴 콜백
  */
 public interface OnMainPanelEditModeEventListener {
-    public void onEditModeChange(PanelEditMode editMode);
+    void onEditModeChange(PanelEditMode editMode);
+    void onTouchBottomEditLayout();
 }

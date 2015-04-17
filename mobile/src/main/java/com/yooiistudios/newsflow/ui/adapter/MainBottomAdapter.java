@@ -52,6 +52,7 @@ public class MainBottomAdapter extends
         void onClick(BottomNewsFeedViewHolder viewHolder, NewsFeed newsFeed, int position);
         void onLongClick();
         void onClickEditButton(int position);
+        void onTouchBottomEditLayout();
     }
 
     public static final int PORTRAIT = 0;
@@ -342,11 +343,16 @@ public class MainBottomAdapter extends
     }
 
     private void initEditLayerListener(BottomNewsFeedViewHolder viewHolder, final int position) {
-        // TODO 바깥쪽 클릭할 경우 editMode 해제하는 기능 추가해야 함
         viewHolder.changeNewsfeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onClickEditButton(position);
+            }
+        });
+        viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onTouchBottomEditLayout();
             }
         });
     }

@@ -541,7 +541,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onTouchTopHideLayout() {
+    public void onTouchTopEditLayout() {
         hideEditLayout();
     }
 
@@ -754,6 +754,11 @@ public class MainActivity extends ActionBarActivity
         } else {
             hideEditLayout();
         }
+    }
+
+    @Override
+    public void onTouchBottomEditLayout() {
+        hideEditLayout();
     }
 
     private void toggleEditLayoutVisibility() {

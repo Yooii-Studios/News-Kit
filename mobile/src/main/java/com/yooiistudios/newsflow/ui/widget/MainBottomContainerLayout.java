@@ -509,6 +509,11 @@ public class MainBottomContainerLayout extends FrameLayout
         mOnMainPanelEditModeEventListener.onEditModeChange(PanelEditMode.EDITING);
     }
 
+    @Override
+    public void onTouchBottomEditLayout() {
+        mOnMainPanelEditModeEventListener.onTouchBottomEditLayout();
+    }
+
     private Intent makeIntentForNewsFeedDetail(MainBottomAdapter.BottomNewsFeedViewHolder viewHolder,
                                                NewsFeed newsFeed, int position) {
         Intent intent = new Intent(mActivity, NewsFeedDetailActivity.class);

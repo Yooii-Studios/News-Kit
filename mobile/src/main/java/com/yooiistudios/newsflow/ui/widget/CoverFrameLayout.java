@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 /**
@@ -14,8 +13,6 @@ import android.widget.FrameLayout;
  *  메인화면 편집 모드에서 사용될 커버 레이아웃
  */
 public class CoverFrameLayout extends FrameLayout {
-    OnClickListener mOnClickListener;
-
     public CoverFrameLayout(Context context) {
         super(context);
     }
@@ -31,16 +28,5 @@ public class CoverFrameLayout extends FrameLayout {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CoverFrameLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    @Override
-    public void setOnClickListener(OnClickListener l) {
-        super.setOnClickListener(l);
-        mOnClickListener = l;
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mOnClickListener != null;
     }
 }
