@@ -165,36 +165,24 @@ public class MainActivity extends ActionBarActivity
 //                    NewsFeedUrlType.CUSTOM), new NewsFeedFetchTask.OnFetchListener() {
 //                @Override
 //                public void onFetchNewsFeed(final NewsFeed newsFeed, int position) {
-//                    final ArrayList<News> newsList = new ArrayList<>();
-//                    for (News news : newsFeed.getNewsList()) {
-//                        new NewsImageUrlFetchTask(news,
-//                                new NewsImageUrlFetchTask.OnImageUrlFetchListener() {
-//                                    @Override
-//                                    public void onFetchImageUrl(final News news, String url, int newsFeedPosition) {
-//                                        NLLog.now("onFetchImageUrl: " + news.getLink());
-//                                        newsList.add(news);
+//                    new NewsImageUrlFetchTask(newsFeed.getDisplayingNews(),
+//                            new NewsImageUrlFetchTask.OnImageUrlFetchListener() {
+//                                @Override
+//                                public void onFetchImageUrl(final News news, String url, int newsFeedPosition) {
+//                                    imageLoader.get(new NewsUrlSupplier(news, -1),
+//                                            new CacheImageLoader.ImageListener() {
+//                                                @Override
+//                                                public void onSuccess(CacheImageLoader.ImageResponse response) {
+//                                                    NLLog.now("onSuccess: " + news.getLink());
+//                                                }
 //
-//                                        if (newsList.size() == newsFeed.getNewsList().size()) {
-////                                        news.setImageUrl(news.getLink());
-//                                            for (final News tempNews : newsList) {
-//                                                tempNews.setImageUrl("");
-//                                                imageLoader.get(new NewsUrlSupplier(tempNews, -1),
-//                                                        new CacheImageLoader.ImageListener() {
-//                                                            @Override
-//                                                            public void onSuccess(CacheImageLoader.ImageResponse response) {
-//                                                                NLLog.now("onSuccess: " + tempNews.getLink());
-//                                                            }
-//
-//                                                            @Override
-//                                                            public void onFail(VolleyError error) {
-//                                                                NLLog.now("onFail: " + tempNews.getLink());
-//                                                            }
-//                                                        });
-//                                            }
-//                                        }
-//                                    }
-//                                }, -1).execute();
-//                    }
+//                                                @Override
+//                                                public void onFail(VolleyError error) {
+//                                                    NLLog.now("onFail: " + news.getLink());
+//                                                }
+//                                            });
+//                                }
+//                            }, -1).execute();
 //                }
 //            }, -1, 20).execute();
 //

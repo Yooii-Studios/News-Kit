@@ -55,6 +55,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     private ImageLoader mImageLoader;
     private ImageCache mCache;
     private Map<T, Integer> mRequestedUrlSuppliers = new HashMap<>();
+    private boolean mIsDiskOnlyCache;
 
     protected CacheImageLoader(FragmentActivity activity) {
         mContext = activity.getApplicationContext();
@@ -77,6 +78,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         RequestQueue requestQueue = ImageRequestQueue.getInstance(context.getApplicationContext())
                 .getRequestQueue();
         mCache = SimpleImageCache.getInstance().getNonRetainingDiskOnlyImageCache(context);
+        mIsDiskOnlyCache = true;
         mImageLoader = new ImageLoader(requestQueue, mCache);
     }
 
@@ -178,6 +180,10 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
                                         );
                                         notifyOnSuccess(imageListener, imageResponse);
                                     }
+                                    if (mIsDiskOnlyCache) {
+                                        bitmap.recycle();
+                                        thumbnailBitmap.recycle();
+                                    }
                                 }
                             });
                         }
@@ -229,7 +235,9 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     private void cacheThumbnail(final Bitmap bitmap, final ImageRequest request,
                                 final ThumbnailListener listener) {
         Bitmap thumbnail = getCachedThumbnail(request.urlSupplier.getUrl());
-        if (thumbnail == null) {
+        if (thumbnail != null) {
+            listener.onSuccess(thumbnail);
+        } else {
             if (shouldCreateThumbnail(bitmap)) {
                 double widthRatio = (double)bitmap.getWidth() / (double)getThumbnailSize().x;
                 double heightRatio = (double)bitmap.getHeight() / (double)getThumbnailSize().y;
@@ -255,8 +263,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
     private void putThumbnailInCacheAndNotify(Bitmap bitmap, ImageRequest request,
                                               ThumbnailListener listener) {
-        mCache.putBitmap(getThumbnailCacheKey(request.urlSupplier.getUrl()),
-                bitmap);
+        mCache.putBitmap(getThumbnailCacheKey(request.urlSupplier.getUrl()), bitmap);
         listener.onSuccess(bitmap);
     }
 
@@ -316,7 +323,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
     public class ImageResponse {
         public final T urlSupplier;
-        public final Bitmap bitmap;
+        public Bitmap bitmap;
         public final PaletteColor paletteColor;
 
         public ImageResponse(T urlSupplier, Bitmap bitmap, PaletteColor paletteColor) {
