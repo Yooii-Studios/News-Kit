@@ -71,6 +71,16 @@ public class NewsFeed implements Parcelable, RssFetchable {
             mTopicCountryCode = newsTopic.countryCode;
             mTopicProviderId = newsTopic.newsProviderId;
             mTopicId = newsTopic.id;
+        } else if (fetchable instanceof NewsFeed) {
+            NewsFeed newsFeed = (NewsFeed)fetchable;
+            mTitle = newsFeed.mTitle;
+            mNewsFeedUrl = newsFeed.mNewsFeedUrl;
+
+            mTopicLanguageCode = newsFeed.getTopicLanguageCode();
+            mTopicRegionCode = newsFeed.mTopicRegionCode;
+            mTopicCountryCode = newsFeed.mTopicCountryCode;
+            mTopicProviderId = newsFeed.mTopicProviderId;
+            mTopicId = newsFeed.mTopicId;
         } else {
             throw new IllegalArgumentException("Unsupported RssFetchable.");
         }

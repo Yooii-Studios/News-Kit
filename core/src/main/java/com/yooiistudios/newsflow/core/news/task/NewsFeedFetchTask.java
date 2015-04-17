@@ -18,15 +18,18 @@ public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     private OnFetchListener mListener;
     private int mPosition;
     private boolean mShuffle;
+    private int mFetchLimit;
 
     public interface OnFetchListener {
-        public void onFetch(NewsFeed newsFeed, int position);
+        void onFetchNewsFeed(NewsFeed newsFeed, int position);
     }
 
-    public NewsFeedFetchTask(RssFetchable rssFetchable, OnFetchListener listener, int position) {
+    public NewsFeedFetchTask(RssFetchable rssFetchable, OnFetchListener listener, int position,
+                             int fetchLimit) {
         mRssFetchable = rssFetchable;
         mListener = listener;
         mPosition = position;
+        mFetchLimit = fetchLimit;
     }
 
 //    public NewsFeedFetchTask(RssFetchable rssFetchable, OnFetchListener listener,
@@ -45,7 +48,7 @@ public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     @Override
     protected NewsFeed doInBackground(Void... voids) {
         NewsFeed newsFeed =
-                NewsFeedFetchUtil.fetch(mRssFetchable, NewsFeedFetchUtil.FETCH_LIMIT_TV, mShuffle);
+                NewsFeedFetchUtil.fetch(mRssFetchable, mFetchLimit, mShuffle);
         if (mRssFetchable instanceof NewsFeed) {
             newsFeed.setTopicIdInfo((NewsFeed)mRssFetchable);
         } else if (mRssFetchable instanceof NewsTopic) {
@@ -62,7 +65,7 @@ public class NewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
             return;
         }
         if (mListener != null) {
-            mListener.onFetch(newsFeed, mPosition);
+            mListener.onFetchNewsFeed(newsFeed, mPosition);
         }
     }
 }

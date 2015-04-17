@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.graphics.Palette;
+import android.text.TextUtils;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -54,6 +55,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     private ImageLoader mImageLoader;
     private ImageCache mCache;
     private Map<T, Integer> mRequestedUrlSuppliers = new HashMap<>();
+    private boolean mIsDiskOnlyCache;
 
     protected CacheImageLoader(FragmentActivity activity) {
         mContext = activity.getApplicationContext();
@@ -62,7 +64,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
     protected CacheImageLoader(Context context) {
         mContext = context;
-        initImageLoaderWithNonRetainingCache(context);
+        initImageLoaderForBackgroundCache(context);
     }
 
     private void initImageLoader(FragmentActivity activity) {
@@ -72,10 +74,11 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         mImageLoader = new ImageLoader(requestQueue, SimpleImageCache.getInstance().get(activity));
     }
 
-    private void initImageLoaderWithNonRetainingCache(Context context) {
+    private void initImageLoaderForBackgroundCache(Context context) {
         RequestQueue requestQueue = ImageRequestQueue.getInstance(context.getApplicationContext())
                 .getRequestQueue();
-        mCache = SimpleImageCache.getInstance().getNonRetainingCache(context);
+        mCache = SimpleImageCache.getInstance().getNonRetainingDiskOnlyImageCache(context);
+        mIsDiskOnlyCache = true;
         mImageLoader = new ImageLoader(requestQueue, mCache);
     }
 
@@ -139,7 +142,17 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     }
 
     private void getOriginalImage(final ImageRequest request, final ImageListener imageListener) {
-        mImageLoader.get(request.urlSupplier.getUrl(), new ImageLoader.ImageListener() {
+        String url = request.urlSupplier.getUrl();
+
+        // com.android.volley.toolbox.ImageLoader.get(~) 메서드에 빈 스트링("")으로 된 url 을
+        // 랜덤한 타이밍(AsyncTask 의 onPostExecute )에 여러번 요청하면
+        // 콜백이 무시되는 경우가 있음(테스트 결과 20개 요청중 절반 정도가 무시됨).
+        // Volley 내부 문제로 추측되지만 확실하지 않음.
+        if (TextUtils.isEmpty(url)) {
+            notifyOnFail(imageListener, request.urlSupplier, null);
+            return;
+        }
+        mImageLoader.get(url, new ImageLoader.ImageListener() {
 
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -167,10 +180,18 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
                                         );
                                         notifyOnSuccess(imageListener, imageResponse);
                                     }
+                                    if (mIsDiskOnlyCache) {
+                                        bitmap.recycle();
+                                        thumbnailBitmap.recycle();
+                                    }
                                 }
                             });
                         }
                     });
+                } else {
+                    if (!isImmediate) {
+                        notifyOnFail(imageListener, request.urlSupplier, null);
+                    }
                 }
             }
 
@@ -214,7 +235,9 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     private void cacheThumbnail(final Bitmap bitmap, final ImageRequest request,
                                 final ThumbnailListener listener) {
         Bitmap thumbnail = getCachedThumbnail(request.urlSupplier.getUrl());
-        if (thumbnail == null) {
+        if (thumbnail != null) {
+            listener.onSuccess(thumbnail);
+        } else {
             if (shouldCreateThumbnail(bitmap)) {
                 double widthRatio = (double)bitmap.getWidth() / (double)getThumbnailSize().x;
                 double heightRatio = (double)bitmap.getHeight() / (double)getThumbnailSize().y;
@@ -240,8 +263,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
     private void putThumbnailInCacheAndNotify(Bitmap bitmap, ImageRequest request,
                                               ThumbnailListener listener) {
-        mCache.putBitmap(getThumbnailCacheKey(request.urlSupplier.getUrl()),
-                bitmap);
+        mCache.putBitmap(getThumbnailCacheKey(request.urlSupplier.getUrl()), bitmap);
         listener.onSuccess(bitmap);
     }
 
@@ -301,7 +323,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
     public class ImageResponse {
         public final T urlSupplier;
-        public final Bitmap bitmap;
+        public Bitmap bitmap;
         public final PaletteColor paletteColor;
 
         public ImageResponse(T urlSupplier, Bitmap bitmap, PaletteColor paletteColor) {
