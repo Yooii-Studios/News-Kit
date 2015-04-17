@@ -47,6 +47,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
@@ -93,6 +94,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         NewsTopicSelectDialogFactory.OnItemClickListener,
         NewsFeedDetailTransitionUtils.OnAnimationEndListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
+    private static final int INVALID_WINDOW_INSET = -1;
 
     // Overlay & Shadow
     private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.75f;
@@ -157,7 +159,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     private NewsFeedDetailNewsFeedFetchTask mNewsFeedFetchTask;
     private NewsFeedDetailNewsImageUrlFetchTask mTopNewsImageFetchTask;
 
-    private int mWindowInsetEnd;
+    private int mSystemWindowInsetBottom = INVALID_WINDOW_INSET;
 
     private boolean mIsRefreshing = false;
 
@@ -175,7 +177,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         mImageLoader = NewsImageLoader.create(this);
 
         initViewsSize();
-        applySystemWindowsBottomInset();
+        requestSystemWindowsBottomInset();
         initRevealView();
         initToolbar();
         initSwipeRefreshView();
@@ -236,26 +238,26 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         }
     }
 
-    private void checkAdView() {
+    private void configOnSystemInsetChanged() {
         // NO_ADS 만 체크해도 풀버전까지 체크됨
-        if (IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS)) {
-            mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd);
+        boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+        if (adPurchased) {
+            mScrollContentWrapper.setPadding(0, 0, 0, mSystemWindowInsetBottom);
             mAdUpperView.setVisibility(View.GONE);
             mAdView.setVisibility(View.GONE);
-
-            Display.applyTranslucentNavigationBarAfterLollipop(this);
         } else {
-            int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
-            mScrollContentWrapper.setPadding(0, 0, 0, mWindowInsetEnd + adViewHeight);
+            int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
+            if (Device.isPortrait(this)) {
+                mScrollContentWrapper.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
+            } else {
+                mScrollContentWrapper.setPadding(0, 0, 0, adViewHeight);
+            }
             mAdView.setVisibility(View.VISIBLE);
             mAdView.resume();
 
             RelativeLayout.LayoutParams adViewLp =
                     (RelativeLayout.LayoutParams)mAdView.getLayoutParams();
-            adViewLp.bottomMargin = mWindowInsetEnd;
-
-            // 네비게이션바에 색상 입히기
-            Display.removeTranslucentNavigationBarAfterLollipop(this);
+            adViewLp.bottomMargin = mSystemWindowInsetBottom;
         }
     }
 
@@ -439,7 +441,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
-        checkAdView();
         mRevealView.setVisibility(View.INVISIBLE);
     }
 
@@ -734,33 +735,46 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         startActivity(intent);
     }
 
-    private void applySystemWindowsBottomInset() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            applySystemWindowsBottomInsetAfterLollipop();
+    private void requestSystemWindowsBottomInset() {
+        if (Device.hasLollipop()) {
+            configNavigationTranslucentState();
+            if (isSystemWindowInsetInvalid()) {
+                requestSystemWindowsBottomInsetAfterLollipop();
+            } else {
+                configOnSystemInsetChanged();
+            }
         } else {
-            mWindowInsetEnd = 0;
-            checkAdView();
+            setSystemWindowInset(0);
+        }
+    }
+
+    private boolean isSystemWindowInsetInvalid() {
+        return mSystemWindowInsetBottom == INVALID_WINDOW_INSET;
+    }
+
+    private void configNavigationTranslucentState() {
+        boolean adPurchased = IabProducts.containsSku(getApplicationContext(), IabProducts.SKU_NO_ADS);
+        if (adPurchased) {
+            Display.applyTranslucentNavigationBarAfterLollipop(this);
+        } else {
+            Display.removeTranslucentNavigationBarAfterLollipop(this);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applySystemWindowsBottomInsetAfterLollipop() {
-        mScrollContentWrapper.setFitsSystemWindows(true);
+    private void requestSystemWindowsBottomInsetAfterLollipop() {
         mScrollContentWrapper.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                if (metrics.widthPixels < metrics.heightPixels) {
-                    mWindowInsetEnd = windowInsets.getSystemWindowInsetBottom();
-                    view.setPadding(0, 0, 0, mWindowInsetEnd);
-                } else {
-                    mWindowInsetEnd = windowInsets.getSystemWindowInsetRight();
-                    view.setPadding(0, 0, mWindowInsetEnd, 0);
-                }
-                checkAdView();
+                setSystemWindowInset(windowInsets.getSystemWindowInsetBottom());
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
+    }
+
+    private void setSystemWindowInset(int bottomInset) {
+        mSystemWindowInsetBottom = bottomInset;
+        configOnSystemInsetChanged();
     }
 
     /**
@@ -904,7 +918,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int deviceHeight = displayMetrics.heightPixels;
 
-        final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mWindowInsetEnd;
+        final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mSystemWindowInsetBottom;
 
         int startDelay = DebugAnimationSettings.getStartDelay(this);
         final int durationForOneItem = DebugAnimationSettings.getDurationForEachItem(this);

@@ -343,7 +343,7 @@ public class MainActivity extends ActionBarActivity
         } else {
             configBannerAdOnInsetChanged();
             if (Device.isPortrait(this)) {
-                int adViewHeight = getResources().getDimensionPixelSize(R.dimen.admob_smart_banner_height);
+                int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(getApplicationContext());
                 mScrollingContent.setPadding(0, 0, 0, mSystemWindowInsetBottom + adViewHeight);
             } else {
                 mScrollingContent.setPadding(0, 0, 0, 0);
@@ -393,11 +393,6 @@ public class MainActivity extends ActionBarActivity
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void requestSystemWindowsBottomInsetAfterLollipop() {
-        // TODO setFitsSystemWindows 코드 정리 or 최적화 필요:
-        // 1. 있는 경우 모든 inset 이 0으로 들어옴
-        // 2. 없는 경우 필요한 inset 값이 들어온다
-        mScrollingContent.setFitsSystemWindows(true);
-
         mScrollingContent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
             @Override
             public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
