@@ -34,7 +34,7 @@ public class NewsFeedDefaultUrlProvider {
         Locale locale = DefaultLocale.loadDefaultLocale(context);
 
         // TODO: 출시 전 로직 정상화 후 다시 초기화 뉴스를 기획 참고해 지정해줄 것
-        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "US", 2, 1);
+        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "UK", 1, 4);
 
         mBottomNewsTopicList = new ArrayList<>();
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 2, 1));

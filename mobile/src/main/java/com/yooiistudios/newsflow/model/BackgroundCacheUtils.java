@@ -211,7 +211,7 @@ public class BackgroundCacheUtils implements
     }
 
     @Override
-    public void onFetchImageUrl(final News news, String url, final int newsFeedPosition) {
+    public void onFetchImageUrl(News news, String url, int newsFeedPosition) {
         archiveNewsImageUrl(news, url, newsFeedPosition);
         cacheImages(news, newsFeedPosition);
     }

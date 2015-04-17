@@ -158,6 +158,70 @@ public class MainActivity extends ActionBarActivity
             AppValidationChecker.validationCheck(this);
         }
 
+//        if (true) {
+//            final NewsImageLoader imageLoader = NewsImageLoader.createWithNonRetainingCache
+//                    (getApplicationContext());
+//            new NewsFeedFetchTask(new NewsFeedUrl("http://www.dailymail.co.uk/ushome/index.rss",
+//                    NewsFeedUrlType.CUSTOM), new NewsFeedFetchTask.OnFetchListener() {
+//                @Override
+//                public void onFetchNewsFeed(final NewsFeed newsFeed, int position) {
+//                    final ArrayList<News> newsList = new ArrayList<>();
+//                    for (News news : newsFeed.getNewsList()) {
+//                        new NewsImageUrlFetchTask(news,
+//                                new NewsImageUrlFetchTask.OnImageUrlFetchListener() {
+//                                    @Override
+//                                    public void onFetchImageUrl(final News news, String url, int newsFeedPosition) {
+//                                        NLLog.now("onFetchImageUrl: " + news.getLink());
+//                                        newsList.add(news);
+//
+//                                        if (newsList.size() == newsFeed.getNewsList().size()) {
+////                                        news.setImageUrl(news.getLink());
+//                                            for (final News tempNews : newsList) {
+//                                                tempNews.setImageUrl("");
+//                                                imageLoader.get(new NewsUrlSupplier(tempNews, -1),
+//                                                        new CacheImageLoader.ImageListener() {
+//                                                            @Override
+//                                                            public void onSuccess(CacheImageLoader.ImageResponse response) {
+//                                                                NLLog.now("onSuccess: " + tempNews.getLink());
+//                                                            }
+//
+//                                                            @Override
+//                                                            public void onFail(VolleyError error) {
+//                                                                NLLog.now("onFail: " + tempNews.getLink());
+//                                                            }
+//                                                        });
+//                                            }
+//                                        }
+//                                    }
+//                                }, -1).execute();
+//                    }
+//                }
+//            }, -1, 20).execute();
+//
+//
+////            for (int i = 0; i < 20; i++) {
+////                final News news = new News();
+////                news.setLink("http://www.dailymail.co.uk/femail/article-3030416/Nefertiti-lift-latest-anti-aging-treatment-tightens-jowls.html?ITO=1490&ns_mchannel=rss&ns_campaign=1490" + i + "      ");
+////                news.setGuid("\n\thttp://www.dailymail.co.uk/femail/article-3030416/Nefertiti-lift-latest-anti-aging-treatment-tightens-jowls.html?ITO=1490&ns_mchannel=rss&ns_campaign=1490" + i + "\n      ");
+////                news.setImageUrl("");
+////                imageLoader.get(new NewsUrlSupplier(news, -1),
+////                        new CacheImageLoader.ImageListener() {
+////                            @Override
+////                            public void onSuccess(CacheImageLoader.ImageResponse response) {
+////                                NLLog.now("onSuccess: " + news.getLink());
+////                            }
+////
+////                            @Override
+////                            public void onFail(VolleyError error) {
+////                                NLLog.now("onFail: " + news.getLink());
+////                            }
+////                        });
+////            }
+//
+//            finish();
+//            return;
+//        }
+
         if (test++ % 2 ==  0) {
             BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
                     BackgroundServiceUtils.CacheTime.SIX_AM,
