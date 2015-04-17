@@ -42,7 +42,6 @@ import com.yooiistudios.newsflow.core.util.Display;
 import com.yooiistudios.newsflow.core.util.ExternalStorage;
 import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.iab.IabProducts;
-import com.yooiistudios.newsflow.model.BackgroundCacheUtils;
 import com.yooiistudios.newsflow.model.BackgroundServiceUtils;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.Settings;
@@ -146,8 +145,6 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    private static int test = 0;
-
     /**
      * init
      */
@@ -156,76 +153,6 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         if (DebugSettings.isDebugBuild()) {
             AppValidationChecker.validationCheck(this);
-        }
-
-//        if (true) {
-//            final NewsImageLoader imageLoader = NewsImageLoader.createWithNonRetainingCache
-//                    (getApplicationContext());
-//            new NewsFeedFetchTask(new NewsFeedUrl("http://www.dailymail.co.uk/ushome/index.rss",
-//                    NewsFeedUrlType.CUSTOM), new NewsFeedFetchTask.OnFetchListener() {
-//                @Override
-//                public void onFetchNewsFeed(final NewsFeed newsFeed, int position) {
-//                    new NewsImageUrlFetchTask(newsFeed.getDisplayingNews(),
-//                            new NewsImageUrlFetchTask.OnImageUrlFetchListener() {
-//                                @Override
-//                                public void onFetchImageUrl(final News news, String url, int newsFeedPosition) {
-//                                    imageLoader.get(new NewsUrlSupplier(news, -1),
-//                                            new CacheImageLoader.ImageListener() {
-//                                                @Override
-//                                                public void onSuccess(CacheImageLoader.ImageResponse response) {
-//                                                    NLLog.now("onSuccess: " + news.getLink());
-//                                                }
-//
-//                                                @Override
-//                                                public void onFail(VolleyError error) {
-//                                                    NLLog.now("onFail: " + news.getLink());
-//                                                }
-//                                            });
-//                                }
-//                            }, -1).execute();
-//                }
-//            }, -1, 20).execute();
-//
-//
-////            for (int i = 0; i < 20; i++) {
-////                final News news = new News();
-////                news.setLink("http://www.dailymail.co.uk/femail/article-3030416/Nefertiti-lift-latest-anti-aging-treatment-tightens-jowls.html?ITO=1490&ns_mchannel=rss&ns_campaign=1490" + i + "      ");
-////                news.setGuid("\n\thttp://www.dailymail.co.uk/femail/article-3030416/Nefertiti-lift-latest-anti-aging-treatment-tightens-jowls.html?ITO=1490&ns_mchannel=rss&ns_campaign=1490" + i + "\n      ");
-////                news.setImageUrl("");
-////                imageLoader.get(new NewsUrlSupplier(news, -1),
-////                        new CacheImageLoader.ImageListener() {
-////                            @Override
-////                            public void onSuccess(CacheImageLoader.ImageResponse response) {
-////                                NLLog.now("onSuccess: " + news.getLink());
-////                            }
-////
-////                            @Override
-////                            public void onFail(VolleyError error) {
-////                                NLLog.now("onFail: " + news.getLink());
-////                            }
-////                        });
-////            }
-//
-//            finish();
-//            return;
-//        }
-
-        if (test++ % 2 ==  0) {
-            BackgroundCacheUtils.getInstance().cache(getApplicationContext(),
-                    BackgroundServiceUtils.CacheTime.SIX_AM,
-                    new BackgroundCacheUtils.OnCacheDoneListener() {
-                        @Override
-                        public void onDone() {
-                            try {
-                                NewsDb.copyDbToExternalStorage(getApplicationContext());
-                            } catch (ExternalStorage.ExternalStorageException ignored) {
-                                // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
-                            }
-                            NLLog.now("onDone");
-                        }
-                    });
-            finish();
-            return;
         }
 
         // start service on starting app
