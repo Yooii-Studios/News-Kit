@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.ui.fragment;
 
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
@@ -33,11 +35,13 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
 
     @InjectView(R.id.news_select_detail_listview) ListView mListView;
     private NewsProviderCountry mNewsProviderCountry;
+    private NewsFeed mNewsFeed;
 
-    public static NewsSelectCountryFragment newInstance(String jsonString) {
+    public static NewsSelectCountryFragment newInstance(String jsonString, NewsFeed newsFeed) {
         NewsSelectCountryFragment fragment = new NewsSelectCountryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NEWS_PROVIDER_COUNTRY_JSON, jsonString);
+        args.putParcelable(NewsFeed.KEY_NEWS_FEED, newsFeed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,6 +59,7 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
                 Gson gson = new Gson();
                 mNewsProviderCountry = gson.fromJson(jsonString, NewsProviderCountry.class);
             }
+            initNewsFeed();
         }
     }
 
@@ -73,6 +78,17 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
         return rootView;
     }
 
+    private void initNewsFeed() {
+        NewsFeed newsFeed = getArguments().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        if (newsFeed != null) {
+            Parcel parcel = Parcel.obtain();
+            newsFeed.writeToParcel(parcel, 0);
+            parcel.setDataPosition(0);
+            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            parcel.recycle();
+        }
+    }
+
     private void initListView() {
         ArrayList<String> providerNames = new ArrayList<>();
         for (NewsProvider newsProvider : mNewsProviderCountry.newsProviders) {
@@ -87,7 +103,7 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
         if (position < mNewsProviderCountry.newsProviders.size()) {
             Gson gson = new Gson();
             String jsonString = gson.toJson(mNewsProviderCountry.newsProviders.get(position));
-            Fragment newsProviderFragment = NewsSelectProviderFragment.newInstance(jsonString);
+            Fragment newsProviderFragment = NewsSelectProviderFragment.newInstance(jsonString, mNewsFeed);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.news_select_detail_container, newsProviderFragment)
                     .addToBackStack(null).commit();

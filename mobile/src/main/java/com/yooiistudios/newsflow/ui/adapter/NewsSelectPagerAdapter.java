@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProviderLangType;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
@@ -17,15 +18,17 @@ import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
  */
 public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
+    private NewsFeed mNewsFeed;
 
-    public NewsSelectPagerAdapter(FragmentManager fm, Context context) {
+    public NewsSelectPagerAdapter(FragmentManager fm, Context context, NewsFeed newsFeed) {
         super(fm);
         mContext = context;
+        mNewsFeed = newsFeed;
     }
 
     @Override
     public Fragment getItem(int i) {
-        return NewsSelectFragment.newInstance(i);
+        return NewsSelectFragment.newInstance(i, mNewsFeed);
     }
 
     @Override

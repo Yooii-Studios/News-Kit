@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
@@ -34,11 +36,13 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
 
     @InjectView(R.id.news_select_detail_listview) ListView mListView;
     private NewsProvider mNewsProvider;
+    private NewsFeed mNewsFeed;
 
-    public static NewsSelectProviderFragment newInstance(String jsonString) {
+    public static NewsSelectProviderFragment newInstance(String jsonString, NewsFeed newsFeed) {
         NewsSelectProviderFragment fragment = new NewsSelectProviderFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NEWS_PROVIDER_JSON, jsonString);
+        args.putParcelable(NewsFeed.KEY_NEWS_FEED, newsFeed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +60,7 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
                 Gson gson = new Gson();
                 mNewsProvider = gson.fromJson(jsonString, NewsProvider.class);
             }
+            initNewsFeed();
         }
     }
 
@@ -71,6 +76,17 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
             }
         }
         return rootView;
+    }
+
+    private void initNewsFeed() {
+        NewsFeed newsFeed = getArguments().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        if (newsFeed != null) {
+            Parcel parcel = Parcel.obtain();
+            newsFeed.writeToParcel(parcel, 0);
+            parcel.setDataPosition(0);
+            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            parcel.recycle();
+        }
     }
 
     private void initListView() {
