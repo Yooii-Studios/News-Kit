@@ -101,6 +101,7 @@ public class MainTopContainerLayout extends FrameLayout
         void onMainTopRefresh();
         void onStartNewsFeedDetailActivityFromTopNewsFeed(Intent intent);
         void onStartNewsFeedSelectActivityFromTopNewsFeed(Intent intent);
+        void onTouchTopEditLayout();
     }
 
     // constructors
@@ -147,6 +148,12 @@ public class MainTopContainerLayout extends FrameLayout
     private void initEditLayer() {
         hideEditLayout();
         adjustEditLayoutPosition();
+        mEditLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnEventListener.onTouchTopEditLayout();
+            }
+        });
         mReplaceButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

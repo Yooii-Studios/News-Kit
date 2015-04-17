@@ -541,6 +541,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public void onTouchTopEditLayout() {
+        hideEditLayout();
+    }
+
+    @Override
     public void onMainBottomInitialLoad() {
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
@@ -749,6 +754,11 @@ public class MainActivity extends ActionBarActivity
         } else {
             hideEditLayout();
         }
+    }
+
+    @Override
+    public void onTouchBottomEditLayout() {
+        hideEditLayout();
     }
 
     private void toggleEditLayoutVisibility() {
