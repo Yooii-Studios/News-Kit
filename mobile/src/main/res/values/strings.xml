@@ -123,4 +123,12 @@
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
     <string name="news_feed_fetch_error_unknown">RSS not found</string>
+
+    <!-- Morning Kit Ad -->
+    <string name="ad_morning_kit_app_name">Morning Kit</string>
+    <string name="ad_morning_kit_guide_text">Use it with News Kit!</string>
+    <string name="ad_morning_kit_description">Alarm + Info Panels</string>
+
+    <!-- General -->
+    <string name="add_more_panels">Add more news panels</string>
 </resources>

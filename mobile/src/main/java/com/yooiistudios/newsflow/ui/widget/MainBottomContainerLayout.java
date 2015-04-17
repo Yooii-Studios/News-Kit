@@ -14,6 +14,8 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
@@ -37,6 +39,7 @@ import com.yooiistudios.newsflow.model.news.task.BottomNewsImageFetchTask;
 import com.yooiistudios.newsflow.ui.activity.MainActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
+import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.MainBottomAdapter;
 import com.yooiistudios.newsflow.ui.animation.AnimationFactory;
 import com.yooiistudios.newsflow.ui.widget.viewpager.SlowSpeedScroller;
@@ -70,9 +73,10 @@ public class MainBottomContainerLayout extends FrameLayout
         SerialAnimator.TransitionProperty.TransitionSupplier<ValueAnimator>,
         ViewProperty.AnimationListener,
         MainBottomAdapter.OnBindMainBottomViewHolderListener {
-    @InjectView(R.id.bottom_news_feed_recycler_view)    RecyclerView mBottomNewsFeedRecyclerView;
 
-    private static final String TAG = MainBottomContainerLayout.class.getName();
+    @InjectView(R.id.bottom_news_feed_recycler_view) RecyclerView mBottomNewsFeedRecyclerView;
+    @InjectView(R.id.bottom_news_feed_more_panel_textview) TextView mMorePanelTextView;
+
     private static final int COLUMN_COUNT_PORTRAIT = 2;
     private static final int COLUMN_COUNT_LANDSCAPE = 1;
 
@@ -154,6 +158,7 @@ public class MainBottomContainerLayout extends FrameLayout
         initImageLoader();
         initUI();
         initAdapter();
+        initMorePanelTextView();
 
         configOnOrientationChange();
         PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
@@ -196,8 +201,18 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedRecyclerView.setLayoutManager(layoutManager);
     }
 
+    private void initMorePanelTextView() {
+        mMorePanelTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().startActivity(new Intent(getContext(), StoreActivity.class));
+            }
+        });
+    }
+
     private void adjustSize() {
-        LayoutParams recyclerViewParams = (LayoutParams) mBottomNewsFeedRecyclerView.getLayoutParams();
+        RelativeLayout.LayoutParams recyclerViewParams =
+                (RelativeLayout.LayoutParams) mBottomNewsFeedRecyclerView.getLayoutParams();
         Context context = getContext().getApplicationContext();
 
         // 우상하단 간격을 딱 맞추기 위함
@@ -226,6 +241,20 @@ public class MainBottomContainerLayout extends FrameLayout
             recyclerViewParams.setMargins(margin, 0, margin, 0);
         }
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewParams);
+    }
+
+    private void adjustMorePanelTextView() {
+        if (Device.isPortrait(getContext()) &&
+                !IabProducts.containsSku(getContext(), IabProducts.SKU_MORE_PANELS)) {
+            mMorePanelTextView.setVisibility(View.VISIBLE);
+
+            // 스마트 배너 높이 만큼으로 높이를 잡아줌
+            mMorePanelTextView.getLayoutParams().height =
+                    AdSize.SMART_BANNER.getHeightInPixels(getContext());
+        } else {
+            mMorePanelTextView.setVisibility(View.GONE);
+            mMorePanelTextView.getLayoutParams().height = 0;
+        }
     }
 
     private void initAnimator() {
@@ -451,10 +480,12 @@ public class MainBottomContainerLayout extends FrameLayout
             mBottomNewsFeedAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);
         }
         adjustSize();
+        adjustMorePanelTextView();
 
         layoutManager.scrollToPositionWithOffset(0, 0);
 
         mBottomNewsFeedAdapter.notifyDataSetChanged();
+
 
         invalidate();
     }

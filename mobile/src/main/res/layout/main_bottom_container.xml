@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/bottom_news_feed_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/main_bottom_margin_small"
-        android:clipToPadding="false"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bottom_news_feed_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_bottom_margin_small"
+            android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/bottom_news_feed_more_panel_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bottom_news_feed_recycler_view"
+            android:layout_marginLeft="@dimen/base_margin_small"
+            android:layout_marginRight="@dimen/base_margin_small"
+            android:layout_marginBottom="@dimen/base_margin_small"
+            android:background="@color/material_green_200"
+            android:padding="@dimen/base_margin_half"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/material_white_primary_text"
+            android:text="@string/add_more_panels"/>
+</RelativeLayout>
