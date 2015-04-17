@@ -24,7 +24,7 @@ public class Settings {
     private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
     private static final String KEEP_SCREEN_ON_KEY = "keep_screen_on_key";
 
-    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 4 * 1000;
+    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 1000;
 
     private Settings() { throw new AssertionError("You can't create this class!"); }
 
@@ -60,16 +60,16 @@ public class Settings {
         return prefs.getBoolean(IS_FIRST_AUTO_REFRESH, true);
     }
 
-    private static void setNotFirstAutoRefresh(Context context) {
+    private static void setFirstAutoRefresh(Context context, boolean firstRefresh) {
         SharedPreferences prefs = context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        prefs.edit().putBoolean(IS_FIRST_AUTO_REFRESH, false).apply();
+        prefs.edit().putBoolean(IS_FIRST_AUTO_REFRESH, firstRefresh).apply();
     }
 
     public static int getAutoRefreshHandlerDelay(Context context) {
         // 리프레시 간격과 속도와 패널 갯수를 구해서 다음 리프레시의 시간을 알아냄
         if (isFirstAutoRefresh(context)) {
             // 첫 리프레시 시에는 튜토리얼과 함께 짧은 간격 보여주기
-            setNotFirstAutoRefresh(context);
+            setFirstAutoRefresh(context, false);
             return AUTO_REFRESH_HANDLER_FIRST_DELAY;
         } else {
             // 전체 애니메이션 시간 = 뉴스 리프레시 간격 + 탑 스와이프 +
