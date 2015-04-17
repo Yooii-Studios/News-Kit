@@ -18,17 +18,17 @@ import com.yooiistudios.newsflow.ui.fragment.NewsSelectFragment;
  */
 public class NewsSelectPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private NewsFeed mNewsFeed;
+    private NewsFeed mCurrentNewsFeed;
 
-    public NewsSelectPagerAdapter(FragmentManager fm, Context context, NewsFeed newsFeed) {
+    public NewsSelectPagerAdapter(FragmentManager fm, Context context, NewsFeed currentNewsFeed) {
         super(fm);
         mContext = context;
-        mNewsFeed = newsFeed;
+        mCurrentNewsFeed = currentNewsFeed;
     }
 
     @Override
     public Fragment getItem(int i) {
-        return NewsSelectFragment.newInstance(i, mNewsFeed);
+        return NewsSelectFragment.newInstance(i, mCurrentNewsFeed);
     }
 
     @Override

@@ -14,12 +14,9 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
-import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectDetailAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,7 +32,7 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
 
     @InjectView(R.id.news_select_detail_listview) ListView mListView;
     private NewsProviderCountry mNewsProviderCountry;
-    private NewsFeed mNewsFeed;
+    private NewsFeed mCurrentNewsFeed;
 
     public static NewsSelectCountryFragment newInstance(String jsonString, NewsFeed newsFeed) {
         NewsSelectCountryFragment fragment = new NewsSelectCountryFragment();
@@ -84,17 +81,14 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
             Parcel parcel = Parcel.obtain();
             newsFeed.writeToParcel(parcel, 0);
             parcel.setDataPosition(0);
-            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
             parcel.recycle();
         }
     }
 
     private void initListView() {
-        ArrayList<String> providerNames = new ArrayList<>();
-        for (NewsProvider newsProvider : mNewsProviderCountry.newsProviders) {
-            providerNames.add(newsProvider.name);
-        }
-        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), providerNames));
+        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), mNewsProviderCountry,
+                mCurrentNewsFeed));
         mListView.setOnItemClickListener(this);
     }
 
@@ -103,7 +97,7 @@ public class NewsSelectCountryFragment extends Fragment implements AdapterView.O
         if (position < mNewsProviderCountry.newsProviders.size()) {
             Gson gson = new Gson();
             String jsonString = gson.toJson(mNewsProviderCountry.newsProviders.get(position));
-            Fragment newsProviderFragment = NewsSelectProviderFragment.newInstance(jsonString, mNewsFeed);
+            Fragment newsProviderFragment = NewsSelectProviderFragment.newInstance(jsonString, mCurrentNewsFeed);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.news_select_detail_container, newsProviderFragment)
                     .addToBackStack(null).commit();

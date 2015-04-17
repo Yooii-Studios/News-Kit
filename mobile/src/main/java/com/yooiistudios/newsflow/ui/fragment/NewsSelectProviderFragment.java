@@ -20,8 +20,6 @@ import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectDetailAdapter;
 
-import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -36,7 +34,7 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
 
     @InjectView(R.id.news_select_detail_listview) ListView mListView;
     private NewsProvider mNewsProvider;
-    private NewsFeed mNewsFeed;
+    private NewsFeed mCurrentNewsFeed;
 
     public static NewsSelectProviderFragment newInstance(String jsonString, NewsFeed newsFeed) {
         NewsSelectProviderFragment fragment = new NewsSelectProviderFragment();
@@ -84,17 +82,14 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
             Parcel parcel = Parcel.obtain();
             newsFeed.writeToParcel(parcel, 0);
             parcel.setDataPosition(0);
-            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
             parcel.recycle();
         }
     }
 
     private void initListView() {
-        ArrayList<String> topicNames = new ArrayList<>();
-        for (NewsTopic newsTopic : mNewsProvider.getNewsTopicList()) {
-            topicNames.add(newsTopic.title);
-        }
-        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), topicNames));
+        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), mNewsProvider,
+                mCurrentNewsFeed));
         mListView.setOnItemClickListener(this);
     }
 

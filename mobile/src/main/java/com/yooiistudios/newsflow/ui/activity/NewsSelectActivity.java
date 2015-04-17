@@ -52,7 +52,7 @@ public class NewsSelectActivity extends ActionBarActivity
     @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
     @InjectView(R.id.news_select_adView)            AdView mAdView;
 
-    private NewsFeed mNewsFeed;
+    private NewsFeed mCurrentNewsFeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class NewsSelectActivity extends ActionBarActivity
             Parcel parcel = Parcel.obtain();
             newsFeed.writeToParcel(parcel, 0);
             parcel.setDataPosition(0);
-            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
             parcel.recycle();
         }
     }
@@ -88,7 +88,7 @@ public class NewsSelectActivity extends ActionBarActivity
     private void initViewPager() {
         // 먼저 현재 언어에 따른 소팅이 필요하다
         NewsContentProvider.getInstance(this).sortNewsProviderLanguage(this);
-        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), this, mNewsFeed));
+        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), this, mCurrentNewsFeed));
     }
 
     private void initSlidingTabLayout() {
@@ -176,7 +176,7 @@ public class NewsSelectActivity extends ActionBarActivity
     public void onSelectNewsProvider(NewsProvider newsProvider) {
         Intent intent = new Intent(this, NewsSelectDetailActivity.class);
         intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, false);
-        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mCurrentNewsFeed);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(newsProvider);
@@ -189,7 +189,7 @@ public class NewsSelectActivity extends ActionBarActivity
     public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry) {
         Intent intent = new Intent(this, NewsSelectDetailActivity.class);
         intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, true);
-        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mNewsFeed);
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mCurrentNewsFeed);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(newsProviderCountry);

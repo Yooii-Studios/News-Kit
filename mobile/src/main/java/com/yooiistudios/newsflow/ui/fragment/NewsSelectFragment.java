@@ -33,7 +33,7 @@ public class NewsSelectFragment extends Fragment {
     public static final String KEY_TAB_INDEX = "key_tab_index";
 
     private ArrayList<NewsProviderCountry> mNewsProviderCountries;
-    private NewsFeed mNewsFeed;
+    private NewsFeed mCurrentNewsFeed;
 
     public static NewsSelectFragment newInstance(int pageNum, NewsFeed newsFeed) {
         NewsSelectFragment fragment = new NewsSelectFragment();
@@ -65,7 +65,7 @@ public class NewsSelectFragment extends Fragment {
             Parcel parcel = Parcel.obtain();
             newsFeed.writeToParcel(parcel, 0);
             parcel.setDataPosition(0);
-            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
             parcel.recycle();
         }
     }
@@ -87,7 +87,7 @@ public class NewsSelectFragment extends Fragment {
                 new LinearLayoutManager(context));
 
         NewsSelectRecyclerAdapter adapter = new NewsSelectRecyclerAdapter(mNewsProviderCountries,
-                mNewsFeed);
+                mCurrentNewsFeed);
         adapter.setOnNewsProviderClickListener(
                 (NewsSelectRecyclerAdapter.OnSelectionListener)getActivity());
         mViewHolder.mRecyclerView.setAdapter(adapter);

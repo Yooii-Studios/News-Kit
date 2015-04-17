@@ -33,7 +33,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
     @InjectView(R.id.news_select_detail_toolbar) Toolbar mToolbar;
     @InjectView(R.id.news_select_detail_adView) AdView mAdView;
 
-    private NewsFeed mNewsFeed;
+    private NewsFeed mCurrentNewsFeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
             Parcel parcel = Parcel.obtain();
             newsFeed.writeToParcel(parcel, 0);
             parcel.setDataPosition(0);
-            mNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
             parcel.recycle();
         }
     }
@@ -97,11 +97,11 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
         if (isCountrySelected) {
             String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER_COUNTRY);
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
-                    NewsSelectCountryFragment.newInstance(jsonString, mNewsFeed)).commit();
+                    NewsSelectCountryFragment.newInstance(jsonString, mCurrentNewsFeed)).commit();
         } else {
             String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER);
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
-                    NewsSelectProviderFragment.newInstance(jsonString, mNewsFeed)).commit();
+                    NewsSelectProviderFragment.newInstance(jsonString, mCurrentNewsFeed)).commit();
         }
     }
 

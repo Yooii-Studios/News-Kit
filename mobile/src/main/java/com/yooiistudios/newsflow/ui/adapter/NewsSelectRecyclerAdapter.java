@@ -29,7 +29,7 @@ public class NewsSelectRecyclerAdapter extends
 
     private ArrayList<NewsProviderCountry> mNewsProviderCountries;
     private OnSelectionListener mListener;
-    private NewsFeed mNewsFeed; // 현재 선택된 뉴스피드 표시용
+    private NewsFeed mCurrentNewsFeed;
 
     public interface OnSelectionListener {
         void onSelectNewsProvider(NewsProvider newsProvider);
@@ -37,9 +37,9 @@ public class NewsSelectRecyclerAdapter extends
     }
 
     public NewsSelectRecyclerAdapter(ArrayList<NewsProviderCountry> newsProviderCountries,
-                                     NewsFeed newsFeed) {
+                                     NewsFeed currentNewsFeed) {
         mNewsProviderCountries = newsProviderCountries;
-        mNewsFeed = newsFeed;
+        mCurrentNewsFeed = currentNewsFeed;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class NewsSelectRecyclerAdapter extends
 
             // TODO: region 비교는 해야하나 아직 모르겠음. 언어와 국가 코드를 같이 비교하기에 region 은 상관없지
             // 않나 생각. 모든 뉴스 적용 후 나중에 확인 필요.(특히 간/번체) 아래 부분도 마찬가지.
-            if (mNewsFeed != null && mNewsFeed.getTopicLanguageCode().equals(newsProviderCountry.languageCode) &&
-                    mNewsFeed.getTopicCountryCode().equals(newsProviderCountry.countryCode)) {
+            if (mCurrentNewsFeed != null && mCurrentNewsFeed.getTopicLanguageCode().equals(newsProviderCountry.languageCode) &&
+                    mCurrentNewsFeed.getTopicCountryCode().equals(newsProviderCountry.countryCode)) {
                 Context context = newsSelectViewHolder.feedNameTextView.getContext();
                 newsSelectViewHolder.feedNameTextView.setTextColor(
                         context.getResources().getColor(R.color.news_select_color_accent));
@@ -80,9 +80,9 @@ public class NewsSelectRecyclerAdapter extends
 
             newsSelectViewHolder.feedNameTextView.setText(newsProvider.name);
 
-            if (mNewsFeed != null && mNewsFeed.getTopicLanguageCode().equals(newsProvider.languageCode) &&
-                    mNewsFeed.getTopicCountryCode().equals(newsProvider.countryCode) &&
-                    mNewsFeed.getTopicProviderId() == newsProvider.id) {
+            if (mCurrentNewsFeed != null && mCurrentNewsFeed.getTopicLanguageCode().equals(newsProvider.languageCode) &&
+                    mCurrentNewsFeed.getTopicCountryCode().equals(newsProvider.countryCode) &&
+                    mCurrentNewsFeed.getTopicProviderId() == newsProvider.id) {
                 Context context = newsSelectViewHolder.feedNameTextView.getContext();
                 newsSelectViewHolder.feedNameTextView.setTextColor(
                         context.getResources().getColor(R.color.news_select_color_accent));
