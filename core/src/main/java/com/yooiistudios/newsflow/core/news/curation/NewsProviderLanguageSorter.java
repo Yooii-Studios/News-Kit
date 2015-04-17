@@ -31,9 +31,9 @@ public class NewsProviderLanguageSorter {
         // 언어별로 특정 언어만 앞으로 빼고 나머지는 순서대로 표시
         Language currentLanguage = LanguageUtils.getCurrentLanguage(context);
         if (currentLanguage == Language.TRADITIONAL_CHINESE) {
-            // S-Chinese T-Chinese 우선정렬
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            // T-Chinese S-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
         } else if (currentLanguage == Language.JAPANESE) {
             // Japanese English Korean S-Chinese T-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
