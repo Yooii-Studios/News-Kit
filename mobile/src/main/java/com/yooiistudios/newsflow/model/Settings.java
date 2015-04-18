@@ -124,7 +124,7 @@ public class Settings {
 
     public static boolean isNotificationOn(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getBoolean(IS_NOTIFICATION_ON_KEY, true);
+                .getBoolean(IS_NOTIFICATION_ON_KEY, false);
     }
 
     public static void setKeepScreenOn(Context context, boolean isOn) {

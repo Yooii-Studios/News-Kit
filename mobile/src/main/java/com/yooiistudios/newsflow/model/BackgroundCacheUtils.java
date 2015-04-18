@@ -194,7 +194,10 @@ public class BackgroundCacheUtils implements
     }
 
     private void notifyCacheDone() {
-        if (BackgroundServiceUtils.CacheTime.isTimeToIssueNotification(mCacheTime)) {
+        NLLog.now("notifyCacheDone");
+        if (BackgroundServiceUtils.CacheTime.isTimeToIssueNotification(mCacheTime)
+                && Settings.isNotificationOn(mContext)) {
+            NLLog.now("isNotificationOn");
             NotificationUtils.issueAsync(mContext);
         }
         if (mOnCacheDoneListener != null) {
