@@ -18,125 +18,151 @@ import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
  *  메인, 뉴스피드 디테일 색, 이미지 관련 클래스
  */
 public class PanelDecoration {
+    public interface OnApplyImageListener {
+        void onApply();
+    }
     public interface OnLoadBitmapListener {
         void onLoad(Bitmap bitmap);
     }
 
+    private static final Decoration DECO_DUMMY;
+    private static final Decoration DECO_SMALL_DUMMY;
+    private static final Decoration DECO_RSS_FAILED_BACKGROUND;
+    private static final Decoration DECO_RSS_FAILED_BACKGROUND_SMALL;
+
+    static {
+        DECO_DUMMY = new Decoration(
+                "dummy",
+                R.drawable.img_news_dummy
+        );
+        DECO_SMALL_DUMMY = new Decoration(
+                "small_dummy",
+                R.drawable.img_news_dummy_small
+        );
+        DECO_RSS_FAILED_BACKGROUND = new Decoration(
+                "rss_url_failed_background",
+                R.drawable.img_rss_url_failed
+        );
+        DECO_RSS_FAILED_BACKGROUND_SMALL = new Decoration(
+                "small_rss_url_failed_background",
+                R.drawable.img_rss_url_failed_small
+        );
+    }
+
     public static void applySmallDummyNewsImageInto(Context context, NewsImageLoader imageLoader,
-                                                    final ImageView imageView) {
-        getSmallDummyNewsImageAsync(context, imageLoader, new OnLoadBitmapListener() {
-            @Override
-            public void onLoad(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
-            }
-        });
+                                                    ImageView imageView,
+                                                    OnApplyImageListener listener) {
+        applyImageInto(context, imageLoader, imageView, listener, DECO_SMALL_DUMMY);
     }
 
     public static void applyRssUrlFailedBackgroundInto(Context context, NewsImageLoader imageLoader,
-                                                            final ImageView imageView) {
-        getRssUrlFailedBackgroundAsync(context, imageLoader, new OnLoadBitmapListener() {
-            @Override
-            public void onLoad(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
-            }
-        });
+                                                       ImageView imageView,
+                                                       OnApplyImageListener listener) {
+        applyImageInto(context, imageLoader, imageView, listener, DECO_RSS_FAILED_BACKGROUND);
     }
 
     public static void applyRssUrlFailedSmallBackgroundInto(Context context, NewsImageLoader imageLoader,
-                                                            final ImageView imageView) {
-        getRssUrlFailedSmallBackgroundAsync(context, imageLoader, new OnLoadBitmapListener() {
-            @Override
-            public void onLoad(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
-            }
-        });
+                                                            ImageView imageView,
+                                                            OnApplyImageListener listener) {
+        applyImageInto(context, imageLoader, imageView, listener, DECO_RSS_FAILED_BACKGROUND_SMALL);
+    }
+
+    private static void applyImageInto(Context context, NewsImageLoader imageLoader,
+                                       final ImageView imageView,
+                                       final OnApplyImageListener listener,
+                                       Decoration decoration) {
+        Bitmap cachedBitmap = getImageFromCache(context, imageLoader, decoration);
+        if (cachedBitmap != null) {
+            applyImageAndNotify(cachedBitmap, imageView, listener);
+        } else {
+            getImageAsync(context, imageLoader, new OnLoadBitmapListener() {
+                @Override
+                public void onLoad(Bitmap bitmap) {
+                    applyImageAndNotify(bitmap, imageView, listener);
+                }
+            }, decoration);
+        }
+    }
+
+    private static void applyImageAndNotify(Bitmap bitmap, ImageView imageView, OnApplyImageListener listener) {
+        imageView.setImageBitmap(bitmap);
+
+        if (listener != null) {
+            listener.onApply();
+        }
     }
 
     public static void getDummyNewsImageAsync(final Context context,
                                               final NewsImageLoader imageLoader,
                                               final OnLoadBitmapListener listener) {
-        new DecodeResourceAsync(listener) {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return getDummyImage(context, imageLoader);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        getImageAsync(context, imageLoader, listener, DECO_DUMMY);
     }
 
     public static void getSmallDummyNewsImageAsync(final Context context,
                                                    final NewsImageLoader imageLoader,
                                                    final OnLoadBitmapListener listener) {
-        new DecodeResourceAsync(listener) {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return getSmallDummyImage(context, imageLoader);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        getImageAsync(context, imageLoader, listener, DECO_SMALL_DUMMY);
     }
 
     public static void getRssUrlFailedBackgroundAsync(final Context context,
                                                            final NewsImageLoader imageLoader,
                                                            final OnLoadBitmapListener listener) {
-        new DecodeResourceAsync(listener) {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return getRssUrlFailedBackground(context, imageLoader);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        getImageAsync(context, imageLoader, listener, DECO_RSS_FAILED_BACKGROUND);
     }
 
     public static void getRssUrlFailedSmallBackgroundAsync(final Context context,
                                                            final NewsImageLoader imageLoader,
                                                            final OnLoadBitmapListener listener) {
+        getImageAsync(context, imageLoader, listener, DECO_RSS_FAILED_BACKGROUND_SMALL);
+    }
+
+    private static void getImageAsync(final Context context,
+                                      final NewsImageLoader imageLoader,
+                                      final OnLoadBitmapListener listener,
+                                      final Decoration decoration) {
         new DecodeResourceAsync(listener) {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return getRssUrlFailedSmallBackground(context, imageLoader);
+                return getImage(context, imageLoader, decoration);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public static Bitmap getDummyImage(Context context, NewsImageLoader imageLoader) {
-        final String key = getKeyWithVersionCode(context, "dummy");
-        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.img_news_dummy);
-            imageLoader.getCache().putBitmap(key, bitmap);
-        }
-        return bitmap;
+        return getImage(context, imageLoader, DECO_DUMMY);
     }
 
     public static Bitmap getSmallDummyImage(Context context, NewsImageLoader imageLoader) {
-        final String key = getKeyWithVersionCode(context, "small_dummy");
-        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.img_news_dummy_small);
-            imageLoader.getCache().putBitmap(key, bitmap);
-        }
-        return bitmap;
+        return getImage(context, imageLoader, DECO_SMALL_DUMMY);
     }
 
     public static Bitmap getRssUrlFailedBackground(Context context, NewsImageLoader imageLoader) {
-        final String key = getKeyWithVersionCode(context, "rss_url_failed_background");
-        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
+        return getImage(context, imageLoader, DECO_RSS_FAILED_BACKGROUND);
+    }
+
+    public static Bitmap getRssUrlFailedSmallBackground(Context context, NewsImageLoader imageLoader) {
+        return getImage(context, imageLoader, DECO_RSS_FAILED_BACKGROUND_SMALL);
+    }
+
+    private static Bitmap getImage(Context context, NewsImageLoader imageLoader, Decoration decoration) {
+        Bitmap bitmap = getImageFromCache(context, imageLoader, decoration);
         if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.img_rss_url_failed);
-            imageLoader.getCache().putBitmap(key, bitmap);
+            bitmap = createAndCacheResource(context, imageLoader, decoration);
         }
         return bitmap;
     }
 
-    public static Bitmap getRssUrlFailedSmallBackground(Context context, NewsImageLoader imageLoader) {
-        final String key = getKeyWithVersionCode(context, "small_rss_url_failed_background");
-        Bitmap bitmap = imageLoader.getCache().getBitmap(key);
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.img_rss_url_failed_small);
-            imageLoader.getCache().putBitmap(key, bitmap);
-        }
+    private static Bitmap getImageFromCache(Context context, NewsImageLoader imageLoader, Decoration decoration) {
+        String keyWithVersionCode = getKeyWithVersionCode(context, decoration.key);
+        return imageLoader.getCache().getBitmap(keyWithVersionCode);
+    }
+
+    private static Bitmap createAndCacheResource(Context context, NewsImageLoader imageLoader,
+                                                 Decoration decoration) {
+        String keyWithVersionCode = getKeyWithVersionCode(context, decoration.key);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), decoration.resId);
+        imageLoader.getCache().putBitmap(keyWithVersionCode, bitmap);
+
         return bitmap;
     }
 
@@ -216,6 +242,16 @@ public class PanelDecoration {
             if (mListener != null) {
                 mListener.onLoad(bitmap);
             }
+        }
+    }
+
+    private static class Decoration {
+        public final String key;
+        public final int resId;
+
+        public Decoration(String key, int resId) {
+            this.key = key;
+            this.resId = resId;
         }
     }
 }
