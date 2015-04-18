@@ -1,5 +1,6 @@
 package com.yooiistudios.newsflow.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsTopic;
+import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
+import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
 import com.yooiistudios.newsflow.util.TypefaceUtils;
 
 import java.util.ArrayList;
@@ -20,17 +25,47 @@ import java.util.ArrayList;
  */
 public class NewsSelectDetailAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> mArrayList;
+    private NewsProvider mNewsProvider;
+    private NewsProviderCountry mNewsProviderCountry;
+    private NewsFeed mCurrentNewsFeed;
+    private ArrayList<String> mTitles;
 
-    public NewsSelectDetailAdapter(Context context, ArrayList<String> arrayList) {
+    // 뉴스 토픽용
+    public NewsSelectDetailAdapter(Context context, NewsProvider newsProvider,
+                                   NewsFeed currentNewsFeed) {
         mContext = context;
-        mArrayList = arrayList;
+        mNewsProvider = newsProvider;
+        mCurrentNewsFeed = currentNewsFeed;
+        initTopicNamesWithProvider();
+    }
+
+    // 뉴스 프로바이더용
+    public NewsSelectDetailAdapter(Context context, NewsProviderCountry newsProviderCountry,
+                                   NewsFeed currentNewsFeed) {
+        mContext = context;
+        mNewsProviderCountry = newsProviderCountry;
+        mCurrentNewsFeed = currentNewsFeed;
+        initTopicNamesWithCountry();
+    }
+
+    private void initTopicNamesWithProvider() {
+        mTitles = new ArrayList<>();
+        for (NewsTopic newsTopic : mNewsProvider.getNewsTopicList()) {
+            mTitles.add(newsTopic.title);
+        }
+    }
+
+    private void initTopicNamesWithCountry() {
+        mTitles = new ArrayList<>();
+        for (NewsProvider newsProvider : mNewsProviderCountry.newsProviders) {
+            mTitles.add(newsProvider.name);
+        }
     }
 
     @Override
     public int getCount() {
-        if (mArrayList != null) {
-            return mArrayList.size();
+        if (mTitles != null) {
+            return mTitles.size();
         } else {
             return 0;
         }
@@ -46,13 +81,30 @@ public class NewsSelectDetailAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView = (TextView) LayoutInflater.from(mContext)
                 .inflate(R.layout.news_select_detail_simple_item, parent, false);
 
-        textView.setText(mArrayList.get(position));
+        textView.setText(mTitles.get(position));
         textView.setTypeface(TypefaceUtils.getRegularTypeface(mContext));
+
+        // 추가: 현재 선택한 뉴스피드와 같은 토픽이거나 언론사일 경우 하이라이트 처리
+        if (mNewsProvider != null) {
+            if (mNewsProvider.languageCode.equals(mCurrentNewsFeed.getTopicLanguageCode()) &&
+                    mNewsProvider.countryCode.equals(mCurrentNewsFeed.getTopicCountryCode()) &&
+                    mNewsProvider.id == mCurrentNewsFeed.getTopicProviderId() &&
+                            mNewsProvider.getNewsTopicList().get(position).id == mCurrentNewsFeed.getTopicId()) {
+                textView.setTextColor(mContext.getResources().getColor(R.color.news_select_color_accent));
+            }
+        } else if (mNewsProviderCountry != null) {
+            if (mNewsProviderCountry.languageCode.equals(mCurrentNewsFeed.getTopicLanguageCode()) &&
+                    mNewsProviderCountry.countryCode.equals(mCurrentNewsFeed.getTopicCountryCode()) &&
+                    mNewsProviderCountry.newsProviders.get(position).id == mCurrentNewsFeed.getTopicProviderId()) {
+                textView.setTextColor(mContext.getResources().getColor(R.color.news_select_color_accent));
+            }
+        }
         return textView;
     }
 }

@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +52,8 @@ public class NewsSelectActivity extends ActionBarActivity
     @InjectView(R.id.news_select_top_view_pager)    ViewPager mViewPager;
     @InjectView(R.id.news_select_adView)            AdView mAdView;
 
+    private NewsFeed mCurrentNewsFeed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,7 @@ public class NewsSelectActivity extends ActionBarActivity
         setContentView(R.layout.activity_news_select);
         ButterKnife.inject(this);
 
+        initNewsFeed();
         initViewPager();
         initSlidingTabLayout();
         initToolbar();
@@ -70,10 +74,21 @@ public class NewsSelectActivity extends ActionBarActivity
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
+    private void initNewsFeed() {
+        NewsFeed newsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        if (newsFeed != null) {
+            Parcel parcel = Parcel.obtain();
+            newsFeed.writeToParcel(parcel, 0);
+            parcel.setDataPosition(0);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            parcel.recycle();
+        }
+    }
+
     private void initViewPager() {
         // 먼저 현재 언어에 따른 소팅이 필요하다
         NewsContentProvider.getInstance(this).sortNewsProviderLanguage(this);
-        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), this));
+        mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), this, mCurrentNewsFeed));
     }
 
     private void initSlidingTabLayout() {
@@ -161,6 +176,7 @@ public class NewsSelectActivity extends ActionBarActivity
     public void onSelectNewsProvider(NewsProvider newsProvider) {
         Intent intent = new Intent(this, NewsSelectDetailActivity.class);
         intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, false);
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mCurrentNewsFeed);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(newsProvider);
@@ -173,6 +189,7 @@ public class NewsSelectActivity extends ActionBarActivity
     public void onSelectNewsProviderCountry(NewsProviderCountry newsProviderCountry) {
         Intent intent = new Intent(this, NewsSelectDetailActivity.class);
         intent.putExtra(NewsSelectDetailActivity.KEY_IS_COUNTRY_SELECTED, true);
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mCurrentNewsFeed);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(newsProviderCountry);

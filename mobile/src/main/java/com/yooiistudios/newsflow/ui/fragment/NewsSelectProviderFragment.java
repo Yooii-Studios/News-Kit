@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +13,12 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsTopic;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectActivity;
 import com.yooiistudios.newsflow.ui.activity.NewsSelectDetailActivity;
 import com.yooiistudios.newsflow.ui.adapter.NewsSelectDetailAdapter;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,11 +34,13 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
 
     @InjectView(R.id.news_select_detail_listview) ListView mListView;
     private NewsProvider mNewsProvider;
+    private NewsFeed mCurrentNewsFeed;
 
-    public static NewsSelectProviderFragment newInstance(String jsonString) {
+    public static NewsSelectProviderFragment newInstance(String jsonString, NewsFeed newsFeed) {
         NewsSelectProviderFragment fragment = new NewsSelectProviderFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NEWS_PROVIDER_JSON, jsonString);
+        args.putParcelable(NewsFeed.KEY_NEWS_FEED, newsFeed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +58,7 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
                 Gson gson = new Gson();
                 mNewsProvider = gson.fromJson(jsonString, NewsProvider.class);
             }
+            initNewsFeed();
         }
     }
 
@@ -73,12 +76,20 @@ public class NewsSelectProviderFragment extends Fragment implements AdapterView.
         return rootView;
     }
 
-    private void initListView() {
-        ArrayList<String> topicNames = new ArrayList<>();
-        for (NewsTopic newsTopic : mNewsProvider.getNewsTopicList()) {
-            topicNames.add(newsTopic.title);
+    private void initNewsFeed() {
+        NewsFeed newsFeed = getArguments().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        if (newsFeed != null) {
+            Parcel parcel = Parcel.obtain();
+            newsFeed.writeToParcel(parcel, 0);
+            parcel.setDataPosition(0);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            parcel.recycle();
         }
-        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), topicNames));
+    }
+
+    private void initListView() {
+        mListView.setAdapter(new NewsSelectDetailAdapter(getActivity(), mNewsProvider,
+                mCurrentNewsFeed));
         mListView.setOnItemClickListener(this);
     }
 

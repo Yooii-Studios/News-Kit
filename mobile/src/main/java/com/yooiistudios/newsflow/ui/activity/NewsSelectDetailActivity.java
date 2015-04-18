@@ -3,6 +3,7 @@ package com.yooiistudios.newsflow.ui.activity;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import android.view.View;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.ui.fragment.NewsSelectCountryFragment;
@@ -31,6 +33,8 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
     @InjectView(R.id.news_select_detail_toolbar) Toolbar mToolbar;
     @InjectView(R.id.news_select_detail_adView) AdView mAdView;
 
+    private NewsFeed mCurrentNewsFeed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +46,21 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_news_select_detail);
         ButterKnife.inject(this);
 
+        initNewsFeed();
         initToolbar();
         initFragment();
         initAdView();
+    }
+
+    private void initNewsFeed() {
+        NewsFeed newsFeed = getIntent().getExtras().getParcelable(NewsFeed.KEY_NEWS_FEED);
+        if (newsFeed != null) {
+            Parcel parcel = Parcel.obtain();
+            newsFeed.writeToParcel(parcel, 0);
+            parcel.setDataPosition(0);
+            mCurrentNewsFeed = NewsFeed.CREATOR.createFromParcel(parcel);
+            parcel.recycle();
+        }
     }
 
     private void initToolbar() {
@@ -81,11 +97,11 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
         if (isCountrySelected) {
             String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER_COUNTRY);
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
-                    NewsSelectCountryFragment.newInstance(jsonString)).commit();
+                    NewsSelectCountryFragment.newInstance(jsonString, mCurrentNewsFeed)).commit();
         } else {
             String jsonString = getIntent().getStringExtra(KEY_NEWS_PROVIDER);
             getSupportFragmentManager().beginTransaction().replace(R.id.news_select_detail_container,
-                    NewsSelectProviderFragment.newInstance(jsonString)).commit();
+                    NewsSelectProviderFragment.newInstance(jsonString, mCurrentNewsFeed)).commit();
         }
     }
 

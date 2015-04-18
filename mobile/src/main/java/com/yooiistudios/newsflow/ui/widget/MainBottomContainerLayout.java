@@ -566,6 +566,7 @@ public class MainBottomContainerLayout extends FrameLayout
         intent.putExtra(INTENT_KEY_NEWS_FEED_LOCATION,
                 INTENT_VALUE_BOTTOM_NEWS_FEED);
         intent.putExtra(INTENT_KEY_BOTTOM_NEWS_FEED_INDEX, position);
+        intent.putExtra(NewsFeed.KEY_NEWS_FEED, mBottomNewsFeedAdapter.getNewsFeedList().get(position));
 
         return intent;
     }
@@ -600,7 +601,7 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     /**
-     * 뉴스피드 하나를 fetch한 경우 불리는 콜백
+     * 뉴스피드 하나를 fetch 한 경우 불리는 콜백
      * @param newsFeed 파싱된 뉴스피드 객체
      * @param index 뉴스피드의 인덱스
      * @param taskType BottomNewsFeedFetchTask 참조

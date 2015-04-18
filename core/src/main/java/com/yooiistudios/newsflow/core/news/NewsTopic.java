@@ -1,8 +1,5 @@
 package com.yooiistudios.newsflow.core.news;
 
-import com.yooiistudios.newsflow.core.news.NewsFeedUrl;
-import com.yooiistudios.newsflow.core.news.RssFetchable;
-
 import java.io.Serializable;
 
 /**
