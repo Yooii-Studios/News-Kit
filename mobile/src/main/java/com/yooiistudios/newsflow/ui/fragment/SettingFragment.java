@@ -130,6 +130,12 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mSettingAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         SettingItem item = SettingItem.values()[position];
         switch (item) {
