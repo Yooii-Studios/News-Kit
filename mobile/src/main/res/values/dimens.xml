@@ -177,7 +177,7 @@
     <dimen name="store_ad_dialog_title_padding_top_bottom">11dp</dimen>
     <dimen name="store_ad_dialog_title_padding_left_right">15dp</dimen>
     <dimen name="store_ad_dialog_title_divider_height">0.5dp</dimen>
-    <dimen name="store_ad_dialog_title_divider_margin_left_right">8dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_margin_left_right">@dimen/base_margin_half</dimen>
     <dimen name="store_ad_dialog_image_layout_padding">3dp</dimen>
     <dimen name="store_ad_dialog_image_width">296dp</dimen>
     <dimen name="store_ad_dialog_image_text_margin_top">1dp</dimen>
@@ -188,4 +188,12 @@
     <dimen name="store_ad_dialog_icon_img_width">44dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">45dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">15sp</dimen>
+
+    <!-- Morning Kit Ad -->
+    <dimen name="morningkit_ad_dialog_layout_width">@dimen/store_ad_dialog_layout_width</dimen>
+    <dimen name="morningkit_ad_dialog_title_divider_height">@dimen/store_ad_dialog_title_divider_height</dimen>
+    <dimen name="morningkit_ad_dialog_image_layout_padding">@dimen/base_margin_half</dimen>
+    <dimen name="morningkit_ad_dialog_button_layout_height">@dimen/store_ad_dialog_image_text_height</dimen>
+    <dimen name="morningkit_ad_text_margin">18dp</dimen>
+    <dimen name="morningkit_ad_dialog_radius">3dp</dimen>
 </resources>

@@ -115,7 +115,7 @@
 
     <!-- Notification -->
     <string name="notification_title">좋은 아침입니다!</string>
-    <string name="notification_description">새 뉴스 플로가 도착했습니다.</string>
+    <string name="notification_description">새 뉴스키트가 도착했습니다.</string>
     <string name="notification_ask_description">뉴스 알림을 받으시겠습니까?</string>
 
     <!-- Error Message -->
