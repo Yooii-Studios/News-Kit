@@ -1,11 +1,9 @@
 package com.yooiistudios.newsflow.util;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Build;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.newsflow.R;
 
 /**
@@ -19,6 +17,8 @@ public class ReviewRequest {
     public static final String KEY_REVIEWED = "key_reviewed";
 
     public static void showDialog(final Context context) {
+        // Material Dialog 로 변경
+        /*
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT);
@@ -45,5 +45,28 @@ public class ReviewRequest {
         reviewDialog.setCancelable(false);
         reviewDialog.setCanceledOnTouchOutside(false);
         reviewDialog.show();
+        */
+
+        String appFullName = context.getString(R.string.app_name_full);
+        MaterialDialog materialDialog = new MaterialDialog.Builder(context)
+                .title(R.string.rate_news_kit_title)
+                .content(context.getString(R.string.rate_it_contents, appFullName))
+                .positiveText(R.string.rate_it_rate)
+                .negativeText(R.string.rate_it_no_thanks)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        SharedPreferences prefs = context.getSharedPreferences(
+                                REVIEW_REQUEST_PREFS, Context.MODE_PRIVATE);
+                        prefs.edit().putBoolean(KEY_REVIEWED, true).apply();
+                        ReviewUtils.showReviewActivity(context);
+                    }
+                })
+                .build();
+
+        materialDialog.setCancelable(false);
+        materialDialog.setCanceledOnTouchOutside(false);
+        materialDialog.show();
     }
 }

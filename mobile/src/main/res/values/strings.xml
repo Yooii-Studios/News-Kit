@@ -137,7 +137,7 @@
     <string name="close">Close</string>
 
     <!-- Rate -->
-    <string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist</string>
+    <string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist :)</string>
     <string name="rate_it_rate">Rate</string>
     <string name="rate_it_no_thanks">Rate later</string>
     <string name="rate_news_kit_title">Rate News Kit</string>
