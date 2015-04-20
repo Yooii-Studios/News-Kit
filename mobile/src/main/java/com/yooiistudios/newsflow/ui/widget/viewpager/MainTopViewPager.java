@@ -77,12 +77,12 @@ public class MainTopViewPager extends ViewPager {
         // Translation
         if (currentFragment != null && currentFragment.getView() != null) {
             ImageView imageView = (ImageView) currentFragment.getView()
-                    .findViewById(R.id.main_top_feed_image_view);
+                    .findViewById(R.id.main_top_item_image_view);
             imageView.setTranslationX(currentFragTransition);
         }
         if (nextFragment != null && nextFragment.getView() != null) {
             ImageView imageView = (ImageView) nextFragment.getView()
-                    .findViewById(R.id.main_top_feed_image_view);
+                    .findViewById(R.id.main_top_item_image_view);
             imageView.setTranslationX(nextFragTransition);
         }
     }

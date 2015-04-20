@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -97,8 +98,9 @@ public class MainTopFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_main_top_viewpager_item,
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        final ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_main_top_viewpager_item,
                 container, false);
 
         ItemViewHolder holder = new ItemViewHolder(root);
@@ -120,17 +122,17 @@ public class MainTopFragment extends Fragment {
             holder.titleTextView.setText(newsName);
         }
 
-        root.setOnClickListener(new View.OnClickListener() {
+        holder.rippleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemViewHolder viewHolder = (ItemViewHolder) view.getTag();
+                ItemViewHolder viewHolder = (ItemViewHolder) root.getTag();
                 getOnItemClickListener().onTopItemClick(viewHolder, mNewsFeed, mPosition);
             }
         });
-        root.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.rippleView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                getOnLongClickListener().onLongClick(v);
+                getOnLongClickListener().onLongClick(root);
                 return true;
             }
         });
@@ -237,9 +239,10 @@ public class MainTopFragment extends Fragment {
     }
 
     public static class ItemViewHolder {
-        public @InjectView(R.id.main_top_feed_image_view)  ImageView imageView;
-        public @InjectView(R.id.main_top_news_title)       TextView titleTextView;
-        public @InjectView(R.id.main_top_item_progress)    android.widget.ProgressBar progressBar;
+        public @InjectView(R.id.main_top_item_image_view)       ImageView imageView;
+        public @InjectView(R.id.main_top_item_title_textview)   TextView titleTextView;
+        public @InjectView(R.id.main_top_item_progress)         ProgressBar progressBar;
+        public @InjectView(R.id.main_top_item_ripple_view)      View rippleView;
 
         public ItemViewHolder(View view) {
             ButterKnife.inject(this, view);

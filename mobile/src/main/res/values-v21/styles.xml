@@ -4,6 +4,8 @@
     <!-- Main -->
     <style name="MainTheme" parent="NewsAppTheme">
         <item name="android:windowTranslucentStatus">true</item>
+        <!-- 리플 색을 적용하기 위한 값 -->
+        <item name="colorControlHighlight">@color/material_white_disabled_and_hint_text</item>
     </style>
 
     <!-- NewsFeed Detail -->
