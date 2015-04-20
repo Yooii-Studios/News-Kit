@@ -62,6 +62,7 @@ import com.yooiistudios.newsflow.util.FacebookUtils;
 import com.yooiistudios.newsflow.util.NotificationAskUtils;
 import com.yooiistudios.newsflow.util.NotificationUtils;
 import com.yooiistudios.newsflow.util.OnMainPanelEditModeEventListener;
+import com.yooiistudios.newsflow.util.ReviewRequest;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
 import java.lang.ref.WeakReference;
@@ -456,9 +457,13 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onBackgroundFadeOutAnimationEnd() {
+        // 모든 애니메이션이 끝난 후 처리는 모두 여기서 함
         AdUtils.showPopupAdIfSatisfied(this);
         if (AppLaunchCount.isFirstAppLaunch(this)) {
             NotificationAskUtils.showAskNotificationDialog(this);
+        }
+        if (AppLaunchCount.isTimeToShowReviewRequestDialog(this)) {
+            ReviewRequest.showDialog(this);
         }
     }
 

@@ -124,6 +124,11 @@
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
     <string name="news_feed_fetch_error_unknown">RSS not found</string>
 
+    <!-- 출시시 정렬 다시할 추가 스트링-->
+    <!-- General -->
+    <string name="add_more_panels">Add more news panels</string>
+    <string name="app_name_full">News Kit</string>
+
     <!-- Morning Kit Ad -->
     <string name="morningkit_ad_app_name">Morning Kit</string>
     <string name="morningkit_ad_description">Alarm + Info Panels</string>
@@ -131,7 +136,9 @@
     <string name="download">Download</string>
     <string name="close">Close</string>
 
-    <!-- 출시시 정렬 다시할 추가 스트링-->
-    <!-- General -->
-    <string name="add_more_panels">Add more news panels</string>
+    <!-- Rate -->
+    <string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist</string>
+    <string name="rate_it_rate">Rate</string>
+    <string name="rate_it_no_thanks">Rate later</string>
+    <string name="rate_news_kit_title">Rate News Kit</string>
 </resources>
