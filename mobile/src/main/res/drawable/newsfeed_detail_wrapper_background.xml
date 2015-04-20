@@ -6,6 +6,6 @@
 <!-- like activated states, animated states, shapes, pngs, whatever like any other drawable-->
 <!-- I've just put 2 states (pressed,focused) using the same color than the v21 ripple -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/material_black_divider" android:state_pressed="true"/>
+    <item android:drawable="@color/material_white_divider" android:state_pressed="true"/>
     <item android:drawable="@android:color/transparent"/>
 </selector>

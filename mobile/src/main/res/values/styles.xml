@@ -24,6 +24,10 @@
 
     <style name="NewsFeedDetailTheme" parent="Base.NewsAppTheme.NewsFeedDetail"/>
 
+    <style name="NewsFeedWrapperBackground">
+        <item name="android:background">@drawable/newsfeed_detail_wrapper_background</item>
+    </style>
+
     <!-- NewsFeed Select -->
     <style name="NewsSelectTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/news_select_color_primary</item>
