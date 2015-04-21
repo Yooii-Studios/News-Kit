@@ -148,7 +148,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         // 랜덤한 타이밍(AsyncTask 의 onPostExecute )에 여러번 요청하면
         // 콜백이 무시되는 경우가 있음(테스트 결과 20개 요청중 절반 정도가 무시됨).
         // Volley 내부 문제로 추측되지만 확실하지 않음.
-        if (TextUtils.isEmpty(url)) {
+        if (TextUtils.isEmpty(url) || hasInvalidUrl(request.urlSupplier)) {
             notifyOnFail(imageListener, request.urlSupplier, null);
             return;
         }
@@ -158,6 +158,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 final Bitmap bitmap = response.getBitmap();
                 if (bitmap != null) {
+                    onGetBitmap(request.urlSupplier);
                     getPaletteColors(request.urlSupplier, bitmap, new PaletteListener() {
 
                         @Override
@@ -197,6 +198,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                onFailedToGetBitmap(request.urlSupplier);
                 notifyOnFail(imageListener, request.urlSupplier, error);
             }
         }, getImageSize().x, getImageSize().y);
@@ -231,6 +233,18 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     protected abstract PaletteColor loadPaletteColor(T urlSupplier);
 
     protected abstract void savePaletteColor(T urlSupplier, PaletteColor paletteColor);
+
+    protected void onGetBitmap(T urlSupplier) {
+        // 이미지를 성공적으로 가져온 경우 sub class 에서 선택적으로 오버라이드해 필요한 처리 수행
+    }
+
+    protected void onFailedToGetBitmap(T urlSupplier) {
+        // 이미지를 가져오는 데에 실패한 경우 sub class 에서 선택적으로 오버라이드해 필요한 처리 수행
+    }
+
+    protected boolean hasInvalidUrl(T urlSupplier) {
+        return true;
+    }
 
     private void cacheThumbnail(final Bitmap bitmap, final ImageRequest request,
                                 final ThumbnailListener listener) {

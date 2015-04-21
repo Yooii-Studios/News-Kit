@@ -24,6 +24,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
@@ -100,20 +101,23 @@ public class MainBottomAdapter extends
         Context context = parent.getContext();
         MainBottomItemLayout itemLayout = (MainBottomItemLayout)
                 LayoutInflater.from(context).inflate(R.layout.main_bottom_item, parent, false);
-        itemLayout.setOnSupplyTargetAxisLengthListener(new MainBottomItemLayout.OnSupplyTargetAxisLengthListener() {
-            @Override
-            public int onSupply(@RatioFrameLayout.Axis int axis, @MainBottomItemLayout.Orientation int orientation) {
-                if (axis == RatioFrameLayout.AXIS_WIDTH &&
-                         orientation == MainBottomItemLayout.LANDSCAPE) {
-                    // 4개 이상일 경우 넥5 기준으로 5번째 아이템 제목 밑 공간이 조금 보일 정도로 ratio 를 잡아줌
-                    float ratio = mNewsFeedList.size() <= 4 ? 0.25f : 0.215f;
-                    float parentHeight = MainBottomItemLayout.measureParentHeightOnLandscape(parent);
-                    return (int) Math.floor(parentHeight * ratio);
-                } else {
-                    return -1;
-                }
-            }
-        });
+        itemLayout.setOnSupplyTargetAxisLengthListener(
+                new MainBottomItemLayout.OnSupplyTargetAxisLengthListener() {
+                    @Override
+                    public int onSupply(@RatioFrameLayout.Axis int axis,
+                                        @MainBottomItemLayout.Orientation int orientation) {
+                        if (axis == RatioFrameLayout.AXIS_WIDTH &&
+                                orientation == MainBottomItemLayout.LANDSCAPE) {
+                            // 4개 이상일 경우 넥5 기준으로 5번째 아이템 제목 밑 공간이 조금 보일 정도로 ratio 를 잡아줌
+                            float ratio = mNewsFeedList.size() <= 4 ? 0.25f : 0.215f;
+                            float parentHeight =
+                                    MainBottomItemLayout.measureParentHeightOnLandscape(parent);
+                            return (int) Math.floor(parentHeight * ratio);
+                        } else {
+                            return -1;
+                        }
+                    }
+                });
         BottomNewsFeedViewHolder viewHolder = new BottomNewsFeedViewHolder(itemLayout);
         initEditLayer(viewHolder);
 
@@ -141,6 +145,7 @@ public class MainBottomAdapter extends
             if (displayingNews.hasImageUrl()) {
                 cancelPreviousImageRequestIfNecessary(viewHolder, position);
                 viewHolder.progressBar.setVisibility(View.VISIBLE);
+                viewHolder.imageView.setImageDrawable(null);
                 loadImage(viewHolder, position);
 //                showDummyImage(viewHolder);
             } else {
@@ -217,12 +222,19 @@ public class MainBottomAdapter extends
         setErrorLayoutGone(viewHolder);
     }
 
-    private void showDummyImage(BottomNewsFeedViewHolder viewHolder) {
+    private void showDummyImage(final BottomNewsFeedViewHolder viewHolder) {
         setErrorLayoutGone(viewHolder);
 
-        viewHolder.progressBar.setVisibility(View.GONE);
+        viewHolder.progressBar.setVisibility(View.VISIBLE);
+        viewHolder.imageView.setImageDrawable(null);
 
-        PanelDecoration.applySmallDummyNewsImageInto(mContext, mImageLoader, viewHolder.imageView);
+        PanelDecoration.applySmallDummyNewsImageInto(mContext, mImageLoader, viewHolder.imageView,
+                new PanelDecoration.OnApplyImageListener() {
+                    @Override
+                    public void onApply() {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                    }
+                });
         viewHolder.imageView.setColorFilter(PanelDecoration.getBottomDummyImageFilterColor(mContext),
                 PorterDuff.Mode.SRC_OVER);
     }
@@ -270,7 +282,8 @@ public class MainBottomAdapter extends
 //        viewHolder.statusLayout.setVisibility(View.VISIBLE);
 //        viewHolder.statusLayout.setBackgroundResource(R.drawable.img_rss_url_failed_small);
         viewHolder.statusWrapper.setVisibility(View.VISIBLE);
-        PanelDecoration.applyRssUrlFailedSmallBackgroundInto(mContext, mImageLoader, viewHolder.statusBackgroundImageView);
+        PanelDecoration.applyRssUrlFailedSmallBackgroundInto(
+                mContext, mImageLoader, viewHolder.statusBackgroundImageView, null);
         viewHolder.statusIconImageView.setImageResource(R.drawable.ic_rss_url_failed_small);
     }
 

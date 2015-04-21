@@ -355,7 +355,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
         for (int idx = currentNewsFeedList.size() - 1; idx >= currentMatrix.getPanelCount(); idx--) {
             mBottomNewsFeedAdapter.removeNewsFeedAt(idx);
-            mAutoAnimator.removeViewPropertyAt(idx);
+            mAutoAnimator.removeViewPropertyByKey(idx);
         }
         mBottomNewsFeedAdapter.notifyDataSetChanged();
     }

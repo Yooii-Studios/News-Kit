@@ -378,7 +378,7 @@ public class MainTopContainerLayout extends FrameLayout
         Context context = getContext().getApplicationContext();
         mUnavailableIconImageView.setImageResource(R.drawable.ic_rss_url_failed_large);
         PanelDecoration.applyRssUrlFailedBackgroundInto(
-                context, mImageLoader, mUnavailableBackgroundImageView);
+                context, mImageLoader, mUnavailableBackgroundImageView, null);
         mUnavailableTextView.setText(message);
 
         adjustUnavailableIconImageViewTopMargin();

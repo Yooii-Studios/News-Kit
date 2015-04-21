@@ -386,6 +386,29 @@ public class NewsDb {
                 newsValues,
                 NewsEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
                         NewsEntry.COLUMN_NAME_GUID + "=?",
+                new String[]{String.valueOf(newsFeedPosition), guid});
+    }
+
+    public void insertNewsImageFetchStateWithGuid(int state, int newsFeedPosition, String guid) {
+        mDatabase.beginTransaction();
+        try {
+            insertNewsImageUrlFetchStateInternal(state, newsFeedPosition, guid);
+            mDatabase.setTransactionSuccessful();
+        } catch (Exception ignored) {
+        } finally {
+            mDatabase.endTransaction();
+        }
+    }
+
+    private void insertNewsImageUrlFetchStateInternal(int state, int newsFeedPosition, String guid) {
+        ContentValues newsValues = new ContentValues();
+        newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_STATE, state);
+
+        mDatabase.update(
+                NewsEntry.TABLE_NAME,
+                newsValues,
+                NewsEntry.COLUMN_NAME_FEED_POSITION + "=? and " +
+                        NewsEntry.COLUMN_NAME_GUID + "=?",
                 new String[]{ String.valueOf(newsFeedPosition), guid });
     }
 
@@ -442,6 +465,7 @@ public class NewsDb {
                 newsValues.put(NewsEntry.COLUMN_NAME_DESCRIPTION, news.getDescription());
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL, news.getImageUrl());
                 newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED, news.isImageUrlChecked());
+                newsValues.put(NewsEntry.COLUMN_NAME_IMAGE_URL_STATE, news.getImageUrlState());
 
                 mDatabase.insert(NewsEntry.TABLE_NAME, null, newsValues);
 
@@ -567,6 +591,8 @@ public class NewsDb {
             int newsImageUrlCheckedInt = newsListCursor.getInt(
                     newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL_CHECKED));
             boolean newsImageUrlChecked = newsImageUrlCheckedInt == 1;
+            int newsImageUrlState = newsListCursor.getInt(
+                    newsListCursor.getColumnIndex(NewsEntry.COLUMN_NAME_IMAGE_URL_STATE));
 
             News news = new News();
             news.setTitle(newsTitle);
@@ -576,6 +602,7 @@ public class NewsDb {
             news.setDescription(newsDescription);
             news.setImageUrl(newsImageUrl);
             news.setImageUrlChecked(newsImageUrlChecked);
+            news.setImageUrlState(newsImageUrlState);
             news.setNewsContent(newsContent);
 
             newsList.add(news);

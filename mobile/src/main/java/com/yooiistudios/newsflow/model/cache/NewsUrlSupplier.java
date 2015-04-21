@@ -28,6 +28,18 @@ public class NewsUrlSupplier implements CacheImageLoader.UrlSupplier {
         return mGuid;
     }
 
+    public News getNews() {
+        return mNews;
+    }
+
+    public boolean hasInvalidImageUrl() {
+        return mNews.getImageUrlState() == News.IMAGE_URL_STATE_INVALID;
+    }
+
+    public void setImageUrlState(int state) {
+        mNews.setImageUrlState(state);
+    }
+
     @Override
     public String getUrl() {
         return mNews.getImageUrl();

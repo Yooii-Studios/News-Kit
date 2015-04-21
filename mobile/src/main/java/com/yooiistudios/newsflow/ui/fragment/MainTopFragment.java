@@ -152,10 +152,6 @@ public class MainTopFragment extends Fragment {
     }
 
     private void applyImage(final ItemViewHolder viewHolder) {
-        viewHolder.imageView.setImageDrawable(null);
-
-        // set image
-//        String imgUrl = mNews.getImageUrl();
         if (mNews.hasImageUrl()) {
             mImageLoader.get(new NewsUrlSupplier(mNews, NewsFeed.INDEX_TOP),
                     new CacheImageLoader.ImageListener() {
@@ -183,6 +179,7 @@ public class MainTopFragment extends Fragment {
                     });
         } else if (!mNews.isImageUrlChecked()) {
             // image url not yet fetched. show loading progress dialog
+            viewHolder.imageView.setImageDrawable(null);
             viewHolder.progressBar.setVisibility(View.VISIBLE);
 
         } else {

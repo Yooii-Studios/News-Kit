@@ -131,9 +131,7 @@ public class MainActivity extends ActionBarActivity
                 MainBottomContainerLayout mainBottomContainerLayout =
                         mainActivity.mMainBottomContainerLayout;
 
-                boolean isInEditingMode = mainTopContainerLayout.isInEditingMode()
-                        || mainBottomContainerLayout.isInEditingMode();
-                if (isInEditingMode) {
+                if (mainActivity.isShowingEditLayout()) {
                     mainActivity.stopNewsAutoRefresh();
                 } else {
                     // 오토리프레시 타이밍을 제어하고 싶을 때를 위한 디버그 로직

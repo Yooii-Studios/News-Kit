@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.cache.volley.CacheImageLoader;
+import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.Display;
@@ -57,5 +58,32 @@ public class NewsImageLoader extends CacheImageLoader<NewsUrlSupplier> {
     protected void savePaletteColor(NewsUrlSupplier urlSupplier, PaletteColor paletteColor) {
         NewsDb.getInstance(getContext()).savePaletteColor(
                 urlSupplier.getNewsFeedPosition(), urlSupplier.getGuid(), paletteColor);
+    }
+
+    @Override
+    protected void onGetBitmap(NewsUrlSupplier urlSupplier) {
+        int state = News.IMAGE_URL_STATE_VALID;
+        urlSupplier.setImageUrlState(state);
+        NewsDb.getInstance(getContext()).insertNewsImageFetchStateWithGuid(
+                state,
+                urlSupplier.getNewsFeedPosition(),
+                urlSupplier.getGuid()
+        );
+    }
+
+    @Override
+    protected void onFailedToGetBitmap(NewsUrlSupplier urlSupplier) {
+        int state = News.IMAGE_URL_STATE_INVALID;
+        urlSupplier.setImageUrlState(state);
+        NewsDb.getInstance(getContext()).insertNewsImageFetchStateWithGuid(
+                state,
+                urlSupplier.getNewsFeedPosition(),
+                urlSupplier.getGuid()
+        );
+    }
+
+    @Override
+    protected boolean hasInvalidUrl(NewsUrlSupplier urlSupplier) {
+        return urlSupplier.hasInvalidImageUrl();
     }
 }
