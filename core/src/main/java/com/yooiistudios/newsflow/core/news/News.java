@@ -25,6 +25,9 @@ import java.util.Locale;
 public class News implements Comparable<News>, Parcelable {
     public static final String KEY_CURRENT_NEWS_INDEX = "KEY_CURRENT_NEWS_INDEX";
     public static final long INVALID_LONG = -1;
+    public static final int IMAGE_URL_STATE_NO_INFO = -1;
+    public static final int IMAGE_URL_STATE_VALID = 0;
+    public static final int IMAGE_URL_STATE_INVALID = 1;
 
     private String mTitle;
     private String mLink;
@@ -34,11 +37,13 @@ public class News implements Comparable<News>, Parcelable {
     private String mContent;
     private String mImageUrl;
     private boolean mImageUrlChecked;
+    private int mImageUrlState;
     private String mOriginalDescription;
     private NewsContent mNewsContent = NewsContent.createEmptyObject();
 
     public News() {
         mImageUrlChecked = false;
+        mImageUrlState = IMAGE_URL_STATE_NO_INFO;
     }
 
     public News(Parcel source) {
@@ -51,6 +56,7 @@ public class News implements Comparable<News>, Parcelable {
         mContent = source.readString();
         mImageUrl = source.readString();
         mImageUrlChecked = source.readInt() == 1;
+        mImageUrlState = source.readInt();
         mOriginalDescription = source.readString();
         mNewsContent = source.readParcelable(NewsContent.class.getClassLoader());
     }
@@ -65,6 +71,7 @@ public class News implements Comparable<News>, Parcelable {
         dest.writeString(mContent);
         dest.writeString(mImageUrl);
         dest.writeInt(mImageUrlChecked ? 1 : 0); // 1 for true
+        dest.writeInt(mImageUrlState);
         dest.writeString(mOriginalDescription);
         dest.writeParcelable(mNewsContent, flags);
     }
@@ -249,6 +256,14 @@ public class News implements Comparable<News>, Parcelable {
 
     public void setImageUrlChecked(boolean checked) {
         mImageUrlChecked = checked;
+    }
+
+    public int getImageUrlState() {
+        return mImageUrlState;
+    }
+
+    public void setImageUrlState(int imageUrlState) {
+        mImageUrlState = imageUrlState;
     }
 
     public void setOriginalDescription(String originalDescription) {

@@ -42,6 +42,7 @@ public class NewsDbContract {
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_IMAGE_URL = "image_url";
         public static final String COLUMN_NAME_IMAGE_URL_CHECKED = "image_url_checked";
+        public static final String COLUMN_NAME_IMAGE_URL_STATE = "image_url_validity";
     }
 
     public static abstract class NewsContentEntry implements BaseColumns {
