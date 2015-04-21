@@ -71,17 +71,12 @@ public class PanelDecoration {
                                        final ImageView imageView,
                                        final OnApplyImageListener listener,
                                        Decoration decoration) {
-        Bitmap cachedBitmap = getImageFromCache(context, imageLoader, decoration);
-        if (cachedBitmap != null) {
-            applyImageAndNotify(cachedBitmap, imageView, listener);
-        } else {
-            getImageAsync(context, imageLoader, new OnLoadBitmapListener() {
-                @Override
-                public void onLoad(Bitmap bitmap) {
-                    applyImageAndNotify(bitmap, imageView, listener);
-                }
-            }, decoration);
-        }
+        getImageAsync(context, imageLoader, new OnLoadBitmapListener() {
+            @Override
+            public void onLoad(Bitmap bitmap) {
+                applyImageAndNotify(bitmap, imageView, listener);
+            }
+        }, decoration);
     }
 
     private static void applyImageAndNotify(Bitmap bitmap, ImageView imageView, OnApplyImageListener listener) {
@@ -120,12 +115,17 @@ public class PanelDecoration {
                                       final NewsImageLoader imageLoader,
                                       final OnLoadBitmapListener listener,
                                       final Decoration decoration) {
-        new DecodeResourceAsync(listener) {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return getImage(context, imageLoader, decoration);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        Bitmap cachedBitmap = getImageFromCache(context, imageLoader, decoration);
+        if (cachedBitmap != null) {
+            listener.onLoad(cachedBitmap);
+        } else {
+            new DecodeResourceAsync(listener) {
+                @Override
+                protected Bitmap doInBackground(Void... params) {
+                    return getImage(context, imageLoader, decoration);
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     public static Bitmap getDummyImage(Context context, NewsImageLoader imageLoader) {
