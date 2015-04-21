@@ -83,7 +83,9 @@ dependencies {
 
     // 위치 서비스, 구글 플레이, 애드몹
 //    compile 'com.google.android.gms:play-services:5.0.89' // 4.0.+ 에서 버전업
-    compile 'com.google.android.gms:play-services:7.0.0'
+//    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'com.google.android.gms:play-services-ads:7.0.0'
+    compile 'com.google.android.gms:play-services-analytics:7.0.0'
 
     // 필요한 오픈소스 라이브러리들
     compile 'com.google.code.gson:gson:2.3'       // json 관련

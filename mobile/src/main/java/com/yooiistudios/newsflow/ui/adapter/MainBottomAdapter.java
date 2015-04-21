@@ -24,6 +24,7 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.util.Device;
+import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
@@ -144,6 +145,7 @@ public class MainBottomAdapter extends
             if (displayingNews.hasImageUrl()) {
                 cancelPreviousImageRequestIfNecessary(viewHolder, position);
                 viewHolder.progressBar.setVisibility(View.VISIBLE);
+                viewHolder.imageView.setImageDrawable(null);
                 loadImage(viewHolder, position);
 //                showDummyImage(viewHolder);
             } else {

@@ -51,8 +51,8 @@ public class NewsFeedValidator {
             NewsFeed newsFeed = newsFeeds.get(i);
             NewsFeedFetchState state = newsFeed.getNewsFeedFetchState();
             if (state.equals(NewsFeedFetchState.NOT_FETCHED_YET)
-                    || state.equals(NewsFeedFetchState.ERROR_TIMEOUT)
-                    || state.equals(NewsFeedFetchState.ERROR_UNKNOWN)) {
+                    || state.equals(NewsFeedFetchState.ERROR_TIMEOUT)) {
+                // 시간 초과로 불러오지 못한 경우 재시도하면 불러올 가능성이 있기에 true 를 반환함
                 return true;
             }
         }
