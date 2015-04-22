@@ -15,7 +15,7 @@ import com.yooiistudios.newsflow.model.Settings;
 public class SettingsTest extends AndroidTestCase {
     // private 을 깨기 싫어서 Settings 에서 가져옴. 후에 변경될 가능성이 있는 값들이라 기획 변경에 따라 수정해줄 것
     private static final String SETTINGS_SHARED_PREFERENCES = "settings_shared_preferences";
-    private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 7;
+    private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
     private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 1000;
 
     private Context mContext;
