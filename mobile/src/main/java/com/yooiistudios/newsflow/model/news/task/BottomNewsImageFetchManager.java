@@ -26,12 +26,14 @@ public class BottomNewsImageFetchManager
     private HashMap<News, BottomNewsImageFetchTask> mBottomNewsFeedNewsToImageTaskMap;
     private HashMap<News, Request> mNewsToFetchMap;
     private int mTaskType;
+    private int mWhichNews;
     private OnFetchListener mListener;
 
     public interface OnFetchListener {
-        void onBottomNewsImageUrlFetch(News news, String url, int newsFeedPosition, int newsPosition, int taskType);
-        void onBottomNewsImageFetch(int newsFeedPosition, int newsPosition);
-        void onBottomNewsImageListFetchDone(int taskType);
+        void onBottomNewsImageUrlFetch(News news, String url, int newsFeedPosition, int newsPosition,
+                                       int taskType, int whichNews);
+        void onBottomNewsImageFetch(int newsFeedPosition, int newsPosition, int whichNews);
+        void onBottomNewsImageListFetchDone(int taskType, int whichNews);
     }
 
     public static BottomNewsImageFetchManager getInstance() {
@@ -47,9 +49,16 @@ public class BottomNewsImageFetchManager
         mNewsToFetchMap = new HashMap<>();
     }
 
+    public void fetchDisplayingImage(NewsImageLoader imageLoader, NewsFeed newsFeed,
+                                     OnFetchListener listener, int newsFeedIndex, int taskType) {
+        prepare(listener, taskType, News.DISPLAYING_NEWS);
+        addDisplayingNews(newsFeed, newsFeedIndex);
+        fetch(imageLoader);
+    }
+
     public void fetchDisplayingImages(NewsImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                       OnFetchListener listener, int taskType) {
-        prepare(listener, taskType);
+        prepare(listener, taskType, News.DISPLAYING_NEWS);
         for (int i = 0 ; i< newsFeedList.size(); i++) {
             NewsFeed newsFeed = newsFeedList.get(i);
             addDisplayingNews(newsFeed, i);
@@ -59,18 +68,11 @@ public class BottomNewsImageFetchManager
 
     public void fetchNextImages(NewsImageLoader imageLoader, ArrayList<NewsFeed> newsFeedList,
                                 OnFetchListener listener, int taskType) {
-        prepare(listener, taskType);
+        prepare(listener, taskType, News.NEXT_NEWS);
         for (int i = 0; i < newsFeedList.size(); i++) {
             NewsFeed newsFeed = newsFeedList.get(i);
             addNextNews(newsFeed, i);
         }
-        fetch(imageLoader);
-    }
-
-    public void fetchDisplayingImage(NewsImageLoader imageLoader, NewsFeed newsFeed,
-                                     OnFetchListener listener, int newsFeedIndex, int taskType) {
-        prepare(listener, taskType);
-        addDisplayingNews(newsFeed, newsFeedIndex);
         fetch(imageLoader);
     }
 
@@ -88,10 +90,11 @@ public class BottomNewsImageFetchManager
         }
     }
 
-    private void prepare(OnFetchListener listener, int taskType) {
+    private void prepare(OnFetchListener listener, int taskType, int whichNews) {
         cancelBottomNewsImageUrlFetchTask();
         mListener = listener;
         mTaskType = taskType;
+        mWhichNews = whichNews;
     }
 
     private void fetch(NewsImageLoader imageLoader) {
@@ -132,7 +135,7 @@ public class BottomNewsImageFetchManager
             return;
         }
         if (mListener != null) {
-            mListener.onBottomNewsImageFetch(newsFeedPosition, newsPosition);
+            mListener.onBottomNewsImageFetch(newsFeedPosition, newsPosition, mWhichNews);
         }
 
         mNewsToFetchMap.put(news, new Request(newsFeedPosition, newsPosition, true));
@@ -147,7 +150,7 @@ public class BottomNewsImageFetchManager
 
         if (allFetched) {
             if (mListener != null) {
-                mListener.onBottomNewsImageListFetchDone(taskType);
+                mListener.onBottomNewsImageListFetchDone(taskType, mWhichNews);
             }
         }
     }
@@ -188,7 +191,7 @@ public class BottomNewsImageFetchManager
 
         if (mListener != null) {
             mListener.onBottomNewsImageUrlFetch(news, url, newsFeedPosition, newsPosition,
-                    taskType);
+                    taskType, mWhichNews);
         }
     }
 

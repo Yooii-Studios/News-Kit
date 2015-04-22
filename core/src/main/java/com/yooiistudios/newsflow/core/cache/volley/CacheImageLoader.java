@@ -198,7 +198,6 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                onFailedToGetBitmap(request.urlSupplier);
                 notifyOnFail(imageListener, request.urlSupplier, error);
             }
         }, getImageSize().x, getImageSize().y);
@@ -294,6 +293,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     }
 
     private void notifyOnFail(ImageListener listener, T urlSupplier, VolleyError error) {
+        onFailedToGetBitmap(urlSupplier);
         if (!isCancelRequested(urlSupplier)) {
             listener.onFail(error);
         }

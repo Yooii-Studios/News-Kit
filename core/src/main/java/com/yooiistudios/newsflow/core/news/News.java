@@ -25,9 +25,13 @@ import java.util.Locale;
 public class News implements Comparable<News>, Parcelable {
     public static final String KEY_CURRENT_NEWS_INDEX = "KEY_CURRENT_NEWS_INDEX";
     public static final long INVALID_LONG = -1;
+
     public static final int IMAGE_URL_STATE_NO_INFO = -1;
     public static final int IMAGE_URL_STATE_VALID = 0;
     public static final int IMAGE_URL_STATE_INVALID = 1;
+
+    public static final int DISPLAYING_NEWS = 0;
+    public static final int NEXT_NEWS = 1;
 
     private String mTitle;
     private String mLink;

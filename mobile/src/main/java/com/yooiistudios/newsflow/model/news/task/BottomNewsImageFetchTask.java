@@ -50,7 +50,11 @@ public class BottomNewsImageFetchTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        return NewsFeedImageUrlFetchUtil.getImageUrl(mNews);
+        if (mNews.hasImageUrl()) {
+            return mNews.getImageUrl();
+        } else {
+            return NewsFeedImageUrlFetchUtil.getImageUrl(mNews);
+        }
     }
 
     @Override

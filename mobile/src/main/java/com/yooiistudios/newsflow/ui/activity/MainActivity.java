@@ -221,8 +221,10 @@ public class MainActivity extends ActionBarActivity
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+//                if (mMainTopContainerLayout.isReady() &&
+//                        !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
                 if (mMainTopContainerLayout.isReady() &&
-                        !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
+                        mMainBottomContainerLayout.isAllImagesReady()) {
                     stopNewsAutoRefresh();
                     setSwipeRefreshLayoutEnabled(false);
 
@@ -369,12 +371,18 @@ public class MainActivity extends ActionBarActivity
 
     private void setSwipeRefreshLayoutEnabled(boolean enable) {
         if (Device.isPortrait(this)) {
+//            boolean readyForRefresh = mMainTopContainerLayout.isReady()
+//                    && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
             boolean readyForRefresh = mMainTopContainerLayout.isReady()
-                    && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds();
+                    && mMainBottomContainerLayout.isAllImagesReady();
             mSwipeRefreshLayout.setEnabled(enable && readyForRefresh);
         } else {
             mSwipeRefreshLayout.setEnabled(false);
         }
+    }
+
+    private void setRefreshing(boolean refreshing) {
+        mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
     private void requestSystemWindowsBottomInset() {
@@ -562,16 +570,22 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onMainBottomNewsImageInitiallyAllFetched() {
+        setRefreshing(false);
+        setSwipeRefreshLayoutEnabled(true);
         startNewsAutoRefreshIfReady();
     }
 
     @Override
     public void onMainBottomNewsReplaceDone() {
+        setRefreshing(false);
+        setSwipeRefreshLayoutEnabled(true);
         startNewsAutoRefreshIfReady();
     }
 
     @Override
     public void onMainBottomMatrixChanged() {
+        setRefreshing(false);
+        setSwipeRefreshLayoutEnabled(true);
         startNewsAutoRefreshIfReady();
     }
 
@@ -605,11 +619,7 @@ public class MainActivity extends ActionBarActivity
 
     private void startNewsAutoRefreshIfReady() {
         if (mMainTopContainerLayout.isReady()
-                && mMainBottomContainerLayout.isInitialized()
-                && mMainBottomContainerLayout.isInitializedFirstImages()
-                && !mMainBottomContainerLayout.isReplacingBottomNewsFeed()
-                && !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()
-                && !mMainBottomContainerLayout.isFetchingAddedBottomNewsFeeds()) {
+                && mMainBottomContainerLayout.isAllImagesReady()) {
             startNewsAutoRefresh();
         }
     }
@@ -636,8 +646,9 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void showMainContentIfReadyInternal(boolean isBeingCalledFromActivity) {
+        // TODO: 이미 보여지고 있으면 무시하자
         boolean topReady = mMainTopContainerLayout.isReady();
-        boolean bottomReady = mMainBottomContainerLayout.isInitialized();
+        boolean bottomReady = mMainBottomContainerLayout.isAllNewsFeedsReady();
 
         // 액티비티에서 불릴 경우에는 무조건 애니메이션 시작만 관장
         if (isBeingCalledFromActivity) {
@@ -653,17 +664,17 @@ public class MainActivity extends ActionBarActivity
             }
         }
 
-        if (topReady && bottomReady) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            setSwipeRefreshLayoutEnabled(true);
-        }
+//        if (topReady && bottomReady) {
+//            mSwipeRefreshLayout.setRefreshing(false);
+//            setSwipeRefreshLayoutEnabled(true);
+//        }
     }
 
     private void configAfterRefreshDone() {
         if (mMainTopContainerLayout.isReady() &&
-                !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
+                mMainBottomContainerLayout.isAllImagesReady()) {
             // dismiss loading progress bar
-            mSwipeRefreshLayout.setRefreshing(false);
+            setRefreshing(false);
             setSwipeRefreshLayoutEnabled(true);
 //            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
             startNewsAutoRefresh();
@@ -866,7 +877,7 @@ public class MainActivity extends ActionBarActivity
             if (newsIndex >= 0) {
                 mMainTopContainerLayout.configOnNewsImageUrlLoadedAt(imgUrl, newsIndex);
 
-                mSwipeRefreshLayout.setRefreshing(false);
+                setRefreshing(false);
                 setSwipeRefreshLayoutEnabled(true);
 
                 startNewsAutoRefreshIfReady();
