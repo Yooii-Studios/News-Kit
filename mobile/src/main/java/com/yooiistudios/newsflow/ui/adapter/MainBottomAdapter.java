@@ -24,7 +24,6 @@ import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
 import com.yooiistudios.newsflow.core.news.NewsFeedFetchState;
 import com.yooiistudios.newsflow.core.util.Device;
-import com.yooiistudios.newsflow.core.util.NLLog;
 import com.yooiistudios.newsflow.model.PanelEditMode;
 import com.yooiistudios.newsflow.model.cache.NewsImageLoader;
 import com.yooiistudios.newsflow.model.cache.NewsUrlSupplier;
@@ -356,7 +355,7 @@ public class MainBottomAdapter extends
     }
 
     private void initEditLayerListener(BottomNewsFeedViewHolder viewHolder, final int position) {
-        viewHolder.changeNewsfeedButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.replaceNewsFeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onClickEditButton(position);
@@ -497,7 +496,7 @@ public class MainBottomAdapter extends
         public ImageView imageView;
         public ProgressBar progressBar;
         public FrameLayout editLayout;
-        public View changeNewsfeedButton;
+        public View replaceNewsFeedButton;
         public FrameLayout statusWrapper;
         public LinearLayout statusLayout;
         public ImageView statusBackgroundImageView;
@@ -513,7 +512,7 @@ public class MainBottomAdapter extends
             imageView = (ImageView) itemView.findViewById(R.id.main_bottom_item_image_view);
             progressBar = (ProgressBar) itemView.findViewById(R.id.main_bottom_item_progress);
             editLayout = (FrameLayout)itemView.findViewById(R.id.main_bottom_edit_layout);
-            changeNewsfeedButton = itemView.findViewById(R.id.main_bottom_replace_newsfeed);
+            replaceNewsFeedButton = itemView.findViewById(R.id.main_bottom_replace_newsfeed);
             statusWrapper = (FrameLayout) itemView.findViewById(R.id.main_bottom_status_wrapper);
             statusLayout = (LinearLayout) itemView.findViewById(R.id.main_bottom_status_layout);
             statusBackgroundImageView = (ImageView) itemView.findViewById(R.id.main_bottom_status_background_imageview);
