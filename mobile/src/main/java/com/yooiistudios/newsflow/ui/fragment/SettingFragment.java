@@ -170,7 +170,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         mSettingAdapter.notifyDataSetChanged();
 
         // Google Analytics
-        AnalyticsUtils.trackNewsPanelMatrixSelection(
+        AnalyticsUtils.trackLanguageSelection(
                 (NewsApplication) getActivity().getApplication(), "Settings",
                 Language.valueOf(index).getEnglishNotation());
     }
