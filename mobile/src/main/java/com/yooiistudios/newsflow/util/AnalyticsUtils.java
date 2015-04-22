@@ -102,4 +102,17 @@ public class AnalyticsUtils {
                 .setLabel(panelMatrix)
                 .build());
     }
+
+    // 세팅 - 언어 선택을 트래킹
+    public static void trackLanguageSelection(NewsApplication application, String TAG, String language) {
+        // Get tracker.
+        Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory(TAG)
+                .setAction("Language Selection on Settings")
+                .setLabel(language)
+                .build());
+    }
 }
