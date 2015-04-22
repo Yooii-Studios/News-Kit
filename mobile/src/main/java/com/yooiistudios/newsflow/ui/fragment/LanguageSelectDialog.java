@@ -22,7 +22,7 @@ public class LanguageSelectDialog extends DialogFragment {
     private OnActionListener mListener;
 
     public interface OnActionListener {
-        public void onSelectLanguage(int position);
+        void onSelectLanguage(int position);
     }
 
     public static LanguageSelectDialog newInstance(OnActionListener listener) {

@@ -86,9 +86,12 @@ public class SettingActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // sans-serif-medium, 20sp
         mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
+        setToolbarTitle(mToolbar.getTitle().toString());
+    }
 
+    public void setToolbarTitle(String title) {
         // typeface 는 따로 설정 필요
-        SpannableString titleString = new SpannableString(mToolbar.getTitle());
+        SpannableString titleString = new SpannableString(title);
         titleString.setSpan(new TypefaceSpan(getString(R.string.noto_sans_medium)), 0,
                 titleString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 

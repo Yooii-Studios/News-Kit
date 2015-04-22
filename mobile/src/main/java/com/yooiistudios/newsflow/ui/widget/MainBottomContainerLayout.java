@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
@@ -75,6 +76,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @InjectView(R.id.bottom_news_feed_recycler_view) RecyclerView mBottomNewsFeedRecyclerView;
     @InjectView(R.id.bottom_news_feed_more_panel_layout) FrameLayout mMorePanelLayout;
+    @InjectView(R.id.bottom_news_feed_more_panel_textview) TextView mMorePanelTextView;
 
     private static final int COLUMN_COUNT_PORTRAIT = 2;
     private static final int COLUMN_COUNT_LANDSCAPE = 1;
@@ -240,7 +242,8 @@ public class MainBottomContainerLayout extends FrameLayout
         mBottomNewsFeedRecyclerView.setLayoutParams(recyclerViewParams);
     }
 
-    private void adjustMorePanelTextView() {
+    private void adjustMorePanelLayout() {
+        mMorePanelTextView.setText(R.string.add_more_panels);
         if (Device.isPortrait(getContext()) &&
                 !IabProducts.containsSku(getContext(), IabProducts.SKU_MORE_PANELS)) {
             mMorePanelLayout.setVisibility(View.VISIBLE);
@@ -499,7 +502,7 @@ public class MainBottomContainerLayout extends FrameLayout
             mAdapter.setOrientation(MainBottomAdapter.LANDSCAPE);
         }
         adjustSize();
-        adjustMorePanelTextView();
+        adjustMorePanelLayout();
 
         layoutManager.scrollToPositionWithOffset(0, 0);
 

@@ -107,6 +107,7 @@ public class MainActivity extends ActionBarActivity
 
     private MainAdView mBannerAdView;
     private NewsImageLoader mImageLoader;
+    private Menu mMenu;
 
     // Quit Ad Dialog
     private AdRequest mQuitAdRequest;
@@ -440,6 +441,34 @@ public class MainActivity extends ActionBarActivity
         } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+        // 언어가 바뀔 경우를 대비해 항상 새로 메뉴를 만들어줌
+        makeMenu();
+    }
+
+    private void makeMenu() {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if (mMenu != null) {
+            mMenu.removeItem(R.id.action_newsfeed_overflow);
+            SubMenu subMenu = mMenu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
+            subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
+
+            subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
+            subMenu.add(Menu.NONE, R.id.action_edition, 1, R.string.action_edition);
+            subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
+            subMenu.add(Menu.NONE, R.id.action_settings, 3, R.string.action_settings);
+            subMenu.add(Menu.NONE, R.id.action_rate_app, 4, R.string.action_rate_app);
+            subMenu.add(Menu.NONE, R.id.action_facebook_like, 5, R.string.action_facebook_like);
+
+            if (DebugSettings.isDebugBuild()) {
+                subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
+                subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
+                subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");
+                subMenu.add(Menu.NONE, R.id.action_service_log, 9, "Show service log(Debug)");
+                subMenu.add(Menu.NONE, R.id.action_trigger_notification, 10, "Notification(Debug)");
+            }
+            MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+        }
     }
 
     @Override
@@ -484,25 +513,8 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
-        subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
-
-        subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
-        subMenu.add(Menu.NONE, R.id.action_edition, 1, R.string.action_edition);
-        subMenu.add(Menu.NONE, R.id.action_info, 2, R.string.action_info);
-        subMenu.add(Menu.NONE, R.id.action_settings, 3, R.string.action_settings);
-        subMenu.add(Menu.NONE, R.id.action_rate_app, 4, R.string.action_rate_app);
-        subMenu.add(Menu.NONE, R.id.action_facebook_like, 5, R.string.action_facebook_like);
-
-        if (DebugSettings.isDebugBuild()) {
-            subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
-            subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_service_log, 9, "Show service log(Debug)");
-            subMenu.add(Menu.NONE, R.id.action_trigger_notification, 10, "Notification(Debug)");
-        }
-        MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+        mMenu = menu;
+        makeMenu();
         return true;
     }
 

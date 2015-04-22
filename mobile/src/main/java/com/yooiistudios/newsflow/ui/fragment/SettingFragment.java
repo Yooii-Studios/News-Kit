@@ -34,6 +34,7 @@ import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newsflow.core.panelmatrix.PanelMatrixUtils;
 import com.yooiistudios.newsflow.iab.IabProducts;
 import com.yooiistudios.newsflow.model.Settings;
+import com.yooiistudios.newsflow.ui.activity.SettingActivity;
 import com.yooiistudios.newsflow.ui.activity.StoreActivity;
 import com.yooiistudios.newsflow.ui.adapter.SettingAdapter;
 import com.yooiistudios.newsflow.util.AnalyticsUtils;
@@ -166,6 +167,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     public void onSelectLanguage(int index) {
         LanguageUtils.setCurrentLanguage(Language.valueOf(index), getActivity());
         // TODO: 언어의 선택 통계 Google Analytics 나중에 구현할 것
+        ((SettingActivity) getActivity()).setToolbarTitle(getString(R.string.action_settings));
         mSettingAdapter.notifyDataSetChanged();
     }
 
