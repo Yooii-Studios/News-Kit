@@ -19,7 +19,7 @@ public class Settings {
     private static final String IS_FIRST_AUTO_REFRESH = "is_first_auto_refresh";
     private static final String NEWS_FEED_AUTO_SCROLL_KEY = "news_feed_auto_scroll_key";
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
-    private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 7;
+    private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
     private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
     private static final String KEEP_SCREEN_ON_KEY = "keep_screen_on_key";
