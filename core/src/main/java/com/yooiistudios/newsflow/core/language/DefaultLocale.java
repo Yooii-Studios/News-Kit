@@ -21,7 +21,6 @@ public class DefaultLocale {
                 context.getSharedPreferences(LOCALE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         prefs.edit().putString(COUNTRY_KEY, locale.getCountry()).apply();
         prefs.edit().putString(LANGUAGE_KEY, locale.getLanguage()).apply();
-
     }
 
     public static Locale loadDefaultLocale(Context context) {

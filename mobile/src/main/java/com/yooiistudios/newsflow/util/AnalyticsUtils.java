@@ -115,4 +115,30 @@ public class AnalyticsUtils {
                 .setLabel(language)
                 .build());
     }
+
+    // 첫 설치시 디바이스 언어 트래킹
+    public static void trackDefaultLanguage(NewsApplication application, String language) {
+        // Get tracker.
+        Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory("General")
+                .setAction("Default Language on first app launch")
+                .setLabel(language)
+                .build());
+    }
+
+    // 첫 설치시 디바이스 언어 트래킹
+    public static void trackDefaultCountry(NewsApplication application, String country) {
+        // Get tracker.
+        Tracker t = application.getTracker(NewsApplication.TrackerName.APP_TRACKER);
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory("General")
+                .setAction("Default Country on first app launch")
+                .setLabel(country)
+                .build());
+    }
 }

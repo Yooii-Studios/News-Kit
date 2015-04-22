@@ -32,6 +32,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
+import com.yooiistudios.newsflow.core.language.DefaultLocale;
 import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
@@ -66,6 +67,7 @@ import com.yooiistudios.newsflow.util.ReviewRequest;
 import com.yooiistudios.newsflow.util.ReviewUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -505,10 +507,20 @@ public class MainActivity extends ActionBarActivity
         AdUtils.showPopupAdIfSatisfied(this);
         if (AppLaunchCount.isFirstAppLaunch(this)) {
             NotificationAskUtils.showAskNotificationDialog(this);
+            trackDefulatLocale();
         }
         if (AppLaunchCount.isTimeToShowReviewRequestDialog(this)) {
             ReviewRequest.showDialog(this);
         }
+    }
+
+    private void trackDefulatLocale() {
+        // 첫 실행 시 디바이스 언어와 나라를 트래킹
+        Locale defaultLocale = DefaultLocale.loadDefaultLocale(this);
+        AnalyticsUtils.trackDefaultLanguage((NewsApplication) getApplication(),
+                defaultLocale.getLanguage());
+        AnalyticsUtils.trackDefaultCountry((NewsApplication) getApplication(),
+                defaultLocale.getCountry());
     }
 
     @Override
