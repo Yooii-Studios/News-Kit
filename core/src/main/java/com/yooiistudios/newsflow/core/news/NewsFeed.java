@@ -261,6 +261,10 @@ public class NewsFeed implements Parcelable, RssFetchable {
         return mNewsFeedFetchState;
     }
 
+    public boolean isNotFetchedYet() {
+        return mNewsFeedFetchState.equals(NewsFeedFetchState.NOT_FETCHED_YET);
+    }
+
     public News getNextNews() {
         return mNewsList.get(getNextNewsIndex());
     }
