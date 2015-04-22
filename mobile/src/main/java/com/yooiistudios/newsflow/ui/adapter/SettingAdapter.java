@@ -60,6 +60,7 @@ public class SettingAdapter extends BaseAdapter {
             SettingItem item = SettingItem.values()[position];
             switch (item) {
                 case MAIN_SUB_HEADER:
+                case GENERAL_SUB_HEADER:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_sub_header, parent, false);
                     break;
 
@@ -71,8 +72,9 @@ public class SettingAdapter extends BaseAdapter {
                     break;
 
                 case KEEP_SCREEN_ON:
+                case NOTIFICATION:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_switch, parent, false);
-                    initKeepScreenOnItem(context, view);
+                    initSwitchItem(context, item, view);
                     break;
 
                 case MAIN_AUTO_REFRESH_SPEED:
@@ -80,14 +82,12 @@ public class SettingAdapter extends BaseAdapter {
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_seekbar, parent, false);
                     initSeekBarItem(context, item, view);
                     break;
-
-                case TUTORIAL:
-                    view = LayoutInflater.from(context).inflate(R.layout.setting_item_single, parent, false);
-                    break;
             }
 
-            TextView titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
-            titleTextView.setText(item.getTitleResId());
+            if (view != null) {
+                TextView  titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
+                titleTextView.setText(item.getTitleResId());
+            }
 
             // TODO 나중에 폰트의 영어 높이가 너무 높은 부분에 대해서 고민하기. 마이너스 마진을 통해서 해결해야 하지 않을까 생각
 //            if (item == SettingItem.MAIN_SUB_HEADER || item == SettingItem.NEWS_FEED_SUB_HEADER) {
@@ -128,15 +128,25 @@ public class SettingAdapter extends BaseAdapter {
         }
     }
 
-    private static void initKeepScreenOnItem(final Context context, View view) {
-        SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
-        keepScreenSwitch.setChecked(Settings.isKeepScreenOn(context));
-        keepScreenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.setKeepScreenOn(context, isChecked);
-            }
-        });
+    private static void initSwitchItem(final Context context, SettingItem item, View view) {
+        SwitchCompat switchCompat = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
+        if (item == SettingItem.KEEP_SCREEN_ON) {
+            switchCompat.setChecked(Settings.isKeepScreenOn(context));
+            switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Settings.setKeepScreenOn(context, isChecked);
+                }
+            });
+        } else if (item == SettingItem.NOTIFICATION) {
+            switchCompat.setChecked(Settings.isNotificationOn(context));
+            switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Settings.setNotification(context, isChecked);
+                }
+            });
+        }
     }
 
     private static void initSeekBarItem(final Context context, SettingItem item, final View view) {

@@ -55,14 +55,15 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener,
         AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener {
     public enum SettingItem {
-        LANGUAGE(R.string.setting_language),
-        KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
-        TUTORIAL(R.string.setting_tutorial),
-
         MAIN_SUB_HEADER(R.string.setting_main_sub_header),
         MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
         MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
+
+        GENERAL_SUB_HEADER(R.string.setting_general_sub_header),
+        NOTIFICATION(R.string.setting_notification),
+        KEEP_SCREEN_ON(R.string.setting_keep_screen_on),
         MAIN_PANEL_MATRIX(R.string.setting_main_panel_matrix),
+        LANGUAGE(R.string.setting_language),
 
         PAIR_TV(R.string.setting_pair_tv);
 
@@ -158,10 +159,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
             case PAIR_TV:
                 showPairTVDialogFragment();
                 break;
-
-            case TUTORIAL:
-                showTutorial();
-                break;
         }
     }
 
@@ -182,11 +179,6 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
         SwitchCompat keepScreenSwitch = (SwitchCompat) view.findViewById(R.id.setting_item_switch);
         keepScreenSwitch.setChecked(!isChecked);
-    }
-
-    private void showTutorial() {
-        // TODO 나중에 튜토리얼이 개발된 뒤 boolean 값으로 메인에서 볼 수 있게 해 주자
-        Toast.makeText(getActivity(), "In developing...", Toast.LENGTH_SHORT).show();
     }
 
     private void showAutoRefreshInterval() {

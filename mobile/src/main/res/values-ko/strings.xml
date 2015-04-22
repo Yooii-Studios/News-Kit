@@ -131,4 +131,8 @@
 
     <!-- General -->
     <string name="add_more_panels">뉴스 패널 더 추가하기</string>
+
+    <!-- Setting -->
+    <string name="setting_general_sub_header">일반</string>
+    <string name="setting_notification">알림</string>
 </resources>

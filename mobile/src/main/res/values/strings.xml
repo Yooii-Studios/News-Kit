@@ -141,4 +141,8 @@
     <string name="rate_it_rate">Rate</string>
     <string name="rate_it_no_thanks">Rate later</string>
     <string name="rate_news_kit_title">Rate News Kit</string>
+
+    <!-- Setting -->
+    <string name="setting_general_sub_header">General</string>
+    <string name="setting_notification">Notification</string>
 </resources>
