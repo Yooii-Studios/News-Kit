@@ -115,7 +115,7 @@
 
     <!-- Notification -->
     <string name="notification_title">Good Morning!</string>
-    <string name="notification_description">Your News Kit is ready to read.</string>
+    <string name="notification_description">Your morning news is ready.</string>
     <string name="notification_ask_description">Would you like to receive news notification?</string>
 
     <!-- Error Message -->
@@ -132,7 +132,7 @@
     <!-- Morning Kit Ad -->
     <string name="morningkit_ad_app_name">Morning Kit</string>
     <string name="morningkit_ad_description">Alarm + Info Panels</string>
-    <string name="morningkit_ad_guide_text">Use it with News Kit!</string>
+    <string name="morningkit_ad_guide_text">Everything you need in the morning at a glance!</string>
     <string name="download">Download</string>
     <string name="close">Close</string>
 

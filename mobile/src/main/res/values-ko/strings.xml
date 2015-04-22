@@ -115,7 +115,7 @@
 
     <!-- Notification -->
     <string name="notification_title">좋은 아침입니다!</string>
-    <string name="notification_description">새 뉴스키트가 도착했습니다.</string>
+    <string name="notification_description">새 뉴스가 도착했습니다.</string>
     <string name="notification_ask_description">뉴스 알림을 받으시겠습니까?</string>
 
     <!-- Error Message -->
@@ -126,7 +126,7 @@
 
     <!-- Morning Kit Ad -->
     <string name="ad_morning_kit_app_name">모닝키트</string>
-    <string name="ad_morning_kit_guide_text">뉴스키트와 함께 사용하세요!</string>
+    <string name="ad_morning_kit_guide_text">아침에 필요한 모든 정보를 한 눈에!</string>
     <string name="ad_morning_kit_description">알람 + 정보 패널</string>
 
     <!-- General -->
