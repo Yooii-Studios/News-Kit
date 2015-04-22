@@ -282,7 +282,7 @@ public class MainBottomContainerLayout extends FrameLayout
             return false;
         }
         for (NewsFeed newsFeed : mAdapter.getNewsFeedList()) {
-            if (!newsFeed.isDisplayable()) {
+            if (newsFeed.isNotFetchedYet()) {
                 return false;
             }
         }
@@ -294,9 +294,11 @@ public class MainBottomContainerLayout extends FrameLayout
             return false;
         }
         for (NewsFeed newsFeed : mAdapter.getNewsFeedList()) {
-//            newsFeed.getDisplayingNews().getImageUrlState()
-            if (!newsFeed.isDisplayable()) {
+            if (newsFeed.isNotFetchedYet()) {
                 return false;
+            }
+            if (!newsFeed.isDisplayable()) {
+                continue;
             }
             News news = newsFeed.getDisplayingNews();
             if (news.hasImageUrl() &&
