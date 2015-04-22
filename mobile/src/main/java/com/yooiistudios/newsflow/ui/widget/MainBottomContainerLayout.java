@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdSize;
 import com.yooiistudios.newsflow.R;
@@ -75,7 +74,7 @@ public class MainBottomContainerLayout extends FrameLayout
         MainBottomAdapter.OnBindMainBottomViewHolderListener {
 
     @InjectView(R.id.bottom_news_feed_recycler_view) RecyclerView mBottomNewsFeedRecyclerView;
-    @InjectView(R.id.bottom_news_feed_more_panel_textview) TextView mMorePanelTextView;
+    @InjectView(R.id.bottom_news_feed_more_panel_layout) FrameLayout mMorePanelLayout;
 
     private static final int COLUMN_COUNT_PORTRAIT = 2;
     private static final int COLUMN_COUNT_LANDSCAPE = 1;
@@ -200,7 +199,7 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void initMorePanelTextView() {
-        mMorePanelTextView.setOnClickListener(new OnClickListener() {
+        mMorePanelLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 getContext().startActivity(new Intent(getContext(), StoreActivity.class));
@@ -244,14 +243,14 @@ public class MainBottomContainerLayout extends FrameLayout
     private void adjustMorePanelTextView() {
         if (Device.isPortrait(getContext()) &&
                 !IabProducts.containsSku(getContext(), IabProducts.SKU_MORE_PANELS)) {
-            mMorePanelTextView.setVisibility(View.VISIBLE);
+            mMorePanelLayout.setVisibility(View.VISIBLE);
 
             // 스마트 배너 높이 만큼으로 높이를 잡아줌
-            mMorePanelTextView.getLayoutParams().height =
+            mMorePanelLayout.getLayoutParams().height =
                     AdSize.SMART_BANNER.getHeightInPixels(getContext());
         } else {
-            mMorePanelTextView.setVisibility(View.GONE);
-            mMorePanelTextView.getLayoutParams().height = 0;
+            mMorePanelLayout.setVisibility(View.GONE);
+            mMorePanelLayout.getLayoutParams().height = 0;
         }
     }
 

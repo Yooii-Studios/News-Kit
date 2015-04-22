@@ -126,7 +126,7 @@
 
     <!-- 출시시 정렬 다시할 추가 스트링-->
     <!-- General -->
-    <string name="add_more_panels">Add more news panels</string>
+    <string name="add_more_panels">Add More News Panels</string>
     <string name="app_name_full">News Kit</string>
 
     <!-- Morning Kit Ad -->
