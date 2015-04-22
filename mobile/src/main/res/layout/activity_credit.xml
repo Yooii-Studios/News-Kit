@@ -15,6 +15,12 @@
         app:title="@string/info_credit"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info_credit_toolbar"
+        android:background="@drawable/header_shadow"/>
+
     <ListView
         android:id="@+id/info_credit_list_view"
         android:layout_width="match_parent"

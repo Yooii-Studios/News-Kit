@@ -5,15 +5,6 @@
     tools:context=".StoreActivity"
     android:background="@android:color/white">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/store_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/store_color_primary"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
-
     <LinearLayout
         android:id="@+id/store_banner_layout_wrapper"
         android:layout_width="match_parent"
@@ -293,5 +284,20 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:indeterminate="false" />
+
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/store_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/store_color_primary"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/store_toolbar"
+        android:background="@drawable/header_shadow"/>
 
 </RelativeLayout>

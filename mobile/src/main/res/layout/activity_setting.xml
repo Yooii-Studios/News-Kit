@@ -23,12 +23,20 @@
         android:layout_height="match_parent"
         android:layout_below="@id/setting_toolbar"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_toolbar"
+        android:background="@drawable/header_shadow"/>
+
+    <!-- Debug -->
     <Button
         android:id="@+id/setting_debug_buy_pro_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="test full version"/>
+
     <Button
         android:id="@+id/setting_debug_reset_all_purchase"
         android:layout_width="wrap_content"

@@ -10,11 +10,17 @@
         android:id="@+id/info_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
         android:layout_alignParentTop="true"
+        android:minHeight="?attr/actionBarSize"
         android:background="@color/toolbar_background"
         app:title="@string/action_info"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info_toolbar"
+        android:background="@drawable/header_shadow"/>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

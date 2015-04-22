@@ -11,8 +11,7 @@
         android:background="#ffffff"
         android:dividerHeight="0dp"
         android:divider="#ffffffff"
-        android:paddingTop="@dimen/margin_inner"
-        android:paddingBottom="@dimen/margin_inner"
+        android:padding="@dimen/margin_inner"
         tools:listitem="@layout/more_info_license_item"/>
 
 </RelativeLayout>
