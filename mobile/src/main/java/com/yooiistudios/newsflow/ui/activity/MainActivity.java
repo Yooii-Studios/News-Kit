@@ -464,6 +464,15 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onBackgroundFadeOutAnimationEnd() {
         // 모든 애니메이션이 끝난 후 처리는 모두 여기서 함
+        initAfterAnimation();
+    }
+
+    private void initAfterAnimation() {
+        checkAppLaunchCount();
+        startNewsAutoRefreshIfReady();
+    }
+
+    private void checkAppLaunchCount() {
         AdUtils.showPopupAdIfSatisfied(this);
         if (AppLaunchCount.isFirstAppLaunch(this)) {
             NotificationAskUtils.showAskNotificationDialog(this);
@@ -619,7 +628,8 @@ public class MainActivity extends ActionBarActivity
 
     private void startNewsAutoRefreshIfReady() {
         if (mMainTopContainerLayout.isReady()
-                && mMainBottomContainerLayout.isAllImagesReady()) {
+                && mMainBottomContainerLayout.isAllImagesReady()
+                && mLoadingAnimationView.getVisibility() == View.GONE) {
             startNewsAutoRefresh();
         }
     }
@@ -677,7 +687,7 @@ public class MainActivity extends ActionBarActivity
             setRefreshing(false);
             setSwipeRefreshLayoutEnabled(true);
 //            NewsFeedArchiveUtils.saveRecentCacheMillisec(getApplicationContext());
-            startNewsAutoRefresh();
+            startNewsAutoRefreshIfReady();
         }
     }
 

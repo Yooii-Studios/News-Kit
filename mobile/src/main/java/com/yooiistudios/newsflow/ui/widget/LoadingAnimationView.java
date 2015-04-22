@@ -396,6 +396,7 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                setVisibility(View.GONE);
                 mIsAnimating = false;
                 mNeedToFinishPanelAnimation = false;
                 if (mListener != null) {
