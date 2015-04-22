@@ -663,7 +663,7 @@ public class MainActivity extends ActionBarActivity
             return;
         }
         mIsHandlerRunning = true;
-        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, Settings.getAutoRefreshHandlerDelay(this));
+        mNewsAutoRefreshHandler.sendEmptyMessageDelayed(0, Settings.getAutoRefreshInterval(this) * 1000);
     }
 
     private void stopNewsAutoRefresh() {
