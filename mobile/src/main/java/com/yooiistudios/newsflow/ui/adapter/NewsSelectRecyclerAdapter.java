@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.news.NewsFeed;
+import com.yooiistudios.newsflow.core.news.NewsFeedUrlType;
 import com.yooiistudios.newsflow.core.news.curation.NewsProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProviderCountry;
 import com.yooiistudios.newsflow.util.TypefaceUtils;
@@ -62,7 +63,9 @@ public class NewsSelectRecyclerAdapter extends
 
             // TODO: region 비교는 해야하나 아직 모르겠음. 언어와 국가 코드를 같이 비교하기에 region 은 상관없지
             // 않나 생각. 모든 뉴스 적용 후 나중에 확인 필요.(특히 간/번체) 아래 부분도 마찬가지.
-            if (mCurrentNewsFeed != null && mCurrentNewsFeed.getTopicLanguageCode().equals(newsProviderCountry.languageCode) &&
+            if (mCurrentNewsFeed != null &&
+                    mCurrentNewsFeed.getNewsFeedUrl().getType() == NewsFeedUrlType.GENERAL &&
+                    mCurrentNewsFeed.getTopicLanguageCode().equals(newsProviderCountry.languageCode) &&
                     mCurrentNewsFeed.getTopicCountryCode().equals(newsProviderCountry.countryCode)) {
                 Context context = newsSelectViewHolder.feedNameTextView.getContext();
                 newsSelectViewHolder.feedNameTextView.setTextColor(
@@ -80,7 +83,9 @@ public class NewsSelectRecyclerAdapter extends
 
             newsSelectViewHolder.feedNameTextView.setText(newsProvider.name);
 
-            if (mCurrentNewsFeed != null && mCurrentNewsFeed.getTopicLanguageCode().equals(newsProvider.languageCode) &&
+            if (mCurrentNewsFeed != null &&
+                    mCurrentNewsFeed.getNewsFeedUrl().getType() == NewsFeedUrlType.GENERAL &&
+                    mCurrentNewsFeed.getTopicLanguageCode().equals(newsProvider.languageCode) &&
                     mCurrentNewsFeed.getTopicCountryCode().equals(newsProvider.countryCode) &&
                     mCurrentNewsFeed.getTopicProviderId() == newsProvider.id) {
                 Context context = newsSelectViewHolder.feedNameTextView.getContext();
