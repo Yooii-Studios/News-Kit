@@ -3,6 +3,8 @@ package com.yooiistudios.newsflow.core.language;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.yooiistudios.newsflow.core.util.NLLog;
+
 import java.util.Locale;
 
 /**
@@ -19,6 +21,8 @@ public class DefaultLocale {
     public static void saveDefaultLocale(Context context, Locale locale) {
         SharedPreferences prefs =
                 context.getSharedPreferences(LOCALE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        NLLog.now("COUNTRY_KEY: " + locale.getCountry());
+        NLLog.now("LANGUAGE_KEY: " + locale.getLanguage());
         prefs.edit().putString(COUNTRY_KEY, locale.getCountry()).apply();
         prefs.edit().putString(LANGUAGE_KEY, locale.getLanguage()).apply();
     }

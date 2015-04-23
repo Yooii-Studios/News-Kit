@@ -45,7 +45,7 @@ public class DatabaseTest extends AndroidTestCase {
     private static ArrayList<NewsFeed> makeDummyNewsFeedList() {
         ArrayList<NewsFeed> dummyNewsFeedList = new ArrayList<>();
 
-        for (int newsFeedIndex = 0; newsFeedIndex < 6; newsFeedIndex++) {
+        for (int newsFeedIndex = 0; newsFeedIndex < 8; newsFeedIndex++) {
             NewsFeed dummyNewsFeed = makeDummyNewsFeed(newsFeedIndex);
 
             dummyNewsFeedList.add(dummyNewsFeed);
@@ -122,7 +122,7 @@ public class DatabaseTest extends AndroidTestCase {
 //    }
 
     public void testTopNewsFeedInsertion() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
         assertNotNull(dummyNewsFeed);
@@ -133,7 +133,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testTopNewsFeedQuery() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         // Retrieve from empty table
         NewsFeed loadedDefaultNewsFeed = NewsDb.getInstance(mContext).loadTopNewsFeed(mContext, false);
@@ -151,7 +151,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testTopNewsFeedUpdate() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
 
@@ -175,7 +175,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testBottomNewsFeedInsertion() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
         assertNotNull(dummyNewsFeedList);
@@ -189,7 +189,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testBottomNewsFeedQuery() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
         PanelMatrix currentMatrix = PanelMatrixUtils.getCurrentPanelMatrix(getContext());
 
         // Retrieve from empty table
@@ -208,7 +208,7 @@ public class DatabaseTest extends AndroidTestCase {
             checkNewsFeedEquals(loadedDefaultNewsFeedList.get(idx), defaultNewsFeedList.get(idx));
         }
 
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         // Save dummy and retrieve.
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
@@ -229,7 +229,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testBottomNewsFeedUpdate() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);
@@ -258,7 +258,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testTopNewsImageUrlUpdate() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         NewsFeed dummyNewsFeed = makeDummyNewsFeed(0);
         NewsDb.getInstance(mContext).saveTopNewsFeed(dummyNewsFeed);
@@ -284,7 +284,7 @@ public class DatabaseTest extends AndroidTestCase {
     }
 
     public void testBottomNewsImageUrlUpdate() {
-        NewsDb.getInstance(mContext).clearArchive();
+        NewsDb.getInstance(mContext).clearArchiveDebug();
 
         ArrayList<NewsFeed> dummyNewsFeedList = makeDummyNewsFeedList();
         NewsDb.getInstance(mContext).saveBottomNewsFeedList(dummyNewsFeedList);

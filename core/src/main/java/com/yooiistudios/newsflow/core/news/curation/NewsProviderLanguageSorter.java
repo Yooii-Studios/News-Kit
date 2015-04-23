@@ -2,12 +2,12 @@ package com.yooiistudios.newsflow.core.news.curation;
 
 import android.content.Context;
 
-import com.yooiistudios.newsflow.core.language.Language;
-import com.yooiistudios.newsflow.core.language.LanguageUtils;
+import com.yooiistudios.newsflow.core.language.DefaultLocale;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 /**
  * Created by Wooseong Kim in News-Android-L from Yooii Studios Co., LTD. on 15. 2. 25.
@@ -29,25 +29,32 @@ public class NewsProviderLanguageSorter {
         ArrayList<NewsProviderLanguage> clonedLanguageList = new ArrayList<>(newsProviderLanguageList);
 
         // 언어별로 특정 언어만 앞으로 빼고 나머지는 순서대로 표시
-        Language currentLanguage = LanguageUtils.getCurrentLanguage(context);
-        if (currentLanguage == Language.TRADITIONAL_CHINESE) {
+//        Language currentLanguage = LanguageUtils.getCurrentLanguage(context);
+
+        // 수정: 이사님께서 앱 지원 언어가 아닌 기기 언어를 기준으로 소팅을 원하셔서 수정
+        Locale defaultLocale = DefaultLocale.loadDefaultLocale(context);
+
+        if (defaultLocale.getLanguage().equals("zh") && defaultLocale.getCountry().equals("TW")) {
             // T-Chinese S-Chinese 우선정렬
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
-        } else if (currentLanguage == Language.JAPANESE) {
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
+        } else if (defaultLocale.getLanguage().equals("zh") && defaultLocale.getCountry().equals("CN")) {
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
+        } else if (defaultLocale.getCountry().equals("JP")) {
             // Japanese English Korean S-Chinese T-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ko", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
-        } else if (currentLanguage == Language.KOREAN) {
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
+        } else if (defaultLocale.getCountry().equals("KR")) {
             // Korean English Japanese S-Chinese T-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ko", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
         }
 
         for (NewsProviderLanguage newsProviderLanguage : newsProviderLanguageList) {

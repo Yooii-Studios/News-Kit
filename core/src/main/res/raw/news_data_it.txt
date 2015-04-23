@@ -1,0 +1,444 @@
+{
+    "lang_name_english": "Italian",
+    "lang_name_regional": "Italiano",
+    "lang_code": "it",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Italia",
+            "country_code": "IT",
+            "news_providers": [
+                {
+                    "provider_name": "Google News",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Prima pagina",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Consigliato per te",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Esteri",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Italia",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economia",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Scienza e tecnologia",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Intrattenimento",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salute",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "In evidenza",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=ir&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Corriere della Sera",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Corriere home - tutte le notizie",
+                            "topic_id": "1",
+                            "url": "http://xml.corriereobjects.it/rss/homepage.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Editoriali",
+                            "topic_id": "2",
+                            "url": "http://xml.corriereobjects.it/rss/editoriali.xml"
+                        },
+                        {
+                            "topic_name": "Cronache",
+                            "topic_id": "3",
+                            "url": "http://xml.corriereobjects.it/rss/cronache.xml"
+                        },
+                        {
+                            "topic_name": "Politica",
+                            "topic_id": "4",
+                            "url": "http://xml.corriereobjects.it/rss/politica.xml"
+                        },
+                        {
+                            "topic_name": "Esteri",
+                            "topic_id": "5",
+                            "url": "http://xml.corriereobjects.it/rss/esteri.xml"
+                        },
+                        {
+                            "topic_name": "Economia",
+                            "topic_id": "6",
+                            "url": "http://xml.corriereobjects.it/rss/economia.xml"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "7",
+                            "url": "http://xml.corriereobjects.it/rss/cultura.xml"
+                        },
+                        {
+                            "topic_name": "Spettacoli",
+                            "topic_id": "8",
+                            "url": "http://xml.corriereobjects.it/rss/spettacoli.xml"
+                        },
+                        {
+                            "topic_name": "Cinema e Tv",
+                            "topic_id": "9",
+                            "url": "http://xml.corriereobjects.it/rss/cinema.xml"
+                        },
+                        {
+                            "topic_name": "Scienze",
+                            "topic_id": "10",
+                            "url": "http://xml.corriereobjects.it/rss/scienze.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "11",
+                            "url": "http://xml.corriereobjects.it/rss/sport.xml"
+                        },
+                        {
+                            "topic_name": "Motori",
+                            "topic_id": "12",
+                            "url": "http://xml.corriereobjects.it/rss/motori.xml"
+                        },
+                        {
+                            "topic_name": "Ambiente",
+                            "topic_id": "13",
+                            "url": "http://xml.corriereobjects.it/rss/ambiente.xml"
+                        },
+                        {
+                            "topic_name": "Animali",
+                            "topic_id": "14",
+                            "url": "http://xml.corriereobjects.it/rss/animali.xml"
+                        },
+                        {
+                            "topic_name": "Salute",
+                            "topic_id": "15",
+                            "url": "http://xml.corriereobjects.it/rss/salute.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "la Repubblica",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Homepage",
+                            "topic_id": "1",
+                            "url": "http://www.repubblica.it/rss/homepage/rss2.0.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Ambiente",
+                            "topic_id": "2",
+                            "url": "http://www.repubblica.it/rss/ambiente/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Mondo Solidale",
+                            "topic_id": "3",
+                            "url": "http://www.repubblica.it/rss/solidarieta/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Persone",
+                            "topic_id": "4",
+                            "url": "http://www.repubblica.it/rss/persone/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Salute",
+                            "topic_id": "5",
+                            "url": "http://www.repubblica.it/rss/salute/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Scienze",
+                            "topic_id": "6",
+                            "url": "http://www.repubblica.it/rss/scienze/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Tecnologia",
+                            "topic_id": "7",
+                            "url": "http://www.repubblica.it/rss/tecnologia/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "8",
+                            "url": "http://www.repubblica.it/rss/sport/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Arte",
+                            "topic_id": "9",
+                            "url": "http://www.repubblica.it/rss/speciali/arte/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Spettacoli e Cultura",
+                            "topic_id": "10",
+                            "url": "http://www.repubblica.it/rss/spettacoli_e_cultura/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Viaggi",
+                            "topic_id": "11",
+                            "url": "http://viaggi.repubblica.it/rss/homepage"
+                        },
+                        {
+                            "topic_name": "Motori",
+                            "topic_id": "12",
+                            "url": "http://www.repubblica.it/rss/motori/rss2.0.xml"
+                        },
+                        {
+                            "topic_name": "Casa",
+                            "topic_id": "13",
+                            "url": "http://temi.repubblica.it/casa/feed/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Il Sole 24 Ore",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Il Sole 24 Ore.com Prima Pagina",
+                            "topic_id": "1",
+                            "url": "http://www.ilsole24ore.com/rss/primapagina.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Italia",
+                            "topic_id": "2",
+                            "url": "http://www.ilsole24ore.com/rss/notizie.xml"
+                        },
+                        {
+                            "topic_name": "Attualità",
+                            "topic_id": "3",
+                            "url": "http://www.ilsole24ore.com/rss/notizie/attualita.xml"
+                        },
+                        {
+                            "topic_name": "Politica",
+                            "topic_id": "4",
+                            "url": "http://www.ilsole24ore.com/rss/notizie/politica.xml"
+                        },
+                        {
+                            "topic_name": "Politica economica",
+                            "topic_id": "5",
+                            "url": "http://www.ilsole24ore.com/rss/notizie/politica-economia.xml"
+                        },
+                        {
+                            "topic_name": "Americhe",
+                            "topic_id": "6",
+                            "url": "http://www.ilsole24ore.com/rss/notizie/americhe.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://www.ilsole24ore.com/rss/notizie/sport.xml"
+                        },
+                        {
+                            "topic_name": "Mondo",
+                            "topic_id": "8",
+                            "url": "http://www.ilsole24ore.com/rss/mondo.xml"
+                        },
+                        {
+                            "topic_name": "Analisi e inchieste",
+                            "topic_id": "9",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/mondo24.xml"
+                        },
+                        {
+                            "topic_name": "Macroeconomia",
+                            "topic_id": "10",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/macroeconomia.xml"
+                        },
+                        {
+                            "topic_name": "Europa",
+                            "topic_id": "11",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/europa.xml"
+                        },
+                        {
+                            "topic_name": "Usa",
+                            "topic_id": "12",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/usa.xml"
+                        },
+                        {
+                            "topic_name": "Americhe",
+                            "topic_id": "13",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/americhe.xml"
+                        },
+                        {
+                            "topic_name": "Medio oriente e africa",
+                            "topic_id": "14",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/medio-oriente-e-africa.xml"
+                        },
+                        {
+                            "topic_name": "Asia e oceania",
+                            "topic_id": "15",
+                            "url": "http://www.ilsole24ore.com/rss/mondo/asia-e-oceania.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Gazzetta dello Sport",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Gazzetta (tutte le notizie)",
+                            "topic_id": "1",
+                            "url": "http://www.gazzetta.it/rss/home.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Calcio",
+                            "topic_id": "2",
+                            "url": "http://www.gazzetta.it/rss/calcio.xml"
+                        },
+                        {
+                            "topic_name": "Serie A",
+                            "topic_id": "3",
+                            "url": "http://www.gazzetta.it/rss/serie-a.xml"
+                        },
+                        {
+                            "topic_name": "Serie B",
+                            "topic_id": "4",
+                            "url": "http://www.gazzetta.it/rss/serie-b.xml"
+                        },
+                        {
+                            "topic_name": "Calciomercato",
+                            "topic_id": "5",
+                            "url": "http://www.gazzetta.it/rss/calciomercato.xml"
+                        },
+                        {
+                            "topic_name": "Calcio Estero",
+                            "topic_id": "6",
+                            "url": "http://www.gazzetta.it/rss/calcio-estero.xml"
+                        },
+                        {
+                            "topic_name": "Automobilismo",
+                            "topic_id": "7",
+                            "url": "http://www.gazzetta.it/rss/automobilismo.xml"
+                        },
+                        {
+                            "topic_name": "Formula 1",
+                            "topic_id": "8",
+                            "url": "http://www.gazzetta.it/rss/formula-1.xml"
+                        },
+                        {
+                            "topic_name": "Motociclismo",
+                            "topic_id": "9",
+                            "url": "http://www.gazzetta.it/rss/motociclismo.xml"
+                        },
+                        {
+                            "topic_name": "Motomondiale",
+                            "topic_id": "10",
+                            "url": "http://www.gazzetta.it/rss/Motomondiale.xml"
+                        },
+                        {
+                            "topic_name": "Passione Motori",
+                            "topic_id": "11",
+                            "url": "http://www.gazzetta.it/rss/passione-motori.xml"
+                        },
+                        {
+                            "topic_name": "Ciclismo",
+                            "topic_id": "12",
+                            "url": "http://www.gazzetta.it/rss/ciclismo.xml"
+                        },
+                        {
+                            "topic_name": "Basket",
+                            "topic_id": "13",
+                            "url": "http://www.gazzetta.it/rss/basket.xml"
+                        },
+                        {
+                            "topic_name": "Nba",
+                            "topic_id": "14",
+                            "url": "http://www.gazzetta.it/rss/nba.xml"
+                        },
+                        {
+                            "topic_name": "Eurolega",
+                            "topic_id": "15",
+                            "url": "http://www.gazzetta.it/rss/eurolega.xml"
+                        },
+                        {
+                            "topic_name": "Tennis",
+                            "topic_id": "16",
+                            "url": "http://www.gazzetta.it/rss/tennis.xml"
+                        },
+                        {
+                            "topic_name": "Rugby",
+                            "topic_id": "17",
+                            "url": "http://www.gazzetta.it/rss/rugby.xml"
+                        },
+                        {
+                            "topic_name": "Altre Passioni",
+                            "topic_id": "18",
+                            "url": "http://www.gazzetta.it/rss/altre-passioni.xml"
+                        },
+                        {
+                            "topic_name": "Atletica",
+                            "topic_id": "19",
+                            "url": "http://www.gazzetta.it/rss/atletica.xml"
+                        },
+                        {
+                            "topic_name": "Golf",
+                            "topic_id": "20",
+                            "url": "http://www.gazzetta.it/rss/golf.xml"
+                        },
+                        {
+                            "topic_name": "Nuoto",
+                            "topic_id": "21",
+                            "url": "http://www.gazzetta.it/rss/nuoto.xml"
+                        },
+                        {
+                            "topic_name": "Sport Invernali",
+                            "topic_id": "22",
+                            "url": "http://www.gazzetta.it/rss/sport-invernali.xml"
+                        },
+                        {
+                            "topic_name": "Sport Usa",
+                            "topic_id": "23",
+                            "url": "http://www.gazzetta.it/rss/sport-usa.xml"
+                        },
+                        {
+                            "topic_name": "Volley",
+                            "topic_id": "24",
+                            "url": "http://www.gazzetta.it/rss/volley.xml"
+                        },
+                        {
+                            "topic_name": "Sport Vari",
+                            "topic_id": "25",
+                            "url": "http://www.gazzetta.it/rss/altri-sport.xml"
+                        },
+                        {
+                            "topic_name": "Milano e Lombardia",
+                            "topic_id": "26",
+                            "url": "http://www.gazzetta.it/rss/milano.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -9,8 +9,55 @@
             "country_code": "FR",
             "news_providers": [
                 {
-                    "provider_name": "Le Pigaro",
+                    "provider_name": "Google Actualités",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "À la une",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "France",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Science/High-Tech",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Santé",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Le Figaro",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "A la une",
@@ -61,8 +108,8 @@
                     ]
                 },
                 {
-                    "provider_name": "Le monde",
-            	    "provider_id": "2",
+                    "provider_name": "Le Monde",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "A la une",
@@ -123,49 +170,59 @@
                     ]
                 },
                 {
-                    "provider_name": "Google",
-            	    "provider_id": "3",
+                    "provider_name": "Libération",
+            	    "provider_id": "4",
             	    "topics": [
                         {
-                            "topic_name": "A la une",
+                            "topic_name": "A la une sur Libération",
                             "topic_id": "1",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&output=rss",
+                            "url": "http://rss.liberation.fr/rss/9/",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "International",
+                            "topic_name": "charlie hebdo",
                             "topic_id": "2",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=w&output=rss"
+                            "url": "http://rss.liberation.fr/rss/100494/"
                         },
                         {
-                            "topic_name": "France",
+                            "topic_name": "Cinéma",
                             "topic_id": "3",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=n&output=rss"
+                            "url": "http://rss.liberation.fr/rss/58/"
                         },
                         {
-                            "topic_name": "Économie",
+                            "topic_name": "Economie",
                             "topic_id": "4",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=b&output=rss"
+                            "url": "http://rss.liberation.fr/rss/13/"
                         },
                         {
-                            "topic_name": "Science/High-Tech",
+                            "topic_name": "Ecrans",
                             "topic_id": "5",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=t&output=rss"
+                            "url": "http://rss.liberation.fr/rss/53/"
                         },
                         {
-                            "topic_name": "Culture",
+                            "topic_name": "Le cannabis en débat",
                             "topic_id": "6",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=e&output=rss"
+                            "url": "http://rss.liberation.fr/rss/100416/"
                         },
                         {
-                            "topic_name": "Sport",
+                            "topic_name": "Monde",
                             "topic_id": "7",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=s&output=rss"
+                            "url": "http://rss.liberation.fr/rss/10/"
                         },
                         {
-                            "topic_name": "Santé",
+                            "topic_name": "Politiques",
                             "topic_id": "8",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=fr&hl=fr&topic=m&output=rss"
+                            "url": "http://rss.liberation.fr/rss/11/"
+                        },
+                        {
+                            "topic_name": "Société",
+                            "topic_id": "9",
+                            "url": "http://rss.liberation.fr/rss/12/"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "10",
+                            "url": "http://rss.liberation.fr/rss/14/"
                         }
                     ]
                 }
@@ -176,54 +233,148 @@
             "country_code": "CA",
             "news_providers": [
                 {
-                    "provider_name": "La presse",
+                    "provider_name": "Google Actualités",
             	    "provider_id": "1",
             	    "topics": [
                         {
-                            "topic_name": "ACCUEIL",
+                            "topic_name": "À la une",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Canada",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Science/High-Tech",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Santé",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Le Journal de Montréal",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Dernières nouvelles du site",
+                            "topic_id": "1",
+                            "url": "http://www.journaldemontreal.com/accueil/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Actualité",
+                            "topic_id": "2",
+                            "url": "http://www.journaldemontreal.com/actualite/rss.xml"
+                        },
+                        {
+                            "topic_name": "Enquêtes",
+                            "topic_id": "3",
+                            "url": "http://www.journaldemontreal.com/enquetes/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "4",
+                            "url": "http://www.journaldemontreal.com/sports/rss.xml"
+                        },
+                        {
+                            "topic_name": "Spectacles",
+                            "topic_id": "5",
+                            "url": "http://www.journaldemontreal.com/spectacles/rss.xml"
+                        },
+                        {
+                            "topic_name": "JM",
+                            "topic_id": "6",
+                            "url": "http://www.journaldemontreal.com/jm/rss.xml"
+                        },
+                        {
+                            "topic_name": "Le sac de chips",
+                            "topic_id": "7",
+                            "url": "http://www.journaldemontreal.com/lesacdechips/rss.xml"
+                        },
+                        {
+                            "topic_name": "Opinions",
+                            "topic_id": "8",
+                            "url": "http://www.journaldemontreal.com/opinion/rss.xml"
+                        },
+                        {
+                            "topic_name": "Argent",
+                            "topic_id": "9",
+                            "url": "http://www.journaldemontreal.com/argent/rss.xml"
+                        },
+                        {
+                            "topic_name": "Vacances",
+                            "topic_id": "10",
+                            "url": "http://www.journaldemontreal.com/vacances/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Presse",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "accueil manchettes",
                             "topic_id": "1",
                             "url": "http://www.lapresse.ca/rss/225.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "ACTUALITÉS",
+                            "topic_name": "actualités",
                             "topic_id": "2",
                             "url": "http://www.lapresse.ca/rss/178.xml"
                         },
                         {
-                            "topic_name": "INTERNATIONAL",
+                            "topic_name": "international",
                             "topic_id": "3",
                             "url": "http://www.lapresse.ca/rss/179.xml"
                         },
                         {
-                            "topic_name": "AFFAIRES",
+                            "topic_name": "sports",
                             "topic_id": "4",
                             "url": "http://www.lapresse.ca/rss/229.xml"
                         },
                         {
-                            "topic_name": "SPORTS",
+                            "topic_name": "arts",
                             "topic_id": "5",
                             "url": "http://www.lapresse.ca/rss/216.xml"
                         },
                         {
-                            "topic_name": "ARTS",
+                            "topic_name": "environnement",
                             "topic_id": "6",
                             "url": "http://www.lapresse.ca/rss/241.xml"
                         },
                         {
-                            "topic_name": "DÉBATS",
+                            "topic_name": "affaires",
                             "topic_id": "7",
-                            "url": "http://www.lapresse.ca/rss/8314.xml"
+                            "url": "http://affaires.lapresse.ca/rss/100.xml"
                         },
                         {
-                            "topic_name": "CINEMA",
+                            "topic_name": "cinéma",
                             "topic_id": "8",
                             "url": "http://www.lapresse.ca/rss/238.xml"
-                        },
-                        {
-                            "topic_name": "CV",
-                            "topic_id": "9",
-                            "url": "http://affaires.lapresse.ca/rss/2733.xml"
                         }
                     ]
                 }

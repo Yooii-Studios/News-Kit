@@ -9,8 +9,65 @@
             "country_code": "TW",
             "news_providers": [
                 {
-                    "provider_name": "自由時報",
+                    "provider_name": "Google 新聞",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "焦點新聞",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "台灣",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "科技",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "體育",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "娛樂",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "兩岸",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=c&output=rss"
+                        },
+                        {
+                            "topic_name": "社會",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=y&output=rss"
+                        },
+                        {
+                            "topic_name": "健康",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "自由時報",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "頭版",
@@ -97,7 +154,7 @@
                 },
                 {
                     "provider_name": "蘋果日報",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "最新",
@@ -204,7 +261,7 @@
                 },
                 {
                     "provider_name": "聯合報",
-            	    "provider_id": "3",
+            	    "provider_id": "4",
             	    "topics": [
                         {
                             "topic_name": "要聞",
@@ -256,7 +313,7 @@
                 },
                 {
                     "provider_name": "中國時報",
-            	    "provider_id": "4",
+            	    "provider_id": "5",
             	    "topics": [
                         {
                             "topic_name": "總覽",
@@ -313,6 +370,53 @@
                             "topic_name": "科技",
                             "topic_id": "11",
                             "url": "http://feeds.feedburner.com/chinatimes/realtimenews-technology"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Google 新聞",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "焦點新聞",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "香港",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "兩岸",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=c&output=rss"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "體育",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "娛樂",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "科技",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=t&output=rss"
                         }
                     ]
                 }

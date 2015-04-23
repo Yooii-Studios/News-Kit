@@ -619,7 +619,7 @@ public class NewsDb {
         return newsList;
     }
 
-    public void clearArchive() {
+    public void clearArchiveDebug() {
         mDatabase.execSQL("DELETE FROM " + NewsFeedEntry.TABLE_NAME);
         mDatabase.execSQL("DELETE FROM " + NewsEntry.TABLE_NAME);
         mDatabase.execSQL("DELETE FROM " + NewsContentEntry.TABLE_NAME);

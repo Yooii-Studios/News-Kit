@@ -191,8 +191,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
         // TextAppearance_Body2 -> sans-serif-medium, 14sp
         // 이후 크기와 색만큼은 변경
         textView.setTextAppearance(getContext(), R.style.TextAppearance_AppCompat_Body2);
-        textView.setTypeface(TypefaceUtils.getMediumTypeface(getContext())); // 모든 API, 언어에 적용하기 위해 강제로 설정
         textView.setTextColor(getResources().getColor(R.color.news_select_disabled_text_color)); // black with opacity 54%
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelSize(R.dimen.text_size_body_2_material));
 
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
         textView.setPadding(padding, 0, padding, 0);
@@ -212,23 +213,27 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 // If there is a custom tab view layout id set, try and inflate it
                 tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
                         false);
-                tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
+                // tabTitleView 를 따로 안쓰고 그냥 TextView 를 inflate
+//                tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
             }
 
             if (tabView == null) {
                 tabView = createDefaultTabView(getContext());
-                // 최초 추가 시 텍스트 색을 선택됨으로 강제 변경
-                if (i == 0) {
-                    ((TextView) tabView).setTextColor(getResources().getColor(R.color.news_select_color_accent));
-                }
             }
 
-            if (tabTitleView == null && TextView.class.isInstance(tabView)) {
+            if (TextView.class.isInstance(tabView)) {
                 tabTitleView = (TextView) tabView;
             }
 
             if (tabTitleView != null) {
+                // 최초 추가 시 텍스트 색을 선택됨으로 강제 변경
+                if (i == 0) {
+                    tabTitleView.setTextColor(getResources().getColor(R.color.news_select_color_accent));
+                }
                 tabTitleView.setText(adapter.getPageTitle(i));
+
+                // 모든 API, 언어에 적용하기 위해 강제로 설정
+                tabTitleView.setTypeface(TypefaceUtils.getMediumTypeface(getContext()));
             }
             tabView.setOnClickListener(tabClickListener);
 

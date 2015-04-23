@@ -1,0 +1,158 @@
+{
+    "lang_name_english": "Finnish",
+    "lang_name_regional": "Suomi",
+    "lang_code": "fi",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Suomi",
+            "country_code": "FI",
+            "news_providers": [
+                {
+                    "provider_name": "Ilta-Sanomat",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Tuoreimmat uutisotsikot",
+                            "topic_id": "1",
+                            "url": "http://www.iltasanomat.fi/rss/tuoreimmat.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Kotimaa",
+                            "topic_id": "2",
+                            "url": "http://www.iltasanomat.fi/rss/kotimaa.xml"
+                        },
+                        {
+                            "topic_name": "Ulkomaat",
+                            "topic_id": "3",
+                            "url": "http://www.iltasanomat.fi/rss/ulkomaat.xml"
+                        },
+                        {
+                            "topic_name": "Tuoreimmat urheiluotsikot",
+                            "topic_id": "4",
+                            "url": "http://www.iltasanomat.fi/rss/urheilu.xml"
+                        },
+                        {
+                            "topic_name": "Viihdeuutiset",
+                            "topic_id": "5",
+                            "url": "http://www.iltasanomat.fi/rss/viihde.xml"
+                        },
+                        {
+                            "topic_name": "Hyvä olo",
+                            "topic_id": "6",
+                            "url": "http://www.iltasanomat.fi/rss/hyvaolo.xml"
+                        },
+                        {
+                            "topic_name": "Muoti & Kauneus",
+                            "topic_id": "7",
+                            "url": "http://www.iltasanomat.fi/rss/muotikauneus.xml"
+                        },
+                        {
+                            "topic_name": "Autot",
+                            "topic_id": "8",
+                            "url": "http://www.iltasanomat.fi/rss/autot.xml"
+                        },
+                        {
+                            "topic_name": "Matkat",
+                            "topic_id": "9",
+                            "url": "http://www.iltasanomat.fi/rss/matkat.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Helsingin Sanomat",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Tuoreinta uutisotsikkoa",
+                            "topic_id": "1",
+                            "url": "http://www.hs.fi/uutiset/rss/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Kotimaa:",
+                            "topic_id": "2",
+                            "url": "http://www.hs.fi/rss/?osastot=kotimaa"
+                        },
+                        {
+                            "topic_name": "Politiikka:",
+                            "topic_id": "3",
+                            "url": "http://www.hs.fi/rss/?osastot=politiikka"
+                        },
+                        {
+                            "topic_name": "Kaupunki:",
+                            "topic_id": "4",
+                            "url": "http://www.hs.fi/rss/?osastot=kaupunki"
+                        },
+                        {
+                            "topic_name": "Ulkomaat:",
+                            "topic_id": "5",
+                            "url": "http://www.hs.fi/rss/?osastot=ulkomaat"
+                        },
+                        {
+                            "topic_name": "Talous:",
+                            "topic_id": "6",
+                            "url": "http://www.hs.fi/rss/?osastot=talous"
+                        },
+                        {
+                            "topic_name": "Urheilu:",
+                            "topic_id": "7",
+                            "url": "http://www.hs.fi/rss/?osastot=urheilu"
+                        },
+                        {
+                            "topic_name": "Kulttuuri:",
+                            "topic_id": "8",
+                            "url": "http://www.hs.fi/rss/?osastot=kulttuuri"
+                        },
+                        {
+                            "topic_name": "Ruoka:",
+                            "topic_id": "9",
+                            "url": "http://www.hs.fi/rss/?osastot=ruoka"
+                        },
+                        {
+                            "topic_name": "Elämä & Terveys",
+                            "topic_id": "10",
+                            "url": "http://www.hs.fi/uutiset/osastoittain/rss?osastot=elama,koti,terveys,tyyli,matka,ihmiset"
+                        },
+                        {
+                            "topic_name": "Kuluttaja:",
+                            "topic_id": "11",
+                            "url": "http://www.hs.fi/rss/?osastot=kuluttaja"
+                        },
+                        {
+                            "topic_name": "Tiede:",
+                            "topic_id": "12",
+                            "url": "http://www.hs.fi/rss/?osastot=tiede"
+                        },
+                        {
+                            "topic_name": "Autot:",
+                            "topic_id": "13",
+                            "url": "http://www.hs.fi/rss/?osastot=autot"
+                        },
+                        {
+                            "topic_name": "Tekniikka:",
+                            "topic_id": "14",
+                            "url": "http://www.hs.fi/rss/?osastot=tekniikka"
+                        },
+                        {
+                            "topic_name": "Työelämä:",
+                            "topic_id": "15",
+                            "url": "http://www.hs.fi/rss/?osastot=työelämä"
+                        },
+                        {
+                            "topic_name": "Sunnuntai:",
+                            "topic_id": "16",
+                            "url": "http://www.hs.fi/rss/?osastot=sunnuntai"
+                        },
+                        {
+                            "topic_name": "Kuukausiliite:",
+                            "topic_id": "17",
+                            "url": "http://www.hs.fi/rss/?osastot=kuukausiliite"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

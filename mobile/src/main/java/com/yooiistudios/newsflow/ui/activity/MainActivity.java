@@ -33,6 +33,7 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.DefaultLocale;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
@@ -474,7 +475,7 @@ public class MainActivity extends ActionBarActivity
 
             if (DebugSettings.isDebugBuild()) {
                 subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
-                subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
+                subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug)");
                 subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");
                 subMenu.add(Menu.NONE, R.id.action_service_log, 9, "Show service log(Debug)");
                 subMenu.add(Menu.NONE, R.id.action_trigger_notification, 10, "Notification(Debug)");
@@ -568,6 +569,7 @@ public class MainActivity extends ActionBarActivity
         // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+            LanguageUtils.resetLanguageDebug(this);
         } else if (id == R.id.action_copy_db) {
             try {
                 NewsDb.copyDbToExternalStorage(this);
