@@ -195,6 +195,7 @@ public class BackgroundCacheUtils implements
 
     private void notifyCacheDone() {
         NLLog.now("notifyCacheDone");
+        NewsFeedArchiveUtils.saveBackgroundCacheAvailable(mContext);
         if (BackgroundServiceUtils.CacheTime.isTimeToIssueNotification(mCacheTime)
                 && Settings.isNotificationOn(mContext)) {
             NLLog.now("isNotificationOn");

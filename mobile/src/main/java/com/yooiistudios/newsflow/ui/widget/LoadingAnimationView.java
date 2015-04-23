@@ -10,14 +10,17 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.yooiistudios.newsflow.R;
+import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.ui.animation.AnimatorListenerImpl;
 import com.yooiistudios.newsflow.core.util.Device;
 import com.yooiistudios.newsflow.core.util.IntegerMath;
@@ -103,6 +106,27 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
                 return true;
             }
         });
+
+        if (DebugSettings.isDebugBuild()) {
+            Button dimCover = new Button(getContext());
+            dimCover.setText("Show/Hide(Debug)");
+            dimCover.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getAlpha() >= 1.0f) {
+                        setAlpha(0.5f);
+                    } else {
+                        setAlpha(1.0f);
+                    }
+                }
+            });
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+            addView(dimCover, params);
+        }
     }
 
     @Override

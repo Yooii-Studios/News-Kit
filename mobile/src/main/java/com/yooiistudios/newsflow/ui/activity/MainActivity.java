@@ -501,6 +501,7 @@ public class MainActivity extends ActionBarActivity
     private void initAfterAnimation() {
         checkAppLaunchCount();
         startNewsAutoRefreshIfReady();
+        NewsFeedArchiveUtils.saveBackgroundCacheUnavailable(getApplicationContext());
     }
 
     private void checkAppLaunchCount() {
