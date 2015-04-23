@@ -64,7 +64,6 @@ public class NewsFeedFetchUtil {
                     news.setGuid(news.getLink());
                 }
             }
-            refactorDescription(newsFeed);
         } catch(MalformedURLException | UnknownHostException e) {
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
@@ -106,7 +105,7 @@ public class NewsFeedFetchUtil {
         for (News news : newsFeed.getNewsList()) {
             // 뉴스 내용에 앞뒤로 공간이 있을 경우가 있어 첫 로딩 시 trim 을 적용해줌
             news.setTitle(news.getTitle().trim());
-            news.setDescription(news.getDescription().trim());
+            cleanUpNewsDescription(news);
 
             news.setLink(news.getLink().replaceAll("(\\r|\\n|\\t)", "").trim());
         }
@@ -128,23 +127,20 @@ public class NewsFeedFetchUtil {
         feed.setNewsList(trimmedNewsList);
     }
 
-    // TODO: cleanUpNewsContents 메서드로 넣어야 할듯
-    private static void refactorDescription(NewsFeed feed) {
-        for (News item : feed.getNewsList()) {
-            String desc = item.getDescription();
-            if (desc != null) {
-                item.setOriginalDescription(desc);
+    private static void cleanUpNewsDescription(News news) {
+        String desc = news.getDescription();
+        if (desc != null) {
+            news.setOriginalDescription(desc);
 
-                String strippedDesc = Html.fromHtml(desc.substring(0,
-                        desc.length())).toString();
+            String strippedDesc = Html.fromHtml(desc.substring(0,
+                    desc.length())).toString();
 
-                int length = strippedDesc.length() > MAX_DESCRIPTION_LENGTH ?
-                        MAX_DESCRIPTION_LENGTH : strippedDesc.length();
-                String refinedDesc = new StringBuilder(strippedDesc).substring
-                        (0, length).replaceAll(ILLEGAL_CHARACTER_OBJ, "")
-                        .replaceAll("\n", " ");
-                item.setDescription(refinedDesc);
-            }
+            int length = strippedDesc.length() > MAX_DESCRIPTION_LENGTH ?
+                    MAX_DESCRIPTION_LENGTH : strippedDesc.length();
+            String refinedDesc = new StringBuilder(strippedDesc).substring
+                    (0, length).replaceAll(ILLEGAL_CHARACTER_OBJ, "")
+                    .replaceAll("\n", " ").trim();
+            news.setDescription(refinedDesc);
         }
     }
 

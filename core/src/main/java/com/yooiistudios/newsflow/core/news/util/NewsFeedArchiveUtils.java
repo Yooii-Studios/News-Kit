@@ -16,9 +16,9 @@ public class NewsFeedArchiveUtils {
 
     private static final String KEY_NEWS_FEED_RECENT_REFRESH = "KEY_NEWS_FEED_RECENT_REFRESH";
     // 백그라운드 캐시가 읽힌 적이 있는지(유저가 본 적이 있는지)에 대한 정보
-    private static final String KEY_BACKGROUND_CACHE_AVAILABLE = "KEY_BACKGROUND_CACHE_AVAILABLE";
+    private static final String KEY_CACHE_UNREAD = "KEY_CACHE_UNREAD";
     // 유저가 처음 백그라운드 캐시를 읽은 시각
-    private static final String KEY_BACKGROUND_CACHE_READ_TIME = "KEY_BACKGROUND_CACHE_READ_TIME";
+    private static final String KEY_CACHE_READ_TIME = "KEY_CACHE_READ_TIME";
 
     // 6 Hours * 60 Min * 60 Sec * 1000 millisec = 6 Hours
     private static final long CACHE_EXPIRATION_LIMIT = 6 * 60 * 60 * 1000;
@@ -58,11 +58,10 @@ public class NewsFeedArchiveUtils {
 
         boolean isCacheExpired = timePastSinceRecentRefresh > expireLimit;
 
-        long timePastSinceFirstCacheRead = currentMillisec - getBackgroundCacheReadTime(context);
-        boolean backgroundCacheAvailable = isBackgroundCacheAvailable(context)
-                || timePastSinceFirstCacheRead < 10 * 60 * 1000;
+        long timePastSinceFirstCacheRead = currentMillisec - getCacheReadTime(context);
+        boolean cacheValid = isCacheUnread(context) || timePastSinceFirstCacheRead < 10 * 60 * 1000;
 
-        return isCacheExpired || !backgroundCacheAvailable;
+        return isCacheExpired || !cacheValid;
     }
 
     public static long getRecentRefreshMillisec(Context context) {
@@ -70,35 +69,35 @@ public class NewsFeedArchiveUtils {
         return prefs.getLong(KEY_NEWS_FEED_RECENT_REFRESH, INVALID_REFRESH_TERM);
     }
 
-    public static void saveBackgroundCacheAvailable(Context context) {
-        if (isBackgroundCacheUnavailable(context)) {
+    public static void saveCacheUnread(Context context) {
+        if (isCacheRead(context)) {
             getSharedPreferences(context).edit()
-                    .putBoolean(KEY_BACKGROUND_CACHE_AVAILABLE, true)
-                    .putLong(KEY_BACKGROUND_CACHE_READ_TIME, INVALID_CACHE_READ_TIME)
+                    .putBoolean(KEY_CACHE_UNREAD, true)
+                    .putLong(KEY_CACHE_READ_TIME, INVALID_CACHE_READ_TIME)
                     .apply();
         }
     }
 
-    public static void saveBackgroundCacheUnavailable(Context context) {
-        if (isBackgroundCacheAvailable(context)) {
+    public static void saveCacheRead(Context context) {
+        if (isCacheUnread(context)) {
             getSharedPreferences(context).edit()
-                    .putBoolean(KEY_BACKGROUND_CACHE_AVAILABLE, false)
-                    .putLong(KEY_BACKGROUND_CACHE_READ_TIME, System.currentTimeMillis())
+                    .putBoolean(KEY_CACHE_UNREAD, false)
+                    .putLong(KEY_CACHE_READ_TIME, System.currentTimeMillis())
                     .apply();
         }
     }
 
-    public static boolean isBackgroundCacheAvailable(Context context) {
-        return getSharedPreferences(context).getBoolean(KEY_BACKGROUND_CACHE_AVAILABLE, false);
+    public static boolean isCacheUnread(Context context) {
+        return getSharedPreferences(context).getBoolean(KEY_CACHE_UNREAD, false);
     }
 
-    private static long getBackgroundCacheReadTime(Context context) {
+    private static long getCacheReadTime(Context context) {
         return getSharedPreferences(context)
-                .getLong(KEY_BACKGROUND_CACHE_READ_TIME, INVALID_CACHE_READ_TIME);
+                .getLong(KEY_CACHE_READ_TIME, INVALID_CACHE_READ_TIME);
     }
 
-    public static boolean isBackgroundCacheUnavailable(Context context) {
-        return !isBackgroundCacheAvailable(context);
+    public static boolean isCacheRead(Context context) {
+        return !isCacheUnread(context);
     }
 
     public static void clearArchive(Context context) {

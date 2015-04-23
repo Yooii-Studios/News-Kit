@@ -501,7 +501,7 @@ public class MainActivity extends ActionBarActivity
     private void initAfterAnimation() {
         checkAppLaunchCount();
         startNewsAutoRefreshIfReady();
-        NewsFeedArchiveUtils.saveBackgroundCacheUnavailable(getApplicationContext());
+        NewsFeedArchiveUtils.saveCacheRead(getApplicationContext());
     }
 
     private void checkAppLaunchCount() {
@@ -582,6 +582,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public void onTopNewsFeedFetch() {
+        NewsFeedArchiveUtils.saveCacheUnread(getApplicationContext());
+    }
+
+    @Override
     public void onMainTopRefresh() {
         configAfterRefreshDone();
     }
@@ -595,6 +600,11 @@ public class MainActivity extends ActionBarActivity
     public void onMainBottomInitialLoad() {
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
+    }
+
+    @Override
+    public void onBottomNewsFeedFetchDone() {
+        NewsFeedArchiveUtils.saveCacheUnread(getApplicationContext());
     }
 
     @Override
