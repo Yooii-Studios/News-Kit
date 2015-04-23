@@ -45,7 +45,7 @@ public class DatabaseTest extends AndroidTestCase {
     private static ArrayList<NewsFeed> makeDummyNewsFeedList() {
         ArrayList<NewsFeed> dummyNewsFeedList = new ArrayList<>();
 
-        for (int newsFeedIndex = 0; newsFeedIndex < 6; newsFeedIndex++) {
+        for (int newsFeedIndex = 0; newsFeedIndex < 8; newsFeedIndex++) {
             NewsFeed dummyNewsFeed = makeDummyNewsFeed(newsFeedIndex);
 
             dummyNewsFeedList.add(dummyNewsFeed);

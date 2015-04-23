@@ -29,7 +29,14 @@ public class NewsSelectTest extends AndroidTestCase {
 
     // TODO: 나중에 간체 신문 RSS 가 추가되면 나중에 추가 테스트 로직을 구현할 것
     public void testSimplifiedChineseSorting() {
+        Language targetLanguage = Language.SIMPLIFIED_CHINESE;
+        sortWithLanguage(targetLanguage);
+        NewsProviderLanguage newsProviderLanguage = mNewsContentProvider.getNewsLanguage(0);
 
+        String regionalLanguageName = newsProviderLanguage.regionalLanguageName;
+        assertEquals(getContext().getString(targetLanguage.getLocalNotationStringId()),
+                regionalLanguageName);
+        assertEquals(mNewsContentProvider.getNewsLanguageTitle(0), regionalLanguageName);
     }
 
     public void testTraditionalChineseSorting() {
