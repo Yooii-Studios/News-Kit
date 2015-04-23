@@ -67,7 +67,6 @@ public class NewsSelectActivity extends ActionBarActivity
 
         initNewsFeed();
         initViewPager();
-        initSlidingTabLayout();
         initToolbar();
         initSlidingTab();
         initAdView();
@@ -89,10 +88,6 @@ public class NewsSelectActivity extends ActionBarActivity
         // 먼저 현재 언어에 따른 소팅이 필요하다
         NewsContentProvider.getInstance(this).sortNewsProviderLanguage(this);
         mViewPager.setAdapter(new NewsSelectPagerAdapter(getFragmentManager(), this, mCurrentNewsFeed));
-    }
-
-    private void initSlidingTabLayout() {
-        mSlidingTabLayout.setViewPager(mViewPager);
     }
 
     private void initToolbar() {
