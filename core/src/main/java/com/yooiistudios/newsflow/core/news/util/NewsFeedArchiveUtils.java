@@ -101,7 +101,7 @@ public class NewsFeedArchiveUtils {
     }
 
     public static void clearArchive(Context context) {
-        NewsDb.getInstance(context).clearArchive();
+        NewsDb.getInstance(context).clearArchiveDebug();
         getSharedPreferences(context).edit().clear().apply();
     }
 }

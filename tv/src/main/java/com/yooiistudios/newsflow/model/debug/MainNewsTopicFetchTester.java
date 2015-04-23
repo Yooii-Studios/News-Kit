@@ -35,7 +35,7 @@ public class MainNewsTopicFetchTester {
     // DEBUG
 
     public void testFetch() {
-        NewsDb.getInstance(mActivity).clearArchive();
+        NewsDb.getInstance(mActivity).clearArchiveDebug();
 
         NewsFeed topNewsFeed = new NewsFeed(getDefaultTopic("en", null, "us", 1));
         ArrayList<NewsFeed> bottomNewsFeeds = new ArrayList<>();

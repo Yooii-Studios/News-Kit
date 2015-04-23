@@ -33,6 +33,7 @@ import com.yooiistudios.newsflow.NewsApplication;
 import com.yooiistudios.newsflow.R;
 import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.DefaultLocale;
+import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.core.language.LocaleUtils;
 import com.yooiistudios.newsflow.core.news.News;
 import com.yooiistudios.newsflow.core.news.database.NewsDb;
@@ -558,6 +559,7 @@ public class MainActivity extends ActionBarActivity
         // 여기서부터 debug 용
         } else if (id == R.id.action_remove_archive) {
             NewsFeedArchiveUtils.clearArchive(getApplicationContext());
+            LanguageUtils.resetLanguageDebug(this);
         } else if (id == R.id.action_copy_db) {
             try {
                 NewsDb.copyDbToExternalStorage(this);

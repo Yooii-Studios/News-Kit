@@ -29,22 +29,64 @@ public class NewsFeedDefaultUrlProvider {
 
     private NewsFeedDefaultUrlProvider(Context context) {
         NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(context);
+        mBottomNewsTopicList = new ArrayList<>();
 
         // TODO: 첫 실행시 기존에 사용하고 있던 Locale 정보를 통해 이사님 추가 기획을 가지고 초기 패널을 구현할 것
         Locale locale = DefaultLocale.loadDefaultLocale(context);
 
-        // TODO: 출시 전 로직 정상화 후 다시 초기화 뉴스를 기획 참고해 지정해줄 것
-        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "US", 2, 1);
+        if (locale.getLanguage().equals("en")) {
+            if (locale.getCountry().equals("US")) {
+                makeDefaultNewsTopicsUS(newsContentProvider);
+            } else if (locale.getCountry().equals("UK")) {
 
-        mBottomNewsTopicList = new ArrayList<>();
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 2, 1));
+            } else {
+                makeDefaultNewsTopicsUS(newsContentProvider);
+            }
+        } else if (locale.getLanguage().equals("ko")) {
+            makeDefaultNewsTopicsKorea(newsContentProvider);
+        } else {
+            makeDefaultNewsTopicsUS(newsContentProvider);
+
+            /*
+            mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "US", 2, 1);
+
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 2, 1));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 2));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("fr", null, "FR", 1, 1));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("zh", "tw", "TW", 1, 1));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 1, 1));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 1, 4));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1));
+            mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 5, 3));
+            */
+        }
+    }
+
+    private void makeDefaultNewsTopicsKorea(NewsContentProvider newsContentProvider) {
+        mTopNewsTopic = newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1);
+
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 3, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 4, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 1));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("fr", null, "FR", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("zh", "tw", "TW", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "UK", 1, 4));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 5, 3));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 3, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 4, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 2));
+    }
+
+    private void makeDefaultNewsTopicsUS(NewsContentProvider newsContentProvider) {
+        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "US", 1, 1);
+
+        // TODO: 미국의 경우 나중에 이사님께서 뉴스를 다 넣으신 후 멕시코 첫번째 뉴스를 넣어주기
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 2, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 3, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 4, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 5, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 2, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 3, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 4, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 5, 2));
     }
 
     public NewsTopic getTopNewsTopic() {
