@@ -743,7 +743,7 @@
         },
         {
             "country_name": "UK",
-            "country_code": "UK",
+            "country_code": "GB",
             "news_providers": [
                 {
                     "provider_name": "Google News",
