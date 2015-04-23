@@ -152,7 +152,9 @@ public class MainTopFragment extends Fragment {
     }
 
     private void applyImage(final ItemViewHolder viewHolder) {
-        if (mNews.hasImageUrl()) {
+        // TODO: 액티비티 유지 안함 옵션을 켠 경우 mActivity.getImageLoader() == null 인 경우가 있음.
+        // 차후 단순한 null 체크가 아닌 더 나은 방법으로 수정 가능한지 확인 필요
+        if (mImageLoader != null && mNews.hasImageUrl()) {
             mImageLoader.get(new NewsUrlSupplier(mNews, NewsFeed.INDEX_TOP),
                     new CacheImageLoader.ImageListener() {
                         @Override
@@ -189,7 +191,9 @@ public class MainTopFragment extends Fragment {
     }
 
     private void showDummyImage(final ItemViewHolder viewHolder) {
-        if (!mRecycled && viewHolder.imageView != null) {
+        // TODO: 액티비티 유지 안함 옵션을 켠 경우 mActivity.getImageLoader() == null 인 경우가 있음.
+        // 차후 단순한 null 체크가 아닌 더 나은 방법으로 수정 가능한지 확인 필요
+        if (!mRecycled && mImageLoader != null && viewHolder.imageView != null) {
             PanelDecoration.getDummyNewsImageAsync(getActivity().getApplicationContext(),
                     mImageLoader, new PanelDecoration.OnLoadBitmapListener() {
                         @Override
