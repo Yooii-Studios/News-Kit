@@ -10,6 +10,7 @@ import com.yooiistudios.newsflow.core.debug.DebugSettings;
 import com.yooiistudios.newsflow.core.language.Language;
 import com.yooiistudios.newsflow.core.language.LanguageUtils;
 import com.yooiistudios.newsflow.util.InterpolatorHelper;
+import com.yooiistudios.newsflow.util.TypefaceUtils;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -88,6 +89,16 @@ public class NewsApplication extends Application {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        // 타입페이스 부르는 시간이 많이 걸리기 때문에 이를 미리 불러주게 변경
+        new android.os.AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                TypefaceUtils.getMediumTypeface(getApplicationContext());
+                TypefaceUtils.getRegularTypeface(getApplicationContext());
+                return null;
+            }
+        }.execute();
     }
 
     /**
