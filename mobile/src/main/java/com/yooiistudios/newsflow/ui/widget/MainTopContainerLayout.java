@@ -98,6 +98,7 @@ public class MainTopContainerLayout extends FrameLayout
     // interface
     public interface OnMainTopLayoutEventListener {
         void onMainTopInitialLoad();
+        void onTopNewsFeedFetch();
         void onMainTopRefresh();
         void onStartNewsFeedDetailActivityFromTopNewsFeed(Intent intent);
         void onStartNewsFeedSelectActivityFromTopNewsFeed(Intent intent);
@@ -586,6 +587,7 @@ public class MainTopContainerLayout extends FrameLayout
 
         TopFeedNewsImageUrlFetchTask.TaskType imageFetchTaskType;
         if (taskType.equals(TopNewsFeedFetchTask.TaskType.INITIALIZE)) {
+            mActivity.onTopNewsFeedFetch();
             imageFetchTaskType = TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE;
         } else {
             imageFetchTaskType =

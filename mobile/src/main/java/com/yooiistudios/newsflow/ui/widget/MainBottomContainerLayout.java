@@ -99,6 +99,7 @@ public class MainBottomContainerLayout extends FrameLayout
     // interface
     public interface OnMainBottomLayoutEventListener {
         void onMainBottomInitialLoad();
+        void onBottomNewsFeedFetchDone();
         void onMainBottomRefresh();
         void onMainBottomNewsImageInitiallyAllFetched();
         void onMainBottomNewsReplaceDone();
@@ -627,6 +628,7 @@ public class MainBottomContainerLayout extends FrameLayout
                                               int taskType) {
         switch(taskType) {
             case BottomNewsFeedFetchTask.TASK_INITIALIZE:
+                mActivity.onBottomNewsFeedFetchDone();
                 NewsFeedArchiveUtils.saveRecentCacheMillisec(getContext().getApplicationContext());
                 mAdapter.notifyDataSetChanged();
 
