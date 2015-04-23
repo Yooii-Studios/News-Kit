@@ -98,7 +98,7 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.1.0'
 
     // Lollipop style Dialog at pre-Lollipop device
     compile 'com.afollestad:material-dialogs:0.6.1.2'
