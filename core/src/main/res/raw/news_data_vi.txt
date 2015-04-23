@@ -1,6 +1,6 @@
 {
     "lang_name_english": "Vietnamese",
-    "lang_name_regional": "tiếng Việt",
+    "lang_name_regional": "Tiếng Việt",
     "lang_code": "vi",
     "region_code": "",
     "countries": [

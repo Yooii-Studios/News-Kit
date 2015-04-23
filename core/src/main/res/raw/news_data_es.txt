@@ -1,6 +1,6 @@
 {
     "lang_name_english": "Spanish",
-    "lang_name_regional": "español",
+    "lang_name_regional": "Español",
     "lang_code": "es",
     "region_code": "",
     "countries": [
