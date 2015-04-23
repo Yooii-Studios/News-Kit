@@ -465,7 +465,7 @@ public class MainActivity extends ActionBarActivity
 
             if (DebugSettings.isDebugBuild()) {
                 subMenu.add(Menu.NONE, R.id.action_remove_archive, 6, "Remove archive(Debug)");
-                subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug");
+                subMenu.add(Menu.NONE, R.id.action_copy_db, 7, "Copy db to sdcard(Debug)");
                 subMenu.add(Menu.NONE, R.id.action_slow_anim, 8, "Slow Activity Transition(Debug)");
                 subMenu.add(Menu.NONE, R.id.action_service_log, 9, "Show service log(Debug)");
                 subMenu.add(Menu.NONE, R.id.action_trigger_notification, 10, "Notification(Debug)");
