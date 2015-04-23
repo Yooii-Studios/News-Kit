@@ -47,22 +47,11 @@ public class NewsFeedDefaultUrlProvider {
             }
         } else if (locale.getLanguage().equals("ko")) {
             makeDefaultNewsTopicsKorea(newsContentProvider);
+        } else if (locale.getLanguage().equals("ja")) {
+            makeDefaultNewsTopicsJapan(newsContentProvider);
         } else {
             makeDefaultNewsTopicsUS(newsContentProvider);
         }
-    }
-
-    private void makeDefaultNewsTopicsKorea(NewsContentProvider newsContentProvider) {
-        mTopNewsTopic = newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1);
-
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 3, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 4, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 1));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 3, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 4, 2));
-        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 2));
     }
 
     private void makeDefaultNewsTopicsUS(NewsContentProvider newsContentProvider) {
@@ -88,6 +77,32 @@ public class NewsFeedDefaultUrlProvider {
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "GB", 2, 2));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "GB", 3, 2));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "GB", 4, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 2));
+    }
+
+    private void makeDefaultNewsTopicsKorea(NewsContentProvider newsContentProvider) {
+        mTopNewsTopic = newsContentProvider.getNewsTopic("ko", null, "KR", 1, 1);
+
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 3, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 4, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 2, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 3, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ko", null, "KR", 4, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 2));
+    }
+
+    private void makeDefaultNewsTopicsJapan(NewsContentProvider newsContentProvider) {
+        mTopNewsTopic = newsContentProvider.getNewsTopic("ja", null, "JP", 1, 1);
+
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 2, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 3, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 4, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 1));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 2, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 3, 2));
+        mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("ja", null, "JP", 4, 2));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "US", 1, 2));
     }
 
