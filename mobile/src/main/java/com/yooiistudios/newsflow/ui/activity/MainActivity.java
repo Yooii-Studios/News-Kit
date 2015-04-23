@@ -160,6 +160,16 @@ public class MainActivity extends ActionBarActivity
             AppValidationChecker.validationCheck(this);
         }
 
+        // 큐레이팅된 news topic 들이 제대로 파싱되는지 테스트하는 코드
+        // 나중에 사용될 가능성이 있어 주석으로 남김
+        /*
+        if (DebugSettings.isDebugBuild()) {
+            DebugNewsTopicValidateUtil.run(getApplicationContext());
+            finish();
+            return;
+        }
+        */
+
         // start service on starting app
         NLLog.i("BackgroundServiceUtils", "onCreate");
         BackgroundServiceUtils.startService(getApplicationContext());
