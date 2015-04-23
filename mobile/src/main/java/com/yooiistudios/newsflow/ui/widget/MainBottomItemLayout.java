@@ -15,8 +15,8 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by Dongheyon Jeong on in News-Android-L from Yooii Studios Co., LTD. on 2014. 8. 20.
  *
- * NLSquareCardView
- *  카드뷰의 긴 변의 길이에 맞게 뷰의 크기를 변형해주는 클래스
+ * MainBottomItemLayout
+ *  뷰의 긴 변의 길이에 맞게 뷰의 크기를 변형해주는 클래스
  */
 public class MainBottomItemLayout extends RatioFrameLayout {
     @IntDef(value = { PORTRAIT, LANDSCAPE })
