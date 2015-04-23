@@ -1,0 +1,250 @@
+{
+    "lang_name_english": "Danish",
+    "lang_name_regional": "Dansk",
+    "lang_code": "da",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Danmark",
+            "country_code": "DK",
+            "news_providers": [
+                {
+                    "provider_name": "Jyllands-Posten",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Tophistorier",
+                            "topic_id": "1",
+                            "url": "http://jp.dk/?service=rssfeed&submode=topnyheder",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Indland",
+                            "topic_id": "2",
+                            "url": "http://jp.dk/indland/?service=rssfeed"
+                        },
+                        {
+                            "topic_name": "Politik",
+                            "topic_id": "3",
+                            "url": "http://jp.dk/politik/?service=rssfeed"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "4",
+                            "url": "http://jp.dk/international/?service=rssfeed"
+                        },
+                        {
+                            "topic_name": "Kultur",
+                            "topic_id": "5",
+                            "url": "http://jp.dk/kultur/?service=rssfeed"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://jp.dk/sport/?service=rssfeed"
+                        },
+                        {
+                            "topic_name": "Aarhus",
+                            "topic_id": "7",
+                            "url": "http://jp.dk/aarhus/?service=rssfeed"
+                        },
+                        {
+                            "topic_name": "Viden",
+                            "topic_id": "8",
+                            "url": "http://jp.dk/nyviden/?service=rssfeed"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Politiken",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Danmark",
+                            "topic_id": "1",
+                            "url": "http://politiken.dk/rss/indland.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Magasinet",
+                            "topic_id": "2",
+                            "url": "http://politiken.dk/rss/magasinet.rss"
+                        },
+                        {
+                            "topic_name": "Internationalt",
+                            "topic_id": "3",
+                            "url": "http://politiken.dk/rss/udland.rss"
+                        },
+                        {
+                            "topic_name": "Kultur",
+                            "topic_id": "4",
+                            "url": "http://politiken.dk/rss/kultur.rss"
+                        },
+                        {
+                            "topic_name": "Debat",
+                            "topic_id": "5",
+                            "url": "http://politiken.dk/rss/debat.rss"
+                        },
+                        {
+                            "topic_name": "Økonomi",
+                            "topic_id": "6",
+                            "url": "http://politiken.dk/rss/oekonomi.rss"
+                        },
+                        {
+                            "topic_name": "Forbrug & Liv",
+                            "topic_id": "7",
+                            "url": "http://politiken.dk/rss/forbrugogliv.rss"
+                        },
+                        {
+                            "topic_name": "Ibyen",
+                            "topic_id": "8",
+                            "url": "http://politiken.dk/rss/ibyen.rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "9",
+                            "url": "http://politiken.dk/rss/sport.rss"
+                        },
+                        {
+                            "topic_name": "Motion",
+                            "topic_id": "10",
+                            "url": "http://politiken.dk/rss/motion.rss"
+                        },
+                        {
+                            "topic_name": "Mad",
+                            "topic_id": "11",
+                            "url": "http://politiken.dk/rss/mad.rss"
+                        },
+                        {
+                            "topic_name": "Rejser",
+                            "topic_id": "12",
+                            "url": "http://politiken.dk/rss/rejser.rss"
+                        },
+                        {
+                            "topic_name": "Viden",
+                            "topic_id": "13",
+                            "url": "http://politiken.dk/rss/viden.rss"
+                        },
+                        {
+                            "topic_name": "Navne",
+                            "topic_id": "14",
+                            "url": "http://politiken.dk/rss/navne.rss"
+                        },
+                        {
+                            "topic_name": "Foto",
+                            "topic_id": "15",
+                            "url": "http://politiken.dk/rss/fotografier.rss"
+                        },
+                        {
+                            "topic_name": "TV",
+                            "topic_id": "16",
+                            "url": "http://politiken.dk/rss/tv.rss"
+                        },
+                        {
+                            "topic_name": "Bagsiden",
+                            "topic_id": "17",
+                            "url": "http://politiken.dk/rss/bagsiden.rss"
+                        },
+                        {
+                            "topic_name": "News in english",
+                            "topic_id": "18",
+                            "url": "http://politiken.dk/rss/newsinenglish.rss"
+                        },
+                        {
+                            "topic_name": "Mest læste",
+                            "topic_id": "19",
+                            "url": "http://politiken.dk/rss/mestlaeste.rss"
+                        },
+                        {
+                            "topic_name": "Seneste nyt",
+                            "topic_id": "20",
+                            "url": "http://politiken.dk/rss/senestenyt.rss"
+                        },
+                        {
+                            "topic_name": "Tophistorier",
+                            "topic_id": "21",
+                            "url": "http://politiken.dk/rss/tophistorier.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Berlingske",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Seneste nyt",
+                            "topic_id": "1",
+                            "url": "http://www.b.dk/seneste/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Breaking News",
+                            "topic_id": "2",
+                            "url": "http://www.b.dk/breaking/rss"
+                        },
+                        {
+                            "topic_name": "Nationalt",
+                            "topic_id": "3",
+                            "url": "http://www.b.dk/feeds/rss/Nationalt"
+                        },
+                        {
+                            "topic_name": "Globalt",
+                            "topic_id": "4",
+                            "url": "http://www.b.dk/feeds/rss/Globalt"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "5",
+                            "url": "http://www.b.dk/feeds/rss/Tech"
+                        },
+                        {
+                            "topic_name": "Viden",
+                            "topic_id": "6",
+                            "url": "http://www.b.dk/feeds/rss/Viden"
+                        },
+                        {
+                            "topic_name": "Kultur",
+                            "topic_id": "7",
+                            "url": "http://www.b.dk/feeds/rss/Kultur"
+                        },
+                        {
+                            "topic_name": "Livsstil",
+                            "topic_id": "8",
+                            "url": "http://www.b.dk/nodequeue/4985/rss"
+                        },
+                        {
+                            "topic_name": "Rejseliv",
+                            "topic_id": "9",
+                            "url": "http://www.b.dk/feeds/rss/rejseliv"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "10",
+                            "url": "http://www.b.dk/feeds/rss/sport"
+                        },
+                        {
+                            "topic_name": "Berlingske Mener",
+                            "topic_id": "11",
+                            "url": "http://www.b.dk/feeds/rss/Berlingske%20Mener"
+                        },
+                        {
+                            "topic_name": "Kommentarer",
+                            "topic_id": "12",
+                            "url": "http://www.b.dk/feeds/rss/Kommentarer"
+                        },
+                        {
+                            "topic_name": "Kronikker",
+                            "topic_id": "13",
+                            "url": "http://www.b.dk/feeds/rss/Kronikker"
+                        },
+                        {
+                            "topic_name": "Groft sagt",
+                            "topic_id": "14",
+                            "url": "http://www.b.dk/feeds/rss/Groft%20Sagt"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,2693 @@
+{
+    "lang_name_english": "Spanish",
+    "lang_name_regional": "español",
+    "lang_code": "es",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "España",
+            "country_code": "ES",
+            "news_providers": [
+                {
+                    "provider_name": "El País",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "TITULARES",
+                            "topic_id": "1",
+                            "url": "http://ep00.epimg.net/rss/tags/ultimas_noticias.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "INTERNACIONAL",
+                            "topic_id": "2",
+                            "url": "http://ep00.epimg.net/rss/internacional/portada.xml"
+                        },
+                        {
+                            "topic_name": "OPINIÓN",
+                            "topic_id": "3",
+                            "url": "http://ep00.epimg.net/rss/elpais/opinion.xml"
+                        },
+                        {
+                            "topic_name": "ESPAÑA",
+                            "topic_id": "4",
+                            "url": "http://ep00.epimg.net/rss/politica/portada.xml"
+                        },
+                        {
+                            "topic_name": "ECONOMÍA",
+                            "topic_id": "5",
+                            "url": "http://ep00.epimg.net/rss/economia/portada.xml"
+                        },
+                        {
+                            "topic_name": "CIENCIA",
+                            "topic_id": "6",
+                            "url": "http://ep00.epimg.net/rss/elpais/ciencia.xml"
+                        },
+                        {
+                            "topic_name": "TECNOLOGÍA",
+                            "topic_id": "7",
+                            "url": "http://ep00.epimg.net/rss/tecnologia/portada.xml"
+                        },
+                        {
+                            "topic_name": "CULTURA",
+                            "topic_id": "8",
+                            "url": "http://ep00.epimg.net/rss/cultura/portada.xml"
+                        },
+                        {
+                            "topic_name": "ESTILO",
+                            "topic_id": "9",
+                            "url": "http://ep00.epimg.net/rss/elpais/estilo.xml"
+                        },
+                        {
+                            "topic_name": "DEPORTES",
+                            "topic_id": "10",
+                            "url": "http://ep00.epimg.net/rss/deportes/portada.xml"
+                        },
+                        {
+                            "topic_name": "TELEVISIÓN",
+                            "topic_id": "11",
+                            "url": "http://ep00.epimg.net/rss/cultura/television.xml"
+                        },
+                        {
+                            "topic_name": "SOCIEDAD",
+                            "topic_id": "12",
+                            "url": "http://ep00.epimg.net/rss/sociedad/portada.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Mundo",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/portada.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "España",
+                            "topic_id": "2",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/espana.xml"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/internacional.xml"
+                        },
+                        {
+                            "topic_name": "Unión Europea",
+                            "topic_id": "4",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/union_europea.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/economia.xml"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "6",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/cultura.xml"
+                        },
+                        {
+                            "topic_name": "Ciencia/Ecología",
+                            "topic_id": "7",
+                            "url": "http://estaticos.elmundo.es/elmundo/rss/ciencia.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://estaticos.elmundo.es/elmundodeporte/rss/portada.xml"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://estaticos.elmundo.es/elmundosalud/rss/portada.xml"
+                        },
+                        {
+                            "topic_name": "Motor",
+                            "topic_id": "10",
+                            "url": "http://estaticos.elmundo.es/elmundomotor/rss/portada.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "ABC",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://www.abc.es/rss/feeds/abcPortada.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "2",
+                            "url": "http://www.abc.es/rss/feeds/abc_Deportes.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "3",
+                            "url": "http://www.abc.es/rss/feeds/abc_Economia.xml"
+                        },
+                        {
+                            "topic_name": "España",
+                            "topic_id": "4",
+                            "url": "http://www.abc.es/rss/feeds/abc_EspanaEspana.xml"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "5",
+                            "url": "http://www.abc.es/rss/feeds/abc_Internacional.xml"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "6",
+                            "url": "http://www.abc.es/rss/feeds/abc_Opinion.xml"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "7",
+                            "url": "http://www.abc.es/rss/feeds/abc_Sociedad.xml"
+                        },
+                        {
+                            "topic_name": "Internacional Completo",
+                            "topic_id": "8",
+                            "url": "http://www.abc.es/rss/feeds/abc_Internacional.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Vanguardia",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Al minuto",
+                            "topic_id": "1",
+                            "url": "http://feeds.feedburner.com/lavanguardia/alminuto",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Noticias de portada",
+                            "topic_id": "2",
+                            "url": "http://feeds.feedburner.com/lavanguardia/home"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://feeds.feedburner.com/lavanguardia/internacional"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "4",
+                            "url": "http://feeds.feedburner.com/lavanguardia/politica"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://feeds.feedburner.com/lavanguardia/economia"
+                        },
+                        {
+                            "topic_name": "Sucesos",
+                            "topic_id": "6",
+                            "url": "http://feeds.feedburner.com/lavanguardia/sucesos"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "7",
+                            "url": "http://feeds.feedburner.com/lavanguardia/opinion"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://feeds.feedburner.com/lavanguardia/deportes"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "9",
+                            "url": "http://feeds.feedburner.com/lavanguardia/internet"
+                        },
+                        {
+                            "topic_name": "Vida",
+                            "topic_id": "10",
+                            "url": "http://feeds.feedburner.com/lavanguardia/vida"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "11",
+                            "url": "http://feeds.feedburner.com/lavanguardia/cultura"
+                        },
+                        {
+                            "topic_name": "Gente",
+                            "topic_id": "12",
+                            "url": "http://feeds.feedburner.com/lavanguardia/gente"
+                        },
+                        {
+                            "topic_name": "Ocio",
+                            "topic_id": "13",
+                            "url": "http://feeds.feedburner.com/lavanguardia/ocio"
+                        },
+                        {
+                            "topic_name": "Participación",
+                            "topic_id": "14",
+                            "url": "http://feeds.feedburner.com/lavanguardia/participacion"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Periódico de Catalunya",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://www.elperiodico.com/es/rss/rss_portada.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "2",
+                            "url": "http://www.elperiodico.com/es/rss/internacional/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "3",
+                            "url": "http://www.elperiodico.com/es/rss/sociedad/rss.xml"
+                        },
+                        {
+                            "topic_name": "Barcelona",
+                            "topic_id": "4",
+                            "url": "http://www.elperiodico.com/es/rss/barcelona/rss.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "5",
+                            "url": "http://www.elperiodico.com/es/rss/deportes/rss.xml"
+                        },
+                        {
+                            "topic_name": "Gente y TV",
+                            "topic_id": "6",
+                            "url": "http://www.elperiodico.com/es/rss/gente-y-tv/rss.xml"
+                        },
+                        {
+                            "topic_name": "Motor",
+                            "topic_id": "7",
+                            "url": "http://www.elperiodico.com/es/rss/motor/rss.xml"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "8",
+                            "url": "http://www.elperiodico.com/es/rss/opinion/rss.xml"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "9",
+                            "url": "http://www.elperiodico.com/es/rss/politica/rss.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "10",
+                            "url": "http://www.elperiodico.com/es/rss/economia/rss.xml"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "11",
+                            "url": "http://www.elperiodico.com/es/rss/tecnologia/rss.xml"
+                        },
+                        {
+                            "topic_name": "Ocio y cultura",
+                            "topic_id": "12",
+                            "url": "http://www.elperiodico.com/es/rss/ocio-y-cultura/rss.xml"
+                        },
+                        {
+                            "topic_name": "Canal Belleza",
+                            "topic_id": "13",
+                            "url": "http://www.elperiodico.com/es/rss/belleza/rss.xml"
+                        },
+                        {
+                            "topic_name": "Neurocápsulas",
+                            "topic_id": "14",
+                            "url": "http://www.elperiodico.com/es/rss/neurocapsulas/rss.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Mexico",
+            "country_code": "MX",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Universal",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Minuto x Minuto :",
+                            "topic_id": "1",
+                            "url": "http://www.eluniversal.com.mx/rss/universalmxm.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "El mundo:",
+                            "topic_id": "2",
+                            "url": "http://www.eluniversal.com.mx/rss/mundo.xml"
+                        },
+                        {
+                            "topic_name": "Nación:",
+                            "topic_id": "3",
+                            "url": "http://www.eluniversal.com.mx/rss/mexico.xml"
+                        },
+                        {
+                            "topic_name": "Estados:",
+                            "topic_id": "4",
+                            "url": "http://www.eluniversal.com.mx/rss/estados.xml"
+                        },
+                        {
+                            "topic_name": "Metrópoli:",
+                            "topic_id": "5",
+                            "url": "http://www.eluniversal.com.mx/rss/df.xml"
+                        },
+                        {
+                            "topic_name": "Pymes",
+                            "topic_id": "6",
+                            "url": "http://www.eluniversal.com.mx/rss/pymes.xml"
+                        },
+                        {
+                            "topic_name": "Cartera:",
+                            "topic_id": "7",
+                            "url": "http://www.eluniversal.com.mx/rss/finanzas.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://www.eluniversal.com.mx/rss/deportes.xml"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "9",
+                            "url": "http://www.eluniversal.com.mx/rss/espectaculos.xml"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "10",
+                            "url": "http://www.eluniversal.com.mx/rss/cultura.xml"
+                        },
+                        {
+                            "topic_name": "Estilos",
+                            "topic_id": "11",
+                            "url": "http://www.eluniversal.com.mx/rss/estilos.xml"
+                        },
+                        {
+                            "topic_name": "Ciencia",
+                            "topic_id": "12",
+                            "url": "http://www.eluniversal.com.mx/rss/ciencia.xml"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "13",
+                            "url": "http://www.eluniversal.com.mx/rss/computo.xml"
+                        },
+                        {
+                            "topic_name": "Autopistas",
+                            "topic_id": "14",
+                            "url": "http://www.eluniversal.com.mx/rss/autopistas.xml"
+                        },
+                        {
+                            "topic_name": "Destinos",
+                            "topic_id": "15",
+                            "url": "http://www.eluniversal.com.mx/rss/destinos.xml"
+                        },
+                        {
+                            "topic_name": "Alerta Vial",
+                            "topic_id": "16",
+                            "url": "http://www.eluniversal.com.mx/rss/vialidad.xml"
+                        },
+                        {
+                            "topic_name": "Tu cartera",
+                            "topic_id": "17",
+                            "url": "http://www.eluniversal.com.mx/rss/tudinero.xml"
+                        },
+                        {
+                            "topic_name": "El Gráfico",
+                            "topic_id": "18",
+                            "url": "http://www.eluniversal.com.mx/rss/grafico.xml"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "19",
+                            "url": "http://www.eluniversal.com.mx/rss/sociedad.xml"
+                        },
+                        {
+                            "topic_name": "Estado de México",
+                            "topic_id": "20",
+                            "url": "http://www.eluniversal.com.mx/rss/edomex.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Informador",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Jalisco",
+                            "topic_id": "1",
+                            "url": "http://rss.informador.com.mx/informador-jalisco?format=xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "México",
+                            "topic_id": "2",
+                            "url": "http://rss.informador.com.mx/informador-mexico?format=xml"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://rss.informador.com.mx/informador-internacional?format=xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "4",
+                            "url": "http://rss.informador.com.mx/informador-economia?format=xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "5",
+                            "url": "http://rss.informador.com.mx/informador-deportes?format=xml"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "6",
+                            "url": "http://rss.informador.com.mx/informador-tecnologia?format=xml"
+                        },
+                        {
+                            "topic_name": "Entretenimiento",
+                            "topic_id": "7",
+                            "url": "http://rss.informador.com.mx/informador-entretenimiento?format=xml"
+                        },
+                        {
+                            "topic_name": "Chivas",
+                            "topic_id": "8",
+                            "url": "http://feeds.informador.com.mx/23/chivas.rss"
+                        },
+                        {
+                            "topic_name": "Atlas",
+                            "topic_id": "9",
+                            "url": "http://feeds.informador.com.mx/24/atlas.rss"
+                        },
+                        {
+                            "topic_name": "Música",
+                            "topic_id": "10",
+                            "url": "http://feeds.informador.com.mx/32/musica.rss"
+                        },
+                        {
+                            "topic_name": "Cine",
+                            "topic_id": "11",
+                            "url": "http://feeds.informador.com.mx/33/cine.rss"
+                        },
+                        {
+                            "topic_name": "América Latina",
+                            "topic_id": "12",
+                            "url": "http://feeds.informador.com.mx/14/america-latina.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Milenio",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "1",
+                            "url": "http://www.milenio.com/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "2",
+                            "url": "http://www.milenio.com/rss/politica/"
+                        },
+                        {
+                            "topic_name": "Policía",
+                            "topic_id": "3",
+                            "url": "http://www.milenio.com/rss/policia"
+                        },
+                        {
+                            "topic_name": "Locales - D.F.",
+                            "topic_id": "4",
+                            "url": "http://www.milenio.com/rss/df/"
+                        },
+                        {
+                            "topic_name": "Locales - Monterrey",
+                            "topic_id": "5",
+                            "url": "http://www.milenio.com/rss/monterrey"
+                        },
+                        {
+                            "topic_name": "Locales - Jalisco",
+                            "topic_id": "6",
+                            "url": "http://www.milenio.com/rss/jalisco"
+                        },
+                        {
+                            "topic_name": "Locales - Laguna",
+                            "topic_id": "7",
+                            "url": "http://www.milenio.com/rss/laguna"
+                        },
+                        {
+                            "topic_name": "Locales - Tamaulipas",
+                            "topic_id": "8",
+                            "url": "http://www.milenio.com/rss/tamaulipas"
+                        },
+                        {
+                            "topic_name": "Estados",
+                            "topic_id": "9",
+                            "url": "http://www.milenio.com/rss/estados"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "10",
+                            "url": "http://www.milenio.com/rss/internacional"
+                        },
+                        {
+                            "topic_name": "Negocios",
+                            "topic_id": "11",
+                            "url": "http://www.milenio.com/rss/negocios"
+                        },
+                        {
+                            "topic_name": "Tendencias",
+                            "topic_id": "12",
+                            "url": "http://www.milenio.com/rss/tendencias"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "13",
+                            "url": "http://www.milenio.com/rss/cultura"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "14",
+                            "url": "http://www.milenio.com/rss/internacional"
+                        },
+                        {
+                            "topic_name": "La Afición",
+                            "topic_id": "15",
+                            "url": "http://laaficion.milenio.com/rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Reforma",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://www.reforma.com/rss/portada.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Ciudad",
+                            "topic_id": "2",
+                            "url": "http://www.reforma.com/rss/ciudad.xml"
+                        },
+                        {
+                            "topic_name": "Justicia",
+                            "topic_id": "3",
+                            "url": "http://www.reforma.com/rss/justicia.xml"
+                        },
+                        {
+                            "topic_name": "Estados",
+                            "topic_id": "4",
+                            "url": "http://www.reforma.com/rss/estados.xml"
+                        },
+                        {
+                            "topic_name": "Negocios",
+                            "topic_id": "5",
+                            "url": "http://www.reforma.com/rss/negocios.xml"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "6",
+                            "url": "http://www.reforma.com/rss/internacional.xml"
+                        },
+                        {
+                            "topic_name": "Cancha",
+                            "topic_id": "7",
+                            "url": "http://www.reforma.com/rss/cancha.xml"
+                        },
+                        {
+                            "topic_name": "Gente",
+                            "topic_id": "8",
+                            "url": "http://www.reforma.com/rss/gente.xml"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "9",
+                            "url": "http://www.reforma.com/rss/cultura%20.xml"
+                        },
+                        {
+                            "topic_name": "Ciencia",
+                            "topic_id": "10",
+                            "url": "http://www.reforma.com/rss/ciencia.xml"
+                        },
+                        {
+                            "topic_name": "Nacional",
+                            "topic_id": "11",
+                            "url": "http://www.reforma.com/rss/nacional.xml"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "12",
+                            "url": "http://www.reforma.com/rss/editoriales.xml"
+                        },
+                        {
+                            "topic_name": "Gadgets",
+                            "topic_id": "13",
+                            "url": "http://www.reforma.com/rss/gadgets.xml"
+                        },
+                        {
+                            "topic_name": "Automotriz",
+                            "topic_id": "14",
+                            "url": "http://www.reforma.com/rss/automotriz.xml"
+                        },
+                        {
+                            "topic_name": "De Viaje",
+                            "topic_id": "15",
+                            "url": "http://www.reforma.com/rss/de%20viaje.xml"
+                        },
+                        {
+                            "topic_name": "Moda",
+                            "topic_id": "16",
+                            "url": "http://www.reforma.com/rss/moda.xml"
+                        },
+                        {
+                            "topic_name": "Buena Mesa",
+                            "topic_id": "17",
+                            "url": "http://www.reforma.com/rss/buena%20mesa.xml"
+                        },
+                        {
+                            "topic_name": "Verde",
+                            "topic_id": "18",
+                            "url": "http://www.reforma.com/rss/verde.xml"
+                        },
+                        {
+                            "topic_name": "Entremuros",
+                            "topic_id": "19",
+                            "url": "http://www.reforma.com/rss/entremuros.xml"
+                        },
+                        {
+                            "topic_name": "Revista R",
+                            "topic_id": "20",
+                            "url": "http://www.reforma.com/rss/revista%20r.xml"
+                        },
+                        {
+                            "topic_name": "Universitarios",
+                            "topic_id": "21",
+                            "url": "http://www.reforma.com/rss/universitarios.xml"
+                        },
+                        {
+                            "topic_name": "Primera Fila",
+                            "topic_id": "22",
+                            "url": "http://www.reforma.com/rss/primera%20fila.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Colombia",
+            "country_code": "CO",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Tiempo",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Colombia",
+                            "topic_id": "1",
+                            "url": "http://www.eltiempo.com/contenido/colombia/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Bogotá",
+                            "topic_id": "2",
+                            "url": "http://www.eltiempo.com/contenido/bogota/rss.xml"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "3",
+                            "url": "http://www.eltiempo.com/contenido/mundo/rss.xml"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "4",
+                            "url": "http://www.eltiempo.com/contenido/politica/rss.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://www.eltiempo.com/contenido/economia/rss.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "6",
+                            "url": "http://www.eltiempo.com/contenido/deportes/rss.xml"
+                        },
+                        {
+                            "topic_name": "Entretenimiento",
+                            "topic_id": "7",
+                            "url": "http://www.eltiempo.com/contenido/entretenimiento/rss.xml"
+                        },
+                        {
+                            "topic_name": "Tecnósfera",
+                            "topic_id": "8",
+                            "url": "http://www.eltiempo.com/contenido/tecnosfera/rss.xml"
+                        },
+                        {
+                            "topic_name": "Vida",
+                            "topic_id": "9",
+                            "url": "http://www.eltiempo.com/contenido/estilo-de-vida/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Espectador",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias",
+                            "topic_id": "1",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607844/index.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "2",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607845/index.rss"
+                        },
+                        {
+                            "topic_name": "Judicial",
+                            "topic_id": "3",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607846/index.rss"
+                        },
+                        {
+                            "topic_name": "Paz",
+                            "topic_id": "4",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607847/index.rss"
+                        },
+                        {
+                            "topic_name": "El Mundo",
+                            "topic_id": "5",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607853/index.rss"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "6",
+                            "url": "http://www.elespectador.com/cultura/feed"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "7",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607848/index.rss"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "8",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607872/index.rss"
+                        },
+                        {
+                            "topic_name": "Bogotá",
+                            "topic_id": "9",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607855/index.rss"
+                        },
+                        {
+                            "topic_name": "Investigación",
+                            "topic_id": "10",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607850/index.rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "11",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607852/index.rss"
+                        },
+                        {
+                            "topic_name": "Educacion",
+                            "topic_id": "12",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607851/index.rss"
+                        },
+                        {
+                            "topic_name": "Medio Ambiente",
+                            "topic_id": "13",
+                            "url": "http://www.elespectador.com/noticias/medio-ambiente/feed"
+                        },
+                        {
+                            "topic_name": "Alto Turmequé",
+                            "topic_id": "14",
+                            "url": "http://www.elespectador.com/cultura/altoturmeque/feed"
+                        },
+                        {
+                            "topic_name": "Actualidad",
+                            "topic_id": "15",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607856/index.rss"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "16",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607857/index.rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "17",
+                            "url": "http://feeds.elespectador.com/c/33813/f/607859/index.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El País",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Titulares Página Principal",
+                            "topic_id": "1",
+                            "url": "http://www.elpais.com.co/paisonline/rss/principal/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Cali",
+                            "topic_id": "2",
+                            "url": "http://www.elpais.com.co/paisonline/rss/calionline/rss.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "3",
+                            "url": "http://www.elpais.com.co/paisonline/rss/deportesonline/rss.xml"
+                        },
+                        {
+                            "topic_name": "Vivir",
+                            "topic_id": "4",
+                            "url": "http://www.elpais.com.co/paisonline/rss/vivir/rss.xml"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "5",
+                            "url": "http://www.elpais.com.co/rss/opinion/rss.xml"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "6",
+                            "url": "http://www.elpais.com.co/rss/internacional/rss.xml"
+                        },
+                        {
+                            "topic_name": "Nacional",
+                            "topic_id": "7",
+                            "url": "http://www.elpais.com.co/rss/nacional/rss.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "8",
+                            "url": "http://www.elpais.com.co/rss/economicas/rss.xml"
+                        },
+                        {
+                            "topic_name": "Regional",
+                            "topic_id": "9",
+                            "url": "http://www.elpais.com.co/rss/regional/rss.xml"
+                        },
+                        {
+                            "topic_name": "Judicial",
+                            "topic_id": "10",
+                            "url": "http://www.elpais.com.co/rss/judicial/rss.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Argentina",
+            "country_code": "AR",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Clarin",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "1",
+                            "url": "http://www.clarín.com/rss/politica/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "2",
+                            "url": "http://www.clarin.com/rss/deportes/"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "3",
+                            "url": "http://www.clarin.com/rss/economia/"
+                        },
+                        {
+                            "topic_name": "El Mundo",
+                            "topic_id": "4",
+                            "url": "http://www.clarin.com/rss/mundo/"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "5",
+                            "url": "http://www.clarin.com/rss/sociedad/"
+                        },
+                        {
+                            "topic_name": "Ciudades",
+                            "topic_id": "6",
+                            "url": "http://www.clarin.com/rss/ciudades/"
+                        },
+                        {
+                            "topic_name": "Policiales",
+                            "topic_id": "7",
+                            "url": "http://www.clarin.com/rss/policiales/"
+                        },
+                        {
+                            "topic_name": "Internet",
+                            "topic_id": "8",
+                            "url": "http://www.clarin.com/rss/internet/"
+                        },
+                        {
+                            "topic_name": "Multimedia",
+                            "topic_id": "9",
+                            "url": "http://www.clarin.com/rss/multimedia/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Nación",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Ultimas Noticias",
+                            "topic_id": "1",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/origen=2",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Títulos ed. impresa",
+                            "topic_id": "2",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/origen=1"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "3",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=30"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "4",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=272"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "5",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=131"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "6",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7773"
+                        },
+                        {
+                            "topic_name": "Seguridad",
+                            "topic_id": "7",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7775"
+                        },
+                        {
+                            "topic_name": "Buenos Aires",
+                            "topic_id": "8",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7774"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "9",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=28"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "10",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=120"
+                        },
+                        {
+                            "topic_name": "El Mundo",
+                            "topic_id": "11",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7"
+                        },
+                        {
+                            "topic_name": "Revista LA NACION",
+                            "topic_id": "12",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=494"
+                        },
+                        {
+                            "topic_name": "Suplemento Enfoques",
+                            "topic_id": "13",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=421"
+                        },
+                        {
+                            "topic_name": "Suplemento Comercio Exterior",
+                            "topic_id": "14",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=347"
+                        },
+                        {
+                            "topic_name": "Suplemento Tecnología",
+                            "topic_id": "15",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=432"
+                        },
+                        {
+                            "topic_name": "Suplemento Turismo",
+                            "topic_id": "16",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=504"
+                        },
+                        {
+                            "topic_name": "Suplemento Al volante",
+                            "topic_id": "17",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=371"
+                        },
+                        {
+                            "topic_name": "Suplemento El Campo",
+                            "topic_id": "18",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=337"
+                        },
+                        {
+                            "topic_name": "Suplemento Moda y Belleza",
+                            "topic_id": "19",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1312"
+                        },
+                        {
+                            "topic_name": "Suplemento Inmuebles Comerciales",
+                            "topic_id": "20",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1363"
+                        },
+                        {
+                            "topic_name": "Suplemento Countries",
+                            "topic_id": "21",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1348"
+                        },
+                        {
+                            "topic_name": "Suplemento Comunidad",
+                            "topic_id": "22",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1344"
+                        },
+                        {
+                            "topic_name": "adnCultura",
+                            "topic_id": "23",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=6734"
+                        },
+                        {
+                            "topic_name": "The Wall Street Journal Americas",
+                            "topic_id": "24",
+                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=6373"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Capital",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://www.lacapital.com.ar/rss/home.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "La Ciudad",
+                            "topic_id": "2",
+                            "url": "http://www.lacapital.com.ar/rss/laciudad.xml"
+                        },
+                        {
+                            "topic_name": "Politica",
+                            "topic_id": "3",
+                            "url": "http://www.lacapital.com.ar/rss/politica.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "4",
+                            "url": "http://www.lacapital.com.ar/rss/economia.xml"
+                        },
+                        {
+                            "topic_name": "La Región ",
+                            "topic_id": "5",
+                            "url": "http://www.lacapital.com.ar/rss/laregion.xml"
+                        },
+                        {
+                            "topic_name": "Información Gral",
+                            "topic_id": "6",
+                            "url": "http://www.lacapital.com.ar/rss/informaciongral.xml"
+                        },
+                        {
+                            "topic_name": "El Mundo",
+                            "topic_id": "7",
+                            "url": "http://www.lacapital.com.ar/rss/elmundo.xml"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "8",
+                            "url": "http://www.lacapital.com.ar/rss/opinion.xml"
+                        },
+                        {
+                            "topic_name": "Cartas de lectores",
+                            "topic_id": "9",
+                            "url": "http://www.lacapital.com.ar/rss/cartasdelectores.xml"
+                        },
+                        {
+                            "topic_name": "Escenario",
+                            "topic_id": "10",
+                            "url": "http://www.lacapital.com.ar/rss/escenario.xml"
+                        },
+                        {
+                            "topic_name": "Policiales",
+                            "topic_id": "11",
+                            "url": "http://www.lacapital.com.ar/rss/policiales.xml"
+                        },
+                        {
+                            "topic_name": "Más Leídas",
+                            "topic_id": "12",
+                            "url": "http://www.lacapital.com.ar/rss/masleidas.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Peru",
+            "country_code": "PE",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Comercio",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "1",
+                            "url": "http://elcomercio.pe/feed/politica.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Lima",
+                            "topic_id": "2",
+                            "url": "http://elcomercio.pe/feed/lima.xml"
+                        },
+                        {
+                            "topic_name": "Perú",
+                            "topic_id": "3",
+                            "url": "http://elcomercio.pe/feed/peru.xml"
+                        },
+                        {
+                            "topic_name": "Ciencias",
+                            "topic_id": "4",
+                            "url": "http://elcomercio.pe/feed/ciencias.xml"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "5",
+                            "url": "http://elcomercio.pe/feed/tecnologia.xml"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "6",
+                            "url": "http://elcomercio.pe/feed/mundo.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "7",
+                            "url": "http://elcomercio.pe/feed/economia.xml"
+                        },
+                        {
+                            "topic_name": "Luces",
+                            "topic_id": "8",
+                            "url": "http://elcomercio.pe/feed/luces.xml"
+                        },
+                        {
+                            "topic_name": "TV +",
+                            "topic_id": "9",
+                            "url": "http://elcomercio.pe/feed/tvmas.xml"
+                        },
+                        {
+                            "topic_name": "Deporte Total",
+                            "topic_id": "10",
+                            "url": "http://elcomercio.pe/feed/deporte-total.xml"
+                        },
+                        {
+                            "topic_name": "Insólito",
+                            "topic_id": "11",
+                            "url": "http://elcomercio.pe/feed/insolito.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La República",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Todas las noticias",
+                            "topic_id": "1",
+                            "url": "http://www.larepublica.pe/rss/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Columnistas del día",
+                            "topic_id": "2",
+                            "url": "http://www.larepublica.pe/rss/columnistas/columnistas"
+                        },
+                        {
+                            "topic_name": "Edición Impresa Lima",
+                            "topic_id": "3",
+                            "url": "http://www.larepublica.pe/rss/impresa/larepublica-lima"
+                        },
+                        {
+                            "topic_name": "Edición Impresa Sur",
+                            "topic_id": "4",
+                            "url": "http://www.larepublica.pe/rss/impresa/larepublica-sur"
+                        },
+                        {
+                            "topic_name": "Revista Domingo",
+                            "topic_id": "5",
+                            "url": "http://www.larepublica.pe/rss/impresa/revista-domingo"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "6",
+                            "url": "http://www.larepublica.pe/rss/politica/politica"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "7",
+                            "url": "http://www.larepublica.pe/rss/economia/economia"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "8",
+                            "url": "http://www.larepublica.pe/rss/sociedad/sociedad"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "9",
+                            "url": "http://www.larepublica.pe/rss/mundo/mundo"
+                        },
+                        {
+                            "topic_name": "Noticias Región Norte",
+                            "topic_id": "10",
+                            "url": "http://www.larepublica.pe/rss/region/norte"
+                        },
+                        {
+                            "topic_name": "Noticias Región Sur",
+                            "topic_id": "11",
+                            "url": "http://www.larepublica.pe/rss/region/sur"
+                        },
+                        {
+                            "topic_name": "Noticias Región Oriente",
+                            "topic_id": "12",
+                            "url": "http://www.larepublica.pe/rss/region/oriente"
+                        },
+                        {
+                            "topic_name": "Noticias Región Centro",
+                            "topic_id": "13",
+                            "url": "http://www.larepublica.pe/rss/region/centro"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "14",
+                            "url": "http://www.larepublica.pe/rss/espectaculos/espectaculos"
+                        },
+                        {
+                            "topic_name": "Cultural",
+                            "topic_id": "15",
+                            "url": "http://www.larepublica.pe/rss/cultural/cultural"
+                        },
+                        {
+                            "topic_name": "Ocio",
+                            "topic_id": "16",
+                            "url": "http://www.larepublica.pe/rss/ocio/ocio"
+                        },
+                        {
+                            "topic_name": "Fútbol peruano",
+                            "topic_id": "17",
+                            "url": "http://www.larepublica.pe/rss/deportes/futbol-peruano"
+                        },
+                        {
+                            "topic_name": "Ligas internacionales",
+                            "topic_id": "18",
+                            "url": "http://www.larepublica.pe/rss/deportes/ligas-internacionales"
+                        },
+                        {
+                            "topic_name": "Copas internacionales",
+                            "topic_id": "19",
+                            "url": "http://www.larepublica.pe/rss/deportes/copas-internacionales"
+                        },
+                        {
+                            "topic_name": "Peruanos en el extranjero",
+                            "topic_id": "20",
+                            "url": "http://www.larepublica.pe/rss/deportes/peruanos-en-el-extranjero"
+                        },
+                        {
+                            "topic_name": "Más deportes",
+                            "topic_id": "21",
+                            "url": "http://www.larepublica.pe/rss/deportes/mas-deportes"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "22",
+                            "url": "http://www.larepublica.pe/rss/tecnologia/tecnologia"
+                        },
+                        {
+                            "topic_name": "Sexualidad",
+                            "topic_id": "23",
+                            "url": "http://www.larepublica.pe/rss/sexualidad/sexualidad"
+                        },
+                        {
+                            "topic_name": "Empresa",
+                            "topic_id": "24",
+                            "url": "http://www.larepublica.pe/rss/empresa/empresa"
+                        },
+                        {
+                            "topic_name": "Autos",
+                            "topic_id": "25",
+                            "url": "http://www.larepublica.pe/rss/automovilismo/automovilismo"
+                        },
+                        {
+                            "topic_name": "Turismo",
+                            "topic_id": "26",
+                            "url": "http://www.larepublica.pe/rss/turismo/turismo"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "27",
+                            "url": "http://www.larepublica.pe/rss/salud/salud"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Perú21",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Actualidad",
+                            "topic_id": "1",
+                            "url": "http://peru21.pe/feed/actualidad",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Deporte",
+                            "topic_id": "2",
+                            "url": "http://peru21.pe/feed/deportes"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "3",
+                            "url": "http://peru21.pe/feed/economia"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "4",
+                            "url": "http://peru21.pe/feed/mundo"
+                        },
+                        {
+                            "topic_name": "Vida 21",
+                            "topic_id": "5",
+                            "url": "http://peru21.pe/feed/vida21"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "6",
+                            "url": "http://peru21.pe/feed/espectaculos"
+                        },
+                        {
+                            "topic_name": "Mis Finanzas",
+                            "topic_id": "7",
+                            "url": "http://peru21.pe/feed/mis-finanzas"
+                        },
+                        {
+                            "topic_name": "Blogs (últimas entradas)",
+                            "topic_id": "8",
+                            "url": "http://blogs.peru21.pe/rss/feed.php"
+                        },
+                        {
+                            "topic_name": "Reportuit",
+                            "topic_id": "9",
+                            "url": "http://peru21.pe/feed/reportuit"
+                        },
+                        {
+                            "topic_name": "Emprendedores",
+                            "topic_id": "10",
+                            "url": "http://peru21.pe/feed/emprendedores"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "11",
+                            "url": "http://peru21.pe/feed/tecnologia"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Venezuela",
+            "country_code": "VE",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Universal",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Avances generales de última hora",
+                            "topic_id": "1",
+                            "url": "http://www.eluniversal.com/rss/avances.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "2",
+                            "url": "http://www.eluniversal.com/rss/eco_avances.xml"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "3",
+                            "url": "http://www.eluniversal.com/rss/opi_avances.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "4",
+                            "url": "http://www.eluniversal.com/rss/dep_avances.xml"
+                        },
+                        {
+                            "topic_name": "Arte y Entretenimiento",
+                            "topic_id": "5",
+                            "url": "http://www.eluniversal.com/rss/til_avances.xml"
+                        },
+                        {
+                            "topic_name": "Universo Empresarial",
+                            "topic_id": "6",
+                            "url": "http://www.eluniversal.com/rss/uni_avances.xml"
+                        },
+                        {
+                            "topic_name": "Guía turística",
+                            "topic_id": "7",
+                            "url": "http://www.eluniversal.com/rss/gtu_avances.xml"
+                        },
+                        {
+                            "topic_name": "Nacional y Política",
+                            "topic_id": "8",
+                            "url": "http://www.eluniversal.com/rss/pol_avances.xml"
+                        },
+                        {
+                            "topic_name": "Sucesos",
+                            "topic_id": "9",
+                            "url": "http://www.eluniversal.com/rss/suc_avances.xml"
+                        },
+                        {
+                            "topic_name": "Internacionales",
+                            "topic_id": "10",
+                            "url": "http://www.eluniversal.com/rss/int_avances.xml"
+                        },
+                        {
+                            "topic_name": "Caracas",
+                            "topic_id": "11",
+                            "url": "http://www.eluniversal.com/rss/ccs_avances.xml"
+                        },
+                        {
+                            "topic_name": "Vida",
+                            "topic_id": "12",
+                            "url": "http://www.eluniversal.com/rss/ten_avances.xml"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "13",
+                            "url": "http://www.eluniversal.com/rss/cul_avances.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Últimas Noticias",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Actualidad",
+                            "topic_id": "1",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/Actualidad.aspx",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Chévere",
+                            "topic_id": "2",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/Chevere.aspx"
+                        },
+                        {
+                            "topic_name": "Ciudad",
+                            "topic_id": "3",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/Ciudad.aspx"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "4",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/Deportes.aspx"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "5",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/Opinion.aspx"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "6",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/Tecnologia.aspx"
+                        },
+                        {
+                            "topic_name": "Multimedia",
+                            "topic_id": "7",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/multimedia.aspx"
+                        },
+                        {
+                            "topic_name": "Hipismo",
+                            "topic_id": "8",
+                            "url": "http://www.ultimasnoticias.com.ve/CMSPages/RSS/Un/hipismo.aspx"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Nacional",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "El Nacional",
+                            "topic_id": "1",
+                            "url": "http://www.el-nacional.com/rss/",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Chile",
+            "country_code": "CL",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Tercera",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Nacional",
+                            "topic_id": "1",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=680",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "2",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=678"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "3",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=674"
+                        },
+                        {
+                            "topic_name": "Negocios",
+                            "topic_id": "4",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=655"
+                        },
+                        {
+                            "topic_name": "Santiago",
+                            "topic_id": "5",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=1731"
+                        },
+                        {
+                            "topic_name": "Tendencias",
+                            "topic_id": "6",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=659"
+                        },
+                        {
+                            "topic_name": "Educación",
+                            "topic_id": "7",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=657"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "8",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=1453"
+                        },
+                        {
+                            "topic_name": "Entretención",
+                            "topic_id": "9",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=661"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "10",
+                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=656"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Mercurio",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": " Noticias de última hora ",
+                            "topic_id": "1",
+                            "url": "http://rss.emol.com/rss.asp?canal=0",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": " Nacional ",
+                            "topic_id": "2",
+                            "url": "http://rss.emol.com/rss.asp?canal=1"
+                        },
+                        {
+                            "topic_name": " Mundo ",
+                            "topic_id": "3",
+                            "url": "http://rss.emol.com/rss.asp?canal=2"
+                        },
+                        {
+                            "topic_name": " Deportes ",
+                            "topic_id": "4",
+                            "url": "http://rss.emol.com/rss.asp?canal=4"
+                        },
+                        {
+                            "topic_name": " Magazine ",
+                            "topic_id": "5",
+                            "url": "http://rss.emol.com/rss.asp?canal=6"
+                        },
+                        {
+                            "topic_name": " Tecnología ",
+                            "topic_id": "6",
+                            "url": "http://rss.emol.com/rss.asp?canal=5"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Ecuador",
+            "country_code": "EC",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Universo",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "NOTICIAS",
+                            "topic_id": "1",
+                            "url": "http://www.eluniverso.com/rss/noticias.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "OPINIÓN",
+                            "topic_id": "2",
+                            "url": "http://www.eluniverso.com/rss/opinion.xml"
+                        },
+                        {
+                            "topic_name": "DEPORTES",
+                            "topic_id": "3",
+                            "url": "http://www.eluniverso.com/rss/deportes.xml"
+                        },
+                        {
+                            "topic_name": "VIDA Y ESTILO",
+                            "topic_id": "4",
+                            "url": "http://www.eluniverso.com/rss/vida-y-estilo.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Telégrafo",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Actualidad",
+                            "topic_id": "1",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=6&category_id=0&format=feed&type=rss&Itemid=153",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "2",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=2&category_id=0&format=feed&type=rss&Itemid=262"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "3",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=1&category_id=0&format=feed&type=atom&Itemid=156"
+                        },
+                        {
+                            "topic_name": "Cultura",
+                            "topic_id": "4",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=8&category_id=0&format=feed&type=rss&Itemid=278"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "5",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=3&category_id=0&format=feed&type=rss&Itemid=161"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "6",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=7&category_id=0&format=feed&type=rss&Itemid=162"
+                        },
+                        {
+                            "topic_name": "Tecnología",
+                            "topic_id": "7",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=15&category_id=0&format=feed&type=rss&Itemid=163"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "8",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=14&category_id=0&format=feed&type=rss&Itemid=155"
+                        },
+                        {
+                            "topic_name": "Judicial",
+                            "topic_id": "9",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=15&category_id=0&format=feed&type=rss&Itemid=163"
+                        },
+                        {
+                            "topic_name": "Tele MIX",
+                            "topic_id": "10",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=16&category_id=0&format=feed&type=rss&Itemid=164"
+                        },
+                        {
+                            "topic_name": "English Bulletin",
+                            "topic_id": "11",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=27&category_id=0&format=feed&type=rss&Itemid=247"
+                        },
+                        {
+                            "topic_name": "Guayaquil",
+                            "topic_id": "12",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=12&category_id=0&format=feed&type=rss&Itemid=157"
+                        },
+                        {
+                            "topic_name": "Quito",
+                            "topic_id": "13",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=23&category_id=0&format=feed&type=rss&Itemid=158"
+                        },
+                        {
+                            "topic_name": "Multimedia",
+                            "topic_id": "14",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=4&category_id=0&format=feed&type=rss&Itemid=123"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Hora",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "PAIS:",
+                            "topic_id": "1",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=pais",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "ULTIMA HORA:",
+                            "topic_id": "2",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=ultimahora"
+                        },
+                        {
+                            "topic_name": "MUNDO:",
+                            "topic_id": "3",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=mundo"
+                        },
+                        {
+                            "topic_name": "ECONOMIA:",
+                            "topic_id": "4",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=economia"
+                        },
+                        {
+                            "topic_name": "DEPORTES:",
+                            "topic_id": "5",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=deportes"
+                        },
+                        {
+                            "topic_name": "OPINION:",
+                            "topic_id": "6",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=opinion"
+                        },
+                        {
+                            "topic_name": "FARANDULA:",
+                            "topic_id": "7",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=farandula"
+                        },
+                        {
+                            "topic_name": "CULTURA:",
+                            "topic_id": "8",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=cultura"
+                        },
+                        {
+                            "topic_name": "SOCIAL:",
+                            "topic_id": "9",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=social"
+                        },
+                        {
+                            "topic_name": "CARCHI:",
+                            "topic_id": "10",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=carchi"
+                        },
+                        {
+                            "topic_name": "COTOPAXI:",
+                            "topic_id": "11",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=cotopaxi"
+                        },
+                        {
+                            "topic_name": "ESMERALDAS:",
+                            "topic_id": "12",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=esmeraldas"
+                        },
+                        {
+                            "topic_name": "IMBABURA:",
+                            "topic_id": "13",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=imbabura"
+                        },
+                        {
+                            "topic_name": "MANTA:",
+                            "topic_id": "14",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=manta"
+                        },
+                        {
+                            "topic_name": "LOJA:",
+                            "topic_id": "15",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=loja"
+                        },
+                        {
+                            "topic_name": "LOS RIOS:",
+                            "topic_id": "16",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=losrios"
+                        },
+                        {
+                            "topic_name": "PORTOVIEJO:",
+                            "topic_id": "17",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=manabi"
+                        },
+                        {
+                            "topic_name": "QUITO:",
+                            "topic_id": "18",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=capital"
+                        },
+                        {
+                            "topic_name": "SANTO DOMINGO DE LOS TSACHILAS:",
+                            "topic_id": "19",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=santo"
+                        },
+                        {
+                            "topic_name": "TUNGURAHUA:",
+                            "topic_id": "20",
+                            "url": " http://www.lahora.com.ec/rss/rss.php?region=tungurahua"
+                        },
+                        {
+                            "topic_name": "ZAMORA:",
+                            "topic_id": "21",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?region=zamora"
+                        },
+                        {
+                            "topic_name": "TODOS LOS TITULARES:",
+                            "topic_id": "22",
+                            "url": "http://www.lahora.com.ec/rss/rss.php?seccion=home"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Bolivia",
+            "country_code": "BO",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Los Tiempos",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Titulares - Portada",
+                            "topic_id": "1",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-titulares.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Últimas noticas",
+                            "topic_id": "2",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-ultimas.xml"
+                        },
+                        {
+                            "topic_name": "Más leidas",
+                            "topic_id": "3",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-masleidas.xml"
+                        },
+                        {
+                            "topic_name": "Más enviadas",
+                            "topic_id": "4",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-masenviadas.xml"
+                        },
+                        {
+                            "topic_name": "Más comentadas",
+                            "topic_id": "5",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-mascomentadas.xml"
+                        },
+                        {
+                            "topic_name": "Nacional",
+                            "topic_id": "6",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-nacional.xml"
+                        },
+                        {
+                            "topic_name": "Local",
+                            "topic_id": "7",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-local.xml"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-deportes.xml"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "9",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-economia.xml"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "10",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-internacional.xml"
+                        },
+                        {
+                            "topic_name": "Vida y Futuro",
+                            "topic_id": "11",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-vida-y-futuro.xml"
+                        },
+                        {
+                            "topic_name": "Tragaluz",
+                            "topic_id": "12",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-tragaluz.xml"
+                        },
+                        {
+                            "topic_name": "Opiniones",
+                            "topic_id": "13",
+                            "url": "http://www.lostiempos.com/rss/lostiempos-opiniones.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "La Razón",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Nacional",
+                            "topic_id": "1",
+                            "url": "http://www.la-razon.com/rss/nacional/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "2",
+                            "url": "http://www.la-razon.com/rss/economia/"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "3",
+                            "url": "http://www.la-razon.com/rss/opinion/editorial/"
+                        },
+                        {
+                            "topic_name": "Ciudades",
+                            "topic_id": "4",
+                            "url": "http://www.la-razon.com/rss/ciudades/"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "5",
+                            "url": "http://www.la-razon.com/rss/sociedad/"
+                        },
+                        {
+                            "topic_name": "Ciencia y tecnología",
+                            "topic_id": "6",
+                            "url": "http://www.la-razon.com/rss/sociedad/Ciencia_tecnologia/"
+                        },
+                        {
+                            "topic_name": "Mundo",
+                            "topic_id": "7",
+                            "url": "http://www.la-razon.com/rss/mundo/"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "8",
+                            "url": "http://www.la-razon.com/rss/la_revista/espectaculos/"
+                        },
+                        {
+                            "topic_name": "Sociales",
+                            "topic_id": "9",
+                            "url": "http://www.la-razon.com/rss/sociales/"
+                        },
+                        {
+                            "topic_name": "Liga",
+                            "topic_id": "10",
+                            "url": "http://www.la-razon.com/rss/marcas/futbol/"
+                        },
+                        {
+                            "topic_name": "El financiero",
+                            "topic_id": "11",
+                            "url": "http://www.la-razon.com/rss/suplementos/financiero/"
+                        },
+                        {
+                            "topic_name": "Especiales",
+                            "topic_id": "12",
+                            "url": "http://www.la-razon.com/rss/suplementos/especiales/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "El Diario",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://rss.eldiario.net/index.php",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Editorial",
+                            "topic_id": "2",
+                            "url": "http://rss.eldiario.net/editorial.php"
+                        },
+                        {
+                            "topic_name": "Opinión",
+                            "topic_id": "3",
+                            "url": "http://rss.eldiario.net/opinion.php"
+                        },
+                        {
+                            "topic_name": "Política",
+                            "topic_id": "4",
+                            "url": "http://rss.eldiario.net/politica.php"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://rss.eldiario.net/economia.php"
+                        },
+                        {
+                            "topic_name": "Sociedad",
+                            "topic_id": "6",
+                            "url": "http://rss.eldiario.net/sociedad.php"
+                        },
+                        {
+                            "topic_name": "Nacional",
+                            "topic_id": "7",
+                            "url": "http://rss.eldiario.net/nacional.php"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://rss.eldiario.net/deportes.php"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "9",
+                            "url": "http://rss.eldiario.net/internacional.php"
+                        },
+                        {
+                            "topic_name": "Sociales",
+                            "topic_id": "10",
+                            "url": "http://rss.eldiario.net/sociales.php"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Guatemala",
+            "country_code": "GT",
+            "news_providers": [
+                {
+                    "provider_name": "Google Noticias",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Noticias destacadas",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sugerencias personalizadas",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Estados Unidos",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economía",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ciencia y Tecnología",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Espectáculos",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Salud",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Más noticias destacadas",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=es_us&hl=es&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Prensa Libre",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Portada",
+                            "topic_id": "1",
+                            "url": "http://www.prensalibre.com/rss?rss=Portada",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Guatemala",
+                            "topic_id": "2",
+                            "url": "http://www.prensalibre.com/rss?rss=Guatemala"
+                        },
+                        {
+                            "topic_name": "Deportes",
+                            "topic_id": "3",
+                            "url": "http://www.prensalibre.com/rss?rss=Deportes"
+                        },
+                        {
+                            "topic_name": "Tecnologia",
+                            "topic_id": "4",
+                            "url": "http://www.prensalibre.com/rss?rss=Tecnologia"
+                        },
+                        {
+                            "topic_name": "Economia",
+                            "topic_id": "5",
+                            "url": "http://www.prensalibre.com/rss?rss=Economia"
+                        },
+                        {
+                            "topic_name": "Internacional",
+                            "topic_id": "6",
+                            "url": "http://www.prensalibre.com/rss?rss=Internacional"
+                        },
+                        {
+                            "topic_name": "Vida",
+                            "topic_id": "7",
+                            "url": "http://www.prensalibre.com/rss?rss=Vida"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "8",
+                            "url": "http://www.prensalibre.com/rss?rss=Opinion"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Siglo Veintiuno",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Siglo Veintiuno",
+                            "topic_id": "1",
+                            "url": "http://www.s21.com.gt/feed/portada",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

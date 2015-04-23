@@ -1,0 +1,227 @@
+{
+    "lang_name_english": "Vietnamese",
+    "lang_name_regional": "tiếng Việt",
+    "lang_code": "vi",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Việt Nam",
+            "country_code": "VN",
+            "news_providers": [
+                {
+                    "provider_name": "Google News",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Tin bài hàng đầu",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Thế giới",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Việt Nam",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Kinh doanh",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Giải trí",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Thể thao",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Tin bài hàng đầu khác",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Báo Mới",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "THẾ GIỚI",
+                            "topic_id": "1",
+                            "url": "http://www.baomoi.com/Home/TheGioi.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "XÃ HỘI",
+                            "topic_id": "2",
+                            "url": "http://www.baomoi.com/Home/XaHoi.rss"
+                        },
+                        {
+                            "topic_name": "VĂN HÓA",
+                            "topic_id": "3",
+                            "url": "http://www.baomoi.com/Home/VanHoa.rss"
+                        },
+                        {
+                            "topic_name": "KINH TẾ",
+                            "topic_id": "4",
+                            "url": "http://www.baomoi.com/Home/KinhTe.rss"
+                        },
+                        {
+                            "topic_name": "KH-CN",
+                            "topic_id": "5",
+                            "url": "http://www.baomoi.com/Home/KHCN.rss"
+                        },
+                        {
+                            "topic_name": "THỂ THAO",
+                            "topic_id": "6",
+                            "url": "http://www.baomoi.com/Home/TheThao.rss"
+                        },
+                        {
+                            "topic_name": "GIẢI TRÍ",
+                            "topic_id": "7",
+                            "url": "http://www.baomoi.com/Home/GiaiTri.rss"
+                        },
+                        {
+                            "topic_name": "PHÁP LUẬT",
+                            "topic_id": "8",
+                            "url": "http://www.baomoi.com/Home/PhapLuat.rss"
+                        },
+                        {
+                            "topic_name": "GIÁO DỤC",
+                            "topic_id": "9",
+                            "url": "http://www.baomoi.com/Home/GiaoDuc.rss"
+                        },
+                        {
+                            "topic_name": "SỨC KHỎE",
+                            "topic_id": "10",
+                            "url": "http://www.baomoi.com/Home/SucKhoe.rss"
+                        },
+                        {
+                            "topic_name": "Ô TÔ-XE MÁY",
+                            "topic_id": "11",
+                            "url": "http://www.baomoi.com/Home/OtoXemay.rss"
+                        },
+                        {
+                            "topic_name": "NHÀ ĐẤT",
+                            "topic_id": "12",
+                            "url": "http://www.baomoi.com/Home/NhaDat.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Tiền Phong",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Xã hội",
+                            "topic_id": "1",
+                            "url": "http://www.tienphong.vn/rss/xa-hoi-2.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Kinh tế",
+                            "topic_id": "2",
+                            "url": "http://www.tienphong.vn/rss/kinh-te-3.rss"
+                        },
+                        {
+                            "topic_name": "Thế giới",
+                            "topic_id": "3",
+                            "url": "http://www.tienphong.vn/rss/the-gioi-5.rss"
+                        },
+                        {
+                            "topic_name": "Giới trẻ",
+                            "topic_id": "4",
+                            "url": "http://www.tienphong.vn/rss/gioi-tre-4.rss"
+                        },
+                        {
+                            "topic_name": "Pháp luật",
+                            "topic_id": "5",
+                            "url": "http://www.tienphong.vn/rss/phap-luat-12.rss"
+                        },
+                        {
+                            "topic_name": "Thể thao",
+                            "topic_id": "6",
+                            "url": "http://www.tienphong.vn/rss/the-thao-11.rss"
+                        },
+                        {
+                            "topic_name": "Văn nghệ",
+                            "topic_id": "7",
+                            "url": "http://www.tienphong.vn/rss/van-nghe-7.rss"
+                        },
+                        {
+                            "topic_name": "Giải trí",
+                            "topic_id": "8",
+                            "url": "http://www.tienphong.vn/rss/giai-tri-36.rss"
+                        },
+                        {
+                            "topic_name": "Giáo dục",
+                            "topic_id": "9",
+                            "url": "http://www.tienphong.vn/rss/giao-duc-71.rss"
+                        },
+                        {
+                            "topic_name": "Khoa học",
+                            "topic_id": "10",
+                            "url": "http://www.tienphong.vn/rss/cong-nghe-45.rss"
+                        },
+                        {
+                            "topic_name": "Người lính",
+                            "topic_id": "11",
+                            "url": "http://www.tienphong.vn/rss/hanh-trang-nguoi-linh-182.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Công An",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Đất nước - con người",
+                            "topic_id": "1",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=880",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Chuyện hàng tuần",
+                            "topic_id": "2",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=1060"
+                        },
+                        {
+                            "topic_name": "Kinh tế",
+                            "topic_id": "3",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=707"
+                        },
+                        {
+                            "topic_name": "Quốc tế",
+                            "topic_id": "4",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=1120"
+                        },
+                        {
+                            "topic_name": "Thể thao",
+                            "topic_id": "5",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=941"
+                        },
+                        {
+                            "topic_name": "Tòa soạn - Bạn đọc",
+                            "topic_id": "6",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=1101"
+                        },
+                        {
+                            "topic_name": "Văn hóa",
+                            "topic_id": "7",
+                            "url": "http://www.congan.com.vn/vie/rss/rss.php?catid=882"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

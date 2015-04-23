@@ -6,67 +6,270 @@
     "countries": [
         {
             "country_name": "Sverige",
-            "country_code": "se",
+            "country_code": "SE",
             "news_providers": [
                 {
-                    "provider_name": "Aftonbladet",
+                    "provider_name": "Google Nyheter",
             	    "provider_id": "1",
             	    "topics": [
                         {
-                            "topic_name": "Startsidan",
+                            "topic_name": "Huvudnyheter",
                             "topic_id": "1",
-                            "url": "http://www.aftonbladet.se/rss.xml",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Världen",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Sverige",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Ekonomi",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Vetenskap & teknik",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Nöje",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Hälsa",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Fler huvudnyheter",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Dagens Nyheter",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Senaste nytt",
+                            "topic_id": "1",
+                            "url": "http://www.dn.se/rss/senaste-nytt/",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Nyheter",
                             "topic_id": "2",
-                            "url": "http://www.aftonbladet.se/nyheter/rss.xml"
+                            "url": "http://www.dn.se/nyheter/rss/"
                         },
                         {
-                            "topic_name": "Sportbladet",
+                            "topic_name": "Stockholm",
                             "topic_id": "3",
-                            "url": "http://www.aftonbladet.se/sportbladet/rss.xml"
+                            "url": "http://www.dn.se/sthlm/rss/"
                         },
                         {
-                            "topic_name": "Sportbladet Fotboll",
+                            "topic_name": "Världen",
                             "topic_id": "4",
-                            "url": "http://www.aftonbladet.se/sportbladet/fotboll/rss.xml"
+                            "url": "http://www.dn.se/nyheter/varlden/rss/"
                         },
                         {
-                            "topic_name": "Sportbladet Hockey",
+                            "topic_name": "Ekonomi",
                             "topic_id": "5",
-                            "url": "http://www.aftonbladet.se/sportbladet/hockey/rss.xml"
+                            "url": "http://www.dn.se/ekonomi/rss/"
                         },
                         {
-                            "topic_name": "Nöjesbladet",
+                            "topic_name": "Sport",
                             "topic_id": "6",
-                            "url": "http://www.aftonbladet.se/nojesbladet/rss.xml"
-                        },
-                        {
-                            "topic_name": "Klick!",
-                            "topic_id": "7",
-                            "url": "http://www.aftonbladet.se/nojesbladet/klick/rss.xml"
-                        },
-                        {
-                            "topic_name": "Sofis Mode",
-                            "topic_id": "8",
-                            "url": "http://www.aftonbladet.se/sofismode/rss.xml"
+                            "url": "http://www.dn.se/sport/rss/"
                         },
                         {
                             "topic_name": "Kultur",
+                            "topic_id": "7",
+                            "url": "http://www.dn.se/kultur-noje/rss/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Göteborgs-Posten",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Göteborg",
+                            "topic_id": "1",
+                            "url": "http://www.gp.se/1.16942",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sverige",
+                            "topic_id": "2",
+                            "url": "http://www.gp.se/1.16943"
+                        },
+                        {
+                            "topic_name": "Världen",
+                            "topic_id": "3",
+                            "url": "http://www.gp.se/1.16944"
+                        },
+                        {
+                            "topic_name": "Ledare",
+                            "topic_id": "4",
+                            "url": "http://www.gp.se/1.872491"
+                        },
+                        {
+                            "topic_name": "Debatt",
+                            "topic_id": "5",
+                            "url": "http://www.gp.se/1.315001"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://www.gp.se/1.16542"
+                        },
+                        {
+                            "topic_name": "Kultur & Nöje",
+                            "topic_id": "7",
+                            "url": "http://www.gp.se/1.16941"
+                        },
+                        {
+                            "topic_name": "Ekonomi",
+                            "topic_id": "8",
+                            "url": "http://www.gp.se/1.16555"
+                        },
+                        {
+                            "topic_name": "Konsument",
                             "topic_id": "9",
-                            "url": "http://www.aftonbladet.se/kultur/rss.xml"
+                            "url": "http://www.gp.se/1.16558"
                         },
                         {
-                            "topic_name": "Wellness",
+                            "topic_name": "Bostad",
                             "topic_id": "10",
-                            "url": "http://www.aftonbladet.se/wellness/rss.xml"
+                            "url": "http://www.gp.se/1.16562"
                         },
                         {
-                            "topic_name": "Kolumnister",
+                            "topic_name": "Resor",
                             "topic_id": "11",
-                            "url": "http://www.aftonbladet.se/nyheter/kolumnister/robertaschberg/rss.xml"
+                            "url": "http://www.gp.se/1.16569"
+                        },
+                        {
+                            "topic_name": "Motor",
+                            "topic_id": "12",
+                            "url": "http://www.gp.se/1.16570"
+                        },
+                        {
+                            "topic_name": "Mat & Dryck",
+                            "topic_id": "13",
+                            "url": "http://www.gp.se/1.16571"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Svenska Dagbladet",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "senaste nytt - det mest kompletta flödet",
+                            "topic_id": "1",
+                            "url": "http://www.svd.se/nyheter/nyhetsdygnet/?service=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "toppnyheter",
+                            "topic_id": "2",
+                            "url": "http://www.svd.se/?service=rss"
+                        },
+                        {
+                            "topic_name": "mest läst",
+                            "topic_id": "3",
+                            "url": "http://www.svd.se/?service=rss&type=mostread"
+                        },
+                        {
+                            "topic_name": "Stockholmsnyheter",
+                            "topic_id": "4",
+                            "url": "http://www.svd.se/nyheter/stockholm/?service=rss"
+                        },
+                        {
+                            "topic_name": "Idagsidan",
+                            "topic_id": "5",
+                            "url": "http://www.svd.se/nyheter/idagsidan/?service=rss"
+                        },
+                        {
+                            "topic_name": "sport - toppnyheterna",
+                            "topic_id": "6",
+                            "url": "http://www.svd.se/sport/?service=rss"
+                        },
+                        {
+                            "topic_name": "Ledare",
+                            "topic_id": "7",
+                            "url": "http://www.svd.se/opinion/ledarsidan/?service=rss"
+                        },
+                        {
+                            "topic_name": "Brännpunkt",
+                            "topic_id": "8",
+                            "url": "http://www.svd.se/opinion/brannpunkt/?service=rss"
+                        },
+                        {
+                            "topic_name": "Kulturnyheter toppnyheterna",
+                            "topic_id": "9",
+                            "url": "http://www.svd.se/kultur/?service=rss"
+                        },
+                        {
+                            "topic_name": "Under strecket",
+                            "topic_id": "10",
+                            "url": "http://www.svd.se/kultur/understrecket/?service=rss"
+                        },
+                        {
+                            "topic_name": "Resor",
+                            "topic_id": "11",
+                            "url": "http://www.svd.se/resor/?service=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Sydsvenska Dagbladet",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Senaste nytt",
+                            "topic_id": "1",
+                            "url": "http://sydsvenskan.se/rss/senastenytt",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "2",
+                            "url": "http://sydsvenskan.se/rss/sport"
+                        },
+                        {
+                            "topic_name": "Malmö",
+                            "topic_id": "3",
+                            "url": "http://sydsvenskan.se/rss/malmo"
+                        },
+                        {
+                            "topic_name": "Lund",
+                            "topic_id": "4",
+                            "url": "http://sydsvenskan.se/rss/lund"
+                        },
+                        {
+                            "topic_name": "Skåne",
+                            "topic_id": "5",
+                            "url": "http://sydsvenskan.se/rss/skane"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "6",
+                            "url": "http://sydsvenskan.se/rss/opinion"
                         }
                     ]
                 }

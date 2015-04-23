@@ -9,11 +9,11 @@
             "country_code": "KR",
             "news_providers": [
                 {
-                    "provider_name": "구글",
+                    "provider_name": "구글 뉴스",
             	    "provider_id": "1",
             	    "topics": [
                         {
-                            "topic_name": "주요 뉴스",
+                            "topic_name": "주요뉴스",
                             "topic_id": "1",
                             "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
                             "isDefault": "true"

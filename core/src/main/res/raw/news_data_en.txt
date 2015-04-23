@@ -5,49 +5,11 @@
     "region_code": "",
     "countries": [
         {
-            "country_name": "International",
-            "country_code": "inter",
-            "news_providers": [
-                {
-                    "provider_name": "DD News",
-            	    "provider_id": "1",
-            	    "topics": [
-                        {
-                            "topic_name": "DD Topic1",
-                            "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "DD Topic2",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=w"
-                        },
-                        {
-                            "topic_name": "DD Topic3",
-                            "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=n"
-                        },
-                        {
-                            "topic_name": "DD Topic4",
-                            "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=b"
-                        },
-                        {
-                            "topic_name": "DD Topic5",
-                            "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss&topic=tc"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "country_name": "US",
             "country_code": "US",
             "news_providers": [
                 {
-                    "provider_name": "Google",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
             	    "topics": [
                         {
@@ -265,7 +227,7 @@
             	    "topics": [
                         {
                             "topic_name": "U.S. Business",
-                            "topic_id": "3",
+                            "topic_id": "1",
                             "url": "http://www.wsj.com/xml/rss/3_7014.xml",
                             "isDefault": "true"
                         },
@@ -276,22 +238,22 @@
                         },
                         {
                             "topic_name": "Market News",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.wsj.com/xml/rss/3_7031.xml"
                         },
                         {
                             "topic_name": "Technology",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.wsj.com/xml/rss/3_7455.xml"
                         },
                         {
                             "topic_name": "Lifestyle",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.wsj.com/xml/rss/3_7201.xml"
                         },
                         {
                             "topic_name": "Opinion",
-                            "topic_id": "1",
+                            "topic_id": "6",
                             "url": "http://www.wsj.com/xml/rss/3_7041.xml"
                         }
                     ]
@@ -784,8 +746,65 @@
             "country_code": "UK",
             "news_providers": [
                 {
-                    "provider_name": "Daily Mail",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "U.K.",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Spotlight",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=uk&hl=en&topic=ir&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Daily Mail",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Latest Stories",
@@ -852,7 +871,7 @@
                 },
                 {
                     "provider_name": "Daily Telegraph",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "News",
@@ -909,7 +928,7 @@
                 },
                 {
                     "provider_name": "The Guardian",
-            	    "provider_id": "3",
+            	    "provider_id": "4",
             	    "topics": [
                         {
                             "topic_name": "UK News",
@@ -981,7 +1000,7 @@
                 },
                 {
                     "provider_name": "Independent",
-            	    "provider_id": "4",
+            	    "provider_id": "5",
             	    "topics": [
                         {
                             "topic_name": "News",
@@ -1023,7 +1042,7 @@
                 },
                 {
                     "provider_name": "Financial Times",
-            	    "provider_id": "5",
+            	    "provider_id": "6",
             	    "topics": [
                         {
                             "topic_name": "UK",
@@ -1060,7 +1079,7 @@
                 },
                 {
                     "provider_name": "BBC",
-            	    "provider_id": "6",
+            	    "provider_id": "7",
             	    "topics": [
                         {
                             "topic_name": "Top Series",
@@ -1117,8 +1136,65 @@
             "country_code": "IE",
             "news_providers": [
                 {
-                    "provider_name": "Independent",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Ireland",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "More Top Stories",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ie&hl=en&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Independent",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Breaking News",
@@ -1172,6 +1248,73 @@
                             "url": "http://www.independent.ie/travel/rss"
                         }
                     ]
+                },
+                {
+                    "provider_name": "Daily Mail",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Latest Stories",
+                            "topic_id": "1",
+                            "url": "http://www.dailymail.co.uk/articles.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "2",
+                            "url": "http://www.dailymail.co.uk/home/index.rss"
+                        },
+                        {
+                            "topic_name": "News",
+                            "topic_id": "3",
+                            "url": "http://www.dailymail.co.uk/news/index.rss"
+                        },
+                        {
+                            "topic_name": "U.S.",
+                            "topic_id": "4",
+                            "url": "http://www.dailymail.co.uk/ushome/index.rss"
+                        },
+                        {
+                            "topic_name": "Australia",
+                            "topic_id": "5",
+                            "url": "http://www.dailymail.co.uk/auhome/index.rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://www.dailymail.co.uk/sport/index.rss"
+                        },
+                        {
+                            "topic_name": "TV&Showbiz",
+                            "topic_id": "7",
+                            "url": "http://www.dailymail.co.uk/tvshowbiz/index.rss"
+                        },
+                        {
+                            "topic_name": "Femail",
+                            "topic_id": "8",
+                            "url": "http://www.dailymail.co.uk/femail/index.rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://www.dailymail.co.uk/health/index.rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "10",
+                            "url": "http://www.dailymail.co.uk/sciencetech/index.rss"
+                        },
+                        {
+                            "topic_name": "Money",
+                            "topic_id": "11",
+                            "url": "http://www.dailymail.co.uk/money/index.rss"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "12",
+                            "url": "http://www.dailymail.co.uk/travel/index.rss"
+                        }
+                    ]
                 }
             ]
         },
@@ -1180,8 +1323,65 @@
             "country_code": "AU",
             "news_providers": [
                 {
-                    "provider_name": "Herald Sun",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "https://news.google.com/news/section?cf=all&ned=au&topic=w"
+                        },
+                        {
+                            "topic_name": "Australia",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "More Top Stories",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=au&hl=en&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Herald Sun",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Breaking News",
@@ -1233,7 +1433,7 @@
                 },
                 {
                     "provider_name": "Daily Telegraph",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Breaking News",
@@ -1285,7 +1485,7 @@
                 },
                 {
                     "provider_name": "Courier Mail",
-            	    "provider_id": "3",
+            	    "provider_id": "4",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -1327,7 +1527,7 @@
                 },
                 {
                     "provider_name": "Sydney Morning Herald",
-            	    "provider_id": "4",
+            	    "provider_id": "5",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -1399,7 +1599,7 @@
                 },
                 {
                     "provider_name": "Advertiser",
-            	    "provider_id": "5",
+            	    "provider_id": "6",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -1461,8 +1661,65 @@
             "country_code": "NZ",
             "news_providers": [
                 {
-                    "provider_name": "New Zealand Herald",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "New Zealand",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "More Top Stories",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=nz&hl=en&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "New Zealand Herald",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Breaking News",
@@ -1529,7 +1786,7 @@
                 },
                 {
                     "provider_name": "Stuff",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -1546,8 +1803,65 @@
             "country_code": "SG",
             "news_providers": [
                 {
-                    "provider_name": "Straits Times",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Singapore",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Southeast Asia",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=se&output=rss"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=en_sg&hl=en&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Straits Times",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -1594,7 +1908,7 @@
                 },
                 {
                     "provider_name": "Today",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Hot News",
@@ -1656,8 +1970,70 @@
             "country_code": "IN",
             "news_providers": [
                 {
-                    "provider_name": "Times of India",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "India",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "More Top Stories",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=h&output=rss"
+                        },
+                        {
+                            "topic_name": "Spotlight",
+                            "topic_id": "11",
+                            "url": "http://news.google.com/news?cf=all&ned=in&hl=en&topic=ir&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Times of India",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -1734,7 +2110,7 @@
                 },
                 {
                     "provider_name": "Hindustan Times",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Latest News",
@@ -1786,8 +2162,65 @@
             "country_code": "PH",
             "news_providers": [
                 {
-                    "provider_name": "Philippine Star",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Philippines",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Southeast Asia",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=se&output=rss"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=en_ph&hl=en&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Philippine Star",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Breaking News",
@@ -1834,7 +2267,7 @@
                 },
                 {
                     "provider_name": "Sun Star",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Local News",
@@ -1877,12 +2310,296 @@
             ]
         },
         {
+            "country_name": "Malaysia",
+            "country_code": "MY",
+            "news_providers": [
+                {
+                    "provider_name": "Google News",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Malaysia",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Southeast Asia",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=se&output=rss"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=en_my&hl=en&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "The Sun",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Most Recent",
+                            "topic_id": "1",
+                            "url": "http://www.thesundaily.my/rss/latest",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Highlights",
+                            "topic_id": "2",
+                            "url": "http://www.thesundaily.my/rss/highlights"
+                        },
+                        {
+                            "topic_name": "Local",
+                            "topic_id": "3",
+                            "url": "http://www.thesundaily.my/rss/local"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "4",
+                            "url": "http://www.thesundaily.my/rss/world"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://www.thesundaily.my/rss/business"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "6",
+                            "url": "http://www.thesundaily.my/rss/sports"
+                        },
+                        {
+                            "topic_name": "Style",
+                            "topic_id": "7",
+                            "url": "http://www.thesundaily.my/rss/style"
+                        },
+                        {
+                            "topic_name": "Showbiz",
+                            "topic_id": "8",
+                            "url": "http://www.thesundaily.my/rss/showbiz"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "9",
+                            "url": "http://www.thesundaily.my/rss/lifestyle"
+                        },
+                        {
+                            "topic_name": "Food",
+                            "topic_id": "10",
+                            "url": "http://www.thesundaily.my/rss/lifestyle/food"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "11",
+                            "url": "http://www.thesundaily.my/rss/lifestyle/health"
+                        },
+                        {
+                            "topic_name": "Parenting",
+                            "topic_id": "12",
+                            "url": "http://www.thesundaily.my/rss/lifestyle/parenting"
+                        },
+                        {
+                            "topic_name": "Reviews",
+                            "topic_id": "13",
+                            "url": "http://www.thesundaily.my/rss/lifestyle/reviews"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "14",
+                            "url": "http://www.thesundaily.my/rss/lifestyle/tech"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "15",
+                            "url": "http://www.thesundaily.my/rss/lifestyle/travel"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "16",
+                            "url": "http://www.thesundaily.my/rss/opinion"
+                        },
+                        {
+                            "topic_name": "Gear Up!",
+                            "topic_id": "17",
+                            "url": "http://www.thesundaily.my/rss/gear-up"
+                        },
+                        {
+                            "topic_name": "Letters",
+                            "topic_id": "18",
+                            "url": "http://www.thesundaily.my/rss/letters"
+                        },
+                        {
+                            "topic_name": "Property",
+                            "topic_id": "19",
+                            "url": "http://www.thesundaily.my/rss/property"
+                        },
+                        {
+                            "topic_name": "Education",
+                            "topic_id": "20",
+                            "url": "http://www.thesundaily.my/rss/education"
+                        },
+                        {
+                            "topic_name": "Media & Marketing",
+                            "topic_id": "21",
+                            "url": "http://www.thesundaily.my/rss/media-marketing"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "New Straits Times",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Top News",
+                            "topic_id": "1",
+                            "url": "http://www.nst.com.my/cmlink/top-news-feed-1.3086?localLinksEnabled=false",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Latest News",
+                            "topic_id": "2",
+                            "url": "http://www.nst.com.my/cmlink/1.3108"
+                        },
+                        {
+                            "topic_name": "Nation",
+                            "topic_id": "3",
+                            "url": "http://www.nst.com.my/cmlink/local-feed-1.2696?localLinksEnabled=false"
+                        },
+                        {
+                            "topic_name": "Streets",
+                            "topic_id": "4",
+                            "url": "http://www.nst.com.my/cmlink/streets-feed-1.3091?localLinksEnabled=false"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/?output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "6",
+                            "url": "http://www.btimes.com.my/Current_News/BTIMES/rss/rss_html?section=latest"
+                        },
+                        {
+                            "topic_name": "Sports ",
+                            "topic_id": "7",
+                            "url": "http://www2.nst.com.my/cmlink/sports-feed-1.3098?localLinksEnabled=false"
+                        },
+                        {
+                            "topic_name": "Life & Times",
+                            "topic_id": "8",
+                            "url": "http://www2.nst.com.my/cmlink/life-times-feed-1.3101?localLinksEnabled=false"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "9",
+                            "url": "http://www2.nst.com.my/cmlink/opinion-feed-1.3106?localLinksEnabled=false"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "country_name": "South Africa",
             "country_code": "ZA",
             "news_providers": [
                 {
-                    "provider_name": "Sunday Times",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Africa",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=af&output=rss"
+                        },
+                        {
+                            "topic_name": "South Africa",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Business",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Technology",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=tc&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Science",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=snc&output=rss"
+                        },
+                        {
+                            "topic_name": "Health",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=en_za&hl=en&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Sunday Times",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "News",
@@ -1929,7 +2646,7 @@
                 },
                 {
                     "provider_name": "City Press",
-            	    "provider_id": "2",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
