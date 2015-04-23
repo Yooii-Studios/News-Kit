@@ -79,7 +79,7 @@ public class NewsFeedDefaultUrlProvider {
     }
 
     private void makeDefaultNewsTopicsUK(NewsContentProvider newsContentProvider) {
-        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "US", 1, 1);
+        mTopNewsTopic = newsContentProvider.getNewsTopic("en", null, "GB", 1, 1);
 
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "GB", 2, 1));
         mBottomNewsTopicList.add(newsContentProvider.getNewsTopic("en", null, "GB", 3, 1));
