@@ -34,6 +34,9 @@ public class NewsProviderLanguageSorter {
             // T-Chinese S-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+        } else if(currentLanguage == Language.SIMPLIFIED_CHINESE) {
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
         } else if (currentLanguage == Language.JAPANESE) {
             // Japanese English Korean S-Chinese T-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
