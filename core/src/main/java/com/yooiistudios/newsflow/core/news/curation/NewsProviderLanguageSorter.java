@@ -33,28 +33,175 @@ public class NewsProviderLanguageSorter {
 
         // 수정: 이사님께서 앱 지원 언어가 아닌 기기 언어를 기준으로 소팅을 원하셔서 수정
         Locale defaultLocale = DefaultLocale.loadDefaultLocale(context);
+        String languageCode = defaultLocale.getLanguage();
+        String countryCode = defaultLocale.getCountry();
 
-        if (defaultLocale.getLanguage().equals("zh") && defaultLocale.getCountry().equals("TW")) {
-            // T-Chinese S-Chinese 우선정렬
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
-        } else if (defaultLocale.getLanguage().equals("zh") && defaultLocale.getCountry().equals("CN")) {
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
-        } else if (defaultLocale.getCountry().equals("JP")) {
-            // Japanese English Korean S-Chinese T-Chinese 우선정렬
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
+        if (languageCode.equals("es")) {
+            // Spanish English Portuguese French Italian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ko", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
-        } else if (defaultLocale.getCountry().equals("KR")) {
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pt", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "it", null);
+        } else if (languageCode.equals("pt")) {
+            // Portuguese English Spanish French Italian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pt", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "it", null);
+        } else if (languageCode.equals("it")) {
+            // Italian English Spanish Portuguese French 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "it", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pt", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+        } else if (languageCode.equals("zh") && countryCode.equals("CN")) {
+            // S-Chinese T-Chinese 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+        } else if (languageCode.equals("zh") && countryCode.equals("TW")) {
+            // T-Chinese S-Chinese 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+        } else if (languageCode.equals("ko")) {
             // Korean English Japanese S-Chinese T-Chinese 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ko", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "CN");
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "TW");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+        } else if (languageCode.equals("ja")) {
+            // Japanese English Korean S-Chinese T-Chinese 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ja", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ko", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+        } else if (languageCode.equals("de")) {
+            // German English French Spanish Portuguese 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pt", null);
+        } else if (languageCode.equals("fr")) {
+            // French English German Spanish Portuguese 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pt", null);
+        } else if (languageCode.equals("ru")) {
+            // Russian English Spanish French 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+        } else if (languageCode.equals("no")) {
+            // Norwegian English Swedish Finnish Danish Dutch Spanish French Russian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+        } else if (languageCode.equals("sv")) {
+            // Swedish English Norwegian Finnish Danish Dutch Spanish French Russian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+        } else if (languageCode.equals("fi")) {
+            // Finnish English Norwegian Swedish Danish Dutch Spanish French Russian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+        } else if (languageCode.equals("da")) {
+            // Danish English German French Norwegian Swedish Finnish Dutch Spanish Russian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+        } else if (languageCode.equals("nl")) {
+            // Dutch English German French Norwegian Swedish Finnish Danish Spanish Russian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+        } else if (languageCode.equals("tr")) {
+            // Turkish English Italian Spanish Portuguese French 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "tr", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "it", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pt", null);
+        } else if (languageCode.equals("vi")) {
+            // Vietnamese English S-Chinese T-Chinese Thai Malay Indonesian 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "vi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "th", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ms", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "in", null);
+        } else if (languageCode.equals("th")) {
+            // Thai English S-Chinese T-Chinese Vietnamese Malay Indonesian German 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "th", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "vi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ms", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "in", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+        } else if (languageCode.equals("ms")) {
+            // Malay English S-Chinese T-Chinese Indonesian Thai Vietnamese German 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ms", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "in", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "th", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "vi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+        } else if (languageCode.equals("in")) {
+            // Indonesian English S-Chinese T-Chinese Malay Thai Vietnamese German 우선정렬
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "in", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "cn");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "zh", "tw");
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ms", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "th", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "vi", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
         }
 
         for (NewsProviderLanguage newsProviderLanguage : newsProviderLanguageList) {
@@ -93,7 +240,8 @@ public class NewsProviderLanguageSorter {
         } else {
             key = languageCode + "-" + regionCode;
         }
-        return key;
+        // 대문자 소문자가 엉키면 키가 달라져서 중복 추가되는 경우가 있어 애초부터 소문자로 픽스
+        return key.toLowerCase();
     }
 
     private static NewsProviderLanguage extractNewsProviderLanguage(

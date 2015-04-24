@@ -29,7 +29,7 @@ public enum NewsProviderLangType {
     DUTCH(17, R.raw.news_data_nl, "Nederlands"),
     THAI(18, R.raw.news_data_th, "ไทย"),
     MALAY(19, R.raw.news_data_ms, "Malay"),
-    INDONESIAN(20, R.raw.news_data_id, "Indonesia");
+    INDONESIAN(20, R.raw.news_data_in, "Indonesia");
 
     private int mIndex;
     private int mResourceId;

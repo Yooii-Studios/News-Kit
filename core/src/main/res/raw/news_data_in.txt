@@ -1,7 +1,7 @@
 {
     "lang_name_english": "Indonesian",
     "lang_name_regional": "Indonesia",
-    "lang_code": "id",
+    "lang_code": "in",
     "region_code": "",
     "countries": [
         {
