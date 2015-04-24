@@ -18,10 +18,6 @@ public class NewsFeedFetchStateMessage {
 
     public static String getMessage(Context context, NewsFeed newsFeed) {
         switch (newsFeed.getNewsFeedFetchState()) {
-            case NOT_FETCHED_YET:
-            case SUCCESS:
-            default:
-                return "";
             case ERROR_INVALID_URL:
                 return newsFeed.hasTopicInfo()
                         ? context.getString(R.string.news_feed_fetch_error_invalid_topic_url)
@@ -30,6 +26,12 @@ public class NewsFeedFetchStateMessage {
                 return context.getString(R.string.news_feed_fetch_error_timeout);
             case ERROR_UNKNOWN:
                 return context.getString(R.string.news_feed_fetch_error_unknown);
+            case ERROR_NO_NEWS:
+                return context.getString(R.string.news_feed_fetch_error_invalid_topic_url);
+            case SUCCESS:
+            case NOT_FETCHED_YET:
+            default:
+                return "";
         }
     }
 }

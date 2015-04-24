@@ -11,7 +11,8 @@ public enum NewsFeedFetchState {
     SUCCESS(1),
     ERROR_UNKNOWN(2),
     ERROR_INVALID_URL(3),
-    ERROR_TIMEOUT(4);
+    ERROR_TIMEOUT(4),
+    ERROR_NO_NEWS(5);
 
     private static final NewsFeedFetchState DEFAULT_STATE = NOT_FETCHED_YET;
 

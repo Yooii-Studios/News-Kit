@@ -50,19 +50,24 @@ public class NewsFeedFetchUtil {
             NewsFeedUrl newsFeedUrl = fetchable.getNewsFeedUrl();
 
             newsFeed = getNewsFeedFromUrl(newsFeedUrl);
-            newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
-            cleanUpNewsContents(newsFeed);
 
-            if (shuffle) {
-                shuffleNewsList(newsFeed);
-            }
-            if (shouldTrimNewsList(newsFeed, fetchLimit)) {
-                trimNewsList(newsFeed, fetchLimit);
-            }
-            for(News news : newsFeed.getNewsList()) {
-                if (news.getGuid() == null) {
-                    news.setGuid(news.getLink());
+            if (newsFeed.containsNews()) {
+                newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
+                cleanUpNewsContents(newsFeed);
+
+                if (shuffle) {
+                    shuffleNewsList(newsFeed);
                 }
+                if (shouldTrimNewsList(newsFeed, fetchLimit)) {
+                    trimNewsList(newsFeed, fetchLimit);
+                }
+                for(News news : newsFeed.getNewsList()) {
+                    if (news.getGuid() == null) {
+                        news.setGuid(news.getLink());
+                    }
+                }
+            } else {
+                newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_NO_NEWS);
             }
         } catch(MalformedURLException | UnknownHostException e) {
             newsFeed = new NewsFeed(fetchable);
