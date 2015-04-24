@@ -84,13 +84,13 @@ public class NewsContentProvider {
             return findNewsProviderById(newsProviderCountry.newsProviders, targetProviderId);
         } catch (NewsProviderNotFoundException e) {
             // 최신 데이터와 맞지 않아 검색이 되지 않을 경우
-            return makeDefaultNewsProvider();
-        }
-    }
+            // 혹은 초기 설정시 targetId가 없는 국가의 경우 미국 영어를 기준으로 반환
+            NewsProviderLanguage enNewsProvider = findNewsProviderLanguageById("en", null);
+            NewsProviderCountry enNewsProviderCountry =
+                    findNewsProviderCountryById(enNewsProvider.newsProviderCountries, "US");
 
-    public NewsProvider makeDefaultNewsProvider() {
-        // 기본 언론사는 영어-미국의 첫번째 언론사로
-        return mNewsProviderLanguageList.get(0).newsProviderCountries.get(0).newsProviders.get(0);
+            return findNewsProviderById(enNewsProviderCountry.newsProviders, targetProviderId);
+        }
     }
 
     private NewsProviderLanguage findNewsProviderLanguageById(String targetLanguageCode,
