@@ -39,10 +39,16 @@ public class NewsFeedDefaultUrlProvider {
         if (locale.getCountry().equals("US")) {
             makeDefaultNewsTopics(newsContentProvider, "en", null, "US",
                     "es", null, "MX");
+        } else if (locale.getLanguage().equals("zh") && locale.getCountry().equals("CN")){
+            makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), "CN",
+                    locale.getCountry(), "en", null, "US");
+        } else if (locale.getLanguage().equals("zh") && locale.getCountry().equals("TW")){
+            makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), "TW",
+                    locale.getCountry(), "en", null, "US");
         } else {
             // 기본은 Default Locale 값 + 영어
             // regionCode 는 중국어를 위해 null 을 넣지 않고 country 로 대체
-            makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), locale.getCountry(),
+            makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), null,
                     locale.getCountry(), "en", null, "US");
         }
     }
