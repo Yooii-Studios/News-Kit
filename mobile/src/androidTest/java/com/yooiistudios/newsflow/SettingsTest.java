@@ -15,8 +15,6 @@ import com.yooiistudios.newsflow.model.Settings;
 public class SettingsTest extends AndroidTestCase {
     // private 을 깨기 싫어서 Settings 에서 가져옴. 후에 변경될 가능성이 있는 값들이라 기획 변경에 따라 수정해줄 것
     private static final String SETTINGS_SHARED_PREFERENCES = "settings_shared_preferences";
-    private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
-    private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY = 1000;
 
     private Context mContext;
 
@@ -53,17 +51,6 @@ public class SettingsTest extends AndroidTestCase {
         // 최고 속도는 정상 속도보다 2배 빠름(1/2배)
         assertEquals(100, Settings.getAutoRefreshSpeedProgress(mContext));
         assertEquals(0.5f, Settings.getAutoRefreshSpeed(mContext));
-    }
-
-    public void testAutoRefreshHanderDelay() {
-        clearPrefs();
-
-        // 첫 리프레시 시간은 정해진 값으로 = 4초, 두 번째 부터는 패널 갯수와 Interval 에 따라 계산
-        int firstAutoRefreshHandlerDelay = Settings.getAutoRefreshHandlerDelay(mContext);
-        int secondAutoRefreshHandlerDelay = Settings.getAutoRefreshHandlerDelay(mContext);
-
-        assertEquals(AUTO_REFRESH_HANDLER_FIRST_DELAY, firstAutoRefreshHandlerDelay);
-        assertNotSame(AUTO_REFRESH_HANDLER_FIRST_DELAY, secondAutoRefreshHandlerDelay);
     }
 
     private void clearPrefs() {
