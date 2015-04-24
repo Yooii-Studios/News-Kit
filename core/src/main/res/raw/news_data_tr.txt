@@ -1,6 +1,6 @@
 {
     "lang_name_english": "Turkish",
-    "lang_name_regional": "Türk",
+    "lang_name_regional": "Türkçe",
     "lang_code": "tr",
     "region_code": "",
     "countries": [
