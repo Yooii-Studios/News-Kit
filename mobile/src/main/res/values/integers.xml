@@ -7,4 +7,6 @@
 
     <integer name="news_feed_detail_title_max_line">2</integer>
     <integer name="news_feed_detail_description_text_max_line">2</integer>
+
+    <integer name="setting_auto_refresh_dialog_edit_text_min_ems">2</integer>
 </resources>

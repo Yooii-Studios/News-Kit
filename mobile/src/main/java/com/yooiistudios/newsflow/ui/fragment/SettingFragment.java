@@ -193,7 +193,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onTypeAutoRefreshInterval(int interval) {
-        Settings.setAutoRefreshIntervalProgress(getActivity(), interval);
+        Settings.setAutoRefreshInterval(getActivity(), interval);
         mSettingAdapter.notifyDataSetChanged();
     }
 

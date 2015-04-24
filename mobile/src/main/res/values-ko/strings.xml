@@ -15,6 +15,8 @@
     <string name="share">공유하기</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+    <string name="minute">분</string>
+    <string name="second">초</string>
 
     <!-- Main -->
     <string name="action_edition">수정</string>
@@ -43,7 +45,6 @@
     <string name="setting_main_auto_refresh_interval">자동 리프레시 간격</string>
     <string name="setting_main_auto_refresh_interval_caption">간격</string>
     <string name="setting_main_auto_refresh_speed">자동 리프레시 속도</string>
-    <string name="setting_item_sec_description">%1$s초</string>
     <string name="setting_main_panel_matrix">뉴스피드 패널 배열</string>
     <string name="setting_main_panel_matrix_description">%1$s 패널</string>
     <string name="setting_news_feed_sub_header">뉴스피드 화면</string>

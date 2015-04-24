@@ -19,7 +19,7 @@ public class Settings {
     private static final String IS_FIRST_AUTO_REFRESH = "is_first_auto_refresh";
     private static final String NEWS_FEED_AUTO_SCROLL_KEY = "news_feed_auto_scroll_key";
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
-    private static final float AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
+    private static final int AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
     private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
     private static final String KEEP_SCREEN_ON_KEY = "keep_screen_on_key";
@@ -38,21 +38,22 @@ public class Settings {
                 .getBoolean(NEWS_FEED_AUTO_SCROLL_KEY, true);
     }
 
-    public static void setAutoRefreshIntervalProgress(Context context, int interval) {
-        // available speed value is between 0 and 100(SeekBar)
+    public static void setAutoRefreshInterval(Context context, int interval) {
         context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 .edit().putInt(AUTO_REFRESH_INTERVAL_KEY, interval).apply();
     }
 
-    public static int getAutoRefreshIntervalProgress(Context context) {
+    public static int getAutoRefreshInterval(Context context) {
         return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getInt(AUTO_REFRESH_INTERVAL_KEY, (Math.round(AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS / 60 * 100)));
+                .getInt(AUTO_REFRESH_INTERVAL_KEY, AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS);
     }
 
-    public static int getAutoRefreshInterval(Context context) {
-        // available speed value is between 0 and 60(it converted from [0 ~ 100])
-        float intervalProgress = getAutoRefreshIntervalProgress(context);
-        return Math.round(intervalProgress / 100 * 60);
+    public static int getAutoRefreshIntervalMinute(Context context) {
+        return getAutoRefreshInterval(context) / 60;
+    }
+
+    public static int getAutoRefreshIntervalSecond(Context context) {
+        return getAutoRefreshInterval(context) % 60;
     }
 
     public static boolean isFirstAutoRefresh(Context context) {

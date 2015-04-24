@@ -67,6 +67,7 @@ public class SettingAdapter extends BaseAdapter {
                 case LANGUAGE:
                 case MAIN_PANEL_MATRIX:
                 case PAIR_TV:
+                case MAIN_AUTO_REFRESH_INTERVAL:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_base, parent, false);
                     initBaseItem(context, item, view);
                     break;
@@ -78,7 +79,6 @@ public class SettingAdapter extends BaseAdapter {
                     break;
 
                 case MAIN_AUTO_REFRESH_SPEED:
-                case MAIN_AUTO_REFRESH_INTERVAL:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_seekbar, parent, false);
                     initSeekBarItem(context, item, view);
                     break;
@@ -115,9 +115,14 @@ public class SettingAdapter extends BaseAdapter {
             descriptionTextView.setText(
                     LanguageUtils.getCurrentLanguage(context).getLocalNotationStringId());
         } else if (item == SettingItem.MAIN_AUTO_REFRESH_INTERVAL) {
-            int autoRefreshInterval = Settings.getAutoRefreshInterval(context);
-            descriptionTextView.setText(
-                    context.getString(R.string.setting_item_sec_description, autoRefreshInterval));
+//            int autoRefreshInterval = Settings.getAutoRefreshInterval(context);
+            int intervalMinute = Settings.getAutoRefreshIntervalMinute(context);
+            int intervalSecond = Settings.getAutoRefreshIntervalSecond(context);
+
+            String message = intervalMinute + context.getString(R.string.minute)
+                    + " " + intervalSecond + context.getString(R.string.second);
+
+            descriptionTextView.setText(message);
         } else if (item == SettingItem.MAIN_PANEL_MATRIX) {
             PanelMatrix currentPanelMatrix = PanelMatrixUtils.getCurrentPanelMatrix(context);
             descriptionTextView.setText(context.getString(
@@ -150,35 +155,9 @@ public class SettingAdapter extends BaseAdapter {
     }
 
     private static void initSeekBarItem(final Context context, SettingItem item, final View view) {
-        if (item == SettingItem.MAIN_AUTO_REFRESH_INTERVAL) {
-            initAutoRefreshIntervalItem(context, view);
-        } else {
+        if (item == SettingItem.MAIN_AUTO_REFRESH_SPEED) {
             initAutoRefreshSpeedItem(context, view);
         }
-    }
-
-    private static void initAutoRefreshIntervalItem(final Context context, View view) {
-        TextView titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
-        final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
-        SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
-
-        titleTextView.setText(R.string.setting_main_auto_refresh_interval);
-        int oldInterval = Settings.getAutoRefreshIntervalProgress(context);
-        statusTextView.setText(context.getString(R.string.setting_item_sec_description,
-                Settings.getAutoRefreshInterval(context)));
-        seekBar.setProgress(oldInterval);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Settings.setAutoRefreshIntervalProgress(context, progress);
-                statusTextView.setText(context.getString(R.string.setting_item_sec_description,
-                        Settings.getAutoRefreshInterval(context)));
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
     }
 
     private static void initAutoRefreshSpeedItem(final Context context, View view) {

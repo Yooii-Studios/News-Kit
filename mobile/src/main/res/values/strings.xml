@@ -15,6 +15,8 @@
     <string name="share">Share</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="minute">min</string>
+    <string name="second">sec</string>
 
     <!-- Main -->
     <string name="action_edition">Edition</string>
@@ -43,7 +45,6 @@
     <string name="setting_main_auto_refresh_interval">Auto refresh interval</string>
     <string name="setting_main_auto_refresh_interval_caption">Interval</string>
     <string name="setting_main_auto_refresh_speed">Auto refresh speed</string>
-    <string name="setting_item_sec_description">%1$s sec</string>
     <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s panels</string>
     <string name="setting_news_feed_sub_header">News Feed Screen</string>

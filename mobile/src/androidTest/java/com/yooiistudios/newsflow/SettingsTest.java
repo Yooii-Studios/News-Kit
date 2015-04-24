@@ -55,32 +55,6 @@ public class SettingsTest extends AndroidTestCase {
         assertEquals(0.5f, Settings.getAutoRefreshSpeed(mContext));
     }
 
-    public void testDefaultAutoRefreshInterval() {
-        clearPrefs();
-
-        // 기본 progress 값은 기본 초(7초)를 progress 로 환산한 값
-        assertEquals(Math.round(AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS * 100 / 60),
-                 Settings.getAutoRefreshIntervalProgress(mContext));
-        // progress 를 초로 환산하면 정확하게 기본 초(7초)가 되지는 않는다.. 따라서 Math.round 를 사용하게 변경
-        assertEquals((int) AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS, Settings.getAutoRefreshInterval(mContext));
-    }
-
-    public void testAutoRefreshInterval() {
-        clearPrefs();
-
-        Settings.setAutoRefreshIntervalProgress(mContext, 0);
-
-        // 최저 시간은 0초
-        assertEquals(0, Settings.getAutoRefreshIntervalProgress(mContext));
-        assertEquals(0, Settings.getAutoRefreshInterval(mContext));
-
-        Settings.setAutoRefreshIntervalProgress(mContext, 100);
-
-        // 최고 시간은 60초
-        assertEquals(100, Settings.getAutoRefreshIntervalProgress(mContext));
-        assertEquals(60, Settings.getAutoRefreshInterval(mContext));
-    }
-
     public void testAutoRefreshHanderDelay() {
         clearPrefs();
 

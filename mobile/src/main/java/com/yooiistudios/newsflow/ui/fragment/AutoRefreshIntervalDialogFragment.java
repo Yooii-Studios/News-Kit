@@ -23,10 +23,13 @@ import com.yooiistudios.newsflow.model.Settings;
  *  오토 리프레시 간격을 설정하는 다이얼로그 프래그먼트
  */
 public class AutoRefreshIntervalDialogFragment extends DialogFragment {
+    private MaterialDialog mMaterialDialog;
+    private EditText mMinuteEditText;
+    private EditText mSecondEditText;
     private OnActionListener mListener;
 
     public interface OnActionListener {
-        public void onTypeAutoRefreshInterval(int interval);
+        void onTypeAutoRefreshInterval(int interval);
     }
 
     public static AutoRefreshIntervalDialogFragment newInstance(OnActionListener listener) {
@@ -37,17 +40,23 @@ public class AutoRefreshIntervalDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialDialog materialDialog = makeDialog();
-        EditText editText =
-                (EditText) materialDialog.getCustomView().findViewById(R.id.auto_refresh_dialog_edit);
-        initEditText(editText);
-        initOkButton(materialDialog, editText);
-        requestEditTextFocus(materialDialog, editText);
-        return materialDialog;
+        initDialog();
+        initViews();
+        initEditText();
+        initOkButton();
+        requestEditTextFocus();
+        return mMaterialDialog;
     }
 
-    private MaterialDialog makeDialog() {
-        MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+    private void initViews() {
+        mMinuteEditText = (EditText) mMaterialDialog.getCustomView().findViewById(
+                R.id.auto_refresh_dialog_edit_text_min);
+        mSecondEditText = (EditText) mMaterialDialog.getCustomView().findViewById(
+                R.id.auto_refresh_dialog_edit_text_sec);
+    }
+
+    private void initDialog() {
+        mMaterialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.setting_main_auto_refresh_interval)
                 .customView(R.layout.dialog_fragment_auto_refresh_interval, true)
                 .positiveText(R.string.ok)
@@ -55,57 +64,103 @@ public class AutoRefreshIntervalDialogFragment extends DialogFragment {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        EditText editText =
-                                (EditText) dialog.getCustomView().findViewById(R.id.auto_refresh_dialog_edit);
                         if (mListener != null) {
-                            mListener.onTypeAutoRefreshInterval(Integer.valueOf(editText.getText().toString()));
+                            mListener.onTypeAutoRefreshInterval(getEnteredTime());
                         }
                     }
                 })
                 .build();
-        materialDialog.setCancelable(false);
-        materialDialog.setCanceledOnTouchOutside(false);
-        return materialDialog;
+        mMaterialDialog.setCancelable(false);
+        mMaterialDialog.setCanceledOnTouchOutside(false);
     }
 
-    private EditText initEditText(EditText editText) {
-        editText.setText(String.valueOf(Settings.getAutoRefreshInterval(getActivity())));
-        return editText;
+    private void initEditText() {
+        mMinuteEditText.setText(String.valueOf(getSavedAutoRefreshIntervalMinuteString()));
+        mMinuteEditText.setHint("0");
+        mSecondEditText.setText(String.valueOf(getSavedAutoRefreshIntervalSecondString()));
+        mSecondEditText.setHint("0");
     }
 
-    private void initOkButton(MaterialDialog materialDialog, EditText editText) {
-        final View positiveAction = materialDialog.getActionButton(DialogAction.POSITIVE);
+    private String getSavedAutoRefreshIntervalMinuteString() {
+        int minute = Settings.getAutoRefreshIntervalMinute(getActivity());
+        return minute != 0 ? String.valueOf(minute) : "";
+    }
 
-        editText.setText(String.valueOf(Settings.getAutoRefreshInterval(getActivity())));
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+    private String getSavedAutoRefreshIntervalSecondString() {
+        int second = Settings.getAutoRefreshIntervalSecond(getActivity());
+        return second != 0 ? String.valueOf(second) : "";
+    }
+
+    private void initOkButton() {
+        final View positiveAction = mMaterialDialog.getActionButton(DialogAction.POSITIVE);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                positiveAction.setEnabled(s.toString().trim().length() > 0);
+                adjustEditTextValue(mMinuteEditText);
+                adjustEditTextValue(mSecondEditText);
+
+                positiveAction.setEnabled(mMinuteEditText.getText().length() > 0
+                                || mSecondEditText.getText().length() > 0);
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+            private void adjustEditTextValue(EditText editText) {
+                String text = editText.getText().toString();
+                if (isNumeric(text)) {
+                    int integer = Integer.parseInt(text);
+                    if (integer >= 60) {
+                        editText.setText("59");
+                        editText.setSelection(editText.length());
+                    }
+                } else if (text.contains("-")) {
+                    editText.setText(text.replaceAll("-", ""));
+                }
             }
-        });
-
-        if (!(editText.getText().toString().trim().length() > 0)) {
-            positiveAction.setEnabled(false);
-        }
+        };
+        mMinuteEditText.addTextChangedListener(textWatcher);
+        mSecondEditText.addTextChangedListener(textWatcher);
     }
 
-    private void requestEditTextFocus(MaterialDialog materialDialog, final EditText editText) {
-        materialDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+    public static boolean isNumeric(String string) {
+        if (string == null || string.length() == 0)
+            return false;
+
+        int l = string.length();
+        for (int i = 0; i < l; i++) {
+            if (!Character.isDigit(string.codePointAt(i)))
+                return false;
+        }
+        return true;
+    }
+
+    private int getEnteredTime() {
+        return getEnteredMinute() * 60 + getEnteredSecond();
+    }
+
+    private int getEnteredMinute() {
+        return stringToInt(mMinuteEditText.getText().toString());
+    }
+
+    private int getEnteredSecond() {
+        return stringToInt(mSecondEditText.getText().toString());
+    }
+
+    private int stringToInt(String string) {
+        return string.length() > 0 ? Integer.parseInt(string) : 0;
+    }
+
+    private void requestEditTextFocus() {
+        mMaterialDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                editText.requestFocus();
-                editText.setSelection(editText.length());
+                mSecondEditText.requestFocus();
+                mSecondEditText.setSelection(mSecondEditText.length());
                 InputMethodManager imm = (InputMethodManager) getActivity()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+                imm.showSoftInput(mSecondEditText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
     }

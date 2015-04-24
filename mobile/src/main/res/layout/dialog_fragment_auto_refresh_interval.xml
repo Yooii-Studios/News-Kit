@@ -3,26 +3,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/base_margin_small"
-        android:text="@string/setting_main_auto_refresh_interval_caption"
-        android:textColor="@color/primary_dark_material_light"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
-
-    <EditText
-        android:id="@+id/auto_refresh_dialog_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:longClickable="false"
-        android:singleLine="true"
-        android:inputType="numberDecimal"
-        android:textCursorDrawable="@drawable/custom_rss_edit_text_cursor_drawable"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="@dimen/custom_news_feed_dialog_edit_text_size"
-        android:textColor="@android:color/black"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat"/>
+        android:orientation="horizontal"
+        android:gravity="bottom">
+        <EditText
+            android:id="@+id/auto_refresh_dialog_edit_text_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/setting_item_auto_refresh_item_horizontal_spacing"
+            android:layout_marginEnd="@dimen/setting_item_auto_refresh_item_horizontal_spacing"
+            android:textSize="@dimen/setting_item_auto_refresh_text_size"
+            android:minEms="@integer/setting_auto_refresh_dialog_edit_text_min_ems"
+            android:gravity="center_horizontal"
+            android:inputType="numberSigned"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/setting_item_auto_refresh_item_horizontal_spacing"
+            android:layout_marginEnd="@dimen/setting_item_auto_refresh_item_horizontal_spacing"
+            android:textSize="@dimen/setting_item_auto_refresh_text_size"
+            android:textColor="@android:color/black"
+            android:text="@string/minute"/>
+        <EditText
+            android:id="@+id/auto_refresh_dialog_edit_text_sec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/setting_item_auto_refresh_item_horizontal_spacing"
+            android:layout_marginEnd="@dimen/setting_item_auto_refresh_item_horizontal_spacing"
+            android:textSize="@dimen/setting_item_auto_refresh_text_size"
+            android:minEms="@integer/setting_auto_refresh_dialog_edit_text_min_ems"
+            android:gravity="center_horizontal"
+            android:inputType="numberSigned"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/setting_item_auto_refresh_text_size"
+            android:textColor="@android:color/black"
+            android:text="@string/second"/>
+    </LinearLayout>
 </LinearLayout>
