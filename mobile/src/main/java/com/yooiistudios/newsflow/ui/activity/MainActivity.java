@@ -745,6 +745,9 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        if (mNetworkUnavailableCover != null) {
+            return;
+        }
 
         // 강제로 Locale 고정 필요(안그러면 풀림)
         LocaleUtils.updateLocale(this);
