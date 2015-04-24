@@ -332,15 +332,21 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     private void fetchNextNewsImageAt(int newsFeedIndex) {
-        ArrayList<NewsFeed> newsFeeds = mAdapter.getNewsFeedList();
-        // TODO 뉴스 각각의 애니메이션이 끝난 경우 각자 뉴스 이미지를 가져오도록 변경해야함
-        if (newsFeedIndex == newsFeeds.size() - 1) {
-            BottomNewsImageFetchManager.getInstance().fetchNextImages(
-                    mImageLoader, newsFeeds,
-                    MainBottomContainerLayout.this,
-                    BottomNewsImageFetchTask.TASK_AUTO_REFRESH
-            );
-        }
+        NewsFeed newsFeed = mAdapter.getNewsFeedList().get(newsFeedIndex);
+        new BottomNewsImageFetchTask(mImageLoader, newsFeed.getNextNews(), newsFeedIndex,
+                newsFeed.getNextNewsIndex(), BottomNewsImageFetchTask.TASK_AUTO_REFRESH,
+                new BottomNewsImageFetchTask.OnBottomImageUrlFetchListener() {
+                    @Override
+                    public void onBottomImageUrlFetchSuccess(News news, String url, int newsFeedPosition, int newsPosition, int taskType) {
+                        NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
+                                news.getGuid());
+                    }
+
+                    @Override
+                    public void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType) {
+
+                    }
+                }).execute();
     }
 
     @NonNull
@@ -689,9 +695,7 @@ public class MainBottomContainerLayout extends FrameLayout
 
     @Override
     public void onBottomNewsImageFetch(int newsFeedPosition, int newsPosition, int whichNews) {
-        if (whichNews == News.DISPLAYING_NEWS) {
-            mAdapter.notifyItemChanged(newsFeedPosition);
-        }
+        mAdapter.notifyItemChanged(newsFeedPosition);
     }
 
     @Override
