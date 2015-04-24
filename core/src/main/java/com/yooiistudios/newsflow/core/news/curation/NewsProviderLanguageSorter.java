@@ -99,9 +99,9 @@ public class NewsProviderLanguageSorter {
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "es", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
-        } else if (languageCode.equals("no")) {
+        } else if (languageCode.equals("nb")) {
             // Norwegian English Swedish Finnish Danish Dutch Spanish French Russian 우선정렬
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nb", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
@@ -114,7 +114,7 @@ public class NewsProviderLanguageSorter {
             // Swedish English Norwegian Finnish Danish Dutch Spanish French Russian 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nb", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
@@ -125,7 +125,7 @@ public class NewsProviderLanguageSorter {
             // Finnish English Norwegian Swedish Danish Dutch Spanish French Russian 우선정렬
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nb", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
@@ -138,7 +138,7 @@ public class NewsProviderLanguageSorter {
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nb", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nl", null);
@@ -150,7 +150,7 @@ public class NewsProviderLanguageSorter {
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "en", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fr", null);
-            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "no", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "nb", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sv", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fi", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "da", null);

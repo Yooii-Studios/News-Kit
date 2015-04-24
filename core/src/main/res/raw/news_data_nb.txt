@@ -1,7 +1,7 @@
 {
     "lang_name_english": "Norwegian",
-    "lang_name_regional": "Norsk",
-    "lang_code": "no",
+    "lang_name_regional": "Norsk Bokmål",
+    "lang_code": "nb",
     "region_code": "",
     "countries": [
         {

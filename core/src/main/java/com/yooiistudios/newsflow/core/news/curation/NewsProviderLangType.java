@@ -23,7 +23,7 @@ public enum NewsProviderLangType {
     ITALIAN(11, R.raw.news_data_it, "Italiano"),
     VIETNAMESE(12, R.raw.news_data_vi, "Tiếng Việt"),
     SWEDISH(13, R.raw.news_data_sv, "Svenska"),
-    NORWEGIAN(14, R.raw.news_data_no, "Norsk"),
+    NORWEGIAN(14, R.raw.news_data_nb, "Norsk Bokmål"),
     FINNISH(15, R.raw.news_data_fi, "Suomi"),
     DANISH(16, R.raw.news_data_da, "Dansk"),
     DUTCH(17, R.raw.news_data_nl, "Nederlands"),
