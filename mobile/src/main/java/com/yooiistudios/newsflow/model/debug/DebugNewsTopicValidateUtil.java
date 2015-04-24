@@ -40,7 +40,7 @@ public class DebugNewsTopicValidateUtil {
             protected void onPostExecute(ArrayList<NewsFeed> newsFeeds) {
                 super.onPostExecute(newsFeeds);
                 NLLog.d(TAG, "Test done. Saving to database...");
-                NewsDb.getInstance(context).clearArchive();
+                NewsDb.getInstance(context).clearArchiveDebug();
                 NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
                 try {
                     NewsDb.copyDbToExternalStorage(context);
