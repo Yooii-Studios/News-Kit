@@ -15,8 +15,6 @@
     <string name="share">공유하기</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
-    <string name="minute">분</string>
-    <string name="second">초</string>
 
     <!-- Main -->
     <string name="action_edition">수정</string>
@@ -96,9 +94,9 @@
     <string name="store_custom_rss_feed_title">RSS 직접 입력</string>
     <string name="store_custom_rss_feed_description">원하는 RSS를 직접 입력하기</string>
 
-    <!-- Network Unavailable -->
-    <string name="network_unavailable_message">네트워크를 사용할 수 없습니다</string>
-    <string name="network_unavailable_reload">다시 연결</string>
+    <!-- Main Network Unavailable Cover -->
+    <string name="main_network_unavailable_cant_connect">네트워크를 사용할 수 없습니다</string>
+    <string name="main_network_unavailable_retry">다시 연결</string>
 
     <!-- Info -->
     <string name="info_news_info">News Flow 정보</string>
@@ -132,6 +130,8 @@
 
     <!-- General -->
     <string name="add_more_panels">뉴스 패널 더 추가하기</string>
+    <string name="minute">분</string>
+    <string name="second">초</string>
 
     <!-- Setting -->
     <string name="setting_general_sub_header">일반</string>
