@@ -55,7 +55,11 @@ public class NewsFeedDefaultUrlProvider {
         } else if (locale.getLanguage().equals("ja")) {
             makeDefaultNewsTopics(newsContentProvider, "ja", null, "JP",
                     "en", null, "US");
+        } else if (locale.getLanguage().equals("in")) {
+            makeDefaultNewsTopics(newsContentProvider, "in", null, "ID",
+                    "en", null, "US");
         } else {
+            // 기본은 영어 + 멕시코
             makeDefaultNewsTopics(newsContentProvider, "en", null, "US",
                     "es", null, "MX");
         }
