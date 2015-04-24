@@ -34,34 +34,16 @@ public class NewsFeedDefaultUrlProvider {
         NewsContentProvider newsContentProvider = NewsContentProvider.getInstance(context);
         mBottomNewsTopicList = new ArrayList<>();
 
-        // TODO: 첫 실행시 기존에 사용하고 있던 Locale 정보를 통해 이사님 추가 기획을 가지고 초기 패널을 구현할 것. 전부 다 구현되면 TODO 삭제
         Locale locale = DefaultLocale.loadDefaultLocale(context);
 
-        if (locale.getLanguage().equals("en")) {
-            if (locale.getCountry().equals("US")) {
-                makeDefaultNewsTopics(newsContentProvider, "en", null, "US",
-                        "es", null, "MX");
-            } else if (locale.getCountry().equals("GB")) {
-//                makeDefaultNewsTopicsUK(newsContentProvider);
-                makeDefaultNewsTopics(newsContentProvider, "en", null, "GB",
-                        "en", null, "US");
-            } else {
-                makeDefaultNewsTopics(newsContentProvider, "en", null, "US",
-                        "es", null, "MX");
-            }
-        } else if (locale.getLanguage().equals("ko")) {
-            makeDefaultNewsTopics(newsContentProvider, "ko", null, "KR",
-                    "en", null, "US");
-        } else if (locale.getLanguage().equals("ja")) {
-            makeDefaultNewsTopics(newsContentProvider, "ja", null, "JP",
-                    "en", null, "US");
-        } else if (locale.getLanguage().equals("in")) {
-            makeDefaultNewsTopics(newsContentProvider, "in", null, "ID",
-                    "en", null, "US");
-        } else {
-            // 기본은 영어 + 멕시코
+        if (locale.getCountry().equals("US")) {
             makeDefaultNewsTopics(newsContentProvider, "en", null, "US",
                     "es", null, "MX");
+        } else {
+            // 기본은 Default Locale 값 + 영어
+            // regionCode 는 중국어를 위해 null 을 넣지 않고 country 로 대체
+            makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), locale.getCountry(),
+                    locale.getCountry(), "en", null, "US");
         }
     }
 
