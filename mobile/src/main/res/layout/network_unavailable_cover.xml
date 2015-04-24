@@ -1,22 +1,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/network_unavailable_wrapper">
+                android:id="@+id/main_network_unavailable_wrapper"
+    android:background="@color/material_light_blue_A700">
 
-    <TextView
-        android:id="@+id/network_unavailable_message"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/network_unavailable_message"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-        android:textColor="@android:color/black"/>
-    <Button
-        android:id="@+id/network_unavailable_reload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/network_unavailable_message"
-        android:text="@string/network_unavailable_reload"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/ic_rss_url_failed_large"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textSize="@dimen/main_network_unavailable_text_size"
+            android:text="Can't Connect"
+            android:textColor="#0277bd"/>
+        <TextView
+            android:id="@+id/main_network_unavailable_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textSize="@dimen/main_network_unavailable_text_size"
+            android:text="Tap to Retry"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/network_unavailable_message"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:text="@string/network_unavailable_message"-->
+        <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"-->
+        <!--android:textColor="@android:color/black"/>-->
+    <!--<Button-->
+        <!--android:id="@+id/network_unavailable_reload"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_below="@id/network_unavailable_message"-->
+        <!--android:text="@string/network_unavailable_reload"/>-->
 
 </RelativeLayout>

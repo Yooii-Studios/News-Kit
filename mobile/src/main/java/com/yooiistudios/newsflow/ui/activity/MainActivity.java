@@ -1,6 +1,5 @@
 package com.yooiistudios.newsflow.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -108,6 +107,7 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.main_top_layout_container)     MainTopContainerLayout mMainTopContainerLayout;
     @InjectView(R.id.main_bottom_layout_container)  MainBottomContainerLayout mMainBottomContainerLayout;
 
+    private View mNetworkUnavailableCover;
     private MainAdView mBannerAdView;
     private NewsImageLoader mImageLoader;
     private Menu mMenu;
@@ -188,6 +188,7 @@ public class MainActivity extends ActionBarActivity
         // setContentView 에서 MainTopContainerLayout, MainBottomContainerLayout 이 초기화되기 때문에
         // 그 이전에 이미지로더를 초기화해줌
         initImageLoader();
+        removeNetworkUnavailableCover();
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
@@ -203,6 +204,13 @@ public class MainActivity extends ActionBarActivity
         requestSystemWindowsBottomInset();
 
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void removeNetworkUnavailableCover() {
+        if (mNetworkUnavailableCover != null && mNetworkUnavailableCover.getParent() != null) {
+            ((ViewGroup)mNetworkUnavailableCover.getParent()).removeView(mNetworkUnavailableCover);
+        }
+        mNetworkUnavailableCover = null;
     }
 
     public NewsImageLoader getImageLoader() {
@@ -258,12 +266,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void initNetworkUnavailableCoverLayout() {
-        @SuppressLint("InflateParams")
-        View networkUnavailableCoverLayout = LayoutInflater.from(getApplicationContext())
+        mNetworkUnavailableCover = LayoutInflater.from(getApplicationContext())
                 .inflate(R.layout.network_unavailable_cover, null);
-        setContentView(networkUnavailableCoverLayout);
+        setContentView(mNetworkUnavailableCover);
 
-        findViewById(R.id.network_unavailable_reload).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.main_network_unavailable_wrapper).setOnClickListener(new View.OnClickListener() {
             private int mPressCount = 0;
 
             @Override
@@ -275,32 +282,29 @@ public class MainActivity extends ActionBarActivity
                 } else {
                     if (mPressCount > 5) {
                         TextView networkUnavailableMessageTextView
-                                = (TextView) findViewById(R.id.network_unavailable_message);
-                        int lineCount = networkUnavailableMessageTextView.getLineCount();
-                        String messageToAppend = "\n";
-                        switch (lineCount % 9) {
+                                = (TextView) findViewById(R.id.main_network_unavailable_retry);
+                        String messageToAppend;
+                        switch (mPressCount % 9) {
                             case 1:
                             case 2:
                             case 3:
                             case 4:
                             case 5:
-                                messageToAppend += "안돼";
-                                break;
                             case 6:
-                                messageToAppend += "(｀Д´#)";
+                                messageToAppend = "(｀Д´#)";
                                 break;
                             case 7:
-                                messageToAppend += "(#｀Д´)";
+                                messageToAppend = "(#｀Д´)";
                                 break;
                             case 8:
-                                messageToAppend += "(#`・д・)";
+                                messageToAppend = "(#`・д・)";
                                 break;
                             case 0:
                             default:
-                                messageToAppend += "(´ﾟДﾟ`)";
+                                messageToAppend = "(´ﾟДﾟ`)";
                                 break;
                         }
-                        networkUnavailableMessageTextView.append(messageToAppend);
+                        networkUnavailableMessageTextView.setText(messageToAppend);
                     }
                 }
             }
@@ -958,7 +962,9 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onBackPressed() {
-        if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode()) {
+        if (mNetworkUnavailableCover != null) {
+            super.onBackPressed();
+        } else if (mMainTopContainerLayout.isInEditingMode() || mMainBottomContainerLayout.isInEditingMode()) {
             hideEditLayout();
         } else if (!IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)
                 && ConnectivityUtils.isNetworkAvailable(getApplicationContext())
