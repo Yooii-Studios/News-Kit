@@ -1,6 +1,6 @@
 {
     "lang_name_english": "Malay",
-    "lang_name_regional": "Malay",
+    "lang_name_regional": "Melayu",
     "lang_code": "ms",
     "region_code": "",
     "countries": [
