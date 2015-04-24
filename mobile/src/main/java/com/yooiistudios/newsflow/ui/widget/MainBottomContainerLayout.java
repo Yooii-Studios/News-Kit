@@ -333,20 +333,22 @@ public class MainBottomContainerLayout extends FrameLayout
 
     private void fetchNextNewsImageAt(int newsFeedIndex) {
         NewsFeed newsFeed = mAdapter.getNewsFeedList().get(newsFeedIndex);
-        new BottomNewsImageFetchTask(mImageLoader, newsFeed.getNextNews(), newsFeedIndex,
-                newsFeed.getNextNewsIndex(), BottomNewsImageFetchTask.TASK_AUTO_REFRESH,
-                new BottomNewsImageFetchTask.OnBottomImageUrlFetchListener() {
-                    @Override
-                    public void onBottomImageUrlFetchSuccess(News news, String url, int newsFeedPosition, int newsPosition, int taskType) {
-                        NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
-                                news.getGuid());
-                    }
+        if (newsFeed.isDisplayable()) {
+            new BottomNewsImageFetchTask(mImageLoader, newsFeed.getNextNews(), newsFeedIndex,
+                    newsFeed.getNextNewsIndex(), BottomNewsImageFetchTask.TASK_AUTO_REFRESH,
+                    new BottomNewsImageFetchTask.OnBottomImageUrlFetchListener() {
+                        @Override
+                        public void onBottomImageUrlFetchSuccess(News news, String url, int newsFeedPosition, int newsPosition, int taskType) {
+                            NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
+                                    news.getGuid());
+                        }
 
-                    @Override
-                    public void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType) {
+                        @Override
+                        public void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType) {
 
-                    }
-                }).execute();
+                        }
+                    }).execute();
+        }
     }
 
     @NonNull
