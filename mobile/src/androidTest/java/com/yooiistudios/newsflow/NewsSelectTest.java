@@ -2,10 +2,11 @@ package com.yooiistudios.newsflow;
 
 import android.test.AndroidTestCase;
 
+import com.yooiistudios.newsflow.core.language.DefaultLocale;
 import com.yooiistudios.newsflow.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newsflow.core.news.curation.NewsProviderLanguage;
-import com.yooiistudios.newsflow.core.language.Language;
-import com.yooiistudios.newsflow.core.language.LanguageUtils;
+
+import java.util.Locale;
 
 /**
  * Created by Wooseong Kim in News Flow from Yooii Studios Co., LTD. on 15. 2. 26.
@@ -23,63 +24,210 @@ public class NewsSelectTest extends AndroidTestCase {
     }
 
     public void testEnglishSorting() {
-        sortWithLanguage(Language.ENGLISH);
-        assertLanguageWithIndex(Language.ENGLISH, 0);
+        sortWithLanguage("en", "US");
+        assertLanguageWithIndex("en", 0);
     }
 
-    // TODO: 나중에 간체 신문 RSS 가 추가되면 나중에 추가 테스트 로직을 구현할 것
-    public void testSimplifiedChineseSorting() {
-        Language targetLanguage = Language.SIMPLIFIED_CHINESE;
-        sortWithLanguage(targetLanguage);
-        NewsProviderLanguage newsProviderLanguage = mNewsContentProvider.getNewsLanguage(0);
+    public void testSpanishSorting() {
+        sortWithLanguage("es", "ES");
+        assertLanguageWithIndex("es", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("pt", 2);
+        assertLanguageWithIndex("fr", 3);
+        assertLanguageWithIndex("it", 4);
+    }
 
-        String regionalLanguageName = newsProviderLanguage.regionalLanguageName;
-        assertEquals(getContext().getString(targetLanguage.getLocalNotationStringId()),
-                regionalLanguageName);
-        assertEquals(mNewsContentProvider.getNewsLanguageTitle(0), regionalLanguageName);
+    public void testPortugueseSorting() {
+        sortWithLanguage("pt", "PT");
+        assertLanguageWithIndex("pt", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("es", 2);
+        assertLanguageWithIndex("fr", 3);
+        assertLanguageWithIndex("it", 4);
+    }
+
+    public void testItalianSorting() {
+        sortWithLanguage("it", "IT");
+        assertLanguageWithIndex("it", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("es", 2);
+        assertLanguageWithIndex("pt", 3);
+        assertLanguageWithIndex("fr", 4);
+    }
+
+    public void testSimplifiedChineseSorting() {
+        sortWithLanguage("zh", "CN");
+        assertLanguageWithIndex("zh", 0);
     }
 
     public void testTraditionalChineseSorting() {
-        Language targetLanguage = Language.TRADITIONAL_CHINESE;
-        sortWithLanguage(targetLanguage);
-        NewsProviderLanguage newsProviderLanguage = mNewsContentProvider.getNewsLanguage(0);
-
-        String regionalLanguageName = newsProviderLanguage.regionalLanguageName;
-        assertEquals(getContext().getString(targetLanguage.getLocalNotationStringId()),
-                regionalLanguageName);
-        assertEquals(mNewsContentProvider.getNewsLanguageTitle(0), regionalLanguageName);
+        sortWithLanguage("zh", "TW");
+        assertLanguageWithIndex("zh", 0);
     }
 
     public void testKoreanSorting() {
-        sortWithLanguage(Language.KOREAN);
-        assertLanguageWithIndex(Language.KOREAN, 0);
-        assertLanguageWithIndex(Language.ENGLISH, 1);
-        assertLanguageWithIndex(Language.JAPANESE, 2);
+        sortWithLanguage("ko", "KR");
+        assertLanguageWithIndex("ko", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("ja", 2);
     }
 
     public void testJapaneseSorting() {
-        Language targetLanguage = Language.JAPANESE;
-        sortWithLanguage(targetLanguage);
-
-        assertLanguageWithIndex(Language.JAPANESE, 0);
-        assertLanguageWithIndex(Language.ENGLISH, 1);
-        assertLanguageWithIndex(Language.KOREAN, 2);
+        sortWithLanguage("ja", "JP");
+        assertLanguageWithIndex("ja", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("ko", 2);
     }
 
-    private void sortWithLanguage(Language language) {
-        LanguageUtils.setCurrentLanguage(language, getContext());
+    public void testGermanSorting() {
+        sortWithLanguage("de", "DE");
+        assertLanguageWithIndex("de", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("fr", 2);
+        assertLanguageWithIndex("es", 3);
+        assertLanguageWithIndex("pt", 4);
+    }
+
+    public void testFrenchSorting() {
+        sortWithLanguage("fr", "FR");
+        assertLanguageWithIndex("fr", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("de", 2);
+        assertLanguageWithIndex("es", 3);
+        assertLanguageWithIndex("pt", 4);
+    }
+
+    public void testRussianSorting() {
+        sortWithLanguage("ru", "RU");
+        assertLanguageWithIndex("ru", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("es", 2);
+        assertLanguageWithIndex("fr", 3);
+    }
+
+    public void testNorwegianSorting() {
+        sortWithLanguage("nb", "NO");
+        assertLanguageWithIndex("nb", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("sv", 2);
+        assertLanguageWithIndex("fi", 3);
+        assertLanguageWithIndex("da", 4);
+        assertLanguageWithIndex("nl", 5);
+        assertLanguageWithIndex("es", 6);
+        assertLanguageWithIndex("fr", 7);
+    }
+
+    public void testSwedishSorting() {
+        sortWithLanguage("sv", "SE");
+        assertLanguageWithIndex("sv", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("nb", 2);
+        assertLanguageWithIndex("fi", 3);
+        assertLanguageWithIndex("da", 4);
+        assertLanguageWithIndex("nl", 5);
+        assertLanguageWithIndex("es", 6);
+        assertLanguageWithIndex("fr", 7);
+    }
+
+    public void testFinnishSorting() {
+        sortWithLanguage("fi", "FI");
+        assertLanguageWithIndex("fi", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("nb", 2);
+        assertLanguageWithIndex("sv", 3);
+        assertLanguageWithIndex("da", 4);
+        assertLanguageWithIndex("nl", 5);
+        assertLanguageWithIndex("es", 6);
+        assertLanguageWithIndex("fr", 7);
+    }
+
+    public void testDanishSorting() {
+        sortWithLanguage("da", "DK");
+        assertLanguageWithIndex("da", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("de", 2);
+        assertLanguageWithIndex("fr", 3);
+        assertLanguageWithIndex("nb", 4);
+        assertLanguageWithIndex("sv", 5);
+        assertLanguageWithIndex("fi", 6);
+        assertLanguageWithIndex("nl", 7);
+    }
+
+    public void testDutchSorting() {
+        sortWithLanguage("nl", "NL");
+        assertLanguageWithIndex("nl", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("de", 2);
+        assertLanguageWithIndex("fr", 3);
+        assertLanguageWithIndex("nb", 4);
+        assertLanguageWithIndex("sv", 5);
+        assertLanguageWithIndex("fi", 6);
+        assertLanguageWithIndex("da", 7);
+    }
+
+    public void testTurkishSorting() {
+        sortWithLanguage("tr", "TR");
+        assertLanguageWithIndex("tr", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("it", 2);
+        assertLanguageWithIndex("es", 3);
+        assertLanguageWithIndex("pt", 4);
+        assertLanguageWithIndex("fr", 5);
+    }
+
+    public void testVietnameseSorting() {
+        sortWithLanguage("vi", "VN");
+        assertLanguageWithIndex("vi", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("zh", 2);
+        assertLanguageWithIndex("zh", 3);
+        assertLanguageWithIndex("th", 4);
+        assertLanguageWithIndex("ms", 5);
+        assertLanguageWithIndex("in", 6);
+    }
+
+    public void testThaiSorting() {
+        sortWithLanguage("th", "TH");
+        assertLanguageWithIndex("th", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("zh", 2);
+        assertLanguageWithIndex("zh", 3);
+        assertLanguageWithIndex("vi", 4);
+        assertLanguageWithIndex("ms", 5);
+        assertLanguageWithIndex("in", 6);
+    }
+
+    public void testMalaySorting() {
+        sortWithLanguage("ms", "MY");
+        assertLanguageWithIndex("ms", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("zh", 2);
+        assertLanguageWithIndex("zh", 3);
+        assertLanguageWithIndex("in", 4);
+        assertLanguageWithIndex("th", 5);
+        assertLanguageWithIndex("vi", 6);
+    }
+
+    public void testIndonesianSorting() {
+        sortWithLanguage("in", "ID");
+        assertLanguageWithIndex("in", 0);
+        assertLanguageWithIndex("en", 1);
+        assertLanguageWithIndex("zh", 2);
+        assertLanguageWithIndex("zh", 3);
+        assertLanguageWithIndex("ms", 4);
+        assertLanguageWithIndex("th", 5);
+        assertLanguageWithIndex("vi", 6);
+    }
+
+    private void sortWithLanguage(String language, String country) {
+        Locale targetLocale = new Locale(language, country);
+        DefaultLocale.saveDefaultLocale(getContext(), targetLocale);
         NewsContentProvider.getInstance(getContext()).sortNewsProviderLanguage(getContext());
     }
 
-    private void assertLanguageWithIndex(Language language, int index) {
+    private void assertLanguageWithIndex(String languageCode, int index) {
         NewsProviderLanguage newsProviderLanguage = mNewsContentProvider.getNewsLanguage(index);
 
-        // test newsProviderLanguage
-        String regionalLanguageName = newsProviderLanguage.regionalLanguageName;
-        assertEquals(getContext().getString(language.getLocalNotationStringId()),
-                regionalLanguageName);
-
-        // test newsProviderLanguage title
-        assertEquals(mNewsContentProvider.getNewsLanguageTitle(index), regionalLanguageName);
+        assertEquals(newsProviderLanguage.languageCode, languageCode);
     }
 }
