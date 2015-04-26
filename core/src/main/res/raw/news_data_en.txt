@@ -180,8 +180,50 @@
                     ]
                 },
                 {
-                    "provider_name": "Wall Street Journal",
+                    "provider_name": "USA Today",
             	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Top Stories",
+                            "topic_id": "1",
+                            "url": "http://rssfeeds.usatoday.com/usatodaycomworld-topstories&x=1",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "2",
+                            "url": "http://rssfeeds.usatoday.com/usatoday-lifetopstories&x=1"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "3",
+                            "url": "http://rssfeeds.usatoday.com/usatodaycomsports-topstories&x=1"
+                        },
+                        {
+                            "topic_name": "Money",
+                            "topic_id": "4",
+                            "url": "http://rssfeeds.usatoday.com/usatodaycommoney-topstories&x=1"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "5",
+                            "url": "http://rssfeeds.usatoday.com/usatoday-techtopstories&x=1"
+                        },
+                        {
+                            "topic_name": "Travel",
+                            "topic_id": "6",
+                            "url": "http://rssfeeds.usatoday.com/usatodaycomtravel-topstories&x=1"
+                        },
+                        {
+                            "topic_name": "Weather",
+                            "topic_id": "7",
+                            "url": "http://rssfeeds.usatoday.com/usatoday-weathertopstories&x=1"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Wall Street Journal",
+            	    "provider_id": "5",
             	    "topics": [
                         {
                             "topic_name": "U.S. Business",
@@ -218,7 +260,7 @@
                 },
                 {
                     "provider_name": "CNN",
-            	    "provider_id": "5",
+            	    "provider_id": "6",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -265,7 +307,7 @@
                 },
                 {
                     "provider_name": "Los Angeles Times",
-            	    "provider_id": "6",
+            	    "provider_id": "7",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -317,7 +359,7 @@
                 },
                 {
                     "provider_name": "LA Daily News ",
-            	    "provider_id": "7",
+            	    "provider_id": "8",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -349,7 +391,7 @@
                 },
                 {
                     "provider_name": "NY Daily News",
-            	    "provider_id": "8",
+            	    "provider_id": "9",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
@@ -391,7 +433,7 @@
                 },
                 {
                     "provider_name": "Time",
-            	    "provider_id": "9",
+            	    "provider_id": "10",
             	    "topics": [
                         {
                             "topic_name": "Top Stories",
