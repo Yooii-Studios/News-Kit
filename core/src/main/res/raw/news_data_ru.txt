@@ -6,104 +6,400 @@
     "countries": [
         {
             "country_name": "Россия",
-            "country_code": "ru",
+            "country_code": "RU",
             "news_providers": [
                 {
-                    "provider_name": "Google",
+                    "provider_name": "Google Новости",
             	    "provider_id": "1",
             	    "topics": [
                         {
                             "topic_name": "Главные новости",
                             "topic_id": "1",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&output=rss",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "В мире",
                             "topic_id": "2",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=w&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Россия",
                             "topic_id": "3",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=n&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Бизнес",
                             "topic_id": "4",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=b&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Наука и техника",
                             "topic_id": "5",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=t&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Культура",
                             "topic_id": "6",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=e&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Спорт",
                             "topic_id": "7",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=s&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Здоровье",
                             "topic_id": "8",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=m&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Другие новости",
                             "topic_id": "9",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=ru_ru&hl=ru&topic=h&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=h&output=rss"
                         }
                     ]
                 },
                 {
-                    "provider_name": "pravda",
+                    "provider_name": "Комсомольская правда",
             	    "provider_id": "2",
             	    "topics": [
                         {
-                            "topic_name": "world",
+                            "topic_name": "Все новости в одной ленте",
                             "topic_id": "1",
-                            "url": "http://english.pravda.ru/world/export.xml",
+                            "url": "http://kp.ru/rss/allsections.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "russia",
+                            "topic_name": "Политика",
                             "topic_id": "2",
-                            "url": "http://english.pravda.ru/russia/export.xml"
+                            "url": "http://www.kp.ru/rss/msk-politics.xml"
                         },
                         {
-                            "topic_name": "society",
+                            "topic_name": "Экономика",
                             "topic_id": "3",
-                            "url": "http://english.pravda.ru/society/export.xml"
+                            "url": "http://www.kp.ru/rss/msk-economics.xml"
                         },
                         {
-                            "topic_name": "opinion",
+                            "topic_name": "Происшествия",
                             "topic_id": "4",
-                            "url": "http://english.pravda.ru/opinion/export.xml"
+                            "url": "http://www.kp.ru/rss/msk-incedent.xml"
                         },
                         {
-                            "topic_name": "science",
+                            "topic_name": "Общество",
                             "topic_id": "5",
-                            "url": "http://english.pravda.ru/science/export.xml"
+                            "url": "http://www.kp.ru/rss/msk-life.xml"
                         },
                         {
-                            "topic_name": "business",
+                            "topic_name": "Спорт (kp.ru)",
                             "topic_id": "6",
-                            "url": "http://english.pravda.ru/business/export.xml"
+                            "url": "http://kp.ru/rss/msk-sport.xml"
                         },
                         {
-                            "topic_name": "sports",
+                            "topic_name": "Спорт (Сов.спорт)",
                             "topic_id": "7",
-                            "url": "http://english.pravda.ru/sports/export.xml"
+                            "url": "http://www.sovsport.ru/gazeta_rss"
                         },
                         {
-                            "topic_name": "health",
+                            "topic_name": "Культура",
                             "topic_id": "8",
-                            "url": "http://english.pravda.ru/health/export.xml"
+                            "url": "http://www.kp.ru/rss/msk-culture.xml"
+                        },
+                        {
+                            "topic_name": "Звезды",
+                            "topic_id": "9",
+                            "url": "http://www.kp.ru/rss/msk-stars.xml"
+                        },
+                        {
+                            "topic_name": "Телевизор",
+                            "topic_id": "10",
+                            "url": "http://www.kp.ru/rss/msk-tv.xml"
+                        },
+                        {
+                            "topic_name": "Наука",
+                            "topic_id": "11",
+                            "url": "http://www.kp.ru/rss/msk-science.xml"
+                        },
+                        {
+                            "topic_name": "Умные вещи",
+                            "topic_id": "12",
+                            "url": "http://www.kp.ru/rss/msk-digital.xml"
+                        },
+                        {
+                            "topic_name": "Образование и работа",
+                            "topic_id": "13",
+                            "url": "http://www.kp.ru/rss/msk-education.xml"
+                        },
+                        {
+                            "topic_name": "Мужчина и женщина",
+                            "topic_id": "14",
+                            "url": "http://www.kp.ru/rss/msk-sex.xml"
+                        },
+                        {
+                            "topic_name": "МамыПапы",
+                            "topic_id": "15",
+                            "url": "http://www.kp.ru/rss/msk-kids.xml"
+                        },
+                        {
+                            "topic_name": "Здоровье",
+                            "topic_id": "16",
+                            "url": "http://www.kp.ru/rss/msk-health.xml"
+                        },
+                        {
+                            "topic_name": "Дача",
+                            "topic_id": "17",
+                            "url": "http://www.kp.ru/rss/msk-dacha.xml"
+                        },
+                        {
+                            "topic_name": "Шоппинг",
+                            "topic_id": "18",
+                            "url": "http://www.kp.ru/rss/msk-shop.xml"
+                        },
+                        {
+                            "topic_name": "Туризм",
+                            "topic_id": "19",
+                            "url": "http://www.kp.ru/rss/msk-tour.xml"
+                        },
+                        {
+                            "topic_name": "Ваши права",
+                            "topic_id": "20",
+                            "url": "http://www.kp.ru/rss/msk-urist.xml"
+                        },
+                        {
+                            "topic_name": "Живой уголок",
+                            "topic_id": "21",
+                            "url": "http://www.kp.ru/rss/msk-animal.xml"
+                        },
+                        {
+                            "topic_name": "Приятного аппетита",
+                            "topic_id": "22",
+                            "url": "http://www.kp.ru/rss/msk-gurman.xml"
+                        },
+                        {
+                            "topic_name": "Недвижимость",
+                            "topic_id": "23",
+                            "url": "http://www.kp.ru/rss/msk-home.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Московский комсомолец",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Все материалы",
+                            "topic_id": "1",
+                            "url": "http://www.mk.ru/rss/index.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Новостная лента",
+                            "topic_id": "2",
+                            "url": "http://www.mk.ru/rss/news/index.xml"
+                        },
+                        {
+                            "topic_name": "Свежий МК",
+                            "topic_id": "3",
+                            "url": "http://www.mk.ru/rss/daily/index.xml"
+                        },
+                        {
+                            "topic_name": "Экономика",
+                            "topic_id": "4",
+                            "url": "http://www.mk.ru/rss/economics/index.xml"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "5",
+                            "url": "http://www.mk.ru/rss/politics/index.xml"
+                        },
+                        {
+                            "topic_name": "Происшествия",
+                            "topic_id": "6",
+                            "url": "http://www.mk.ru/rss/incident/index.xml"
+                        },
+                        {
+                            "topic_name": "Общество",
+                            "topic_id": "7",
+                            "url": "http://www.mk.ru/rss/social/index.xml"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "8",
+                            "url": "http://www.mk.ru/rss/culture/index.xml"
+                        },
+                        {
+                            "topic_name": "Наука",
+                            "topic_id": "9",
+                            "url": "http://www.mk.ru/rss/science/index.xml"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "10",
+                            "url": "http://www.mk.ru/rss/sport/index.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Известия",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Все новости",
+                            "topic_id": "1",
+                            "url": "http://izvestia.ru/xml/rss/all.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "2",
+                            "url": "http://izvestia.ru/xml/rss/politics.xml"
+                        },
+                        {
+                            "topic_name": "Финансы",
+                            "topic_id": "3",
+                            "url": "http://izvestia.ru/xml/rss/38.xml"
+                        },
+                        {
+                            "topic_name": "Общество",
+                            "topic_id": "4",
+                            "url": "http://izvestia.ru/xml/rss/society.xml"
+                        },
+                        {
+                            "topic_name": "Экономика",
+                            "topic_id": "5",
+                            "url": "http://izvestia.ru/xml/rss/economics.xml"
+                        },
+                        {
+                            "topic_name": "Недвижимость",
+                            "topic_id": "6",
+                            "url": "http://izvestia.ru/xml/rss/69.xml"
+                        },
+                        {
+                            "topic_name": "Мир",
+                            "topic_id": "7",
+                            "url": "http://izvestia.ru/xml/rss/world.xml"
+                        },
+                        {
+                            "topic_name": "Транспорт",
+                            "topic_id": "8",
+                            "url": "http://izvestia.ru/xml/rss/35.xml"
+                        },
+                        {
+                            "topic_name": "Энергетика",
+                            "topic_id": "9",
+                            "url": "http://izvestia.ru/xml/rss/36.xml"
+                        },
+                        {
+                            "topic_name": "Москва",
+                            "topic_id": "10",
+                            "url": "http://izvestia.ru/xml/rss/moscow.xml"
+                        },
+                        {
+                            "topic_name": "Армия",
+                            "topic_id": "11",
+                            "url": "http://izvestia.ru/xml/rss/army.xml"
+                        },
+                        {
+                            "topic_name": "Наука",
+                            "topic_id": "12",
+                            "url": "http://izvestia.ru/xml/rss/scince.xml"
+                        },
+                        {
+                            "topic_name": "Гаджеты & Телеком",
+                            "topic_id": "13",
+                            "url": "http://izvestia.ru/xml/rss/gadgets.xml"
+                        },
+                        {
+                            "topic_name": "Авто",
+                            "topic_id": "14",
+                            "url": "http://izvestia.ru/xml/rss/66.xml"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "15",
+                            "url": "http://izvestia.ru/xml/rss/culture.xml"
+                        },
+                        {
+                            "topic_name": "Стиль",
+                            "topic_id": "16",
+                            "url": "http://izvestia.ru/xml/rss/67.xml"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "17",
+                            "url": "http://izvestia.ru/xml/rss/sports.xml"
+                        },
+                        {
+                            "topic_name": "IT",
+                            "topic_id": "18",
+                            "url": "http://izvestia.ru/xml/rss/37.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Российская газета",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Все материалы",
+                            "topic_id": "1",
+                            "url": "http://www.rg.ru/tema/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Документы",
+                            "topic_id": "2",
+                            "url": "http://rg.ru/tema/doc-any/rss.xml"
+                        },
+                        {
+                            "topic_name": "Российская газета",
+                            "topic_id": "3",
+                            "url": "http://www.rg.ru/tema/rss.xml"
+                        },
+                        {
+                            "topic_name": "Российская бизнес-газета",
+                            "topic_id": "4",
+                            "url": "http://www.rg.ru/tema/izd-biznes/rss.xml"
+                        },
+                        {
+                            "topic_name": "Российская газета - Неделя",
+                            "topic_id": "5",
+                            "url": "http://www.rg.ru/tema/izd-subbota/rss.xml"
+                        },
+                        {
+                            "topic_name": "Государство",
+                            "topic_id": "6",
+                            "url": "http://www.rg.ru/tema/gos/rss.xml"
+                        },
+                        {
+                            "topic_name": "Экономика",
+                            "topic_id": "7",
+                            "url": "http://www.rg.ru/tema/ekonomika/rss.xml"
+                        },
+                        {
+                            "topic_name": "В мире",
+                            "topic_id": "8",
+                            "url": "http://www.rg.ru/tema/mir/rss.xml"
+                        },
+                        {
+                            "topic_name": "Происшествия",
+                            "topic_id": "9",
+                            "url": "http://www.rg.ru/tema/bezopasnost/rss.xml"
+                        },
+                        {
+                            "topic_name": "Общество",
+                            "topic_id": "10",
+                            "url": "http://www.rg.ru/tema/obshestvo/rss.xml"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "11",
+                            "url": "http://www.rg.ru/tema/kultura/rss.xml"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "12",
+                            "url": "http://www.rg.ru/tema/sport/rss.xml"
                         }
                     ]
                 }

@@ -11,6 +11,9 @@
     <dimen name="margin_inner">4.5dp</dimen>
     <dimen name="margin_outer">9dp</dimen>
 
+    <!-- Main General -->
+    <dimen name="main_newsfeed_title_text_size">15sp</dimen>
+
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>
@@ -21,6 +24,7 @@
     <dimen name="main_bottom_margin_small">3dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1.5dp</dimen>
     <dimen name="main_bottom_card_view_title_size">30sp</dimen>
+    <dimen name="main_bottom_title_text_size">27sp</dimen> <!-- 나중에 머티리얼에서 사이즈 찾자 -->
     <dimen name="main_bottom_text_padding">24dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">12dp</dimen>
 
@@ -30,7 +34,8 @@
     <dimen name="detail_text_wide_padding">30dp</dimen>
 
     <!-- Detail Top -->
-    <dimen name="detail_top_image_view_height">512dp</dimen>    <!-- 64 * 8 -->
+    <dimen name="detail_top_image_view_height_port">512dp</dimen> <!-- 64 * 8 -->
+    <dimen name="detail_top_image_view_height_land">285dp</dimen>
     <dimen name="detail_top_text_layout_elevation">15dp</dimen>
 
     <!-- Detail Bottom -->
@@ -70,8 +75,11 @@
     <dimen name="store_ad_dialog_image_layout_padding">4.5dp</dimen>
     <dimen name="store_ad_dialog_image_width">444dp</dimen>
     <dimen name="store_ad_dialog_image_text_margin_top">1.5dp</dimen>
-    <dimen name="store_ad_dialog_image_text_height">93dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">67.5dp</dimen>
+    <dimen name="store_ad_dialog_sub_desc_text_size">16.5sp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_width">127.5dp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_margin_top">132dp</dimen>
+    <dimen name="store_ad_dialog_icon_img_width">66dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">65.5dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">22.5sp</dimen>
-
 </resources>

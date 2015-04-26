@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yooiistudios.newsflow.ui.activity.SettingActivity.SettingFragment">
+    tools:context="com.yooiistudios.newskit.ui.activity.SettingActivity.SettingFragment">
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

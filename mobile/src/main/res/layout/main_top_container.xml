@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/main_top_root">
+                android:layout_height="wrap_content">
 
-    <com.yooiistudios.newsflow.ui.widget.viewpager.ParallexViewPagerIndicator
+    <com.yooiistudios.newskit.ui.widget.viewpager.ParallexViewPagerIndicator
         android:id="@+id/main_top_view_pager_indicator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_bottom_margin_small"
@@ -17,20 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/main_top_view_pager_indicator">
+
         <FrameLayout
             android:id="@+id/main_top_view_pager_wrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.yooiistudios.newsflow.ui.widget.viewpager.MainTopViewPager
+            <com.yooiistudios.newskit.ui.widget.viewpager.MainTopViewPager
                 android:id="@+id/main_top_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/main_bottom_margin_small"/>
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/main_top_news_feed_title_text_view"
-                style="@style/MainTopItemNewsFeedTitleTextStyle"/>
+                style="@style/MainTopItemNewsFeedTitleText"/>
         </FrameLayout>
 
         <FrameLayout
@@ -40,21 +38,39 @@
             android:visibility="gone">
 
             <ImageView
+                android:id="@+id/main_top_unavailable_background_imageview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher"
+                android:scaleType="centerCrop"
                 android:contentDescription="@string/content_description"/>
-            <TextView
-                android:id="@+id/main_top_unavailable_description"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="20sp"
-                android:background="#a33"/>
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/main_top_unavailable_icon_imageview"
+                    android:layout_width="@dimen/main_top_news_status_icon_image_view_size"
+                    android:layout_height="@dimen/main_top_news_status_icon_image_view_size"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/content_description"/>
+
+                <TextView
+                    android:id="@+id/main_top_unavailable_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/base_margin"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/material_white_primary_text"/>
+            </LinearLayout>
         </FrameLayout>
     </FrameLayout>
 
-    <com.yooiistudios.newsflow.ui.widget.CoverFrameLayout
+    <com.yooiistudios.newskit.ui.widget.CoverFrameLayout
         android:id="@+id/main_top_edit_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,6 +82,5 @@
             android:layout_height="@dimen/main_edit_button_size"
             android:layout_margin="@dimen/main_edit_button_margin_large"
             android:background="@drawable/ic_edit_newsfeed_selector"/>
-    </com.yooiistudios.newsflow.ui.widget.CoverFrameLayout>
-
+    </com.yooiistudios.newskit.ui.widget.CoverFrameLayout>
 </RelativeLayout>

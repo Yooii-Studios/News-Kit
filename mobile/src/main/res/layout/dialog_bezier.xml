@@ -18,16 +18,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/root_bound_width_cp_1x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/root_bound_width_cp_1y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/root_bound_width_cp_2x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/root_bound_width_cp_2y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -45,16 +45,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/root_bound_height_cp_1x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/root_bound_height_cp_1y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/root_bound_height_cp_2x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/root_bound_height_cp_2y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -72,16 +72,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/image_scale_cp_1x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/image_scale_cp_1y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/image_scale_cp_2x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/image_scale_cp_2y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -99,16 +99,16 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/transition_cp_1x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/transition_cp_1y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/transition_cp_2x"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
             <EditText
                 android:id="@+id/transition_cp_2y"
-                style="@style/BezierDialogEditTextStyle"/>
+                style="@style/BezierDialogEditText"/>
         </LinearLayout>
     </LinearLayout>
 

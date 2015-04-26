@@ -1,0 +1,531 @@
+{
+    "lang_name_english": "Simplified Chinese",
+    "lang_name_regional": "简体中文",
+    "lang_code": "zh",
+    "region_code": "cn",
+    "countries": [
+        {
+            "country_name": "中國",
+            "country_code": "CN",
+            "news_providers": [
+                {
+                    "provider_name": "Google 新闻",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "焦点新闻",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "为您推荐",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "国际/港台",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "内地",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "财经",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "娱乐",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "科技",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "体育",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=s&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "新浪网",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "新闻要闻",
+                            "topic_id": "1",
+                            "url": "http://rss.sina.com.cn/news/marquee/ddt.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "国内要闻",
+                            "topic_id": "2",
+                            "url": "http://rss.sina.com.cn/news/china/focus15.xml"
+                        },
+                        {
+                            "topic_name": "国际要闻",
+                            "topic_id": "3",
+                            "url": "http://rss.sina.com.cn/news/world/focus15.xml"
+                        },
+                        {
+                            "topic_name": "社会新闻",
+                            "topic_id": "4",
+                            "url": "http://rss.sina.com.cn/news/society/focus15.xml"
+                        },
+                        {
+                            "topic_name": "港澳台新闻",
+                            "topic_id": "5",
+                            "url": "http://rss.sina.com.cn/news/china/hktaiwan15.xml"
+                        },
+                        {
+                            "topic_name": "体育要闻汇总",
+                            "topic_id": "6",
+                            "url": "http://rss.sina.com.cn/roll/sports/hot_roll.xml"
+                        },
+                        {
+                            "topic_name": "科技要闻汇总",
+                            "topic_id": "7",
+                            "url": "http://rss.sina.com.cn/tech/rollnews.xml"
+                        },
+                        {
+                            "topic_name": "财经要闻汇总",
+                            "topic_id": "8",
+                            "url": "http://rss.sina.com.cn/roll/finance/hot_roll.xml"
+                        },
+                        {
+                            "topic_name": "娱乐要闻汇总",
+                            "topic_id": "9",
+                            "url": "http://rss.sina.com.cn/ent/hot_roll.xml"
+                        },
+                        {
+                            "topic_name": "教育要闻汇总",
+                            "topic_id": "10",
+                            "url": "http://rss.sina.com.cn/roll/edu/hot_roll.xml"
+                        },
+                        {
+                            "topic_name": "游戏新闻",
+                            "topic_id": "11",
+                            "url": "http://rss.sina.com.cn/news/allnews/games.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "百度新闻搜索",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "国内焦点",
+                            "topic_id": "1",
+                            "url": "http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "国际焦点",
+                            "topic_id": "2",
+                            "url": "http://news.baidu.com/n?cmd=1&class=internews&tn=rss"
+                        },
+                        {
+                            "topic_name": "军事焦点",
+                            "topic_id": "3",
+                            "url": "http://news.baidu.com/n?cmd=1&class=mil&tn=rss"
+                        },
+                        {
+                            "topic_name": "财经焦点",
+                            "topic_id": "4",
+                            "url": "http://news.baidu.com/n?cmd=1&class=finannews&tn=rss"
+                        },
+                        {
+                            "topic_name": "互联网焦点",
+                            "topic_id": "5",
+                            "url": "http://news.baidu.com/n?cmd=1&class=internet&tn=rss"
+                        },
+                        {
+                            "topic_name": "房产焦点",
+                            "topic_id": "6",
+                            "url": "http://news.baidu.com/n?cmd=1&class=housenews&tn=rss"
+                        },
+                        {
+                            "topic_name": "汽车焦点",
+                            "topic_id": "7",
+                            "url": "http://news.baidu.com/n?cmd=1&class=autonews&tn=rss"
+                        },
+                        {
+                            "topic_name": "体育焦点",
+                            "topic_id": "8",
+                            "url": "http://news.baidu.com/n?cmd=1&class=sportnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "娱乐焦点",
+                            "topic_id": "9",
+                            "url": "http://news.baidu.com/n?cmd=1&class=enternews&tn=rss"
+                        },
+                        {
+                            "topic_name": "游戏焦点",
+                            "topic_id": "10",
+                            "url": "http://news.baidu.com/n?cmd=1&class=gamenews&tn=rss"
+                        },
+                        {
+                            "topic_name": "教育焦点",
+                            "topic_id": "11",
+                            "url": "http://news.baidu.com/n?cmd=1&class=edunews&tn=rss"
+                        },
+                        {
+                            "topic_name": "女人焦点",
+                            "topic_id": "12",
+                            "url": "http://news.baidu.com/n?cmd=1&class=healthnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "科技焦点",
+                            "topic_id": "13",
+                            "url": "http://news.baidu.com/n?cmd=1&class=technnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "社会焦点",
+                            "topic_id": "14",
+                            "url": "http://news.baidu.com/n?cmd=1&class=socianews&tn=rss"
+                        },
+                        {
+                            "topic_name": "国内最新",
+                            "topic_id": "15",
+                            "url": "http://news.baidu.com/n?cmd=4&class=civilnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "国际最新",
+                            "topic_id": "16",
+                            "url": "http://news.baidu.com/n?cmd=4&class=internews&tn=rss"
+                        },
+                        {
+                            "topic_name": "军事最新",
+                            "topic_id": "17",
+                            "url": "http://news.baidu.com/n?cmd=4&class=mil&tn=rss"
+                        },
+                        {
+                            "topic_name": "财经最新",
+                            "topic_id": "18",
+                            "url": "http://news.baidu.com/n?cmd=4&class=finannews&tn=rss"
+                        },
+                        {
+                            "topic_name": "互联网最新",
+                            "topic_id": "19",
+                            "url": "http://news.baidu.com/n?cmd=4&class=internet&tn=rss"
+                        },
+                        {
+                            "topic_name": "房产最新",
+                            "topic_id": "20",
+                            "url": "http://news.baidu.com/n?cmd=4&class=housenews&tn=rss"
+                        },
+                        {
+                            "topic_name": "汽车最新",
+                            "topic_id": "21",
+                            "url": "http://news.baidu.com/n?cmd=4&class=autonews&tn=rss"
+                        },
+                        {
+                            "topic_name": "体育最新",
+                            "topic_id": "22",
+                            "url": "http://news.baidu.com/n?cmd=4&class=sportnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "娱乐最新",
+                            "topic_id": "23",
+                            "url": "http://news.baidu.com/n?cmd=4&class=enternews&tn=rss"
+                        },
+                        {
+                            "topic_name": "游戏最新",
+                            "topic_id": "24",
+                            "url": "http://news.baidu.com/n?cmd=4&class=gamenews&tn=rss"
+                        },
+                        {
+                            "topic_name": "教育最新",
+                            "topic_id": "25",
+                            "url": "http://news.baidu.com/n?cmd=4&class=edunews&tn=rss"
+                        },
+                        {
+                            "topic_name": "女人最新",
+                            "topic_id": "26",
+                            "url": "http://news.baidu.com/n?cmd=4&class=healthnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "科技最新",
+                            "topic_id": "27",
+                            "url": "http://news.baidu.com/n?cmd=4&class=technnews&tn=rss"
+                        },
+                        {
+                            "topic_name": "社会最新",
+                            "topic_id": "28",
+                            "url": "http://news.baidu.com/n?cmd=4&class=socianews&tn=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "人民日报",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "国内新闻",
+                            "topic_id": "1",
+                            "url": "http://www.people.com.cn/rss/politics.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "国际新闻",
+                            "topic_id": "2",
+                            "url": "http://www.people.com.cn/rss/world.xml"
+                        },
+                        {
+                            "topic_name": "经济新闻",
+                            "topic_id": "3",
+                            "url": "http://www.people.com.cn/rss/finance.xml"
+                        },
+                        {
+                            "topic_name": "体育新闻",
+                            "topic_id": "4",
+                            "url": "http://www.people.com.cn/rss/sports.xml"
+                        },
+                        {
+                            "topic_name": "台湾新闻",
+                            "topic_id": "5",
+                            "url": "http://www.people.com.cn/rss/haixia.xml"
+                        },
+                        {
+                            "topic_name": "教育新闻",
+                            "topic_id": "6",
+                            "url": "http://www.people.com.cn/rss/edu.xml"
+                        },
+                        {
+                            "topic_name": "强国论坛",
+                            "topic_id": "7",
+                            "url": "http://www.people.com.cn/rss/bbs.xml"
+                        },
+                        {
+                            "topic_name": "游戏新闻",
+                            "topic_id": "8",
+                            "url": "http://www.people.com.cn/rss/game.xml"
+                        },
+                        {
+                            "topic_name": "中文新闻",
+                            "topic_id": "9",
+                            "url": "http://www.people.com.cn/rss/opml.xml"
+                        },
+                        {
+                            "topic_name": "英文新闻",
+                            "topic_id": "10",
+                            "url": "http://www.people.com.cn/rss/opml_en.xml"
+                        },
+                        {
+                            "topic_name": "俄文新闻",
+                            "topic_id": "11",
+                            "url": "http://www.people.com.cn/rss/opml_ru.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "参考消息",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "时事要闻",
+                            "topic_id": "1",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=4",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "中国外交",
+                            "topic_id": "2",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=5"
+                        },
+                        {
+                            "topic_name": "社会观察",
+                            "topic_id": "3",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=6"
+                        },
+                        {
+                            "topic_name": "港澳传真",
+                            "topic_id": "4",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=17"
+                        },
+                        {
+                            "topic_name": "亚太新闻",
+                            "topic_id": "5",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=11"
+                        },
+                        {
+                            "topic_name": "欧美新闻",
+                            "topic_id": "6",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=12"
+                        },
+                        {
+                            "topic_name": "其他地区",
+                            "topic_id": "7",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=13"
+                        },
+                        {
+                            "topic_name": "环球博览",
+                            "topic_id": "8",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=22"
+                        },
+                        {
+                            "topic_name": "海峡两岸",
+                            "topic_id": "9",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=7"
+                        },
+                        {
+                            "topic_name": "台湾要闻",
+                            "topic_id": "10",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=8"
+                        },
+                        {
+                            "topic_name": "岛内扫描",
+                            "topic_id": "11",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=9"
+                        },
+                        {
+                            "topic_name": "台海军事",
+                            "topic_id": "12",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=10"
+                        },
+                        {
+                            "topic_name": "中国军情",
+                            "topic_id": "13",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=30"
+                        },
+                        {
+                            "topic_name": "国际军情",
+                            "topic_id": "14",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=31"
+                        },
+                        {
+                            "topic_name": "周边动态",
+                            "topic_id": "15",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=32"
+                        },
+                        {
+                            "topic_name": "武器装备",
+                            "topic_id": "16",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=33"
+                        },
+                        {
+                            "topic_name": "中国财经",
+                            "topic_id": "17",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=15"
+                        },
+                        {
+                            "topic_name": "国际财经",
+                            "topic_id": "18",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=16"
+                        },
+                        {
+                            "topic_name": "商业•公司",
+                            "topic_id": "19",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=25"
+                        },
+                        {
+                            "topic_name": "金融市场",
+                            "topic_id": "20",
+                            "url": "http://app.cankaoxiaoxi.com/?app=rss&controller=index&action=feed&catid=26"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "广州日报",
+            	    "provider_id": "6",
+            	    "topics": [
+                        {
+                            "topic_name": "广州新闻",
+                            "topic_id": "1",
+                            "url": "http://rss.dayoo.com/feed/news/gz.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "中国新闻",
+                            "topic_id": "2",
+                            "url": "http://rss.dayoo.com/feed/news/china.xml"
+                        },
+                        {
+                            "topic_name": "娱乐新闻",
+                            "topic_id": "3",
+                            "url": "http://rss.dayoo.com/feed/news/ent.xml"
+                        },
+                        {
+                            "topic_name": "图片新闻",
+                            "topic_id": "4",
+                            "url": "http://rss.dayoo.com/feed/news/photo.xml"
+                        },
+                        {
+                            "topic_name": "社会新闻",
+                            "topic_id": "5",
+                            "url": "http://rss.dayoo.com/feed/news/society.xml"
+                        },
+                        {
+                            "topic_name": "体育新闻",
+                            "topic_id": "6",
+                            "url": "http://rss.dayoo.com/feed/news/sports.xml"
+                        },
+                        {
+                            "topic_name": "财经新闻",
+                            "topic_id": "7",
+                            "url": "http://rss.dayoo.com/feed/news/finance.xml"
+                        },
+                        {
+                            "topic_name": "大洋网专稿",
+                            "topic_id": "8",
+                            "url": "http://rss.dayoo.com/feed/news/dyzg.xml"
+                        },
+                        {
+                            "topic_name": "大洋美食",
+                            "topic_id": "9",
+                            "url": "http://rss.dayoo.com/feed/life/meal.xml"
+                        },
+                        {
+                            "topic_name": "大洋汽车",
+                            "topic_id": "10",
+                            "url": "http://rss.dayoo.com/feed/life/auto.xml"
+                        },
+                        {
+                            "topic_name": "大洋房产",
+                            "topic_id": "11",
+                            "url": "http://rss.dayoo.com/feed/life/house.xml"
+                        },
+                        {
+                            "topic_name": "大洋健康",
+                            "topic_id": "12",
+                            "url": "http://rss.dayoo.com/feed/life/health.xml"
+                        },
+                        {
+                            "topic_name": "大洋教育",
+                            "topic_id": "13",
+                            "url": "http://rss.dayoo.com/feed/life/edu.xml"
+                        },
+                        {
+                            "topic_name": "广州日报",
+                            "topic_id": "14",
+                            "url": "http://rss.dayoo.com/szb/gzrb.xml"
+                        },
+                        {
+                            "topic_name": "信息时报",
+                            "topic_id": "15",
+                            "url": "http://rss.dayoo.com/szb/informationtimes.xml"
+                        },
+                        {
+                            "topic_name": "番禺日报",
+                            "topic_id": "16",
+                            "url": "http://rss.dayoo.com/szb/pyrb.xml"
+                        },
+                        {
+                            "topic_name": "羊城地铁报",
+                            "topic_id": "17",
+                            "url": "http://rss.dayoo.com/szb/ycdtb.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

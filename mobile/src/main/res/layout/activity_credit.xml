@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yooiistudios.newsflow.ui.activity.CreditActivity">
+    tools:context="com.yooiistudios.newskit.ui.activity.CreditActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/info_credit_toolbar"
@@ -14,6 +14,12 @@
         android:background="@color/toolbar_background"
         app:title="@string/info_credit"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info_credit_toolbar"
+        android:background="@drawable/header_shadow"/>
 
     <ListView
         android:id="@+id/info_credit_list_view"

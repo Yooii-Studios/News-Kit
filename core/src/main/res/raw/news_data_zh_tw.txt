@@ -5,68 +5,418 @@
     "region_code": "tw",
     "countries": [
         {
-            "country_name": "香港",
-            "country_code": "hk",
+            "country_name": "台灣",
+            "country_code": "TW",
             "news_providers": [
                 {
-                    "provider_name": "South China Morining Post",
+                    "provider_name": "Google 新聞",
             	    "provider_id": "1",
             	    "topics": [
                         {
-                            "topic_name": "Hong Kong",
+                            "topic_name": "焦點新聞",
                             "topic_id": "1",
-                            "url": "http://www.scmp.com/rss/2/feed",
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&output=rss",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "World",
+                            "topic_name": "國際",
                             "topic_id": "2",
-                            "url": "http://www.scmp.com/rss/5/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=w&output=rss"
                         },
                         {
-                            "topic_name": "Business",
+                            "topic_name": "台灣",
                             "topic_id": "3",
-                            "url": "http://www.scmp.com/rss/92/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=n&output=rss"
                         },
                         {
-                            "topic_name": "Insight & Opinion",
+                            "topic_name": "財經",
                             "topic_id": "4",
-                            "url": "http://www.scmp.com/rss/17/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=b&output=rss"
                         },
                         {
-                            "topic_name": "Economy",
+                            "topic_name": "科技",
                             "topic_id": "5",
-                            "url": "http://www.scmp.com/rss/12/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=t&output=rss"
                         },
                         {
-                            "topic_name": "Debates",
+                            "topic_name": "體育",
                             "topic_id": "6",
-                            "url": "http://www.scmp.com/rss/20/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=s&output=rss"
                         },
                         {
-                            "topic_name": "Lifestyle",
+                            "topic_name": "娛樂",
                             "topic_id": "7",
-                            "url": "http://www.scmp.com/rss/94/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=e&output=rss"
                         },
                         {
-                            "topic_name": "Arts & Culture",
+                            "topic_name": "兩岸",
                             "topic_id": "8",
-                            "url": "http://www.scmp.com/rss/23/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=c&output=rss"
                         },
                         {
-                            "topic_name": "Technology",
+                            "topic_name": "社會",
                             "topic_id": "9",
-                            "url": "http://www.scmp.com/rss/36/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=y&output=rss"
                         },
                         {
-                            "topic_name": "Sport",
+                            "topic_name": "健康",
                             "topic_id": "10",
-                            "url": "http://www.scmp.com/rss/95/feed"
+                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "自由時報",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "頭版",
+                            "topic_id": "1",
+                            "url": "http://news.ltn.com.tw/rss/focus.xml",
+                            "isDefault": "true"
                         },
                         {
-                            "topic_name": "International",
+                            "topic_name": "政治",
+                            "topic_id": "2",
+                            "url": "http://news.ltn.com.tw/rss/politics.xml"
+                        },
+                        {
+                            "topic_name": "社會",
+                            "topic_id": "3",
+                            "url": "http://news.ltn.com.tw/rss/society.xml"
+                        },
+                        {
+                            "topic_name": "生活",
+                            "topic_id": "4",
+                            "url": "http://news.ltn.com.tw/rss/life.xml"
+                        },
+                        {
+                            "topic_name": "言論",
+                            "topic_id": "5",
+                            "url": "http://news.ltn.com.tw/rss/opinion.xml"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "6",
+                            "url": "http://news.ltn.com.tw/rss/world.xml"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "7",
+                            "url": "http://news.ltn.com.tw/rss/business.xml"
+                        },
+                        {
+                            "topic_name": "體育",
+                            "topic_id": "8",
+                            "url": "http://news.ltn.com.tw/rss/sports.xml"
+                        },
+                        {
+                            "topic_name": "影視",
+                            "topic_id": "9",
+                            "url": "http://news.ltn.com.tw/rss/entertainment.xml"
+                        },
+                        {
+                            "topic_name": "消費",
+                            "topic_id": "10",
+                            "url": "http://news.ltn.com.tw/rss/consumer.xml"
+                        },
+                        {
+                            "topic_name": "副刊",
                             "topic_id": "11",
-                            "url": "http://www.scmp.com/rss/44/feed"
+                            "url": "http://news.ltn.com.tw/rss/supplement.xml"
+                        },
+                        {
+                            "topic_name": "地方",
+                            "topic_id": "12",
+                            "url": "http://news.ltn.com.tw/rss/local.xml"
+                        },
+                        {
+                            "topic_name": "台北都會",
+                            "topic_id": "13",
+                            "url": "http://news.ltn.com.tw/rss/taipei.xml"
+                        },
+                        {
+                            "topic_name": "北部新聞",
+                            "topic_id": "14",
+                            "url": "http://news.ltn.com.tw/rss/northern.xml"
+                        },
+                        {
+                            "topic_name": "中部新聞",
+                            "topic_id": "15",
+                            "url": "http://news.ltn.com.tw/rss/central.xml"
+                        },
+                        {
+                            "topic_name": "南部新聞",
+                            "topic_id": "16",
+                            "url": "http://news.ltn.com.tw/rss/southern.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "蘋果日報",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "最新",
+                            "topic_id": "1",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/new",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "推薦",
+                            "topic_id": "2",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/recommend"
+                        },
+                        {
+                            "topic_name": "熱門",
+                            "topic_id": "3",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/hot"
+                        },
+                        {
+                            "topic_name": "動物",
+                            "topic_id": "4",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/116"
+                        },
+                        {
+                            "topic_name": "FUN",
+                            "topic_id": "5",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/117"
+                        },
+                        {
+                            "topic_name": "瘋啥",
+                            "topic_id": "6",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/111"
+                        },
+                        {
+                            "topic_name": "搜奇",
+                            "topic_id": "7",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/118"
+                        },
+                        {
+                            "topic_name": "影片",
+                            "topic_id": "8",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/video"
+                        },
+                        {
+                            "topic_name": "正妹",
+                            "topic_id": "9",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/114"
+                        },
+                        {
+                            "topic_name": "體育",
+                            "topic_id": "10",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/107"
+                        },
+                        {
+                            "topic_name": "臉團",
+                            "topic_id": "11",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/115"
+                        },
+                        {
+                            "topic_name": "娛樂",
+                            "topic_id": "12",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/106"
+                        },
+                        {
+                            "topic_name": "時尚",
+                            "topic_id": "13",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/112"
+                        },
+                        {
+                            "topic_name": "生活",
+                            "topic_id": "14",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/105"
+                        },
+                        {
+                            "topic_name": "社會",
+                            "topic_id": "15",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/102"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "16",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/103"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "17",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/104"
+                        },
+                        {
+                            "topic_name": "地產",
+                            "topic_id": "18",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/119"
+                        },
+                        {
+                            "topic_name": "政治",
+                            "topic_id": "19",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/101"
+                        },
+                        {
+                            "topic_name": "論壇",
+                            "topic_id": "20",
+                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/113"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "聯合報",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "要聞",
+                            "topic_id": "1",
+                            "url": "http://udn.com/rssfeed/news/1/1?ch=news",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "社會",
+                            "topic_id": "2",
+                            "url": "http://udn.com/rssfeed/news/1/2?ch=news"
+                        },
+                        {
+                            "topic_name": "地方",
+                            "topic_id": "3",
+                            "url": "http://udn.com/rssfeed/news/1/3?ch=news"
+                        },
+                        {
+                            "topic_name": "兩岸",
+                            "topic_id": "4",
+                            "url": "http://udn.com/rssfeed/news/1/4?ch=news"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "5",
+                            "url": "http://udn.com/rssfeed/news/1/5?ch=news"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "6",
+                            "url": "http://udn.com/rssfeed/news/1/6?ch=news"
+                        },
+                        {
+                            "topic_name": "運動",
+                            "topic_id": "7",
+                            "url": "http://udn.com/rssfeed/news/1/7?ch=news"
+                        },
+                        {
+                            "topic_name": "娛樂",
+                            "topic_id": "8",
+                            "url": "http://udn.com/rssfeed/news/1/8?ch=news"
+                        },
+                        {
+                            "topic_name": "生活",
+                            "topic_id": "9",
+                            "url": "http://udn.com/rssfeed/news/1/9?ch=news"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "中國時報",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "總覽",
+                            "topic_id": "1",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "焦點",
+                            "topic_id": "2",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-focus"
+                        },
+                        {
+                            "topic_name": "政治",
+                            "topic_id": "3",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-politic"
+                        },
+                        {
+                            "topic_name": "生活",
+                            "topic_id": "4",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-life"
+                        },
+                        {
+                            "topic_name": "社會",
+                            "topic_id": "5",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-society"
+                        },
+                        {
+                            "topic_name": "娛樂",
+                            "topic_id": "6",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-showbiz"
+                        },
+                        {
+                            "topic_name": "體育",
+                            "topic_id": "7",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-sport"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "8",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-finance"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "9",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-international"
+                        },
+                        {
+                            "topic_name": "兩岸",
+                            "topic_id": "10",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-mainland"
+                        },
+                        {
+                            "topic_name": "科技",
+                            "topic_id": "11",
+                            "url": "http://feeds.feedburner.com/chinatimes/realtimenews-technology"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Google 新聞",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "焦點新聞",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "國際",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "香港",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "兩岸",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=c&output=rss"
+                        },
+                        {
+                            "topic_name": "財經",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "體育",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "娛樂",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "科技",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=t&output=rss"
                         }
                     ]
                 }

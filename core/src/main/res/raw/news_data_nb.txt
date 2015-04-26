@@ -1,0 +1,205 @@
+{
+    "lang_name_english": "Norwegian",
+    "lang_name_regional": "Norsk Bokmål",
+    "lang_code": "nb",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Norge",
+            "country_code": "NO",
+            "news_providers": [
+                {
+                    "provider_name": "Google Nyheter",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Hovedoppslag",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Utenriks",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Innenriks",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Næringsliv",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Vitenskap/teknologi",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Underholdning",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Helse",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Flere hovedoppslag",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=no_no&hl=no&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Verdens Gang",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Forsiden",
+                            "topic_id": "1",
+                            "url": "http://www.vg.no/rss/feed/forsiden/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Dine Penger",
+                            "topic_id": "2",
+                            "url": "http://www.vg.no/rss/create.php?categories=90"
+                        },
+                        {
+                            "topic_name": "Fotball",
+                            "topic_id": "3",
+                            "url": "http://www.vg.no/rss/feed/?categories=1073"
+                        },
+                        {
+                            "topic_name": "Fotball engelsk",
+                            "topic_id": "4",
+                            "url": "http://www.vg.no/rss/feed/?keywords=2205"
+                        },
+                        {
+                            "topic_name": "Fotball norsk",
+                            "topic_id": "5",
+                            "url": "http://www.vg.no/rss/feed/?keywords=1202,1339,1687,1726,1935,2015,2116,2269,2289,2293,2392,2422,2450,2610,2702,2724"
+                        },
+                        {
+                            "topic_name": "Nyheter innenriks",
+                            "topic_id": "6",
+                            "url": "http://www.vg.no/rss/feed/?categories=1069"
+                        },
+                        {
+                            "topic_name": "Nyheter utenriks",
+                            "topic_id": "7",
+                            "url": "http://www.vg.no/rss/feed/?categories=1070"
+                        },
+                        {
+                            "topic_name": "Rampelys bøker",
+                            "topic_id": "8",
+                            "url": "http://www.vg.no/rss/feed/?categories=1099"
+                        },
+                        {
+                            "topic_name": "Rampelys film",
+                            "topic_id": "9",
+                            "url": "http://www.vg.no/rss/feed/?categories=1097"
+                        },
+                        {
+                            "topic_name": "Rampelys musikk",
+                            "topic_id": "10",
+                            "url": "http://www.vg.no/rss/feed/?categories=1098"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "11",
+                            "url": "http://www.vg.no/rss/feed/?categories=1072"
+                        },
+                        {
+                            "topic_name": "Alt",
+                            "topic_id": "12",
+                            "url": "http://www.vg.no/rss/feed/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Aftenposten",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Innenriks:",
+                            "topic_id": "1",
+                            "url": "http://www.aftenposten.no/rss/?kat=nyheter_iriks",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Verden:",
+                            "topic_id": "2",
+                            "url": "http://www.aftenposten.no/rss/?kat=nyheter_uriks"
+                        },
+                        {
+                            "topic_name": "Osloby:",
+                            "topic_id": "3",
+                            "url": "http://www.aftenposten.no/rss/?kat=Osloby"
+                        },
+                        {
+                            "topic_name": "Kultur:",
+                            "topic_id": "4",
+                            "url": "http://www.aftenposten.no/rss/?kat=kul_und"
+                        },
+                        {
+                            "topic_name": "Økonomi:",
+                            "topic_id": "5",
+                            "url": "http://www.aftenposten.no/rss/?kat=okonomi"
+                        },
+                        {
+                            "topic_name": "Meninger:",
+                            "topic_id": "6",
+                            "url": "http://www.aftenposten.no/rss/?kat=meninger"
+                        },
+                        {
+                            "topic_name": "Sport:",
+                            "topic_id": "7",
+                            "url": "http://www.aftenposten.no/rss/?kat=100Sport"
+                        },
+                        {
+                            "topic_name": "WebTV / Video:",
+                            "topic_id": "8",
+                            "url": "http://www.aftenposten.no/rss/?kat=webtv"
+                        },
+                        {
+                            "topic_name": "Reise:",
+                            "topic_id": "9",
+                            "url": "http://reise.aftenposten.no/rss/"
+                        },
+                        {
+                            "topic_name": "Digital:",
+                            "topic_id": "10",
+                            "url": "http://www.aftenposten.no/rss/?kat=forbruker_digital"
+                        },
+                        {
+                            "topic_name": "A-magasinet:",
+                            "topic_id": "11",
+                            "url": "http://www.aftenposten.no/rss/?kat=amagasinet"
+                        },
+                        {
+                            "topic_name": "Thuen:",
+                            "topic_id": "12",
+                            "url": "http://www.aftenposten.no/rss/?kat=thuen"
+                        },
+                        {
+                            "topic_name": "Quiz:",
+                            "topic_id": "13",
+                            "url": "http://www.aftenposten.no/rss/?kat=quiz"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

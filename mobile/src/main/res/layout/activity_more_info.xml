@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.yooiistudios.newsflow.ui.activity.MoreInfoActivity">
+    tools:context="com.yooiistudios.newskit.ui.activity.MoreInfoActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/more_info_toolbar"
@@ -15,6 +15,12 @@
         android:background="@color/toolbar_background"
         app:title="@string/info_news_info"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/more_info_toolbar"
+        android:background="@drawable/header_shadow"/>
 
     <ListView
         android:id="@+id/more_info_list_view"

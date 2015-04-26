@@ -27,28 +27,52 @@
     <dimen name="margin_outer">6dp</dimen>
 
     <dimen name="base_margin">16dp</dimen>
+    <dimen name="base_margin_double">32dp</dimen>
+    <dimen name="base_margin_middle">12dp</dimen>
     <dimen name="base_margin_half">8dp</dimen>
     <dimen name="base_margin_small">4dp</dimen>
 
     <dimen name="edit_text_cursor_width">2dp</dimen>
 
+    <!-- Main Network Unavailable -->
+    <dimen name="main_network_unavailable_image_size">110dp</dimen>
+    <dimen name="main_network_unavailable_text_size">18sp</dimen>
+    <dimen name="main_network_unavailable_margin_small">18dp</dimen>
+    <dimen name="main_network_unavailable_margin_large">50dp</dimen>
+
     <!-- Main General -->
     <dimen name="main_edit_button_size">48dp</dimen>
     <dimen name="main_edit_button_margin">4dp</dimen>
     <dimen name="main_edit_button_margin_large">8dp</dimen>
+    <dimen name="main_newsfeed_title_text_size">10sp</dimen>
 
     <!-- Main Top -->
-    <dimen name="main_top_view_pager_height">280dp</dimen>      <!-- 56 * 5 -->
+    <dimen name="main_top_view_pager_height">286dp</dimen>      <!-- 56 * 5 -->
     <dimen name="main_top_view_pager_title_padding">30dp</dimen>
     <dimen name="main_top_view_pager_page_margin">4dp</dimen>
-    <dimen name="main_top_news_feed_title_padding">10dp</dimen>
+    <dimen name="main_top_news_feed_title_padding">@dimen/base_margin</dimen>
+    <dimen name="main_top_news_status_icon_image_view_size">110dp</dimen>
 
     <!-- Main Bottom -->
     <dimen name="main_bottom_margin_small">2dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1dp</dimen>
     <dimen name="main_bottom_card_view_title_size">20sp</dimen>
-    <dimen name="main_bottom_text_padding">16dp</dimen>
-    <dimen name="main_bottom_news_feed_title_padding">6dp</dimen>
+    <dimen name="main_bottom_text_padding">@dimen/base_margin_middle</dimen>
+    <dimen name="main_bottom_title_text_size">18sp</dimen>
+    <dimen name="main_bottom_title_margin_bottom">@dimen/base_margin_half</dimen>
+    <dimen name="main_bottom_news_feed_title_padding">@dimen/base_margin_middle</dimen>
+    <dimen name="main_bottom_status_image_view_size_portrait">55dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_landscape">42dp</dimen>
+    <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
+
+    <!-- Loading Animation -->
+    <dimen name="loading_anim_padding">4dp</dimen>
+    <dimen name="loading_anim_top_view_width">50dp</dimen> <!-- bottom * 2 + padding -->
+    <dimen name="loading_anim_bottom_view_width">23dp</dimen> <!-- 4:3 비율 -->
+    <dimen name="loading_anim_view_height">18dp</dimen>
+
+    <dimen name="loading_circle_view_size">106dp</dimen> <!-- 100dp + 1/2 stroke * 2(양쪽)-->
+    <dimen name="loading_circle_stroke_width">6dp</dimen>
 
     <!-- Newsfeed Detail -->
     <dimen name="detail_text_padding">14dp</dimen>
@@ -57,7 +81,8 @@
     <dimen name="news_feed_detail_shadow_gradient_height">100dp</dimen>
 
     <!-- Detail Top -->
-    <dimen name="detail_top_image_view_height">336dp</dimen>    <!-- 56 * 6 -->
+    <dimen name="detail_top_image_view_height_port">336dp</dimen>    <!-- 56 * 6 -->
+    <dimen name="detail_top_image_view_height_land">190dp</dimen>
     <dimen name="detail_top_text_layout_elevation">10dp</dimen>
 
     <!-- Detail Bottom -->
@@ -140,6 +165,8 @@
     <dimen name="setting_item_imageview_size">30dp</dimen>
     <dimen name="setting_item_imageview_end_margin">10dp</dimen>
     <dimen name="setting_item_pair_tv_edittext_height">50dp</dimen>
+    <dimen name="setting_item_auto_refresh_item_horizontal_spacing">8dp</dimen>
+    <dimen name="setting_item_auto_refresh_text_size">17sp</dimen>
 
     <!-- Info -->
 
@@ -154,17 +181,28 @@
     <dimen name="more_info_license_description_text_size">16sp</dimen>
 
     <!-- Store Ad Dialog -->
-    <dimen name="store_ad_dialog_layout_width">299dp</dimen>
+    <dimen name="store_ad_dialog_layout_width">298dp</dimen>
     <dimen name="store_ad_dialog_title_text_size">19sp</dimen>
     <dimen name="store_ad_dialog_title_padding_top_bottom">11dp</dimen>
     <dimen name="store_ad_dialog_title_padding_left_right">15dp</dimen>
     <dimen name="store_ad_dialog_title_divider_height">0.5dp</dimen>
-    <dimen name="store_ad_dialog_title_divider_margin_left_right">8dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_margin_left_right">@dimen/base_margin_half</dimen>
     <dimen name="store_ad_dialog_image_layout_padding">3dp</dimen>
     <dimen name="store_ad_dialog_image_width">296dp</dimen>
     <dimen name="store_ad_dialog_image_text_margin_top">1dp</dimen>
-    <dimen name="store_ad_dialog_image_text_height">62dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">45dp</dimen>
+    <dimen name="store_ad_dialog_sub_desc_text_size">11sp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_width">82dp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_margin_top">88dp</dimen>
+    <dimen name="store_ad_dialog_icon_img_width">44dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">45dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">15sp</dimen>
 
+    <!-- Morning Kit Ad -->
+    <dimen name="morningkit_ad_dialog_layout_width">@dimen/store_ad_dialog_layout_width</dimen>
+    <dimen name="morningkit_ad_dialog_title_divider_height">@dimen/store_ad_dialog_title_divider_height</dimen>
+    <dimen name="morningkit_ad_dialog_image_layout_padding">@dimen/base_margin_half</dimen>
+    <dimen name="morningkit_ad_dialog_button_layout_height">@dimen/store_ad_dialog_image_text_height</dimen>
+    <dimen name="morningkit_ad_text_margin">18dp</dimen>
+    <dimen name="morningkit_ad_dialog_radius">3dp</dimen>
 </resources>

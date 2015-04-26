@@ -1,0 +1,292 @@
+{
+    "lang_name_english": "Dutch",
+    "lang_name_regional": "Nederlands",
+    "lang_code": "nl",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Nederland",
+            "country_code": "NL",
+            "news_providers": [
+                {
+                    "provider_name": "Google Nieuws",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Voorpaginanieuws",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Buitenland",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Nederland",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economie",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Wetenschap/techniek",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Gezondheid",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Meer voorpaginanieuws",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "De Telegraaf",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Laatste Nieuws",
+                            "topic_id": "1",
+                            "url": "http://www.telegraaf.nl/rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Gezondheid",
+                            "topic_id": "2",
+                            "url": "http://www.telegraaf.nl/rss/gezondheid.xml"
+                        },
+                        {
+                            "topic_name": "DFT",
+                            "topic_id": "3",
+                            "url": "http://www.telegraaf.nl/rss/dft.xml"
+                        },
+                        {
+                            "topic_name": "Digitaal",
+                            "topic_id": "4",
+                            "url": "http://www.telegraaf.nl/rss/digitaal.xml"
+                        },
+                        {
+                            "topic_name": "Prive",
+                            "topic_id": "5",
+                            "url": "http://www.telegraaf.nl/rss/prive.xml"
+                        },
+                        {
+                            "topic_name": "Reiskrant",
+                            "topic_id": "6",
+                            "url": "http://www.telegraaf.nl/rss/reiskrant.xml"
+                        },
+                        {
+                            "topic_name": "Telesport",
+                            "topic_id": "7",
+                            "url": "http://www.telegraaf.nl/rss/telesport.xml"
+                        },
+                        {
+                            "topic_name": "Film en Uitgaan",
+                            "topic_id": "8",
+                            "url": "http://www.telegraaf.nl/rss/filmenuitgaan.xml"
+                        },
+                        {
+                            "topic_name": "Vrouw",
+                            "topic_id": "9",
+                            "url": "http://www.telegraaf.nl/rss/vrouw.xml"
+                        },
+                        {
+                            "topic_name": "Tv",
+                            "topic_id": "10",
+                            "url": "http://www.telegraaf.nl/rss/tv.xml"
+                        },
+                        {
+                            "topic_name": "Vaarkrant",
+                            "topic_id": "11",
+                            "url": "http://www.telegraaf.nl/rss/vaarkrant.xml"
+                        },
+                        {
+                            "topic_name": "Watuzegt",
+                            "topic_id": "12",
+                            "url": "http://www.telegraaf.nl/rss/watuzegt.xml"
+                        },
+                        {
+                            "topic_name": "Autovisie",
+                            "topic_id": "13",
+                            "url": "http://www.telegraaf.nl/rss/autovisie.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Algemeen Dagblad",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Alle nieuws",
+                            "topic_id": "1",
+                            "url": "http://www.ad.nl/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Nederland",
+                            "topic_id": "2",
+                            "url": "http://www.ad.nl/nederland/rss.xml"
+                        },
+                        {
+                            "topic_name": "Buitenland",
+                            "topic_id": "3",
+                            "url": "http://www.ad.nl/buitenland/rss.xml"
+                        },
+                        {
+                            "topic_name": "Bizar",
+                            "topic_id": "4",
+                            "url": "http://www.ad.nl/bizar/rss.xml"
+                        },
+                        {
+                            "topic_name": "Muziek",
+                            "topic_id": "5",
+                            "url": "http://www.ad.nl/muziek/rss.xml"
+                        },
+                        {
+                            "topic_name": "You",
+                            "topic_id": "6",
+                            "url": "http://www.ad.nl/you/rss.xml"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "7",
+                            "url": "http://www.ad.nl/auto/rss.xml"
+                        },
+                        {
+                            "topic_name": "Reizen",
+                            "topic_id": "8",
+                            "url": "http://www.ad.nl/reizen/rss.xml"
+                        },
+                        {
+                            "topic_name": "Digitaal",
+                            "topic_id": "9",
+                            "url": "http://www.ad.nl/digitaal/rss.xml"
+                        },
+                        {
+                            "topic_name": "Planet Watch",
+                            "topic_id": "10",
+                            "url": "http://www.ad.nl/planet/rss.xml"
+                        },
+                        {
+                            "topic_name": "Showbizz",
+                            "topic_id": "11",
+                            "url": "http://www.ad.nl/showbizz/rss.xml"
+                        },
+                        {
+                            "topic_name": "Gezondheid",
+                            "topic_id": "12",
+                            "url": "http://www.ad.nl/gezond/rss.xml"
+                        },
+                        {
+                            "topic_name": "Wetenschap",
+                            "topic_id": "13",
+                            "url": "http://www.ad.nl/wetenschap/rss.xml"
+                        },
+                        {
+                            "topic_name": "Geld",
+                            "topic_id": "14",
+                            "url": "http://www.ad.nl/geld/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sportwereld",
+                            "topic_id": "15",
+                            "url": "http://www.ad.nl/sportwereld/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "de Volkskrant",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "1",
+                            "url": "http://www.volkskrant.nl/home/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Nieuws",
+                            "topic_id": "2",
+                            "url": "http://www.volkskrant.nl/nieuws/rss.xml"
+                        },
+                        {
+                            "topic_name": "Binnenland",
+                            "topic_id": "3",
+                            "url": "http://www.volkskrant.nl/nieuws/binnenland/rss.xml"
+                        },
+                        {
+                            "topic_name": "Cultuur",
+                            "topic_id": "4",
+                            "url": "http://www.volkskrant.nl/nieuws/cultuur/rss.xml"
+                        },
+                        {
+                            "topic_name": "Economie",
+                            "topic_id": "5",
+                            "url": "http://www.volkskrant.nl/nieuws/economie/rss.xml"
+                        },
+                        {
+                            "topic_name": "Reizen",
+                            "topic_id": "6",
+                            "url": "http://www.volkskrant.nl/nieuws/reizen/rss.xml"
+                        },
+                        {
+                            "topic_name": "Gezondheid & Wetenschap",
+                            "topic_id": "7",
+                            "url": "http://www.volkskrant.nl/nieuws/gezondheidwetenschap/rss.xml"
+                        },
+                        {
+                            "topic_name": "Opmerkelijk",
+                            "topic_id": "8",
+                            "url": "http://www.volkskrant.nl/nieuws/opmerkelijk/rss.xml"
+                        },
+                        {
+                            "topic_name": "Politiek",
+                            "topic_id": "9",
+                            "url": "http://www.volkskrant.nl/politiek/rss.xml"
+                        },
+                        {
+                            "topic_name": "Opinie",
+                            "topic_id": "10",
+                            "url": "http://www.volkskrant.nl/opinie/rss.xml"
+                        },
+                        {
+                            "topic_name": "Buitenland",
+                            "topic_id": "11",
+                            "url": "http://www.volkskrant.nl/buitenland/rss.xml"
+                        },
+                        {
+                            "topic_name": "Tech & Media",
+                            "topic_id": "12",
+                            "url": "http://www.volkskrant.nl/tech-media/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "13",
+                            "url": "http://www.volkskrant.nl/sport/rss.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

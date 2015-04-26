@@ -1,22 +1,22 @@
 repositories {
     jcenter()
-    // jcenter 는 JFrog 에서 개발하는 maven 의 superset. 다른 artifact 를 더 포함한다고 함
-//    mavenCentral()    // 1.0.1 부터 jcenter 가 maven 을 포함
-//    mavenLocal()
-
     maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
 }
 
+// jcenter 는 JFrog 에서 개발하는 maven 의 superset. 다른 artifact 를 더 포함한다고 함
+//    mavenCentral()    // 1.0.1 부터 jcenter 가 maven 을 포함
+//    mavenLocal()
+
 apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.yooiistudios.newsflow"
+        applicationId "com.yooiistudios.newskit"
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 7
@@ -76,7 +76,6 @@ dependencies {
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     compile "com.android.support:cardview-v7:21.0.0"
     compile "com.android.support:recyclerview-v7:21.0.0"
-    compile "com.android.support:palette-v7:21.0.0"
 
     // view pager 에 쓰임
     compile "com.android.support:support-v13:20.0.0"
@@ -84,7 +83,9 @@ dependencies {
 
     // 위치 서비스, 구글 플레이, 애드몹
 //    compile 'com.google.android.gms:play-services:5.0.89' // 4.0.+ 에서 버전업
-    compile 'com.google.android.gms:play-services:6.5.87'
+//    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'com.google.android.gms:play-services-ads:7.0.0'
+    compile 'com.google.android.gms:play-services-analytics:7.0.0'
 
     // 필요한 오픈소스 라이브러리들
     compile 'com.google.code.gson:gson:2.3'       // json 관련
@@ -97,7 +98,7 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.1.0'
 
     // Lollipop style Dialog at pre-Lollipop device
     compile 'com.afollestad:material-dialogs:0.6.1.2'

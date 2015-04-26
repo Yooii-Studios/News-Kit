@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/detail_bottom_news_item_title"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/detail_text_padding"
-        style="@style/NewsFeedDetailTitleStyle"
-        android:textColor="@color/material_black_primary_text"/>
+        android:clickable="true"
+        android:focusable="true">
 
-    <TextView
-        android:id="@+id/detail_bottom_news_item_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_bottom_news_item_title"
-        style="@style/NewsFeedDetailDescriptionStyle"
-        android:textColor="@color/material_black_secondary_text"/>
+        <TextView
+            android:id="@+id/detail_bottom_news_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/detail_text_padding"
+            style="@style/NewsFeedDetailTitle"
+            android:textColor="@color/material_black_primary_text"/>
+
+        <TextView
+            android:id="@+id/detail_bottom_news_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_bottom_news_item_title"
+            style="@style/NewsFeedDetailDescription"
+            android:textColor="@color/material_black_secondary_text"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_text_padding"
+            android:layout_below="@id/detail_bottom_news_item_description"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_bottom_divider_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/material_black_divider"/>
+    </RelativeLayout>
 
     <View
+        android:id="@+id/detail_bottom_news_item_ripple_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_text_padding"
-        android:layout_below="@id/detail_bottom_news_item_description"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_bottom_divider_height"
-        android:layout_alignParentBottom="true"
-        android:background="@color/material_black_divider"/>
-
-    <!--
-    android:layout_margin="@dimen/detail_bottom_divider_margin"
-    -->
-
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:background="@drawable/newsfeed_detail_selectable_item_background"/>
+</FrameLayout>

@@ -1,0 +1,178 @@
+{
+    "lang_name_english": "Indonesian",
+    "lang_name_regional": "Indonesia",
+    "lang_code": "in",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Indonesia",
+            "country_code": "ID",
+            "news_providers": [
+                {
+                    "provider_name": "Suara Merdeka",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "   All Berita Aktual",
+                            "topic_id": "1",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "   Semarang",
+                            "topic_id": "2",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/semarang"
+                        },
+                        {
+                            "topic_name": "   Solo",
+                            "topic_id": "3",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/solo"
+                        },
+                        {
+                            "topic_name": "   Kedu & DIY",
+                            "topic_id": "4",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/kedu"
+                        },
+                        {
+                            "topic_name": "   Banyumas",
+                            "topic_id": "5",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/banyumas"
+                        },
+                        {
+                            "topic_name": "   Pantura",
+                            "topic_id": "6",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/pantura"
+                        },
+                        {
+                            "topic_name": "   Muria",
+                            "topic_id": "7",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/muria"
+                        },
+                        {
+                            "topic_name": "   Ekonomi",
+                            "topic_id": "8",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/ekonomi"
+                        },
+                        {
+                            "topic_name": "   Nasional",
+                            "topic_id": "9",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/nasional"
+                        },
+                        {
+                            "topic_name": "   Internasional",
+                            "topic_id": "10",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/internasional"
+                        },
+                        {
+                            "topic_name": "   Selebrita",
+                            "topic_id": "11",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/entertainmen"
+                        },
+                        {
+                            "topic_name": "   Gaya",
+                            "topic_id": "12",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/gaya"
+                        },
+                        {
+                            "topic_name": "   Kejawen",
+                            "topic_id": "13",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/kejawen"
+                        },
+                        {
+                            "topic_name": "   Layar",
+                            "topic_id": "14",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/layar"
+                        },
+                        {
+                            "topic_name": "   Lelaki",
+                            "topic_id": "15",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/lelaki"
+                        },
+                        {
+                            "topic_name": "   Sehat",
+                            "topic_id": "16",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/sehat"
+                        },
+                        {
+                            "topic_name": "   Sport",
+                            "topic_id": "17",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/sport"
+                        },
+                        {
+                            "topic_name": "   Wanita",
+                            "topic_id": "18",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/wanita"
+                        },
+                        {
+                            "topic_name": "   Otomotif",
+                            "topic_id": "19",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/otomotif"
+                        },
+                        {
+                            "topic_name": "   Edukasia",
+                            "topic_id": "20",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/edukasia"
+                        },
+                        {
+                            "topic_name": "   Foto HL",
+                            "topic_id": "21",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/fotohl"
+                        },
+                        {
+                            "topic_name": "   Ekspresi Suara Remaja",
+                            "topic_id": "22",
+                            "url": "http://www.suaramerdeka.com/rsssm/index.php/news/ekspresi"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Jawa Pos National Network",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Nasional",
+                            "topic_id": "1",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=215",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Ekonomi",
+                            "topic_id": "2",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=216"
+                        },
+                        {
+                            "topic_name": "Internasional",
+                            "topic_id": "3",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=210"
+                        },
+                        {
+                            "topic_name": "Hiburan",
+                            "topic_id": "4",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=214"
+                        },
+                        {
+                            "topic_name": "Olahraga",
+                            "topic_id": "5",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=213"
+                        },
+                        {
+                            "topic_name": "Teknologi",
+                            "topic_id": "6",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=247"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "7",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=275"
+                        },
+                        {
+                            "topic_name": "Daerah",
+                            "topic_id": "8",
+                            "url": "http://www.jpnn.com/index.php?mib=rss&id=212"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -6,141 +6,365 @@
     "countries": [
         {
             "country_name": "Deutschland",
-            "country_code": "de",
+            "country_code": "DE",
             "news_providers": [
                 {
-                    "provider_name": "Google",
+                    "provider_name": "Google News",
             	    "provider_id": "1",
             	    "topics": [
                         {
                             "topic_name": "Schlagzeilen",
                             "topic_id": "1",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&output=rss",
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "International",
                             "topic_id": "2",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=w&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Deutschland",
                             "topic_id": "3",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=n&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Wirtschaft",
                             "topic_id": "4",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=b&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Wissen/Technik",
                             "topic_id": "5",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=t&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Unterhaltung",
                             "topic_id": "6",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=e&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=s&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Gesundheit",
                             "topic_id": "8",
-                            "url": "https://news.google.co.kr/news/feeds?cf=all&ned=de&hl=de&topic=m&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=m&output=rss"
                         }
                     ]
                 },
                 {
-                    "provider_name": "DIE WELT",
+                    "provider_name": "Süddeutsche Zeitung",
             	    "provider_id": "2",
             	    "topics": [
                         {
-                            "topic_name": "politik",
+                            "topic_name": "Eilmeldungen",
                             "topic_id": "1",
-                            "url": "http://www.welt.de/politik/?service=Rss"
-                        },
-                        {
-                            "topic_name": "kultur",
-                            "topic_id": "2",
-                            "url": "http://www.welt.de/kultur/?service=Rss"
-                        },
-                        {
-                            "topic_name": "wirtschaft",
-                            "topic_id": "3",
-                            "url": "http://www.welt.de/wirtschaft/?service=Rss"
-                        },
-                        {
-                            "topic_name": "vermischtes",
-                            "topic_id": "4",
-                            "url": "http://www.welt.de/vermischtes/?service=Rss",
+                            "url": "http://rss.sueddeutsche.de/rss/Eilmeldungen",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "regionales",
-                            "topic_id": "5",
-                            "url": "http://www.welt.de/regionales/?service=Rss"
+                            "topic_name": "Top-Themen",
+                            "topic_id": "2",
+                            "url": "http://suche.sueddeutsche.de/rss/Topthemen"
                         },
                         {
-                            "topic_name": "debatte",
+                            "topic_name": "Alle Artikel",
+                            "topic_id": "3",
+                            "url": "http://rss.sueddeutsche.de/app/service/rss/alles/index.rss?output=rss"
+                        },
+                        {
+                            "topic_name": "Politik",
+                            "topic_id": "4",
+                            "url": "http://rss.sueddeutsche.de/rss/Politik"
+                        },
+                        {
+                            "topic_name": "Panorama",
+                            "topic_id": "5",
+                            "url": "http://rss.sueddeutsche.de/rss/Panorama"
+                        },
+                        {
+                            "topic_name": "Kultur",
                             "topic_id": "6",
-                            "url": "http://www.welt.de/debatte/?service=Rss"
+                            "url": "http://rss.sueddeutsche.de/rss/Kultur"
+                        },
+                        {
+                            "topic_name": "Medien",
+                            "topic_id": "7",
+                            "url": "http://rss.sueddeutsche.de/rss/Medien"
+                        },
+                        {
+                            "topic_name": "Wirtschaft",
+                            "topic_id": "8",
+                            "url": "http://rss.sueddeutsche.de/rss/Wirtschaft"
+                        },
+                        {
+                            "topic_name": "Geld",
+                            "topic_id": "9",
+                            "url": "http://rss.sueddeutsche.de/rss/Geld"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "7",
-                            "url": "http://www.welt.de/sport/?service=Rss"
+                            "topic_id": "10",
+                            "url": "http://rss.sueddeutsche.de/rss/Sport"
                         },
                         {
-                            "topic_name": "wissenschaft",
-                            "topic_id": "8",
-                            "url": "http://www.welt.de/wissenschaft/?service=Rss"
+                            "topic_name": "München",
+                            "topic_id": "11",
+                            "url": "http://rss.sueddeutsche.de/rss/Muenchen"
+                        },
+                        {
+                            "topic_name": "Bayern",
+                            "topic_id": "12",
+                            "url": "http://rss.sueddeutsche.de/rss/Bayern"
+                        },
+                        {
+                            "topic_name": "Digital",
+                            "topic_id": "13",
+                            "url": "http://rss.sueddeutsche.de/rss/Digital"
+                        },
+                        {
+                            "topic_name": "Karriere",
+                            "topic_id": "14",
+                            "url": "http://rss.sueddeutsche.de/rss/Karriere"
+                        },
+                        {
+                            "topic_name": "Bildung",
+                            "topic_id": "15",
+                            "url": "http://rss.sueddeutsche.de/rss/bildung"
+                        },
+                        {
+                            "topic_name": "Wissen",
+                            "topic_id": "16",
+                            "url": "http://suche.sueddeutsche.de/rss/Wissen"
+                        },
+                        {
+                            "topic_name": "Gesundheit",
+                            "topic_id": "17",
+                            "url": "http://rss.sueddeutsche.de/rss/gesundheit"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "18",
+                            "url": "http://rss.sueddeutsche.de/rss/auto"
+                        },
+                        {
+                            "topic_name": "Reise",
+                            "topic_id": "19",
+                            "url": "http://rss.sueddeutsche.de/rss/Reise"
+                        },
+                        {
+                            "topic_name": "Leben",
+                            "topic_id": "20",
+                            "url": "http://rss.sueddeutsche.de/rss/Leben"
+                        },
+                        {
+                            "topic_name": "Stil",
+                            "topic_id": "21",
+                            "url": "http://rss.sueddeutsche.de/rss/stil"
+                        },
+                        {
+                            "topic_name": "SZ Magazin",
+                            "topic_id": "22",
+                            "url": "http://sz-magazin.sueddeutsche.de/rssredaktion"
                         }
                     ]
                 },
                 {
-                    "provider_name": "FAZ",
+                    "provider_name": "Frankfurter Allgemeine Zeitung",
             	    "provider_id": "3",
             	    "topics": [
                         {
-                            "topic_name": "politik",
+                            "topic_name": "Homepage",
                             "topic_id": "1",
+                            "url": "http://www.faz.net/rss/aktuell/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Politik",
+                            "topic_id": "2",
                             "url": "http://www.faz.net/rss/aktuell/politik/"
                         },
                         {
                             "topic_name": "Wirtschaft",
-                            "topic_id": "2",
+                            "topic_id": "3",
                             "url": "http://www.faz.net/rss/aktuell/wirtschaft/"
+                        },
+                        {
+                            "topic_name": "Feuilleton",
+                            "topic_id": "4",
+                            "url": "http://www.faz.net/rss/aktuell/feuilleton/"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "5",
+                            "url": "http://www.faz.net/rss/aktuell/sport/"
+                        },
+                        {
+                            "topic_name": "Lebensstil",
+                            "topic_id": "6",
+                            "url": "http://www.faz.net/rss/aktuell/lebensstil/"
+                        },
+                        {
+                            "topic_name": "Gesellschaft",
+                            "topic_id": "7",
+                            "url": "http://www.faz.net/rss/aktuell/gesellschaft/"
+                        },
+                        {
+                            "topic_name": "Finanzen",
+                            "topic_id": "8",
+                            "url": "http://www.faz.net/rss/aktuell/finanzen/"
+                        },
+                        {
+                            "topic_name": "Technik & Motor",
+                            "topic_id": "9",
+                            "url": "http://www.faz.net/rss/aktuell/technik-motor/"
+                        },
+                        {
+                            "topic_name": "Wissen",
+                            "topic_id": "10",
+                            "url": "http://www.faz.net/rss/aktuell/wissen/"
+                        },
+                        {
+                            "topic_name": "Reise",
+                            "topic_id": "11",
+                            "url": "http://www.faz.net/rss/aktuell/reise/"
+                        },
+                        {
+                            "topic_name": "Beruf & Chan",
+                            "topic_id": "12",
+                            "url": "http://www.faz.net/rss/aktuell/beruf-chance/"
+                        },
+                        {
+                            "topic_name": "Rhein-Main",
+                            "topic_id": "13",
+                            "url": "http://www.faz.net/rss/aktuell/rhein-main/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Die Welt",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Startseite",
+                            "topic_id": "1",
+                            "url": "http://www.welt.de/?service=Rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Wirtschaft",
+                            "topic_id": "2",
+                            "url": "http://www.welt.de/wirtschaft/?service=Rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "3",
-                            "url": "http://www.faz.net/rss/aktuell/sport/"
+                            "url": "http://www.welt.de/sport/?service=Rss"
                         },
                         {
-                            "topic_name": "aktuell",
+                            "topic_name": "Panorama",
                             "topic_id": "4",
-                            "url": "http://www.faz.net/rss/aktuell/reise/",
+                            "url": "http://www.welt.de/vermischtes/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Reise",
+                            "topic_id": "5",
+                            "url": "http://www.welt.de/reise/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Regionales",
+                            "topic_id": "6",
+                            "url": "http://www.welt.de/regionales/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Debatte",
+                            "topic_id": "7",
+                            "url": "http://www.welt.de/debatte/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Politik",
+                            "topic_id": "8",
+                            "url": "http://www.welt.de/politik/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Geld",
+                            "topic_id": "9",
+                            "url": "http://www.welt.de/finanzen/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Wissen",
+                            "topic_id": "10",
+                            "url": "http://www.welt.de/wissenschaft/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Kultur",
+                            "topic_id": "11",
+                            "url": "http://www.welt.de/kultur/?service=Rss"
+                        },
+                        {
+                            "topic_name": "Motor",
+                            "topic_id": "12",
+                            "url": "http://www.welt.de/motor/?service=Rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Der Tagesspiegel",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Aktuelle Nachrichten",
+                            "topic_id": "1",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/home",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "finanzen",
+                            "topic_name": "Politik",
+                            "topic_id": "2",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/politik"
+                        },
+                        {
+                            "topic_name": "Berlin",
+                            "topic_id": "3",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/berlin"
+                        },
+                        {
+                            "topic_name": "Wirtschaft",
+                            "topic_id": "4",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/wirtschaft"
+                        },
+                        {
+                            "topic_name": "Sport",
                             "topic_id": "5",
-                            "url": "http://www.faz.net/rss/aktuell/finanzen/"
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/sport"
                         },
                         {
-                            "topic_name": "stil",
+                            "topic_name": "Kultur",
                             "topic_id": "6",
-                            "url": "http://www.faz.net/rss/aktuell/stil/"
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/kultur"
                         },
                         {
-                            "topic_name": "feuilleton",
+                            "topic_name": "Welt",
                             "topic_id": "7",
-                            "url": "http://www.faz.net/rss/aktuell/feuilleton/"
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/weltspiegel"
+                        },
+                        {
+                            "topic_name": "Meinung",
+                            "topic_id": "8",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/meinung"
+                        },
+                        {
+                            "topic_name": "Medien",
+                            "topic_id": "9",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/medien"
+                        },
+                        {
+                            "topic_name": "Wissen",
+                            "topic_id": "10",
+                            "url": "http://www.tagesspiegel.de/contentexport/feed/wissen"
                         }
                     ]
                 }

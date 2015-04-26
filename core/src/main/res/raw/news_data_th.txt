@@ -1,0 +1,280 @@
+{
+    "lang_name_english": "Thai",
+    "lang_name_regional": "ไทย",
+    "lang_code": "th",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "ประเทศไทย",
+            "country_code": "TH",
+            "news_providers": [
+                {
+                    "provider_name": "ข่าวสด",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "ข่าวด่วน",
+                            "topic_id": "1",
+                            "url": "http://www.khaosod.co.th/rss/urgent_news.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "ประเด็นร้อน",
+                            "topic_id": "2",
+                            "url": "http://www.khaosod.co.th/rss/wikipedia_news.xml"
+                        },
+                        {
+                            "topic_name": "สดบันเทิง",
+                            "topic_id": "3",
+                            "url": "http://www.khaosod.co.th/rss/entertainment_news.xml"
+                        },
+                        {
+                            "topic_name": "คลิปเด่น",
+                            "topic_id": "4",
+                            "url": "http://www.khaosod.co.th/rss/clip.xml"
+                        },
+                        {
+                            "topic_name": "ออนไลน์กีฬา",
+                            "topic_id": "5",
+                            "url": "http://www.khaosod.co.th/rss/sport_news.xml"
+                        },
+                        {
+                            "topic_name": "ทุกทิศทั่วไทย",
+                            "topic_id": "6",
+                            "url": "http://www.khaosod.co.th/rss/every-direction_news.xml"
+                        },
+                        {
+                            "topic_name": "คอลัมน์",
+                            "topic_id": "7",
+                            "url": "http://www.khaosod.co.th/rss/column_online_news.xml"
+                        },
+                        {
+                            "topic_name": "นิวส์มอนิเตอร์",
+                            "topic_id": "8",
+                            "url": "http://www.khaosod.co.th/rss/monitor_news.xml"
+                        },
+                        {
+                            "topic_name": "การเมือง",
+                            "topic_id": "9",
+                            "url": "http://www.khaosod.co.th/rss/politics.xml"
+                        },
+                        {
+                            "topic_name": "ข่าวสดรอบโลก",
+                            "topic_id": "10",
+                            "url": "http://www.khaosod.co.th/rss/around_world.xml"
+                        },
+                        {
+                            "topic_name": "เศรษฐกิจ",
+                            "topic_id": "11",
+                            "url": "http://www.khaosod.co.th/rss/economic.xml"
+                        },
+                        {
+                            "topic_name": "เกาะติดกระแสหุ้นและการเงิน",
+                            "topic_id": "12",
+                            "url": "http://www.khaosod.co.th/rss/finan.xml"
+                        },
+                        {
+                            "topic_name": "พระเครื่อง",
+                            "topic_id": "13",
+                            "url": "http://www.khaosod.co.th/rss/columm0609.xml"
+                        },
+                        {
+                            "topic_name": "รถยนต์",
+                            "topic_id": "14",
+                            "url": "http://www.khaosod.co.th/rss/motor.xml"
+                        },
+                        {
+                            "topic_name": "Social Trends",
+                            "topic_id": "15",
+                            "url": "http://www.khaosod.co.th/rss/social_trend.xml"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "16",
+                            "url": "http://www.khaosod.co.th/rss/lifestyle.xml"
+                        },
+                        {
+                            "topic_name": "วิทยาการ",
+                            "topic_id": "17",
+                            "url": "http://www.khaosod.co.th/rss/technology.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "คมชัดลึก",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "ข่าวเด่น",
+                            "topic_id": "1",
+                            "url": "http://www.komchadluek.net/rss/news_widget.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "การเมือง",
+                            "topic_id": "2",
+                            "url": "http://www.komchadluek.net/rss/politic.xml"
+                        },
+                        {
+                            "topic_name": "บันเทิง",
+                            "topic_id": "3",
+                            "url": "http://www.komchadluek.net/rss/entertainment.xml"
+                        },
+                        {
+                            "topic_name": "อาชญากรรม",
+                            "topic_id": "4",
+                            "url": "http://www.komchadluek.net/rss/komkid.xml"
+                        },
+                        {
+                            "topic_name": "กีฬา",
+                            "topic_id": "5",
+                            "url": "http://www.komchadluek.net/rss/sport.xml"
+                        },
+                        {
+                            "topic_name": "ไลฟ์สไตล์",
+                            "topic_id": "6",
+                            "url": "http://www.komchadluek.net/rss/lifestyle.xml"
+                        },
+                        {
+                            "topic_name": "กิน-ดื่ม-เที่ยว",
+                            "topic_id": "7",
+                            "url": "http://www.komchadluek.net/rss/drink-eat-travel.xml"
+                        },
+                        {
+                            "topic_name": "เกษตร",
+                            "topic_id": "8",
+                            "url": "http://www.komchadluek.net/rss/agriculture.xml"
+                        },
+                        {
+                            "topic_name": "ต่างประเทศ",
+                            "topic_id": "9",
+                            "url": "http://www.komchadluek.net/rss/foreign.xml"
+                        },
+                        {
+                            "topic_name": "ศาสนา-พระเครื่อง",
+                            "topic_id": "10",
+                            "url": "http://www.komchadluek.net/rss/amulet.xml"
+                        },
+                        {
+                            "topic_name": "ดูดวง-โหราศาสตร์",
+                            "topic_id": "11",
+                            "url": "http://www.komchadluek.net/rss/horoscope.xml"
+                        },
+                        {
+                            "topic_name": "ภูมิภาค-ชุมชนเมือง",
+                            "topic_id": "12",
+                            "url": "http://www.komchadluek.net/rss/local.xml"
+                        },
+                        {
+                            "topic_name": "ร้องเรียนกับลุงแจ่ม",
+                            "topic_id": "13",
+                            "url": "http://www.komchadluek.net/rss/unclecham.xml"
+                        },
+                        {
+                            "topic_name": "เศรษฐกิจ",
+                            "topic_id": "14",
+                            "url": "http://www.komchadluek.net/rss/economic.xml"
+                        },
+                        {
+                            "topic_name": "คนรักบ้าน-ยานยนต์",
+                            "topic_id": "15",
+                            "url": "http://www.komchadluek.net/rss/homecar.xml"
+                        },
+                        {
+                            "topic_name": "เกษตร-วิทยาศาสตร์-ไอที",
+                            "topic_id": "16",
+                            "url": "http://www.komchadluek.net/rss/scienceit.xml"
+                        },
+                        {
+                            "topic_name": "สังคม-ศิลปะ-วัฒนธรรม",
+                            "topic_id": "17",
+                            "url": "http://www.komchadluek.net/rss/artculture.xml"
+                        },
+                        {
+                            "topic_name": "การศึกษา-สาธารณสุข-สิ่งแวดล้อม",
+                            "topic_id": "18",
+                            "url": "http://www.komchadluek.net/rss/education.xml"
+                        },
+                        {
+                            "topic_name": "ข่าวในพระราชสำนัก",
+                            "topic_id": "19",
+                            "url": "http://www.komchadluek.net/rss/.xml"
+                        },
+                        {
+                            "topic_name": "คมคิดธุรกิจนิวเจน",
+                            "topic_id": "20",
+                            "url": "http://www.komchadluek.net/rss/.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "มติชน",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "ข่าว",
+                            "topic_id": "1",
+                            "url": "http://www.matichon.co.th/rss/news_article.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "ข่าวเด่นวันนี้",
+                            "topic_id": "2",
+                            "url": "http://www.matichon.co.th/rss/news_conspicuous.xml"
+                        },
+                        {
+                            "topic_name": "News Monitor",
+                            "topic_id": "3",
+                            "url": "http://www.matichon.co.th/rss/news_monitor.xml"
+                        },
+                        {
+                            "topic_name": "คอลัมน์พิเศษ",
+                            "topic_id": "4",
+                            "url": "http://www.matichon.co.th/rss/news_columns.xml"
+                        },
+                        {
+                            "topic_name": "การเมือง",
+                            "topic_id": "5",
+                            "url": "http://www.matichon.co.th/rss/news_politic.xml"
+                        },
+                        {
+                            "topic_name": "ในประเทศ",
+                            "topic_id": "6",
+                            "url": "http://www.matichon.co.th/rss/news_inbound.xml"
+                        },
+                        {
+                            "topic_name": "เศรษฐกิจ",
+                            "topic_id": "7",
+                            "url": "http://www.matichon.co.th/rss/news_business.xml"
+                        },
+                        {
+                            "topic_name": "ต่างประเทศ",
+                            "topic_id": "8",
+                            "url": "http://www.matichon.co.th/rss/news_world.xml"
+                        },
+                        {
+                            "topic_name": "กีฬา",
+                            "topic_id": "9",
+                            "url": "http://www.matichon.co.th/rss/news_sport.xml"
+                        },
+                        {
+                            "topic_name": "บันเทิงและศิลปวัฒนธรรม",
+                            "topic_id": "10",
+                            "url": "http://www.matichon.co.th/rss/news_entertainment.xml"
+                        },
+                        {
+                            "topic_name": "ไลฟ์สไตล์",
+                            "topic_id": "11",
+                            "url": "http://www.matichon.co.th/rss/news_lifestyle.xml"
+                        },
+                        {
+                            "topic_name": "หนังสือพิมพ์มติชนรายวัน",
+                            "topic_id": "12",
+                            "url": "http://www.matichon.co.th/rss/news_cover.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

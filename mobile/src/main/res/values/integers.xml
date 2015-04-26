@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="vibrant_color_tint_alpha">200</integer>
+    <integer name="palette_color_alpha">160</integer>
+    <integer name="bottom_dummy_palette_color_alpha">120</integer>
+    <!-- 머티리얼 컬러가 동적으로 뽑은 색 보다 조금 더 짙어서 알파를 약하게 줘야함 -->
+    <integer name="bottom_default_palette_color_alpha">110</integer>
+
     <integer name="news_feed_detail_title_max_line">2</integer>
-    <integer name="news_feed_detail_description_text_max_line">3</integer>
+    <integer name="news_feed_detail_description_text_max_line">2</integer>
+
+    <integer name="setting_auto_refresh_dialog_edit_text_min_ems">2</integer>
 </resources>

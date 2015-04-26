@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/bottomNewsFeedRecyclerView"
-              android:layout_margin="@dimen/main_bottom_margin_small">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bottom_news_feed_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_bottom_margin_small"
+            android:clipToPadding="false"/>
 
-</android.support.v7.widget.RecyclerView>
+        <FrameLayout
+            android:id="@+id/bottom_news_feed_more_panel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bottom_news_feed_recycler_view"
+            android:layout_marginLeft="@dimen/base_margin_small"
+            android:layout_marginStart="@dimen/base_margin_small"
+            android:layout_marginRight="@dimen/base_margin_small"
+            android:layout_marginEnd="@dimen/base_margin_small"
+            android:layout_marginBottom="@dimen/base_margin_small"
+            android:background="@drawable/img_add_panels"
+            android:foreground="?attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="@dimen/main_add_more_panel_icon_size"
+                    android:layout_height="@dimen/main_add_more_panel_icon_size"
+                    android:src="@drawable/ic_main_panels"
+                    android:layout_marginRight="@dimen/base_margin_half"
+                    android:layout_marginEnd="@dimen/base_margin_half"
+                    android:contentDescription="@string/content_description"/>
+
+                <TextView
+                    android:id="@+id/bottom_news_feed_more_panel_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="@dimen/text_size_body_1_material"
+                    android:textColor="@color/material_white_primary_text"
+                    android:text="@string/add_more_panels"/>
+            </LinearLayout>
+        </FrameLayout>
+</RelativeLayout>

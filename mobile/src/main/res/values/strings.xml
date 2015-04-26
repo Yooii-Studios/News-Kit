@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- General -->
-    <string name="app_name">News Flow</string>
-    <string name="action_newsfeed">Replace a NewsFeed</string>
-    <string name="action_info">Info</string>
+    <string name="app_name">News Kit</string>
+    <string name="news">News</string>
+    <string name="action_info">Information</string>
     <string name="action_settings">Settings</string>
-    <string name="action_rate_app">Rate News Flow</string>
+    <string name="action_rate_app">Rate News Kit</string>
     <string name="action_facebook_like">Like us on Facebook</string>
     <string name="action_send_feedback">Send feedback</string>
     <string name="content_description">Loading…</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
-    <string name="iab_item_unavailable">You have to purchase…</string>
     <string name="share">Share</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Main -->
     <string name="action_edition">Edition</string>
-    <string name="splash_loading_title">News Flow</string>
-    <string name="splash_loading_description">Loading News…</string>
 
     <!-- Newsfeed Detail -->
+    <string name="newsfeed_select_news_section">News Section</string>
     <string name="newsfeed_auto_scroll">Auto Scroll</string>
     <string name="on">On</string>
     <string name="off">Off</string>
 
     <!-- News Detail -->
-    <string name="news_detail_share_message">Check out this link!</string>
+    <string name="news_detail_share_message">Check out this article!</string>
     <string name="news_detail_link_copied">The link is copied</string>
 
     <!-- News Select -->
@@ -44,10 +43,8 @@
     <string name="setting_main_auto_refresh_interval">Auto refresh interval</string>
     <string name="setting_main_auto_refresh_interval_caption">Interval</string>
     <string name="setting_main_auto_refresh_speed">Auto refresh speed</string>
-    <string name="setting_item_sec_description">%1$s sec</string> <!-- 14 sec -->
     <string name="setting_main_panel_matrix">News Feed Panel Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s panels</string>
-
     <string name="setting_news_feed_sub_header">News Feed Screen</string>
     <string name="setting_news_feed_auto_scroll_start_offset">Auto scroll start delay</string>
     <string name="setting_news_feed_auto_scroll_speed">Auto scroll speed</string>
@@ -60,8 +57,8 @@
     <!-- Pair -->
     <string name="setting_pair_tv">Pair Android TV</string>
     <string name="setting_pair_tv_description">Send your news panels to your Android TV</string>
-    <string name="setting_pair_tv_dialog_description">Type 5 numbers shown in the \"Pair Mobile\" tab of your Android TV and press Confirm</string>
-    <string name="setting_pair_tv_code_invalidate">Code invalidate. Please check 5 numbers shown in the \"Pair Mobile\" tab of your Android TV</string>
+    <string name="setting_pair_tv_dialog_description">Type 5 numbers shown in the \"Pair Now\" tab of your Android TV and press Confirm</string>
+    <string name="setting_pair_tv_code_invalidate">Code invalidate. Please check 5 numbers shown in the \"Pair Now\" tab of your Android TV</string>
     <string name="setting_pair_tv_data_sent">Succeed to pair with Android TV</string>
     <string name="setting_pair_tv_error_msg">Pair Failed. Please try again</string>
 
@@ -71,7 +68,7 @@
     <string name="recommend_description">Click the link and take it for a spin</string>
 
     <!-- Feedback -->
-    <string name="feedback_description">How can we improve News Flow?</string>
+    <string name="feedback_description">How can we improve News Kit?</string>
 
     <!-- Ad -->
     <string name="quit_ad_dialog_title_text">Do you want to quit this app?</string>
@@ -94,31 +91,59 @@
     <string name="store_no_ads_description">Remove all ads of the app</string>
     <string name="store_more_panel_title">More News panels</string>
     <string name="store_more_panel_description">Use 4 to 8 bottom news panels</string>
-    <string name="store_topic_select_title">Topic select</string>
-    <string name="store_topic_select_description">You can select detail category of the news</string>
-    <string name="store_custom_rss_feed_title">Custom Rss Url</string>
+    <string name="store_custom_rss_feed_title">Custom RSS Url</string>
     <string name="store_custom_rss_feed_description">You can type the custom rss feed</string>
 
-    <!-- Network Unavailable -->
-    <string name="network_unavailable_message">Network unavailable.</string>
-    <string name="network_unavailable_reload">Reload</string>
+    <!-- Main Network Unavailable Cover -->
+    <string name="main_network_unavailable_cant_connect">Network Unavailable</string>
+    <string name="main_network_unavailable_retry">Tap to Retry</string>
 
     <!-- Info -->
-    <string name="info_news_info">News Flow Info</string>
+    <string name="info_news_info">News Kit Info</string>
     <string name="info_credit">Credit</string>
 
     <!-- More Info -->
     <string name="more_info_yooii_studios">Yooii Studios</string>
-    <string name="more_info_news_help">News Help</string>
+    <string name="more_info_news_help">News Kit Help</string>
     <string name="more_info_version">Version</string>
     <string name="more_info_license">License</string>
 
     <!-- Store Ad -->
     <string name="store_buy_pro_version">Buy the Pro Version!</string>
+    <string name="store_sub_description">All Functions and Features + No Ads</string>
+
+    <!-- Notification -->
+    <string name="notification_title">Good Morning!</string>
+    <string name="notification_description">Your morning news is ready.</string>
+    <string name="notification_ask_description">Would you like to receive news notification?</string>
 
     <!-- Error Message -->
-    <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable.</string>
-    <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url.</string>
+    <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable</string>
+    <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
-    <string name="news_feed_fetch_error_unknown">Unknown error. Please try later.</string>
+    <string name="news_feed_fetch_error_unknown">RSS not found</string>
+
+    <!-- 출시시 정렬 다시할 추가 스트링-->
+    <!-- General -->
+    <string name="add_more_panels">Add More News Panels</string>
+    <string name="app_name_full">News Kit</string>
+    <string name="minute">min</string>
+    <string name="second">sec</string>
+
+    <!-- Morning Kit Ad -->
+    <string name="morningkit_ad_app_name">Morning Kit</string>
+    <string name="morningkit_ad_description">Alarm + Info Panels</string>
+    <string name="morningkit_ad_guide_text">Everything you need in the morning at a glance!</string>
+    <string name="download">Download</string>
+    <string name="close">Close</string>
+
+    <!-- Rate -->
+    <string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist :)</string>
+    <string name="rate_it_rate">Rate</string>
+    <string name="rate_it_no_thanks">Rate later</string>
+    <string name="rate_news_kit_title">Rate News Kit</string>
+
+    <!-- Setting -->
+    <string name="setting_general_sub_header">General</string>
+    <string name="setting_notification">Notification</string>
 </resources>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/morningkit_ad_dialog_layout_width"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/morningkit_ad_dialog_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/morningkit_ad_dialog_image_layout_padding"
+        android:background="@drawable/shape_morningkit_ad_dialog_upper_layout">
+
+        <ImageView
+            android:id="@+id/morningkit_ad_dialog_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/morning_kit_ad"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/content_description"/>
+
+        <TextView
+            android:id="@+id/morningkit_ad_dialog_app_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin"
+            android:paddingLeft="@dimen/morningkit_ad_text_margin"
+            android:paddingRight="@dimen/morningkit_ad_text_margin"
+            android:singleLine="true"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:text="@string/morningkit_ad_app_name"
+            android:textColor="@color/store_ad_description_sub_color"
+            android:textStyle="normal"/>
+
+        <TextView
+            android:id="@+id/morningkit_ad_dialog_desc_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/morningkit_ad_dialog_app_name_textview"
+            android:layout_alignLeft="@id/morningkit_ad_dialog_app_name_textview"
+            android:paddingLeft="@dimen/morningkit_ad_text_margin"
+            android:paddingRight="@dimen/morningkit_ad_text_margin"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="@string/morningkit_ad_description"
+            android:textColor="@color/store_ad_description_sub_color"
+            android:textSize="8dp"/>
+
+        <TextView
+            android:id="@+id/morning_kit_ad_dialog_guide_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/morningkit_ad_dialog_app_name_textview"
+            android:layout_alignBaseline="@id/morningkit_ad_dialog_app_name_textview"
+            android:layout_marginTop="@dimen/morningkit_ad_text_margin"
+            android:layout_marginLeft="@dimen/base_margin_half"
+            android:layout_marginRight="@dimen/base_margin"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:gravity="right"
+            android:text="@string/morningkit_ad_guide_text"
+            android:textColor="@android:color/white"
+            android:textStyle="normal"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/morning_kit_ad_button_upper_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/morningkit_ad_dialog_title_divider_height"
+        android:layout_below="@+id/morningkit_ad_dialog_image_layout"
+        android:background="@android:color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/base_margin_small"
+            android:layout_marginRight="@dimen/base_margin_small"
+            android:background="@color/material_black_disabled_and_hint_text"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/morningkit_ad_dialog_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/morningkit_ad_dialog_button_layout_height"
+        android:layout_below="@+id/morning_kit_ad_button_upper_divider"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_morningkit_ad_dialog_button_layout">
+
+        <TextView
+            android:id="@+id/morningkit_ad_dialog_close_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:text="@string/close"
+            android:textColor="@android:color/black"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"/>
+
+        <View
+            android:layout_width="@dimen/morningkit_ad_dialog_title_divider_height"
+            android:layout_height="match_parent"
+            android:background="@color/material_black_disabled_and_hint_text"/>
+
+        <TextView
+            android:id="@+id/morningkit_ad_dialog_download_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:text="@string/download"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"/>
+    </LinearLayout>
+</RelativeLayout>

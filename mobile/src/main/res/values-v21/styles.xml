@@ -4,6 +4,8 @@
     <!-- Main -->
     <style name="MainTheme" parent="NewsAppTheme">
         <item name="android:windowTranslucentStatus">true</item>
+        <!-- 리플 색을 적용하기 위한 값 -->
+        <item name="colorControlHighlight">@color/material_white_disabled_and_hint_text</item>
     </style>
 
     <!-- NewsFeed Detail -->
@@ -15,8 +17,12 @@
         <item name="android:windowContentTransitions">false</item>
 
         <!-- 트랜지션시 뒷배경을 투명하게 만들기 위한 property -->
-        <!-- 기본 styles.xml로 옮김 -->
+        <!-- 기본 styles.xml 로 옮김 -->
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    </style>
+
+    <style name="NewsFeedWrapperBackground">
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 </resources>

@@ -1,74 +1,80 @@
 <resources>
+    <!-- BaseStyle 들은 폰, 태블릿 둘 다 지원 위함 -->
     <!-- Main -->
-    <!-- Top -->
-    <style name="MainTopTitleTextBaseStyle">
+    <style name="MainNewsFeedTitleTextBase">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:theme">@android:style/Theme.Holo</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/main_bottom_news_feed_title_padding</item>
+        <item name="android:paddingRight">@dimen/main_bottom_news_feed_title_padding</item>
+        <item name="android:paddingBottom">@dimen/main_bottom_news_feed_title_padding</item>
+        <item name="android:textColor">@color/material_white_primary_text</item>
+
+        <!-- For testing layout -->
+        <!--<item name="android:background">@color/material_orange_200</item>-->
+    </style>
+
+    <!-- Top -->
+    <style name="MainTopTitleTextBase">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/base_margin</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">2</item>
         <item name="android:gravity">start</item>
         <item name="android:padding">@dimen/main_top_view_pager_title_padding</item>
         <item name="android:textColor">@android:color/white</item>
+
+        <!-- For testing layout -->
+        <!--<item name="android:background">@color/material_orange_200</item>-->
     </style>
 
-    <style name="MainBottomItemTextBaseStyle">
-        <item name="android:layout_width">wrap_content</item>
+    <style name="MainTopTitleText" parent="MainTopTitleTextBase">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+        <!--<item name="android:textSize">26sp</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="MainTopItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
+        <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textSize">@dimen/text_size_body_1_material</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <!-- Bottom -->
+    <style name="MainBottomItemTextBase">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:theme">@android:style/Theme.Holo</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">3</item>
-        <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/main_bottom_text_padding</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginBottom">@dimen/main_bottom_title_margin_bottom</item>
+        <item name="android:textColor">@color/material_white_primary_text</item>
+
+        <!-- For testing layout -->
+        <!--<item name="android:background">@color/material_green_200</item>-->
     </style>
 
-    <style name="MainTopTitleTextStyle" parent="MainTopTitleTextBaseStyle">
-        <item name="android:textSize">26sp</item>
-        <!--<item name="android:textStyle">bold</item>-->
-    </style>
+    <style name="MainBottomItemTitleText" parent="MainBottomItemTextBase">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textSize">@dimen/main_bottom_title_text_size</item>
 
-    <style name="MainBottomItemTextStyle" parent="MainBottomItemTextBaseStyle">
-        <!--<item name="android:textStyle">bold</item>-->
-        <item name="android:textSize">19sp</item>
-    </style>
-
-    <style name="MainNewsFeedTitleTextBaseStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">right|bottom</item>
-        <item name="android:theme">@android:style/Theme.Holo</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/main_bottom_news_feed_title_padding</item>
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="MainTopItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
-        <item name="android:padding">@dimen/main_top_news_feed_title_padding</item>
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Body1</item>-->
-        <!--<item name="android:textSize">11sp</item>-->
-        <!--<item name="android:textStyle">bold</item>-->
-    </style>
-
-    <style name="MainBottomItemNewsFeedTitleTextStyle" parent="MainNewsFeedTitleTextBaseStyle">
-        <!--<item name="android:textAppearance">@android:style/TextAppearance.Material.Caption</item>-->
-        <item name="android:textSize">10sp</item>
+    <style name="MainBottomItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+        <item name="android:textSize">@dimen/main_newsfeed_title_text_size</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <!-- Detail -->
-    <style name="DetailTextBaseStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:theme">@android:style/Theme.Holo</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:gravity">start</item>
-    </style>
-
-    <style name="NewsFeedDetailTitleStyle">
+    <style name="NewsFeedDetailTitle">
         <item name="android:paddingTop">@dimen/detail_text_padding</item>
         <item name="android:paddingLeft">@dimen/detail_text_padding</item>
         <item name="android:paddingRight">@dimen/detail_text_padding</item>
@@ -79,7 +85,7 @@
         <item name="android:text">U.S. Weighs Military Action Against ISIS in Syria</item>
     </style>
 
-    <style name="NewsFeedDetailDescriptionStyle">
+    <style name="NewsFeedDetailDescription">
         <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
         <item name="android:paddingLeft">@dimen/detail_text_padding</item>
         <item name="android:paddingRight">@dimen/detail_text_padding</item>
@@ -93,7 +99,7 @@
     </style>
 
     <!-- Debug -->
-    <style name="AutoScrollSettingDialogEditTextStyle" >
+    <style name="AutoScrollSettingDialogEditText" >
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
         <item name="android:layout_weight">1</item>
@@ -105,7 +111,7 @@
     </style>
 
     <!-- Debug -->
-    <style name="BezierDialogEditTextStyle" >
+    <style name="BezierDialogEditText" >
         <item name="android:layout_width">0px</item>
         <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
         <item name="android:layout_weight">1</item>
@@ -113,5 +119,4 @@
         <item name="android:selectAllOnFocus">true</item>
         <item name="android:imeOptions">actionNext</item>
     </style>
-
 </resources>

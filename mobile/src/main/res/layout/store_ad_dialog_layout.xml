@@ -50,17 +50,17 @@
             android:id="@+id/store_ad_dialog_image_view"
             android:layout_width="@dimen/store_ad_dialog_image_width"
             android:layout_height="wrap_content"
-            android:src="@drawable/store_ad_dialog_image_morning_kit"
+            android:src="@drawable/store_ad_dialog_bg_news_flow"
             android:scaleType="fitStart"
             android:clickable="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/content_description"/>
 
-        <com.yooiistudios.newsflow.ui.widget.AutoFitTextView
-            android:id="@+id/store_ad_dialog_description_text_View"
+        <com.yooiistudios.newskit.ui.widget.AutoFitTextView
+            android:id="@+id/store_ad_dialog_description_textview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/store_ad_dialog_image_text_height"
-            android:layout_marginTop="@dimen/store_ad_dialog_image_text_margin_top"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/store_ad_dialog_title_padding_left_right"
             android:paddingLeft="@dimen/store_ad_dialog_title_padding_left_right"
             android:paddingRight="@dimen/store_ad_dialog_title_padding_left_right"
             android:gravity="center"
@@ -69,6 +69,97 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:textSize="@dimen/store_ad_dialog_title_text_size"/>
+
+        <com.yooiistudios.newskit.ui.widget.AutoFitTextView
+            android:id="@+id/store_ad_dialog_description_sub_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/store_ad_dialog_description_textview"
+            android:layout_marginTop="@dimen/base_margin_small"
+            android:paddingLeft="@dimen/store_ad_dialog_title_padding_left_right"
+            android:paddingRight="@dimen/store_ad_dialog_title_padding_left_right"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/store_sub_description"
+            android:textColor="@color/store_ad_description_sub_color"
+            android:textSize="@dimen/store_ad_dialog_sub_desc_text_size"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/store_ad_dialog_icon_layout_margin_top"
+            android:layout_marginLeft="@dimen/store_ad_dialog_title_padding_left_right"
+            android:layout_marginRight="@dimen/store_ad_dialog_title_padding_left_right"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/store_ad_dialog_icon_layout_width"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/base_margin_half"
+                android:paddingLeft="@dimen/base_margin_half"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/store_ad_dialog_icon_img_width"
+                    android:layout_height="@dimen/store_ad_dialog_icon_img_width"
+                    android:src="@drawable/store_ad_dialog_icon_no_ads_xxhdpi"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_middle"
+                    android:gravity="center_horizontal"
+                    android:text="@string/store_no_ads_title"
+                    android:textSize="@dimen/store_ad_dialog_sub_desc_text_size"
+                    android:textColor="@color/store_ad_icon_text_color"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="@dimen/store_ad_dialog_icon_layout_width"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/base_margin_half"
+                android:paddingLeft="@dimen/base_margin_half"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/store_ad_dialog_icon_img_width"
+                    android:layout_height="@dimen/store_ad_dialog_icon_img_width"
+                    android:src="@drawable/store_ad_dialog_icon_more_panels_xxhdpi"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_middle"
+                    android:gravity="center_horizontal"
+                    android:text="@string/store_more_panel_title"
+                    android:textSize="@dimen/store_ad_dialog_sub_desc_text_size"
+                    android:textColor="@color/store_ad_icon_text_color"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="@dimen/store_ad_dialog_icon_layout_width"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/base_margin_half"
+                android:paddingLeft="@dimen/base_margin_half"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/store_ad_dialog_icon_img_width"
+                    android:layout_height="@dimen/store_ad_dialog_icon_img_width"
+                    android:src="@drawable/store_ad_dialog_icon_custom_rss_url_xxhdpi"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_middle"
+                    android:gravity="center_horizontal"
+                    android:text="@string/store_custom_rss_feed_title"
+                    android:textSize="@dimen/store_ad_dialog_sub_desc_text_size"
+                    android:textColor="@color/store_ad_icon_text_color"/>
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout

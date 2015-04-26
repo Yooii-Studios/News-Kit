@@ -6,14 +6,14 @@
     "countries": [
         {
             "country_name": "대한민국",
-            "country_code": "kr",
+            "country_code": "KR",
             "news_providers": [
                 {
-                    "provider_name": "구글",
+                    "provider_name": "구글 뉴스",
             	    "provider_id": "1",
             	    "topics": [
                         {
-                            "topic_name": "주요 뉴스",
+                            "topic_name": "주요뉴스",
                             "topic_id": "1",
                             "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
                             "isDefault": "true"
@@ -61,8 +61,65 @@
                     ]
                 },
                 {
-                    "provider_name": "조선일보",
+                    "provider_name": "한겨레",
             	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "전체기사",
+                            "topic_id": "1",
+                            "url": "http://www.hani.co.kr/rss/"
+                        },
+                        {
+                            "topic_name": "주요기사",
+                            "topic_id": "2",
+                            "url": "http://www.hani.co.kr/rss/lead/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "인기기사",
+                            "topic_id": "3",
+                            "url": "http://www.hani.co.kr/rss/newsrank/"
+                        },
+                        {
+                            "topic_name": "정치",
+                            "topic_id": "4",
+                            "url": "http://www.hani.co.kr/rss/politics/"
+                        },
+                        {
+                            "topic_name": "경제",
+                            "topic_id": "5",
+                            "url": "http://www.hani.co.kr/rss/economy/"
+                        },
+                        {
+                            "topic_name": "사회",
+                            "topic_id": "6",
+                            "url": "http://www.hani.co.kr/rss/society/"
+                        },
+                        {
+                            "topic_name": "국제",
+                            "topic_id": "7",
+                            "url": "http://www.hani.co.kr/rss/international/"
+                        },
+                        {
+                            "topic_name": "스포츠",
+                            "topic_id": "8",
+                            "url": "http://www.hani.co.kr/rss/sports/"
+                        },
+                        {
+                            "topic_name": "과학",
+                            "topic_id": "9",
+                            "url": "http://www.hani.co.kr/rss/science/"
+                        },
+                        {
+                            "topic_name": "사설·칼럼",
+                            "topic_id": "10",
+                            "url": "http://www.hani.co.kr/rss/opinion/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "조선일보",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "속보",
@@ -119,7 +176,7 @@
                 },
                 {
                     "provider_name": "중앙일보",
-            	    "provider_id": "3",
+            	    "provider_id": "4",
             	    "topics": [
                         {
                             "topic_name": "전체기사",
@@ -176,7 +233,7 @@
                 },
                 {
                     "provider_name": "동아일보",
-            	    "provider_id": "4",
+            	    "provider_id": "5",
             	    "topics": [
                         {
                             "topic_name": "전체기사",
@@ -223,63 +280,6 @@
                             "topic_name": "스포츠",
                             "topic_id": "9",
                             "url": "http://rss.donga.com/sports.xml"
-                        }
-                    ]
-                },
-                {
-                    "provider_name": "한겨레",
-            	    "provider_id": "5",
-            	    "topics": [
-                        {
-                            "topic_name": "전체기사",
-                            "topic_id": "1",
-                            "url": "http://www.hani.co.kr/rss/"
-                        },
-                        {
-                            "topic_name": "주요기사",
-                            "topic_id": "2",
-                            "url": "http://www.hani.co.kr/rss/lead/",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "인기기사",
-                            "topic_id": "3",
-                            "url": "http://www.hani.co.kr/rss/newsrank/"
-                        },
-                        {
-                            "topic_name": "정치",
-                            "topic_id": "4",
-                            "url": "http://www.hani.co.kr/rss/politics/"
-                        },
-                        {
-                            "topic_name": "경제",
-                            "topic_id": "5",
-                            "url": "http://www.hani.co.kr/rss/economy/"
-                        },
-                        {
-                            "topic_name": "사회",
-                            "topic_id": "6",
-                            "url": "http://www.hani.co.kr/rss/society/"
-                        },
-                        {
-                            "topic_name": "국제",
-                            "topic_id": "7",
-                            "url": "http://www.hani.co.kr/rss/international/"
-                        },
-                        {
-                            "topic_name": "스포츠",
-                            "topic_id": "8",
-                            "url": "http://www.hani.co.kr/rss/sports/"
-                        },
-                        {
-                            "topic_name": "과학",
-                            "topic_id": "9",
-                            "url": "http://www.hani.co.kr/rss/science/"
-                        },
-                        {
-                            "topic_name": "사설·칼럼",
-                            "topic_id": "10",
-                            "url": "http://www.hani.co.kr/rss/opinion/"
                         }
                     ]
                 },

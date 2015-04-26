@@ -6,38 +6,11 @@
     "countries": [
         {
             "country_name": "日本",
-            "country_code": "jp",
+            "country_code": "JP",
             "news_providers": [
                 {
-                    "provider_name": "毎日新聞",
-            	    "provider_id": "1",
-            	    "topics": [
-                        {
-                            "topic_name": "ニュース速報（総合）",
-                            "topic_id": "1",
-                            "url": "http://rss.rssad.jp/rss/mainichi/flash.rss",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "スポーツ",
-                            "topic_id": "2",
-                            "url": "http://mainichi.jp/rss/etc/sports.rss"
-                        },
-                        {
-                            "topic_name": "エンタメ",
-                            "topic_id": "3",
-                            "url": "http://mainichi.jp/rss/etc/enta.rss"
-                        },
-                        {
-                            "topic_name": "社説・解説・コラム",
-                            "topic_id": "4",
-                            "url": "http://mainichi.jp/rss/etc/opinion.rss"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "アサヒ",
-            	    "provider_id": "2",
+            	    "provider_id": "1",
             	    "topics": [
                         {
                             "topic_name": "速報ニュース",
@@ -78,54 +51,111 @@
                     ]
                 },
                 {
-                    "provider_name": "MSN産経ニュース",
-            	    "provider_id": "3",
+                    "provider_name": "毎日新聞",
+            	    "provider_id": "2",
             	    "topics": [
                         {
-                            "topic_name": "注目ニュース",
+                            "topic_name": "ニュース速報（総合）",
                             "topic_id": "1",
-                            "url": "http://sankei.jp.msn.com/rss/news/points.xml",
+                            "url": "http://rss.rssad.jp/rss/mainichi/flash.rss",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "事件",
-                            "topic_id": "2",
-                            "url": "http://sankei.jp.msn.com/rss/news/affairs.xml"
-                        },
-                        {
-                            "topic_name": "政治",
-                            "topic_id": "3",
-                            "url": "http://sankei.jp.msn.com/rss/news/politics.xml"
-                        },
-                        {
-                            "topic_name": "経済・IT",
-                            "topic_id": "4",
-                            "url": "http://sankei.jp.msn.com/rss/news/economy.xml"
-                        },
-                        {
-                            "topic_name": "国際",
-                            "topic_id": "5",
-                            "url": "http://sankei.jp.msn.com/rss/news/world.xml"
-                        },
-                        {
                             "topic_name": "スポーツ",
-                            "topic_id": "6",
-                            "url": "http://sankei.jp.msn.com/rss/news/sports.xml"
+                            "topic_id": "2",
+                            "url": "http://mainichi.jp/rss/etc/sports.rss"
                         },
                         {
                             "topic_name": "エンタメ",
-                            "topic_id": "7",
-                            "url": "http://sankei.jp.msn.com/rss/news/entertainments.xml"
+                            "topic_id": "3",
+                            "url": "http://mainichi.jp/rss/etc/enta.rss"
                         },
                         {
-                            "topic_name": "文化",
-                            "topic_id": "8",
-                            "url": "http://sankei.jp.msn.com/rss/news/culture.xml"
+                            "topic_name": "社説・解説・コラム",
+                            "topic_id": "4",
+                            "url": "http://mainichi.jp/rss/etc/opinion.rss"
                         }
                     ]
                 },
                 {
-                    "provider_name": "Yahoo Japan",
+                    "provider_name": "日本経済新聞",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "まとめ",
+                            "topic_id": "1",
+                            "url": "http://www.nikkeibp.co.jp/rss/select.rdf",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "今日の必読！",
+                            "topic_id": "2",
+                            "url": "http://www.nikkeibp.co.jp/rss/recommend.rdf"
+                        },
+                        {
+                            "topic_name": "新着斜め読み",
+                            "topic_id": "3",
+                            "url": "http://www.nikkeibp.co.jp/rss/buzz.rdf"
+                        },
+                        {
+                            "topic_name": "特集 コラム",
+                            "topic_id": "4",
+                            "url": "http://www.nikkeibp.co.jp/rss/feature.rdf"
+                        },
+                        {
+                            "topic_name": "企業・経営",
+                            "topic_id": "5",
+                            "url": "http://www.nikkeibp.co.jp/rss/business.rdf"
+                        },
+                        {
+                            "topic_name": "情報・通信",
+                            "topic_id": "6",
+                            "url": "http://www.nikkeibp.co.jp/rss/it.rdf"
+                        },
+                        {
+                            "topic_name": "パソコン",
+                            "topic_id": "7",
+                            "url": "http://www.nikkeibp.co.jp/rss/pc.rdf"
+                        },
+                        {
+                            "topic_name": "ライフ",
+                            "topic_id": "8",
+                            "url": "http://www.nikkeibp.co.jp/rss/life.rdf"
+                        },
+                        {
+                            "topic_name": "電子・機械",
+                            "topic_id": "9",
+                            "url": "http://www.nikkeibp.co.jp/rss/manufacture.rdf"
+                        },
+                        {
+                            "topic_name": "環境",
+                            "topic_id": "10",
+                            "url": "http://www.nikkeibp.co.jp/rss/ecology.rdf"
+                        },
+                        {
+                            "topic_name": "建設",
+                            "topic_id": "11",
+                            "url": "http://www.nikkeibp.co.jp/rss/architecture.rdf"
+                        },
+                        {
+                            "topic_name": "医療",
+                            "topic_id": "12",
+                            "url": "http://www.nikkeibp.co.jp/rss/medical.rdf"
+                        },
+                        {
+                            "topic_name": "BPnet全分野",
+                            "topic_id": "13",
+                            "url": "http://www.nikkeibp.co.jp/rss/index.rdf"
+                        },
+                        {
+                            "topic_name": "ビズカレッジ",
+                            "topic_id": "14",
+                            "url": "http://www.nikkeibp.co.jp/rss/career.rdf"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Yahoo ニュース",
             	    "provider_id": "4",
             	    "topics": [
                         {
@@ -173,6 +203,110 @@
                             "topic_name": "地域",
                             "topic_id": "9",
                             "url": "http://rss.dailynews.yahoo.co.jp/fc/local/rss.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "MSN ニュース",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "注目ニュース",
+                            "topic_id": "1",
+                            "url": "http://sankei.jp.msn.com/rss/news/points.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "事件",
+                            "topic_id": "2",
+                            "url": "http://sankei.jp.msn.com/rss/news/affairs.xml"
+                        },
+                        {
+                            "topic_name": "政治",
+                            "topic_id": "3",
+                            "url": "http://sankei.jp.msn.com/rss/news/politics.xml"
+                        },
+                        {
+                            "topic_name": "経済・IT",
+                            "topic_id": "4",
+                            "url": "http://sankei.jp.msn.com/rss/news/economy.xml"
+                        },
+                        {
+                            "topic_name": "国際",
+                            "topic_id": "5",
+                            "url": "http://sankei.jp.msn.com/rss/news/world.xml"
+                        },
+                        {
+                            "topic_name": "スポーツ",
+                            "topic_id": "6",
+                            "url": "http://sankei.jp.msn.com/rss/news/sports.xml"
+                        },
+                        {
+                            "topic_name": "エンタメ",
+                            "topic_id": "7",
+                            "url": "http://sankei.jp.msn.com/rss/news/entertainments.xml"
+                        },
+                        {
+                            "topic_name": "文化",
+                            "topic_id": "8",
+                            "url": "http://sankei.jp.msn.com/rss/news/culture.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "産経ビズ",
+            	    "provider_id": "6",
+            	    "topics": [
+                        {
+                            "topic_name": "ビジネスライブ",
+                            "topic_id": "1",
+                            "url": "http://live.sankeibiz.jp/live/rss/schedules/latest/LatestRSS.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "注目の経済ニュース",
+                            "topic_id": "2",
+                            "url": "http://www.sankeibiz.jp/rss/news/points.xml"
+                        },
+                        {
+                            "topic_name": "経済ニュース速報",
+                            "topic_id": "3",
+                            "url": "http://www.sankeibiz.jp/rss/news/flash.xml"
+                        },
+                        {
+                            "topic_name": "企業ニュース",
+                            "topic_id": "4",
+                            "url": "http://www.sankeibiz.jp/rss/news/business.xml"
+                        },
+                        {
+                            "topic_name": "自動車ニュース",
+                            "topic_id": "5",
+                            "url": "http://www.sankeibiz.jp/rss/news/automotive.xml"
+                        },
+                        {
+                            "topic_name": "情報通信ニュース",
+                            "topic_id": "6",
+                            "url": "http://www.sankeibiz.jp/rss/news/infotech.xml"
+                        },
+                        {
+                            "topic_name": "金融ニュース",
+                            "topic_id": "7",
+                            "url": "http://www.sankeibiz.jp/rss/news/financials.xml"
+                        },
+                        {
+                            "topic_name": "経営ニュース",
+                            "topic_id": "8",
+                            "url": "http://www.sankeibiz.jp/rss/news/management.xml"
+                        },
+                        {
+                            "topic_name": "海外企業ニュース",
+                            "topic_id": "9",
+                            "url": "http://www.sankeibiz.jp/rss/news/oversea.xml"
+                        },
+                        {
+                            "topic_name": "中小企業ニュース",
+                            "topic_id": "10",
+                            "url": "http://www.sankeibiz.jp/rss/news/company.xml"
                         }
                     ]
                 }

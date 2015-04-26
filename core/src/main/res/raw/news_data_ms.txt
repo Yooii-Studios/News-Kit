@@ -1,0 +1,51 @@
+{
+    "lang_name_english": "Malay",
+    "lang_name_regional": "Melayu",
+    "lang_code": "ms",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Malaysia",
+            "country_code": "MY",
+            "news_providers": [
+                {
+                    "provider_name": "Berita Harian",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Terkini",
+                            "topic_id": "1",
+                            "url": "http://www.bharian.com.my/terkini.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Semasa",
+                            "topic_id": "2",
+                            "url": "http://www.bharian.com.my/semasa.xml"
+                        },
+                        {
+                            "topic_name": "Dunia",
+                            "topic_id": "3",
+                            "url": "http://www.bharian.com.my/dunia.xml"
+                        },
+                        {
+                            "topic_name": "Bisnes",
+                            "topic_id": "4",
+                            "url": "http://www.bharian.com.my/bisnes.xml"
+                        },
+                        {
+                            "topic_name": "Hiburan",
+                            "topic_id": "5",
+                            "url": "http://www.bharian.com.my/hiburan.xml"
+                        },
+                        {
+                            "topic_name": "Kolumnis",
+                            "topic_id": "6",
+                            "url": "http://www.bharian.com.my/kolumnis.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

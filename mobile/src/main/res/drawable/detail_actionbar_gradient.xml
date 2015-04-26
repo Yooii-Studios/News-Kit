@@ -6,7 +6,7 @@
 
     <gradient
         android:angle="270"
-        android:startColor="#d000"
+        android:startColor="@color/newsfeed_detail_gradient_start_color"
         android:endColor="#0000"/>
 
 </shape>
