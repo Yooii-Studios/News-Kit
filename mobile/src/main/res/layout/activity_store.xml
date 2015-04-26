@@ -96,7 +96,7 @@
                 android:onClick="onPriceButtonClicked"/>
 
             <!--android:background="#a0a"-->
-            <com.yooiistudios.newsflow.ui.widget.AutoResizeTextView
+            <com.yooiistudios.newskit.ui.widget.AutoResizeTextView
                 android:id="@+id/store_discounted_price_text_view"
                 android:visibility="visible"
                 android:layout_width="@dimen/store_price_discounted_price_width"
@@ -114,7 +114,7 @@
                 android:maxLines="1"
                 android:includeFontPadding="false"/>
 
-            <com.yooiistudios.newsflow.ui.widget.AutoResizeTextView
+            <com.yooiistudios.newskit.ui.widget.AutoResizeTextView
                 android:id="@+id/store_original_price_text_view"
                 android:visibility="visible"
                 android:layout_width="@dimen/store_price_original_price_width"
@@ -132,7 +132,7 @@
                 android:maxLines="1"
                 android:includeFontPadding="false"/>
 
-            <com.yooiistudios.newsflow.ui.widget.AutoResizeTextView
+            <com.yooiistudios.newskit.ui.widget.AutoResizeTextView
                 android:id="@+id/store_thank_you_text_view"
                 android:visibility="invisible"
                 android:layout_width="@dimen/store_price_thank_you_width"
@@ -149,7 +149,7 @@
                 android:maxLines="1"
                 android:includeFontPadding="false"/>
 
-            <com.yooiistudios.newsflow.ui.widget.AutoResizeTextView
+            <com.yooiistudios.newskit.ui.widget.AutoResizeTextView
                 android:id="@+id/store_purchase_text_view"
                 android:visibility="invisible"
                 android:layout_width="@dimen/store_price_purchased_width"

@@ -121,8 +121,8 @@
 -dontwarn java.awt.**
 
 # News Core
--keep class com.yooiistudios.newsflow.core.** { *; }
--dontwarn com.yooiistudios.newsflow.core.**
+-keep class com.yooiistudios.newskit.core.** { *; }
+-dontwarn com.yooiistudios.newskit.core.**
 
 # Picasso
 -dontwarn com.squareup.okhttp.**

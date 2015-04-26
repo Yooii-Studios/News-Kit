@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_grey_800"
-    tools:context="com.yooiistudios.newsflow.ui.activity.PairActivity"
+    tools:context="com.yooiistudios.newskit.ui.activity.PairActivity"
     tools:deviceIds="tv">
 
     <LinearLayout

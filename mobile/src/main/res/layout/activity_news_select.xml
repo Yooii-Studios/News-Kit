@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yooiistudios.newsflow.ui.activity.NewsSelectActivity"
+    tools:context="com.yooiistudios.newskit.ui.activity.NewsSelectActivity"
     android:background="@android:color/white">
 
     <android.support.v7.widget.Toolbar
@@ -25,7 +25,7 @@
         ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-2310680050309555/1632011421" />
 
-    <com.yooiistudios.newsflow.ui.widget.viewpager.SlidingTabLayout
+    <com.yooiistudios.newskit.ui.widget.viewpager.SlidingTabLayout
         android:id="@+id/news_select_sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

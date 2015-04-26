@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yooiistudios.newsflow" >
+    package="com.yooiistudios.newskit" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -25,7 +25,7 @@
         android:banner="@drawable/app_banner"
         android:theme="@style/Theme.Leanback" >
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.yooiistudios.newskit.ui.activity.MainActivity"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,16 +34,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.NewsActivity"
+            android:name="com.yooiistudios.newskit.ui.activity.NewsActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.NewsWebActivity"
+            android:name="com.yooiistudios.newskit.ui.activity.NewsWebActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.NewsContentActivity"
+            android:name="com.yooiistudios.newskit.ui.activity.NewsContentActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.PairActivity"
+            android:name="com.yooiistudios.newskit.ui.activity.PairActivity"
             android:screenOrientation="landscape" >
         </activity>
     </application>

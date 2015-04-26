@@ -14,34 +14,34 @@
     <!--<string name="ga_logLevel">verbose</string>-->
 
     <!-- The screen names that will appear in reports -->
-    <screenName name="com.yooiistudios.newsflow.ui.activity.MainActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.MainActivity">
         MainActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.NewsDetailActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.NewsDetailActivity">
         NewsDetailActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.NewsFeedDetailActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.NewsFeedDetailActivity">
         NewsFeedDetailActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.NewsSelectActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.NewsSelectActivity">
         NewsSelectActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.SettingActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.SettingActivity">
         SettingActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.StoreActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.StoreActivity">
         StoreActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.InfoActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.InfoActivity">
         InfoActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.CreditActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.CreditActivity">
         CreditActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.MoreInfoActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.MoreInfoActivity">
         MoreInfoActivity
     </screenName>
-    <screenName name="com.yooiistudios.newsflow.ui.activity.LicenseActivity">
+    <screenName name="com.yooiistudios.newskit.ui.activity.LicenseActivity">
         LicenseActivity
     </screenName>
     <!--  The following value should be replaced with correct property id. -->

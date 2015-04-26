@@ -65,10 +65,10 @@
     <!-- Recommend -->
     <string name="recommend_to_friends">친구에게 추천하기</string>
     <string name="recommend_title">이 멋진 앱을 확인해보세요!</string>
-    <string name="recommend_description">뉴스를 보는 새로운 방법! News Flow!</string>
+    <string name="recommend_description">뉴스를 보는 새로운 방법! News Kit!</string>
 
     <!-- Feedback -->
-    <string name="feedback_description">News Flow를 개선하기 위한 의견을 들려주세요^^</string>
+    <string name="feedback_description">News Kit를 개선하기 위한 의견을 들려주세요^^</string>
 
     <!-- Ad -->
     <string name="quit_ad_dialog_title_text">이 앱을 종료하시겠습니까?</string>
@@ -99,12 +99,12 @@
     <string name="main_network_unavailable_retry">다시 연결</string>
 
     <!-- Info -->
-    <string name="info_news_info">News Flow 정보</string>
+    <string name="info_news_info">News Kit 정보</string>
     <string name="info_credit">크레디트</string>
 
     <!-- More Info -->
     <string name="more_info_yooii_studios">Yooii Studios</string>
-    <string name="more_info_news_help">News Flow 헬프</string>
+    <string name="more_info_news_help">News Kit 헬프</string>
     <string name="more_info_version">버전</string>
     <string name="more_info_license">라이센스</string>
 
