@@ -59,25 +59,9 @@ public class MainTopFragment extends Fragment {
 
         return f;
     }
-    
+
     @SuppressWarnings("UnusedDeclaration")
     public MainTopFragment() {}
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mActivity = (MainActivity)activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnActionListener");
-        }
-
-        initImageLoader();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,8 +99,6 @@ public class MainTopFragment extends Fragment {
             return root;
         }
 
-        applyImage(holder);
-
         String newsName = mNews.getTitle();
         if (newsName != null) {
             holder.titleTextView.setText(newsName);
@@ -139,6 +121,27 @@ public class MainTopFragment extends Fragment {
         root.setTag(holder);
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        configOnActivityCreated(getActivity());
+
+        applyImage();
+    }
+
+    private void configOnActivityCreated(Activity activity) {
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mActivity = (MainActivity)activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnActionListener");
+        }
+
+        initImageLoader();
     }
 
     public void applyImage() {

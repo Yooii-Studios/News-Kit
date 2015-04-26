@@ -2,6 +2,7 @@ package com.yooiistudios.newsflow.ui.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.os.Parcelable;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
     private NewsFeed mNewsFeed;
 
     public interface OnItemClickListener extends Serializable {
-        public void onTopItemClick(MainTopFragment.ItemViewHolder viewHolder,
+        void onTopItemClick(MainTopFragment.ItemViewHolder viewHolder,
                                    NewsFeed newsFeed, int position);
     }
 
@@ -36,7 +37,6 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-//        NLTopNewsFeedViewPagerItem item = new NLTopNewsFeedViewPagerItem();
         MainTopFragment item =
                 MainTopFragment.newInstance(mNewsFeed,
                         mNewsFeed.getNewsList().get(i), i);
@@ -85,5 +85,8 @@ public class MainTopPagerAdapter extends FragmentStatePagerAdapter {
         return mFragmentSparseArray;
     }
 
-//    public boolean isFirst
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
 }
