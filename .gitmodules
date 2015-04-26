@@ -9,3 +9,6 @@
 	path = libraries/Snacktory
 	url = https://crowjdh@github.com/crowjdh/Snacktory_Android.git
 	branch = master
+[submodule "libraries/Volley"]
+	path = libraries/Volley
+	url = https://android.googlesource.com/platform/frameworks/volley
