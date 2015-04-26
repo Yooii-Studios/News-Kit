@@ -2,7 +2,7 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/news_detail_fragment"
-    android:name="com.yooiistudios.newskit.ui.fragment.NewsContentFragment"
+    android:name="com.yooiistudios.newskit.tv.model.ui.fragment.NewsContentFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity"

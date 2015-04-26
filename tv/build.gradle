@@ -9,7 +9,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.yooiistudios.newskit"
+        applicationId "com.yooiistudios.newskit.tv"
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 3

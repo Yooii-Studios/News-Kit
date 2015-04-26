@@ -14,7 +14,7 @@
     <!--<string name="ga_logLevel">verbose</string>-->
 
     <!-- The screen names that will appear in reports -->
-    <screenName name="com.yooiistudios.newskit.ui.activity.MainActivity">
+    <screenName name="MainActivity">
         MainActivity
     </screenName>
     <screenName name="com.yooiistudios.newskit.ui.activity.NewsDetailActivity">
