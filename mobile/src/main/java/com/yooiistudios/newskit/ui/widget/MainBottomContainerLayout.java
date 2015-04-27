@@ -689,7 +689,7 @@ public class MainBottomContainerLayout extends FrameLayout
                                           int newsPosition, int taskType, int whichNews) {
         NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
                 news.getGuid());
-        if (url == null && whichNews == News.DISPLAYING_NEWS) {
+        if (url == null) {
             // 이미지 url 이 없는 경우. 바로 notify 해서 더미 이미지 보여줌.
             mAdapter.notifyItemChanged(newsFeedPosition);
         }
