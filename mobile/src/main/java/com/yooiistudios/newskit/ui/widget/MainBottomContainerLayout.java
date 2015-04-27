@@ -341,11 +341,14 @@ public class MainBottomContainerLayout extends FrameLayout
                         public void onBottomImageUrlFetchSuccess(News news, String url, int newsFeedPosition, int newsPosition, int taskType) {
                             NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
                                     news.getGuid());
+                            if (url == null) {
+                                mAdapter.notifyItemChanged(newsFeedPosition);
+                            }
                         }
 
                         @Override
                         public void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType) {
-
+                            mAdapter.notifyItemChanged(newsFeedPosition);
                         }
                     }).execute();
         }
@@ -689,7 +692,7 @@ public class MainBottomContainerLayout extends FrameLayout
                                           int newsPosition, int taskType, int whichNews) {
         NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
                 news.getGuid());
-        if (url == null) {
+        if (url == null && whichNews == News.DISPLAYING_NEWS) {
             // 이미지 url 이 없는 경우. 바로 notify 해서 더미 이미지 보여줌.
             mAdapter.notifyItemChanged(newsFeedPosition);
         }
