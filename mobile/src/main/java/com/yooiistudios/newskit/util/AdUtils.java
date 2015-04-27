@@ -53,8 +53,6 @@ public class AdUtils {
             return;
         }
 
-        showMorningKitAd(context);
-
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(context);
 
         // 풀버전 구매 아이템이 없을 경우만 진행
