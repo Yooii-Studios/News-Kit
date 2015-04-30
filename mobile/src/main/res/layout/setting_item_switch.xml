@@ -24,5 +24,6 @@
         android:layout_marginRight="@dimen/base_margin"
         android:text="@string/setting_keep_screen_on"
         android:textColor="@color/material_black_primary_text"
+        android:textSize="@dimen/setting_item_title_text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 </RelativeLayout>

@@ -8,5 +8,6 @@
     android:paddingLeft="@dimen/base_margin"
     android:paddingRight="@dimen/base_margin"
     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+    android:textSize="@dimen/news_select_item_text_size"
     android:textColor="@color/news_select_item_text_color"
     android:text="CNN"/>

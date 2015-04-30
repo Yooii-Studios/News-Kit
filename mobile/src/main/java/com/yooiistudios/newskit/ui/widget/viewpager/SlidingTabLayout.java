@@ -30,6 +30,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.yooiistudios.newskit.R;
+import com.yooiistudios.newskit.core.util.Display;
 import com.yooiistudios.newskit.util.TypefaceUtils;
 
 /**
@@ -192,10 +193,20 @@ public class SlidingTabLayout extends HorizontalScrollView {
         // 이후 크기와 색만큼은 변경
         textView.setTextAppearance(getContext(), R.style.TextAppearance_AppCompat_Body2);
         textView.setTextColor(getResources().getColor(R.color.news_select_disabled_text_color)); // black with opacity 54%
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                getResources().getDimensionPixelSize(R.dimen.text_size_body_2_material));
+
+        if (Display.isTablet(getContext())) {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getResources().getDimensionPixelSize(R.dimen.text_size_subhead_material));
+        } else {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getResources().getDimensionPixelSize(R.dimen.text_size_body_2_material));
+        }
 
         int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+
+        if (Display.isTablet(getContext())) {
+            padding *= 1.5;
+        }
         textView.setPadding(padding, 0, padding, 0);
 
         return textView;

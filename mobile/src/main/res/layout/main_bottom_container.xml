@@ -41,8 +41,7 @@
                     android:id="@+id/bottom_news_feed_more_panel_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="@dimen/text_size_body_1_material"
+                    android:textSize="@dimen/main_add_more_panel_text_size"
                     android:textColor="@color/material_white_primary_text"
                     android:text="@string/add_more_panels"/>
             </LinearLayout>
