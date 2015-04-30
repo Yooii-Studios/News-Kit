@@ -98,6 +98,7 @@
     <dimen name="custom_news_feed_dialog_edit_text_size">18sp</dimen>
 
     <dimen name="news_select_item_height">56dp</dimen>
+    <dimen name="news_select_item_text_size">@dimen/text_size_subhead_material</dimen>
 
     <!-- Debug -->
     <dimen name="dialog_bezier_label_width">100dp</dimen>
@@ -154,7 +155,6 @@
     <dimen name="setting_item_auto_refresh_text_size">17sp</dimen>
 
     <!-- Info -->
-    <dimen name="info_text_size">@dimen/text_size_subhead_material</dimen>
 
     <!-- Credit -->
     <dimen name="info_credit_title_font_size">14sp</dimen>
