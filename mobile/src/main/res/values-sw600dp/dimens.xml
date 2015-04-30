@@ -78,6 +78,8 @@
     <dimen name="news_select_row_padding">15dp</dimen>
     <!--<dimen name="custom_news_feed_dialog_clear_btn_size">45dp</dimen>-->
 
+    <dimen name="news_select_item_height">67.2dp</dimen>
+
     <!-- Store -->
     <dimen name="store_toolbar_elevation">3dp</dimen>
     <dimen name="store_bg_banner_height">321dp</dimen>
@@ -124,6 +126,9 @@
     <!-- Setting -->
     <dimen name="setting_item_imageview_size">45dp</dimen>
     <dimen name="setting_item_imageview_end_margin">15dp</dimen>
+
+    <!-- Info -->
+    <dimen name="info_text_size">@dimen/text_size_title_material</dimen>
 
     <!-- Credit -->
     <dimen name="info_credit_title_font_size">17sp</dimen>          <!--Done-->
