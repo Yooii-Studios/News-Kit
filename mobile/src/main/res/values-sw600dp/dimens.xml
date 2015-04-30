@@ -50,8 +50,8 @@
     <dimen name="loading_circle_stroke_width">9dp</dimen>
 
     <!-- Newsfeed Detail -->
-    <dimen name="detail_text_padding">24dp</dimen>
-    <dimen name="detail_text_inner_padding">6dp</dimen>
+    <dimen name="detail_text_padding">@dimen/base_margin_middle</dimen>
+    <dimen name="detail_text_inner_padding">4.5dp</dimen>
     <dimen name="detail_text_wide_padding">30dp</dimen>
 
     <!-- Detail Top -->
