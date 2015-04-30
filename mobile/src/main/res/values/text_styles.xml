@@ -69,7 +69,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_gravity">bottom</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
-        <item name="android:textSize">@dimen/main_newsfeed_title_text_size</item>
+        <item name="android:textSize">@dimen/main_bottom_news_feed_title_text_size</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 

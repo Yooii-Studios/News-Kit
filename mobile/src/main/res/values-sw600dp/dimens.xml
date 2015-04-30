@@ -11,8 +11,16 @@
     <dimen name="margin_inner">4.5dp</dimen>
     <dimen name="margin_outer">9dp</dimen>
 
+    <dimen name="base_margin">24dp</dimen>
+    <dimen name="base_margin_double">48dp</dimen>
+    <dimen name="base_margin_middle">18dp</dimen>
+    <dimen name="base_margin_half">12dp</dimen>
+    <dimen name="base_margin_small">6dp</dimen>
+
+    <dimen name="edit_text_cursor_width">2dp</dimen>
+
     <!-- Main General -->
-    <dimen name="main_newsfeed_title_text_size">15sp</dimen>
+
 
     <!-- Main Top -->
     <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
@@ -24,9 +32,13 @@
     <dimen name="main_bottom_margin_small">3dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1.5dp</dimen>
     <dimen name="main_bottom_card_view_title_size">30sp</dimen>
-    <dimen name="main_bottom_title_text_size">27sp</dimen> <!-- 나중에 머티리얼에서 사이즈 찾자 -->
-    <dimen name="main_bottom_text_padding">24dp</dimen>
+    <dimen name="main_bottom_title_text_size">27sp</dimen>
+    <dimen name="main_bottom_text_padding">28dp</dimen>
     <dimen name="main_bottom_news_feed_title_padding">12dp</dimen>
+    <dimen name="main_bottom_news_feed_title_text_size">15sp</dimen>
+
+    <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
+    <dimen name="main_add_more_panel_text_size">@dimen/text_size_headline_material</dimen>
 
     <!-- Loading Animation -->
     <dimen name="loading_anim_padding">6dp</dimen>
