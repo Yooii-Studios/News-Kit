@@ -127,6 +127,12 @@
     <!-- Setting -->
     <dimen name="setting_item_imageview_size">45dp</dimen>
     <dimen name="setting_item_imageview_end_margin">15dp</dimen>
+    <dimen name="setting_item_pair_tv_edittext_height">60dp</dimen>
+    <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
+    <dimen name="setting_item_auto_refresh_text_size">@dimen/text_size_title_material</dimen>
+
+    <dimen name="setting_item_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="setting_item_description_text_size">@dimen/text_size_subhead_material</dimen>
 
     <!-- Info -->
 
