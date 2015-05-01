@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.iab.IabProducts;
-import com.yooiistudios.newskit.iab.util.Inventory;
 import com.yooiistudios.newskit.util.StoreDebugCheckUtils;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,7 +33,8 @@ public class StoreProductItemAdapter extends BaseAdapter {
     public static final int NUM_OF_PRODUCT = 3;
     private Context mContext;
     private List<String> mOwnedSkus;
-    private Inventory mInventory;
+    private Map<String, String> mPrices;
+//    private Inventory mInventory;
 
     private StoreItemOnClickListener mListener;
 
@@ -43,11 +44,11 @@ public class StoreProductItemAdapter extends BaseAdapter {
 
     @SuppressWarnings("UnusedDeclaration")
     private StoreProductItemAdapter(){}
-    public StoreProductItemAdapter(Context context, Inventory inventory,
+    public StoreProductItemAdapter(Context context, Map<String, String> prices,
                                    StoreItemOnClickListener storeGridViewOnClickListener) {
         mContext = context;
         mOwnedSkus = IabProducts.loadOwnedIabProducts(context);
-        mInventory = inventory;
+        mPrices = prices;
 
         // debug
         mListener = storeGridViewOnClickListener;
@@ -162,14 +163,12 @@ public class StoreProductItemAdapter extends BaseAdapter {
         String sku = (String) viewHolder.getPriceButton().getTag();
 
         // Google
-        if (mInventory != null) {
-            if (mInventory.hasDetails(sku)) {
-                if (mInventory.hasPurchase(sku)) {
-                    viewHolder.getPriceButton().setText(R.string.store_purchased);
-                    viewHolder.getPriceButton().setBackgroundResource(R.drawable.store_btn_raised_disable_drawable);
-                } else {
-                    viewHolder.getPriceButton().setText(mInventory.getSkuDetails(sku).getPrice());
-                }
+        if (mPrices != null) {
+            if (IabProducts.containsSku(mContext, sku)) {
+                viewHolder.getPriceButton().setText(R.string.store_purchased);
+                viewHolder.getPriceButton().setBackgroundResource(R.drawable.store_btn_raised_disable_drawable);
+            } else {
+                viewHolder.getPriceButton().setText(mPrices.get(sku));
             }
         }
 
