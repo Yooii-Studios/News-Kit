@@ -5,7 +5,8 @@ import java.util.Map;
 /**
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 9.
  *
- * SKIabManagerListener
+ * IabListener
+ *  In-App-Billing 이벤트 콜백
  */
 public interface IabListener {
     void onIabSetupFinished();

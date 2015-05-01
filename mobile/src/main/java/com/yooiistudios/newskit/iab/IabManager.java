@@ -4,6 +4,9 @@ import android.content.Intent;
 
 /**
  * Created by Dongheyon Jeong in News-Kit from Yooii Studios Co., LTD. on 15. 5. 1.
+ *
+ * IabManager
+ *  In-App-Billing 이 공통적으로 제공하는 인터페이스를 추상화
  */
 public abstract class IabManager {
     public abstract void setup();

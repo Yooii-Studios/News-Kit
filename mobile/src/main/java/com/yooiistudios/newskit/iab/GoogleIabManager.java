@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
  * Created by StevenKim in Morning Kit from Yooii Studios Co., LTD. on 2014. 1. 9.
  *
  * SKIabManager
- *  In-App-Billing 과 관련된 로직을 래핑한 클래스
+ *  In-App-Billing(Google) 과 관련된 로직을 래핑한 클래스
  */
 @Accessors(prefix = "m")
 public class GoogleIabManager extends IabManager {
