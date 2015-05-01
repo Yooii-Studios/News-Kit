@@ -33,7 +33,9 @@
     <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>
     <dimen name="main_top_view_pager_page_margin">@dimen/base_margin_small</dimen>
+    <dimen name="main_top_view_pager_indicator_width">127.5dp</dimen>
     <dimen name="main_top_news_feed_title_padding">15dp</dimen>
+    <dimen name="main_top_news_status_icon_image_view_size">165dp</dimen>
 
     <!-- Main Bottom -->
     <dimen name="main_bottom_margin_small">3dp</dimen>
