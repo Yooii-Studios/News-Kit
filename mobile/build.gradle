@@ -28,7 +28,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    productFlavors {
+        // 기본적으로 defaultConfig 의 속성을 상속받는다.
+        // flavor 마다 다른 속성을 지정하고 싶다면 아래와 같이 오버라이드 가능하다
+        // https://developer.android.com/tools/building/configuring-gradle.html#workBuildVariants
+        // http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/
+        google {
+            /*
+            applicationId "com.yooiistudios.flavortest.google"
+            versionName "1.0-google"
+            */
+        }
+        naver {
+            /*
+            applicationId "com.yooiistudios.flavortest.naver"
+            versionName "1.0-naver"
+            */
+        }
+    }
     /*
     signingConfigs {
         release {
