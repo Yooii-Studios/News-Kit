@@ -7,7 +7,7 @@
     <style name="MainBottomItemTitleText" parent="MainBottomItemTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
         <item name="android:textSize">@dimen/main_bottom_title_text_size</item>
-        <item name="android:lineSpacingMultiplier">1.14</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 
     <style name="MainTopItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
