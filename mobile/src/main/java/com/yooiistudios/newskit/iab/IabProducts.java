@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.naver.android.appstore.iap.Purchase;
+import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newskit.iab.naver.NIAPUtils;
 import com.yooiistudios.newskit.iab.util.Inventory;
@@ -32,18 +33,16 @@ public class IabProducts {
     private static final String SHARED_PREFERENCES_IAB = "SHARED_PREFERENCES_IAB";
     private static final String SHARED_PREFERENCES_IAB_DEBUG = "SHARED_PREFERENCES_IAB_DEBUG";
 
-    public static final StoreType STORE_TYPE = StoreType.GOOGLE;
-
     public static ArrayList<String> makeProductKeyList() {
         ArrayList<String> iabKeyList = new ArrayList<>();
-        if (STORE_TYPE == StoreType.GOOGLE) {
+        if (IabInfo.STORE_TYPE == StoreType.GOOGLE) {
             iabKeyList.add(SKU_PRO_VERSION_ORIGINAL);
             iabKeyList.add(SKU_PRO_VERSION);
             iabKeyList.add(SKU_NO_ADS);
             iabKeyList.add(SKU_MORE_PANELS);
 //        iabKeyList.add(SKU_TOPIC_SELECT);
             iabKeyList.add(SKU_CUSTOM_RSS_URL);
-        } if (STORE_TYPE == StoreType.NAVER) {
+        } if (IabInfo.STORE_TYPE == StoreType.NAVER) {
             iabKeyList = NIAPUtils.getAllProducts();
         }
         return iabKeyList;

@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
+import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrixUtils;
@@ -193,11 +194,11 @@ public class StoreActivity extends ActionBarActivity implements IabListener,
     }
 
     private boolean isUsingGoogleStore() {
-        return IabProducts.STORE_TYPE == IabProducts.StoreType.GOOGLE;
+        return IabInfo.STORE_TYPE == IabProducts.StoreType.GOOGLE;
     }
 
     private boolean isUsingNaverStore() {
-        return IabProducts.STORE_TYPE == IabProducts.StoreType.NAVER;
+        return IabInfo.STORE_TYPE == IabProducts.StoreType.NAVER;
     }
 
     /**
