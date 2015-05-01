@@ -1,0 +1,69 @@
+<resources>
+    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
+
+    <!-- General -->
+    <dimen name="admob_smart_banner_height">100dp</dimen>
+    <dimen name="admob_upper_divider_height">1.7dp</dimen>
+    <dimen name="margin_inner">5.1dp</dimen>
+    <dimen name="margin_outer">10.2dp</dimen>
+
+    <dimen name="base_margin">27.2dp</dimen>
+    <dimen name="base_margin_double">54.4dp</dimen>
+    <dimen name="base_margin_middle">20.4dp</dimen>
+    <dimen name="base_margin_half">13.6dp</dimen>
+    <dimen name="base_margin_small">6.8dp</dimen>
+
+    <dimen name="edit_text_cursor_width">3.4dp</dimen>
+
+    <!-- Main Network Unavailable -->
+    <dimen name="main_network_unavailable_image_size">187dp</dimen>
+    <dimen name="main_network_unavailable_text_size">30.6sp</dimen>
+    <dimen name="main_network_unavailable_margin_small">30.6dp</dimen>
+    <dimen name="main_network_unavailable_margin_large">85dp</dimen>
+
+    <!-- Main General -->
+    <dimen name="main_edit_button_size">81.6dp</dimen>
+    <dimen name="main_edit_button_margin">6.8dp</dimen>
+    <dimen name="main_edit_button_margin_large">13.6dp</dimen>
+
+    <!-- Main Top -->
+    <dimen name="main_top_view_pager_height">486.2dp</dimen>      <!-- 56 * 5 -->
+    <dimen name="main_top_view_pager_title_padding">51dp</dimen>
+    <dimen name="main_top_view_pager_page_margin">@dimen/base_margin_small</dimen>
+    <dimen name="main_top_news_feed_title_padding">@dimen/base_margin</dimen>
+    <dimen name="main_top_news_status_icon_image_view_size">187dp</dimen>
+
+    <!-- Main Bottom -->
+    <dimen name="main_bottom_margin_small">3.4dp</dimen>
+    <dimen name="main_bottom_card_view_elevation">1.7dp</dimen>
+    <dimen name="main_bottom_card_view_title_size">34sp</dimen>
+    <dimen name="main_bottom_text_padding">30dp</dimen>
+    <dimen name="main_bottom_title_text_size">@dimen/text_size_display_1_material</dimen>
+    <dimen name="main_bottom_title_margin_bottom">@dimen/base_margin_half</dimen>
+    <dimen name="main_bottom_news_feed_title_padding">@dimen/base_margin_middle</dimen>
+    <dimen name="main_bottom_news_feed_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="main_bottom_status_image_view_size_portrait">93.5dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_landscape">71.4dp</dimen>
+    <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
+    <dimen name="main_add_more_panel_text_size">@dimen/text_size_title_material</dimen>
+
+    <!-- Store Ad Dialog * 1.7 -->
+    <dimen name="store_ad_dialog_layout_width">508.3dp</dimen>
+    <dimen name="store_ad_dialog_title_text_size">32.3sp</dimen>
+    <dimen name="store_ad_dialog_title_padding_top_bottom">18.7dp</dimen>
+    <dimen name="store_ad_dialog_title_padding_left_right">25.5dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_height">0.85dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_margin_left_right">13.6dp</dimen>
+    <dimen name="store_ad_dialog_image_layout_padding">5.1dp</dimen>
+    <dimen name="store_ad_dialog_image_width">503.2dp</dimen>
+    <dimen name="store_ad_dialog_image_text_margin_top">1.7dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">76.5dp</dimen>
+    <dimen name="store_ad_dialog_sub_desc_text_size">18.7sp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_width">144.5dp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_margin_top">149.6dp</dimen>
+    <dimen name="store_ad_dialog_icon_img_width">74.8dp</dimen>
+    <dimen name="store_ad_dialog_button_layout_height">76.5dp</dimen>
+    <dimen name="store_ad_dialog_button_text_size">25.5sp</dimen>
+</resources>
