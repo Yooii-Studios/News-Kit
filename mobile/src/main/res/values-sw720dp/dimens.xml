@@ -59,6 +59,49 @@
     <dimen name="loading_circle_view_size">180.2dp</dimen> <!-- 100dp + 1/2 stroke * 2(양쪽)-->
     <dimen name="loading_circle_stroke_width">10.2dp</dimen>
 
+    <!-- Store -->
+    <dimen name="store_toolbar_elevation">5.1dp</dimen>
+    <dimen name="store_bg_banner_height">363.8dp</dimen>
+    <dimen name="store_title_margin_top">18dp</dimen>
+    <dimen name="store_title_margin_left">24dp</dimen>
+    <dimen name="store_title_margin_mid">0dp</dimen>
+    <dimen name="store_title_margin_bottom">0dp</dimen>
+    <dimen name="store_title_font_size">51sp</dimen>
+    <dimen name="store_description_margin_mid">-1.5dp</dimen>
+    <dimen name="store_description_font_size">18sp</dimen>
+    <dimen name="store_icon_banner_margin_left">24dp</dimen>
+    <dimen name="store_icon_banner_margin_bottom">60dp</dimen>
+    <dimen name="store_icon_banner_size">60dp</dimen>
+    <dimen name="store_icon_discount_banner_size">72dp</dimen>
+    <dimen name="store_icon_discount_banner_margin_bottom">54dp</dimen>
+    <dimen name="store_icon_banner_margin_mid">6dp</dimen>
+    <dimen name="store_price_button_width">126dp</dimen>
+    <dimen name="store_price_button_height">109.5dp</dimen>
+    <dimen name="store_price_discounted_price_text_margin_bottom">19.5dp</dimen>
+    <dimen name="store_price_discounted_price_text_margin_right">12dp</dimen>
+    <dimen name="store_price_discounted_price_width">100.5dp</dimen>
+    <dimen name="store_price_discounted_price_font_size">36sp</dimen>
+    <dimen name="store_price_original_price_width">60dp</dimen>
+    <dimen name="store_price_original_price_margin_bottom">-4.5dp</dimen>
+    <dimen name="store_price_original_price_font_size">21sp</dimen>
+    <dimen name="store_price_purchased_width">106.5dp</dimen>
+    <dimen name="store_price_purchased_margin_right">9dp</dimen>
+    <dimen name="store_price_purchased_margin_bottom">24dp</dimen>
+    <dimen name="store_price_purchased_font_size">21sp</dimen>
+    <dimen name="store_price_thank_you_width">94.5dp</dimen>
+    <dimen name="store_price_thank_you_font_size">18sp</dimen>
+    <dimen name="store_item_list_view_margin_top">12dp</dimen>
+    <dimen name="store_item_height">84dp</dimen>
+    <dimen name="store_item_height_with_description">162dp</dimen>
+    <dimen name="store_item_base_margin">24dp</dimen>
+    <dimen name="store_item_text_margin">21dp</dimen>
+    <dimen name="store_item_text_margin_mid">3dp</dimen>
+    <dimen name="store_item_title_text_size">24sp</dimen>
+    <dimen name="store_item_description_text_size">21sp</dimen>
+    <dimen name="store_item_price_button_width">138dp</dimen>
+    <dimen name="store_item_price_button_height">54dp</dimen>
+    <dimen name="store_item_price_button_elevation">3dp</dimen>
+
     <!-- Store Ad Dialog * 1.7 -->
     <dimen name="store_ad_dialog_layout_width">520dp</dimen>
     <dimen name="store_ad_dialog_title_text_size">32.3sp</dimen>
