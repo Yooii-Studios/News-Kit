@@ -82,8 +82,11 @@
     <dimen name="fab_margin">24dp</dimen>
 
     <!-- News Select -->
-    <dimen name="news_select_row_padding">15dp</dimen>
-    <!--<dimen name="custom_news_feed_dialog_clear_btn_size">45dp</dimen>-->
+    <dimen name="news_select_sliding_tab_height">48dp</dimen>
+    <dimen name="news_select_elevation">3dp</dimen>
+    <dimen name="news_select_sliding_tab_horizontal_margin">8dp</dimen>
+
+    <dimen name="custom_news_feed_dialog_edit_text_size">18sp</dimen>
 
     <dimen name="news_select_item_height">62dp</dimen>
     <dimen name="news_select_item_text_size">18sp</dimen>

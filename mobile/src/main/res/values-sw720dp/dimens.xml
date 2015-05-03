@@ -59,6 +59,16 @@
     <dimen name="loading_circle_view_size">180.2dp</dimen> <!-- 100dp + 1/2 stroke * 2(양쪽)-->
     <dimen name="loading_circle_stroke_width">10.2dp</dimen>
 
+    <!-- News Select -->
+    <dimen name="news_select_sliding_tab_height">60dp</dimen>
+    <dimen name="news_select_elevation">3.4dp</dimen>
+    <dimen name="news_select_sliding_tab_horizontal_margin">13.6dp</dimen>
+
+    <dimen name="custom_news_feed_dialog_edit_text_size">30.6sp</dimen>
+
+    <dimen name="news_select_item_height">72dp</dimen>
+    <dimen name="news_select_item_text_size">@dimen/text_size_title_material</dimen>
+
     <!-- Store -->
     <dimen name="store_toolbar_elevation">5.1dp</dimen>
     <dimen name="store_bg_banner_height">363.8dp</dimen>

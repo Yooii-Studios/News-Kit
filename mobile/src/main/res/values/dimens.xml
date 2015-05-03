@@ -74,24 +74,12 @@
     <!-- News Detail -->
     <dimen name="progress_bar_height">10dp</dimen>
     <dimen name="progress_bar_margin_top">-4dp</dimen>
-    <dimen name="fab_elevation">2dp</dimen>
-    <dimen name="fab_press_translation_z">2dp</dimen>
-    <dimen name="fab_size">56dp</dimen>
-    <dimen name="fab_size_small">40dp</dimen>
-    <dimen name="fab_icon_size">24dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="fab_scroll_threshold">4dp</dimen>
 
     <!-- News Select -->
     <dimen name="news_select_sliding_tab_height">48dp</dimen>
     <dimen name="news_select_elevation">2dp</dimen>
     <dimen name="news_select_sliding_tab_horizontal_margin">8dp</dimen>
 
-    <dimen name="news_select_row_padding">10dp</dimen>
-    <!--<dimen name="custom_news_feed_dialog_clear_btn_size">25dp</dimen>-->
-    <!--<dimen name="custom_news_feed_dialog_clear_btn_right_padding">38dp</dimen>-->
-    <!--<dimen name="custom_news_feed_dialog_height">65dp</dimen>-->
-    <!--<dimen name="custom_news_feed_dialog_padding">10dp</dimen>-->
     <dimen name="custom_news_feed_dialog_edit_text_size">18sp</dimen>
 
     <dimen name="news_select_item_height">56dp</dimen>
