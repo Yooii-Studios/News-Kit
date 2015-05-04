@@ -192,6 +192,8 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
+        setContentVisibility(View.INVISIBLE);
+
         initToolbar();
         initRefreshLayout();
         initBannerAdView();
@@ -204,6 +206,10 @@ public class MainActivity extends ActionBarActivity
         requestSystemWindowsBottomInset();
 
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void setContentVisibility(int invisible) {
+        mScrollingContent.setVisibility(invisible);
     }
 
     private void removeNetworkUnavailableCover() {
@@ -505,6 +511,11 @@ public class MainActivity extends ActionBarActivity
         if (mRootLayout != null) {
             mImageLoader.closeCache();
         }
+    }
+
+    @Override
+    public void onBackgroundFadeOutAnimationStart() {
+        setContentVisibility(View.VISIBLE);
     }
 
     @Override
