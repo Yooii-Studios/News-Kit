@@ -329,13 +329,28 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             @Override
             public boolean onPreDraw() {
                 mToolbar.getViewTreeObserver().removeOnPreDrawListener(this);
+                Context context = NewsFeedDetailActivity.this;
+                int ratio;
+                int gradientHeight;
                 if (Device.hasLollipop()) {
-                    mTopGradientShadowView.getLayoutParams().height = (mToolbar.getHeight() + statusBarSize) * 2;
+                    if (Display.isTablet(context) && Device.isPortrait(context)) {
+                        ratio = 3;
+                    } else {
+                        ratio = 2;
+                    }
+                    gradientHeight = (mToolbar.getHeight() + statusBarSize) * ratio;
                     mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight() + statusBarSize;
                 } else {
-                    mTopGradientShadowView.getLayoutParams().height = mToolbar.getHeight() * 3;
+                    if (Display.isTablet(context) && Device.isPortrait(context)) {
+                        ratio = 4;
+                    } else {
+                        ratio = 3;
+                    }
+                    gradientHeight = mToolbar.getHeight() * ratio;
                     mToolbarOverlayView.getLayoutParams().height = mToolbar.getHeight();
                 }
+                mTopGradientShadowView.getLayoutParams().height = gradientHeight;
+
                 return false;
             }
         });
