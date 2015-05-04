@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="@dimen/dialog_bezier_label_width"
-            android:layout_height="@dimen/dialog_bezier_row_height"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="Root bound width"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="@dimen/dialog_bezier_label_width"
-            android:layout_height="@dimen/dialog_bezier_row_height"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="Root bound height"/>
 
         <LinearLayout
@@ -62,8 +62,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="@dimen/dialog_bezier_label_width"
-            android:layout_height="@dimen/dialog_bezier_row_height"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="image_scale"/>
 
         <LinearLayout
@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="@dimen/dialog_bezier_label_width"
-            android:layout_height="@dimen/dialog_bezier_row_height"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="Transition"/>
 
         <LinearLayout

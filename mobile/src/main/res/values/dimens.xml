@@ -82,10 +82,6 @@
     <dimen name="news_select_item_height">56dp</dimen>
     <dimen name="news_select_item_text_size">@dimen/text_size_subhead_material</dimen>
 
-    <!-- Debug -->
-    <dimen name="dialog_bezier_label_width">100dp</dimen>
-    <dimen name="dialog_bezier_row_height">50dp</dimen>
-
     <!-- Store -->
     <dimen name="store_toolbar_elevation">3dp</dimen>
     <dimen name="store_bg_banner_height">214dp</dimen>
