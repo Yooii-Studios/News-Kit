@@ -17,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -69,13 +68,17 @@ public class NewsFeedFetchUtil {
             } else {
                 newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_NO_NEWS);
             }
-        } catch(MalformedURLException | UnknownHostException e) {
+        } catch(MalformedURLException e) {
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
         } catch(SocketTimeoutException e) {
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
         } catch(IOException | SAXException e) {
+            // 기존에는 UnknownHostException 을 MalformedURLException 과 함께 잡았지만
+            // 인터넷이 안되는 상황에서도 UnknownHostException 이 발생, ERROR_INVALID_URL 로 처리되어
+            // 부정확한 데이터를 저장하고 있었음.
+            // UnknownHostException 의 경우 IOException 의 sub class 이므로 자동적으로 이 곳에서 처리되게 됨.
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
         }

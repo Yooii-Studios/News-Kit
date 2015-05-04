@@ -243,6 +243,7 @@ public class MainTopContainerLayout extends FrameLayout
     }
 
     public boolean isReady() {
+        // TODO: unavailable 시 swipe refresh 안됨
         return mIsReady;
     }
 
