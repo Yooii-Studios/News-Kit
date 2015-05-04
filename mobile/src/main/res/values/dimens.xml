@@ -46,7 +46,7 @@
     <dimen name="main_bottom_status_image_view_size_landscape">42dp</dimen>
     <dimen name="main_bottom_status_msg_text_size">@dimen/text_size_body_1_material</dimen>
     <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
-    <dimen name="main_add_more_panel_text_size">@dimen/text_size_body_1_material</dimen>
+    <dimen name="main_add_more_panel_text_size">@dimen/text_size_subhead_material</dimen>
 
     <!-- Loading Animation -->
     <dimen name="loading_anim_padding">4dp</dimen>
