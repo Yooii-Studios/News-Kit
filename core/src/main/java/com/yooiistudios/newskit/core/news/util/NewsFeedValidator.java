@@ -49,10 +49,10 @@ public class NewsFeedValidator {
         int count = newsFeeds.size();
         for (int i = 0; i < count; i++) {
             NewsFeed newsFeed = newsFeeds.get(i);
-            NewsFeedFetchState state = newsFeed.getNewsFeedFetchState();
-            if (state.equals(NewsFeedFetchState.NOT_FETCHED_YET)
-                    || state.equals(NewsFeedFetchState.ERROR_TIMEOUT)) {
-                // 시간 초과로 불러오지 못한 경우 재시도하면 불러올 가능성이 있기에 true 를 반환함
+            if (shouldTryToFetch(newsFeed)) {
+                // 1. 시간 초과
+                // 2. 알 수 없는 이유
+                // 로 불러오지 못한 경우 재시도하면 불러올 가능성이 있기에 true 를 반환함
                 return true;
             }
         }
@@ -60,24 +60,10 @@ public class NewsFeedValidator {
         return false;
     }
 
-    public static boolean isAllFetched(ArrayList<NewsFeed> newsFeeds) {
-        int count = newsFeeds.size();
-        for (int i = 0; i < count; i++) {
-            NewsFeed newsFeed = newsFeeds.get(i);
-            if (newsFeed.getNewsFeedFetchState().equals(NewsFeedFetchState.NOT_FETCHED_YET)) {
-                return false;
-            }
-        }
-
-        return true;
+    public static boolean shouldTryToFetch(NewsFeed newsFeed) {
+        NewsFeedFetchState state = newsFeed.getNewsFeedFetchState();
+        return state.equals(NewsFeedFetchState.NOT_FETCHED_YET)
+                || state.equals(NewsFeedFetchState.ERROR_TIMEOUT)
+                || state.equals(NewsFeedFetchState.ERROR_UNKNOWN);
     }
-
-//    public static boolean isDisplayable(NewsFeed newsFeed) {
-//        return !isInvalid(newsFeed);
-//    }
-//
-//    public static boolean isInvalid(NewsFeed newsFeed) {
-//        return !newsFeed.isDisplayable();
-////        return newsFeed == null || !newsFeed.containsNews();
-//    }
 }
