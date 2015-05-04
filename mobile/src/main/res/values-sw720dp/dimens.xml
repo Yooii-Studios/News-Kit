@@ -32,6 +32,7 @@
     <dimen name="main_top_view_pager_indicator_width">144.5dp</dimen>
     <dimen name="main_top_news_feed_title_padding">@dimen/base_margin</dimen>
     <dimen name="main_top_news_status_icon_image_view_size">187dp</dimen>
+    <dimen name="main_top_news_status_msg_text_size">38sp</dimen>
 
     <!-- Main Bottom -->
     <dimen name="main_bottom_margin_small">3.4dp</dimen>
@@ -43,6 +44,7 @@
     <dimen name="main_bottom_news_feed_title_text_size">@dimen/text_size_title_material</dimen>
     <dimen name="main_bottom_status_image_view_size_portrait">93.5dp</dimen>
     <dimen name="main_bottom_status_image_view_size_landscape">71.4dp</dimen>
+    <dimen name="main_bottom_status_msg_text_size">28sp</dimen>
     <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
     <dimen name="main_add_more_panel_text_size">28sp</dimen>
 
