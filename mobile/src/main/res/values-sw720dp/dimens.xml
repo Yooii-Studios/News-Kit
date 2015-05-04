@@ -125,6 +125,26 @@
     <dimen name="store_item_price_button_height">54dp</dimen>
     <dimen name="store_item_price_button_elevation">3dp</dimen>
 
+    <!-- Setting: 7인치와 동일하게 -->
+    <dimen name="setting_item_pair_tv_edittext_height">60dp</dimen>
+    <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
+    <dimen name="setting_item_auto_refresh_text_size">@dimen/text_size_title_material</dimen>
+
+    <dimen name="setting_item_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="setting_item_description_text_size">@dimen/text_size_subhead_material</dimen>
+
+    <!-- Info -->
+
+    <!-- Credit -->
+    <dimen name="info_credit_title_font_size">@dimen/text_size_title_material</dimen>
+    <dimen name="info_credit_name_font_size">30sp</dimen>
+    <dimen name="info_credit_name_left_margin">18dp</dimen>
+    <dimen name="info_credit_padding">15dp</dimen>
+
+    <!-- License -->
+    <dimen name="more_info_license_title_text_size">@dimen/text_size_display_1_material</dimen>
+    <dimen name="more_info_license_description_text_size">@dimen/text_size_headline_material</dimen>
+
     <!-- Store Ad Dialog * 1.7 -->
     <dimen name="store_ad_dialog_layout_width">520dp</dimen>
     <dimen name="store_ad_dialog_title_text_size">32.3sp</dimen>

@@ -173,8 +173,6 @@
     -->
 
     <!-- Setting -->
-    <dimen name="setting_item_imageview_size">45dp</dimen>
-    <dimen name="setting_item_imageview_end_margin">15dp</dimen>
     <dimen name="setting_item_pair_tv_edittext_height">60dp</dimen>
     <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
     <dimen name="setting_item_auto_refresh_text_size">@dimen/text_size_title_material</dimen>
@@ -185,8 +183,8 @@
     <!-- Info -->
 
     <!-- Credit -->
-    <dimen name="info_credit_title_font_size">17sp</dimen>          <!--Done-->
-    <dimen name="info_credit_name_font_size">24sp</dimen>           <!--Done-->
+    <dimen name="info_credit_title_font_size">@dimen/text_size_title_material</dimen>
+    <dimen name="info_credit_name_font_size">@dimen/text_size_headline_material</dimen>
     <dimen name="info_credit_name_left_margin">18dp</dimen>
     <dimen name="info_credit_padding">15dp</dimen>
 

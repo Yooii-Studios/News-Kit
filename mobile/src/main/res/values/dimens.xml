@@ -126,8 +126,6 @@
     <dimen name="store_item_price_button_elevation">2dp</dimen>
 
     <!-- Setting -->
-    <dimen name="setting_item_imageview_size">30dp</dimen>
-    <dimen name="setting_item_imageview_end_margin">10dp</dimen>
     <dimen name="setting_item_pair_tv_edittext_height">50dp</dimen>
     <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
     <dimen name="setting_item_auto_refresh_text_size">@dimen/text_size_subhead_material</dimen>
@@ -138,8 +136,8 @@
     <!-- Info -->
 
     <!-- Credit -->
-    <dimen name="info_credit_title_font_size">14sp</dimen>
-    <dimen name="info_credit_name_font_size">19sp</dimen>
+    <dimen name="info_credit_title_font_size">@dimen/text_size_subhead_material</dimen>
+    <dimen name="info_credit_name_font_size">@dimen/text_size_title_material</dimen>
     <dimen name="info_credit_name_left_margin">12dp</dimen>
     <dimen name="info_credit_padding">10dp</dimen>
 
