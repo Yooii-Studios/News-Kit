@@ -71,13 +71,8 @@
     <dimen name="detail_bottom_divider_height">1.5dp</dimen>
 
     <!-- News Detail -->
-    <dimen name="progress_margin_offset">6dp</dimen>
-    <dimen name="fab_elevation">3dp</dimen>
-    <dimen name="fab_press_translation_z">3dp</dimen>
-    <dimen name="fab_size">84dp</dimen>
-    <dimen name="fab_size_small">60dp</dimen>
-    <dimen name="fab_icon_size">36dp</dimen>
-    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="progress_bar_height">15dp</dimen>
+    <dimen name="progress_bar_margin_top">-6dp</dimen>
 
     <!-- News Select -->
     <dimen name="news_select_sliding_tab_height">48dp</dimen>
@@ -132,50 +127,6 @@
     <dimen name="store_item_price_button_height">43.2dp</dimen>
     <dimen name="store_item_price_button_elevation">2.4dp</dimen>
 
-    <!-- 1.5배
-    <dimen name="store_toolbar_elevation">3dp</dimen>
-    <dimen name="store_bg_banner_height">321dp</dimen>
-    <dimen name="store_title_margin_top">18dp</dimen>
-    <dimen name="store_title_margin_left">24dp</dimen>
-    <dimen name="store_title_margin_mid">0dp</dimen>
-    <dimen name="store_title_margin_bottom">0dp</dimen>
-    <dimen name="store_title_font_size">51sp</dimen>
-    <dimen name="store_description_margin_mid">-1.5dp</dimen>
-    <dimen name="store_description_font_size">18sp</dimen>
-    <dimen name="store_icon_banner_margin_left">24dp</dimen>
-    <dimen name="store_icon_banner_margin_bottom">60dp</dimen>
-    <dimen name="store_icon_banner_size">60dp</dimen>
-    <dimen name="store_icon_discount_banner_size">72dp</dimen>
-    <dimen name="store_icon_discount_banner_margin_bottom">54dp</dimen>
-    <dimen name="store_icon_banner_margin_mid">6dp</dimen>
-    <dimen name="store_price_button_width">126dp</dimen>
-    <dimen name="store_price_button_height">109.5dp</dimen>
-    <dimen name="store_price_discounted_price_text_margin_bottom">19.5dp</dimen>
-    <dimen name="store_price_discounted_price_text_margin_right">12dp</dimen>
-    <dimen name="store_price_discounted_price_width">100.5dp</dimen>
-    <dimen name="store_price_discounted_price_font_size">36sp</dimen>
-    <dimen name="store_price_original_price_width">60dp</dimen>
-    <dimen name="store_price_original_price_margin_bottom">-4.5dp</dimen>
-    <dimen name="store_price_original_price_font_size">21sp</dimen>
-    <dimen name="store_price_purchased_width">106.5dp</dimen>
-    <dimen name="store_price_purchased_margin_right">9dp</dimen>
-    <dimen name="store_price_purchased_margin_bottom">24dp</dimen>
-    <dimen name="store_price_purchased_font_size">21sp</dimen>
-    <dimen name="store_price_thank_you_width">94.5dp</dimen>
-    <dimen name="store_price_thank_you_font_size">18sp</dimen>
-    <dimen name="store_item_list_view_margin_top">12dp</dimen>
-    <dimen name="store_item_height">84dp</dimen>
-    <dimen name="store_item_height_with_description">162dp</dimen>
-    <dimen name="store_item_base_margin">24dp</dimen>
-    <dimen name="store_item_text_margin">21dp</dimen>
-    <dimen name="store_item_text_margin_mid">3dp</dimen>
-    <dimen name="store_item_title_text_size">24sp</dimen>
-    <dimen name="store_item_description_text_size">21sp</dimen>
-    <dimen name="store_item_price_button_width">138dp</dimen>
-    <dimen name="store_item_price_button_height">54dp</dimen>
-    <dimen name="store_item_price_button_elevation">3dp</dimen>
-    -->
-
     <!-- Setting -->
     <dimen name="setting_item_pair_tv_edittext_height">60dp</dimen>
     <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
@@ -191,6 +142,10 @@
     <dimen name="info_credit_name_font_size">@dimen/text_size_headline_material</dimen>
     <dimen name="info_credit_name_left_margin">18dp</dimen>
     <dimen name="info_credit_padding">15dp</dimen>
+
+    <!-- License -->
+    <dimen name="more_info_license_title_text_size">@dimen/text_size_display_1_material</dimen>
+    <dimen name="more_info_license_description_text_size">@dimen/text_size_title_material</dimen>
 
     <!-- Store Ad Dialog * 1.5 -->
     <dimen name="store_ad_dialog_layout_width">448.5dp</dimen>
