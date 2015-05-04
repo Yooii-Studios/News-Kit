@@ -164,10 +164,15 @@
     <dimen name="store_ad_dialog_button_text_size">15sp</dimen>
 
     <!-- Morning Kit Ad -->
+    <!-- 모든 크기 공통 -->
     <dimen name="morningkit_ad_dialog_layout_width">@dimen/store_ad_dialog_layout_width</dimen>
     <dimen name="morningkit_ad_dialog_title_divider_height">@dimen/store_ad_dialog_title_divider_height</dimen>
     <dimen name="morningkit_ad_dialog_image_layout_padding">@dimen/base_margin_half</dimen>
     <dimen name="morningkit_ad_dialog_button_layout_height">@dimen/store_ad_dialog_image_text_height</dimen>
+    <!-- 기기 크기별 -->
+    <dimen name="morningkit_ad_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="morningkit_ad_description_text_size">8dp</dimen>
+    <dimen name="morningkit_ad_guide_text_size">@dimen/text_size_caption_material</dimen>
     <dimen name="morningkit_ad_text_margin">18dp</dimen>
     <dimen name="morningkit_ad_dialog_radius">3dp</dimen>
 </resources>
