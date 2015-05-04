@@ -56,10 +56,21 @@
     <dimen name="loading_circle_stroke_width">10.2dp</dimen>
 
     <!-- Newsfeed Detail -->
-    <dimen name="detail_text_padding">18dp</dimen>
-    <dimen name="detail_text_inner_padding">3dp</dimen>
-    <dimen name="detail_text_wide_padding">30dp</dimen>
-    <dimen name="news_feed_detail_shadow_gradient_height">150dp</dimen>
+    <dimen name="detail_text_padding">19dp</dimen>
+    <dimen name="detail_text_inner_padding">5dp</dimen>
+    <dimen name="news_feed_detail_shadow_gradient_height">336dp</dimen> <!-- top image / 2 -->
+
+    <!-- Detail Top -->
+    <dimen name="detail_top_image_view_height_port">672dp</dimen>    <!-- 56 * 13 -->
+    <dimen name="detail_top_image_view_height_land">395dp</dimen>
+    <dimen name="detail_top_text_layout_elevation">17dp</dimen>
+
+    <!-- Detail Bottom -->
+    <dimen name="detail_bottom_divider_height">1.7dp</dimen>
+
+    <!-- News Detail -->
+    <dimen name="progress_bar_height">17dp</dimen>
+    <dimen name="progress_bar_margin_top">-6.8dp</dimen>
 
     <!-- News Select -->
     <dimen name="news_select_sliding_tab_height">60dp</dimen>

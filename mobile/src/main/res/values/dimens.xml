@@ -58,7 +58,6 @@
     <!-- Newsfeed Detail -->
     <dimen name="detail_text_padding">14dp</dimen>
     <dimen name="detail_text_inner_padding">3dp</dimen>
-    <dimen name="detail_text_wide_padding">20dp</dimen>
     <dimen name="news_feed_detail_shadow_gradient_height">100dp</dimen>
 
     <!-- Detail Top -->
@@ -68,7 +67,6 @@
 
     <!-- Detail Bottom -->
     <dimen name="detail_bottom_divider_height">1dp</dimen>
-    <dimen name="detail_bottom_divider_margin">15dp</dimen>
 
     <!-- News Detail -->
     <dimen name="progress_bar_height">10dp</dimen>
