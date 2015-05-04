@@ -101,10 +101,12 @@
         <service
             android:name=".service.BackgroundCacheIntentService"
             android:exported="false" />
+        <!--
         <service
             android:name=".service.BackgroundCacheJobService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        -->
         <receiver
             android:name=".receiver.BootUpReceiver"
             android:enabled="true"

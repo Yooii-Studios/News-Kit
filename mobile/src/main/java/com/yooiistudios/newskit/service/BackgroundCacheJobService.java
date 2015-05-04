@@ -44,6 +44,8 @@ public class BackgroundCacheJobService extends JobService {
         if (!ConnectivityUtils.isWifiAvailable(getApplicationContext())) {
             BackgroundServiceUtils.saveMessageAndPrintLogDebug(context, "Wifi unavailable.");
             jobFinished(params, false);
+            // 아래 코드에서 true 를 반환하면 시간이 많이 걸리는 일을 하겠다는 의미이므로
+            // 만약 이 클래스를 다시 쓰게 된다면 false 로 바꿀지 생각해 봐야 함.
             return true;
         }
 
@@ -55,6 +57,8 @@ public class BackgroundCacheJobService extends JobService {
                     new BackgroundCacheUtils.OnCacheDoneListener() {
                         @Override
                         public void onDone() {
+                            // jobFinished 는 sync 로 불러줘야 다시 불리는 일이 없다.
+                            // 그러므로 이 코드는 sync 로 추출할 필요가 있다.
                             jobFinished(params, false);
                             BackgroundServiceUtils.saveMessageAndPrintLogDebug(getApplicationContext(), "Cache done.");
                         }
@@ -62,7 +66,6 @@ public class BackgroundCacheJobService extends JobService {
         } else {
             jobFinished(params, false);
         }
-
 
         return true;
     }
