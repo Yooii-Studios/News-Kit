@@ -98,6 +98,9 @@ public class BottomNewsImageFetchManager
     }
 
     private void fetch(NewsImageLoader imageLoader) {
+        if (mNewsToFetchMap.size() == 0) {
+            notifyOnAllImageFetch(mTaskType);
+        }
         for (Map.Entry<News, Request> entry : mNewsToFetchMap.entrySet()) {
             final News news = entry.getKey();
             final Request request = entry.getValue();
@@ -149,9 +152,13 @@ public class BottomNewsImageFetchManager
         }
 
         if (allFetched) {
-            if (mListener != null) {
-                mListener.onBottomNewsImageListFetchDone(taskType, mWhichNews);
-            }
+            notifyOnAllImageFetch(taskType);
+        }
+    }
+
+    private void notifyOnAllImageFetch(int taskType) {
+        if (mListener != null) {
+            mListener.onBottomNewsImageListFetchDone(taskType, mWhichNews);
         }
     }
 

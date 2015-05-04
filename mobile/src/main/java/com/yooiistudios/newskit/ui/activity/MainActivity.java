@@ -593,6 +593,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onMainTopInitialLoad() {
+        setSwipeRefreshLayoutEnabled(true);
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
     }
@@ -614,6 +615,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onMainBottomInitialLoad() {
+        setSwipeRefreshLayoutEnabled(true);
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
     }

@@ -121,7 +121,7 @@
     <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable</string>
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
-    <string name="news_feed_fetch_error_unknown">RSS not found</string>
+    <string name="news_feed_fetch_error_unknown">Something happened. Try later.</string>
 
     <!-- 출시시 정렬 다시할 추가 스트링-->
     <!-- General -->
