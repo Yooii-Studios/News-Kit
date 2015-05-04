@@ -444,7 +444,11 @@ public class NewsFeedDetailTransitionUtils {
                 new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
 
         double radiusRatio = getRevealTargetRadius() / getRevealRadiusFromDeviceCenter();
-        imageWrapperRectAnimator.setStartDelay((long) (mImageAnimationStartOffset * radiusRatio));
+        long startOffset = (long) (mImageAnimationStartOffset * radiusRatio);
+        if (!Device.hasLollipop()) {
+            startOffset *= 1.8;
+        }
+        imageWrapperRectAnimator.setStartDelay(startOffset);
         imageWrapperRectAnimator.setDuration(mImageTranslationAnimDuration);
         imageWrapperRectAnimator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         imageWrapperRectAnimator.addListener(new AnimatorListenerAdapter() {
