@@ -27,7 +27,6 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
     private int mCount;
     private ViewPager mViewPager;
 
-    private static final int INDICATOR_WIDTH_DP = 85;
     private static final int ANIMATION_DURATION = 250;
 
     public ParallexViewPagerIndicator(Context context) {
@@ -57,7 +56,7 @@ public class ParallexViewPagerIndicator extends RelativeLayout implements ViewPa
         }
         mIndicatorView = new View(getContext());
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                DipToPixel.dpToPixel(getContext(), INDICATOR_WIDTH_DP),
+                getContext().getResources().getDimensionPixelSize(R.dimen.main_top_view_pager_indicator_width),
                 ViewGroup.LayoutParams.MATCH_PARENT
         );
         mIndicatorView.setLayoutParams(layoutParams);

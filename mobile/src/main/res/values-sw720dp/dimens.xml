@@ -1,0 +1,175 @@
+<resources>
+    <!-- 폰에서 1.7배를 하자, 하지만 특정 크기가 너무 큰 경우 1.5배 정도로 할 것 -->
+    <!-- General -->
+    <dimen name="admob_smart_banner_height">100dp</dimen>
+    <dimen name="admob_upper_divider_height">1.7dp</dimen>
+    <dimen name="margin_inner">5.1dp</dimen>
+    <dimen name="margin_outer">10.2dp</dimen>
+
+    <dimen name="base_margin">27.2dp</dimen>
+    <dimen name="base_margin_double">54.4dp</dimen>
+    <dimen name="base_margin_middle">20.4dp</dimen>
+    <dimen name="base_margin_half">13.6dp</dimen>
+    <dimen name="base_margin_small">6.8dp</dimen>
+
+    <dimen name="edit_text_cursor_width">3.4dp</dimen>
+
+    <!-- Main Network Unavailable -->
+    <dimen name="main_network_unavailable_image_size">187dp</dimen>
+    <dimen name="main_network_unavailable_text_size">30.6sp</dimen>
+    <dimen name="main_network_unavailable_margin_small">30.6dp</dimen>
+    <dimen name="main_network_unavailable_margin_large">85dp</dimen>
+
+    <!-- Main General -->
+    <dimen name="main_edit_button_size">81.6dp</dimen>
+    <dimen name="main_edit_button_margin">6.8dp</dimen>
+    <dimen name="main_edit_button_margin_large">13.6dp</dimen>
+
+    <!-- Main Top -->
+    <dimen name="main_top_view_pager_height">576dp</dimen>      <!-- 64 * 9 -->
+    <dimen name="main_top_view_pager_title_padding">51dp</dimen>
+    <dimen name="main_top_view_pager_page_margin">@dimen/base_margin_small</dimen>
+    <dimen name="main_top_view_pager_indicator_width">144.5dp</dimen>
+    <dimen name="main_top_news_feed_title_padding">@dimen/base_margin</dimen>
+    <dimen name="main_top_news_status_icon_image_view_size">187dp</dimen>
+    <dimen name="main_top_news_status_msg_text_size">38sp</dimen>
+
+    <!-- Main Bottom -->
+    <dimen name="main_bottom_margin_small">3.4dp</dimen>
+    <dimen name="main_bottom_card_view_elevation">1.7dp</dimen>
+    <dimen name="main_bottom_text_padding">30dp</dimen>
+    <dimen name="main_bottom_title_text_size">@dimen/text_size_display_1_material</dimen>
+    <dimen name="main_bottom_title_margin_bottom">@dimen/base_margin_half</dimen>
+    <dimen name="main_bottom_news_feed_title_padding">@dimen/base_margin_middle</dimen>
+    <dimen name="main_bottom_news_feed_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="main_bottom_status_image_view_size_portrait">93.5dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_landscape">71.4dp</dimen>
+    <dimen name="main_bottom_status_msg_text_size">28sp</dimen>
+    <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
+    <dimen name="main_add_more_panel_text_size">28sp</dimen>
+
+    <!-- Loading Animation -->
+    <dimen name="loading_anim_padding">6.8dp</dimen>
+    <dimen name="loading_anim_top_view_width">85dp</dimen> <!-- bottom * 2 + padding -->
+    <dimen name="loading_anim_bottom_view_width">39.1dp</dimen> <!-- 4:3 비율 -->
+    <dimen name="loading_anim_view_height">30.6dp</dimen>
+
+    <dimen name="loading_circle_view_size">180.2dp</dimen> <!-- 100dp + 1/2 stroke * 2(양쪽)-->
+    <dimen name="loading_circle_stroke_width">10.2dp</dimen>
+
+    <!-- Newsfeed Detail -->
+    <dimen name="detail_text_padding">19dp</dimen>
+    <dimen name="detail_text_inner_padding">5dp</dimen>
+    <dimen name="news_feed_detail_shadow_gradient_height">336dp</dimen> <!-- top image / 2 -->
+
+    <!-- Detail Top -->
+    <dimen name="detail_top_image_view_height_port">672dp</dimen>    <!-- 56 * 13 -->
+    <dimen name="detail_top_image_view_height_land">395dp</dimen>
+    <dimen name="detail_top_text_layout_elevation">17dp</dimen>
+
+    <!-- Detail Bottom -->
+    <dimen name="detail_bottom_divider_height">1.7dp</dimen>
+
+    <!-- News Detail -->
+    <dimen name="progress_bar_height">17dp</dimen>
+    <dimen name="progress_bar_margin_top">-6.8dp</dimen>
+
+    <!-- News Select -->
+    <dimen name="news_select_sliding_tab_height">60dp</dimen>
+    <dimen name="news_select_elevation">3.4dp</dimen>
+    <dimen name="news_select_sliding_tab_horizontal_margin">13.6dp</dimen>
+
+    <dimen name="custom_news_feed_dialog_edit_text_size">30.6sp</dimen>
+
+    <dimen name="news_select_item_height">72dp</dimen>
+    <dimen name="news_select_item_text_size">@dimen/text_size_title_material</dimen>
+
+    <!-- Store -->
+    <dimen name="store_toolbar_elevation">5.1dp</dimen>
+    <dimen name="store_bg_banner_height">363.8dp</dimen>
+    <dimen name="store_title_margin_top">18dp</dimen>
+    <dimen name="store_title_margin_left">24dp</dimen>
+    <dimen name="store_title_margin_mid">0dp</dimen>
+    <dimen name="store_title_margin_bottom">0dp</dimen>
+    <dimen name="store_title_font_size">51sp</dimen>
+    <dimen name="store_description_margin_mid">-1.5dp</dimen>
+    <dimen name="store_description_font_size">18sp</dimen>
+    <dimen name="store_icon_banner_margin_left">24dp</dimen>
+    <dimen name="store_icon_banner_margin_bottom">60dp</dimen>
+    <dimen name="store_icon_banner_size">60dp</dimen>
+    <dimen name="store_icon_discount_banner_size">72dp</dimen>
+    <dimen name="store_icon_discount_banner_margin_bottom">54dp</dimen>
+    <dimen name="store_icon_banner_margin_mid">6dp</dimen>
+    <dimen name="store_price_button_width">126dp</dimen>
+    <dimen name="store_price_button_height">109.5dp</dimen>
+    <dimen name="store_price_discounted_price_text_margin_bottom">19.5dp</dimen>
+    <dimen name="store_price_discounted_price_text_margin_right">12dp</dimen>
+    <dimen name="store_price_discounted_price_width">100.5dp</dimen>
+    <dimen name="store_price_discounted_price_font_size">36sp</dimen>
+    <dimen name="store_price_original_price_width">60dp</dimen>
+    <dimen name="store_price_original_price_margin_bottom">-4.5dp</dimen>
+    <dimen name="store_price_original_price_font_size">21sp</dimen>
+    <dimen name="store_price_purchased_width">106.5dp</dimen>
+    <dimen name="store_price_purchased_margin_right">9dp</dimen>
+    <dimen name="store_price_purchased_margin_bottom">24dp</dimen>
+    <dimen name="store_price_purchased_font_size">21sp</dimen>
+    <dimen name="store_price_thank_you_width">94.5dp</dimen>
+    <dimen name="store_price_thank_you_font_size">18sp</dimen>
+    <dimen name="store_item_list_view_margin_top">12dp</dimen>
+    <dimen name="store_item_height">84dp</dimen>
+    <dimen name="store_item_height_with_description">162dp</dimen>
+    <dimen name="store_item_base_margin">24dp</dimen>
+    <dimen name="store_item_text_margin">21dp</dimen>
+    <dimen name="store_item_text_margin_mid">3dp</dimen>
+    <dimen name="store_item_title_text_size">24sp</dimen>
+    <dimen name="store_item_description_text_size">21sp</dimen>
+    <dimen name="store_item_price_button_width">138dp</dimen>
+    <dimen name="store_item_price_button_height">54dp</dimen>
+    <dimen name="store_item_price_button_elevation">3dp</dimen>
+
+    <!-- Setting: 7인치와 동일하게 -->
+    <dimen name="setting_item_pair_tv_edittext_height">60dp</dimen>
+    <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
+    <dimen name="setting_item_auto_refresh_text_size">@dimen/text_size_title_material</dimen>
+
+    <dimen name="setting_item_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="setting_item_description_text_size">@dimen/text_size_subhead_material</dimen>
+
+    <!-- Info -->
+
+    <!-- Credit -->
+    <dimen name="info_credit_title_font_size">@dimen/text_size_title_material</dimen>
+    <dimen name="info_credit_name_font_size">30sp</dimen>
+    <dimen name="info_credit_name_left_margin">18dp</dimen>
+    <dimen name="info_credit_padding">15dp</dimen>
+
+    <!-- License -->
+    <dimen name="more_info_license_title_text_size">@dimen/text_size_display_1_material</dimen>
+    <dimen name="more_info_license_description_text_size">@dimen/text_size_headline_material</dimen>
+
+    <!-- Store Ad Dialog * 1.7 -->
+    <dimen name="store_ad_dialog_layout_width">520dp</dimen>
+    <dimen name="store_ad_dialog_title_text_size">32.3sp</dimen>
+    <dimen name="store_ad_dialog_title_padding_top_bottom">18.7dp</dimen>
+    <dimen name="store_ad_dialog_title_padding_left_right">25.5dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_height">0.85dp</dimen>
+    <dimen name="store_ad_dialog_title_divider_margin_left_right">13.6dp</dimen>
+    <dimen name="store_ad_dialog_image_layout_padding">5.1dp</dimen>
+    <dimen name="store_ad_dialog_image_width">503.2dp</dimen>
+    <dimen name="store_ad_dialog_image_text_margin_top">1.7dp</dimen>
+    <dimen name="store_ad_dialog_image_text_height">76.5dp</dimen>
+    <dimen name="store_ad_dialog_sub_desc_text_size">18.7sp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_width">144.5dp</dimen>
+    <dimen name="store_ad_dialog_icon_layout_margin_top">149.6dp</dimen>
+    <dimen name="store_ad_dialog_icon_img_width">74.8dp</dimen>
+    <dimen name="store_ad_dialog_button_layout_height">76.5dp</dimen>
+    <dimen name="store_ad_dialog_button_text_size">25.5sp</dimen>
+
+    <!-- Morning Kit Ad -->
+    <!-- 기기 크기별 -->
+    <dimen name="morningkit_ad_title_text_size">32sp</dimen>
+    <dimen name="morningkit_ad_description_text_size">@dimen/text_size_subhead_material</dimen>
+    <dimen name="morningkit_ad_guide_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="morningkit_ad_text_margin">30.6dp</dimen>
+    <dimen name="morningkit_ad_dialog_radius">5.1dp</dimen>
+</resources>
