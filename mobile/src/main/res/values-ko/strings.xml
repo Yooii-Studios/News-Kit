@@ -115,7 +115,7 @@
     <!-- Notification -->
     <string name="notification_title">좋은 아침입니다!</string>
     <string name="notification_description">새 뉴스가 도착했습니다.</string>
-    <string name="notification_ask_description">뉴스 알림을 받으시겠습니까?</string>
+    <string name="notification_ask_description">매일 아침 뉴스 알림을 받으시겠습니까?</string>
 
     <!-- Error Message -->
     <string name="news_feed_fetch_error_invalid_topic_url">이 뉴스를 사용할 수 없습니다</string>
