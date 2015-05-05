@@ -30,7 +30,7 @@ public class CreditListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 9;
+        return 10;
     }
 
     @Override
@@ -68,34 +68,31 @@ public class CreditListAdapter extends BaseAdapter {
                 viewHolder.getNameTextView().setText("Ted");
                 break;
             case 4:
+                viewHolder.getTitleTextView().setText("Associate Producer");
+                viewHolder.getNameTextView().setText("Jasmine Oh");
+                break;
+            case 5:
                 viewHolder.getTitleTextView().setText("Development Manager");
                 viewHolder.getNameTextView().setText("Jeff Jeong");
                 break;
-            case 5:
+            case 6:
                 viewHolder.getTitleTextView().setText("QA");
                 viewHolder.getNameTextView().setText("Yooii Studios Members");
                 break;
-            case 6:
+            case 7:
                 viewHolder.getTitleTextView().setText("Development Consulting by");
                 viewHolder.getNameTextView().setText("PlayFluent");
                 break;
-            case 7:
+            case 8:
                 viewHolder.getTitleTextView().setText("Localization");
-                viewHolder.getNameTextView().setText("Akira Yamada\n" +
+                viewHolder.getNameTextView().setText(
                         "Angela Choi\n" +
-                        "Avix Hsu\n" +
-                        "Brad Tsao\n" +
-                        "Chez Kuo\n" +
-                        "Jasmine Jeongmin Oh\n" +
-                        "Jason Piros\n" +
-                        "Lena Zaverukha\n" +
-                        "Matt Wang\n" +
                         "Moritz Will\n" +
                         "Taft Love\n" +
                         "Yu Wang\n" +
                         "Yuki Endo");
                 break;
-            case 8:
+            case 9:
                 viewHolder.getTitleTextView().setText("Special Thanks to");
                 viewHolder.getNameTextView().setText("Andrew Ryu\n" +
                         "HyoSang Lim\n" +
@@ -106,7 +103,8 @@ public class CreditListAdapter extends BaseAdapter {
                         "Osamu Takahashi\n" +
                         "SangWon Ko\n" +
                         "SungMoon Cho\n" +
-                        "The Great Frog Party");
+                        "The Great Frog Party\n" +
+                        "Thomas Moon");
                 break;
         }
         return convertView;
