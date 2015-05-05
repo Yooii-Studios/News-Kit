@@ -65,6 +65,7 @@ import com.yooiistudios.newskit.util.NotificationUtils;
 import com.yooiistudios.newskit.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newskit.util.ReviewRequest;
 import com.yooiistudios.newskit.util.ReviewUtils;
+import com.yooiistudios.newskit.util.ViewServer;
 
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -182,6 +183,10 @@ public class MainActivity extends ActionBarActivity
             return;
         }
         init();
+
+        if (DebugSettings.isDebugBuild()) {
+            ViewServer.get(this).addWindow(this);
+        }
     }
 
     private void init() {
@@ -467,6 +472,9 @@ public class MainActivity extends ActionBarActivity
 
         // 언어가 바뀔 경우를 대비해 항상 새로 메뉴를 만들어줌
         makeMenu();
+        if (DebugSettings.isDebugBuild()) {
+            ViewServer.get(this).setFocusedWindow(this);
+        }
     }
 
     private void makeMenu() {
@@ -510,6 +518,9 @@ public class MainActivity extends ActionBarActivity
         super.onDestroy();
         if (mRootLayout != null) {
             mImageLoader.closeCache();
+        }
+        if (DebugSettings.isDebugBuild()) {
+            ViewServer.get(this).removeWindow(this);
         }
     }
 

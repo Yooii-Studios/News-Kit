@@ -475,17 +475,24 @@ public class ImageCache implements ImageLoader.ImageCache {
     }
 
     @Override
-    public void putBitmap(String url, Bitmap bitmap) {
-        BitmapDrawable drawable;
-        if (Device.hasHoneycomb()) {
-            // Running on Honeycomb or newer, so wrap in a standard BitmapDrawable
-            drawable = new BitmapDrawable(mResources, bitmap);
-        } else {
-            // Running on Gingerbread or older, so wrap in a RecyclingBitmapDrawable
-            // which will recycle automagically
-            drawable = new RecyclingBitmapDrawable(mResources, bitmap);
-        }
-        addBitmapToCache(url, drawable);
+    public void putBitmap(final String url, final Bitmap bitmap) {
+        new android.os.AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                BitmapDrawable drawable;
+                if (Device.hasHoneycomb()) {
+                    // Running on Honeycomb or newer, so wrap in a standard BitmapDrawable
+                    drawable = new BitmapDrawable(mResources, bitmap);
+                } else {
+                    // Running on Gingerbread or older, so wrap in a RecyclingBitmapDrawable
+                    // which will recycle automagically
+                    drawable = new RecyclingBitmapDrawable(mResources, bitmap);
+                }
+                addBitmapToCache(url, drawable);
+                return null;
+            }
+        }.execute();
     }
 
     /**
