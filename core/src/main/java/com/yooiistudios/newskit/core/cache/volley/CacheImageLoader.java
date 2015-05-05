@@ -143,7 +143,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     }
 
     private void getOriginalImage(final ImageRequest request, final ImageListener imageListener) {
-        final String url = request.urlSupplier.getUrl();
+        String url = request.urlSupplier.getUrl();
 
         // com.android.volley.toolbox.ImageLoader.get(~) 메서드에 빈 스트링("")으로 된 url 을
         // 랜덤한 타이밍(AsyncTask 의 onPostExecute )에 여러번 요청하면
@@ -153,35 +153,43 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
             notifyOnFail(imageListener, request.urlSupplier, null);
             return;
         }
-
-        new android.os.AsyncTask<Void, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return mCache.getBitmap(url);
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
-
-                if (bitmap != null) {
-                    configOnGetOriginalBitmap(bitmap, request, imageListener);
-                } else {
-                    getFromVolley(request, imageListener, url);
-                }
-            }
-        }.execute();
-    }
-
-    private void getFromVolley(final ImageRequest request, final ImageListener imageListener,
-                               String url) {
         mImageLoader.get(url, new ImageLoader.ImageListener() {
 
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 final Bitmap bitmap = response.getBitmap();
                 if (bitmap != null) {
-                    configOnGetOriginalBitmap(bitmap, request, imageListener);
+                    onGetBitmap(request.urlSupplier);
+                    getPaletteColors(request.urlSupplier, bitmap, new PaletteListener() {
+
+                        @Override
+                        public void onSuccess(final PaletteColor paletteColor) {
+                            if (request.type == CacheImageLoader.TYPE_LARGE) {
+                                notifyOnSuccess(imageListener,
+                                        new ImageResponse(request.urlSupplier,
+                                                bitmap,
+                                                paletteColor
+                                        ));
+                            }
+                            cacheThumbnail(bitmap, request, new ThumbnailListener() {
+                                @Override
+                                public void onSuccess(Bitmap thumbnailBitmap) {
+                                    if (request.type == CacheImageLoader.TYPE_THUMBNAIL) {
+                                        ImageResponse imageResponse = new ImageResponse(
+                                                request.urlSupplier,
+                                                thumbnailBitmap,
+                                                paletteColor
+                                        );
+                                        notifyOnSuccess(imageListener, imageResponse);
+                                    }
+                                    if (mIsDiskOnlyCache) {
+                                        bitmap.recycle();
+                                        thumbnailBitmap.recycle();
+                                    }
+                                }
+                            });
+                        }
+                    });
                 } else {
                     if (!isImmediate) {
                         notifyOnFail(imageListener, request.urlSupplier, null);
@@ -194,40 +202,6 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
                 notifyOnFail(imageListener, request.urlSupplier, error);
             }
         }, getImageSize().x, getImageSize().y);
-    }
-
-    private void configOnGetOriginalBitmap(final Bitmap bitmap, final ImageRequest request, final ImageListener imageListener) {
-        onGetBitmap(request.urlSupplier);
-        getPaletteColors(request.urlSupplier, bitmap, new PaletteListener() {
-
-            @Override
-            public void onSuccess(final PaletteColor paletteColor) {
-                if (request.type == CacheImageLoader.TYPE_LARGE) {
-                    notifyOnSuccess(imageListener,
-                            new ImageResponse(request.urlSupplier,
-                                    bitmap,
-                                    paletteColor
-                            ));
-                }
-                cacheThumbnail(bitmap, request, new ThumbnailListener() {
-                    @Override
-                    public void onSuccess(Bitmap thumbnailBitmap) {
-                        if (request.type == CacheImageLoader.TYPE_THUMBNAIL) {
-                            ImageResponse imageResponse = new ImageResponse(
-                                    request.urlSupplier,
-                                    thumbnailBitmap,
-                                    paletteColor
-                            );
-                            notifyOnSuccess(imageListener, imageResponse);
-                        }
-                        if (mIsDiskOnlyCache) {
-                            bitmap.recycle();
-                            thumbnailBitmap.recycle();
-                        }
-                    }
-                });
-            }
-        });
     }
 
     private void getPaletteColors(final T urlSupplier, Bitmap bitmap,
