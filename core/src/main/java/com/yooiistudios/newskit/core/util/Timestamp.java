@@ -10,7 +10,7 @@ import java.util.Map;
  *  특정 태그가 시작하고 끝난 시점을 체크하는 유틸
  */
 public class Timestamp {
-    private static final String TAG = Timestamp.class.getSimpleName();
+    public static final String TAG = "NL" + Timestamp.class.getSimpleName();
     private static final Map<String, Long> sStartTimes = new HashMap<>();
 
     public static void start(String tag) {

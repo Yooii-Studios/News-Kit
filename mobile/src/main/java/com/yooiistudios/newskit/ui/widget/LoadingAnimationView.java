@@ -64,6 +64,7 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     private LoadingAnimListener mListener;
 
     public interface LoadingAnimListener {
+        void onBackgroundFadeOutAnimationStart();
         void onBackgroundFadeOutAnimationEnd();
     }
 
@@ -440,6 +441,14 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
         animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.setDuration(BACKGROUND_FADE_ANIM_DURATION);
         animator.addListener(new AnimatorListenerImpl() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                if (mListener != null) {
+                    mListener.onBackgroundFadeOutAnimationStart();
+                }
+            }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
