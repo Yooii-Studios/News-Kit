@@ -378,7 +378,7 @@ public class MainActivity extends ActionBarActivity
             } else {
                 mScrollingContent.setPadding(0, 0, 0, 0);
             }
-            mBannerAdView.show();
+            showBannerAd();
 
             mBannerAdView.resume();
             mQuitLargeBannerAdView.resume();
@@ -539,6 +539,13 @@ public class MainActivity extends ActionBarActivity
         checkAppLaunchCount();
         startNewsAutoRefreshIfReady();
         NewsFeedArchiveUtils.saveCacheRead(getApplicationContext());
+        showBannerAd();
+    }
+
+    private void showBannerAd() {
+        if (mLoadingAnimationView.getVisibility() == View.GONE) {
+            mBannerAdView.show();
+        }
     }
 
     private void checkAppLaunchCount() {

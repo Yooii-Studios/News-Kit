@@ -154,6 +154,7 @@ public class PanelDecoration {
 
     private static Bitmap getImageFromCache(Context context, NewsImageLoader imageLoader, Decoration decoration) {
         String keyWithVersionCode = getKeyWithVersionCode(context, decoration.key);
+        // TODO: possible ui performance improvement
         return imageLoader.getCache().getBitmap(keyWithVersionCode);
     }
 
