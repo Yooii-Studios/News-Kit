@@ -11,11 +11,11 @@ import android.content.SharedPreferences;
  */
 public class NewsFeedDetailSettings {
     private static final String NEWSFEED_DETAIL_SETTINGS_PREFS = "newsfeed_detail_settings_prefs";
+    private static final String AUTO_SCROLL_KEY = "auto_scroll_key";
     private static final String START_DELAY_KEY = "start_delay_key";
     private static final String MID_DELAY_KEY = "MID_DELAY_KEY";
     private static final String DURATION_FOR_EACH_ITEM_KEY = "duration_for_each_item_key";
     private static final String SPEED_KEY = "speed_item_key"; // 0 ~ 100(SeekBar)
-
 
     private static final int DEFAULT_START_DELAY = 3000;
     private static final int DEFAULT_MIDDLE_DELAY = 1500;
@@ -24,6 +24,7 @@ public class NewsFeedDetailSettings {
 
     private volatile static NewsFeedDetailSettings instance;
     private SharedPreferences prefs;
+    private boolean isAutoScroll;
     private int startDelay;
     private int midDelay;
     private int durationForEachItem;
@@ -34,6 +35,7 @@ public class NewsFeedDetailSettings {
         prefs = context.getSharedPreferences(NEWSFEED_DETAIL_SETTINGS_PREFS, Context.MODE_PRIVATE);
 
         // 최초 설치시 디바이스의 언어와 비교해 앱이 지원하는 언어면 해당 언어로 설정, 아닐 경우 영어로 첫 언어 설정
+        isAutoScroll = prefs.getBoolean(AUTO_SCROLL_KEY, true);
         startDelay = prefs.getInt(START_DELAY_KEY, DEFAULT_START_DELAY);
         midDelay = prefs.getInt(MID_DELAY_KEY, DEFAULT_MIDDLE_DELAY);
         durationForEachItem = prefs.getInt(DURATION_FOR_EACH_ITEM_KEY, DEFAULT_DURATION_FOR_EACH_ITEM);
@@ -51,6 +53,16 @@ public class NewsFeedDetailSettings {
             }
         }
         return instance;
+    }
+
+    public static void setNewsFeedAutoScroll(Context context, boolean isAutoScroll) {
+        getInstance(context).isAutoScroll = isAutoScroll;
+        context.getSharedPreferences(NEWSFEED_DETAIL_SETTINGS_PREFS, Context.MODE_PRIVATE)
+                .edit().putBoolean(AUTO_SCROLL_KEY, isAutoScroll).apply();
+    }
+
+    public static boolean isNewsFeedAutoScroll(Context context) {
+        return getInstance(context).isAutoScroll;
     }
 
     // 초를 millisec 로 변환

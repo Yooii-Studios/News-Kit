@@ -1,7 +1,9 @@
 package com.yooiistudios.newskit.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
@@ -23,6 +25,12 @@ import com.yooiistudios.newskit.model.Settings;
  *  뉴스피드 디테일에 있는 설정 다이얼로그
  */
 public class NewsFeedDetailSettingDialogFragment extends DialogFragment {
+    private OnActionListener mCallback;
+
+    public interface OnActionListener {
+        void onDismissSettingDialog();
+    }
+
     public static NewsFeedDetailSettingDialogFragment newInstance() {
         return new NewsFeedDetailSettingDialogFragment();
     }
@@ -45,11 +53,11 @@ public class NewsFeedDetailSettingDialogFragment extends DialogFragment {
         final SwitchCompat autoScrollSwitch = (SwitchCompat) materialDialog.getCustomView().findViewById(
                 R.id.newsfeed_detail_setting_auto_scroll_switch);
 
-        autoScrollSwitch.setChecked(Settings.isNewsFeedAutoScroll(getActivity()));
+        autoScrollSwitch.setChecked(NewsFeedDetailSettings.isNewsFeedAutoScroll(getActivity()));
         autoScrollSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.setNewsFeedAutoScroll(getActivity(), isChecked);
+                NewsFeedDetailSettings.setNewsFeedAutoScroll(getActivity(), isChecked);
             }
         });
     }
@@ -159,8 +167,23 @@ public class NewsFeedDetailSettingDialogFragment extends DialogFragment {
         }
     }
 
-//    @Override
-//    public void onCancel(DialogInterface dialog) {
-//        super.onCancel(dialog);
-//    }
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        mCallback.onDismissSettingDialog();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnActionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnActionListener");
+        }
+    }
 }

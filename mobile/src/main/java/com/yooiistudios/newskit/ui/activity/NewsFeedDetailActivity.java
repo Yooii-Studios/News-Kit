@@ -70,7 +70,6 @@ import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newskit.model.NewsFeedDetailSettings;
-import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
 import com.yooiistudios.newskit.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newskit.model.news.task.NewsFeedDetailNewsFeedFetchTask;
@@ -95,7 +94,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener,
         NewsTopicSelectDialogFactory.OnItemClickListener,
-        NewsFeedDetailTransitionUtils.OnAnimationEndListener {
+        NewsFeedDetailTransitionUtils.OnAnimationEndListener,
+        NewsFeedDetailSettingDialogFragment.OnActionListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     private static final int INVALID_WINDOW_INSET = -1;
 
@@ -528,10 +528,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 }
                 return true;
 
+            /*
             case R.id.action_auto_scroll:
-                boolean isAutoScroll = Settings.isNewsFeedAutoScroll(this);
+                boolean isAutoScroll = NewsFeedDetailSettings.isNewsFeedAutoScroll(this);
                 isAutoScroll = !isAutoScroll;
-                Settings.setNewsFeedAutoScroll(this, isAutoScroll);
+                NewsFeedDetailSettings.setNewsFeedAutoScroll(this, isAutoScroll);
 
                 String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
                 if (isAutoScroll) {
@@ -547,19 +548,10 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     stopAutoScroll();
                 }
                 return true;
+            */
 
             case R.id.action_newsfeed_detail_setting:
                 showSettingFragment();
-
-                /*
-                DebugAnimationSettingDialogFactory.showAutoScrollSettingDialog(this,
-                        new DebugAnimationSettingDialogFactory.DebugSettingListener() {
-                            @Override
-                            public void autoScrollSettingSaved() {
-                                startAutoScroll();
-                            }
-                        });
-                */
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -578,6 +570,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         // Create and show the dialog.
         DialogFragment newFragment = NewsFeedDetailSettingDialogFragment.newInstance();
         newFragment.show(ft, "dialog");
+    }
+
+    @Override
+    public void onDismissSettingDialog() {
+        if (NewsFeedDetailSettings.isNewsFeedAutoScroll(this)) {
+            startAutoScroll();
+        }
     }
 
     private void applyMaxBottomRecyclerViewHeight() {
@@ -1044,7 +1043,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void startScrollIfAutoScrollOn() {
-        if (Settings.isNewsFeedAutoScroll(this)) {
+        if (NewsFeedDetailSettings.isNewsFeedAutoScroll(this)) {
             // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
             // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
             mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
