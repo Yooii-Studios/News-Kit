@@ -1,7 +1,6 @@
 <resources>
     <!-- 폰에서 1.5배를 하자 -->
     <!-- General -->
-    <dimen name="admob_smart_banner_height">90dp</dimen>                <!--Done-->
     <dimen name="admob_upper_divider_height">1.5dp</dimen>
     <dimen name="margin_inner">4.5dp</dimen>
     <dimen name="margin_outer">9dp</dimen>

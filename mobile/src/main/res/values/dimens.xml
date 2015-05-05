@@ -1,7 +1,6 @@
 <resources>
     <!-- 태블릿 7/10인치를 나눌 것 -->
     <!-- General -->
-    <dimen name="admob_smart_banner_height">50dp</dimen>
     <dimen name="admob_upper_divider_height">1dp</dimen>
     <dimen name="margin_inner">3dp</dimen>
     <dimen name="margin_outer">6dp</dimen>
