@@ -27,9 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
-import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrixUtils;
@@ -397,9 +397,13 @@ public class StoreActivity extends ActionBarActivity implements IabListener,
         if (sku.equals(IabProducts.SKU_PRO_VERSION)) {
             // Full version
             disableProVersion();
-            // 풀버전 구매시 2X3으로 변경해줌
+        }
+
+        if (sku.equals(IabProducts.SKU_PRO_VERSION) || sku.equals(IabProducts.SKU_MORE_PANELS)) {
+            // 패널 관련 구매시 2X3으로 변경해줌
             PanelMatrixUtils.setCurrentPanelMatrix(PanelMatrix.THREE_BY_TWO, this);
         }
+
         HeaderViewListAdapter adapter = (HeaderViewListAdapter)mProductListView.getAdapter();
         ((StoreProductItemAdapter)adapter.getWrappedAdapter()).updateOnPurchase();
     }
