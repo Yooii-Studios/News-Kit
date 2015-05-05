@@ -88,7 +88,6 @@ public class NewsSelectDetailAdapter extends BaseAdapter {
                 .inflate(R.layout.news_select_detail_simple_item, parent, false);
 
         textView.setText(mTitles.get(position));
-        textView.setTypeface(TypefaceUtils.getRegularTypeface(mContext));
 
         // 추가: 현재 선택한 뉴스피드와 같은 토픽이거나 언론사일 경우 하이라이트 처리
         if (mNewsProvider != null) {

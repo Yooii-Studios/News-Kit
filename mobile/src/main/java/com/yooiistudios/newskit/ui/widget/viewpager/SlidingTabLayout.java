@@ -242,9 +242,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
                     tabTitleView.setTextColor(getResources().getColor(R.color.news_select_color_accent));
                 }
                 tabTitleView.setText(adapter.getPageTitle(i));
-
-                // 모든 API, 언어에 적용하기 위해 강제로 설정
-                tabTitleView.setTypeface(TypefaceUtils.getMediumTypeface(getContext()));
             }
             tabView.setOnClickListener(tabClickListener);
 

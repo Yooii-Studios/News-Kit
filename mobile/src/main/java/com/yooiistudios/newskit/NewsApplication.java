@@ -10,7 +10,6 @@ import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.language.Language;
 import com.yooiistudios.newskit.core.language.LanguageUtils;
 import com.yooiistudios.newskit.util.InterpolatorHelper;
-import com.yooiistudios.newskit.util.TypefaceUtils;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -91,6 +90,7 @@ public class NewsApplication extends Application {
         }
 
         // 타입페이스 부르는 시간이 많이 걸리기 때문에 이를 미리 불러주게 변경
+        /*
         new android.os.AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -99,6 +99,7 @@ public class NewsApplication extends Application {
                 return null;
             }
         }.execute();
+        */
     }
 
     /**

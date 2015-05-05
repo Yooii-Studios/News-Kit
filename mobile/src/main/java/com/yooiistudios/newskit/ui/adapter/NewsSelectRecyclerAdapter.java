@@ -12,7 +12,6 @@ import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.NewsFeedUrlType;
 import com.yooiistudios.newskit.core.news.curation.NewsProvider;
 import com.yooiistudios.newskit.core.news.curation.NewsProviderCountry;
-import com.yooiistudios.newskit.util.TypefaceUtils;
 
 import java.util.ArrayList;
 
@@ -118,7 +117,6 @@ public class NewsSelectRecyclerAdapter extends
         public NewsSelectViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
-            feedNameTextView.setTypeface(TypefaceUtils.getRegularTypeface(itemView.getContext()));
         }
     }
 
