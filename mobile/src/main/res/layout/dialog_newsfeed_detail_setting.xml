@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:theme="@style/SettingTheme"/>
 
         <TextView
             android:id="@+id/newsfeed_detail_setting_auto_scroll_textview"
@@ -111,6 +112,7 @@
             android:id="@+id/newsfeed_detail_setting_speed_seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/base_margin_half"/>
+            android:layout_marginTop="@dimen/base_margin_half"
+            android:theme="@style/SettingTheme"/>
     </LinearLayout>
 </LinearLayout>
