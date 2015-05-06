@@ -57,8 +57,8 @@
 	<!-- Pair -->
 	<string name="setting_pair_tv">Android TVと連動</string>
 	<string name="setting_pair_tv_description">モバイル設定をAndroid TVに送信する</string>
-	<string name="setting_pair_tv_dialog_description">Android TVの"今連動する"タブに見える5桁の数字を入力し、[確認]をクリックしてください。</string>
-	<string name="setting_pair_tv_code_invalidate">数字が合わない。 Android TVの"今連動する"タブに見える5桁の数字を確認してください。</string>
+	<string name="setting_pair_tv_dialog_description">Android TVの\"今連動する\"タブに見える5桁の数字を入力し、[確認]をクリックしてください。</string>
+	<string name="setting_pair_tv_code_invalidate">数字が合わない。 Android TVの"\今連動する"\タブに見える5桁の数字を確認してください。</string>
 	<string name="setting_pair_tv_data_sent">Android TVと連動に成功しました。</string>
 	<string name="setting_pair_tv_error_msg">連動に失敗しました。もう一度お試しください。</string>
 

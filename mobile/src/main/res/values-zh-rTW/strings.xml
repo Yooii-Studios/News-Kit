@@ -57,8 +57,8 @@
 	<!-- Pair -->
 	<string name="setting_pair_tv">和Android電視配對</string>
 	<string name="setting_pair_tv_description">手機設定和Android電視同步</string>
-	<string name="setting_pair_tv_dialog_description">輸入Android電視"現在配對"中顯示的5個數字並按確認鍵</string>
-	<string name="setting_pair_tv_code_invalidate">輸入錯誤。請重新檢查Android電視"現在配對"中顯示的5個數字。</string>
+	<string name="setting_pair_tv_dialog_description">輸入Android電視\"現在配對\"中顯示的5個數字並按確認鍵</string>
+	<string name="setting_pair_tv_code_invalidate">輸入錯誤。請重新檢查Android電視\"現在配對\"中顯示的5個數字。</string>
 	<string name="setting_pair_tv_data_sent">與Android電視配對成功</string>
 	<string name="setting_pair_tv_error_msg">配對失敗，請重試。</string>
 

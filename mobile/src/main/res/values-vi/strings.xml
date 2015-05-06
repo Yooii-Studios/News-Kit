@@ -57,8 +57,8 @@
 	<!-- Pair -->
 	<string name="setting_pair_tv">Ghép đôi Android TV</string>
 	<string name="setting_pair_tv_description">Đồng bộ cài đặt di động với Android TV</string>
-	<string name="setting_pair_tv_dialog_description">Nhập 5 số được hiển thị trong mục "Ghép đôi" của Android TV và nhấn Xác nhận</string>
-	<string name="setting_pair_tv_code_invalidate">Mã số không phù hợp. Xin hãy kiểm tra  5 số được hiển thị trong mục "Ghép đôi" của Android TV</string>
+	<string name="setting_pair_tv_dialog_description">Nhập 5 số được hiển thị trong mục \"Ghép đôi\" của Android TV và nhấn Xác nhận</string>
+	<string name="setting_pair_tv_code_invalidate">Mã số không phù hợp. Xin hãy kiểm tra  5 số được hiển thị trong mục \"Ghép đôi\" của Android TV</string>
 	<string name="setting_pair_tv_data_sent">Ghép đôi thành công với Android TV</string>
 	<string name="setting_pair_tv_error_msg">Ghép đôi thất bại. Xin hãy thử lại.</string>
 

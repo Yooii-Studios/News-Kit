@@ -57,8 +57,8 @@
     <!-- Pair -->
     <string name="setting_pair_tv">Parear con Android TV</string>
     <string name="setting_pair_tv_description">Syncronizar ajustes de tu móvil con tu Android TV</string>
-    <string name="setting_pair_tv_dialog_description">Escriba los 5 números, que están puestos en el "Parear ahora" tab de tu Android TV y pulsa confirmar</string>
-    <string name="setting_pair_tv_code_invalidate">Codo incorrecto. Por favor comprueba los 5 números que están puestos en es "Parear ahora" tab de tu Android TV</string>
+    <string name="setting_pair_tv_dialog_description">Escriba los 5 números, que están puestos en el \"Parear ahora\" tab de tu Android TV y pulsa confirmar</string>
+    <string name="setting_pair_tv_code_invalidate">Codo incorrecto. Por favor comprueba los 5 números que están puestos en es \"Parear ahora\" tab de tu Android TV</string>
     <string name="setting_pair_tv_data_sent">Parear con Android TV exitoso</string>
     <string name="setting_pair_tv_error_msg">Failado a parear. Por favor prueban otra vez.</string>
 

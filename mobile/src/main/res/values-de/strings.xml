@@ -57,8 +57,8 @@
 	<!-- Pair -->
 	<string name="setting_pair_tv">Mit Android TV Paaren</string>
 	<string name="setting_pair_tv_description">Synchronisiere deine Smartphone-Einstellungen mit deinem Android TV</string>
-	<string name="setting_pair_tv_dialog_description">Gib die 5 Ziffern ein, die in dem "Jetzt Paaren" tab deines Android TV gezeigt werden und drücke Bestätigen</string>
-	<string name="setting_pair_tv_code_invalidate">Code Ungültig. Bitte überprüfe die 5 Ziffern die im "Jetzt Paaren" tab deines Android TV angezeigt werden.</string>
+	<string name="setting_pair_tv_dialog_description">Gib die 5 Ziffern ein, die in dem \"Jetzt Paaren\" tab deines Android TV gezeigt werden und drücke Bestätigen</string>
+	<string name="setting_pair_tv_code_invalidate">Code Ungültig. Bitte überprüfe die 5 Ziffern die im \"Jetzt Paaren\" tab deines Android TV angezeigt werden.</string>
 	<string name="setting_pair_tv_data_sent">Paaren mit Android TV erfolgreich.</string>
 	<string name="setting_pair_tv_error_msg">Paaren fehlgeschlagen. Bitte erneut versuchen.</string>
 
