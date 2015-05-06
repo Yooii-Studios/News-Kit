@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/base_margin_small"
         android:text="@string/custom_news_feed_url"
+        android:textSize="@dimen/custom_news_feed_dialog_text_size"
         android:textColor="@color/primary_dark_material_light"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 

@@ -50,14 +50,16 @@ public class PanelMatrixSelectDialogFragment extends DialogFragment {
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.setting_main_panel_matrix)
                 .items(matrixArr)
-                .itemsCallbackSingleChoice(matrixType.getUniqueId(), new MaterialDialog.ListCallback() {
+                .itemsCallbackSingleChoice(matrixType.getUniqueId(), new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         if (mListener != null) {
                             mListener.onSelectMatrix(which);
                         }
+                        return true;
                     }
                 })
+                .contentColor(getResources().getColor(R.color.material_black_primary_text))
                 .negativeText(R.string.cancel)
                 .build();
         materialDialog.setCancelable(false);

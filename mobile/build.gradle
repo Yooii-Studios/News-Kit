@@ -101,8 +101,8 @@ dependencies {
     // 위치 서비스, 구글 플레이, 애드몹
 //    compile 'com.google.android.gms:play-services:5.0.89' // 4.0.+ 에서 버전업
 //    compile 'com.google.android.gms:play-services:7.0.0'
-    compile 'com.google.android.gms:play-services-ads:7.0.0'
-    compile 'com.google.android.gms:play-services-analytics:7.0.0'
+    compile 'com.google.android.gms:play-services-ads:7.3.0'
+    compile 'com.google.android.gms:play-services-analytics:7.3.0'
 
     // 필요한 오픈소스 라이브러리들
     compile 'com.google.code.gson:gson:2.3'       // json 관련
@@ -115,10 +115,10 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:22.1.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
 
     // Lollipop style Dialog at pre-Lollipop device
-    compile 'com.afollestad:material-dialogs:0.6.1.2'
+    compile 'com.afollestad:material-dialogs:0.7.3.1'
 
     // Floating Action Button
     compile 'com.melnykov:floatingactionbutton:1.2.0'
