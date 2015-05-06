@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.model.NewsFeedDetailSettings;
-import com.yooiistudios.newskit.model.Settings;
 
 /**
  * Created by Wooseong Kim in News-Kit from Yooii Studios Co., LTD. on 15. 5. 5.
@@ -66,6 +65,7 @@ public class NewsFeedDetailSettingDialogFragment extends DialogFragment {
         final EditText secondEditText = (EditText) materialDialog.getCustomView().findViewById(
                 R.id.newsfeed_detail_setting_delay_edittext);
         secondEditText.setText(String.valueOf(NewsFeedDetailSettings.getStartDelaySecond(getActivity())));
+        secondEditText.setSelection(secondEditText.getText().toString().length());
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
