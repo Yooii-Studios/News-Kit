@@ -477,7 +477,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
+        // TODO: Options 번역 필요
+        SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "Options");
         subMenu.setIcon(mToolbarOverflowIcon);
 
         if (!mNewsFeed.isCustomRss()) {

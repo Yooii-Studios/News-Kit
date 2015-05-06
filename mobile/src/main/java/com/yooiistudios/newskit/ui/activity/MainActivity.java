@@ -481,7 +481,8 @@ public class MainActivity extends ActionBarActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         if (mMenu != null) {
             mMenu.removeItem(R.id.action_newsfeed_overflow);
-            SubMenu subMenu = mMenu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
+            // TODO: Options 번역 필요
+            SubMenu subMenu = mMenu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "Options");
             subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
 
             subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
