@@ -44,7 +44,7 @@
 	<string name="setting_main_auto_refresh_interval_caption">間隔</string>
 	<string name="setting_main_auto_refresh_speed">瞬きの速度</string>
 	<string name="setting_main_panel_matrix">ニュースパネルマトリックス</string>
-	<string name="setting_main_panel_matrix_description">％1$sのパネル</string>
+	<string name="setting_main_panel_matrix_description">%1$sのパネル</string>
 	<string name="setting_news_feed_sub_header">ニュースフィード画面</string>
 	<string name="setting_news_feed_auto_scroll_start_offset">自動スクロールの開始時間</string>
 	<string name="setting_news_feed_auto_scroll_speed">自動スクロールの速度</string>
