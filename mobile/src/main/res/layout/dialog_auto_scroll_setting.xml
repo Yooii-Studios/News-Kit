@@ -21,8 +21,7 @@
             android:textSize="17dp"/>
 
         <EditText
-            android:id="@+id/auto_scroll_start_delay_edit_text"
-            style="@style/AutoScrollSettingDialogEditText"/>
+            android:id="@+id/auto_scroll_start_delay_edit_text"/>
     </LinearLayout>
 
     <LinearLayout
@@ -40,8 +39,7 @@
             android:textSize="17dp"/>
 
         <EditText
-            android:id="@+id/auto_scroll_duration_edit_text"
-            style="@style/AutoScrollSettingDialogEditText"/>
+            android:id="@+id/auto_scroll_duration_edit_text"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +57,6 @@
             android:textSize="17dp"/>
 
         <EditText
-            android:id="@+id/auto_scroll_mid_delay_edit_text"
-            style="@style/AutoScrollSettingDialogEditText"/>
+            android:id="@+id/auto_scroll_mid_delay_edit_text"/>
     </LinearLayout>
 </LinearLayout>

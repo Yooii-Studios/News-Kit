@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -53,7 +56,6 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.core.cache.volley.CacheImageLoader;
-import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.news.News;
 import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.NewsTopic;
@@ -64,18 +66,18 @@ import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.core.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.newskit.core.util.Device;
 import com.yooiistudios.newskit.core.util.Display;
+import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.model.AlphaForegroundColorSpan;
-import com.yooiistudios.newskit.model.Settings;
+import com.yooiistudios.newskit.model.NewsFeedDetailSettings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
 import com.yooiistudios.newskit.model.cache.NewsUrlSupplier;
-import com.yooiistudios.newskit.model.debug.DebugAnimationSettingDialogFactory;
-import com.yooiistudios.newskit.model.debug.DebugAnimationSettings;
 import com.yooiistudios.newskit.model.news.task.NewsFeedDetailNewsFeedFetchTask;
 import com.yooiistudios.newskit.model.news.task.NewsFeedDetailNewsImageUrlFetchTask;
 import com.yooiistudios.newskit.ui.PanelDecoration;
 import com.yooiistudios.newskit.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.newskit.ui.animation.NewsFeedDetailTransitionUtils;
+import com.yooiistudios.newskit.ui.fragment.NewsFeedDetailSettingDialogFragment;
 import com.yooiistudios.newskit.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newskit.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newskit.ui.widget.ObservableScrollView;
@@ -92,7 +94,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         NewsFeedDetailNewsFeedFetchTask.OnFetchListener,
         NewsFeedDetailNewsImageUrlFetchTask.OnImageUrlFetchListener,
         NewsTopicSelectDialogFactory.OnItemClickListener,
-        NewsFeedDetailTransitionUtils.OnAnimationEndListener {
+        NewsFeedDetailTransitionUtils.OnAnimationEndListener,
+        NewsFeedDetailSettingDialogFragment.OnActionListener {
     private static final String TAG = NewsFeedDetailActivity.class.getName();
     private static final int INVALID_WINDOW_INSET = -1;
 
@@ -478,6 +481,12 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         SubMenu subMenu = menu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "Options");
         subMenu.setIcon(mToolbarOverflowIcon);
 
+        if (!mNewsFeed.isCustomRss()) {
+            subMenu.add(Menu.NONE, R.id.action_select_topic, 0,
+                    getString(R.string.newsfeed_select_news_section));
+        }
+
+        /*
         String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
         if (Settings.isNewsFeedAutoScroll(this)) {
             autoScrollString += getString(R.string.off);
@@ -485,13 +494,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             autoScrollString += getString(R.string.on);
         }
 
-        if (DebugSettings.isDebugBuild()) {
-            subMenu.add(Menu.NONE, R.id.action_auto_scroll_setting_debug, 2, "Auto Scroll Setting(Debug)");
-        }
-        if (!mNewsFeed.isCustomRss()) {
-            subMenu.add(Menu.NONE, R.id.action_select_topic, 0, getString(R.string.newsfeed_select_news_section));
-        }
         subMenu.add(Menu.NONE, R.id.action_auto_scroll, 1, autoScrollString);
+        */
+
+        subMenu.add(Menu.NONE, R.id.action_newsfeed_detail_setting, 1,
+                getString(R.string.action_settings));
 
         MenuItemCompat.setShowAsAction(subMenu.getItem(), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -522,10 +529,11 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                 }
                 return true;
 
+            /*
             case R.id.action_auto_scroll:
-                boolean isAutoScroll = Settings.isNewsFeedAutoScroll(this);
+                boolean isAutoScroll = NewsFeedDetailSettings.isNewsFeedAutoScroll(this);
                 isAutoScroll = !isAutoScroll;
-                Settings.setNewsFeedAutoScroll(this, isAutoScroll);
+                NewsFeedDetailSettings.setNewsFeedAutoScroll(this, isAutoScroll);
 
                 String autoScrollString = getString(R.string.newsfeed_auto_scroll) + " ";
                 if (isAutoScroll) {
@@ -541,20 +549,35 @@ public class NewsFeedDetailActivity extends ActionBarActivity
                     stopAutoScroll();
                 }
                 return true;
+            */
 
-            case R.id.action_auto_scroll_setting_debug:
-                DebugAnimationSettingDialogFactory.showAutoScrollSettingDialog(this,
-                        new DebugAnimationSettingDialogFactory.DebugSettingListener() {
-                            @Override
-                            public void autoScrollSettingSaved() {
-                                startAutoScroll();
-                            }
-                        });
+            case R.id.action_newsfeed_detail_setting:
+                showSettingFragment();
                 return true;
-
-
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSettingFragment() {
+        stopAutoScroll();
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = NewsFeedDetailSettingDialogFragment.newInstance();
+        newFragment.show(ft, "dialog");
+    }
+
+    @Override
+    public void onDismissSettingDialog() {
+        if (NewsFeedDetailSettings.isNewsFeedAutoScroll(this)) {
+            startAutoScroll();
+        }
     }
 
     private void applyMaxBottomRecyclerViewHeight() {
@@ -936,10 +959,13 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
         final int maxY = mScrollContentWrapper.getHeight() - deviceHeight - mSystemWindowInsetBottom;
 
-        int startDelay = DebugAnimationSettings.getStartDelay(this);
-        final int durationForOneItem = DebugAnimationSettings.getDurationForEachItem(this);
+        int startDelay = NewsFeedDetailSettings.getStartDelaySecond(this) * 1000;
+        int durationForOneItem = NewsFeedDetailSettings.getDurationForEachItem(this);
+        final float speedRatio = NewsFeedDetailSettings.getSpeedRatio(this);
+        durationForOneItem *= speedRatio;
+        NLLog.now("speedRatio: " + speedRatio);
         final int defaultDuration = mBottomRecyclerView.getChildCount() * durationForOneItem;
-        final int middleDelay = DebugAnimationSettings.getMidDelay(this);
+        final int middleDelay = NewsFeedDetailSettings.getMidDelay(this);
         int downScrollDuration = defaultDuration;
 
         // 아래 스크롤은 시작 위치에 따라 시간이 달라질 수 있음
@@ -1018,7 +1044,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
     }
 
     private void startScrollIfAutoScrollOn() {
-        if (Settings.isNewsFeedAutoScroll(this)) {
+        if (NewsFeedDetailSettings.isNewsFeedAutoScroll(this)) {
             // 부모인 래퍼가 자식보다 프리드로우 리스너가 먼저 불리기에
             // 자식이 그려질 때 명시적으로 뷰트리옵저버에서 따로 살펴봐야 제대로 된 높이를 계산가능
             mScrollContentWrapper.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
