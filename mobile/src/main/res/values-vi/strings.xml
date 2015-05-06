@@ -12,7 +12,6 @@
 	<string name="ok">Đồng ý</string>
 	<string name="cancel">Hủy</string>
 	<string name="confirm">Xác nhận</string>
-	<string name="need_to_buy_pro_version">Mua Bản Đầy đủ!</string>
 	<string name="share">Chia sẻ</string>
 	<string name="yes">đồng ý</string>
 	<string name="no">không</string>
@@ -44,7 +43,6 @@
 	<string name="setting_main_auto_refresh_interval">Thời gian tự động đổi mới</string>
 	<string name="setting_main_auto_refresh_interval_caption">Thời gian</string>
 	<string name="setting_main_auto_refresh_speed">Tốc độ tự động đổi mới</string>
-	<string name="setting_item_sec_description">%1$s Giây</string>
 	<string name="setting_main_panel_matrix">Ma trận tin tức</string>
 	<string name="setting_main_panel_matrix_description">%1$s khung</string>
 	<string name="setting_news_feed_sub_header">Màn hình tin tức</string>
@@ -87,8 +85,6 @@
 	<string name="store_purchased">Đã mua</string>
 	<string name="store_thank_you">Cảm ơn!</string>
 	<string name="store_item_price">$0.99</string>
-	<string name="store_item_debug_title">Tiêu đề mục nTiêu đề mục</string>
-	<string name="store_item_debug_description">Miêu tả mục nMiêu tả mục</string>
 	<string name="store_no_ads_title">Không quảng cáo</string>
 	<string name="store_no_ads_description">Gỡ bỏ tất cả quảng cáo</string>
 	<string name="store_more_panel_title">Thêm khung tin tức</string>
@@ -117,45 +113,38 @@
 	<!-- Notification -->
 	<string name="notification_title">Chào buổi sáng!</string>
 	<string name="notification_description">Tin tức buổi sáng của bạn đã sẵn sàng.</string>
+	<string name="notification_ask_description">Bạn có muốn nhận thông báo tin tức không?</string>
 
 	<!-- Error Message -->
 	<string name="news_feed_fetch_error_invalid_topic_url">Hiện không có</string>
 	<string name="news_feed_fetch_error_invalid_custom_url">Đường dẫn RSS không hợp lệ</string>
 	<string name="news_feed_fetch_error_timeout">Hết thời gian. Xin hãy kiểm tra kết nối Internet</string>
-	<string name="news_feed_fetch_error_unknown">không tìm thấy RSS</string>
-
-
-
-	<string name="notification_ask_description">Bạn có muốn nhận thông báo tin tức không?</string>
-
-	<string name="">Không có sự ủng hộ và hảo tâm của bạn,</string>
-	<string name="">thì không có chúng tôi</string>
 
 	<!-- Morning Kit Ad -->
 	<string name="morningkit_ad_app_name">Morning Kit</string>
-
+	<string name="morningkit_ad_description">Alarm + Info Panels</string>
 	<string name="morningkit_ad_guide_text">Tất cả mọi thứ bạn cần vào buổi sáng!</string>
+	<string name="download">Download</string>
+	<string name="close">Close</string>
 
-
-
+	<!-- 출시시 정렬 다시할 추가 스트링-->
 	<!-- General -->
-
+	<string name="add_more_panels">Add More News Panels</string>
 	<string name="app_name_full">News Kit</string>
 	<string name="minute">p</string>
 	<string name="second">g</string>
 
 	<!-- Rate it -->
-
-
-
-	<string name="rate_news_kit_title">Đánh giá Dòng chảy tin tức</string>
+	<string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist :)</string>
+	<string name="rate_it_rate">Rate</string>
+	<string name="rate_it_no_thanks">Rate later</string>
+	<string name="rate_news_kit_title">Rate News Kit</string>
 
 	<!-- Error Message -->
-
+	<string name="news_feed_fetch_error_unknown">Temporarily unavailable, Please try later.</string>
 
 	<!-- Setting -->
-
-
-
+	<string name="setting_general_sub_header">General</string>
+	<string name="setting_notification">Notification</string>
 	<string name="setting_pair_tv_insert_code">Insert Code</string>
 </resources>
