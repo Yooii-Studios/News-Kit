@@ -194,12 +194,13 @@ public class BackgroundCacheUtils implements
     }
 
     private void notifyCacheDone() {
-        NLLog.now("notifyCacheDone");
         NewsFeedArchiveUtils.saveCacheUnread(mContext);
         if (BackgroundServiceUtils.CacheTime.isTimeToIssueNotification(mCacheTime)
                 && Settings.isNotificationOn(mContext)) {
-            NLLog.now("isNotificationOn");
             NotificationUtils.issueAsync(mContext);
+            BackgroundServiceUtils.saveMessageAndPrintLogDebug(mContext, "Notified.");
+        } else {
+            BackgroundServiceUtils.saveMessageAndPrintLogDebug(mContext, "Notification Off.");
         }
         if (mOnCacheDoneListener != null) {
             mOnCacheDoneListener.onDone();
