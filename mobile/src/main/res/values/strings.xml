@@ -121,14 +121,6 @@
     <string name="news_feed_fetch_error_invalid_topic_url">The news is currently unavailable</string>
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid custom url</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check the internet connectivity</string>
-    <string name="news_feed_fetch_error_unknown">Something happened. Try later.</string>
-
-    <!-- 출시시 정렬 다시할 추가 스트링-->
-    <!-- General -->
-    <string name="add_more_panels">Add More News Panels</string>
-    <string name="app_name_full">News Kit</string>
-    <string name="minute">min</string>
-    <string name="second">sec</string>
 
     <!-- Morning Kit Ad -->
     <string name="morningkit_ad_app_name">Morning Kit</string>
@@ -137,11 +129,21 @@
     <string name="download">Download</string>
     <string name="close">Close</string>
 
-    <!-- Rate -->
+    <!-- 출시시 정렬 다시할 추가 스트링-->
+    <!-- General -->
+    <string name="add_more_panels">Add More News Panels</string>
+    <string name="app_name_full">News Kit</string>
+    <string name="minute">min</string>
+    <string name="second">sec</string>
+
+    <!-- Rate it -->
     <string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist :)</string>
     <string name="rate_it_rate">Rate</string>
     <string name="rate_it_no_thanks">Rate later</string>
     <string name="rate_news_kit_title">Rate News Kit</string>
+
+    <!-- Error Message -->
+    <string name="news_feed_fetch_error_unknown">Temporarily unavailable, Please try later.</string>
 
     <!-- Setting -->
     <string name="setting_general_sub_header">General</string>
