@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.service.BackgroundCacheIntentService;
@@ -316,10 +317,12 @@ public class BackgroundServiceUtils {
     }
 
     public static void saveMessageAndPrintLogDebug(Context context, String message) {
-        if (DEBUG) {
-            NLLog.i(TAG, message);
-        }
+        if (DebugSettings.isDebugBuild()) {
+            if (DEBUG) {
+                NLLog.i(TAG, message);
+            }
             saveMessage(context, message);
+        }
     }
     public static void saveMessage(Context context, String message) {
         SharedPreferences sharedPreferences
