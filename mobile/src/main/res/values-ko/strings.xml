@@ -146,4 +146,5 @@
     <!-- Setting -->
     <string name="setting_general_sub_header">일반</string>
     <string name="setting_notification">알림</string>
+    <string name="setting_pair_tv_insert_code">코드 입력</string>
 </resources>

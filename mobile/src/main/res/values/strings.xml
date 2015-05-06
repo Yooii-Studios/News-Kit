@@ -146,4 +146,5 @@
     <!-- Setting -->
     <string name="setting_general_sub_header">General</string>
     <string name="setting_notification">Notification</string>
+    <string name="setting_pair_tv_insert_code">Insert Code</string>
 </resources>
