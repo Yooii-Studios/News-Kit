@@ -76,7 +76,7 @@
     <!-- Store -->
     <string name="store">Store</string>
     <string name="store_title_text_1">Compra</string>
-    <string name="store_title_text_2">(Compra) la versión completa!</string>
+    <string name="store_title_text_2">la versión completa!</string>
     <string name="store_description_text_1">Moderniza para desbloquear todas las funciónes y características!</string>
     <string name="store_description_text_2">+ No Anuncios</string>
     <string name="store_description_text_2_highlight">+ No Anuncios</string>
@@ -85,8 +85,6 @@
     <string name="store_purchased">Comprado</string>
     <string name="store_thank_you">Muchas Gracias!</string>
     <string name="store_item_price">$0.99</string>
-    <string name="store_item_debug_title">Nombre del Artículo \nNombre del Artículo</string>
-    <string name="store_item_debug_description">Descripción del Artículo \nDescripción del Artículo</string>
     <string name="store_no_ads_title">No Anuncios</string>
     <string name="store_no_ads_description">Quitar los Anuncios</string>
     <string name="store_more_panel_title">Más azulejos de novedades</string>

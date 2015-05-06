@@ -85,8 +85,6 @@
     <string name="store_purchased">Purchased</string>
     <string name="store_thank_you">Thank you!</string>
     <string name="store_item_price">$0.99</string>
-    <string name="store_item_debug_title">Item Title\nItem Title</string>
-    <string name="store_item_debug_description">Item description\nItem description</string>
     <string name="store_no_ads_title">No Ads</string>
     <string name="store_no_ads_description">Remove all ads of the app</string>
     <string name="store_more_panel_title">More News panels</string>
