@@ -8,11 +8,15 @@ import com.yooiistudios.newskit.core.news.NewsFeedFetchState;
 import com.yooiistudios.newskit.core.news.NewsFeedParser;
 import com.yooiistudios.newskit.core.news.NewsFeedUrl;
 import com.yooiistudios.newskit.core.news.RssFetchable;
+import com.yooiistudios.newskit.core.util.NLLog;
 
 import org.xml.sax.SAXException;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -87,15 +91,22 @@ public class NewsFeedFetchUtil {
     }
 
     private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl) throws IOException, SAXException {
-        InputStream inputStream = null;
+        BufferedInputStream inputStream = null;
         URL url = new URL(newsFeedUrl.getUrl());
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         try {
             conn.setConnectTimeout(TIMEOUT_MILLI);
             conn.setReadTimeout(TIMEOUT_MILLI);
-            inputStream = conn.getInputStream();
-//            inputStream = getInputStreamFromNewsFeedUrl(newsFeedUrl);
-            NewsFeed feed = NewsFeedParser.read(inputStream);
+            // 모바일에서는 메인 페이지로 리다이렉트 시켜버리는 페이지(ex. http://www.jpnn.com/index.php?mib=rss&id=215) 대응
+//            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A");
+            inputStream = new BufferedInputStream(conn.getInputStream());
+
+            inputStream.mark(10000);
+            String encoding = getEncoding(inputStream);
+            inputStream.reset();
+            String content = getContent(inputStream, encoding);
+
+            NewsFeed feed = NewsFeedParser.read(content, encoding);
             feed.setNewsFeedUrl(newsFeedUrl);
 
             return feed;
@@ -107,6 +118,48 @@ public class NewsFeedFetchUtil {
                 conn.disconnect();
             }
         }
+    }
+
+    private static String getEncoding(InputStream inputStream) {
+        // read encoding(Presume that the xml prolog is in the first line)
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream), 80);
+        String prolog = null;
+        try {
+            prolog = bufferedReader.readLine();
+        } catch (IOException e) {
+            // TODO: ignore 하기
+            e.printStackTrace();
+        }
+        String encoding = "";
+        if (prolog != null) {
+            String encodingKey = "encoding";
+            int encodingPosition = prolog.indexOf(encodingKey);
+            if (encodingPosition >= 0) {
+                int quoteStartIdx = prolog.indexOf('\"', encodingPosition);
+                int quoteEndIdx = prolog.indexOf('\"', quoteStartIdx + 1);
+                encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+                // TODO: 지우기
+                NLLog.now("encoding: " + encoding);
+            }
+        }
+
+        return encoding;
+    }
+
+    private static String getContent(InputStream inputStream, String encoding) throws IOException {
+        BufferedReader reader;
+        if (encoding.length() > 0) {
+            reader = new BufferedReader(new InputStreamReader(inputStream, encoding));
+        } else {
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            // TODO: .append("\n") 코드는 테스트시 어느 라인에서 문제가 생긴 건지 체크하기 위한 코드. 지워야 함.
+            stringBuilder.append(line).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     private static void cleanUpNewsContents(NewsFeed newsFeed) {
@@ -151,12 +204,4 @@ public class NewsFeedFetchUtil {
             news.setDescription(refinedDesc);
         }
     }
-
-//    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {
-//        URL url = new URL(newsFeedUrl.getUrl());
-//        URLConnection conn = url.openConnection();
-//        conn.setConnectTimeout(TIMEOUT_MILLI);
-//        conn.setReadTimeout(TIMEOUT_MILLI);
-//        return conn.getInputStream();
-//    }
 }

@@ -162,11 +162,41 @@ public class MainActivity extends ActionBarActivity
             AppValidationChecker.validationCheck(this);
         }
 
+//        if (true) {
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... params) {
+//                    if (true) {
+//                        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
+//                                "http://www.jpnn.com/index.php?mib=rss&id=215",
+//                                NewsFeedUrlType.CUSTOM), 10, false);
+//                        return null;
+//                    }
+//                    int failCount = 0;
+//                    for (String url : DebugNewsUrls.sUrls) {
+//                        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
+//                                url,
+//                                NewsFeedUrlType.CUSTOM), 10, false);
+//                        boolean failed = newsFeed.getNewsFeedFetchState().ordinal() > 1;
+//                        if (failed) {
+//                            failCount++;
+//                        }
+//
+//                        NLLog.i("qwer", !failed + ", url: " + url);
+//                    }
+//                    NLLog.i("qwer", "failCount: " + failCount);
+//                    return null;
+//                }
+//            }.execute();
+//            finish();
+//            return;
+//        }
+
         // 큐레이팅된 news topic 들이 제대로 파싱되는지 테스트하는 코드
         // 나중에 사용될 가능성이 있어 주석으로 남김
         /*
         if (DebugSettings.isDebugBuild()) {
-            DebugNewsTopicValidateUtil.run(getApplicationContext());
+            DebugNewsTopicValidateUtil.checkNewsUrls(getApplicationContext(), DebugNewsUrls.sUrls);
             finish();
             return;
         }
