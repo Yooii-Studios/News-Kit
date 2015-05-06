@@ -544,7 +544,8 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void showBannerAd() {
-        if (mLoadingAnimationView.getVisibility() == View.GONE) {
+        if (mLoadingAnimationView.getVisibility() == View.GONE &&
+                !IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)) {
             mBannerAdView.show();
         }
     }
