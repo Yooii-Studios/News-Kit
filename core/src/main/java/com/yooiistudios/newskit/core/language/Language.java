@@ -11,18 +11,16 @@ import com.yooiistudios.newskit.core.R;
  *  uniqueId = 이 테마의 고유 id를 표시
  */
 public enum Language {
-    ENGLISH(0, 0, "en", "",
-            "English", R.string.setting_language_english),
-    KOREAN(1, 1, "ko", "",
-            "Korean", R.string.setting_language_korean),
-    JAPANESE(2, 2, "ja", "",
-            "Japanese", R.string.setting_language_japanese),
-    SIMPLIFIED_CHINESE(3, 3, "zh", "CN",
-            "Chinese (Simplified)", R.string.setting_language_simplified_chinese),
-    TRADITIONAL_CHINESE(4, 4, "zh", "TW",
-            "Chinese (Traditional)", R.string.setting_language_traditional_chinese),
-    RUSSIAN(5, 5, "ru", "",
-            "Russian", R.string.setting_language_russian);
+    ENGLISH(0, 0, "en", "", "English", R.string.setting_language_english),
+    KOREAN(1, 1, "ko", "", "Korean", R.string.setting_language_korean),
+    JAPANESE(2, 2, "ja", "", "Japanese", R.string.setting_language_japanese),
+    SIMPLIFIED_CHINESE(3, 3, "zh", "CN", "Chinese (Simplified)", R.string.setting_language_simplified_chinese),
+    TRADITIONAL_CHINESE(4, 4, "zh", "TW", "Chinese (Traditional)", R.string.setting_language_traditional_chinese),
+    GERMAN(5, 5, "de", "", "German", R.string.setting_language_german),
+    SPANISH(6, 6, "es", "", "Spanish", R.string.setting_language_spanish),
+//    RUSSIAN(7, 7, "ru", "", "Russian", R.string.setting_language_russian),
+    // TODO 다른 언어들이 추가되면 인덱스만 수정할 것
+    VIETNAM(7, 8, "vi", "", "Vietnam", R.string.setting_language_vietnam);
 
     private final int index; // 리스트뷰에 표시할 용도의 index
     private final int uniqueId; // SharedPreferences 에 저장될 용도의 unique id
@@ -31,8 +29,8 @@ public enum Language {
     private final String englishNotation;
     private final int localNotationStringId;
 
-    private Language(int index, int uniqueId, String code, String region,
-                     String englishNotation, int localNotationStringId) {
+    Language(int index, int uniqueId, String code, String region,
+             String englishNotation, int localNotationStringId) {
         this.index = index;
         this.uniqueId = uniqueId;
         this.languageCode = code;

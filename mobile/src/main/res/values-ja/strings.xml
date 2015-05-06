@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- General -->
+	<string name="app_name">News Kit</string>
+	<string name="news">ニュース</string>
+	<string name="action_info">情報 </string>
+	<string name="action_settings">設定</string>
+	<string name="action_rate_app">ニュースキットを評価する</string>
+	<string name="action_facebook_like">フェイスブックの「いいね!」</string>
+	<string name="action_send_feedback">フードバックを送信する</string>
+	<string name="content_description">読み込み中…</string>
+	<string name="ok">確認</string>
+	<string name="cancel">キャンセル</string>
+	<string name="confirm">確認</string>
+	<string name="share">共有する</string>
+	<string name="yes">はい</string>
+	<string name="no">いいえ</string>
+
+	<!-- Main -->
+	<string name="action_edition">ニュースを選択</string>
+
+	<!-- Newsfeed Detail -->
+	<string name="newsfeed_select_news_section">ニュースのセクション</string>
+	<string name="newsfeed_auto_scroll">自動スクロール</string>
+	<string name="on">オン</string>
+	<string name="off">オフ</string>
+
+	<!-- News Detail -->
+	<string name="news_detail_share_message">ニュースキット：この記事一回読んでみてください！</string>
+	<string name="news_detail_link_copied">リンクがコピーされました。</string>
+
+	<!-- News Select -->
+	<string name="select_newsfeed_title">ニュースリスト</string>
+	<string name="custom_news_feed_dialog_title">RSSを直接に入力する</string>
+	<string name="custom_news_feed_menu_item_title">RSS</string>
+	<string name="custom_news_feed_url">アドレス(URL)</string>
+
+	<!-- Setting -->
+	<string name="setting_language">言語 / Language</string>
+	<string name="setting_keep_screen_on">画面オンを維持</string>
+	<string name="setting_tutorial">チュートリアル</string>
+	<string name="setting_main_sub_header">メイン画面</string>
+	<string name="setting_main_auto_refresh_interval">自動リフレッシュ間隔</string>
+	<string name="setting_main_auto_refresh_interval_caption">間隔</string>
+	<string name="setting_main_auto_refresh_speed">瞬きの速度</string>
+	<string name="setting_main_panel_matrix">ニュースパネルマトリックス</string>
+	<string name="setting_main_panel_matrix_description">%1$sのパネル</string>
+	<string name="setting_news_feed_sub_header">ニュースフィード画面</string>
+	<string name="setting_news_feed_auto_scroll_start_offset">自動スクロールの開始時間</string>
+	<string name="setting_news_feed_auto_scroll_speed">自動スクロールの速度</string>
+	<string name="setting_news_feed_auto_scroll_very_slow">非常に遅い</string>
+	<string name="setting_news_feed_auto_scroll_slow">遅い</string>
+	<string name="setting_news_feed_auto_scroll_normal">通常</string>
+	<string name="setting_news_feed_auto_scroll_fast">高速</string>
+	<string name="setting_news_feed_auto_scroll_very_fast">非常に速い</string>
+
+	<!-- Pair -->
+	<string name="setting_pair_tv">Android TVと連動</string>
+	<string name="setting_pair_tv_description">モバイル設定をAndroid TVに送信する</string>
+	<string name="setting_pair_tv_dialog_description">Android TVの\"今連動する\"タブに見える5桁の数字を入力し、[確認]をクリックしてください。</string>
+	<string name="setting_pair_tv_code_invalidate">数字が合わない。 Android TVの"\今連動する"\タブに見える5桁の数字を確認してください。</string>
+	<string name="setting_pair_tv_data_sent">Android TVと連動に成功しました。</string>
+	<string name="setting_pair_tv_error_msg">連動に失敗しました。もう一度お試しください。</string>
+
+	<!-- Recommend -->
+	<string name="recommend_to_friends">友達にお勧めする</string>
+	<string name="recommend_title">この素晴らしいアプリを強くお勧めします！</string>
+	<string name="recommend_description">ニュースを見る新しい方法 - News Kit！</string>
+
+	<!-- Feedback -->
+	<string name="feedback_description">News Kitを改善するためのご意見をお聞かせください。^^</string>
+
+	<!-- Ad -->
+	<string name="quit_ad_dialog_title_text">ニュースキットを終了しますか。</string>
+
+	<!-- Store -->
+	<string name="store">ストア </string>
+	<string name="store_title_text_1">プロバージョンを</string>
+	<string name="store_title_text_2">ご購入ください！</string>
+	<string name="store_description_text_1">アップグレードをすると、すべての機能をご利用いただけます。</string>
+	<string name="store_description_text_2">+ 広告削除！</string>
+	<string name="store_description_text_2_highlight">+ 広告削除！</string>
+	<string name="store_pro_version_original_price">$4.99</string>
+	<string name="store_pro_version_discounted_price">$2.99</string>
+	<string name="store_purchased">購入完了</string>
+	<string name="store_thank_you">ありがとうございます！</string>
+	<string name="store_item_price">$0.99</string>
+	<string name="store_no_ads_title">広告削除</string>
+	<string name="store_no_ads_description">アプリのすべての広告削除</string>
+	<string name="store_more_panel_title">より多くのニュースパネル</string>
+	<string name="store_more_panel_description">追加ニュースパネルを使用する</string>
+	<string name="store_custom_rss_feed_title">RSSを直接に入力する</string>
+	<string name="store_custom_rss_feed_description">必要なRSSを直接に入力可能</string>
+
+	<!-- Main Network Unavailable Cover -->
+	<string name="main_network_unavailable_cant_connect">ネットワークをご使用できません。</string>
+	<string name="main_network_unavailable_retry">再接続</string>
+
+	<!-- Info -->
+	<string name="info_news_info">ニュースキットの情報</string>
+	<string name="info_credit">クレジット</string>
+
+	<!-- More Info -->
+	<string name="more_info_yooii_studios">ユーイスタジオ</string>
+	<string name="more_info_news_help">ニュースキットのヘルプ</string>
+	<string name="more_info_version">バージョン</string>
+	<string name="more_info_license">ライセンス</string>
+
+	<!-- Store Ad -->
+	<string name="store_buy_pro_version">プロバージョンをご購入ください！</string>
+	<string name="store_sub_description">有料版をご購入いただけますと、\n サービスをフル機能でご利用いただけます\n + 広告削除。</string>
+
+	<!-- Notification -->
+	<string name="notification_title">おはようございます！</string>
+	<string name="notification_description">新しいニュースが届きました。</string>
+	<string name="notification_ask_description">毎朝、ニュースの通知を受けますか。</string>
+
+	<!-- Error Message -->
+	<string name="news_feed_fetch_error_invalid_topic_url">今ではご使用いただけません。</string>
+	<string name="news_feed_fetch_error_invalid_custom_url">無効なRSSアドレス</string>
+	<string name="news_feed_fetch_error_timeout">タイムアウト。ネットワーク接続をご確認ください。</string>
+
+	<!-- Morning Kit Ad -->
+	<string name="morningkit_ad_app_name">モーニングキット</string>
+	<string name="morningkit_ad_description">アラーム+情報パネル</string>
+	<string name="morningkit_ad_guide_text">朝に必要な情報が一目で確認できるライフサポートアプリ！</string>
+	<string name="download">ダウンロード</string>
+	<string name="close">閉じる</string>
+
+	<!-- 출시시 정렬 다시할 추가 스트링-->
+	<!-- General -->
+	<string name="add_more_panels">より多くのパネルを追加する</string>
+	<string name="app_name_full">ニュースキット</string>
+	<string name="minute">分</string>
+	<string name="second">秒</string>
+
+	<!-- Rate it -->
+	<string name="rate_it_contents">%1$s レビューをお願いいたします。\nユーザー様のレビューは、より良い製品を作れるよう参考にさせていただきます！</string>
+	<string name="rate_it_rate">評価する</string>
+	<string name="rate_it_no_thanks">後で</string>
+	<string name="rate_news_kit_title">ニュースキットキットを評価する</string>
+
+	<!-- Error Message -->
+	<string name="news_feed_fetch_error_unknown">一時的使用不可:少し後に、再び 試みてください。</string>
+
+	<!-- Setting -->
+	<string name="setting_general_sub_header">一般</string>
+	<string name="setting_notification">通知</string>
+	<string name="setting_pair_tv_insert_code">コードを入力</string>
+</resources>
