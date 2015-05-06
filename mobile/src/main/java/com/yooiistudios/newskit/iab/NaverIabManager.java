@@ -34,6 +34,8 @@ public class NaverIabManager extends IabManager {
 
     private Map<String, String> mPrices;
 
+    private NIAPHelperErrorType mInitializeErrorType = null;
+
     private boolean mProductDetailsLoaded = false;
     private boolean mPurchaseInfoLoaded = false;
     private boolean mFailedDuringQuery = false;
@@ -47,7 +49,7 @@ public class NaverIabManager extends IabManager {
     @Override
     public void setup() {
         // compute your public key and store it in mBase64EncodedPublicKey
-        mHelper = new NIAPHelper(mActivity.getApplicationContext(), NIAPUtils.NIAP_PUBLIC_KEY);;
+        mHelper = new NIAPHelper(mActivity.getApplicationContext(), NIAPUtils.NIAP_PUBLIC_KEY);
         mHelper.initialize(new NIAPHelper.OnInitializeFinishedListener() {
             @Override
             public void onSuccess() {
@@ -61,13 +63,22 @@ public class NaverIabManager extends IabManager {
             }
 
             @Override
-            public void onFail(NIAPHelperErrorType niapHelperErrorType) {
+            public void onFail(NIAPHelperErrorType errorType) {
                 if (isHelperDisposed()) {
                     return;
                 }
-                mIapManagerListener.onIabSetupFailed(niapHelperErrorType.getErrorDetails());
+                mIapManagerListener.onIabSetupFailed(errorType.getErrorDetails());
+
+                mInitializeErrorType = errorType;
+                if (isAppstoreUnavailable()) {
+                    mHelper.updateOrInstallAppstore(mActivity);
+                }
             }
         });
+    }
+
+    private boolean isAppstoreUnavailable() {
+        return mInitializeErrorType == NIAPHelperErrorType.NEED_INSTALL_OR_UPDATE_APPSTORE;
     }
 
     private void queryProductsInfo() {
@@ -172,6 +183,12 @@ public class NaverIabManager extends IabManager {
 
     @Override
     public void purchase(String googleSku) {
+        if (isAppstoreUnavailable()) {
+            mIapManagerListener.onIabPurchaseFailed(mInitializeErrorType.getErrorDetails());
+            mHelper.updateOrInstallAppstore(mActivity);
+            return;
+        }
+
         String productCode = NIAPUtils.convertToNaverSku(googleSku);
         // 페이로드를 특정 스트링으로 했었는데, 창하님의 조언으로는 sku의 md5 값과 맞추는 것이 그나마 해킹 확률이 줄어 들 것이라고 말하심
         mHelper.requestPayment(mActivity, productCode, Md5Utils.getMd5String(productCode), IAB_REQUEST_CODE,

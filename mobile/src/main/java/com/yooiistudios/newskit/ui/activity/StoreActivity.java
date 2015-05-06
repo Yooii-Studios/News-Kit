@@ -53,8 +53,6 @@ import butterknife.InjectView;
 public class StoreActivity extends ActionBarActivity implements IabListener,
         StoreProductItemAdapter.StoreItemOnClickListener {
     private static final String TAG = StoreActivity.class.getName();
-//    private GoogleIabManager mGoogleIabManager;
-//    private NaverIabManager mNaverIabManager;
     private IabManager mIabManager;
 
     @InjectView(R.id.store_toolbar) Toolbar mToolbar;
