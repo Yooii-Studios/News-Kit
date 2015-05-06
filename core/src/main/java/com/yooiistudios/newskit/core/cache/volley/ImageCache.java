@@ -302,10 +302,6 @@ public class ImageCache implements ImageLoader.ImageCache {
             memValue = mMemoryCache.get(data);
         }
 
-        if (memValue != null) {
-            NLLog.d(TAG, "Memory cache hit");
-        }
-
         return memValue;
         //END_INCLUDE(get_bitmap_from_mem_cache)
     }
