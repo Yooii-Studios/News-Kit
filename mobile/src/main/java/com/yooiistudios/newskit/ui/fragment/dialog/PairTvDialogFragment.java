@@ -1,4 +1,4 @@
-package com.yooiistudios.newskit.ui.fragment;
+package com.yooiistudios.newskit.ui.fragment.dialog;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -21,17 +21,17 @@ import com.yooiistudios.newskit.R;
  * PanelMatrixSelectDialog
  *  뉴스피드 패널 매트릭스를 선택하는 다이얼로그 프래그먼트
  */
-public class PairTvDialog extends DialogFragment {
+public class PairTvDialogFragment extends DialogFragment {
     private OnActionListener mListener;
     int previousTokenLength = 0;
     boolean isSpaceProcessStarted = false;
 
     public interface OnActionListener {
-        public void onConfirmPairing(String token);
+        void onConfirmPairing(String token);
     }
 
-    public static PairTvDialog newInstance(OnActionListener listener) {
-        PairTvDialog fragment = new PairTvDialog();
+    public static PairTvDialogFragment newInstance(OnActionListener listener) {
+        PairTvDialogFragment fragment = new PairTvDialogFragment();
         fragment.setListener(listener);
         return fragment;
     }

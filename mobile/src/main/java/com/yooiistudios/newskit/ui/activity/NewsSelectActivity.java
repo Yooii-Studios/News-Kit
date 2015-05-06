@@ -34,7 +34,7 @@ import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.newskit.ui.adapter.NewsSelectRecyclerAdapter;
-import com.yooiistudios.newskit.ui.fragment.CustomRssDialogFragment;
+import com.yooiistudios.newskit.ui.fragment.dialog.CustomRssDialogFragment;
 import com.yooiistudios.newskit.ui.widget.viewpager.SlidingTabLayout;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 

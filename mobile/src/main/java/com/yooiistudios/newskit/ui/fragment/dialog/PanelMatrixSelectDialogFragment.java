@@ -1,4 +1,4 @@
-package com.yooiistudios.newskit.ui.fragment;
+package com.yooiistudios.newskit.ui.fragment.dialog;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -18,15 +18,15 @@ import java.util.ArrayList;
  * PanelMatrixSelectDialog
  *  뉴스피드 패널 매트릭스를 선택하는 다이얼로그 프래그먼트
  */
-public class PanelMatrixSelectDialog extends DialogFragment {
+public class PanelMatrixSelectDialogFragment extends DialogFragment {
     private OnActionListener mListener;
 
     public interface OnActionListener {
-        public void onSelectMatrix(int position);
+        void onSelectMatrix(int position);
     }
 
-    public static PanelMatrixSelectDialog newInstance(OnActionListener listener) {
-        PanelMatrixSelectDialog fragment = new PanelMatrixSelectDialog();
+    public static PanelMatrixSelectDialogFragment newInstance(OnActionListener listener) {
+        PanelMatrixSelectDialogFragment fragment = new PanelMatrixSelectDialogFragment();
         fragment.setListener(listener);
         return fragment;
     }

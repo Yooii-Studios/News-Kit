@@ -1,4 +1,4 @@
-package com.yooiistudios.newskit.ui.fragment;
+package com.yooiistudios.newskit.ui.fragment.dialog;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -18,15 +18,15 @@ import java.util.ArrayList;
  * LanguageSelectDialog
  *  언어를 선택하는 DialogFragment
  */
-public class LanguageSelectDialog extends DialogFragment {
+public class LanguageSelectDialogFragment extends DialogFragment {
     private OnActionListener mListener;
 
     public interface OnActionListener {
         void onSelectLanguage(int position);
     }
 
-    public static LanguageSelectDialog newInstance(OnActionListener listener) {
-        LanguageSelectDialog fragment = new LanguageSelectDialog();
+    public static LanguageSelectDialogFragment newInstance(OnActionListener listener) {
+        LanguageSelectDialogFragment fragment = new LanguageSelectDialogFragment();
         fragment.setListener(listener);
         return fragment;
     }

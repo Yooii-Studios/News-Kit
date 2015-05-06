@@ -37,6 +37,10 @@ import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.ui.activity.SettingActivity;
 import com.yooiistudios.newskit.ui.activity.StoreActivity;
 import com.yooiistudios.newskit.ui.adapter.SettingAdapter;
+import com.yooiistudios.newskit.ui.fragment.dialog.AutoRefreshIntervalDialogFragment;
+import com.yooiistudios.newskit.ui.fragment.dialog.LanguageSelectDialogFragment;
+import com.yooiistudios.newskit.ui.fragment.dialog.PairTvDialogFragment;
+import com.yooiistudios.newskit.ui.fragment.dialog.PanelMatrixSelectDialogFragment;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 
 import java.util.ArrayList;
@@ -53,8 +57,8 @@ import butterknife.InjectView;
  *  세팅 화면의 세팅 탭에 쓰일 프레그먼트
  */
 public class SettingFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LanguageSelectDialog.OnActionListener, PanelMatrixSelectDialog.OnActionListener,
-        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialog.OnActionListener {
+        LanguageSelectDialogFragment.OnActionListener, PanelMatrixSelectDialogFragment.OnActionListener,
+        AutoRefreshIntervalDialogFragment.OnActionListener, PairTvDialogFragment.OnActionListener {
     public enum SettingItem {
         MAIN_SUB_HEADER(R.string.setting_main_sub_header),
         MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
@@ -176,7 +180,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void showLanguageSelectDialog() {
-        showDialogFragment("language_dialog", LanguageSelectDialog.newInstance(this));
+        showDialogFragment("language_dialog", LanguageSelectDialogFragment.newInstance(this));
     }
 
     private void toggleKeepScreenOption(View view) {
@@ -198,11 +202,11 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void showPanelMatrixSelectDialog() {
-        showDialogFragment("panel_matrix_dialog", PanelMatrixSelectDialog.newInstance(this));
+        showDialogFragment("panel_matrix_dialog", PanelMatrixSelectDialogFragment.newInstance(this));
     }
 
     private void showPairTVDialogFragment() {
-        showDialogFragment("pair_tv", PairTvDialog.newInstance(this));
+        showDialogFragment("pair_tv", PairTvDialogFragment.newInstance(this));
     }
 
     @Override

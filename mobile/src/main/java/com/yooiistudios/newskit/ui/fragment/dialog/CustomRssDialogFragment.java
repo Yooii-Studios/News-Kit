@@ -1,4 +1,4 @@
-package com.yooiistudios.newskit.ui.fragment;
+package com.yooiistudios.newskit.ui.fragment.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -28,7 +28,7 @@ public class CustomRssDialogFragment extends DialogFragment {
     private OnActionListener mCallback;
 
     public interface OnActionListener {
-        public void onEnterCustomRss(NewsFeedUrl feedUrl);
+        void onEnterCustomRss(NewsFeedUrl feedUrl);
     }
 
     public static CustomRssDialogFragment newInstance() {

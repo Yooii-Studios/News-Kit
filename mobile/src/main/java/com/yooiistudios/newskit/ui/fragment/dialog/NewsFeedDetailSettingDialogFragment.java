@@ -1,4 +1,4 @@
-package com.yooiistudios.newskit.ui.fragment;
+package com.yooiistudios.newskit.ui.fragment.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;

@@ -66,7 +66,6 @@ import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.core.news.util.NewsFeedFetchUtil;
 import com.yooiistudios.newskit.core.util.Device;
 import com.yooiistudios.newskit.core.util.Display;
-import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.model.AlphaForegroundColorSpan;
 import com.yooiistudios.newskit.model.NewsFeedDetailSettings;
@@ -77,7 +76,7 @@ import com.yooiistudios.newskit.model.news.task.NewsFeedDetailNewsImageUrlFetchT
 import com.yooiistudios.newskit.ui.PanelDecoration;
 import com.yooiistudios.newskit.ui.adapter.NewsFeedDetailAdapter;
 import com.yooiistudios.newskit.ui.animation.NewsFeedDetailTransitionUtils;
-import com.yooiistudios.newskit.ui.fragment.NewsFeedDetailSettingDialogFragment;
+import com.yooiistudios.newskit.ui.fragment.dialog.NewsFeedDetailSettingDialogFragment;
 import com.yooiistudios.newskit.ui.itemanimator.DetailNewsItemAnimator;
 import com.yooiistudios.newskit.ui.widget.NewsTopicSelectDialogFactory;
 import com.yooiistudios.newskit.ui.widget.ObservableScrollView;
@@ -963,7 +962,6 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         int durationForOneItem = NewsFeedDetailSettings.getDurationForEachItem(this);
         final float speedRatio = NewsFeedDetailSettings.getSpeedRatio(this);
         durationForOneItem *= speedRatio;
-        NLLog.now("speedRatio: " + speedRatio);
         final int defaultDuration = mBottomRecyclerView.getChildCount() * durationForOneItem;
         final int middleDelay = NewsFeedDetailSettings.getMidDelay(this);
         int downScrollDuration = defaultDuration;

@@ -47,7 +47,7 @@
             android:textSize="@dimen/setting_item_description_text_size"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/newsfeed_detail_setting_delay_edittext"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
