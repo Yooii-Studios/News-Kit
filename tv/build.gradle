@@ -50,7 +50,4 @@ dependencies {
     compile 'com.android.support:leanback-v17:21.0.3'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.squareup.picasso:picasso:2.3.2'
-
-    compile 'com.jakewharton:butterknife:4.0.1'     // @InjectView(id)를 통해 findViewId 작업을 줄여줌
-    compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근, plugin 따로 설치 필요
 }

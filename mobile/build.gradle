@@ -104,16 +104,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:7.3.0'
     compile 'com.google.android.gms:play-services-analytics:7.3.0'
 
-    // 필요한 오픈소스 라이브러리들
-    compile 'com.google.code.gson:gson:2.3'       // json 관련
-    compile 'com.jakewharton:butterknife:4.0.1'     // @InjectView(id)를 통해 findViewId 작업을 줄여줌
-
-    // (Android Studio 용 플러그인용 jar 파일을 웹에서 받아서 <설정 -> plugin -> disk 에서 설치> 필요)
-    compile 'org.projectlombok:lombok:1.12.2'       // @getter, @setter 를 통해 편하게 접근
-
-    // 이미지 디스크 캐시를 사용하기 위해 추가
-    compile 'com.jakewharton:disklrucache:2.0.2'
-
     // 상점에 사용되는 Toolbar 를 위해 사용
     compile 'com.android.support:appcompat-v7:22.1.1'
 
