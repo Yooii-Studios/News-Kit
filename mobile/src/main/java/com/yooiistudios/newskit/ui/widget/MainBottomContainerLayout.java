@@ -273,6 +273,7 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void autoRefreshBottomNewsFeeds() {
+        mAutoAnimator.setIntervalInMillisec(AnimationFactory.getBottomDuration(getContext()));
         mAutoAnimator.animate();
     }
 
