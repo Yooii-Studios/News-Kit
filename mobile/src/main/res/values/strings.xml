@@ -3,8 +3,8 @@
     <!-- General -->
     <string name="app_name">News Kit</string>
     <string name="news">News</string>
-    <string name="action_info">Information</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_info">About News Kit</string>
+    <string name="action_settings">News Kit Settings</string>
     <string name="action_rate_app">Rate News Kit</string>
     <string name="action_facebook_like">Like us on Facebook</string>
     <string name="action_send_feedback">Send Feedback</string>
@@ -40,9 +40,9 @@
     <string name="setting_keep_screen_on">Keep Screen On</string>
     <string name="setting_tutorial">Tutorial</string>
     <string name="setting_main_sub_header">Main Screen</string>
-    <string name="setting_main_auto_refresh_interval">Auto Refresh Interval</string>
+    <string name="setting_main_auto_refresh_interval">News Refresh Rate</string>
     <string name="setting_main_auto_refresh_interval_caption">Interval</string>
-    <string name="setting_main_auto_refresh_speed">Flip Speed</string>
+    <string name="setting_main_auto_refresh_speed">Flip Animation Speed</string>
     <string name="setting_main_panel_matrix">News Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s Panels</string>
     <string name="setting_news_feed_sub_header">News Feed Screen</string>
@@ -74,7 +74,7 @@
     <string name="quit_ad_dialog_title_text">Are you sure you want to quit?</string>
 
     <!-- Store -->
-    <string name="store">Store</string>
+    <string name="store">Store (Pro Features)</string>
     <string name="store_title_text_1">Buy</string>
     <string name="store_title_text_2">the Pro Version!</string>
     <string name="store_description_text_1">Upgrade to unlock ALL Functions and Features</string>
@@ -145,6 +145,6 @@
 
     <!-- Setting -->
     <string name="setting_general_sub_header">General</string>
-    <string name="setting_notification">Notification</string>
+    <string name="setting_notification">Notifications</string>
     <string name="setting_pair_tv_insert_code">Insert Code</string>
 </resources>
