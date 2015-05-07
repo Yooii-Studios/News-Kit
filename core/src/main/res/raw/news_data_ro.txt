@@ -1,0 +1,95 @@
+{
+    "lang_name_english": "Romanian",
+    "lang_name_regional": "Român",
+    "lang_code": "ro",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "România",
+            "country_code": "RO",
+            "news_providers": [
+                {
+                    "provider_name": "Jurnalul Naţional",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Ştiri",
+                            "topic_id": "1",
+                            "url": "http://jurnalul.ro/rss/stiri.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Editoriale",
+                            "topic_id": "2",
+                            "url": "http://jurnalul.ro/rss/editoriale.xml"
+                        },
+                        {
+                            "topic_name": "Special",
+                            "topic_id": "3",
+                            "url": "http://jurnalul.ro/rss/special.xml"
+                        },
+                        {
+                            "topic_name": "Bani&Afaceri",
+                            "topic_id": "4",
+                            "url": "http://jurnalul.ro/rss/bani-afaceri.xml"
+                        },
+                        {
+                            "topic_name": "Viaţă sănătoasă",
+                            "topic_id": "5",
+                            "url": "http://jurnalul.ro/rss/viata-sanatoasa.xml"
+                        },
+                        {
+                            "topic_name": "Cultură",
+                            "topic_id": "6",
+                            "url": "http://jurnalul.ro/rss/cultura.xml"
+                        },
+                        {
+                            "topic_name": "Fun",
+                            "topic_id": "7",
+                            "url": "http://jurnalul.ro/rss/fun.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "8",
+                            "url": "http://jurnalul.ro/rss/sport.xml"
+                        },
+                        {
+                            "topic_name": "IT",
+                            "topic_id": "9",
+                            "url": "http://jurnalul.ro/rss/it.xml"
+                        },
+                        {
+                            "topic_name": "Colecţii",
+                            "topic_id": "10",
+                            "url": "http://jurnalul.ro/rss/colectii.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Adevărul",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Adevărul",
+                            "topic_id": "1",
+                            "url": "http://adevarul.ro/rss/",
+                            "isDefault": "true"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Gândul",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Gândul",
+                            "topic_id": "1",
+                            "url": "http://www.gandul.info/rss-all.html",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,165 @@
+{
+    "lang_name_english": "Croatian",
+    "lang_name_regional": "Hrvatski",
+    "lang_code": "hr",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Hrvatska",
+            "country_code": "HR",
+            "news_providers": [
+                {
+                    "provider_name": "24sata",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Aktualno",
+                            "topic_id": "1",
+                            "url": "http://www.24sata.hr/feeds/aktualno.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Najnovije",
+                            "topic_id": "2",
+                            "url": "http://www.24sata.hr/feeds/najnovije.xml"
+                        },
+                        {
+                            "topic_name": "News",
+                            "topic_id": "3",
+                            "url": "http://www.24sata.hr/feeds/news.xml"
+                        },
+                        {
+                            "topic_name": "Show",
+                            "topic_id": "4",
+                            "url": "http://www.24sata.hr/feeds/show.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "5",
+                            "url": "http://www.24sata.hr/feeds/sport.xml"
+                        },
+                        {
+                            "topic_name": "Lifestyle",
+                            "topic_id": "6",
+                            "url": "http://www.24sata.hr/feeds/lifestyle.xml"
+                        },
+                        {
+                            "topic_name": "Tech",
+                            "topic_id": "7",
+                            "url": "http://www.24sata.hr/feeds/tech.xml"
+                        },
+                        {
+                            "topic_name": "Fun",
+                            "topic_id": "8",
+                            "url": "http://www.24sata.hr/feeds/fun.xml"
+                        },
+                        {
+                            "topic_name": "Video",
+                            "topic_id": "9",
+                            "url": "http://www.24sata.hr/feeds/videotv.xml"
+                        },
+                        {
+                            "topic_name": "Reporteri",
+                            "topic_id": "10",
+                            "url": "http://www.24sata.hr/feeds/reporteri.xml"
+                        },
+                        {
+                            "topic_name": "Pametna kuna",
+                            "topic_id": "11",
+                            "url": "http://www.24sata.hr/feeds/pametnakuna.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Slobodna Dalmacija",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "NASLOVNICA",
+                            "topic_id": "1",
+                            "url": "http://www.slobodnadalmacija.hr/RssTop.aspx",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "NOVOSTI",
+                            "topic_id": "2",
+                            "url": "http://www.slobodnadalmacija.hr/RssNovosti.aspx"
+                        },
+                        {
+                            "topic_name": "DALMACIJA",
+                            "topic_id": "3",
+                            "url": "http://www.slobodnadalmacija.hr/RssDalmacija.aspx"
+                        },
+                        {
+                            "topic_name": "SCENA",
+                            "topic_id": "4",
+                            "url": "http://www.slobodnadalmacija.hr/RssScena.aspx"
+                        },
+                        {
+                            "topic_name": "SPORT",
+                            "topic_id": "5",
+                            "url": "http://www.slobodnadalmacija.hr/RssSport.aspx"
+                        },
+                        {
+                            "topic_name": "PRILOZI",
+                            "topic_id": "6",
+                            "url": "http://www.slobodnadalmacija.hr/RssPrilozi.aspx"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Poslovni dnevnik",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Najnovije vijesti",
+                            "topic_id": "1",
+                            "url": "http://www.poslovni.hr/feeds/najnovije.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Vijesti",
+                            "topic_id": "2",
+                            "url": "http://www.poslovni.hr/feeds/vijesti.xml"
+                        },
+                        {
+                            "topic_name": "Kompanije",
+                            "topic_id": "3",
+                            "url": "http://www.poslovni.hr/feeds/kompanije.xml"
+                        },
+                        {
+                            "topic_name": "Financijska tržišta",
+                            "topic_id": "4",
+                            "url": "http://www.poslovni.hr/feeds/financijska-trzista.xml"
+                        },
+                        {
+                            "topic_name": "Poduzetnik",
+                            "topic_id": "5",
+                            "url": "http://www.poslovni.hr/feeds/poduzetnik.xml"
+                        },
+                        {
+                            "topic_name": "Komentari",
+                            "topic_id": "6",
+                            "url": "http://www.poslovni.hr/feeds/komentari.xml"
+                        },
+                        {
+                            "topic_name": "Marketing&Mediji",
+                            "topic_id": "7",
+                            "url": "http://www.poslovni.hr/feeds/marketing-i-mediji.xml"
+                        },
+                        {
+                            "topic_name": "Tehnologija",
+                            "topic_id": "8",
+                            "url": "http://www.poslovni.hr/feeds/tehnologija.xml"
+                        },
+                        {
+                            "topic_name": "After5",
+                            "topic_id": "9",
+                            "url": "http://www.poslovni.hr/feeds/after5.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -202,6 +202,52 @@ public class NewsProviderLanguageSorter {
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "th", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "vi", null);
             putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "de", null);
+        } else if (languageCode.equals("ar")) {
+            // Arabic
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ar", null);
+        } else if (languageCode.equals("pl")) {
+            // Polish
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "pl", null);
+        } else if (languageCode.equals("el")) {
+            // Greek
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "el", null);
+        } else if (languageCode.equals("cs")) {
+            // Czech
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "cs", null);
+        } else if (languageCode.equals("bg")) {
+            // Bulgarian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "bg", null);
+        } else if (languageCode.equals("be")) {
+            // Belarusian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "be", null);
+        } else if (languageCode.equals("hr")) {
+            // Croatian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "hr", null);
+        } else if (languageCode.equals("hu")) {
+            // Hungarian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "hu", null);
+        } else if (languageCode.equals("kk")) {
+            // Kazakh
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "kk", null);
+        } else if (languageCode.equals("ro")) {
+            // Romanian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ro", null);
+        } else if (languageCode.equals("sr")) {
+            // Serbian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sr", null);
+        } else if (languageCode.equals("sk")) {
+            // Slovak Ukrainian Russian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sk", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "uk", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+        } else if (languageCode.equals("uk")) {
+            // Ukrainian Russian Slovak
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "uk", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "ru", null);
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "sk", null);
+        } else if (languageCode.equals("fa")) {
+            // Persian
+            putNewsProviderLanguage(newsProviderLanguages, clonedLanguageList, "fa", null);
         }
 
         for (NewsProviderLanguage newsProviderLanguage : newsProviderLanguageList) {

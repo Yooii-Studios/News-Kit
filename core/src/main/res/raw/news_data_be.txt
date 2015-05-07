@@ -1,0 +1,38 @@
+{
+    "lang_name_english": "Belarusian",
+    "lang_name_regional": "беларускі",
+    "lang_code": "be",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Беларусь",
+            "country_code": "BY",
+            "news_providers": [
+                {
+                    "provider_name": "Zvyazda",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Zvyazda",
+                            "topic_id": "1",
+                            "url": "http://zviazda.by/feed/",
+                            "isDefault": "true"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Nasha Niva",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Nasha Niva",
+                            "topic_id": "1",
+                            "url": "http://nn.by/?c=rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

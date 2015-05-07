@@ -1,0 +1,149 @@
+{
+    "lang_name_english": "Greek",
+    "lang_name_regional": "ελληνικά",
+    "lang_code": "el",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Ελλάδα",
+            "country_code": "GR",
+            "news_providers": [
+                {
+                    "provider_name": "Google Ειδήσεις",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Κυριότερες ειδήσεις",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Προτεινόμενα για εσάς",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "Κόσμος",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Ελλάδα",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Επιχειρήσεις",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Ψυχαγωγία",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Αθλητικά",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Επιστήμη και τεχνολογία",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Πολιτική",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=p&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "IN",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Ειδήσεις",
+                            "topic_id": "1",
+                            "url": "http://rss.in.gr/feed/news",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Αθλητισμός",
+                            "topic_id": "2",
+                            "url": "http://rss.in.gr/feed/sports"
+                        },
+                        {
+                            "topic_name": "Αυτοκίνητο",
+                            "topic_id": "3",
+                            "url": "http://rss.in.gr/feed/auto"
+                        },
+                        {
+                            "topic_name": "Αγροτουρισμός",
+                            "topic_id": "4",
+                            "url": "http://rss.in.gr/feed/agro"
+                        },
+                        {
+                            "topic_name": "Τεχνολογία",
+                            "topic_id": "5",
+                            "url": "http://rss.in.gr/feed/technology/main"
+                        },
+                        {
+                            "topic_name": "Υγεία",
+                            "topic_id": "6",
+                            "url": "http://rss.in.gr/feed/health"
+                        },
+                        {
+                            "topic_name": "Παιδί",
+                            "topic_id": "7",
+                            "url": "http://rss.in.gr/feed/kid/main"
+                        },
+                        {
+                            "topic_name": "Blogs",
+                            "topic_id": "8",
+                            "url": "http://rss.in.gr/feed/blogs/main"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "NewsBomb",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "NewsBomb",
+                            "topic_id": "1",
+                            "url": "http://www.newsbomb.gr/oles-oi-eidhseis?format=feed&type=rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "NewsIt",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "NewsIt",
+                            "topic_id": "1",
+                            "url": "http://www.newsit.gr/rss/artrss.php",
+                            "isDefault": "true"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Proto Thema",
+            	    "provider_id": "5",
+            	    "topics": [
+                        {
+                            "topic_name": "Proto Thema",
+                            "topic_id": "1",
+                            "url": "http://www.protothema.gr/rss/news/general",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

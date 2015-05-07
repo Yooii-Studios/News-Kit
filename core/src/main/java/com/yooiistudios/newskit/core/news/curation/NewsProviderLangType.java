@@ -29,7 +29,21 @@ public enum NewsProviderLangType {
     DUTCH(17, R.raw.news_data_nl, "Nederlands"),
     THAI(18, R.raw.news_data_th, "ไทย"),
     MALAY(19, R.raw.news_data_ms, "Malay"),
-    INDONESIAN(20, R.raw.news_data_in, "Indonesia");
+    INDONESIAN(20, R.raw.news_data_in, "Indonesia"),
+    ARABIC(21, R.raw.news_data_ar, "العربية"),
+    POLISH(22, R.raw.news_data_pl, "Język polski"),
+    GREEK(23, R.raw.news_data_el, "Ελληνικά"),
+    CZECH(24, R.raw.news_data_cs, "Čeština"),
+    BULGARIAN(25, R.raw.news_data_bg, "Български"),
+    BELARUSIAN(26, R.raw.news_data_be, "беларускі"),
+    CROATIAN(27, R.raw.news_data_hr, "Hrvatski"),
+    HUNGARIAN(28, R.raw.news_data_hu, "Magyar"),
+    KAZAKH(29, R.raw.news_data_kk, "Қазақ"),
+    ROMANIAN(30, R.raw.news_data_ro, "Român"),
+    SERBIAN(31, R.raw.news_data_sr, "Cрпски"),
+    SLOVAK(32, R.raw.news_data_sk, "Slovenčina"),
+    UKRAINIAN(33, R.raw.news_data_uk, "Украї́нська"),
+    PERSIAN(34, R.raw.news_data_fa, "فارسی");
 
     private int mIndex;
     private int mResourceId;
@@ -64,6 +78,20 @@ public enum NewsProviderLangType {
             case 18: return THAI;
             case 19: return MALAY;
             case 20: return INDONESIAN;
+            case 21: return ARABIC;
+            case 22: return POLISH;
+            case 23: return GREEK;
+            case 24: return CZECH;
+            case 25: return BULGARIAN;
+            case 26: return BELARUSIAN;
+            case 27: return CROATIAN;
+            case 28: return HUNGARIAN;
+            case 29: return KAZAKH;
+            case 30: return ROMANIAN;
+            case 31: return SERBIAN;
+            case 32: return SLOVAK;
+            case 33: return UKRAINIAN;
+            case 34: return PERSIAN;
             default: return ENGLISH;
         }
     }
