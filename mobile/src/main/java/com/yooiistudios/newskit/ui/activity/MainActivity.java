@@ -168,7 +168,9 @@ public class MainActivity extends ActionBarActivity
 //                protected Void doInBackground(Void... params) {
 //                    if (true) {
 //                        NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
-//                                "http://www.jpnn.com/index.php?mib=rss&id=215",
+////                                "http://news.google.com/news?cf=all&ned=us&hl=en&output=rss",
+////                                "http://www.khan.co.kr/rss/rssdata/kh_special.xml",
+//                                "http://www.hani.co.kr/rss/",
 //                                NewsFeedUrlType.CUSTOM), 10, false);
 //                        return null;
 //                    }
@@ -196,7 +198,8 @@ public class MainActivity extends ActionBarActivity
         // 나중에 사용될 가능성이 있어 주석으로 남김
         /*
         if (DebugSettings.isDebugBuild()) {
-            DebugNewsTopicValidateUtil.checkNewsUrls(getApplicationContext(), DebugNewsUrls.sUrls);
+//            DebugNewsTopicValidateUtil.checkNewsUrls(getApplicationContext(), DebugNewsUrls.sUrls);
+            DebugNewsTopicValidateUtil.run(getApplicationContext());
             finish();
             return;
         }

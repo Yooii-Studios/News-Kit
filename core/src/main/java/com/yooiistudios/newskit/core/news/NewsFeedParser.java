@@ -4,8 +4,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -17,23 +20,35 @@ import javax.xml.parsers.SAXParserFactory;
  * NLNewsFeedParseHandler 클래스를 사용해 파싱 결과를 리턴하는 인터페이스 격의 클래스.
  */
 public class NewsFeedParser {
-    public static NewsFeed read(String content, String encoding) throws SAXException, IOException {
+    public static NewsFeed read(InputStream inputStream, String encoding) throws SAXException, IOException {
         try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser parser = factory.newSAXParser();
-            XMLReader reader = parser.getXMLReader();
+            XMLReader reader = createXMLReader();
             NewsFeedParseHandler handler = new NewsFeedParseHandler();
-            InputSource input = new InputSource(new StringReader(content));
-            if (encoding.length() > 0) {
-                input.setEncoding(encoding);
-            }
-
             reader.setContentHandler(handler);
+
+            InputSource input = createInputSource(inputStream, encoding);
             reader.parse(input);
 
             return handler.getResult();
         } catch (ParserConfigurationException e) {
             throw new SAXException();
         }
+    }
+
+    private static InputSource createInputSource(InputStream inputStream, String encoding) throws UnsupportedEncodingException {
+        InputSource input;
+        if (encoding.length() > 0) {
+            input = new InputSource(new BufferedReader(new InputStreamReader(inputStream, encoding)));
+        } else {
+            input = new InputSource(new BufferedReader(new InputStreamReader(inputStream)));
+            input.setEncoding(encoding);
+        }
+        return input;
+    }
+
+    private static XMLReader createXMLReader() throws ParserConfigurationException, SAXException {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser parser = factory.newSAXParser();
+        return parser.getXMLReader();
     }
 }

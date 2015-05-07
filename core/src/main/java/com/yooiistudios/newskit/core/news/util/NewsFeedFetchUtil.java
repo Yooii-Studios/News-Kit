@@ -8,7 +8,6 @@ import com.yooiistudios.newskit.core.news.NewsFeedFetchState;
 import com.yooiistudios.newskit.core.news.NewsFeedParser;
 import com.yooiistudios.newskit.core.news.NewsFeedUrl;
 import com.yooiistudios.newskit.core.news.RssFetchable;
-import com.yooiistudios.newskit.core.util.NLLog;
 
 import org.xml.sax.SAXException;
 
@@ -21,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -101,12 +102,12 @@ public class NewsFeedFetchUtil {
 //            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A");
             inputStream = new BufferedInputStream(conn.getInputStream());
 
-            inputStream.mark(10000);
+            inputStream.mark(Integer.MAX_VALUE);
             String encoding = getEncoding(inputStream);
             inputStream.reset();
-            String content = getContent(inputStream, encoding);
+            inputStream.mark(0);
 
-            NewsFeed feed = NewsFeedParser.read(content, encoding);
+            NewsFeed feed = NewsFeedParser.read(inputStream, encoding);
             feed.setNewsFeedUrl(newsFeedUrl);
 
             return feed;
@@ -120,30 +121,82 @@ public class NewsFeedFetchUtil {
         }
     }
 
+    // TODO: refactor
     private static String getEncoding(InputStream inputStream) {
         // read encoding(Presume that the xml prolog is in the first line)
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream), 80);
         String prolog = null;
         try {
-            prolog = bufferedReader.readLine();
-        } catch (IOException e) {
+            char[] buffer = new char[300];
+            bufferedReader.read(buffer, 0, 300);
+            prolog = new String(buffer);
+        } catch (Exception e) {
             // TODO: ignore 하기
             e.printStackTrace();
         }
         String encoding = "";
         if (prolog != null) {
+            int prologEndIdx = prolog.indexOf("?>");
+            if (prologEndIdx > 0) {
+                prolog = prolog.substring(0, prologEndIdx);
+            }
             String encodingKey = "encoding";
             int encodingPosition = prolog.indexOf(encodingKey);
             if (encodingPosition >= 0) {
-                int quoteStartIdx = prolog.indexOf('\"', encodingPosition);
-                int quoteEndIdx = prolog.indexOf('\"', quoteStartIdx + 1);
-                encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
-                // TODO: 지우기
-                NLLog.now("encoding: " + encoding);
+                final char singleQuote = '\'';
+                final char doubleQuote = '\"';
+                int singleQuoteStartIdx = prolog.indexOf(singleQuote, encodingPosition);
+                int doubleQuoteStartIdx = prolog.indexOf(doubleQuote, encodingPosition);
+
+                if (singleQuoteStartIdx != -1 || doubleQuoteStartIdx != -1) {
+                    boolean useSingleQuote;
+                    if (singleQuoteStartIdx != -1 && doubleQuoteStartIdx != -1) {
+                        useSingleQuote = singleQuoteStartIdx < doubleQuoteStartIdx;
+                    } else {
+                        useSingleQuote = doubleQuoteStartIdx == -1;
+                    }
+                    int quoteStartIdx = useSingleQuote ? singleQuoteStartIdx : doubleQuoteStartIdx;
+                    char quoteToUse = useSingleQuote ? singleQuote : doubleQuote;
+                    int quoteEndIdx = prolog.indexOf(quoteToUse, quoteStartIdx + 1);
+
+                    if (isValidIndex(quoteStartIdx, quoteEndIdx)) {
+                        encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+                    }
+                }
+
+//                int quoteStartIdx = prolog.indexOf('\"', encodingPosition);
+//                int quoteEndIdx = prolog.indexOf('\"', quoteStartIdx + 1);
+//
+//                if (!isValidIndex(quoteStartIdx, quoteEndIdx)) {
+//                    quoteStartIdx = prolog.indexOf('\'', encodingPosition);
+//                    quoteEndIdx = prolog.indexOf('\'', quoteStartIdx + 1);
+//                }
+//                if (isValidIndex(quoteStartIdx, quoteEndIdx)) {
+//                    encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+//                }
             }
         }
 
+        if (!isValidEncoding(encoding)) {
+            encoding = "";
+        }
+
         return encoding;
+    }
+
+    private static boolean isValidEncoding(String encoding) {
+        boolean isValidEncoding = false;
+        try {
+            Charset.forName(encoding).newDecoder().onMalformedInput(
+                    CodingErrorAction.REPLACE).onUnmappableCharacter(
+                    CodingErrorAction.REPLACE);
+            isValidEncoding = true;
+        } catch (IllegalArgumentException ignored) {}
+        return isValidEncoding;
+    }
+
+    private static boolean isValidIndex(int quoteStartIdx, int quoteEndIdx) {
+        return quoteStartIdx != -1 && quoteEndIdx != -1 && quoteEndIdx > quoteStartIdx;
     }
 
     private static String getContent(InputStream inputStream, String encoding) throws IOException {

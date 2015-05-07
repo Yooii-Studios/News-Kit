@@ -3,8 +3,6 @@ package com.yooiistudios.newskit.model.debug;
 import android.content.Context;
 
 import com.yooiistudios.newskit.core.news.NewsFeed;
-import com.yooiistudios.newskit.core.news.NewsFeedUrl;
-import com.yooiistudios.newskit.core.news.NewsFeedUrlType;
 import com.yooiistudios.newskit.core.news.NewsTopic;
 import com.yooiistudios.newskit.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newskit.core.news.curation.NewsProvider;
@@ -32,68 +30,80 @@ public class DebugNewsTopicValidateUtil {
     }
 
     public static void run(final Context context) {
-        new android.os.AsyncTask<Void, Void, ArrayList<NewsFeed>>() {
+        new android.os.AsyncTask<Void, Void, Void>() {
             @Override
-            public ArrayList<NewsFeed> doInBackground(Void... args) {
-                return getAll(context);
-            }
+            public Void doInBackground(Void... args) {
+                NewsDb.getInstance(context).clearArchiveDebug();
 
-            @Override
-            protected void onPostExecute(ArrayList<NewsFeed> newsFeeds) {
-                super.onPostExecute(newsFeeds);
-                configOnFetch(newsFeeds, context);
-            }
-        }.execute();
-    }
+                int langCount = NewsProviderLangType.values().length;
+                int accumuNewsFeedSize = 0;
+                NewsContentProvider.getInstance(context).sortNewsProviderLanguage(context);
+                for (int i = 0; i < langCount; i++) {
+                    int left = langCount - i;
+                    NLLog.d(TAG, String.format("NewsProviderLanguage left: %3d", left));
+                    NewsProviderLanguage providerLanguage
+                            = NewsContentProvider.getInstance(context).getNewsLanguage(i);
 
-    public static void checkNewsUrls(final Context context, final String[] urls) {
-        new android.os.AsyncTask<Void, Void, ArrayList<NewsFeed>>() {
-            @Override
-            public ArrayList<NewsFeed> doInBackground(Void... args) {
-                ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
-                int left = urls.length;
-                for (String url : urls) {
-                    NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
-                            url, NewsFeedUrlType.CUSTOM), 10, false);
-                    newsFeeds.add(newsFeed);
-                    NLLog.d(TAG, "left: " + --left);
+                    ArrayList<NewsFeed> newsFeeds = getNewsFeedsFromNewsProviderLanguages(providerLanguage);
+
+                    for (int j = 0; j < newsFeeds.size(); j++) {
+                        saveNewsFeedAt(newsFeeds.get(j), j + accumuNewsFeedSize, context);
+                    }
+                    try {
+                        NewsDb.copyDbToExternalStorage(context);
+                    } catch (ExternalStorage.ExternalStorageException ignored) {
+                        // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+                    }
+                    accumuNewsFeedSize += newsFeeds.size();
                 }
-                NLLog.d(TAG, "done");
-                return newsFeeds;
-            }
 
-            @Override
-            protected void onPostExecute(ArrayList<NewsFeed> newsFeeds) {
-                super.onPostExecute(newsFeeds);
-                configOnFetch(newsFeeds, context);
+                return null;
             }
         }.execute();
     }
 
-    private static void configOnFetch(ArrayList<NewsFeed> newsFeeds, Context context) {
-        NLLog.d(TAG, "Test done. Saving to database...");
-        NewsDb.getInstance(context).clearArchiveDebug();
-        NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
-        try {
-            NewsDb.copyDbToExternalStorage(context);
-        } catch (ExternalStorage.ExternalStorageException ignored) {
-            // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
-        }
-    }
+//    public static void checkNewsUrls(final Context context, final String[] urls) {
+//        new android.os.AsyncTask<Void, Void, ArrayList<NewsFeed>>() {
+//            @Override
+//            public ArrayList<NewsFeed> doInBackground(Void... args) {
+//                ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
+//                int left = urls.length;
+//                for (String url : urls) {
+//                    NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
+//                            url, NewsFeedUrlType.CUSTOM), 10, false);
+//                    newsFeeds.add(newsFeed);
+//                    NLLog.d(TAG, "left: " + --left);
+//                }
+//                NLLog.d(TAG, "done");
+//                return newsFeeds;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(ArrayList<NewsFeed> newsFeeds) {
+//                super.onPostExecute(newsFeeds);
+//                configOnFetch(newsFeeds, context);
+//            }
+//        }.execute();
+//    }
 
-    private static ArrayList<NewsFeed> getAll(Context context) {
-        ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
-        int langCount = NewsProviderLangType.values().length;
-        NewsContentProvider.getInstance(context).sortNewsProviderLanguage(context);
-        for (int i = 0; i < langCount; i++) {
-            int left = langCount - i;
-            NLLog.d(TAG, String.format("NewsProviderLanguage left: %3d", left));
-            NewsProviderLanguage providerLanguage
-                    = NewsContentProvider.getInstance(context).getNewsLanguage(i);
+//    private static void configOnFetch(ArrayList<NewsFeed> newsFeeds, Context context) {
+//        NLLog.d(TAG, "Test done. Saving to database...");
+//        NewsDb.getInstance(context).clearArchiveDebug();
+//        saveNewsFeedsAndCopyToSdCard(newsFeeds, context);
+//    }
 
-            newsFeeds.addAll(getNewsFeedsFromNewsProviderLanguages(providerLanguage));
-        }
-        return newsFeeds;
+//    private static void saveNewsFeedsAndCopyToSdCard(ArrayList<NewsFeed> newsFeeds, Context context) {
+//        NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
+//        //saveBottomNewsFeedAt
+//        try {
+//            NewsDb.copyDbToExternalStorage(context);
+//        } catch (ExternalStorage.ExternalStorageException ignored) {
+//            // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+//        }
+//    }
+
+    private static void saveNewsFeedAt(NewsFeed newsFeed, int position, Context context) {
+        NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, position);
     }
 
     private static ArrayList<NewsFeed> getNewsFeedsFromNewsProviderLanguages(NewsProviderLanguage providerLanguage) {
