@@ -30,48 +30,90 @@ public class DebugNewsTopicValidateUtil {
     }
 
     public static void run(final Context context) {
-        new android.os.AsyncTask<Void, Void, ArrayList<NewsFeed>>() {
+        new android.os.AsyncTask<Void, Void, Void>() {
             @Override
-            public ArrayList<NewsFeed> doInBackground(Void... args) {
-                return getAll(context);
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<NewsFeed> newsFeeds) {
-                super.onPostExecute(newsFeeds);
-                NLLog.d(TAG, "Test done. Saving to database...");
+            public Void doInBackground(Void... args) {
                 NewsDb.getInstance(context).clearArchiveDebug();
-                NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
-                try {
-                    NewsDb.copyDbToExternalStorage(context);
-                } catch (ExternalStorage.ExternalStorageException ignored) {
-                    // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+
+                int langCount = NewsProviderLangType.values().length;
+                int accumuNewsFeedSize = 0;
+                NewsContentProvider.getInstance(context).sortNewsProviderLanguage(context);
+                for (int i = 0; i < langCount; i++) {
+                    int left = langCount - i;
+                    NLLog.d(TAG, String.format("NewsProviderLanguage left: %3d", left));
+                    NewsProviderLanguage providerLanguage
+                            = NewsContentProvider.getInstance(context).getNewsLanguage(i);
+
+                    ArrayList<NewsFeed> newsFeeds = getNewsFeedsFromNewsProviderLanguages(providerLanguage);
+
+                    for (int j = 0; j < newsFeeds.size(); j++) {
+                        saveNewsFeedAt(newsFeeds.get(j), j + accumuNewsFeedSize, context);
+                    }
+                    try {
+                        NewsDb.copyDbToExternalStorage(context);
+                    } catch (ExternalStorage.ExternalStorageException ignored) {
+                        // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+                    }
+                    accumuNewsFeedSize += newsFeeds.size();
                 }
+
+                return null;
             }
         }.execute();
     }
 
-    private static ArrayList<NewsFeed> getAll(Context context) {
-        ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
-        NLLog.d(TAG, "NewsProviderLanguage count: " + NewsProviderLangType.values().length);
-        NewsContentProvider.getInstance(context).sortNewsProviderLanguage(context);
-        for (int i = 0; i < NewsProviderLangType.values().length; i++) {
-            NLLog.d(TAG, String.format("%3dth NewsProviderLanguage", i));
-            NewsProviderLanguage providerLanguage
-                    = NewsContentProvider.getInstance(context).getNewsLanguage(i);
+//    public static void checkNewsUrls(final Context context, final String[] urls) {
+//        new android.os.AsyncTask<Void, Void, ArrayList<NewsFeed>>() {
+//            @Override
+//            public ArrayList<NewsFeed> doInBackground(Void... args) {
+//                ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
+//                int left = urls.length;
+//                for (String url : urls) {
+//                    NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
+//                            url, NewsFeedUrlType.CUSTOM), 10, false);
+//                    newsFeeds.add(newsFeed);
+//                    NLLog.d(TAG, "left: " + --left);
+//                }
+//                NLLog.d(TAG, "done");
+//                return newsFeeds;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(ArrayList<NewsFeed> newsFeeds) {
+//                super.onPostExecute(newsFeeds);
+//                configOnFetch(newsFeeds, context);
+//            }
+//        }.execute();
+//    }
 
-            newsFeeds.addAll(getNewsFeedsFromNewsProviderLanguages(providerLanguage));
-        }
-        return newsFeeds;
+//    private static void configOnFetch(ArrayList<NewsFeed> newsFeeds, Context context) {
+//        NLLog.d(TAG, "Test done. Saving to database...");
+//        NewsDb.getInstance(context).clearArchiveDebug();
+//        saveNewsFeedsAndCopyToSdCard(newsFeeds, context);
+//    }
+
+//    private static void saveNewsFeedsAndCopyToSdCard(ArrayList<NewsFeed> newsFeeds, Context context) {
+//        NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
+//        //saveBottomNewsFeedAt
+//        try {
+//            NewsDb.copyDbToExternalStorage(context);
+//        } catch (ExternalStorage.ExternalStorageException ignored) {
+//            // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+//        }
+//    }
+
+    private static void saveNewsFeedAt(NewsFeed newsFeed, int position, Context context) {
+        NewsDb.getInstance(context).saveBottomNewsFeedAt(newsFeed, position);
     }
 
     private static ArrayList<NewsFeed> getNewsFeedsFromNewsProviderLanguages(NewsProviderLanguage providerLanguage) {
         ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
         ArrayList<NewsProviderCountry> countries = providerLanguage.newsProviderCountries;
-        NLLog.d(TAG, "NewsProviderCountry count: " + countries.size());
-        for (int j = 0; j < countries.size(); j++) {
-            NewsProviderCountry providerCountry = countries.get(j);
-            NLLog.d(TAG, String.format("%3dth NewsProviderCountry", j));
+        int countryCount = countries.size();
+        for (int i = 0; i < countryCount; i++) {
+            NewsProviderCountry providerCountry = countries.get(i);
+            int left = countryCount - i;
+            NLLog.d(TAG, String.format("NewsProviderCountry left: %3d", left));
             newsFeeds.addAll(getNewsFeedsFromNewsProviderCountries(providerCountry));
         }
 
@@ -81,10 +123,11 @@ public class DebugNewsTopicValidateUtil {
     private static ArrayList<NewsFeed> getNewsFeedsFromNewsProviderCountries(NewsProviderCountry providerCountry) {
         ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
         ArrayList<NewsProvider> providers = providerCountry.newsProviders;
-        NLLog.d(TAG, "NewsProvider count: " + providers.size());
-        for (int k = 0; k < providers.size(); k++) {
-            NewsProvider newsProvider = providers.get(k);
-            NLLog.d(TAG, String.format("%3dth NewsProvider", k));
+        int providerCount = providers.size();
+        for (int i = 0; i < providerCount; i++) {
+            NewsProvider newsProvider = providers.get(i);
+            int left = providerCount - i;
+            NLLog.d(TAG, String.format("NewsProvider left: %3d", left));
             newsFeeds.addAll(fromNewsProvider(newsProvider));
         }
 
@@ -94,11 +137,12 @@ public class DebugNewsTopicValidateUtil {
     private static ArrayList<NewsFeed> fromNewsProvider(NewsProvider newsProvider) {
         ArrayList<NewsFeed> newsFeeds = new ArrayList<>();
         ArrayList<NewsTopic> topics = newsProvider.getNewsTopicList();
-        NLLog.d(TAG, "NewsTopic count: " + topics.size());
-        for (int l = 0; l < topics.size(); l++) {
-            NewsTopic topic = topics.get(l);
-            NLLog.d(TAG, String.format("%3dth NewsTopic", l));
-            NewsFeed newsFeed = NewsFeedFetchUtil.fetch(topic, 20, false);
+        int topicCount = topics.size();
+        for (int i = 0; i < topicCount; i++) {
+            NewsTopic topic = topics.get(i);
+            int left = topicCount - i;
+            NLLog.d(TAG, String.format("NewsTopic left: %3d", left));
+            NewsFeed newsFeed = NewsFeedFetchUtil.fetch(topic, 10, false);
             newsFeed.setTopicIdInfo(topic);
 
             newsFeeds.add(newsFeed);
