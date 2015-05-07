@@ -186,38 +186,53 @@
                         {
                             "topic_name": "Top Stories",
                             "topic_id": "1",
-                            "url": "http://rssfeeds.usatoday.com/usatodaycomworld-topstories&x=1",
+                            "url": "http://rssfeeds.usatoday.com/usatoday-NewsTopStories&x=1",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Life",
+                            "topic_name": "National",
                             "topic_id": "2",
-                            "url": "http://rssfeeds.usatoday.com/usatoday-lifetopstories&x=1"
+                            "url": "http://rssfeeds.usatoday.com/UsatodaycomNation-TopStories&x=1"
+                        },
+                        {
+                            "topic_name": "World",
+                            "topic_id": "3",
+                            "url": "http://rssfeeds.usatoday.com/UsatodaycomWorld-TopStories&x=1"
+                        },
+                        {
+                            "topic_name": "Opinion",
+                            "topic_id": "4",
+                            "url": "http://rssfeeds.usatoday.com/News-Opinion&x=1"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "5",
+                            "url": "http://rssfeeds.usatoday.com/usatoday-LifeTopStories&x=1"
+                        },
+                        {
+                            "topic_name": "People",
+                            "topic_id": "6",
+                            "url": "http://rssfeeds.usatoday.com/toppeople&x=1"
                         },
                         {
                             "topic_name": "Sports",
-                            "topic_id": "3",
-                            "url": "http://rssfeeds.usatoday.com/usatodaycomsports-topstories&x=1"
+                            "topic_id": "7",
+                            "url": "http://rssfeeds.usatoday.com/UsatodaycomSports-TopStories&x=1"
                         },
                         {
                             "topic_name": "Money",
-                            "topic_id": "4",
-                            "url": "http://rssfeeds.usatoday.com/usatodaycommoney-topstories&x=1"
+                            "topic_id": "8",
+                            "url": "http://rssfeeds.usatoday.com/UsatodaycomMoney-TopStories&x=1"
                         },
                         {
                             "topic_name": "Tech",
-                            "topic_id": "5",
-                            "url": "http://rssfeeds.usatoday.com/usatoday-techtopstories&x=1"
+                            "topic_id": "9",
+                            "url": "http://rssfeeds.usatoday.com/usatoday-TechTopStories&x=1"
                         },
                         {
                             "topic_name": "Travel",
-                            "topic_id": "6",
-                            "url": "http://rssfeeds.usatoday.com/usatodaycomtravel-topstories&x=1"
-                        },
-                        {
-                            "topic_name": "Weather",
-                            "topic_id": "7",
-                            "url": "http://rssfeeds.usatoday.com/usatoday-weathertopstories&x=1"
+                            "topic_id": "10",
+                            "url": "http://rssfeeds.usatoday.com/UsatodaycomTravel-TopStories&x=1"
                         }
                     ]
                 },

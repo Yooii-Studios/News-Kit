@@ -369,6 +369,374 @@
                     ]
                 }
             ]
+        },
+        {
+            "country_name": "Österreich",
+            "country_code": "AT",
+            "news_providers": [
+                {
+                    "provider_name": "Google News",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Schlagzeilen",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Vorschläge für Sie",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Österreich",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Wirtschaft",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Wissen/Technik",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Unterhaltung",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Gesundheit",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "Weitere Schlagzeilen",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Der Standard",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Newsroom",
+                            "topic_id": "1",
+                            "url": "http://derStandard.at/?page=rss&ressort=Seite1",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Inland:",
+                            "topic_id": "2",
+                            "url": "http://derstandard.at/?page=rss&ressort=InnenPolitik"
+                        },
+                        {
+                            "topic_name": "International:",
+                            "topic_id": "3",
+                            "url": "http://derstandard.at/?page=rss&ressort=InternationalPolitik"
+                        },
+                        {
+                            "topic_name": "Wirtschaft:",
+                            "topic_id": "4",
+                            "url": "http://derStandard.at/?page=rss&ressort=Wirtschaft"
+                        },
+                        {
+                            "topic_name": "Web:",
+                            "topic_id": "5",
+                            "url": "http://derStandard.at/?page=rss&ressort=Web"
+                        },
+                        {
+                            "topic_name": "Sport:",
+                            "topic_id": "6",
+                            "url": "http://derStandard.at/?page=rss&ressort=Sport"
+                        },
+                        {
+                            "topic_name": "Panorama:",
+                            "topic_id": "7",
+                            "url": "http://derStandard.at/?page=rss&ressort=Panorama"
+                        },
+                        {
+                            "topic_name": "Etat:",
+                            "topic_id": "8",
+                            "url": "http://derStandard.at/?page=rss&ressort=Etat"
+                        },
+                        {
+                            "topic_name": "Kultur:",
+                            "topic_id": "9",
+                            "url": "http://derStandard.at/?page=rss&ressort=Kultur"
+                        },
+                        {
+                            "topic_name": "Wissenschaft:",
+                            "topic_id": "10",
+                            "url": "http://derStandard.at/?page=rss&ressort=Wissenschaft"
+                        },
+                        {
+                            "topic_name": "Gesundheit:",
+                            "topic_id": "11",
+                            "url": "http://derStandard.at/?page=rss&ressort=Gesundheit"
+                        },
+                        {
+                            "topic_name": "Bildung:",
+                            "topic_id": "12",
+                            "url": "http://derStandard.at/?page=rss&ressort=Bildung"
+                        },
+                        {
+                            "topic_name": "Meinung:",
+                            "topic_id": "13",
+                            "url": "http://derStandard.at/?page=rss&ressort=Meinung"
+                        },
+                        {
+                            "topic_name": "Lifestyle:",
+                            "topic_id": "14",
+                            "url": "http://derStandard.at/?page=rss&ressort=Lifestyle"
+                        },
+                        {
+                            "topic_name": "Reisen:",
+                            "topic_id": "15",
+                            "url": "http://derStandard.at/?page=rss&ressort=Reisen"
+                        },
+                        {
+                            "topic_name": "Karriere:",
+                            "topic_id": "16",
+                            "url": "http://derStandard.at/?page=rss&ressort=Karriere"
+                        },
+                        {
+                            "topic_name": "Immobilien:",
+                            "topic_id": "17",
+                            "url": "http://derstandard.at/?page=rss&ressort=Immobilien"
+                        },
+                        {
+                            "topic_name": "dieStandard.at:",
+                            "topic_id": "18",
+                            "url": "http://dieStandard.at/?page=rss&ressort=diestandard"
+                        },
+                        {
+                            "topic_name": "daStandard.at:",
+                            "topic_id": "19",
+                            "url": "http://daStandard.at/?page=rss&ressort=dastandard"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Switzerland",
+            "country_code": "CH",
+            "news_providers": [
+                {
+                    "provider_name": "20 Minuten",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Front",
+                            "topic_id": "1",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=1",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "News",
+                            "topic_id": "2",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=4"
+                        },
+                        {
+                            "topic_name": "Ausland",
+                            "topic_id": "3",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=3"
+                        },
+                        {
+                            "topic_name": "Schweiz",
+                            "topic_id": "4",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=2"
+                        },
+                        {
+                            "topic_name": "Wirtschaft & Börse",
+                            "topic_id": "5",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=8"
+                        },
+                        {
+                            "topic_name": "Zürich",
+                            "topic_id": "6",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=19"
+                        },
+                        {
+                            "topic_name": "Bern",
+                            "topic_id": "7",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=20"
+                        },
+                        {
+                            "topic_name": "Mittelland",
+                            "topic_id": "8",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=2087"
+                        },
+                        {
+                            "topic_name": "Basel",
+                            "topic_id": "9",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=21"
+                        },
+                        {
+                            "topic_name": "Zentralschweiz",
+                            "topic_id": "10",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=112"
+                        },
+                        {
+                            "topic_name": "Ostschweiz",
+                            "topic_id": "11",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=126"
+                        },
+                        {
+                            "topic_name": "Panorama",
+                            "topic_id": "12",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=13"
+                        },
+                        {
+                            "topic_name": "People",
+                            "topic_id": "13",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=28"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "14",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=9"
+                        },
+                        {
+                            "topic_name": "Digital",
+                            "topic_id": "15",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=10"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "16",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=11"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "17",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=25"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Blick",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "News",
+                            "topic_id": "1",
+                            "url": "http://www.blick.ch/news/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Schweiz",
+                            "topic_id": "2",
+                            "url": "http://www.blick.ch/news/schweiz/rss.xml"
+                        },
+                        {
+                            "topic_name": "Ausland",
+                            "topic_id": "3",
+                            "url": "http://www.blick.ch/news/ausland/rss.xml"
+                        },
+                        {
+                            "topic_name": "Wirtschaft",
+                            "topic_id": "4",
+                            "url": "http://www.blick.ch/news/wirtschaft/rss.xml"
+                        },
+                        {
+                            "topic_name": "Wissen",
+                            "topic_id": "5",
+                            "url": "http://www.blick.ch/news/wissenschaftundtechnik/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://www.blick.ch/sport/rss.xml"
+                        },
+                        {
+                            "topic_name": "People",
+                            "topic_id": "7",
+                            "url": "http://www.blick.ch/people/rss.xml"
+                        },
+                        {
+                            "topic_name": "Unterhaltung",
+                            "topic_id": "8",
+                            "url": "http://www.blick.ch/unterhaltung/rss.xml"
+                        },
+                        {
+                            "topic_name": "Life",
+                            "topic_id": "9",
+                            "url": "http://www.blick.ch/life/rss.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Luxemburg",
+            "country_code": "LU",
+            "news_providers": [
+                {
+                    "provider_name": "Tageblatt",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Front",
+                            "topic_id": "1",
+                            "url": "http://www.tageblatt.lu/rss/front.tmpl",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Nachrichten",
+                            "topic_id": "2",
+                            "url": "http://www.tageblatt.lu/rss/nachrichten.tmpl"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "3",
+                            "url": "http://www.tageblatt.lu/rss/sport.tmpl"
+                        },
+                        {
+                            "topic_name": "Wirtschaft",
+                            "topic_id": "4",
+                            "url": "http://www.tageblatt.lu/rss/wirtschaft.tmpl"
+                        },
+                        {
+                            "topic_name": "Kultur",
+                            "topic_id": "5",
+                            "url": "http://www.tageblatt.lu/rss/kultur.tmpl"
+                        },
+                        {
+                            "topic_name": "Wissen",
+                            "topic_id": "6",
+                            "url": "http://www.tageblatt.lu/rss/wissen.tmpl"
+                        },
+                        {
+                            "topic_name": "People",
+                            "topic_id": "7",
+                            "url": "http://www.tageblatt.lu/rss/people.tmpl"
+                        },
+                        {
+                            "topic_name": "Gewinnspiele",
+                            "topic_id": "8",
+                            "url": "http://www.tageblatt.lu/rss/gewinnspiele.tmpl"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

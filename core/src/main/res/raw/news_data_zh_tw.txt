@@ -372,7 +372,13 @@
                             "url": "http://feeds.feedburner.com/chinatimes/realtimenews-technology"
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "country_name": "香港",
+            "country_code": "HK",
+            "news_providers": [
                 {
                     "provider_name": "Google 新聞",
             	    "provider_id": "1",
