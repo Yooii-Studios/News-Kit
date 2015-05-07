@@ -287,6 +287,205 @@
                     ]
                 }
             ]
+        },
+        {
+            "country_name": "Belgium",
+            "country_code": "BE",
+            "news_providers": [
+                {
+                    "provider_name": "Google Nieuws",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Voorpaginanieuws",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Buitenland",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "België",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Economie",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Wetenschap/techniek",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Entertainment",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Meer voorpaginanieuws",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Het Belang van Limburg",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": " Home",
+                            "topic_id": "1",
+                            "url": "http://www.hbvl.be/rss/section/D1618839-F921-43CC-AF6A-A2B200A962DC",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": " Limburg",
+                            "topic_id": "2",
+                            "url": "http://www.hbvl.be/rss/section/0DB351D4-B23C-47E4-AEEB-09CF7DD521F9"
+                        },
+                        {
+                            "topic_name": " Economie",
+                            "topic_id": "3",
+                            "url": "http://www.hbvl.be/rss/section/A160C0A6-EFC9-45D8-BF88-86B6F09C92A6"
+                        },
+                        {
+                            "topic_name": " Binnenland",
+                            "topic_id": "4",
+                            "url": "http://www.hbvl.be/rss/section/FBAF3E6E-21C4-47D3-8A71-902A5E0A7ECB"
+                        },
+                        {
+                            "topic_name": "Buitenland",
+                            "topic_id": "5",
+                            "url": "http://www.hbvl.be/rss/section/18B4F7EE-C4FD-4520-BC73-52CACBB3931B"
+                        },
+                        {
+                            "topic_name": "Media & Cultuur",
+                            "topic_id": "6",
+                            "url": "http://www.hbvl.be/rss/section/3D61D4A0-88CE-44E9-BCE0-A2AD00AD7D2E"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://www.hbvl.be/rss/section/0AECEA6E-9E2F-4509-A874-A2AD00ADEAA4"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Gazet van Antwerpen",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Home",
+                            "topic_id": "1",
+                            "url": "http://www.gva.be/rss/section/ca750cdf-3d1e-4621-90ef-a3260118e21c",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Stad & Regio",
+                            "topic_id": "2",
+                            "url": "http://www.gva.be/rss/section/19950B9F-8A8E-4ED3-A4BD-A2AC00E91A57"
+                        },
+                        {
+                            "topic_name": "Economie",
+                            "topic_id": "3",
+                            "url": "http://www.gva.be/rss/section/8B7011DF-CAD2-4474-AA90-A2AC00E31B55"
+                        },
+                        {
+                            "topic_name": "Binnenland",
+                            "topic_id": "4",
+                            "url": "http://www.gva.be/rss/section/5685D99C-D24E-4C8A-9A59-A2AC00E293B1"
+                        },
+                        {
+                            "topic_name": "Media & Cultuur",
+                            "topic_id": "5",
+                            "url": "http://www.gva.be/rss/section/472C34EB-D1BC-4E10-BDE7-A2AC00E2D820%3E%3C/a%3E%20%3Cli%3E%20%20%3Ca%20href="
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://www.gva.be/rss/section/4DFF3E33-6C32-4E60-803C-A2AC00EDE26C"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Het Laatste Nieuws",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Alle nieuws",
+                            "topic_id": "1",
+                            "url": "http://www.hln.be/rss.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Nieuws",
+                            "topic_id": "2",
+                            "url": "http://www.hln.be/nieuws/rss.xml"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "3",
+                            "url": "http://www.hln.be/sport/rss.xml"
+                        },
+                        {
+                            "topic_name": "You",
+                            "topic_id": "4",
+                            "url": "http://www.hln.be/you/rss.xml"
+                        },
+                        {
+                            "topic_name": "Stars",
+                            "topic_id": "5",
+                            "url": "http://www.hln.be/stars/rss.xml"
+                        },
+                        {
+                            "topic_name": "Reizen",
+                            "topic_id": "6",
+                            "url": "http://www.hln.be/reizen/rss.xml"
+                        },
+                        {
+                            "topic_name": "Planet",
+                            "topic_id": "7",
+                            "url": "http://www.hln.be/planet/rss.xml"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "8",
+                            "url": "http://www.hln.be/auto/rss.xml"
+                        },
+                        {
+                            "topic_name": "iHLN",
+                            "topic_id": "9",
+                            "url": "http://www.hln.be/ihln/rss.xml"
+                        },
+                        {
+                            "topic_name": "Geld",
+                            "topic_id": "10",
+                            "url": "http://www.hln.be/geld/rss.xml"
+                        },
+                        {
+                            "topic_name": "Wetenschap",
+                            "topic_id": "11",
+                            "url": "http://www.hln.be/wetenschap/rss.xml"
+                        },
+                        {
+                            "topic_name": "Muziek",
+                            "topic_id": "12",
+                            "url": "http://www.hln.be/muziek/rss.xml"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

@@ -404,6 +404,192 @@
                     ]
                 }
             ]
+        },
+        {
+            "country_name": "Украина",
+            "country_code": "UA",
+            "news_providers": [
+                {
+                    "provider_name": "Google Новости",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Главные новости",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Рекомендовано",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "В мире",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Украина",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Бизнес",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Наука и техника",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=s&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Ukrainianwall",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "все новости",
+                            "topic_id": "1",
+                            "url": "http://ukrainianwall.com/feed",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Украина",
+                            "topic_id": "2",
+                            "url": "http://ukrainianwall.com/category/ukraine/feed/"
+                        },
+                        {
+                            "topic_name": "Бизнес",
+                            "topic_id": "3",
+                            "url": "http://ukrainianwall.com/category/business/feed/"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "4",
+                            "url": "http://ukrainianwall.com/category/sport/feed/"
+                        },
+                        {
+                            "topic_name": "Наука",
+                            "topic_id": "5",
+                            "url": "http://ukrainianwall.com/category/tech/feed/"
+                        },
+                        {
+                            "topic_name": "мир",
+                            "topic_id": "6",
+                            "url": "http://ukrainianwall.com/category/world/feed/"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "7",
+                            "url": "http://ukrainianwall.com/category/politics/feed/"
+                        },
+                        {
+                            "topic_name": "Украина",
+                            "topic_id": "1",
+                            "url": "http://fakty.ua/rss_feed/ukraina"
+                        },
+                        {
+                            "topic_name": "Мир",
+                            "topic_id": "2",
+                            "url": "http://fakty.ua/rss_feed/world"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "3",
+                            "url": "http://fakty.ua/rss_feed/politics"
+                        },
+                        {
+                            "topic_name": "Происшествия",
+                            "topic_id": "4",
+                            "url": "http://fakty.ua/rss_feed/crime"
+                        },
+                        {
+                            "topic_name": "Здоровье",
+                            "topic_id": "5",
+                            "url": "http://fakty.ua/rss_feed/health"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "6",
+                            "url": "http://fakty.ua/rss_feed/sport"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "7",
+                            "url": "http://fakty.ua/rss_feed/culture"
+                        },
+                        {
+                            "topic_name": "История современности",
+                            "topic_id": "8",
+                            "url": "http://fakty.ua/rss_feed/stories"
+                        },
+                        {
+                            "topic_name": "Житейские истории",
+                            "topic_id": "9",
+                            "url": "http://fakty.ua/rss_feed/life-stories"
+                        },
+                        {
+                            "topic_name": "Наука и технологии",
+                            "topic_id": "10",
+                            "url": "http://fakty.ua/rss_feed/science"
+                        },
+                        {
+                            "topic_name": "Все новости",
+                            "topic_id": "11",
+                            "url": "http://fakty.ua/rss_feed/all"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Қазақстан",
+            "country_code": "KZ",
+            "news_providers": [
+                {
+                    "provider_name": "Караван",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Караван",
+                            "topic_id": "1",
+                            "url": "http://www.caravan.kz/rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Беларусь",
+            "country_code": "BY",
+            "news_providers": [
+                {
+                    "provider_name": "Наро́дная во́ля",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Наро́дная во́ля",
+                            "topic_id": "1",
+                            "url": "http://www.nv-online.info/feed/index.rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
