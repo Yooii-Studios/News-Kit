@@ -50,16 +50,14 @@ public class LanguageSelectDialogFragment extends DialogFragment {
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.setting_language)
                 .items(languages)
-                .itemsCallbackSingleChoice(currentLanguageType.getIndex(), new MaterialDialog.ListCallbackSingleChoice() {
+                .itemsCallbackSingleChoice(currentLanguageType.getIndex(), new MaterialDialog.ListCallback() {
                     @Override
-                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         if (mListener != null) {
                             mListener.onSelectLanguage(which);
                         }
-                        return true;
-                    }
+    }
                 })
-                .contentColor(getResources().getColor(R.color.material_black_primary_text))
                 .negativeText(R.string.cancel)
                 .build();
         materialDialog.setCancelable(false);
