@@ -61,6 +61,18 @@ public class BackgroundServiceUtils {
         SIX_AM          ( 4,  6,  0),
         NOON            ( 5, 12,  0),
         SIX_PM          ( 6, 18,  0);
+        /*
+        ,
+        TEST1           ( 7, 14, 30),
+        TEST2           ( 8, 15,  0),
+        TEST3           ( 9, 15, 30),
+        TEST4           (10, 16,  0),
+        TEST5           (11, 16, 30),
+        TEST6           (12, 17,  0),
+        TEST7           (13, 17,  30)
+
+        isTimeToIssueNotification 가 true 를 반환하도록 해야함
+         */
 
         public static final int INVALID_KEY = -1;
         private static final CacheTime DEFAULT = MIDNIGHT;
