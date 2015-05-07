@@ -100,7 +100,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     // Overlay & Shadow
     private static final float TOP_OVERLAY_ALPHA_LIMIT = 0.75f;
-//    private static final float TOP_OVERLAY_ALPHA_RATIO = 0.0008f;
+    private static final float TOP_OVERLAY_ALPHA_RATIO = 0.0008f;
     private static final float TOP_SCROLL_PARALLAX_RATIO = 0.4f;
 
 //    private static final int BOTTOM_NEWS_ANIM_DELAY_UNIT_MILLI = 60;
@@ -196,7 +196,8 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             if (mTopImageView.getDrawable() != null) {
                 mTransitionUtils = NewsFeedDetailTransitionUtils.runEnterAnimation(this);
             } else {
-                showLoadingCover();
+                configBeforeRefresh();
+//                showLoadingCover();
             }
         } else {
             adjustShadowGradientViews();
@@ -647,7 +648,7 @@ public class NewsFeedDetailActivity extends ActionBarActivity
             applyDummyImage();
             configAfterRefreshDone();
         } else {
-            showLoadingCover();
+            configBeforeRefresh();
             mTopNewsImageFetchTask = new NewsFeedDetailNewsImageUrlFetchTask(mTopNews, this);
             mTopNewsImageFetchTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -665,24 +666,31 @@ public class NewsFeedDetailActivity extends ActionBarActivity
 
     private void configBeforeRefresh() {
         mIsRefreshing = true;
-        mSwipeRefreshLayout.setRefreshing(true);
         NewsFeedDetailTransitionUtils.animateTopOverlayFadeOut(this);
         showLoadingCover();
     }
 
     private void configAfterRefreshDone() {
         mIsRefreshing = false;
-        mSwipeRefreshLayout.setRefreshing(false);
         NewsFeedDetailTransitionUtils.animateTopOverlayFadeIn(this);
         hideLoadingCover();
     }
 
     private void showLoadingCover() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         mLoadingCoverView.setVisibility(View.VISIBLE);
         mLoadingCoverView.animate().alpha(1.0f);
     }
 
     private void hideLoadingCover() {
+        mSwipeRefreshLayout.setRefreshing(false);
+
         mLoadingCoverView.animate().alpha(0.0f).withEndAction(new Runnable() {
             @Override
             public void run() {
@@ -828,30 +836,45 @@ public class NewsFeedDetailActivity extends ActionBarActivity
         if (mScrollView.getScrollY() >= 0) {
             mTopNewsImageWrapper.setTranslationY(scrollY * TOP_SCROLL_PARALLAX_RATIO);
 
-            float ratio = 0.0008f;
-            float toolbarAlpha;
-            if (scrollY * ratio < TOP_OVERLAY_ALPHA_LIMIT) {
-                toolbarAlpha = scrollY * ratio;
-            } else {
-                toolbarAlpha = TOP_OVERLAY_ALPHA_LIMIT;
-            }
-            mToolbarOverlayView.setAlpha(toolbarAlpha);
-
-            float topGradientAlpha = 1.f - scrollY * ratio;
-            if (topGradientAlpha >= 0) {
-                mTopGradientShadowView.setAlpha(topGradientAlpha);
-            } else {
-                mTopGradientShadowView.setAlpha(0);
-            }
+            mToolbarOverlayView.setAlpha(getToolbarOverlayAlpha());
+            mTopGradientShadowView.setAlpha(getTopGradientShadowViewAlpha());
         } else {
             mTopNewsImageWrapper.setTranslationY(0);
             if (mToolbarOverlayView.getAlpha() != 0) {
-                mToolbarOverlayView.setAlpha(0);
+                mToolbarOverlayView.setAlpha(getToolbarOverlayAlpha());
             }
             if (mTopGradientShadowView.getAlpha() != 1.f) {
-                mTopGradientShadowView.setAlpha(1.f);
+                mTopGradientShadowView.setAlpha(getTopGradientShadowViewAlpha());
             }
         }
+    }
+
+    public float getToolbarOverlayAlpha() {
+        int scrollY = mScrollView.getScrollY();
+
+        float toolbarAlpha;
+        if (scrollY >= 0) {
+            if (scrollY * TOP_OVERLAY_ALPHA_RATIO < TOP_OVERLAY_ALPHA_LIMIT) {
+                toolbarAlpha = scrollY * TOP_OVERLAY_ALPHA_RATIO;
+            } else {
+                toolbarAlpha = TOP_OVERLAY_ALPHA_LIMIT;
+            }
+        } else {
+            toolbarAlpha = 0;
+        }
+
+        return toolbarAlpha;
+    }
+
+    public float getTopGradientShadowViewAlpha() {
+        int scrollY = mScrollView.getScrollY();
+        float alpha;
+        if (scrollY >= 0) {
+            alpha = 1.f - scrollY * TOP_OVERLAY_ALPHA_RATIO;
+        } else {
+            alpha = 1.0f;
+        }
+        return alpha >= 0 ? alpha : 0;
     }
 
     @Override
