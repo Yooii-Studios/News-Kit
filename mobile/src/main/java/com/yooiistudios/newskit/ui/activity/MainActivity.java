@@ -198,8 +198,8 @@ public class MainActivity extends ActionBarActivity
         // 나중에 사용될 가능성이 있어 주석으로 남김
         /*
         if (DebugSettings.isDebugBuild()) {
-//            DebugNewsTopicValidateUtil.checkNewsUrls(getApplicationContext(), DebugNewsUrls.sUrls);
-            DebugNewsTopicValidateUtil.run(getApplicationContext());
+            DebugNewsTopicValidateUtil.validateAll(getApplicationContext());
+//            DebugNewsTopicValidateUtil.validateLanguage(getApplicationContext(), "ja", null);
             finish();
             return;
         }

@@ -162,6 +162,15 @@ public class NewsContentProvider {
         return null;
     }
 
+    public NewsProviderLanguage getNewsLanguageByLanguageAndRegionDebug(@NonNull String languageCode,
+                                                                        @Nullable String regionCode) {
+        String key = languageCode;
+        if (regionCode != null && regionCode.length() > 0) {
+            key += "-" + regionCode;
+        }
+        return mSortedNewsProviderLanguages.get(key);
+    }
+
     public String getNewsLanguageTitle(int position) {
         if (position < mSortedNewsProviderLanguages.size()) {
             Set keySet = mSortedNewsProviderLanguages.keySet();

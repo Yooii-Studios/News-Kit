@@ -1,5 +1,7 @@
 package com.yooiistudios.newskit.core.news.curation;
 
+import android.util.SparseArray;
+
 import com.yooiistudios.newskit.core.R;
 
 /**
@@ -45,9 +47,22 @@ public enum NewsProviderLangType {
     UKRAINIAN(33, R.raw.news_data_uk, "Украї́нська"),
     PERSIAN(34, R.raw.news_data_fa, "فارسی");
 
+    // index 에 해당하는 NewsProviderLangType 를 찾기 위해 매번 switch, if-else, for 등으로
+    // 체크하지 않고 초기 클래스가 로드될 경우 한번만 전체 타입을 검사, 맵으로 만들어 둠으로써
+    // 가독성 및 퍼포먼스 향상
+    private static final SparseArray<NewsProviderLangType> TYPES;
+
     private int mIndex;
     private int mResourceId;
     private String mTitle;
+
+    static {
+        TYPES = new SparseArray<>();
+
+        for (NewsProviderLangType type : NewsProviderLangType.values()) {
+            TYPES.put(type.getIndex(), type);
+        }
+    }
 
     NewsProviderLangType(int index, int resourceId, String title) {
         mIndex = index;
@@ -56,44 +71,7 @@ public enum NewsProviderLangType {
     }
 
     public static NewsProviderLangType valueOf(int index) {
-        switch (index) {
-            case 0:  return ENGLISH;
-            case 1:  return SPANISH;
-            case 2:  return FRENCH;
-            case 3:  return CHINESE_CN;
-            case 4:  return CHINESE_TW;
-            case 5:  return GERMAN;
-            case 6:  return RUSSIAN;
-            case 7:  return PORTUGUESE;
-            case 8:  return JAPANESE;
-            case 9:  return KOREAN;
-            case 10: return TURKISH;
-            case 11: return ITALIAN;
-            case 12: return VIETNAMESE;
-            case 13: return SWEDISH;
-            case 14: return NORWEGIAN;
-            case 15: return FINNISH;
-            case 16: return DANISH;
-            case 17: return DUTCH;
-            case 18: return THAI;
-            case 19: return MALAY;
-            case 20: return INDONESIAN;
-            case 21: return ARABIC;
-            case 22: return POLISH;
-            case 23: return GREEK;
-            case 24: return CZECH;
-            case 25: return BULGARIAN;
-            case 26: return BELARUSIAN;
-            case 27: return CROATIAN;
-            case 28: return HUNGARIAN;
-            case 29: return KAZAKH;
-            case 30: return ROMANIAN;
-            case 31: return SERBIAN;
-            case 32: return SLOVAK;
-            case 33: return UKRAINIAN;
-            case 34: return PERSIAN;
-            default: return ENGLISH;
-        }
+        return TYPES.get(index, ENGLISH);
     }
 
     public int getIndex() { return mIndex; }

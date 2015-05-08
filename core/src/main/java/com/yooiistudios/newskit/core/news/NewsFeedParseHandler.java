@@ -1,6 +1,9 @@
 package com.yooiistudios.newskit.core.news;
 
+import com.yooiistudios.newskit.core.debug.DebugSettings;
+
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.lang.reflect.Method;
@@ -15,11 +18,6 @@ public class NewsFeedParseHandler extends DefaultHandler {
     private NewsFeed rssFeed;
     private News rssItem;
     private StringBuilder stringBuilder;
-//    private int mNewsSizeLimit;
-
-//    public NewsFeedParseHandler(int newsSizeLimit) {
-//        mNewsSizeLimit = newsSizeLimit;
-//    }
 
     @Override
     public void startDocument() {
@@ -36,10 +34,15 @@ public class NewsFeedParseHandler extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+    public void startElement(String uri, String localName, String qName, Attributes attributes)
+            throws SAXException {
         stringBuilder = new StringBuilder();
 
         if (qName.equals("item") && rssFeed != null) {
+            /*
+            // NewsTopic validation 테스트 중 퍼포먼스 개선을 위해 일정 갯수 이상 가져온 경우 무시하는 기능.
+            checkNewsCountLimitDebug();
+            */
             rssItem = new News();
             rssFeed.addNews(rssItem);
         }
@@ -52,7 +55,6 @@ public class NewsFeedParseHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) {
-
         if (rssFeed != null && rssItem == null) {
             try {
                 if (qName != null && qName.length() > 0) {
@@ -77,6 +79,14 @@ public class NewsFeedParseHandler extends DefaultHandler {
 //                e.printStackTrace();
             }
         }
-
     }
+
+    private void checkNewsCountLimitDebug() throws SAXException {
+        final int parse_limit = 5;
+        if (DebugSettings.isDebugBuild() && rssFeed.getNewsList().size() > parse_limit - 1) {
+            throw new SAXException(new BreakParsingException());
+        }
+    }
+
+    public static class BreakParsingException extends Exception {}
 }

@@ -1,6 +1,7 @@
 package com.yooiistudios.newskit.model.debug;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.NewsTopic;
@@ -15,6 +16,7 @@ import com.yooiistudios.newskit.core.util.ExternalStorage;
 import com.yooiistudios.newskit.core.util.NLLog;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Dongheyon Jeong in News Kit from Yooii Studios Co., LTD. on 15. 4. 23.
@@ -29,37 +31,70 @@ public class DebugNewsTopicValidateUtil {
         throw new AssertionError("You MUST not create this class!");
     }
 
-    public static void run(final Context context) {
+    public static void validateAll(final Context context) {
         new android.os.AsyncTask<Void, Void, Void>() {
             @Override
             public Void doInBackground(Void... args) {
+                NLLog.d(TAG, "validateAll start");
                 NewsDb.getInstance(context).clearArchiveDebug();
 
                 int langCount = NewsProviderLangType.values().length;
-                int accumuNewsFeedSize = 0;
                 NewsContentProvider.getInstance(context).sortNewsProviderLanguage(context);
                 for (int i = 0; i < langCount; i++) {
-                    int left = langCount - i;
-                    NLLog.d(TAG, String.format("NewsProviderLanguage left: %3d", left));
                     NewsProviderLanguage providerLanguage
                             = NewsContentProvider.getInstance(context).getNewsLanguage(i);
 
+                    String isoCode = providerLanguage.languageCode;
+                    if (providerLanguage.regionCode != null && providerLanguage.regionCode.length() > 0) {
+                        isoCode += "_" + providerLanguage.regionCode;
+                    }
+                    int left = langCount - i;
+                    NLLog.d(TAG, String.format(Locale.US, "NewsProviderLanguage : %5s(%3d/%3d)", isoCode, i, langCount));
+
                     ArrayList<NewsFeed> newsFeeds = getNewsFeedsFromNewsProviderLanguages(providerLanguage);
 
-                    for (int j = 0; j < newsFeeds.size(); j++) {
-                        saveNewsFeedAt(newsFeeds.get(j), j + accumuNewsFeedSize, context);
-                    }
-                    try {
-                        NewsDb.copyDbToExternalStorage(context);
-                    } catch (ExternalStorage.ExternalStorageException ignored) {
-                        // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
-                    }
-                    accumuNewsFeedSize += newsFeeds.size();
+                    saveNewsFeedsAndExportWith(context, providerLanguage, newsFeeds);
                 }
-
+                NLLog.d(TAG, "validateAll end");
                 return null;
             }
         }.execute();
+    }
+
+    public static void validateLanguage(final Context context,
+                                        final String languageCode,
+                                        @Nullable final String regionCode) {
+        new android.os.AsyncTask<Void, Void, Void>() {
+            @Override
+            public Void doInBackground(Void... args) {
+                NLLog.d(TAG, "validateLanguage start");
+                NewsDb.getInstance(context).clearArchiveDebug();
+
+                NewsContentProvider.getInstance(context).sortNewsProviderLanguage(context);
+
+                NewsProviderLanguage providerLanguage = NewsContentProvider.getInstance(context)
+                        .getNewsLanguageByLanguageAndRegionDebug(languageCode, regionCode);
+                ArrayList<NewsFeed> newsFeeds = getNewsFeedsFromNewsProviderLanguages(providerLanguage);
+
+                saveNewsFeedsAndExportWith(context, providerLanguage, newsFeeds);
+                NLLog.d(TAG, "validateLanguage end");
+                return null;
+            }
+        }.execute();
+    }
+
+    private static void saveNewsFeedsAndExportWith(Context context, NewsProviderLanguage providerLanguage, ArrayList<NewsFeed> newsFeeds) {
+        NewsDb.getInstance(context).clearArchiveDebug();
+        NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
+        try {
+            String postfix = providerLanguage.languageCode;
+            if (providerLanguage.regionCode != null && providerLanguage.regionCode.length() > 0) {
+                postfix += "_" + providerLanguage.regionCode;
+            }
+            NewsDb.copyDbToExternalStorageWithPostfix(context, postfix);
+        } catch (ExternalStorage.ExternalStorageException ignored) {
+            // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+        }
     }
 
 //    public static void checkNewsUrls(final Context context, final String[] urls) {
@@ -86,19 +121,9 @@ public class DebugNewsTopicValidateUtil {
 //        }.execute();
 //    }
 
-//    private static void configOnFetch(ArrayList<NewsFeed> newsFeeds, Context context) {
-//        NLLog.d(TAG, "Test done. Saving to database...");
-//        NewsDb.getInstance(context).clearArchiveDebug();
-//        saveNewsFeedsAndCopyToSdCard(newsFeeds, context);
-//    }
-
-//    private static void saveNewsFeedsAndCopyToSdCard(ArrayList<NewsFeed> newsFeeds, Context context) {
-//        NewsDb.getInstance(context).saveBottomNewsFeedList(newsFeeds);
-//        //saveBottomNewsFeedAt
-//        try {
-//            NewsDb.copyDbToExternalStorage(context);
-//        } catch (ExternalStorage.ExternalStorageException ignored) {
-//            // 디버그 모드에서만 작동해야 하므로 예외상황시 무시한다
+//    private static void appendToDatabase(Context context, ArrayList<NewsFeed> newsFeeds, int accumuNewsFeedSize) {
+//        for (int j = 0; j < newsFeeds.size(); j++) {
+//            saveNewsFeedAt(newsFeeds.get(j), j + accumuNewsFeedSize, context);
 //        }
 //    }
 
@@ -112,8 +137,7 @@ public class DebugNewsTopicValidateUtil {
         int countryCount = countries.size();
         for (int i = 0; i < countryCount; i++) {
             NewsProviderCountry providerCountry = countries.get(i);
-            int left = countryCount - i;
-            NLLog.d(TAG, String.format("NewsProviderCountry left: %3d", left));
+            NLLog.d(TAG, String.format(Locale.US, "NewsProviderCountry : %2s(%3d/%3d)", providerCountry.countryCode, i, countryCount));
             newsFeeds.addAll(getNewsFeedsFromNewsProviderCountries(providerCountry));
         }
 
@@ -126,8 +150,7 @@ public class DebugNewsTopicValidateUtil {
         int providerCount = providers.size();
         for (int i = 0; i < providerCount; i++) {
             NewsProvider newsProvider = providers.get(i);
-            int left = providerCount - i;
-            NLLog.d(TAG, String.format("NewsProvider left: %3d", left));
+            NLLog.d(TAG, String.format(Locale.US, "NewsProvider : %s(%3d/%3d)", newsProvider.name, i, providerCount));
             newsFeeds.addAll(fromNewsProvider(newsProvider));
         }
 
@@ -140,8 +163,7 @@ public class DebugNewsTopicValidateUtil {
         int topicCount = topics.size();
         for (int i = 0; i < topicCount; i++) {
             NewsTopic topic = topics.get(i);
-            int left = topicCount - i;
-            NLLog.d(TAG, String.format("NewsTopic left: %3d", left));
+            NLLog.d(TAG, String.format(Locale.US, "NewsTopic : %s(%3d/%3d)", topic.title, i, topicCount));
             NewsFeed newsFeed = NewsFeedFetchUtil.fetch(topic, 10, false);
             newsFeed.setTopicIdInfo(topic);
 

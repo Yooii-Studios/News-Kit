@@ -27,11 +27,22 @@ public class NewsFeedParser {
             reader.setContentHandler(handler);
 
             InputSource input = createInputSource(inputStream, encoding);
-            reader.parse(input);
+            try {
+                reader.parse(input);
+            } catch(SAXException e) {
+                throwIfNotBreakParsing(e);
+            }
 
             return handler.getResult();
         } catch (ParserConfigurationException e) {
             throw new SAXException();
+        }
+    }
+
+    private static void throwIfNotBreakParsing(SAXException e) throws SAXException {
+        boolean isBreakParsing = e.getCause() instanceof NewsFeedParseHandler.BreakParsingException;
+        if (!isBreakParsing) {
+            throw e;
         }
     }
 

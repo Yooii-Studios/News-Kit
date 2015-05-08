@@ -33,16 +33,16 @@ public class News implements Comparable<News>, Parcelable {
     public static final int DISPLAYING_NEWS = 0;
     public static final int NEXT_NEWS = 1;
 
-    private String mTitle;
-    private String mLink;
+    private String mTitle = "";
+    private String mLink = "";
     private long mPubDateInMillis = INVALID_LONG;
-    private String mGuid;
-    private String mDescription;
-    private String mContent;
-    private String mImageUrl;
+    private String mGuid = "";
+    private String mDescription = "";
+    private String mContent = "";
+    private String mImageUrl = "";
     private boolean mImageUrlChecked;
     private int mImageUrlState;
-    private String mOriginalDescription;
+    private String mOriginalDescription = "";
     private NewsContent mNewsContent = NewsContent.createEmptyObject();
 
     public News() {

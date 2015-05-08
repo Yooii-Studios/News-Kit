@@ -17,7 +17,9 @@ import static com.yooiistudios.newskit.core.news.database.NewsDbContract.Palette
  */
 public class NewsDbHelper extends SQLiteOpenHelper {
     private static final String TAG = NewsDbHelper.class.getName();
-    public static final String DB_NAME = "NewsArchive.db";
+    public static final String DB_NAME = "NewsArchive";
+    public static final String DB_EXTENSION = ".db";
+    public static final String DB_NAME_WITH_EXTENSION = DB_NAME + DB_EXTENSION;
     private static final int DB_VERSION = 13;
 
     // Macro
@@ -111,7 +113,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
 //    public static final String SQL_DROP_NEWS_CONTENT_IMAGE_ENTRY = "DROP TABLE " + NewsContentImageEntry.TABLE_NAME;
 
     public NewsDbHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+        super(context, DB_NAME_WITH_EXTENSION, null, DB_VERSION);
     }
 
     @Override
