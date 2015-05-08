@@ -53,7 +53,7 @@ public class NewsFeedFetchUtil {
         try {
             NewsFeedUrl newsFeedUrl = fetchable.getNewsFeedUrl();
 
-            newsFeed = getNewsFeedFromUrl(newsFeedUrl);
+            newsFeed = getNewsFeedFromUrl(newsFeedUrl, fetchLimit);
 
             if (newsFeed.containsNews()) {
                 newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
@@ -91,7 +91,8 @@ public class NewsFeedFetchUtil {
         return newsFeed;
     }
 
-    private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl) throws IOException, SAXException {
+    private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl, int fetchLimit)
+            throws IOException, SAXException {
         BufferedInputStream inputStream = null;
         URL url = new URL(newsFeedUrl.getUrl());
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -107,7 +108,7 @@ public class NewsFeedFetchUtil {
             inputStream.reset();
             inputStream.mark(0);
 
-            NewsFeed feed = NewsFeedParser.read(inputStream, encoding);
+            NewsFeed feed = NewsFeedParser.read(inputStream, encoding, fetchLimit);
             feed.setNewsFeedUrl(newsFeedUrl);
 
             return feed;

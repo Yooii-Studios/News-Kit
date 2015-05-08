@@ -20,10 +20,11 @@ import javax.xml.parsers.SAXParserFactory;
  * NLNewsFeedParseHandler 클래스를 사용해 파싱 결과를 리턴하는 인터페이스 격의 클래스.
  */
 public class NewsFeedParser {
-    public static NewsFeed read(InputStream inputStream, String encoding) throws SAXException, IOException {
+    public static NewsFeed read(InputStream inputStream, String encoding, int newsCountLimit)
+            throws SAXException, IOException {
         try {
             XMLReader reader = createXMLReader();
-            NewsFeedParseHandler handler = new NewsFeedParseHandler();
+            NewsFeedParseHandler handler = new NewsFeedParseHandler(newsCountLimit);
             reader.setContentHandler(handler);
 
             InputSource input = createInputSource(inputStream, encoding);

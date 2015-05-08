@@ -18,6 +18,11 @@ public class NewsFeedParseHandler extends DefaultHandler {
     private NewsFeed rssFeed;
     private News rssItem;
     private StringBuilder stringBuilder;
+    private int mNewsCountLimit;
+
+    public NewsFeedParseHandler(int newsCountLimit) {
+        mNewsCountLimit = newsCountLimit;
+    }
 
     @Override
     public void startDocument() {
@@ -82,8 +87,7 @@ public class NewsFeedParseHandler extends DefaultHandler {
     }
 
     private void checkNewsCountLimitDebug() throws SAXException {
-        final int parse_limit = 5;
-        if (DebugSettings.isDebugBuild() && rssFeed.getNewsList().size() > parse_limit - 1) {
+        if (DebugSettings.isDebugBuild() && rssFeed.getNewsList().size() > mNewsCountLimit - 1) {
             throw new SAXException(new BreakParsingException());
         }
     }
