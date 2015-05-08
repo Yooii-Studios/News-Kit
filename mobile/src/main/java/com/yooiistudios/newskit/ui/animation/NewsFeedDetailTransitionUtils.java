@@ -364,8 +364,10 @@ public class NewsFeedDetailTransitionUtils {
 //        mRecyclerView.getLayoutParams().height = 0;
 
 //        saveTopOverlayAlphaState();
-        mTopGradientShadowView.setAlpha(0);
-        mToolbarOverlayView.setAlpha(0);
+        mTopGradientShadowView.animate().setDuration(0).alpha(0);
+        mToolbarOverlayView.animate().setDuration(0).alpha(0);
+//        mTopGradientShadowView.setAlpha(0);
+//        mToolbarOverlayView.setAlpha(0);
     }
 
     private void addThumbnailTextViews() {
