@@ -56,9 +56,12 @@ public class LicenseListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.more_info_license_item, parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.more_info_license_item, parent, false);
+        }
 
         LicenseItemViewHolder viewHolder = new LicenseItemViewHolder(convertView);
+        clearContent(viewHolder);
 
         switch (position) {
             case 0:
@@ -202,6 +205,12 @@ public class LicenseListAdapter extends BaseAdapter {
                 break;
         }
         return convertView;
+    }
+
+    private void clearContent(LicenseItemViewHolder viewHolder) {
+        viewHolder.getTitleTextView().setText("");
+        viewHolder.getLinkTextView().setText("");
+        viewHolder.getDetailTextView().setText("");
     }
 
     /**
