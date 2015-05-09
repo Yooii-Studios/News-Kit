@@ -44,10 +44,7 @@ public class NewsFeedParseHandler extends DefaultHandler {
         stringBuilder = new StringBuilder();
 
         if (qName.equals("item") && rssFeed != null) {
-            /*
-            // NewsTopic validation 테스트 중 퍼포먼스 개선을 위해 일정 갯수 이상 가져온 경우 무시하는 기능.
             checkNewsCountLimitDebug();
-            */
             rssItem = new News();
             rssFeed.addNews(rssItem);
         }

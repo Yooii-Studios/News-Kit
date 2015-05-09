@@ -41,7 +41,7 @@ public class NewsFeedParser {
     }
 
     private static void throwIfNotBreakParsing(SAXException e) throws SAXException {
-        boolean isBreakParsing = e.getCause() instanceof NewsFeedParseHandler.BreakParsingException;
+        boolean isBreakParsing = e.getException() instanceof NewsFeedParseHandler.BreakParsingException;
         if (!isBreakParsing) {
             throw e;
         }

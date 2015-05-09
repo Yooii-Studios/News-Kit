@@ -3,7 +3,10 @@ package com.yooiistudios.newskit.model.debug;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.yooiistudios.newskit.core.cache.AsyncTask;
 import com.yooiistudios.newskit.core.news.NewsFeed;
+import com.yooiistudios.newskit.core.news.NewsFeedUrl;
+import com.yooiistudios.newskit.core.news.NewsFeedUrlType;
 import com.yooiistudios.newskit.core.news.NewsTopic;
 import com.yooiistudios.newskit.core.news.curation.NewsContentProvider;
 import com.yooiistudios.newskit.core.news.curation.NewsProvider;
@@ -78,6 +81,41 @@ public class DebugNewsTopicValidateUtil {
 
                 saveNewsFeedsAndExportWith(context, providerLanguage, newsFeeds);
                 NLLog.d(TAG, "validateLanguage end");
+                return null;
+            }
+        }.execute();
+    }
+
+    public static void validateUrl(final Context context, final String url) {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
+                            "http://www.baomoi.com/Home/KinhTe.rss",
+                            NewsFeedUrlType.CUSTOM), 10, false);
+                    NLLog.now("newsFeed: " + newsFeed.toString());
+                    return null;
+                }
+            }.execute();
+    }
+
+    public static void validateDebugNewsUrls(final Context context) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                int failCount = 0;
+                for (String url : DebugNewsUrls.sUrls) {
+                    NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
+                            url,
+                            NewsFeedUrlType.CUSTOM), 10, false);
+                    boolean failed = newsFeed.getNewsFeedFetchState().ordinal() > 1;
+                    if (failed) {
+                        failCount++;
+                    }
+
+                    NLLog.i("qwer", !failed + ", url: " + url);
+                }
+                NLLog.i("qwer", "failCount: " + failCount);
                 return null;
             }
         }.execute();

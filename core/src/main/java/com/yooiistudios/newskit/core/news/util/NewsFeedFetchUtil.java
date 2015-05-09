@@ -100,7 +100,7 @@ public class NewsFeedFetchUtil {
             conn.setConnectTimeout(TIMEOUT_MILLI);
             conn.setReadTimeout(TIMEOUT_MILLI);
             // 모바일에서는 메인 페이지로 리다이렉트 시켜버리는 페이지(ex. http://www.jpnn.com/index.php?mib=rss&id=215) 대응
-//            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A");
             inputStream = new BufferedInputStream(conn.getInputStream());
 
             inputStream.mark(Integer.MAX_VALUE);

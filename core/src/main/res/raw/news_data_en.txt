@@ -2520,7 +2520,7 @@
                         {
                             "topic_name": "Streets",
                             "topic_id": "4",
-                            "url": "http://www.nst.com.my/cmlink/streets-feed-1.3091?localLinksEnabled=false"
+                            "url": "http://www2.nst.com.my/cmlink/streets-feed-1.3091?localLinksEnabled=false"
                         },
                         {
                             "topic_name": "World",
