@@ -461,11 +461,6 @@
                             "topic_name": "연예",
                             "topic_id": "9",
                             "url": "http://rss.hankyung.com/new/news_enter.xml"
-                        },
-                        {
-                            "topic_name": "한경 칼럼",
-                            "topic_id": "10",
-                            "url": "http://rss.hankyung.com/new/column_all.xml"
                         }
                     ]
                 },

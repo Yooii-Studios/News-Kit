@@ -640,21 +640,6 @@
                             "topic_name": "Sport",
                             "topic_id": "5",
                             "url": "http://www.blick.ch/sport/rss.xml"
-                        },
-                        {
-                            "topic_name": "People",
-                            "topic_id": "6",
-                            "url": "http://www.blick.ch/people/rss.xml"
-                        },
-                        {
-                            "topic_name": "Unterhaltung",
-                            "topic_id": "7",
-                            "url": "http://www.blick.ch/unterhaltung/rss.xml"
-                        },
-                        {
-                            "topic_name": "Life",
-                            "topic_id": "9",
-                            "url": "http://www.blick.ch/life/rss.xml"
                         }
                     ]
                 }

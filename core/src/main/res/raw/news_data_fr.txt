@@ -123,48 +123,43 @@
                             "url": "http://www.lemonde.fr/culture/rss_full.xml"
                         },
                         {
-                            "topic_name": "Finances",
-                            "topic_id": "3",
-                            "url": "http://www.lemonde.fr/finance/rss_full.xml"
-                        },
-                        {
                             "topic_name": "International",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.lemonde.fr/international/rss_full.xml"
                         },
                         {
                             "topic_name": "Paris",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.lemonde.fr/paris/rss_full.xml"
                         },
                         {
                             "topic_name": "Politique",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.lemonde.fr/politique/rss_full.xml"
                         },
                         {
                             "topic_name": "Santé",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.lemonde.fr/sante/rss_full.xml"
                         },
                         {
                             "topic_name": "Sciences",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.lemonde.fr/sciences/rss_full.xml"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.lemonde.fr/sport/rss_full.xml"
                         },
                         {
                             "topic_name": "Technologies",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.lemonde.fr/technologies/rss_full.xml"
                         },
                         {
                             "topic_name": "Économie",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.lemonde.fr/economie/rss_full.xml"
                         }
                     ]
@@ -599,48 +594,43 @@
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=312&lang=ro"
                         },
                         {
-                            "topic_name": "Economie",
-                            "topic_id": "5",
-                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=316&lang=ro"
-                        },
-                        {
                             "topic_name": "Faits divers",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=318&lang=ro"
                         },
                         {
                             "topic_name": "Vaud",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=315&lang=ro"
                         },
                         {
                             "topic_name": "Geneve",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=314&lang=ro"
                         },
                         {
                             "topic_name": "Romandie",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=784&lang=ro"
                         },
                         {
                             "topic_name": "People",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=22&lang=ro"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=23&lang=ro"
                         },
                         {
                             "topic_name": "Hi-tech",
-                            "topic_id": "12",
+                            "topic_id": "11",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=20&lang=ro"
                         },
                         {
                             "topic_name": "Sortir",
-                            "topic_id": "13",
+                            "topic_id": "12",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=526&lang=ro"
                         }
                     ]

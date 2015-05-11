@@ -126,103 +126,95 @@
                             "url": "http://politiken.dk/rss/viden.rss"
                         },
                         {
-                            "topic_name": "Navne",
-                            "topic_id": "14",
-                            "url": "http://politiken.dk/rss/navne.rss"
-                        },
-                        {
                             "topic_name": "Foto",
-                            "topic_id": "15",
+                            "topic_id": "14",
                             "url": "http://politiken.dk/rss/fotografier.rss"
                         },
                         {
-                            "topic_name": "TV",
-                            "topic_id": "16",
-                            "url": "http://politiken.dk/rss/tv.rss"
-                        },
-                        {
                             "topic_name": "Bagsiden",
-                            "topic_id": "17",
+                            "topic_id": "15",
                             "url": "http://politiken.dk/rss/bagsiden.rss"
                         },
                         {
-                            "topic_name": "News in english",
-                            "topic_id": "18",
-                            "url": "http://politiken.dk/rss/newsinenglish.rss"
-                        },
-                        {
                             "topic_name": "Mest læste",
-                            "topic_id": "19",
+                            "topic_id": "16",
                             "url": "http://politiken.dk/rss/mestlaeste.rss"
                         },
                         {
                             "topic_name": "Seneste nyt",
-                            "topic_id": "20",
+                            "topic_id": "17",
                             "url": "http://politiken.dk/rss/senestenyt.rss"
                         },
                         {
                             "topic_name": "Tophistorier",
-                            "topic_id": "21",
+                            "topic_id": "18",
                             "url": "http://politiken.dk/rss/tophistorier.rss"
-                        },
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Berlingske ",
+            	    "provider_id": "3",
+            	    "topics": [
                         {
                             "topic_name": "Breaking News",
-                            "topic_id": "2",
-                            "url": "http://www.b.dk/breaking/rss"
+                            "topic_id": "1",
+                            "url": "http://www.b.dk/breaking/rss",
+                            "isDefault": "true"
                         },
                         {
                             "topic_name": "Nationalt",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://www.b.dk/feeds/rss/Nationalt"
                         },
                         {
                             "topic_name": "Globalt",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.b.dk/feeds/rss/Globalt"
                         },
                         {
                             "topic_name": "Viden",
-                            "topic_id": "6",
+                            "topic_id": "4",
                             "url": "http://www.b.dk/feeds/rss/Viden"
                         },
                         {
                             "topic_name": "Kultur",
-                            "topic_id": "7",
+                            "topic_id": "5",
                             "url": "http://www.b.dk/feeds/rss/Kultur"
                         },
                         {
                             "topic_name": "Livsstil",
-                            "topic_id": "8",
+                            "topic_id": "6",
                             "url": "http://www.b.dk/nodequeue/4985/rss"
                         },
                         {
                             "topic_name": "Rejseliv",
-                            "topic_id": "9",
+                            "topic_id": "7",
                             "url": "http://www.b.dk/feeds/rss/rejseliv"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "10",
+                            "topic_id": "8",
                             "url": "http://www.b.dk/feeds/rss/sport"
                         },
                         {
                             "topic_name": "Berlingske Mener",
-                            "topic_id": "11",
+                            "topic_id": "9",
                             "url": "http://www.b.dk/feeds/rss/Berlingske%20Mener"
                         },
                         {
                             "topic_name": "Kommentarer",
-                            "topic_id": "12",
+                            "topic_id": "10",
                             "url": "http://www.b.dk/feeds/rss/Kommentarer"
                         },
                         {
                             "topic_name": "Kronikker",
-                            "topic_id": "13",
+                            "topic_id": "11",
                             "url": "http://www.b.dk/feeds/rss/Kronikker"
                         },
                         {
                             "topic_name": "Groft sagt",
-                            "topic_id": "14",
+                            "topic_id": "12",
                             "url": "http://www.b.dk/feeds/rss/Groft%20Sagt"
                         }
                     ]

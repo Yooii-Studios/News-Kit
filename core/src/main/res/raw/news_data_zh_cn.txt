@@ -96,18 +96,13 @@
                             "url": "http://rss.sina.com.cn/roll/finance/hot_roll.xml"
                         },
                         {
-                            "topic_name": "娱乐要闻汇总",
-                            "topic_id": "9",
-                            "url": "http://rss.sina.com.cn/ent/hot_roll.xml"
-                        },
-                        {
                             "topic_name": "教育要闻汇总",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://rss.sina.com.cn/roll/edu/hot_roll.xml"
                         },
                         {
                             "topic_name": "游戏新闻",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://rss.sina.com.cn/news/allnews/games.xml"
                         }
                     ]
@@ -400,21 +395,6 @@
                             "topic_name": "游戏新闻",
                             "topic_id": "7",
                             "url": "http://www.people.com.cn/rss/game.xml"
-                        },
-                        {
-                            "topic_name": "中文新闻",
-                            "topic_id": "8",
-                            "url": "http://www.people.com.cn/rss/opml.xml"
-                        },
-                        {
-                            "topic_name": "英文新闻",
-                            "topic_id": "9",
-                            "url": "http://www.people.com.cn/rss/opml_en.xml"
-                        },
-                        {
-                            "topic_name": "俄文新闻",
-                            "topic_id": "10",
-                            "url": "http://www.people.com.cn/rss/opml_ru.xml"
                         }
                     ]
                 },

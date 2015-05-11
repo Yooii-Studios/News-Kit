@@ -86,12 +86,12 @@ public class DebugNewsTopicValidateUtil {
         }.execute();
     }
 
-    public static void validateUrl(final Context context, final String url) {
+    public static void validateUrl(final String url) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
                     NewsFeed newsFeed = NewsFeedFetchUtil.fetch(new NewsFeedUrl(
-                            "http://www.baomoi.com/Home/KinhTe.rss",
+                            url,
                             NewsFeedUrlType.CUSTOM), 10, false);
                     NLLog.now("newsFeed: " + newsFeed.toString());
                     return null;

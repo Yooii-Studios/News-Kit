@@ -49,13 +49,8 @@
                             "url": "http://www.danas.rs/rss/rss.asp?column_id=13"
                         },
                         {
-                            "topic_name": "Scena",
-                            "topic_id": "8",
-                            "url": "http://www.danas.rs/rss/rss.asp?column_id=42"
-                        },
-                        {
                             "topic_name": "Feljton",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.danas.rs/rss/rss.asp?column_id=19"
                         }
                     ]
@@ -76,33 +71,28 @@
                             "url": "http://www.politika.rs/rubrike/Politika/index.1.sr.xml"
                         },
                         {
-                            "topic_name": "Остали коментари",
-                            "topic_id": "3",
-                            "url": "http://www.politika.rs/rubrike/ostali-komentari/index.1.sr.xml"
-                        },
-                        {
                             "topic_name": "Погледи",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.politika.rs/pogledi/index.sr.xml"
                         },
                         {
                             "topic_name": "Погледи са стране",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.politika.rs/rubrike/Pogledi-sa-strane/index.1.sr.xml"
                         },
                         {
                             "topic_name": "Спорт",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.politika.rs/rubrike/Sport/index.1.sr.xml"
                         },
                         {
                             "topic_name": "Култура",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.politika.rs/rubrike/Kultura/index.1.sr.xml"
                         },
                         {
                             "topic_name": "Спектар",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.politika.rs/rubrike/spektar/index.1.sr.xml"
                         }
                     ]

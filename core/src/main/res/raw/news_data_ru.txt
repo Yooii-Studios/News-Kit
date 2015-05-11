@@ -91,23 +91,13 @@
                             "url": "http://www.sovsport.ru/gazeta_rss"
                         },
                         {
-                            "topic_name": "Культура",
-                            "topic_id": "6",
-                            "url": "http://www.kp.ru/rss/msk-culture.xml"
-                        },
-                        {
                             "topic_name": "Звезды",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.kp.ru/rss/msk-stars.xml"
                         },
                         {
-                            "topic_name": "Телевизор",
-                            "topic_id": "8",
-                            "url": "http://www.kp.ru/rss/msk-tv.xml"
-                        },
-                        {
                             "topic_name": "Здоровье",
-                            "topic_id": "9",
+                            "topic_id": "7",
                             "url": "http://www.kp.ru/rss/msk-health.xml"
                         }
                     ]
@@ -340,38 +330,33 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Рекомендовано",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "В мире",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Украина",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Бизнес",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Наука и техника",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Культура",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Спорт",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=s&output=rss"
                         }
                     ]

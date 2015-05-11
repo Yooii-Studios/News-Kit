@@ -569,11 +569,6 @@
                             "topic_name": "Sociedad",
                             "topic_id": "17",
                             "url": "http://www.eluniversal.com.mx/rss/sociedad.xml"
-                        },
-                        {
-                            "topic_name": "Estado de México",
-                            "topic_id": "18",
-                            "url": "http://www.eluniversal.com.mx/rss/edomex.xml"
                         }
                     ]
                 },
@@ -1099,7 +1094,8 @@
                         {
                             "topic_name": "Internacional",
                             "topic_id": "1",
-                            "url": "http://www.elpais.com.co/rss/internacional/rss.xml"
+                            "url": "http://www.elpais.com.co/rss/internacional/rss.xml",
+                            "isDefault": "true"
                         },
                         {
                             "topic_name": "Nacional",
@@ -1276,135 +1272,8 @@
                     ]
                 },
                 {
-                    "provider_name": "La Nación",
-            	    "provider_id": "4",
-            	    "topics": [
-                        {
-                            "topic_name": "Ultimas Noticias",
-                            "topic_id": "1",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/origen=2",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "Títulos ed. impresa",
-                            "topic_id": "2",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/origen=1"
-                        },
-                        {
-                            "topic_name": "Política",
-                            "topic_id": "3",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=30"
-                        },
-                        {
-                            "topic_name": "Economía",
-                            "topic_id": "4",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=272"
-                        },
-                        {
-                            "topic_name": "Deportes",
-                            "topic_id": "5",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=131"
-                        },
-                        {
-                            "topic_name": "Sociedad",
-                            "topic_id": "6",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7773"
-                        },
-                        {
-                            "topic_name": "Seguridad",
-                            "topic_id": "7",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7775"
-                        },
-                        {
-                            "topic_name": "Buenos Aires",
-                            "topic_id": "8",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7774"
-                        },
-                        {
-                            "topic_name": "Opinión",
-                            "topic_id": "9",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=28"
-                        },
-                        {
-                            "topic_name": "Espectáculos",
-                            "topic_id": "10",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=120"
-                        },
-                        {
-                            "topic_name": "El Mundo",
-                            "topic_id": "11",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=7"
-                        },
-                        {
-                            "topic_name": "Revista LA NACION",
-                            "topic_id": "12",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=494"
-                        },
-                        {
-                            "topic_name": "Suplemento Enfoques",
-                            "topic_id": "13",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=421"
-                        },
-                        {
-                            "topic_name": "Suplemento Comercio Exterior",
-                            "topic_id": "14",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=347"
-                        },
-                        {
-                            "topic_name": "Suplemento Tecnología",
-                            "topic_id": "15",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=432"
-                        },
-                        {
-                            "topic_name": "Suplemento Turismo",
-                            "topic_id": "16",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=504"
-                        },
-                        {
-                            "topic_name": "Suplemento Al volante",
-                            "topic_id": "17",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=371"
-                        },
-                        {
-                            "topic_name": "Suplemento El Campo",
-                            "topic_id": "18",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=337"
-                        },
-                        {
-                            "topic_name": "Suplemento Moda y Belleza",
-                            "topic_id": "19",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1312"
-                        },
-                        {
-                            "topic_name": "Suplemento Inmuebles Comerciales",
-                            "topic_id": "20",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1363"
-                        },
-                        {
-                            "topic_name": "Suplemento Countries",
-                            "topic_id": "21",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1348"
-                        },
-                        {
-                            "topic_name": "Suplemento Comunidad",
-                            "topic_id": "22",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=1344"
-                        },
-                        {
-                            "topic_name": "adnCultura",
-                            "topic_id": "23",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=6734"
-                        },
-                        {
-                            "topic_name": "The Wall Street Journal Americas",
-                            "topic_id": "24",
-                            "url": "  http://contenidos.lanacion.com.ar/herramientas/rss/categoria_id=6373"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "La Capital",
-            	    "provider_id": "5",
+            	    "provider_id": "4",
             	    "topics": [
                         {
                             "topic_name": "Portada",
@@ -2099,7 +1968,8 @@
                         {
                             "topic_name": "Noticias destacadas",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=es_cl&hl=es&output=rss"
+                            "url": "http://news.google.com/news?cf=all&ned=es_cl&hl=es&output=rss",
+                            "isDefault": "true"
                         },
                         {
                             "topic_name": "Internacional",
@@ -2739,55 +2609,8 @@
                     ]
                 },
                 {
-                    "provider_name": "Prensa Libre",
-            	    "provider_id": "2",
-            	    "topics": [
-                        {
-                            "topic_name": "Portada",
-                            "topic_id": "1",
-                            "url": "http://www.prensalibre.com/rss?rss=Portada",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "Guatemala",
-                            "topic_id": "2",
-                            "url": "http://www.prensalibre.com/rss?rss=Guatemala"
-                        },
-                        {
-                            "topic_name": "Deportes",
-                            "topic_id": "3",
-                            "url": "http://www.prensalibre.com/rss?rss=Deportes"
-                        },
-                        {
-                            "topic_name": "Tecnologia",
-                            "topic_id": "4",
-                            "url": "http://www.prensalibre.com/rss?rss=Tecnologia"
-                        },
-                        {
-                            "topic_name": "Economia",
-                            "topic_id": "5",
-                            "url": "http://www.prensalibre.com/rss?rss=Economia"
-                        },
-                        {
-                            "topic_name": "Internacional",
-                            "topic_id": "6",
-                            "url": "http://www.prensalibre.com/rss?rss=Internacional"
-                        },
-                        {
-                            "topic_name": "Vida",
-                            "topic_id": "7",
-                            "url": "http://www.prensalibre.com/rss?rss=Vida"
-                        },
-                        {
-                            "topic_name": "Opinion",
-                            "topic_id": "8",
-                            "url": "http://www.prensalibre.com/rss?rss=Opinion"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "Siglo Veintiuno",
-            	    "provider_id": "3",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Siglo Veintiuno",
@@ -2933,18 +2756,6 @@
                             "url": "http://www.ultimahora.com/rss/Espectaculos.xml"
                         }
                     ]
-                },
-                {
-                    "provider_name": "La Nacion",
-            	    "provider_id": "4",
-            	    "topics": [
-                        {
-                            "topic_name": "La Nacion",
-                            "topic_id": "1",
-                            "url": "http://www.lanacion.com.py/xml/rss.xml",
-                            "isDefault": "true"
-                        }
-                    ]
                 }
             ]
         },
@@ -3047,20 +2858,8 @@
                     ]
                 },
                 {
-                    "provider_name": "Brecha",
-            	    "provider_id": "3",
-            	    "topics": [
-                        {
-                            "topic_name": "Brecha",
-                            "topic_id": "1",
-                            "url": "HTTP://BRECHA.COM.UY/FEED  ",
-                            "isDefault": "true"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "El País",
-            	    "provider_id": "4",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "El País",
@@ -3219,11 +3018,6 @@
                             "topic_name": "Opinión",
                             "topic_id": "7",
                             "url": "http://www.juventudrebelde.cu/get/rss/noticias/opinion/"
-                        },
-                        {
-                            "topic_name": "Dudas del idioma",
-                            "topic_id": "8",
-                            "url": "http://www.juventudrebelde.cu/get/rss/dudas-idioma/"
                         }
                     ]
                 },
@@ -3313,53 +3107,38 @@
                             "url": "http://www.listindiario.com/rss/elnorte/"
                         },
                         {
-                            "topic_name": "Economía & Negocios",
-                            "topic_id": "3",
-                            "url": "http://www.listindiario.com/rss/economia/"
-                        },
-                        {
-                            "topic_name": "Editorial",
-                            "topic_id": "4",
-                            "url": "http://www.listindiario.com/rss/editorial/"
-                        },
-                        {
-                            "topic_name": "Puntos de vista",
-                            "topic_id": "5",
-                            "url": "http://www.listindiario.com/rss/opinion/"
-                        },
-                        {
                             "topic_name": "Ventana",
-                            "topic_id": "6",
+                            "topic_id": "3",
                             "url": "http://www.listindiario.com/rss/ventana/"
                         },
                         {
                             "topic_name": "La República",
-                            "topic_id": "7",
+                            "topic_id": "4",
                             "url": "http://www.listindiario.com/rss/larepublica/"
                         },
                         {
                             "topic_name": "Las Mundiales",
-                            "topic_id": "8",
+                            "topic_id": "5",
                             "url": "http://www.listindiario.com/rss/lasmundiales/"
                         },
                         {
                             "topic_name": "La Vida",
-                            "topic_id": "9",
+                            "topic_id": "6",
                             "url": "http://www.listindiario.com/rss/lavida/"
                         },
                         {
                             "topic_name": "El Deporte",
-                            "topic_id": "10",
+                            "topic_id": "7",
                             "url": "http://www.listindiario.com/rss/eldeporte/"
                         },
                         {
                             "topic_name": "Entretenimiento",
-                            "topic_id": "11",
+                            "topic_id": "8",
                             "url": "http://www.listindiario.com/rss/entretenimiento/"
                         },
                         {
                             "topic_name": "Las Sociales",
-                            "topic_id": "12",
+                            "topic_id": "9",
                             "url": "http://www.listindiario.com/rss/sociales/"
                         }
                     ]
@@ -3487,29 +3266,14 @@
                             "url": "http://www.laprensa.hn/csp/mediapool/sites/LaPrensa/assets/csp/RssFeed.csp?pub=LaPrensa&section=/Encuestas/"
                         },
                         {
-                            "topic_name": "Especiales",
-                            "topic_id": "8",
-                            "url": "http://www.laprensa.hn/csp/mediapool/sites/LaPrensa/assets/csp/RssFeed.csp?pub=LaPrensa&section=/Especiales/"
-                        },
-                        {
                             "topic_name": "Honduras",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.laprensa.hn/csp/mediapool/sites/LaPrensa/assets/csp/RssFeed.csp?pub=LaPrensa&section=/Honduras/"
                         },
                         {
-                            "topic_name": "Media",
-                            "topic_id": "10",
-                            "url": "http://www.laprensa.hn/csp/mediapool/sites/LaPrensa/assets/csp/RssFeed.csp?pub=LaPrensa&section=/Media/"
-                        },
-                        {
                             "topic_name": "Mundo",
-                            "topic_id": "11",
+                            "topic_id": "9",
                             "url": "http://www.laprensa.hn/csp/mediapool/sites/LaPrensa/assets/csp/RssFeed.csp?pub=LaPrensa&section=/Mundo/"
-                        },
-                        {
-                            "topic_name": "Opinion",
-                            "topic_id": "12",
-                            "url": "http://www.laprensa.hn/csp/mediapool/sites/LaPrensa/assets/csp/RssFeed.csp?pub=LaPrensa&section=/Opinion/"
                         }
                     ]
                 }
@@ -3572,20 +3336,8 @@
                     ]
                 },
                 {
-                    "provider_name": "La Prensa",
-            	    "provider_id": "2",
-            	    "topics": [
-                        {
-                            "topic_name": "La Prensa",
-                            "topic_id": "1",
-                            "url": "www.laprensa.com.ni/archivo/noticias/rss/",
-                            "isDefault": "true"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "El Nuevo Diario",
-            	    "provider_id": "3",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "El Nuevo Diario",
@@ -3721,20 +3473,8 @@
                     ]
                 },
                 {
-                    "provider_name": "El Diario de Hoy",
-            	    "provider_id": "3",
-            	    "topics": [
-                        {
-                            "topic_name": "El Diario de Hoy",
-                            "topic_id": "1",
-                            "url": "http://www.elsalvador.com/ultimahora/elsalvadorRSS.xml",
-                            "isDefault": "true"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "El Mundo",
-            	    "provider_id": "4",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "El Mundo",
@@ -3844,54 +3584,29 @@
             	    "provider_id": "3",
             	    "topics": [
                         {
-                            "topic_name": "Titulares Edición Impresa",
+                            "topic_name": "Portada",
                             "topic_id": "1",
-                            "url": " http://www.aldia.cr/servicios/rss/titulares-impre.xml",
+                            "url": " http://www.aldia.cr/servicios/rss/portada.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Noticias de Última Hora",
-                            "topic_id": "2",
-                            "url": " http://www.aldia.cr/servicios/rss2/ultimahora.xml"
-                        },
-                        {
-                            "topic_name": "Portada",
-                            "topic_id": "3",
-                            "url": " http://www.aldia.cr/servicios/rss/portada.xml"
-                        },
-                        {
                             "topic_name": "Deportes",
-                            "topic_id": "4",
+                            "topic_id": "2",
                             "url": " http://www.aldia.cr/servicios/rss/deportes.xml"
                         },
                         {
-                            "topic_name": "Última Hora Deportes",
-                            "topic_id": "5",
-                            "url": " http://www.aldia.cr/servicios/rss2/ultimahoradeportes.xml"
-                        },
-                        {
                             "topic_name": "Sucesos",
-                            "topic_id": "6",
+                            "topic_id": "3",
                             "url": " http://www.aldia.cr/servicios/rss/sucesos.xml"
                         },
                         {
-                            "topic_name": "Nacionales",
-                            "topic_id": "7",
-                            "url": " http://www.aldia.cr/servicios/rss/nacionales.xml"
-                        },
-                        {
                             "topic_name": "Espectáculos",
-                            "topic_id": "8",
+                            "topic_id": "4",
                             "url": " http://www.aldia.cr/servicios/rss/espectaculos.xml"
                         },
                         {
-                            "topic_name": "Internacionales",
-                            "topic_id": "9",
-                            "url": " http://www.aldia.cr/servicios/rss/internacionales.xml"
-                        },
-                        {
                             "topic_name": "Vivir Hoy",
-                            "topic_id": "10",
+                            "topic_id": "5",
                             "url": " http://www.aldia.cr/servicios/rss/vivirhoy.xml"
                         },
                         {

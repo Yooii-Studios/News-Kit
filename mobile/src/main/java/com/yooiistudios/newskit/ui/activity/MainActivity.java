@@ -48,6 +48,7 @@ import com.yooiistudios.newskit.model.BackgroundServiceUtils;
 import com.yooiistudios.newskit.model.PanelEditMode;
 import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
+import com.yooiistudios.newskit.model.debug.DebugNewsTopicValidateUtil;
 import com.yooiistudios.newskit.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newskit.ui.widget.LoadingAnimationView;
 import com.yooiistudios.newskit.ui.widget.MainAdView;
@@ -166,8 +167,7 @@ public class MainActivity extends ActionBarActivity
         // 나중에 사용될 가능성이 있어 주석으로 남김
         /*
         if (DebugSettings.isDebugBuild()) {
-            DebugNewsTopicValidateUtil.validateAll(getApplicationContext());
-//            DebugNewsTopicValidateUtil.validateLanguage(getApplicationContext(), "ja", null);
+            DebugNewsTopicValidateUtil.validateDebugNewsUrls();
             finish();
             return;
         }

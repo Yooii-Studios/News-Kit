@@ -549,13 +549,8 @@
                             "url": "http://www.cnet.com/rss/cheapskate/"
                         },
                         {
-                            "topic_name": "Podcasts",
-                            "topic_id": "12",
-                            "url": "http://www.cnet.com/cnet-podcasts/"
-                        },
-                        {
                             "topic_name": "All of CNET",
-                            "topic_id": "13",
+                            "topic_id": "12",
                             "url": "http://www.cnet.com/rss/all/"
                         }
                     ]
@@ -577,53 +572,48 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Suggested for you",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "World",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Canada",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Business",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Technology",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=tc&output=rss"
                         },
                         {
                             "topic_name": "Entertainment",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sports",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Science",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=snc&output=rss"
                         },
                         {
                             "topic_name": "Health",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=m&output=rss"
                         },
                         {
                             "topic_name": "More Top Stories",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://news.google.com/news?cf=all&ned=ca&hl=en&topic=h&output=rss"
                         }
                     ]
@@ -721,13 +711,8 @@
                             "url": "http://rss.canada.com/get/?F7477"
                         },
                         {
-                            "topic_name": "Technology",
-                            "topic_id": "9",
-                            "url": "http://rss.canada.com/get/?F7481"
-                        },
-                        {
                             "topic_name": "Home",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://rss.canada.com/get/?F1919"
                         }
                     ]
@@ -820,13 +805,8 @@
                             "url": "http://rss.canada.com/get/?F268"
                         },
                         {
-                            "topic_name": "Technology",
-                            "topic_id": "9",
-                            "url": "http://rss.canada.com/get/?F7756"
-                        },
-                        {
                             "topic_name": "Home",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://rss.canada.com/get/?F1909"
                         }
                     ]
@@ -2105,13 +2085,8 @@
                             "url": "http://www.chinadaily.com.cn/rss/hk_rss.xml"
                         },
                         {
-                            "topic_name": "China Daily USA News",
+                            "topic_name": "European Weekly News",
                             "topic_id": "12",
-                            "url": "http://usa.chinadaily.com.cn/usa_kindle.xml"
-                        },
-                        {
-                            "topic_name": "China Daily European Weekly News",
-                            "topic_id": "13",
                             "url": "http://europe.chinadaily.com.cn/euweekly_rss.xml"
                         }
                     ]
@@ -2251,44 +2226,39 @@
             	    "provider_id": "2",
             	    "topics": [
                         {
-                            "topic_name": "Top Stories",
+                            "topic_name": "Singapore",
                             "topic_id": "1",
-                            "url": "http://www.straitstimes.com/sites/straitstimes.com/files/st_rss/rss_breaking_news.opml",
+                            "url": "http://www.straitstimes.com/news/singapore/rss.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Singapore",
-                            "topic_id": "2",
-                            "url": "http://www.straitstimes.com/news/singapore/rss.xml"
-                        },
-                        {
                             "topic_name": "Asia",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://www.straitstimes.com/news/asia/rss.xml"
                         },
                         {
                             "topic_name": "World",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.straitstimes.com/news/world/rss.xml"
                         },
                         {
                             "topic_name": "Business",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.straitstimes.com/news/business/rss.xml"
                         },
                         {
                             "topic_name": "Digital Life",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.straitstimes.com/news/digital-life/rss.xml"
                         },
                         {
                             "topic_name": "Lifestyle",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.straitstimes.com/news/lifestyle/rss.xml"
                         },
                         {
                             "topic_name": "Sports",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.straitstimes.com/news/sport/rss.xml"
                         }
                     ]

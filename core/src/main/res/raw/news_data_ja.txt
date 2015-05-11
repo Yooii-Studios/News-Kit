@@ -207,43 +207,6 @@
                     ]
                 },
                 {
-                    "provider_name": "日刊スポーツ",
-            	    "provider_id": "6",
-            	    "topics": [
-                        {
-                            "topic_name": "野球",
-                            "topic_id": "1",
-                            "url": "http://www.nikkansports.com/baseball/atom.xml",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "サッカー",
-                            "topic_id": "2",
-                            "url": "http://www.nikkansports.com/soccer/atom.xml"
-                        },
-                        {
-                            "topic_name": "スポーツ",
-                            "topic_id": "3",
-                            "url": "http://www.nikkansports.com/sports/atom.xml"
-                        },
-                        {
-                            "topic_name": "格闘技",
-                            "topic_id": "4",
-                            "url": "http://www.nikkansports.com/battle/atom.xml"
-                        },
-                        {
-                            "topic_name": "競馬・ボート競輪オート",
-                            "topic_id": "5",
-                            "url": "http://p.nikkansports.com/goku-uma/rss/atom.xml"
-                        },
-                        {
-                            "topic_name": "その他",
-                            "topic_id": "6",
-                            "url": "http://www.nikkansports.com/entertainment/atom.xml"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "CNET",
             	    "provider_id": "5",
             	    "topics": [
