@@ -124,8 +124,8 @@
 	<string name="morningkit_ad_app_name">Morgen Ausrüstung</string>
 	<string name="morningkit_ad_description">Alarm + Informations-Kacheln</string>
 	<string name="morningkit_ad_guide_text">Alle Informationen die du benötigst auf einem Display</string>
-	<string name="download">Download</string>
-	<string name="close">Close</string>
+	<string name="download">Herunterladen</string>
+	<string name="close">Schließen</string>
 
 	<!-- 출시시 정렬 다시할 추가 스트링-->
 	<!-- General -->

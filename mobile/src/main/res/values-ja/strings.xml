@@ -146,5 +146,5 @@
 	<!-- Setting -->
 	<string name="setting_general_sub_header">一般</string>
 	<string name="setting_notification">通知</string>
-	<string name="setting_pair_tv_insert_code">コードを入力</string>
+	<string name="setting_pair_tv_insert_code">コードを入力する</string>
 </resources>

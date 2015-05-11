@@ -124,8 +124,8 @@
 	<string name="morningkit_ad_app_name">早安工具</string>
 	<string name="morningkit_ad_description">鬧鐘＋信息版面</string>
 	<string name="morningkit_ad_guide_text">每天早上所有資訊一覽無遺</string>
-	<string name="download">Download</string>
-	<string name="close">Close</string>
+	<string name="download">下載</string>
+	<string name="close">關閉</string>
 
 	<!-- 출시시 정렬 다시할 추가 스트링-->
 	<!-- General -->

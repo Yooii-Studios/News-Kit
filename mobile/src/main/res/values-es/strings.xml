@@ -124,8 +124,8 @@
     <string name="morningkit_ad_app_name">Kit Mañana</string>
     <string name="morningkit_ad_description">Alarma+Azulejos de Información</string>
     <string name="morningkit_ad_guide_text">Toda la información que usted necesita en una sola pantalla</string>
-    <string name="download">Download</string>
-    <string name="close">Close</string>
+    <string name="download">Descargar</string>
+    <string name="close">Cerca</string>
 
     <!-- 출시시 정렬 다시할 추가 스트링-->
     <!-- General -->
