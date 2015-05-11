@@ -164,18 +164,6 @@
                             "topic_name": "Tophistorier",
                             "topic_id": "21",
                             "url": "http://politiken.dk/rss/tophistorier.rss"
-                        }
-                    ]
-                },
-                {
-                    "provider_name": "Berlingske",
-            	    "provider_id": "3",
-            	    "topics": [
-                        {
-                            "topic_name": "Seneste nyt",
-                            "topic_id": "1",
-                            "url": "http://www.b.dk/seneste/rss",
-                            "isDefault": "true"
                         },
                         {
                             "topic_name": "Breaking News",
@@ -191,11 +179,6 @@
                             "topic_name": "Globalt",
                             "topic_id": "4",
                             "url": "http://www.b.dk/feeds/rss/Globalt"
-                        },
-                        {
-                            "topic_name": "Tech",
-                            "topic_id": "5",
-                            "url": "http://www.b.dk/feeds/rss/Tech"
                         },
                         {
                             "topic_name": "Viden",

@@ -173,11 +173,6 @@
                             "url": "http://sport.aktuality.sk/rss/tenis/"
                         },
                         {
-                            "topic_name": "Motoršport",
-                            "topic_id": "5",
-                            "url": "http://sport.aktuality.sk/rss/motorsport/"
-                        },
-                        {
                             "topic_name": "Ostatné",
                             "topic_id": "6",
                             "url": "http://sport.aktuality.sk/rss/ostatne/"

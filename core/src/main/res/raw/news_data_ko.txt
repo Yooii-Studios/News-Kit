@@ -468,6 +468,18 @@
                             "url": "http://rss.hankyung.com/new/column_all.xml"
                         }
                     ]
+                },
+                {
+                    "provider_name": "씨넷",
+            	    "provider_id": "9",
+            	    "topics": [
+                        {
+                            "topic_name": "씨넷",
+                            "topic_id": "1",
+                            "url": "http://feeds.feedburner.com/CNETKorea",
+                            "isDefault": "true"
+                        }
+                    ]
                 }
             ]
         }

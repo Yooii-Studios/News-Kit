@@ -121,89 +121,74 @@
                             "url": "http://www.komchadluek.net/rss/entertainment.xml"
                         },
                         {
-                            "topic_name": "อาชญากรรม",
-                            "topic_id": "4",
-                            "url": "http://www.komchadluek.net/rss/komkid.xml"
-                        },
-                        {
                             "topic_name": "กีฬา",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.komchadluek.net/rss/sport.xml"
                         },
                         {
                             "topic_name": "ไลฟ์สไตล์",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.komchadluek.net/rss/lifestyle.xml"
                         },
                         {
                             "topic_name": "กิน-ดื่ม-เที่ยว",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.komchadluek.net/rss/drink-eat-travel.xml"
                         },
                         {
                             "topic_name": "เกษตร",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.komchadluek.net/rss/agriculture.xml"
                         },
                         {
                             "topic_name": "ต่างประเทศ",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.komchadluek.net/rss/foreign.xml"
                         },
                         {
                             "topic_name": "ศาสนา-พระเครื่อง",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.komchadluek.net/rss/amulet.xml"
                         },
                         {
                             "topic_name": "ดูดวง-โหราศาสตร์",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.komchadluek.net/rss/horoscope.xml"
                         },
                         {
                             "topic_name": "ภูมิภาค-ชุมชนเมือง",
-                            "topic_id": "12",
+                            "topic_id": "11",
                             "url": "http://www.komchadluek.net/rss/local.xml"
                         },
                         {
                             "topic_name": "ร้องเรียนกับลุงแจ่ม",
-                            "topic_id": "13",
+                            "topic_id": "12",
                             "url": "http://www.komchadluek.net/rss/unclecham.xml"
                         },
                         {
                             "topic_name": "เศรษฐกิจ",
-                            "topic_id": "14",
+                            "topic_id": "13",
                             "url": "http://www.komchadluek.net/rss/economic.xml"
                         },
                         {
                             "topic_name": "คนรักบ้าน-ยานยนต์",
-                            "topic_id": "15",
+                            "topic_id": "14",
                             "url": "http://www.komchadluek.net/rss/homecar.xml"
                         },
                         {
                             "topic_name": "เกษตร-วิทยาศาสตร์-ไอที",
-                            "topic_id": "16",
+                            "topic_id": "15",
                             "url": "http://www.komchadluek.net/rss/scienceit.xml"
                         },
                         {
                             "topic_name": "สังคม-ศิลปะ-วัฒนธรรม",
-                            "topic_id": "17",
+                            "topic_id": "16",
                             "url": "http://www.komchadluek.net/rss/artculture.xml"
                         },
                         {
                             "topic_name": "การศึกษา-สาธารณสุข-สิ่งแวดล้อม",
-                            "topic_id": "18",
+                            "topic_id": "17",
                             "url": "http://www.komchadluek.net/rss/education.xml"
-                        },
-                        {
-                            "topic_name": "ข่าวในพระราชสำนัก",
-                            "topic_id": "19",
-                            "url": "http://www.komchadluek.net/rss/.xml"
-                        },
-                        {
-                            "topic_name": "คมคิดธุรกิจนิวเจน",
-                            "topic_id": "20",
-                            "url": "http://www.komchadluek.net/rss/.xml"
                         }
                     ]
                 },

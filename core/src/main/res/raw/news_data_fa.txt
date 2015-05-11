@@ -94,11 +94,6 @@
                             "topic_name": "صفحه نخست:",
                             "topic_id": "8",
                             "url": "http://entekhab.ir/fa/rss/1/mostcommented"
-                        },
-                        {
-                            "topic_name": "اقتصاد:",
-                            "topic_id": "9",
-                            "url": "http://entekhab.ir/fa/rss/5/mostcommented"
                         }
                     ]
                 },
@@ -107,69 +102,64 @@
             	    "provider_id": "3",
             	    "topics": [
                         {
-                            "topic_name": "پربازدیدترین اخبار",
+                            "topic_name": "آخرین اخبار",
                             "topic_id": "1",
-                            "url": "http://www1.jamejamonline.ir/rss.aspx?Type=TopNews",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?Type=LastNews",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "آخرین اخبار",
-                            "topic_id": "2",
-                            "url": "http://www1.jamejamonline.ir/rss.aspx?Type=LastNews"
-                        },
-                        {
                             "topic_name": "عناوین کل اخبار",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=0"
                         },
                         {
                             "topic_name": "اقتصادي ",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=106"
                         },
                         {
                             "topic_name": "گفتگو ",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=112"
                         },
                         {
                             "topic_name": "تاريخ ",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=111"
                         },
                         {
                             "topic_name": "سياسي ",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=103"
                         },
                         {
                             "topic_name": "آموزش ",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=120"
                         },
                         {
                             "topic_name": "راديو و تلويزيون ",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=109"
                         },
                         {
                             "topic_name": "ورزشي ",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=115"
                         },
                         {
                             "topic_name": "بين الملل ",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=105"
                         },
                         {
                             "topic_name": "حوادث ",
-                            "topic_id": "12",
+                            "topic_id": "11",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=104"
                         },
                         {
                             "topic_name": "سرگرمي ",
-                            "topic_id": "13",
+                            "topic_id": "12",
                             "url": "http://www1.jamejamonline.ir/rss.aspx?srv=113"
                         }
                     ]

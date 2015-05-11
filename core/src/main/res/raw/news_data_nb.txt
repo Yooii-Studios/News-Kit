@@ -173,29 +173,9 @@
                             "url": "http://www.aftenposten.no/rss/?kat=webtv"
                         },
                         {
-                            "topic_name": "Reise:",
-                            "topic_id": "9",
-                            "url": "http://reise.aftenposten.no/rss/"
-                        },
-                        {
-                            "topic_name": "Digital:",
-                            "topic_id": "10",
-                            "url": "http://www.aftenposten.no/rss/?kat=forbruker_digital"
-                        },
-                        {
                             "topic_name": "A-magasinet:",
-                            "topic_id": "11",
+                            "topic_id": "9",
                             "url": "http://www.aftenposten.no/rss/?kat=amagasinet"
-                        },
-                        {
-                            "topic_name": "Thuen:",
-                            "topic_id": "12",
-                            "url": "http://www.aftenposten.no/rss/?kat=thuen"
-                        },
-                        {
-                            "topic_name": "Quiz:",
-                            "topic_id": "13",
-                            "url": "http://www.aftenposten.no/rss/?kat=quiz"
                         }
                     ]
                 }

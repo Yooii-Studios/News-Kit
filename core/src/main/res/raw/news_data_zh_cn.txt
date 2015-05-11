@@ -19,38 +19,33 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "为您推荐",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "国际/港台",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=w&output=rss"
                         },
                         {
                             "topic_name": "内地",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=n&output=rss"
                         },
                         {
                             "topic_name": "财经",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=b&output=rss"
                         },
                         {
                             "topic_name": "娱乐",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=e&output=rss"
                         },
                         {
                             "topic_name": "科技",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=t&output=rss"
                         },
                         {
                             "topic_name": "体育",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=s&output=rss"
                         }
                     ]
@@ -265,8 +260,110 @@
                     ]
                 },
                 {
-                    "provider_name": "人民日报",
+                    "provider_name": "新闻中心_腾讯网",
             	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "国内新闻",
+                            "topic_id": "1",
+                            "url": "http://news.qq.com/newsgn/rss_newsgn.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "·国际新闻",
+                            "topic_id": "2",
+                            "url": "http://news.qq.com/newsgj/rss_newswj.xml"
+                        },
+                        {
+                            "topic_name": "·社会新闻",
+                            "topic_id": "3",
+                            "url": "http://news.qq.com/newssh/rss_newssh.xml"
+                        },
+                        {
+                            "topic_name": "·图片站",
+                            "topic_id": "4",
+                            "url": "http://news.qq.com/photon/rss_photo.xml"
+                        },
+                        {
+                            "topic_name": "·评论站",
+                            "topic_id": "5",
+                            "url": "http://news.qq.com/newscomments/rss_comment.xml"
+                        },
+                        {
+                            "topic_name": "·军事站",
+                            "topic_id": "6",
+                            "url": "http://news.qq.com/milite/rss_milit.xml"
+                        },
+                        {
+                            "topic_name": "·史海钩沉",
+                            "topic_id": "7",
+                            "url": "http://news.qq.com/histor/rss_history.xml"
+                        },
+                        {
+                            "topic_name": "·新闻语录",
+                            "topic_id": "8",
+                            "url": "http://news.qq.com/xwyl/rss_xwyl.xml"
+                        },
+                        {
+                            "topic_name": "·QQ连线",
+                            "topic_id": "9",
+                            "url": "http://news.qq.com/lianxian/rss_lx.xml"
+                        },
+                        {
+                            "topic_name": "·数字说话",
+                            "topic_id": "10",
+                            "url": "http://news.qq.com/szsh/rss_szsh.xml"
+                        },
+                        {
+                            "topic_name": "·内幕黑幕",
+                            "topic_id": "11",
+                            "url": "http://news.qq.com/nehemu/rss_nmhm.xml"
+                        },
+                        {
+                            "topic_name": "·人物站",
+                            "topic_id": "12",
+                            "url": "http://news.qq.com/person/rss_person.xml"
+                        },
+                        {
+                            "topic_name": "·即时消息",
+                            "topic_id": "13",
+                            "url": "http://news.qq.com/zmdnew/rss_now.xml"
+                        },
+                        {
+                            "topic_name": "·地方站-北京",
+                            "topic_id": "14",
+                            "url": "http://news.qq.com/bj/rss_bj.xml"
+                        },
+                        {
+                            "topic_name": "·地方站-上海",
+                            "topic_id": "15",
+                            "url": "http://news.qq.com/sh/rss_sh.xml"
+                        },
+                        {
+                            "topic_name": "·地方站-广东",
+                            "topic_id": "16",
+                            "url": "http://news.qq.com/gd/rss_gd.xml"
+                        },
+                        {
+                            "topic_name": "·地方站-浙江",
+                            "topic_id": "17",
+                            "url": "http://news.qq.com/zj/rss_zj.xml"
+                        },
+                        {
+                            "topic_name": "·地方站-江苏",
+                            "topic_id": "18",
+                            "url": "http://news.qq.com/js/rss_js.xml"
+                        },
+                        {
+                            "topic_name": "·地方站-山东",
+                            "topic_id": "19",
+                            "url": "http://news.qq.com/sd/rss_sd.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "人民日报",
+            	    "provider_id": "5",
             	    "topics": [
                         {
                             "topic_name": "国内新闻",
@@ -300,35 +397,30 @@
                             "url": "http://www.people.com.cn/rss/edu.xml"
                         },
                         {
-                            "topic_name": "强国论坛",
-                            "topic_id": "7",
-                            "url": "http://www.people.com.cn/rss/bbs.xml"
-                        },
-                        {
                             "topic_name": "游戏新闻",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.people.com.cn/rss/game.xml"
                         },
                         {
                             "topic_name": "中文新闻",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.people.com.cn/rss/opml.xml"
                         },
                         {
                             "topic_name": "英文新闻",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.people.com.cn/rss/opml_en.xml"
                         },
                         {
                             "topic_name": "俄文新闻",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.people.com.cn/rss/opml_ru.xml"
                         }
                     ]
                 },
                 {
                     "provider_name": "参考消息",
-            	    "provider_id": "5",
+            	    "provider_id": "6",
             	    "topics": [
                         {
                             "topic_name": "时事要闻",
@@ -435,7 +527,7 @@
                 },
                 {
                     "provider_name": "广州日报",
-            	    "provider_id": "6",
+            	    "provider_id": "7",
             	    "topics": [
                         {
                             "topic_name": "广州新闻",

@@ -173,11 +173,6 @@
                             "url": "http://www.ad.nl/auto/rss.xml"
                         },
                         {
-                            "topic_name": "Reizen",
-                            "topic_id": "8",
-                            "url": "http://www.ad.nl/reizen/rss.xml"
-                        },
-                        {
                             "topic_name": "Digitaal",
                             "topic_id": "9",
                             "url": "http://www.ad.nl/digitaal/rss.xml"
@@ -191,11 +186,6 @@
                             "topic_name": "Showbizz",
                             "topic_id": "11",
                             "url": "http://www.ad.nl/showbizz/rss.xml"
-                        },
-                        {
-                            "topic_name": "Gezondheid",
-                            "topic_id": "12",
-                            "url": "http://www.ad.nl/gezond/rss.xml"
                         },
                         {
                             "topic_name": "Wetenschap",
@@ -219,69 +209,64 @@
             	    "provider_id": "4",
             	    "topics": [
                         {
-                            "topic_name": "Home",
+                            "topic_name": "Nieuws",
                             "topic_id": "1",
-                            "url": "http://www.volkskrant.nl/home/rss.xml",
+                            "url": "http://www.volkskrant.nl/nieuws/rss.xml",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Nieuws",
-                            "topic_id": "2",
-                            "url": "http://www.volkskrant.nl/nieuws/rss.xml"
-                        },
-                        {
                             "topic_name": "Binnenland",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://www.volkskrant.nl/nieuws/binnenland/rss.xml"
                         },
                         {
                             "topic_name": "Cultuur",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.volkskrant.nl/nieuws/cultuur/rss.xml"
                         },
                         {
                             "topic_name": "Economie",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.volkskrant.nl/nieuws/economie/rss.xml"
                         },
                         {
                             "topic_name": "Reizen",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.volkskrant.nl/nieuws/reizen/rss.xml"
                         },
                         {
                             "topic_name": "Gezondheid & Wetenschap",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.volkskrant.nl/nieuws/gezondheidwetenschap/rss.xml"
                         },
                         {
                             "topic_name": "Opmerkelijk",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.volkskrant.nl/nieuws/opmerkelijk/rss.xml"
                         },
                         {
                             "topic_name": "Politiek",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.volkskrant.nl/politiek/rss.xml"
                         },
                         {
                             "topic_name": "Opinie",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.volkskrant.nl/opinie/rss.xml"
                         },
                         {
                             "topic_name": "Buitenland",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.volkskrant.nl/buitenland/rss.xml"
                         },
                         {
                             "topic_name": "Tech & Media",
-                            "topic_id": "12",
+                            "topic_id": "11",
                             "url": "http://www.volkskrant.nl/tech-media/rss.xml"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "13",
+                            "topic_id": "12",
                             "url": "http://www.volkskrant.nl/sport/rss.xml"
                         }
                     ]
@@ -407,13 +392,8 @@
                             "url": "http://www.gva.be/rss/section/5685D99C-D24E-4C8A-9A59-A2AC00E293B1"
                         },
                         {
-                            "topic_name": "Media & Cultuur",
-                            "topic_id": "5",
-                            "url": "http://www.gva.be/rss/section/472C34EB-D1BC-4E10-BDE7-A2AC00E2D820%3E%3C/a%3E%20%3Cli%3E%20%20%3Ca%20href="
-                        },
-                        {
                             "topic_name": "Sport",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.gva.be/rss/section/4DFF3E33-6C32-4E60-803C-A2AC00EDE26C"
                         }
                     ]

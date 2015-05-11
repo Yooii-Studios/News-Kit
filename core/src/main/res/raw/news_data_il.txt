@@ -1,0 +1,118 @@
+{
+    "lang_name_english": "Hebrew",
+    "lang_name_regional": "עברית",
+    "lang_code": "il",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "ישראל",
+            "country_code": "IL",
+            "news_providers": [
+                {
+                    "provider_name": "חדשות Google",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "בראש החדשות",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "מוצע עבורך",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "ישראל",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "עולם",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "עסקים",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "מדע/טכנולוגיה",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "תרבות ובידור",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "ספורט",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "בריאות",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "סיפורים מובילים נוספים",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=iw_il&hl=iw&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "הארץ‎",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "הכותרות הראשיות",
+                            "topic_id": "1",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1617539",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "כל חדשות היום",
+                            "topic_id": "2",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1470869"
+                        },
+                        {
+                            "topic_name": "מדיני-ביטחוני",
+                            "topic_id": "3",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1472228"
+                        },
+                        {
+                            "topic_name": "מדע וסביבה",
+                            "topic_id": "4",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1472258"
+                        },
+                        {
+                            "topic_name": "ספורט",
+                            "topic_id": "5",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1410698"
+                        },
+                        {
+                            "topic_name": "בעולם",
+                            "topic_id": "6",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1471322"
+                        },
+                        {
+                            "topic_name": "חדשות",
+                            "topic_id": "7",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1410478"
+                        },
+                        {
+                            "topic_name": "מאמרים ודעות",
+                            "topic_id": "8",
+                            "url": "http://www.haaretz.co.il/cmlink/1.1473662"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

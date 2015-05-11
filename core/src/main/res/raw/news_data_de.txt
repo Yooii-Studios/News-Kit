@@ -164,11 +164,6 @@
                             "topic_name": "Stil",
                             "topic_id": "21",
                             "url": "http://rss.sueddeutsche.de/rss/stil"
-                        },
-                        {
-                            "topic_name": "SZ Magazin",
-                            "topic_id": "22",
-                            "url": "http://sz-magazin.sueddeutsche.de/rssredaktion"
                         }
                     ]
                 },
@@ -191,11 +186,6 @@
                             "topic_name": "Wirtschaft",
                             "topic_id": "3",
                             "url": "http://www.faz.net/rss/aktuell/wirtschaft/"
-                        },
-                        {
-                            "topic_name": "Feuilleton",
-                            "topic_id": "4",
-                            "url": "http://www.faz.net/rss/aktuell/feuilleton/"
                         },
                         {
                             "topic_name": "Sport",
@@ -385,48 +375,43 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Vorschläge für Sie",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "International",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Österreich",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Wirtschaft",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Wissen/Technik",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Unterhaltung",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Gesundheit",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Weitere Schlagzeilen",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=h&output=rss"
                         }
                     ]
@@ -580,53 +565,48 @@
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=20"
                         },
                         {
-                            "topic_name": "Mittelland",
-                            "topic_id": "8",
-                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=2087"
-                        },
-                        {
                             "topic_name": "Basel",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=21"
                         },
                         {
                             "topic_name": "Zentralschweiz",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=112"
                         },
                         {
                             "topic_name": "Ostschweiz",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=126"
                         },
                         {
                             "topic_name": "Panorama",
-                            "topic_id": "12",
+                            "topic_id": "11",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=13"
                         },
                         {
                             "topic_name": "People",
-                            "topic_id": "13",
+                            "topic_id": "12",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=28"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "14",
+                            "topic_id": "13",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=9"
                         },
                         {
                             "topic_name": "Digital",
-                            "topic_id": "15",
+                            "topic_id": "14",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=10"
                         },
                         {
                             "topic_name": "Auto",
-                            "topic_id": "16",
+                            "topic_id": "15",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=11"
                         },
                         {
                             "topic_name": "Life",
-                            "topic_id": "17",
+                            "topic_id": "16",
                             "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=25"
                         }
                     ]
@@ -657,23 +637,18 @@
                             "url": "http://www.blick.ch/news/wirtschaft/rss.xml"
                         },
                         {
-                            "topic_name": "Wissen",
-                            "topic_id": "5",
-                            "url": "http://www.blick.ch/news/wissenschaftundtechnik/rss.xml"
-                        },
-                        {
                             "topic_name": "Sport",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.blick.ch/sport/rss.xml"
                         },
                         {
                             "topic_name": "People",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.blick.ch/people/rss.xml"
                         },
                         {
                             "topic_name": "Unterhaltung",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.blick.ch/unterhaltung/rss.xml"
                         },
                         {

@@ -180,48 +180,38 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "charlie hebdo",
-                            "topic_id": "2",
-                            "url": "http://rss.liberation.fr/rss/100494/"
-                        },
-                        {
                             "topic_name": "Cinéma",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://rss.liberation.fr/rss/58/"
                         },
                         {
                             "topic_name": "Economie",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://rss.liberation.fr/rss/13/"
                         },
                         {
                             "topic_name": "Ecrans",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://rss.liberation.fr/rss/53/"
                         },
                         {
-                            "topic_name": "Le cannabis en débat",
-                            "topic_id": "6",
-                            "url": "http://rss.liberation.fr/rss/100416/"
-                        },
-                        {
                             "topic_name": "Monde",
-                            "topic_id": "7",
+                            "topic_id": "5",
                             "url": "http://rss.liberation.fr/rss/10/"
                         },
                         {
                             "topic_name": "Politiques",
-                            "topic_id": "8",
+                            "topic_id": "6",
                             "url": "http://rss.liberation.fr/rss/11/"
                         },
                         {
                             "topic_name": "Société",
-                            "topic_id": "9",
+                            "topic_id": "7",
                             "url": "http://rss.liberation.fr/rss/12/"
                         },
                         {
                             "topic_name": "Sports",
-                            "topic_id": "10",
+                            "topic_id": "8",
                             "url": "http://rss.liberation.fr/rss/14/"
                         }
                     ]
@@ -374,7 +364,7 @@
                         {
                             "topic_name": "cinéma",
                             "topic_id": "8",
-                            "url": "http://www.lapresse.ca/rss/238.xml"
+                            "url": "http://www.lapresse.ca/rss/10164.xml"
                         }
                     ]
                 }
@@ -438,7 +428,7 @@
                 },
                 {
                     "provider_name": "Sud Presse",
-            	    "provider_id": "1",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Faits divers",
@@ -515,7 +505,7 @@
                 },
                 {
                     "provider_name": "Metro fr",
-            	    "provider_id": "1",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "Metro fr",

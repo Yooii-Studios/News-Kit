@@ -82,10 +82,65 @@
             	    "provider_id": "3",
             	    "topics": [
                         {
-                            "topic_name": "Gândul",
+                            "topic_name": "Home - Stiri de prima pagina",
                             "topic_id": "1",
-                            "url": "http://www.gandul.info/rss-all.html",
+                            "url": "http://feeds.feedburner.com/gandul/Mjcu",
                             "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "NEWS",
+                            "topic_id": "2",
+                            "url": "http://feeds.feedburner.com/GandulNews"
+                        },
+                        {
+                            "topic_name": "POLITICA",
+                            "topic_id": "3",
+                            "url": "http://feeds.feedburner.com/GandulPolitica"
+                        },
+                        {
+                            "topic_name": "INTERNATIONAL",
+                            "topic_id": "4",
+                            "url": "http://feeds.feedburner.com/GandulInternational"
+                        },
+                        {
+                            "topic_name": "FINANCIAR",
+                            "topic_id": "5",
+                            "url": "http://feeds.feedburner.com/GandulFinanciar"
+                        },
+                        {
+                            "topic_name": "OPINII",
+                            "topic_id": "6",
+                            "url": "http://feeds.feedburner.com/GandulOpinii"
+                        },
+                        {
+                            "topic_name": "REPORTAJ",
+                            "topic_id": "7",
+                            "url": "http://feeds.feedburner.com/GandulReportaj"
+                        },
+                        {
+                            "topic_name": "MAGAZIN",
+                            "topic_id": "8",
+                            "url": "http://feeds.feedburner.com/GandulMagazin"
+                        },
+                        {
+                            "topic_name": "SPORT",
+                            "topic_id": "9",
+                            "url": "http://feeds.feedburner.com/GandulSport"
+                        },
+                        {
+                            "topic_name": "INTERVIURILE GANDUL",
+                            "topic_id": "10",
+                            "url": "http://feeds.feedburner.com/GandulInterviuri"
+                        },
+                        {
+                            "topic_name": "SCOALA",
+                            "topic_id": "11",
+                            "url": "http://feeds.feedburner.com/GandulScoala"
+                        },
+                        {
+                            "topic_name": "GANDUL TV",
+                            "topic_id": "12",
+                            "url": "http://feeds.feedburner.com/GandulTv"
                         }
                     ]
                 }

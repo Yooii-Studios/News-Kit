@@ -19,43 +19,38 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Προτεινόμενα για εσάς",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "Κόσμος",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Ελλάδα",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Επιχειρήσεις",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Ψυχαγωγία",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Αθλητικά",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Επιστήμη και τεχνολογία",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Πολιτική",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://news.google.com/news?cf=all&ned=el_gr&hl=el&topic=p&output=rss"
                         }
                     ]

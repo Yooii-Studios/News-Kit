@@ -1,0 +1,123 @@
+{
+    "lang_name_english": "Latvian",
+    "lang_name_regional": "Latvijas",
+    "lang_code": "lv",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Latvija",
+            "country_code": "LV",
+            "news_providers": [
+                {
+                    "provider_name": "Vilniaus diena",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Top 5 ziņas",
+                            "topic_id": "1",
+                            "url": "http://www.diena.lv/top_news.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Latvijā",
+                            "topic_id": "2",
+                            "url": "http://www.diena.lv/latvija.xml"
+                        },
+                        {
+                            "topic_name": "Pasaulē",
+                            "topic_id": "3",
+                            "url": "http://www.diena.lv/pasaule.xml"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "4",
+                            "url": "http://www.diena.lv/sports.xml"
+                        },
+                        {
+                            "topic_name": "KD",
+                            "topic_id": "5",
+                            "url": "http://www.diena.lv/kd.xml"
+                        },
+                        {
+                            "topic_name": "Izklaide",
+                            "topic_id": "6",
+                            "url": "http://www.diena.lv/izklaide.xml"
+                        },
+                        {
+                            "topic_name": "Diena TV",
+                            "topic_id": "7",
+                            "url": "http://www.diena.lv/diena-tv.xml"
+                        },
+                        {
+                            "topic_name": "Foto",
+                            "topic_id": "8",
+                            "url": "http://www.diena.lv/foto.xml"
+                        },
+                        {
+                            "topic_name": "Dienas starts",
+                            "topic_id": "9",
+                            "url": "http://www.diena.lv/dienas-starts.xml"
+                        },
+                        {
+                            "topic_name": "Dabas Diena",
+                            "topic_id": "10",
+                            "url": "http://www.diena.lv/dabas-diena.xml"
+                        },
+                        {
+                            "topic_name": "Visi raksti",
+                            "topic_id": "11",
+                            "url": "http://www.diena.lv/site_feed.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Dienas bizness",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Īpašums",
+                            "topic_id": "1",
+                            "url": "http://www.db.lv/ipasums.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Finanses",
+                            "topic_id": "2",
+                            "url": "http://www.db.lv/finanses.xml"
+                        },
+                        {
+                            "topic_name": "Ražošana",
+                            "topic_id": "3",
+                            "url": "http://www.db.lv/razosana.xml"
+                        },
+                        {
+                            "topic_name": "Tehnoloģijas",
+                            "topic_id": "4",
+                            "url": "http://www.db.lv/tehnologijas.xml"
+                        },
+                        {
+                            "topic_name": "Viedokļi",
+                            "topic_id": "5",
+                            "url": "http://www.db.lv/viedokli.xml"
+                        },
+                        {
+                            "topic_name": "Pasaulē",
+                            "topic_id": "6",
+                            "url": "http://www.db.lv/pasaule.xml"
+                        },
+                        {
+                            "topic_name": "Foto & Video",
+                            "topic_id": "7",
+                            "url": "http://www.db.lv/foto-video.xml"
+                        },
+                        {
+                            "topic_name": "Visi raksti",
+                            "topic_id": "8",
+                            "url": "http://www.db.lv/site_feed.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

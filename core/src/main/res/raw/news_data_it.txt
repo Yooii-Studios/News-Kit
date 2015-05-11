@@ -19,48 +19,43 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Consigliato per te",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "Esteri",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Italia",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Economia",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Scienza e tecnologia",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Intrattenimento",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Salute",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=m&output=rss"
                         },
                         {
                             "topic_name": "In evidenza",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=ir&output=rss"
                         }
                     ]
@@ -173,11 +168,6 @@
                             "url": "http://www.repubblica.it/rss/persone/rss2.0.xml"
                         },
                         {
-                            "topic_name": "Salute",
-                            "topic_id": "5",
-                            "url": "http://www.repubblica.it/rss/salute/rss2.0.xml"
-                        },
-                        {
                             "topic_name": "Scienze",
                             "topic_id": "6",
                             "url": "http://www.repubblica.it/rss/scienze/rss2.0.xml"
@@ -191,11 +181,6 @@
                             "topic_name": "Sport",
                             "topic_id": "8",
                             "url": "http://www.repubblica.it/rss/sport/rss2.0.xml"
-                        },
-                        {
-                            "topic_name": "Arte",
-                            "topic_id": "9",
-                            "url": "http://www.repubblica.it/rss/speciali/arte/rss2.0.xml"
                         },
                         {
                             "topic_name": "Spettacoli e Cultura",

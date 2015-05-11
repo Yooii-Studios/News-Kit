@@ -54,18 +54,13 @@
                             "url": "http://www.24sata.hr/feeds/fun.xml"
                         },
                         {
-                            "topic_name": "Video",
-                            "topic_id": "9",
-                            "url": "http://www.24sata.hr/feeds/videotv.xml"
-                        },
-                        {
                             "topic_name": "Reporteri",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.24sata.hr/feeds/reporteri.xml"
                         },
                         {
                             "topic_name": "Pametna kuna",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.24sata.hr/feeds/pametnakuna.xml"
                         }
                     ]

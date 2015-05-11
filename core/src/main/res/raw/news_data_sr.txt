@@ -91,23 +91,18 @@
                             "url": "http://www.politika.rs/rubrike/Pogledi-sa-strane/index.1.sr.xml"
                         },
                         {
-                            "topic_name": "Тема дана",
-                            "topic_id": "6",
-                            "url": "http://www.politika.rs/rubrike/tema-dana/index.1.sr.xml"
-                        },
-                        {
                             "topic_name": "Спорт",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.politika.rs/rubrike/Sport/index.1.sr.xml"
                         },
                         {
                             "topic_name": "Култура",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.politika.rs/rubrike/Kultura/index.1.sr.xml"
                         },
                         {
                             "topic_name": "Спектар",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.politika.rs/rubrike/spektar/index.1.sr.xml"
                         }
                     ]
@@ -153,19 +148,9 @@
                             "url": "http://www.blic.rs/rss/IT"
                         },
                         {
-                            "topic_name": "Komentar",
-                            "topic_id": "8",
-                            "url": "http://www.blic.rs/rss/Komentar"
-                        },
-                        {
                             "topic_name": "Riznica",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.blic.rs/rss/Riznica"
-                        },
-                        {
-                            "topic_name": "Projekat EU",
-                            "topic_id": "10",
-                            "url": "http://www.blic.rs/rss/Projekat-EU"
                         }
                     ]
                 }

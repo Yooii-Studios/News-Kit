@@ -9,25 +9,80 @@
             "country_code": "BY",
             "news_providers": [
                 {
-                    "provider_name": "Zvyazda",
+                    "provider_name": "Nasha Niva",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Найгалоўнейшыя артыкулы",
+                            "topic_id": "1",
+                            "url": "http://nn.by/?c=rss-top",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Усе артыкулы газеты",
+                            "topic_id": "2",
+                            "url": "http://nn.by/?c=rss-all"
+                        },
+                        {
+                            "topic_name": "Здароўе",
+                            "topic_id": "3",
+                            "url": "http://nn.by/?c=rss-ca&i=622"
+                        },
+                        {
+                            "topic_name": "Футбол",
+                            "topic_id": "4",
+                            "url": "http://nn.by/?c=rss-ca&i=634"
+                        },
+                        {
+                            "topic_name": "Эканоміка",
+                            "topic_id": "5",
+                            "url": "http://nn.by/?c=rss-ca&i=619"
+                        },
+                        {
+                            "topic_name": "Палітыка",
+                            "topic_id": "6",
+                            "url": "http://nn.by/?c=rss-ca&i=614"
+                        },
+                        {
+                            "topic_name": "Фінансы",
+                            "topic_id": "7",
+                            "url": "http://nn.by/?c=rss-ca&i=620"
+                        },
+                        {
+                            "topic_name": "Тэхналогіі",
+                            "topic_id": "8",
+                            "url": "http://nn.by/?c=rss-ca&i=632"
+                        },
+                        {
+                            "topic_name": "Гаспадарка",
+                            "topic_id": "9",
+                            "url": "http://nn.by/?c=rss-ca&i=582"
+                        },
+                        {
+                            "topic_name": "Ежа",
+                            "topic_id": "10",
+                            "url": "http://nn.by/?c=rss-ca&i=651"
+                        },
+                        {
+                            "topic_name": "Навука",
+                            "topic_id": "11",
+                            "url": "http://nn.by/?c=rss-ca&i=631"
+                        },
+                        {
+                            "topic_name": "Кіно",
+                            "topic_id": "12",
+                            "url": "http://nn.by/?c=rss-ca&i=640"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Zvyazda",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Zvyazda",
                             "topic_id": "1",
                             "url": "http://zviazda.by/feed/",
-                            "isDefault": "true"
-                        }
-                    ]
-                },
-                {
-                    "provider_name": "Nasha Niva",
-            	    "provider_id": "2",
-            	    "topics": [
-                        {
-                            "topic_name": "Nasha Niva",
-                            "topic_id": "1",
-                            "url": "http://nn.by/?c=rss",
                             "isDefault": "true"
                         }
                     ]

@@ -178,11 +178,6 @@
                             "topic_name": "Pieniądze:",
                             "topic_id": "8",
                             "url": "http://www.rp.pl/rss/7.html"
-                        },
-                        {
-                            "topic_name": "Nieruchomości:",
-                            "topic_id": "9",
-                            "url": "http://www.rp.pl/rss/8.html"
                         }
                     ]
                 }

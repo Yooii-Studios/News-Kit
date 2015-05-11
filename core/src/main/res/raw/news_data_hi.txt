@@ -1,0 +1,103 @@
+{
+    "lang_name_english": "Hindi",
+    "lang_name_regional": "हिन्दी",
+    "lang_code": "hi",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "भारत",
+            "country_code": "IN",
+            "news_providers": [
+                {
+                    "provider_name": "Google समाचार",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "सुर्खियां",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "विश्व",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "भारत",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "व्यवसाय",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "मनोरंजन",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "खेलकूद",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "और सुर्खियां",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=hi_in&hl=hi&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "दैनिक जागरण",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "राष्ट्रीय",
+                            "topic_id": "1",
+                            "url": "http://rss.jagran.com/rss/news/national.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "दुनिया",
+                            "topic_id": "2",
+                            "url": "http://rss.jagran.com/rss/news/world.xml"
+                        },
+                        {
+                            "topic_name": "बिजनेस",
+                            "topic_id": "3",
+                            "url": "http://rss.jagran.com/rss/news/business.xml"
+                        },
+                        {
+                            "topic_name": "बॉलीवुड",
+                            "topic_id": "4",
+                            "url": "http://rss.jagran.com/rss/entertainment/bollywood.xml"
+                        },
+                        {
+                            "topic_name": "क्रिकेट",
+                            "topic_id": "5",
+                            "url": "http://rss.jagran.com/rss/cricket/headlines.xml"
+                        },
+                        {
+                            "topic_name": "धर्म समाचार",
+                            "topic_id": "6",
+                            "url": "http://rss.jagran.com/rss/spiritual/religion.xml"
+                        },
+                        {
+                            "topic_name": "शिक्षा",
+                            "topic_id": "7",
+                            "url": "http://rss.jagran.com/rss/josh/shiksha.xml"
+                        },
+                        {
+                            "topic_name": "विज्ञान",
+                            "topic_id": "8",
+                            "url": "http://rss.jagran.com/rss/josh/vigyan.xml"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

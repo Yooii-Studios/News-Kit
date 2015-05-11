@@ -66,48 +66,38 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Водещи новини",
-                            "topic_id": "2",
-                            "url": "http://www.standartnews.com/rss.php?p=3"
-                        },
-                        {
-                            "topic_name": "Избор на редактора",
-                            "topic_id": "3",
-                            "url": "http://www.standartnews.com/rss.php?p=3"
-                        },
-                        {
                             "topic_name": "Икономика",
-                            "topic_id": "4",
+                            "topic_id": "2",
                             "url": "http://www.standartnews.com/rss.php?c=110"
                         },
                         {
                             "topic_name": "Европа",
-                            "topic_id": "5",
+                            "topic_id": "3",
                             "url": "http://www.standartnews.com/rss.php?c=137"
                         },
                         {
                             "topic_name": "Кино и телевизия",
-                            "topic_id": "6",
+                            "topic_id": "4",
                             "url": "http://www.standartnews.com/rss.php?c=124"
                         },
                         {
                             "topic_name": "БГ футбол",
-                            "topic_id": "7",
+                            "topic_id": "5",
                             "url": "http://www.standartnews.com/rss.php?c=25"
                         },
                         {
                             "topic_name": "Световен футбол",
-                            "topic_id": "8",
+                            "topic_id": "6",
                             "url": "http://www.standartnews.com/rss.php?c=27"
                         },
                         {
                             "topic_name": "Технологии",
-                            "topic_id": "9",
+                            "topic_id": "7",
                             "url": "http://www.standartnews.com/rss.php?c=130"
                         },
                         {
                             "topic_name": "Гурме",
-                            "topic_id": "10",
+                            "topic_id": "8",
                             "url": "http://www.standartnews.com/rss.php?c=131"
                         }
                     ]

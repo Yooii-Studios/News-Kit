@@ -56,7 +56,7 @@
                     ]
                 },
                 {
-                    "provider_name": "الأخبار",
+                    "provider_name": "أخبار جوجل مصر",
             	    "provider_id": "2",
             	    "topics": [
                         {
@@ -575,11 +575,6 @@
                             "url": "http://www.aleqt.com/feed/rss_section/aswaq"
                         },
                         {
-                            "topic_name": "عقارات",
-                            "topic_id": "4",
-                            "url": "http://www.aleqt.com/feed/rss_section/realestate"
-                        },
-                        {
                             "topic_name": "تقارير ومتابعات",
                             "topic_id": "5",
                             "url": "http://www.aleqt.com/feed/rss_section/reports_n_follow"
@@ -598,11 +593,6 @@
                             "topic_name": "الرياضة",
                             "topic_id": "8",
                             "url": "http://www.aleqt.com/feed/rss_section/sport"
-                        },
-                        {
-                            "topic_name": "الاسبوعيات",
-                            "topic_id": "9",
-                            "url": "http://www.aleqt.com/feed/rss_section/weekly"
                         },
                         {
                             "topic_name": "الناس",
@@ -722,23 +712,6 @@
                             "url": "https://alahale.net/rss/48"
                         }
                     ]
-                },
-                {
-                    "provider_name": "موقع صحيفة الغد",
-            	    "provider_id": "3",
-            	    "topics": [
-                        {
-                            "topic_name": "خلاصات المقالات",
-                            "topic_id": "1",
-                            "url": "http://www.alghadyem.net/index.php?action=rss&t=1",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "خلاصات الأخبار",
-                            "topic_id": "2",
-                            "url": "http://www.alghadyem.net/index.php?action=rss&t=2"
-                        }
-                    ]
                 }
             ]
         },
@@ -747,20 +720,183 @@
             "country_code": "SY",
             "news_providers": [
                 {
-                    "provider_name": "الصفحة الرئيسية",
+                    "provider_name": "أخبار جوجل",
             	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "أهم الأخبار",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "العالم",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "العالم العربي",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "أعمال",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "علوم/تكنولوجيا",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "ترفيه",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "رياضة",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "صحة",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "الصفحة الرئيسية",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "الصفحة الرئيسية",
                             "topic_id": "1",
                             "url": "http://www.alwehda.gov.sy/index.php/%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF?format=feed&type=rss",
                             "isDefault": "true"
-                        },
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "صحيفة سورية يومية سياسية مستقلة",
+            	    "provider_id": "3",
+            	    "topics": [
                         {
                             "topic_name": "صحيفة سورية يومية سياسية مستقلة",
                             "topic_id": "1",
                             "url": "http://alwatan.sy/feed",
                             "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "لبنان",
+            "country_code": "LB",
+            "news_providers": [
+                {
+                    "provider_name": "أخبار جوجل",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "أهم الأخبار",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "العالم",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "العالم العربي",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "أعمال",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "علوم/تكنولوجيا",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "ترفيه",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "رياضة",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "صحة",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "أخبار جوجل لبنان",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "أهم الأخبار",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "أخبار محلية",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "العالم العربي",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=awkl&output=rss"
+                        },
+                        {
+                            "topic_name": "عناصر مقترحة لك",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=sfy&output=rss"
+                        },
+                        {
+                            "topic_name": "العالم",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "أعمال",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "علوم/تكنولوجيا",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "ترفيه",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "رياضة",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "صحة",
+                            "topic_id": "10",
+                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=m&output=rss"
                         }
                     ]
                 }
