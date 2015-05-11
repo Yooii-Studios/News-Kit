@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.yooiistudios.newskit.core.R;
+import com.yooiistudios.newskit.core.util.NLLog;
 
 import java.io.File;
 
@@ -194,7 +194,7 @@ public class HTML5WebView extends WebView {
     public class HTML5WebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i(TAG, "shouldOverrideUrlLoading: " + url);
+            NLLog.i(TAG, "shouldOverrideUrlLoading: " + url);
             // don't override URL so that stuff within iframe can work properly
             // view.loadUrl(url);
             return mHTML5WebViewCallback.shouldOverrideUrlLoading(view, url);
