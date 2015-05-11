@@ -48,7 +48,6 @@ import com.yooiistudios.newskit.model.BackgroundServiceUtils;
 import com.yooiistudios.newskit.model.PanelEditMode;
 import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
-import com.yooiistudios.newskit.model.debug.DebugNewsTopicValidateUtil;
 import com.yooiistudios.newskit.ui.animation.NewsFeedDetailTransitionUtils;
 import com.yooiistudios.newskit.ui.widget.LoadingAnimationView;
 import com.yooiistudios.newskit.ui.widget.MainAdView;

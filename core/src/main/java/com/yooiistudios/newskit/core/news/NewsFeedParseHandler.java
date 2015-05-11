@@ -1,7 +1,5 @@
 package com.yooiistudios.newskit.core.news;
 
-import com.yooiistudios.newskit.core.debug.DebugSettings;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -84,7 +82,7 @@ public class NewsFeedParseHandler extends DefaultHandler {
     }
 
     private void checkNewsCountLimitDebug() throws SAXException {
-        if (DebugSettings.isDebugBuild() && rssFeed.getNewsList().size() > mNewsCountLimit - 1) {
+        if (rssFeed.getNewsList().size() > mNewsCountLimit - 1) {
             throw new SAXException(new BreakParsingException());
         }
     }
