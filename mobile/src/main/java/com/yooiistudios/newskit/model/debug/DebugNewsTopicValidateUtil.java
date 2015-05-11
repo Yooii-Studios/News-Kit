@@ -99,7 +99,7 @@ public class DebugNewsTopicValidateUtil {
             }.execute();
     }
 
-    public static void validateDebugNewsUrls(final Context context) {
+    public static void validateDebugNewsUrls() {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {

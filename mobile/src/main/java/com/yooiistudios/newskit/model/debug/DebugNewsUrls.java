@@ -5,12 +5,25 @@ package com.yooiistudios.newskit.model.debug;
  */
 public class DebugNewsUrls {
     public static final String[] sUrls = {
-            "http://sport.aktuality.sk/rss/",
-            "http://sport.aktuality.sk/rss/futbal/",
-            "http://sport.aktuality.sk/rss/hokej/",
-            "http://sport.aktuality.sk/rss/tenis/",
-            "http://sport.aktuality.sk/rss/motorsport/",
-            "http://sport.aktuality.sk/rss/ostatne/",
+            "http://politiken.dk/rss/tv.rss",
+//            "http://usa.chinadaily.com.cn/usa_kindle.xml",
+            "http://www.prensalibre.com/rss?rss=Portada",
+            "http://www.prensalibre.com/rss?rss=Guatemala",
+            "http://www.prensalibre.com/rss?rss=Deportes",
+            "http://www.prensalibre.com/rss?rss=Tecnologia",
+            "http://www.prensalibre.com/rss?rss=Economia",
+            "http://www.prensalibre.com/rss?rss=Internacional",
+            "http://www.prensalibre.com/rss?rss=Vida",
+            "http://www.prensalibre.com/rss?rss=Opinion",
+            "http://www.elsalvador.com/ultimahora/elsalvadorRSS.xml",
+            "http://www.suaramerdeka.com/rsssm/index.php/news/kedu",
+            "http://www.suaramerdeka.com/rsssm/index.php/kejawen",
+//            "http://www.jpnn.com/index.php?mib=rss&id=210",
+            "http://www.danas.rs/rss/rss.asp?column_id=42",
+            "http://www.politika.rs/rubrike/ostali-komentari/index.1.sr.xml",
+//            "http://www.baomoi.com/Home/XaHoi.rss",
+//            "http://www.baomoi.com/Home/VanHoa.rss",
+//            "http://www.people.com.cn/rss/politics.xml"
     };
 //    public static final String[] sUrls = {
 //            "http://www.khan.co.kr/rss/rssdata/kh_special.xml"

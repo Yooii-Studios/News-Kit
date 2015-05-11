@@ -18,7 +18,7 @@ public class Settings {
     private static final String SETTINGS_SHARED_PREFERENCES = "settings_shared_preferences";
     private static final String IS_FIRST_AUTO_REFRESH = "is_first_auto_refresh";
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
-    private static final int AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
+    private static final int AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 5;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
     private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
     private static final String KEEP_SCREEN_ON_KEY = "keep_screen_on_key";
