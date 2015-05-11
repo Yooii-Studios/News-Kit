@@ -2101,13 +2101,8 @@
                             "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=1453"
                         },
                         {
-                            "topic_name": "Entretención",
-                            "topic_id": "7",
-                            "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=661"
-                        },
-                        {
                             "topic_name": "Deportes",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.latercera.com/feed/manager?type=rss&sc=TEFURVJDRVJB&citId=9&categoryId=656"
                         }
                     ]
@@ -2239,69 +2234,54 @@
             	    "provider_id": "3",
             	    "topics": [
                         {
-                            "topic_name": "Actualidad",
+                            "topic_name": "Deportes",
                             "topic_id": "1",
-                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=6&category_id=0&format=feed&type=rss&Itemid=153",
+                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=2&category_id=0&format=feed&type=rss&Itemid=262",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Deportes",
-                            "topic_id": "2",
-                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=2&category_id=0&format=feed&type=rss&Itemid=262"
-                        },
-                        {
                             "topic_name": "Cultura",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=8&category_id=0&format=feed&type=rss&Itemid=278"
                         },
                         {
                             "topic_name": "Opinión",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=3&category_id=0&format=feed&type=rss&Itemid=161"
                         },
                         {
                             "topic_name": "Sociedad",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=7&category_id=0&format=feed&type=rss&Itemid=162"
                         },
                         {
-                            "topic_name": "Tecnología",
-                            "topic_id": "6",
-                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=15&category_id=0&format=feed&type=rss&Itemid=163"
-                        },
-                        {
                             "topic_name": "Mundo",
-                            "topic_id": "7",
+                            "topic_id": "5",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=14&category_id=0&format=feed&type=rss&Itemid=155"
                         },
                         {
-                            "topic_name": "Judicial",
-                            "topic_id": "8",
-                            "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=15&category_id=0&format=feed&type=rss&Itemid=163"
-                        },
-                        {
                             "topic_name": "Tele MIX",
-                            "topic_id": "9",
+                            "topic_id": "6",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=16&category_id=0&format=feed&type=rss&Itemid=164"
                         },
                         {
                             "topic_name": "English Bulletin",
-                            "topic_id": "10",
+                            "topic_id": "7",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=27&category_id=0&format=feed&type=rss&Itemid=247"
                         },
                         {
                             "topic_name": "Guayaquil",
-                            "topic_id": "11",
+                            "topic_id": "8",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=12&category_id=0&format=feed&type=rss&Itemid=157"
                         },
                         {
                             "topic_name": "Quito",
-                            "topic_id": "12",
+                            "topic_id": "9",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=23&category_id=0&format=feed&type=rss&Itemid=158"
                         },
                         {
                             "topic_name": "Multimedia",
-                            "topic_id": "13",
+                            "topic_id": "10",
                             "url": "http://www.telegrafo.com.ec/index.php?option=com_zoo&task=feed&app_id=4&category_id=0&format=feed&type=rss&Itemid=123"
                         }
                     ]
