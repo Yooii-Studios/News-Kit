@@ -30,7 +30,7 @@ public class CreditListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return 9;
     }
 
     @Override
@@ -57,52 +57,49 @@ public class CreditListAdapter extends BaseAdapter {
                 break;
             case 1:
                 viewHolder.getTitleTextView().setText("Software Engineer");
-                viewHolder.getNameTextView().setText("Wooseong Kim");
+                viewHolder.getNameTextView().setText(
+                        "Wooseong Kim\n" +
+                        "Chris Jeong");
                 break;
             case 2:
-                viewHolder.getTitleTextView().setText("Software Engineer");
-                viewHolder.getNameTextView().setText("Chris Jeong");
-                break;
-            case 3:
                 viewHolder.getTitleTextView().setText("Main Artist");
                 viewHolder.getNameTextView().setText("Ted");
                 break;
-            case 4:
+            case 3:
                 viewHolder.getTitleTextView().setText("Associate Producer");
                 viewHolder.getNameTextView().setText("Jasmine Oh");
                 break;
-            case 5:
+            case 4:
                 viewHolder.getTitleTextView().setText("Development Manager");
                 viewHolder.getNameTextView().setText("Jeff Jeong");
                 break;
-            case 6:
+            case 5:
                 viewHolder.getTitleTextView().setText("QA");
                 viewHolder.getNameTextView().setText("Yooii Studios Members");
                 break;
-            case 7:
+            case 6:
                 viewHolder.getTitleTextView().setText("Development Consulting by");
                 viewHolder.getNameTextView().setText("PlayFluent");
                 break;
-            case 8:
+            case 7:
                 viewHolder.getTitleTextView().setText("Localization");
                 viewHolder.getNameTextView().setText(
                         "Angela Choi\n" +
                         "Moritz Will\n" +
                         "Taft Love\n" +
                         "Yu Wang\n" +
-                        "Yuki Endo");
+                        "Yuki Endo\n" +
+                        "Peter Van Dyke\n" +
+                        "Van Anh Nguyen Thi");
                 break;
-            case 9:
+            case 8:
                 viewHolder.getTitleTextView().setText("Special Thanks to");
                 viewHolder.getNameTextView().setText("Andrew Ryu\n" +
                         "HyoSang Lim\n" +
                         "JongHwa Kim\n" +
-                        "Kevin Cho\n" +
                         "KwanSoo Choi\n" +
                         "Lou Hsin\n" +
                         "Osamu Takahashi\n" +
-                        "SangWon Ko\n" +
-                        "SungMoon Cho\n" +
                         "The Great Frog Party\n" +
                         "Thomas Moon");
                 break;
