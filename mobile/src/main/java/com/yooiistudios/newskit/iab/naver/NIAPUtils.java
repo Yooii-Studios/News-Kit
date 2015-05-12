@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NIAPUtils {
-    public static final int NIAP_REQUEST_CODE = 100;
 	public static final String NIAP_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC273wBt+dcVclW1WKmorA511mMgAjcYwzPWZyhSE8VOg7K9ixm/gLH/GdWxbmU2y+kqO7Z/Onqu4+opHJmZ3Si3dn8NWdrJXQvXfZMUaFV0vo27t5SF7lPVglpWi4QsQDCK+dHIFNFJIIMTecXFk4kQFdCdKdh5q2PcZHPOw1c7QIDAQAB";
 
     private static final String NAVER_PRO_VERSION_ORIGINAL = "1000016321";
