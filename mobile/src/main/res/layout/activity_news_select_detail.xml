@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/5555221825" />
+        ads:adUnitId="ca-app-pub-2310680050309555/8771404220" />
 
     <FrameLayout
         android:id="@+id/news_select_detail_container"

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/7001207426" />
+        ads:adUnitId="ca-app-pub-2310680050309555/4201603821" />
 
     <ListView
         android:id="@+id/setting_list_view"

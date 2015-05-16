@@ -13,8 +13,8 @@ import com.yooiistudios.orientationadview.OrientationAdView;
  *  메인화면에 사용될 광고뷰
  */
 public class MainAdView extends OrientationAdView {
-    private static final String AD_UNIT_ID_PORTRAIT = "ca-app-pub-2310680050309555/9954673820";
-    private static final String AD_UNIT_ID_LANDSCAPE = "ca-app-pub-2310680050309555/1247095825";
+    private static final String AD_UNIT_ID_PORTRAIT = "ca-app-pub-2310680050309555/2864471427";
+    private static final String AD_UNIT_ID_LANDSCAPE = "ca-app-pub-2310680050309555/7434271824";
 
     public MainAdView(Context context) {
         super(context, AD_UNIT_ID_PORTRAIT, AD_UNIT_ID_LANDSCAPE);

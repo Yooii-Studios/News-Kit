@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/1632011421" />
+        ads:adUnitId="ca-app-pub-2310680050309555/7294671020" />
 
     <com.yooiistudios.newskit.ui.widget.viewpager.SlidingTabLayout
         android:id="@+id/news_select_sliding_tabs"
