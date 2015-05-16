@@ -1,14 +1,24 @@
 package com.yooiistudios.newskit.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yooiistudios.newskit.R;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,6 +60,9 @@ public class CreditListAdapter extends BaseAdapter {
         }
         final MNSettingInfoCreditItemViewHolder viewHolder = new MNSettingInfoCreditItemViewHolder(convertView);
 
+        viewHolder.getOuterLayout().setOnClickListener(null);
+        viewHolder.getTitleTextView().clearAnimation();
+        viewHolder.getNameTextView().clearAnimation();
         switch (position) {
             case 0:
                 viewHolder.getTitleTextView().setText("Executive Producer");
@@ -60,6 +73,70 @@ public class CreditListAdapter extends BaseAdapter {
                 viewHolder.getNameTextView().setText(
                         "Wooseong Kim\n" +
                         "Chris Jeong");
+                viewHolder.getOuterLayout().setOnClickListener(new View.OnClickListener() {
+                    private int mClickCount = 0;
+                    private ArrayList<Integer> mSpanned = new ArrayList<>();
+                    private ArrayList<Integer> mNonSpanned;
+
+                    @Override
+                    public void onClick(View v) {
+                        if (++mClickCount > 10) {
+                            CharSequence sequence = viewHolder.getNameTextView().getText();
+                            if (sequence != null) {
+                                String content = sequence.toString();
+
+                                if (mNonSpanned == null) {
+                                    mNonSpanned = new ArrayList<>();
+                                    for (int i = 0; i < content.length(); i++) {
+                                        mNonSpanned.add(i);
+                                    }
+                                }
+                                if (mSpanned.size() < content.length()) {
+                                    int randomIdx =
+                                            Math.abs(new Random(System.currentTimeMillis()).nextInt())
+                                                    % mNonSpanned.size();
+
+                                    mSpanned.add(mNonSpanned.remove(randomIdx));
+
+                                    SpannableStringBuilder sp = new SpannableStringBuilder(content);
+                                    for (Integer spanIdx : mSpanned) {
+                                        sp.setSpan(new ForegroundColorSpan(Color.WHITE),
+                                                spanIdx, spanIdx + 1,
+                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    viewHolder.getNameTextView().setText(sp);
+                                }
+                            }
+                        }
+
+                        if (mClickCount == 5) {
+                            TranslateAnimation anim = new TranslateAnimation(
+                                    Animation.RELATIVE_TO_SELF,  0,
+                                    Animation.RELATIVE_TO_SELF, 0.01f,
+                                    Animation.RELATIVE_TO_SELF,  0,
+                                    Animation.RELATIVE_TO_SELF,  0
+                            );
+                            anim.setDuration(50);
+                            anim.setRepeatCount(Animation.INFINITE);
+                            anim.setRepeatMode(Animation.REVERSE);
+                            anim.setInterpolator(new AccelerateDecelerateInterpolator());
+                            viewHolder.getTitleTextView().startAnimation(anim);
+
+                            anim = new TranslateAnimation(
+                                    Animation.RELATIVE_TO_SELF,  0,
+                                    Animation.RELATIVE_TO_SELF, 0.01f,
+                                    Animation.RELATIVE_TO_SELF,  0,
+                                    Animation.RELATIVE_TO_SELF,  0
+                            );
+                            anim.setDuration(50);
+                            anim.setStartOffset(10);
+                            anim.setRepeatCount(Animation.INFINITE);
+                            anim.setRepeatMode(Animation.REVERSE);
+                            anim.setInterpolator(new AccelerateDecelerateInterpolator());
+                            viewHolder.getNameTextView().startAnimation(anim);
+                        }
+                    }
+                });
                 break;
             case 2:
                 viewHolder.getTitleTextView().setText("Main Artist");

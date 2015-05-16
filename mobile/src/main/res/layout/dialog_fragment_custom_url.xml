@@ -17,7 +17,6 @@
         android:id="@+id/custom_rss_dialog_url_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:longClickable="false"
         android:singleLine="true"
         android:inputType="textUri"
         android:hint="http://news.com/rss"
