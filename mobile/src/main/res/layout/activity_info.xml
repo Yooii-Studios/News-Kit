@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/7436259020" />
+        ads:adUnitId="ca-app-pub-2310680050309555/5957538625" />
 
     <ListView
         android:id="@+id/info_list_view"

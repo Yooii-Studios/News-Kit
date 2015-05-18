@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class NewsApplication extends Application {
     private Locale mLocale = null;
-    private static final String PROPERTY_ID = "UA-50855812-11";
+    private static final String PROPERTY_ID = "UA-50855812-24";
 
     /**
      * Enum used to identify the tracker that needs to be used for tracking.

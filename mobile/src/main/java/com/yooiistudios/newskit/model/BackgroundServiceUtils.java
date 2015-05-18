@@ -329,7 +329,7 @@ public class BackgroundServiceUtils {
     }
 
     public static void saveMessageAndPrintLogDebug(Context context, String message) {
-        if (DebugSettings.isDebugBuild()) {
+        if (DebugSettings.debugLog()) {
             if (DEBUG) {
                 NLLog.i(TAG, message);
             }

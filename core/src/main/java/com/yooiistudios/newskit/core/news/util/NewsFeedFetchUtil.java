@@ -131,10 +131,7 @@ public class NewsFeedFetchUtil {
             char[] buffer = new char[300];
             bufferedReader.read(buffer, 0, 300);
             prolog = new String(buffer);
-        } catch (Exception e) {
-            // TODO: ignore 하기
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
         String encoding = "";
         if (prolog != null) {
             int prologEndIdx = prolog.indexOf("?>");
