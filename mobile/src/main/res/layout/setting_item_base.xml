@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/setting_language"
         android:textColor="@color/material_black_primary_text"
+        android:textSize="@dimen/setting_item_title_text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_marginTop="@dimen/base_margin_small"
         android:text="한국어"
         android:textColor="@color/material_black_secondary_text"
+        android:textSize="@dimen/setting_item_description_text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:includeFontPadding="false"/>
 </LinearLayout>

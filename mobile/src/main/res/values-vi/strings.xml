@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- General -->
+	<string name="app_name">News Kit</string>
+	<string name="news">Tin tức</string>
+	<string name="action_info">Thông tin</string>
+	<string name="action_settings">Cài đặt</string>
+	<string name="action_rate_app">Đánh giá Dòng chảy tin tức</string>
+	<string name="action_facebook_like">Like chúng tôi trên Facebook</string>
+	<string name="action_send_feedback">Gửi ý kiến phản hồi</string>
+	<string name="content_description">Đang tải…</string>
+	<string name="ok">Đồng ý</string>
+	<string name="cancel">Hủy</string>
+	<string name="confirm">Xác nhận</string>
+	<string name="share">Chia sẻ</string>
+	<string name="yes">đồng ý</string>
+	<string name="no">không</string>
+
+	<!-- Main -->
+	<string name="action_edition">Chọn tin tức</string>
+
+	<!-- Newsfeed Detail -->
+	<string name="newsfeed_select_news_section">Mục tin tức</string>
+	<string name="newsfeed_auto_scroll">Tự động cuộn</string>
+	<string name="on">Bật</string>
+	<string name="off">Tắt</string>
+
+	<!-- News Detail -->
+	<string name="news_detail_share_message">Dòng chảy tin tức: Xin hãy đọc!</string>
+	<string name="news_detail_link_copied">Đã sao chép đường link</string>
+
+	<!-- News Select -->
+	<string name="select_newsfeed_title">Danh sách tin tức</string>
+	<string name="custom_news_feed_dialog_title">Thêm nguồn từ RSS</string>
+	<string name="custom_news_feed_menu_item_title">RSS</string>
+	<string name="custom_news_feed_url">Đường dẫn (URL)</string>
+
+	<!-- Setting -->
+	<string name="setting_language">Ngôn ngữ / Language</string>
+	<string name="setting_keep_screen_on">Giữ màn hình bật</string>
+	<string name="setting_tutorial">Hướng dẫn</string>
+	<string name="setting_main_sub_header">Màn hình chính</string>
+	<string name="setting_main_auto_refresh_interval">Thời gian tự động đổi mới</string>
+	<string name="setting_main_auto_refresh_interval_caption">Thời gian</string>
+	<string name="setting_main_auto_refresh_speed">Tốc độ tự động đổi mới</string>
+	<string name="setting_main_panel_matrix">Ma trận tin tức</string>
+	<string name="setting_main_panel_matrix_description">%1$s khung</string>
+	<string name="setting_news_feed_sub_header">Màn hình tin tức</string>
+	<string name="setting_news_feed_auto_scroll_start_offset">Bắt đầu tự động cuộn</string>
+	<string name="setting_news_feed_auto_scroll_speed">Tốc độ tự động cuộn</string>
+	<string name="setting_news_feed_auto_scroll_very_slow">Rất chậm</string>
+	<string name="setting_news_feed_auto_scroll_slow">Chậm</string>
+	<string name="setting_news_feed_auto_scroll_normal">Bình thường</string>
+	<string name="setting_news_feed_auto_scroll_fast">Nhanh</string>
+	<string name="setting_news_feed_auto_scroll_very_fast">Rất nhanh</string>
+
+	<!-- Pair -->
+	<string name="setting_pair_tv">Ghép đôi Android TV</string>
+	<string name="setting_pair_tv_description">Đồng bộ cài đặt di động với Android TV</string>
+	<string name="setting_pair_tv_dialog_description">Nhập 5 số được hiển thị trong mục \"Ghép đôi\" của Android TV và nhấn Xác nhận</string>
+	<string name="setting_pair_tv_code_invalidate">Mã số không phù hợp. Xin hãy kiểm tra  5 số được hiển thị trong mục \"Ghép đôi\" của Android TV</string>
+	<string name="setting_pair_tv_data_sent">Ghép đôi thành công với Android TV</string>
+	<string name="setting_pair_tv_error_msg">Ghép đôi thất bại. Xin hãy thử lại.</string>
+
+	<!-- Recommend -->
+	<string name="recommend_to_friends">Giới thiệu với bạn bè</string>
+	<string name="recommend_title">Xem ứng dụng mới này, thật tuyệt!</string>
+	<string name="recommend_description">Theo đường link và xem một vòng</string>
+
+	<!-- Feedback -->
+	<string name="feedback_description">Làm sao để cải thiện Dòng chảy tin tức</string>
+
+	<!-- Ad -->
+	<string name="quit_ad_dialog_title_text">Bạn chắc chắn muốn thoát ra?</string>
+
+	<!-- Store -->
+	<string name="store">Cửa hàng</string>
+	<string name="store_title_text_1">Mua</string>
+	<string name="store_title_text_2">Bản Đầy đủ!</string>
+	<string name="store_description_text_1">Nâng cấp để mở khóa TOÀN BỘ Chức năng và Tính năng</string>
+	<string name="store_description_text_2">Không quảng cáo!</string>
+	<string name="store_description_text_2_highlight">Không quảng cáo!</string>
+	<string name="store_pro_version_original_price">$4.99</string>
+	<string name="store_pro_version_discounted_price">$2.99</string>
+	<string name="store_purchased">Đã mua</string>
+	<string name="store_thank_you">Cảm ơn!</string>
+	<string name="store_item_price">$0.99</string>
+	<string name="store_no_ads_title">Không quảng cáo</string>
+	<string name="store_no_ads_description">Gỡ bỏ tất cả quảng cáo</string>
+	<string name="store_more_panel_title">Thêm khung tin tức</string>
+	<string name="store_more_panel_description">Thêm 4 khung tin tức</string>
+	<string name="store_custom_rss_feed_title">Tùy chỉnh nguồn RSS</string>
+	<string name="store_custom_rss_feed_description">Thêm bất kỳ nguồn RSS</string>
+
+	<!-- Main Network Unavailable Cover -->
+	<string name="main_network_unavailable_cant_connect">Không có kết nối Internet</string>
+	<string name="main_network_unavailable_retry">Xin hãy thử lại.</string>
+
+	<!-- Info -->
+	<string name="info_news_info">Thông tin Dòng chảy tin tức</string>
+	<string name="info_credit">Giới thiệu</string>
+
+	<!-- More Info -->
+	<string name="more_info_yooii_studios">Yooii Studios</string>
+	<string name="more_info_news_help">Giúp đỡ của Dòng chảy tin tức</string>
+	<string name="more_info_version">Phiên bản</string>
+	<string name="more_info_license">Giấy phép</string>
+
+	<!-- Store Ad -->
+	<string name="store_buy_pro_version">Mua Bản đầy đủ!</string>
+	<string name="store_sub_description">Tất cả Chức năng và Tính năng + Không quảng cáo</string>
+
+	<!-- Notification -->
+	<string name="notification_title">Chào buổi sáng!</string>
+	<string name="notification_description">Tin tức buổi sáng của bạn đã sẵn sàng.</string>
+	<string name="notification_ask_description">Bạn có muốn nhận thông báo tin tức không?</string>
+
+	<!-- Error Message -->
+	<string name="news_feed_fetch_error_invalid_topic_url">Hiện không có</string>
+	<string name="news_feed_fetch_error_invalid_custom_url">Đường dẫn RSS không hợp lệ</string>
+	<string name="news_feed_fetch_error_timeout">Hết thời gian. Xin hãy kiểm tra kết nối Internet</string>
+
+	<!-- Morning Kit Ad -->
+	<string name="morningkit_ad_app_name">Morning Kit</string>
+	<string name="morningkit_ad_description">Alarm + Info Panels</string>
+	<string name="morningkit_ad_guide_text">Tất cả mọi thứ bạn cần vào buổi sáng!</string>
+	<string name="download">Tải xuống</string>
+	<string name="close">Đóng</string>
+
+	<!-- 출시시 정렬 다시할 추가 스트링-->
+	<!-- General -->
+	<string name="add_more_panels">Thêm khung tin tức</string>
+	<string name="app_name_full">News Kit</string>
+	<string name="minute">p</string>
+	<string name="second">g</string>
+
+	<!-- Rate it -->
+	<string name="rate_it_contents">Xin hãy xếp hạng chúng tôi 5 sao!\n Không có sự ủng hộ của các bạn, chúng tôi không tồn tại :)</string>
+	<string name="rate_it_rate">Xếp hạng</string>
+	<string name="rate_it_no_thanks">Để sau</string>
+	<string name="rate_news_kit_title">Rate News Kit</string>
+
+	<!-- Error Message -->
+	<string name="news_feed_fetch_error_unknown">Tạm thời không có sẵn, xin hãy thử lại sau</string>
+
+	<!-- Setting -->
+	<string name="setting_general_sub_header">Tổng quan</string>
+	<string name="setting_notification">Thông báo</string>
+	<string name="setting_pair_tv_insert_code">Nhập mã số</string>
+</resources>

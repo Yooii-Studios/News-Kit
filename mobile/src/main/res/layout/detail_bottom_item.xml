@@ -14,7 +14,6 @@
             android:id="@+id/detail_bottom_news_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/detail_text_padding"
             style="@style/NewsFeedDetailTitle"
             android:textColor="@color/material_black_primary_text"/>
 

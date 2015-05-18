@@ -1,0 +1,78 @@
+{
+    "lang_name_english": "Lithuanian",
+    "lang_name_regional": "Lietuvos",
+    "lang_code": "lt",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Lietuva",
+            "country_code": "LT",
+            "news_providers": [
+                {
+                    "provider_name": "Lietuvos rytas",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Visos naujienos",
+                            "topic_id": "1",
+                            "url": "http://www.lrytas.lt/rss/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Aktualijos",
+                            "topic_id": "2",
+                            "url": "http://www.lrytas.lt/rss/?tema=1"
+                        },
+                        {
+                            "topic_name": "Europa",
+                            "topic_id": "3",
+                            "url": "http://www.lrytas.lt/rss/?tema=19"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Lietuvos žinios",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Pasaulio",
+                            "topic_id": "1",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=1",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Bendrovių naujienos",
+                            "topic_id": "2",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=2"
+                        },
+                        {
+                            "topic_name": "Rinkų naujienos",
+                            "topic_id": "3",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=3"
+                        },
+                        {
+                            "topic_name": "Smulkaus ir vidutinio verslo (SVV)",
+                            "topic_id": "4",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=4"
+                        },
+                        {
+                            "topic_name": "Vadybos naujienos",
+                            "topic_id": "5",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=5"
+                        },
+                        {
+                            "topic_name": "Inovacijų naujienos",
+                            "topic_id": "6",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=6"
+                        },
+                        {
+                            "topic_name": "Laisvalaikio naujienos",
+                            "topic_id": "7",
+                            "url": "http://www.verslozinios.lt/RSS.aspx?type=7"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

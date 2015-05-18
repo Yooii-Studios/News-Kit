@@ -25,11 +25,12 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.SearchOrbView;
 import android.support.v17.leanback.widget.TitleView;
 import android.support.v17.leanback.widget.VerticalGridView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+
+import com.yooiistudios.newskit.core.util.NLLog;
 
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
@@ -75,7 +76,7 @@ public class NewsBrowseFragment extends Fragment {
         @Override
         public void onBackStackChanged() {
             if (getFragmentManager() == null) {
-                Log.w(TAG, "getFragmentManager() is null, stack:", new Exception());
+                NLLog.w(TAG, "getFragmentManager() is null, stack:", new Exception());
                 return;
             }
             int count = getFragmentManager().getBackStackEntryCount();
@@ -503,7 +504,7 @@ public class NewsBrowseFragment extends Fragment {
                     final View searchOrbView = mTitleView.getSearchAffordanceView();
                     // if headers is running transition,  focus stays
                     if (isInHeadersTransition()) return focused;
-                    if (DEBUG) Log.v(TAG, "onFocusSearch focused " + focused + " + direction " + direction);
+                    if (DEBUG) NLLog.v(TAG, "onFocusSearch focused " + focused + " + direction " + direction);
                     if (direction == View.FOCUS_LEFT) {
                         if (isVerticalScrolling() || mShowingHeaders) {
                             return focused;
@@ -789,7 +790,7 @@ public class NewsBrowseFragment extends Fragment {
     }
 
     private void showHeaders(boolean show) {
-        if (DEBUG) Log.v(TAG, "showHeaders " + show);
+        if (DEBUG) NLLog.v(TAG, "showHeaders " + show);
         // FIXME: 이 로직이 헤더를 사라지게 만듬
 //        mHeadersFragment.setHeadersEnabled(show);
         ViewGroup.MarginLayoutParams lp;
@@ -826,7 +827,7 @@ public class NewsBrowseFragment extends Fragment {
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
             int position = mRowsFragment.getVerticalGridView().getSelectedPosition();
-            if (DEBUG) Log.v(TAG, "row selected position " + position);
+            if (DEBUG) NLLog.v(TAG, "row selected position " + position);
             onRowSelected(position);
             if (mExternalOnItemViewSelectedListener != null) {
                 mExternalOnItemViewSelectedListener.onItemSelected(itemViewHolder, item,
@@ -848,7 +849,7 @@ public class NewsBrowseFragment extends Fragment {
         @Override
         public void onItemSelected(Object item, Row row) {
             int position = mHeadersFragment.getVerticalGridView().getSelectedPosition();
-            if (DEBUG) Log.v(TAG, "header selected position " + position);
+            if (DEBUG) NLLog.v(TAG, "header selected position " + position);
             onRowSelected(position);
         }
     };
@@ -996,7 +997,7 @@ public class NewsBrowseFragment extends Fragment {
         if (headersState < HEADERS_ENABLED || headersState > HEADERS_DISABLED) {
             throw new IllegalArgumentException("Invalid headers state: " + headersState);
         }
-        if (DEBUG) Log.v(TAG, "setHeadersState " + headersState);
+        if (DEBUG) NLLog.v(TAG, "setHeadersState " + headersState);
 
         if (headersState != mHeadersState) {
             mHeadersState = headersState;
@@ -1014,7 +1015,7 @@ public class NewsBrowseFragment extends Fragment {
                     mShowingHeaders = false;
                     break;
                 default:
-                    Log.w(TAG, "Unknown headers state: " + headersState);
+                    NLLog.w(TAG, "Unknown headers state: " + headersState);
                     break;
             }
             if (mHeadersFragment != null) {

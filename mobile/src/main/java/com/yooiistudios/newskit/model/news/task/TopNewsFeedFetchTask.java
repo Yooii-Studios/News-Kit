@@ -23,7 +23,7 @@ public class TopNewsFeedFetchTask extends AsyncTask<Void, Void, NewsFeed> {
     private boolean mShuffle;
 
     public interface OnFetchListener {
-        public void onTopNewsFeedFetch(NewsFeed newsFeed, TaskType taskType);
+        void onTopNewsFeedFetch(NewsFeed newsFeed, TaskType taskType);
     }
 
     public TopNewsFeedFetchTask(RssFetchable rssFetchable,

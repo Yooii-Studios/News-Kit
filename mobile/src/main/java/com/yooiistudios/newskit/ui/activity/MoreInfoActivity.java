@@ -28,7 +28,7 @@ public class MoreInfoActivity extends ActionBarActivity implements AdapterView.O
 
     public enum MoreInfoItem {
         YOOII_STUDIOS(R.string.more_info_yooii_studios),
-        HELP(R.string.more_info_news_help),
+//        HELP(R.string.more_info_news_help),
         LICENSE(R.string.more_info_license),
         VERSION(R.string.more_info_version);
 
@@ -95,11 +95,11 @@ public class MoreInfoActivity extends ActionBarActivity implements AdapterView.O
                 startActivity(intent);
                 break;
             }
-            case HELP: {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yooiistudios.com/apps/morning/ios/help.php"));
-                startActivity(intent);
-                break;
-            }
+//            case HELP: {
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yooiistudios.com/apps/newskit/android/help.php"));
+//                startActivity(intent);
+//                break;
+//            }
             case LICENSE:
                 startActivity(new Intent(this, LicenseActivity.class));
                 break;

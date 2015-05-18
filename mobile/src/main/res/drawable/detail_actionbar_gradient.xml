@@ -2,11 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="rectangle">
 
-    <size android:height="@dimen/news_feed_detail_shadow_gradient_height"/>
-
     <gradient
         android:angle="270"
         android:startColor="@color/newsfeed_detail_gradient_start_color"
-        android:endColor="#0000"/>
+        android:endColor="@android:color/transparent"/>
 
 </shape>

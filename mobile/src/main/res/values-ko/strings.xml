@@ -17,23 +17,23 @@
     <string name="no">아니오</string>
 
     <!-- Main -->
-    <string name="action_edition">수정</string>
+    <string name="action_edition">뉴스 선택</string>
 
     <!-- Newsfeed Detail -->
-    <string name="newsfeed_select_news_section">뉴스 섹션</string>
+    <string name="newsfeed_select_news_section">뉴스 섹션 선택</string>
     <string name="newsfeed_auto_scroll">자동 스크롤</string>
     <string name="on">켜기</string>
     <string name="off">끄기</string>
 
     <!-- News Detail -->
-    <string name="news_detail_share_message">이 기사를 확인해보세요!</string>
+    <string name="news_detail_share_message">뉴스키트: 이 기사 한번 읽어 보세요!</string>
     <string name="news_detail_link_copied">링크가 복사되었습니다</string>
 
     <!-- News Select -->
-    <string name="select_newsfeed_title">뉴스피드 선택</string>
+    <string name="select_newsfeed_title">뉴스 리스트</string>
     <string name="custom_news_feed_dialog_title">RSS 직접 입력</string>
-    <string name="custom_news_feed_menu_item_title">RSS 입력</string>
-    <string name="custom_news_feed_url">주소</string>
+    <string name="custom_news_feed_menu_item_title">RSS</string>
+    <string name="custom_news_feed_url">주소(URL)</string>
 
     <!-- Setting -->
     <string name="setting_language">언어 / Language</string>
@@ -42,11 +42,11 @@
     <string name="setting_main_sub_header">메인 화면</string>
     <string name="setting_main_auto_refresh_interval">자동 리프레시 간격</string>
     <string name="setting_main_auto_refresh_interval_caption">간격</string>
-    <string name="setting_main_auto_refresh_speed">자동 리프레시 속도</string>
-    <string name="setting_main_panel_matrix">뉴스피드 패널 배열</string>
+    <string name="setting_main_auto_refresh_speed">깜박임 속도</string>
+    <string name="setting_main_panel_matrix">뉴스 패널 매트릭스</string>
     <string name="setting_main_panel_matrix_description">%1$s 패널</string>
-    <string name="setting_news_feed_sub_header">뉴스피드 화면</string>
-    <string name="setting_news_feed_auto_scroll_start_offset">자동 스크롤 시작 지연시간</string>
+    <string name="setting_news_feed_sub_header">뉴스 피드 화면</string>
+    <string name="setting_news_feed_auto_scroll_start_offset">자동 스크롤 시작 시간</string>
     <string name="setting_news_feed_auto_scroll_speed">자동 스크롤 속도</string>
     <string name="setting_news_feed_auto_scroll_very_slow">아주 느림</string>
     <string name="setting_news_feed_auto_scroll_slow">느림</string>
@@ -56,26 +56,26 @@
 
     <!-- Pair -->
     <string name="setting_pair_tv">Android TV와 연동</string>
-    <string name="setting_pair_tv_description">뉴스 패널 설정을 Android TV로 보내기</string>
+    <string name="setting_pair_tv_description">모바일 설정을 Android TV로 보내기</string>
     <string name="setting_pair_tv_dialog_description">Android TV의 \"지금 연동하기\" 탭에 보이는 5자리 숫자를 입력하고 확인을 눌러주세요</string>
     <string name="setting_pair_tv_code_invalidate">숫자가 맞지 않습니다. Android TV의 \"지금 연동하기\" 탭에 보이는 5자리 숫자를 확인해 주세요</string>
-    <string name="setting_pair_tv_data_sent">Android TV와 연동하였습니다</string>
+    <string name="setting_pair_tv_data_sent">Android TV와 연동에 성공 하였습니다</string>
     <string name="setting_pair_tv_error_msg">연동에 실패하였습니다. 다시 시도해 주세요</string>
 
     <!-- Recommend -->
     <string name="recommend_to_friends">친구에게 추천하기</string>
-    <string name="recommend_title">이 멋진 앱을 확인해보세요!</string>
-    <string name="recommend_description">뉴스를 보는 새로운 방법! News Kit!</string>
+    <string name="recommend_title">이 멋진 앱을 강추합니다!</string>
+    <string name="recommend_description">뉴스를 보는 새로운 방법 - News Kit!</string>
 
     <!-- Feedback -->
     <string name="feedback_description">News Kit를 개선하기 위한 의견을 들려주세요^^</string>
 
     <!-- Ad -->
-    <string name="quit_ad_dialog_title_text">이 앱을 종료하시겠습니까?</string>
+    <string name="quit_ad_dialog_title_text">뉴스키트를 종료하시겠습니까?</string>
 
     <!-- Store -->
     <string name="store">상점</string>
-    <string name="store_title_text_1">풀버전을</string>
+    <string name="store_title_text_1">프로버전을</string>
     <string name="store_title_text_2">구매하세요!</string>
     <string name="store_description_text_1">업그레이드를 하시면 모든 기능들을 사용하실 수 있습니다</string>
     <string name="store_description_text_2">+ 광고 제거!</string>
@@ -85,26 +85,24 @@
     <string name="store_purchased">구매 완료</string>
     <string name="store_thank_you">감사합니다!</string>
     <string name="store_item_price">$0.99</string>
-    <string name="store_item_debug_title">Item Title\nItem Title</string>
-    <string name="store_item_debug_description">Item description\nItem description</string>
     <string name="store_no_ads_title">광고 제거</string>
     <string name="store_no_ads_description">앱의 모든 광고 제거</string>
     <string name="store_more_panel_title">더 많은 뉴스 패널</string>
-    <string name="store_more_panel_description">4~8개의 하단 뉴스 패널 사용하기</string>
+    <string name="store_more_panel_description">추가 4개 뉴스 패널 더 사용하기</string>
     <string name="store_custom_rss_feed_title">RSS 직접 입력</string>
-    <string name="store_custom_rss_feed_description">원하는 RSS를 직접 입력하기</string>
+    <string name="store_custom_rss_feed_description">원하는 RSS를 직접 입력 가능</string>
 
     <!-- Main Network Unavailable Cover -->
     <string name="main_network_unavailable_cant_connect">네트워크를 사용할 수 없습니다</string>
     <string name="main_network_unavailable_retry">다시 연결</string>
 
     <!-- Info -->
-    <string name="info_news_info">News Kit 정보</string>
+    <string name="info_news_info">뉴스키트 정보</string>
     <string name="info_credit">크레디트</string>
 
     <!-- More Info -->
-    <string name="more_info_yooii_studios">Yooii Studios</string>
-    <string name="more_info_news_help">News Kit 헬프</string>
+    <string name="more_info_yooii_studios">유이스튜디오</string>
+    <string name="more_info_news_help">뉴스키트 헬프</string>
     <string name="more_info_version">버전</string>
     <string name="more_info_license">라이센스</string>
 
@@ -115,25 +113,38 @@
     <!-- Notification -->
     <string name="notification_title">좋은 아침입니다!</string>
     <string name="notification_description">새 뉴스가 도착했습니다.</string>
-    <string name="notification_ask_description">뉴스 알림을 받으시겠습니까?</string>
+    <string name="notification_ask_description">매일 아침 뉴스 알림을 받으시겠습니까?</string>
 
     <!-- Error Message -->
-    <string name="news_feed_fetch_error_invalid_topic_url">이 뉴스를 사용할 수 없습니다</string>
+    <string name="news_feed_fetch_error_invalid_topic_url">현재 사용 불가 상태 입니다.</string>
     <string name="news_feed_fetch_error_invalid_custom_url">유효하지 않은 RSS 주소</string>
-    <string name="news_feed_fetch_error_timeout">문제 발생. 인터넷 연결을 확인해 주세요.</string>
-    <string name="news_feed_fetch_error_unknown">RSS를 찾을 수 없습니다</string>
+    <string name="news_feed_fetch_error_timeout">시간 초과. 인터넷 연결을 확인해 주세요.</string>
 
     <!-- Morning Kit Ad -->
     <string name="ad_morning_kit_app_name">모닝키트</string>
-    <string name="ad_morning_kit_guide_text">아침에 필요한 모든 정보를 한 눈에!</string>
     <string name="ad_morning_kit_description">알람 + 정보 패널</string>
+    <string name="ad_morning_kit_guide_text">아침에 필요한 모든 정보를 한 눈에!</string>
+    <string name="download">다운로드</string>
+    <string name="close">닫기</string>
 
+    <!-- 출시시 정렬 다시할 추가 스트링-->
     <!-- General -->
     <string name="add_more_panels">뉴스 패널 더 추가하기</string>
+    <string name="app_name_full">뉴스키트</string>
     <string name="minute">분</string>
     <string name="second">초</string>
+
+    <!-- Rate it -->
+    <string name="rate_it_contents">%1$s 리뷰 부탁 드립니다.\n소중한 리뷰가 더 좋은 제품을 만드는데 도움이 됩니다! ^^</string>
+    <string name="rate_it_rate">평가하기</string>
+    <string name="rate_it_no_thanks">나중에 하기</string>
+    <string name="rate_news_kit_title">뉴스키트 평가하기</string>
+
+    <!-- Error Message -->
+    <string name="news_feed_fetch_error_unknown">일시적 사용불가: 조금 후에 다시 시도해 주세요.</string>
 
     <!-- Setting -->
     <string name="setting_general_sub_header">일반</string>
     <string name="setting_notification">알림</string>
+    <string name="setting_pair_tv_insert_code">코드 입력</string>
 </resources>

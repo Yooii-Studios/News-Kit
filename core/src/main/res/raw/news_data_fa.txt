@@ -1,0 +1,170 @@
+{
+    "lang_name_english": "Persian",
+    "lang_name_regional": "فارسی",
+    "lang_code": "fa",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "ایران",
+            "country_code": "IR",
+            "news_providers": [
+                {
+                    "provider_name": "روزنامه دنیای اقتصاد",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "خبر",
+                            "topic_id": "1",
+                            "url": "http://www.donya-e-eqtesad.com/general-news/rss/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "صنعت و معدن",
+                            "topic_id": "2",
+                            "url": "http://www.donya-e-eqtesad.com/mining-industry/rss/"
+                        },
+                        {
+                            "topic_name": "بازرگانی",
+                            "topic_id": "3",
+                            "url": "http://www.donya-e-eqtesad.com/trade/rss/"
+                        },
+                        {
+                            "topic_name": "دنیا",
+                            "topic_id": "4",
+                            "url": "http://www.donya-e-eqtesad.com/world/rss/"
+                        },
+                        {
+                            "topic_name": "ورزش",
+                            "topic_id": "5",
+                            "url": "http://www.donya-e-eqtesad.com/sport/rss/"
+                        },
+                        {
+                            "topic_name": "فرهنگ و هنر",
+                            "topic_id": "6",
+                            "url": "http://www.donya-e-eqtesad.com/art-culture/rss/"
+                        },
+                        {
+                            "topic_name": "توریسم",
+                            "topic_id": "7",
+                            "url": "http://www.donya-e-eqtesad.com/tourism/rss/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "پایگاه خبری تحلیلی انتخاب",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "کل اخبار:",
+                            "topic_id": "1",
+                            "url": "http://entekhab.ir/fa/rss/allnews",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "صفحه نخست:",
+                            "topic_id": "2",
+                            "url": "http://entekhab.ir/fa/rss/1"
+                        },
+                        {
+                            "topic_name": "اقتصاد:",
+                            "topic_id": "3",
+                            "url": "http://entekhab.ir/fa/rss/5"
+                        },
+                        {
+                            "topic_name": "کل اخبار:",
+                            "topic_id": "4",
+                            "url": "http://entekhab.ir/fa/rss/all/mostvisited"
+                        },
+                        {
+                            "topic_name": "صفحه نخست:",
+                            "topic_id": "5",
+                            "url": "http://entekhab.ir/fa/rss/1/mostvisited"
+                        },
+                        {
+                            "topic_name": "اقتصاد:",
+                            "topic_id": "6",
+                            "url": "http://entekhab.ir/fa/rss/5/mostvisited"
+                        },
+                        {
+                            "topic_name": "کل اخبار:",
+                            "topic_id": "7",
+                            "url": "http://entekhab.ir/fa/rss/all/mostcommented"
+                        },
+                        {
+                            "topic_name": "صفحه نخست:",
+                            "topic_id": "8",
+                            "url": "http://entekhab.ir/fa/rss/1/mostcommented"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "جام جم آنلاین",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "آخرین اخبار",
+                            "topic_id": "1",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?Type=LastNews",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "عناوین کل اخبار",
+                            "topic_id": "2",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=0"
+                        },
+                        {
+                            "topic_name": "اقتصادي ",
+                            "topic_id": "3",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=106"
+                        },
+                        {
+                            "topic_name": "گفتگو ",
+                            "topic_id": "4",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=112"
+                        },
+                        {
+                            "topic_name": "تاريخ ",
+                            "topic_id": "5",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=111"
+                        },
+                        {
+                            "topic_name": "سياسي ",
+                            "topic_id": "6",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=103"
+                        },
+                        {
+                            "topic_name": "آموزش ",
+                            "topic_id": "7",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=120"
+                        },
+                        {
+                            "topic_name": "راديو و تلويزيون ",
+                            "topic_id": "8",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=109"
+                        },
+                        {
+                            "topic_name": "ورزشي ",
+                            "topic_id": "9",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=115"
+                        },
+                        {
+                            "topic_name": "بين الملل ",
+                            "topic_id": "10",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=105"
+                        },
+                        {
+                            "topic_name": "حوادث ",
+                            "topic_id": "11",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=104"
+                        },
+                        {
+                            "topic_name": "سرگرمي ",
+                            "topic_id": "12",
+                            "url": "http://www1.jamejamonline.ir/rss.aspx?srv=113"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

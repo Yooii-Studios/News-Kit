@@ -1,6 +1,7 @@
 package com.yooiistudios.newskit.core.news;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.lang.reflect.Method;
@@ -15,11 +16,11 @@ public class NewsFeedParseHandler extends DefaultHandler {
     private NewsFeed rssFeed;
     private News rssItem;
     private StringBuilder stringBuilder;
-//    private int mNewsSizeLimit;
+    private int mNewsCountLimit;
 
-//    public NewsFeedParseHandler(int newsSizeLimit) {
-//        mNewsSizeLimit = newsSizeLimit;
-//    }
+    public NewsFeedParseHandler(int newsCountLimit) {
+        mNewsCountLimit = newsCountLimit;
+    }
 
     @Override
     public void startDocument() {
@@ -36,10 +37,12 @@ public class NewsFeedParseHandler extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+    public void startElement(String uri, String localName, String qName, Attributes attributes)
+            throws SAXException {
         stringBuilder = new StringBuilder();
 
         if (qName.equals("item") && rssFeed != null) {
+            checkNewsCountLimitDebug();
             rssItem = new News();
             rssFeed.addNews(rssItem);
         }
@@ -52,7 +55,6 @@ public class NewsFeedParseHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) {
-
         if (rssFeed != null && rssItem == null) {
             try {
                 if (qName != null && qName.length() > 0) {
@@ -77,6 +79,13 @@ public class NewsFeedParseHandler extends DefaultHandler {
 //                e.printStackTrace();
             }
         }
-
     }
+
+    private void checkNewsCountLimitDebug() throws SAXException {
+        if (rssFeed.getNewsList().size() > mNewsCountLimit - 1) {
+            throw new SAXException(new BreakParsingException());
+        }
+    }
+
+    public static class BreakParsingException extends Exception {}
 }

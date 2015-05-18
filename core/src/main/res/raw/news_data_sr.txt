@@ -1,0 +1,150 @@
+{
+    "lang_name_english": "Serbian",
+    "lang_name_regional": "Cрпски",
+    "lang_code": "sr",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Република Србија",
+            "country_code": "RS",
+            "news_providers": [
+                {
+                    "provider_name": "Danas",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Politika",
+                            "topic_id": "1",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=27",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Društvo",
+                            "topic_id": "2",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=24"
+                        },
+                        {
+                            "topic_name": "Dijalog",
+                            "topic_id": "3",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=1"
+                        },
+                        {
+                            "topic_name": "Ekonomija",
+                            "topic_id": "4",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=6"
+                        },
+                        {
+                            "topic_name": "Svet",
+                            "topic_id": "5",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=25"
+                        },
+                        {
+                            "topic_name": "Srbija",
+                            "topic_id": "6",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=28"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=13"
+                        },
+                        {
+                            "topic_name": "Feljton",
+                            "topic_id": "8",
+                            "url": "http://www.danas.rs/rss/rss.asp?column_id=19"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Politika",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Свет",
+                            "topic_id": "1",
+                            "url": "http://www.politika.rs/rubrike/Svet/index.1.sr.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "2",
+                            "url": "http://www.politika.rs/rubrike/Politika/index.1.sr.xml"
+                        },
+                        {
+                            "topic_name": "Погледи",
+                            "topic_id": "3",
+                            "url": "http://www.politika.rs/pogledi/index.sr.xml"
+                        },
+                        {
+                            "topic_name": "Погледи са стране",
+                            "topic_id": "4",
+                            "url": "http://www.politika.rs/rubrike/Pogledi-sa-strane/index.1.sr.xml"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "5",
+                            "url": "http://www.politika.rs/rubrike/Sport/index.1.sr.xml"
+                        },
+                        {
+                            "topic_name": "Култура",
+                            "topic_id": "6",
+                            "url": "http://www.politika.rs/rubrike/Kultura/index.1.sr.xml"
+                        },
+                        {
+                            "topic_name": "Спектар",
+                            "topic_id": "7",
+                            "url": "http://www.politika.rs/rubrike/spektar/index.1.sr.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Blic",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Današnje vesti",
+                            "topic_id": "1",
+                            "url": "http://www.blic.rs/rss/danasnje-vesti",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Vesti",
+                            "topic_id": "2",
+                            "url": "http://www.blic.rs/rss/Vesti"
+                        },
+                        {
+                            "topic_name": "Zabava",
+                            "topic_id": "3",
+                            "url": "http://www.blic.rs/rss/Zabava"
+                        },
+                        {
+                            "topic_name": "Kultura",
+                            "topic_id": "4",
+                            "url": "http://www.blic.rs/rss/Kultura"
+                        },
+                        {
+                            "topic_name": "Slobodno vreme",
+                            "topic_id": "5",
+                            "url": "http://www.blic.rs/rss/Slobodno-vreme"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "6",
+                            "url": "http://www.blic.rs/rss/Auto"
+                        },
+                        {
+                            "topic_name": "IT",
+                            "topic_id": "7",
+                            "url": "http://www.blic.rs/rss/IT"
+                        },
+                        {
+                            "topic_name": "Riznica",
+                            "topic_id": "8",
+                            "url": "http://www.blic.rs/rss/Riznica"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

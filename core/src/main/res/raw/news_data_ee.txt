@@ -1,0 +1,26 @@
+{
+    "lang_name_english": "Estonian",
+    "lang_name_regional": "eesti",
+    "lang_code": "ee",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Eesti",
+            "country_code": "EE",
+            "news_providers": [
+                {
+                    "provider_name": "Äripäev",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Äripäev",
+                            "topic_id": "1",
+                            "url": "http://www.aripaev.ee/mod/rss.xml",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

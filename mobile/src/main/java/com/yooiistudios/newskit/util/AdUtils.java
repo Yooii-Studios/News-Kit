@@ -46,14 +46,12 @@ public class AdUtils {
     private static final String MORNING_KIT_PACKAGE_NAME = "com.yooiistudios.morningkit";
 
     // 전면 광고 아이디는 각자의 앱에 맞는 전면 광고 ID를 추가
-//    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/8912992223";
+//    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/4341204620";
 
     public static void showPopupAdIfSatisfied(Context context) {
         if (context == null) {
             return;
         }
-
-        showMorningKitAd(context);
 
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(context);
 

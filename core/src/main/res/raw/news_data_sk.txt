@@ -1,0 +1,185 @@
+{
+    "lang_name_english": "Slovak",
+    "lang_name_regional": "Slovenčina",
+    "lang_code": "sk",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Slovensko",
+            "country_code": "SK",
+            "news_providers": [
+                {
+                    "provider_name": "Pravda",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Všetky správy",
+                            "topic_id": "1",
+                            "url": "http://spravy.pravda.sk/rss/xml/s-obrazkom/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Domáce",
+                            "topic_id": "2",
+                            "url": "http://spravy.pravda.sk/domace/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Svet",
+                            "topic_id": "3",
+                            "url": "http://spravy.pravda.sk/svet/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Ekonomika",
+                            "topic_id": "4",
+                            "url": "http://spravy.pravda.sk/ekonomika/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Regióny",
+                            "topic_id": "5",
+                            "url": "http://spravy.pravda.sk/regiony/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Šport",
+                            "topic_id": "6",
+                            "url": "http://sport.pravda.sk/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Kultúra",
+                            "topic_id": "7",
+                            "url": "http://kultura.pravda.sk/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Názory",
+                            "topic_id": "8",
+                            "url": "http://nazory.pravda.sk/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Cestovanie",
+                            "topic_id": "9",
+                            "url": "http://cestovanie.pravda.sk/rss/xml/s-obrazkom/"
+                        },
+                        {
+                            "topic_name": "Veda a technika",
+                            "topic_id": "10",
+                            "url": "http://vat.pravda.sk/rss/xml/s-obrazkom/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "SME",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Titulná strana",
+                            "topic_id": "1",
+                            "url": "http://rss.sme.sk/rss/rss.asp?id=frontpage",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Najčítanejšie za 4 hodiny",
+                            "topic_id": "2",
+                            "url": "http://rss.sme.sk/rss/rss.asp?id=smenajcit4"
+                        },
+                        {
+                            "topic_name": "Najčítanejšie za 24 hodín",
+                            "topic_id": "3",
+                            "url": "http://rss.sme.sk/rss/rss.asp?id=smenajcit24"
+                        },
+                        {
+                            "topic_name": "Z domova",
+                            "topic_id": "4",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=smeonline&rub=online_zdom"
+                        },
+                        {
+                            "topic_name": "Zahraničie",
+                            "topic_id": "5",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=smeonline&rub=online_zahr"
+                        },
+                        {
+                            "topic_name": "Z domova + zahraničie",
+                            "topic_id": "6",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=smeonline"
+                        },
+                        {
+                            "topic_name": "Ekonomika",
+                            "topic_id": "7",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=ekon"
+                        },
+                        {
+                            "topic_name": "Kultúra",
+                            "topic_id": "8",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=kult"
+                        },
+                        {
+                            "topic_name": "Rómovia",
+                            "topic_id": "9",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=romov"
+                        },
+                        {
+                            "topic_name": "Komentáre",
+                            "topic_id": "10",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=koment"
+                        },
+                        {
+                            "topic_name": "Press foto",
+                            "topic_id": "11",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=smeonline&rub=online_foto"
+                        },
+                        {
+                            "topic_name": "Šport",
+                            "topic_id": "12",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=sport"
+                        },
+                        {
+                            "topic_name": "Veda a technika",
+                            "topic_id": "13",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=tech"
+                        },
+                        {
+                            "topic_name": "Auto-Moto",
+                            "topic_id": "14",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=auto"
+                        },
+                        {
+                            "topic_name": "Žena",
+                            "topic_id": "15",
+                            "url": "http://rss.sme.sk/rss/rss.asp?sek=zena"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Sport",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Všetky rubriky",
+                            "topic_id": "1",
+                            "url": "http://sport.aktuality.sk/rss/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Futbal",
+                            "topic_id": "2",
+                            "url": "http://sport.aktuality.sk/rss/futbal/"
+                        },
+                        {
+                            "topic_name": "Hokej",
+                            "topic_id": "3",
+                            "url": "http://sport.aktuality.sk/rss/hokej/"
+                        },
+                        {
+                            "topic_name": "Tenis",
+                            "topic_id": "4",
+                            "url": "http://sport.aktuality.sk/rss/tenis/"
+                        },
+                        {
+                            "topic_name": "Ostatné",
+                            "topic_id": "6",
+                            "url": "http://sport.aktuality.sk/rss/ostatne/"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,28 +1,23 @@
 package com.yooiistudios.newskit.model;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.news.util.NewsFeedArchiveUtils;
 import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.service.BackgroundCacheIntentService;
-import com.yooiistudios.newskit.service.BackgroundCacheJobService;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +61,18 @@ public class BackgroundServiceUtils {
         SIX_AM          ( 4,  6,  0),
         NOON            ( 5, 12,  0),
         SIX_PM          ( 6, 18,  0);
+        /*
+        ,
+        TEST1           ( 7, 14, 30),
+        TEST2           ( 8, 15,  0),
+        TEST3           ( 9, 15, 30),
+        TEST4           (10, 16,  0),
+        TEST5           (11, 16, 30),
+        TEST6           (12, 17,  0),
+        TEST7           (13, 17,  30)
+
+        isTimeToIssueNotification 가 true 를 반환하도록 해야함
+         */
 
         public static final int INVALID_KEY = -1;
         private static final CacheTime DEFAULT = MIDNIGHT;
@@ -102,9 +109,13 @@ public class BackgroundServiceUtils {
     }
 
     public static void startService(Context context) {
+        // 특정 시간에 캐싱을 하는 현재 기획이 JobScheduler 에서 제공하는 api 와 맞지 않아
+        // 디바이스를 무의미하게 깨우는 문제가 있어 기존의 롤리팝 로직을 폐기하고 전부 AlarmManager 를 사용하도록 함.
+        /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startServiceAfterLollipop(context);
         } else {
+        */
             // 1. 앱 초기 구동시
             // 2. 재부팅시
             // 위 두 상황에서만 알람을 등록하면 된다.
@@ -149,9 +160,12 @@ public class BackgroundServiceUtils {
                     NLLog.i(TAG, "서비스가 알람 매니저에 이미 등록되어 있음. Enum name : " + cacheTime.name());
                 }
             }
+        /*
         }
+        */
     }
 
+    /*
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static void startServiceAfterLollipop(Context context) {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -187,6 +201,7 @@ public class BackgroundServiceUtils {
             NLLog.i(TAG, debugMessage);
         }
     }
+    */
 
 //    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 //    public static void rescheduleAfterLollipop(Context context, int previousJobId, int jobType) {
@@ -314,10 +329,12 @@ public class BackgroundServiceUtils {
     }
 
     public static void saveMessageAndPrintLogDebug(Context context, String message) {
-        if (DEBUG) {
-            NLLog.i(TAG, message);
-        }
+        if (DebugSettings.debugLog()) {
+            if (DEBUG) {
+                NLLog.i(TAG, message);
+            }
             saveMessage(context, message);
+        }
     }
     public static void saveMessage(Context context, String message) {
         SharedPreferences sharedPreferences

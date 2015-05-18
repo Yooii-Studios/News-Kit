@@ -3,7 +3,10 @@ package com.yooiistudios.newskit.iab;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.naver.android.appstore.iap.Purchase;
+import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrix;
+import com.yooiistudios.newskit.iab.naver.NIAPUtils;
 import com.yooiistudios.newskit.iab.util.Inventory;
 import com.yooiistudios.newskit.util.StoreDebugCheckUtils;
 
@@ -16,6 +19,10 @@ import java.util.List;
  * SKIabProducts
  */
 public class IabProducts {
+    public enum StoreType {
+        GOOGLE, NAVER
+    }
+
     public static final String SKU_PRO_VERSION_ORIGINAL = "pro_version_original";
     public static final String SKU_PRO_VERSION = "pro_version"; // "pro_version"
     public static final String SKU_NO_ADS = "no_ads"; // "test_no_ad"
@@ -26,14 +33,18 @@ public class IabProducts {
     private static final String SHARED_PREFERENCES_IAB = "SHARED_PREFERENCES_IAB";
     private static final String SHARED_PREFERENCES_IAB_DEBUG = "SHARED_PREFERENCES_IAB_DEBUG";
 
-    public static List<String> makeProductKeyList() {
-        List<String> iabKeyList = new ArrayList<>();
-        iabKeyList.add(SKU_PRO_VERSION_ORIGINAL);
-        iabKeyList.add(SKU_PRO_VERSION);
-        iabKeyList.add(SKU_NO_ADS);
-        iabKeyList.add(SKU_MORE_PANELS);
+    public static ArrayList<String> makeProductKeyList() {
+        ArrayList<String> iabKeyList = new ArrayList<>();
+        if (IabInfo.STORE_TYPE == StoreType.GOOGLE) {
+            iabKeyList.add(SKU_PRO_VERSION_ORIGINAL);
+            iabKeyList.add(SKU_PRO_VERSION);
+            iabKeyList.add(SKU_NO_ADS);
+            iabKeyList.add(SKU_MORE_PANELS);
 //        iabKeyList.add(SKU_TOPIC_SELECT);
-        iabKeyList.add(SKU_CUSTOM_RSS_URL);
+            iabKeyList.add(SKU_CUSTOM_RSS_URL);
+        } if (IabInfo.STORE_TYPE == StoreType.NAVER) {
+            iabKeyList = NIAPUtils.getAllProducts();
+        }
         return iabKeyList;
     }
 
@@ -131,6 +142,16 @@ public class IabProducts {
      * For Naver Store Mode
      */
     // 인앱 정보를 읽어오며 자동으로 적용
+    public static void saveIabProducts(Context context, List<Purchase> purchases) {
+        SharedPreferences.Editor edit = context.getSharedPreferences(SHARED_PREFERENCES_IAB, Context.MODE_PRIVATE).edit();
+        edit.clear(); // 모두 삭제 후 다시 추가
+        for (Purchase purchase : purchases) {
+            if (purchase.getPurchaseType() == Purchase.PurchaseType.APPROVED) {
+                edit.putBoolean(NIAPUtils.convertToGoogleSku(purchase.getProductCode()), true);
+            }
+        }
+        edit.apply();
+    }
 //    public static void saveIabProducts(List<NaverIabInventoryItem> productList, Context context) {
 //        SharedPreferences.Editor edit = context.getSharedPreferences(SHARED_PREFERENCES_IAB, Context.MODE_PRIVATE).edit();
 //        edit.clear(); // 모두 삭제 후 다시 추가

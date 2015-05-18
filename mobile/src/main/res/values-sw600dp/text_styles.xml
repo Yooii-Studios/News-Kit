@@ -6,6 +6,8 @@
 
     <style name="MainBottomItemTitleText" parent="MainBottomItemTextBase">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+        <item name="android:textSize">@dimen/main_bottom_title_text_size</item>
+        <item name="android:lineSpacingMultiplier">1.07</item>
     </style>
 
     <style name="MainTopItemNewsFeedTitleText" parent="MainNewsFeedTitleTextBase">
@@ -19,5 +21,15 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <!--<item name="android:textSize">12sp</item>-->
         <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="NewsFeedDetailTitle" parent="NewsFeedDetailTitleBase">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textSize">@dimen/text_size_headline_material</item>
+    </style>
+
+    <style name="NewsFeedDetailDescription" parent="NewsFeedDetailDescriptionBase">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textSize">@dimen/text_size_subhead_material</item>
     </style>
 </resources>

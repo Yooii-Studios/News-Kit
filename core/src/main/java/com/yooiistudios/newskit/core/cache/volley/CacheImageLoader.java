@@ -118,6 +118,7 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
     }
 
     private Bitmap getCachedThumbnail(String url) {
+        // TODO: possible ui performance improvement
         return mCache.getBitmap(getThumbnailCacheKey(url));
     }
 

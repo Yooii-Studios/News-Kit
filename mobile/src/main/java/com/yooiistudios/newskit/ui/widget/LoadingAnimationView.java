@@ -23,7 +23,9 @@ import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.ui.animation.AnimatorListenerImpl;
 import com.yooiistudios.newskit.core.util.Device;
+import com.yooiistudios.newskit.core.util.DipToPixel;
 import com.yooiistudios.newskit.core.util.IntegerMath;
+import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.ui.animation.AnimationFactory;
 
 import io.codetail.animation.SupportAnimator;
@@ -62,6 +64,7 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
     private LoadingAnimListener mListener;
 
     public interface LoadingAnimListener {
+        void onBackgroundFadeOutAnimationStart();
         void onBackgroundFadeOutAnimationEnd();
     }
 
@@ -98,7 +101,12 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
 
         setClipChildren(false);
         setBackgroundColor(getResources().getColor(R.color.material_light_blue_A700));
+        disableTouchEvent();
 
+        addDebugButton();
+    }
+
+    private void disableTouchEvent() {
         // 클릭 방지
         setOnTouchListener(new OnTouchListener() {
             @Override
@@ -106,25 +114,41 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
                 return true;
             }
         });
+    }
 
+    private void addDebugButton() {
         if (DebugSettings.isDebugBuild()) {
             Button dimCover = new Button(getContext());
             dimCover.setText("Show/Hide(Debug)");
             dimCover.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getAlpha() >= 1.0f) {
+                    boolean isShowing = getAlpha() >= 1.0f;
+                    if (isShowing) {
                         setAlpha(0.5f);
+                        LoadingAnimationView.this.setOnTouchListener(new OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                // 디버그 모드에서는 터치 되도록 함
+                                return false;
+                            }
+                        });
                     } else {
                         setAlpha(1.0f);
+                        disableTouchEvent();
                     }
                 }
             });
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+            Context context = getContext().getApplicationContext();
+
+            LayoutParams params = new LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
             params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+            if (Device.hasLollipop() && IabProducts.containsSku(context, IabProducts.SKU_NO_ADS)) {
+                params.bottomMargin = DipToPixel.dpToPixel(context, 50);
+            }
             addView(dimCover, params);
         }
     }
@@ -417,6 +441,14 @@ public class LoadingAnimationView extends FrameLayout implements LoadingCirclePr
         animator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         animator.setDuration(BACKGROUND_FADE_ANIM_DURATION);
         animator.addListener(new AnimatorListenerImpl() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                if (mListener != null) {
+                    mListener.onBackgroundFadeOutAnimationStart();
+                }
+            }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);

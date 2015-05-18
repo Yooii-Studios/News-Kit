@@ -18,7 +18,7 @@ public enum NewsFeedFetchState {
 
     private int mKey;
 
-    private NewsFeedFetchState(int key) {
+    NewsFeedFetchState(int key) {
         mKey = key;
     }
 

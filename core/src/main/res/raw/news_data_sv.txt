@@ -171,18 +171,6 @@
                             "topic_name": "Mat & Dryck",
                             "topic_id": "13",
                             "url": "http://www.gp.se/1.16571"
-                        }
-                    ]
-                },
-                {
-                    "provider_name": "Svenska Dagbladet",
-            	    "provider_id": "4",
-            	    "topics": [
-                        {
-                            "topic_name": "senaste nytt - det mest kompletta flödet",
-                            "topic_id": "1",
-                            "url": "http://www.svd.se/nyheter/nyhetsdygnet/?service=rss",
-                            "isDefault": "true"
                         },
                         {
                             "topic_name": "toppnyheter",
@@ -198,11 +186,6 @@
                             "topic_name": "Stockholmsnyheter",
                             "topic_id": "4",
                             "url": "http://www.svd.se/nyheter/stockholm/?service=rss"
-                        },
-                        {
-                            "topic_name": "Idagsidan",
-                            "topic_id": "5",
-                            "url": "http://www.svd.se/nyheter/idagsidan/?service=rss"
                         },
                         {
                             "topic_name": "sport - toppnyheterna",
@@ -245,31 +228,6 @@
                             "topic_id": "1",
                             "url": "http://sydsvenskan.se/rss/senastenytt",
                             "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "Sport",
-                            "topic_id": "2",
-                            "url": "http://sydsvenskan.se/rss/sport"
-                        },
-                        {
-                            "topic_name": "Malmö",
-                            "topic_id": "3",
-                            "url": "http://sydsvenskan.se/rss/malmo"
-                        },
-                        {
-                            "topic_name": "Lund",
-                            "topic_id": "4",
-                            "url": "http://sydsvenskan.se/rss/lund"
-                        },
-                        {
-                            "topic_name": "Skåne",
-                            "topic_id": "5",
-                            "url": "http://sydsvenskan.se/rss/skane"
-                        },
-                        {
-                            "topic_name": "Opinion",
-                            "topic_id": "6",
-                            "url": "http://sydsvenskan.se/rss/opinion"
                         }
                     ]
                 }

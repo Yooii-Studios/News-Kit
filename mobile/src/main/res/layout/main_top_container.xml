@@ -65,6 +65,7 @@
                     android:padding="@dimen/base_margin"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="@dimen/main_top_news_status_msg_text_size"
                     android:textColor="@color/material_white_primary_text"/>
             </LinearLayout>
         </FrameLayout>

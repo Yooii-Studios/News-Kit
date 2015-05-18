@@ -65,6 +65,7 @@ import com.yooiistudios.newskit.util.NotificationUtils;
 import com.yooiistudios.newskit.util.OnMainPanelEditModeEventListener;
 import com.yooiistudios.newskit.util.ReviewRequest;
 import com.yooiistudios.newskit.util.ReviewUtils;
+import com.yooiistudios.newskit.util.ViewServer;
 
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -165,7 +166,7 @@ public class MainActivity extends ActionBarActivity
         // 나중에 사용될 가능성이 있어 주석으로 남김
         /*
         if (DebugSettings.isDebugBuild()) {
-            DebugNewsTopicValidateUtil.run(getApplicationContext());
+            DebugNewsTopicValidateUtil.validateDebugNewsUrls();
             finish();
             return;
         }
@@ -182,6 +183,10 @@ public class MainActivity extends ActionBarActivity
             return;
         }
         init();
+
+        if (DebugSettings.isDebugBuild()) {
+            ViewServer.get(this).addWindow(this);
+        }
     }
 
     private void init() {
@@ -191,6 +196,8 @@ public class MainActivity extends ActionBarActivity
         removeNetworkUnavailableCover();
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        setContentVisibility(View.INVISIBLE);
 
         initToolbar();
         initRefreshLayout();
@@ -204,6 +211,10 @@ public class MainActivity extends ActionBarActivity
         requestSystemWindowsBottomInset();
 
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
+    }
+
+    private void setContentVisibility(int invisible) {
+        mScrollingContent.setVisibility(invisible);
     }
 
     private void removeNetworkUnavailableCover() {
@@ -367,7 +378,7 @@ public class MainActivity extends ActionBarActivity
             } else {
                 mScrollingContent.setPadding(0, 0, 0, 0);
             }
-            mBannerAdView.show();
+            showBannerAd();
 
             mBannerAdView.resume();
             mQuitLargeBannerAdView.resume();
@@ -461,13 +472,17 @@ public class MainActivity extends ActionBarActivity
 
         // 언어가 바뀔 경우를 대비해 항상 새로 메뉴를 만들어줌
         makeMenu();
+        if (DebugSettings.isDebugBuild()) {
+            ViewServer.get(this).setFocusedWindow(this);
+        }
     }
 
     private void makeMenu() {
         // Inflate the menu; this adds items to the action bar if it is present.
         if (mMenu != null) {
             mMenu.removeItem(R.id.action_newsfeed_overflow);
-            SubMenu subMenu = mMenu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "");
+            // TODO: Options 번역 필요
+            SubMenu subMenu = mMenu.addSubMenu(Menu.NONE, R.id.action_newsfeed_overflow, 0, "Options");
             subMenu.setIcon(R.drawable.ic_menu_moreoverflow_mtrl_alpha);
 
             subMenu.add(Menu.NONE, R.id.action_store, 0, R.string.store);
@@ -505,6 +520,14 @@ public class MainActivity extends ActionBarActivity
         if (mRootLayout != null) {
             mImageLoader.closeCache();
         }
+        if (DebugSettings.isDebugBuild()) {
+            ViewServer.get(this).removeWindow(this);
+        }
+    }
+
+    @Override
+    public void onBackgroundFadeOutAnimationStart() {
+        setContentVisibility(View.VISIBLE);
     }
 
     @Override
@@ -517,6 +540,14 @@ public class MainActivity extends ActionBarActivity
         checkAppLaunchCount();
         startNewsAutoRefreshIfReady();
         NewsFeedArchiveUtils.saveCacheRead(getApplicationContext());
+        showBannerAd();
+    }
+
+    private void showBannerAd() {
+        if (mLoadingAnimationView.getVisibility() == View.GONE &&
+                !IabProducts.containsSku(this, IabProducts.SKU_NO_ADS)) {
+            mBannerAdView.show();
+        }
     }
 
     private void checkAppLaunchCount() {
@@ -593,6 +624,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onMainTopInitialLoad() {
+        setSwipeRefreshLayoutEnabled(true);
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
     }
@@ -614,6 +646,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onMainBottomInitialLoad() {
+        setSwipeRefreshLayoutEnabled(true);
         showMainContentIfReady();
         startNewsAutoRefreshIfReady();
     }

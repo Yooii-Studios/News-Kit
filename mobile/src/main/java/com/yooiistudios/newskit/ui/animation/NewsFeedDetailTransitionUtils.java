@@ -363,9 +363,11 @@ public class NewsFeedDetailTransitionUtils {
         // 추후 수정이 된다면 여기서 잡아줘도 괜찮을듯
 //        mRecyclerView.getLayoutParams().height = 0;
 
-        saveTopOverlayAlphaState();
-        mTopGradientShadowView.setAlpha(0);
-        mToolbarOverlayView.setAlpha(0);
+//        saveTopOverlayAlphaState();
+        mTopGradientShadowView.animate().setDuration(0).alpha(0);
+        mToolbarOverlayView.animate().setDuration(0).alpha(0);
+//        mTopGradientShadowView.setAlpha(0);
+//        mToolbarOverlayView.setAlpha(0);
     }
 
     private void addThumbnailTextViews() {
@@ -444,7 +446,11 @@ public class NewsFeedDetailTransitionUtils {
                 new RectEvaluator(new Rect()), mThumbnailStartRect, mThumbnailEndRect);
 
         double radiusRatio = getRevealTargetRadius() / getRevealRadiusFromDeviceCenter();
-        imageWrapperRectAnimator.setStartDelay((long) (mImageAnimationStartOffset * radiusRatio));
+        long startOffset = (long) (mImageAnimationStartOffset * radiusRatio);
+        if (!Device.hasLollipop()) {
+            startOffset *= 1.8;
+        }
+        imageWrapperRectAnimator.setStartDelay(startOffset);
         imageWrapperRectAnimator.setDuration(mImageTranslationAnimDuration);
         imageWrapperRectAnimator.setInterpolator(AnimationFactory.createFastOutSlowInInterpolator());
         imageWrapperRectAnimator.addListener(new AnimatorListenerAdapter() {
@@ -1075,19 +1081,19 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeInTopOverlay() {
-        if (mTopGradientShadowView.getTag() == null || mToolbarOverlayView.getTag() == null
-                || mTopGradientShadowView.getAlpha() > 0 || mToolbarOverlayView.getAlpha() > 0) {
-            return;
-        }
+//        if (mTopGradientShadowView.getTag() == null || mToolbarOverlayView.getTag() == null
+//                || mTopGradientShadowView.getAlpha() > 0 || mToolbarOverlayView.getAlpha() > 0) {
+//            return;
+//        }
         mTopGradientShadowView.animate()
                 .setDuration(mToolbarBgAnimDuration)
-                .alpha((Float) mTopGradientShadowView.getTag())
+                .alpha(mActivity.getTopGradientShadowViewAlpha())
                 .setInterpolator(new DecelerateInterpolator());
 
         notifyAnimationStart(ANIM_TOP_OVERLAY);
         mToolbarOverlayView.animate()
                 .setDuration(mToolbarBgAnimDuration)
-                .alpha((Float) mToolbarOverlayView.getTag())
+                .alpha(mActivity.getToolbarOverlayAlpha())
                 .setInterpolator(new DecelerateInterpolator())
                 .withEndAction(new Runnable() {
                     @Override
@@ -1098,7 +1104,7 @@ public class NewsFeedDetailTransitionUtils {
     }
 
     private void fadeOutTopOverlay() {
-        saveTopOverlayAlphaState();
+//        saveTopOverlayAlphaState();
         mTopGradientShadowView.animate()
                 .setDuration(mToolbarBgAnimDuration)
                 .alpha(0f)
@@ -1109,10 +1115,10 @@ public class NewsFeedDetailTransitionUtils {
                 .setInterpolator(new DecelerateInterpolator());
     }
 
-    private void saveTopOverlayAlphaState() {
-        mTopGradientShadowView.setTag(mTopGradientShadowView.getAlpha());
-        mToolbarOverlayView.setTag(mToolbarOverlayView.getAlpha());
-    }
+//    private void saveTopOverlayAlphaState() {
+//        mTopGradientShadowView.setTag(mTopGradientShadowView.getAlpha());
+//        mToolbarOverlayView.setTag(mToolbarOverlayView.getAlpha());
+//    }
 
     /**
      * runEnterAnimation 에서 액션바 타이틀 알파값 애니메이션에 사용될 메서드.

@@ -123,48 +123,43 @@
                             "url": "http://www.lemonde.fr/culture/rss_full.xml"
                         },
                         {
-                            "topic_name": "Finances",
-                            "topic_id": "3",
-                            "url": "http://www.lemonde.fr/finance/rss_full.xml"
-                        },
-                        {
                             "topic_name": "International",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.lemonde.fr/international/rss_full.xml"
                         },
                         {
                             "topic_name": "Paris",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.lemonde.fr/paris/rss_full.xml"
                         },
                         {
                             "topic_name": "Politique",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.lemonde.fr/politique/rss_full.xml"
                         },
                         {
                             "topic_name": "Santé",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.lemonde.fr/sante/rss_full.xml"
                         },
                         {
                             "topic_name": "Sciences",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.lemonde.fr/sciences/rss_full.xml"
                         },
                         {
                             "topic_name": "Sport",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.lemonde.fr/sport/rss_full.xml"
                         },
                         {
                             "topic_name": "Technologies",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.lemonde.fr/technologies/rss_full.xml"
                         },
                         {
                             "topic_name": "Économie",
-                            "topic_id": "11",
+                            "topic_id": "10",
                             "url": "http://www.lemonde.fr/economie/rss_full.xml"
                         }
                     ]
@@ -180,48 +175,38 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "charlie hebdo",
-                            "topic_id": "2",
-                            "url": "http://rss.liberation.fr/rss/100494/"
-                        },
-                        {
                             "topic_name": "Cinéma",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://rss.liberation.fr/rss/58/"
                         },
                         {
                             "topic_name": "Economie",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://rss.liberation.fr/rss/13/"
                         },
                         {
                             "topic_name": "Ecrans",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://rss.liberation.fr/rss/53/"
                         },
                         {
-                            "topic_name": "Le cannabis en débat",
-                            "topic_id": "6",
-                            "url": "http://rss.liberation.fr/rss/100416/"
-                        },
-                        {
                             "topic_name": "Monde",
-                            "topic_id": "7",
+                            "topic_id": "5",
                             "url": "http://rss.liberation.fr/rss/10/"
                         },
                         {
                             "topic_name": "Politiques",
-                            "topic_id": "8",
+                            "topic_id": "6",
                             "url": "http://rss.liberation.fr/rss/11/"
                         },
                         {
                             "topic_name": "Société",
-                            "topic_id": "9",
+                            "topic_id": "7",
                             "url": "http://rss.liberation.fr/rss/12/"
                         },
                         {
                             "topic_name": "Sports",
-                            "topic_id": "10",
+                            "topic_id": "8",
                             "url": "http://rss.liberation.fr/rss/14/"
                         }
                     ]
@@ -374,7 +359,297 @@
                         {
                             "topic_name": "cinéma",
                             "topic_id": "8",
-                            "url": "http://www.lapresse.ca/rss/238.xml"
+                            "url": "http://www.lapresse.ca/rss/10164.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Belgium",
+            "country_code": "BE",
+            "news_providers": [
+                {
+                    "provider_name": "Google Actualités",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "À la une",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Belgique",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Science/High-Tech",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Santé",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "À la une (suite)",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Sud Presse",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Faits divers",
+                            "topic_id": "1",
+                            "url": "http://www.sudinfo.be/feed/7/default_destination_block/",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Belgique",
+                            "topic_id": "2",
+                            "url": "http://www.sudinfo.be/feed/12/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Monde",
+                            "topic_id": "3",
+                            "url": "http://www.sudinfo.be/feed/14/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Politique",
+                            "topic_id": "4",
+                            "url": "http://www.sudinfo.be/feed/15/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Economie",
+                            "topic_id": "5",
+                            "url": "http://www.sudinfo.be/feed/16/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Société",
+                            "topic_id": "6",
+                            "url": "http://www.sudinfo.be/feed/17/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Consommation",
+                            "topic_id": "7",
+                            "url": "http://www.sudinfo.be/feed/18/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Immo",
+                            "topic_id": "8",
+                            "url": "http://www.sudinfo.be/feed/16599/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Santé",
+                            "topic_id": "9",
+                            "url": "http://www.sudinfo.be/feed/19/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "L'info en continu",
+                            "topic_id": "10",
+                            "url": "http://www.sudinfo.be/feed/20/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Foot",
+                            "topic_id": "11",
+                            "url": "http://www.sudinfo.be/feed/19012//"
+                        },
+                        {
+                            "topic_name": "Sports",
+                            "topic_id": "12",
+                            "url": "http://www.sudinfo.be/feed/9/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Fun",
+                            "topic_id": "13",
+                            "url": "http://www.sudinfo.be/feed/11/default_destination_block/"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "14",
+                            "url": "http://www.sudinfo.be/feed/10/default_destination_block/"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Metro fr",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Metro fr",
+                            "topic_id": "1",
+                            "url": "http://fr.metrotime.be/category/must-read/feed/",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Switzerland",
+            "country_code": "CH",
+            "news_providers": [
+                {
+                    "provider_name": "Google Actualités",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "À la une",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "International",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Suisse",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Économie",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Science/High-Tech",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Culture",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Santé",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=m&output=rss"
+                        },
+                        {
+                            "topic_name": "À la une (suite)",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "20 minutes",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Accueil",
+                            "topic_id": "1",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=6&lang=ro",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Actualités",
+                            "topic_id": "2",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=17&lang=ro"
+                        },
+                        {
+                            "topic_name": "Suisse",
+                            "topic_id": "3",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=313&lang=ro"
+                        },
+                        {
+                            "topic_name": "Monde",
+                            "topic_id": "4",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=312&lang=ro"
+                        },
+                        {
+                            "topic_name": "Faits divers",
+                            "topic_id": "5",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=318&lang=ro"
+                        },
+                        {
+                            "topic_name": "Vaud",
+                            "topic_id": "6",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=315&lang=ro"
+                        },
+                        {
+                            "topic_name": "Geneve",
+                            "topic_id": "7",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=314&lang=ro"
+                        },
+                        {
+                            "topic_name": "Romandie",
+                            "topic_id": "8",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=784&lang=ro"
+                        },
+                        {
+                            "topic_name": "People",
+                            "topic_id": "9",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=22&lang=ro"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "10",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=23&lang=ro"
+                        },
+                        {
+                            "topic_name": "Hi-tech",
+                            "topic_id": "11",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=channel&get=20&lang=ro"
+                        },
+                        {
+                            "topic_name": "Sortir",
+                            "topic_id": "12",
+                            "url": "http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=526&lang=ro"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Luxemburg",
+            "country_code": "LU",
+            "news_providers": [
+                {
+                    "provider_name": "Le Quotidien",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Le Quotidien",
+                            "topic_id": "1",
+                            "url": "http://www.lequotidien.lu/feed/",
+                            "isDefault": "true"
                         }
                     ]
                 }

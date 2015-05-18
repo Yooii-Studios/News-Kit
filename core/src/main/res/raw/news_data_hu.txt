@@ -1,0 +1,177 @@
+{
+    "lang_name_english": "Hungarian",
+    "lang_name_regional": "Magyar",
+    "lang_code": "hu",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Magyarország",
+            "country_code": "HU",
+            "news_providers": [
+                {
+                    "provider_name": "Google Hírek",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Vezető hírek",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Nemzetközi",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Magyarország",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Üzleti élet",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Tudomány/technológia",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Kultúra/szórakozás",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=e&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Napi Gazdaság",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Adó RSS",
+                            "topic_id": "1",
+                            "url": "http://www.napi.hu/feed/adozas.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Ingatlan RSS",
+                            "topic_id": "2",
+                            "url": "http://www.napi.hu/feed/ingatlan.xml"
+                        },
+                        {
+                            "topic_name": "Közélet RSS",
+                            "topic_id": "3",
+                            "url": "http://www.napi.hu/feed/kozelet.xml"
+                        },
+                        {
+                            "topic_name": "Magyar gazdaság RSS",
+                            "topic_id": "4",
+                            "url": "http://www.napi.hu/feed/magyar_gazdasag.xml"
+                        },
+                        {
+                            "topic_name": "Nemzetközi gazdaság RSS",
+                            "topic_id": "5",
+                            "url": "http://www.napi.hu/feed/nemzetkozi_gazdasag.xml"
+                        },
+                        {
+                            "topic_name": "Magyar vállalatok RSS",
+                            "topic_id": "6",
+                            "url": "http://www.napi.hu/feed/magyar_vallalatok.xml"
+                        },
+                        {
+                            "topic_name": "Nemzetközi vállalatok RSS",
+                            "topic_id": "7",
+                            "url": "http://www.napi.hu/feed/nemzetkozi_vallalatok.xml"
+                        },
+                        {
+                            "topic_name": "Tőzsdék-piacok RSS",
+                            "topic_id": "8",
+                            "url": "http://www.napi.hu/feed/tozsde.xml"
+                        },
+                        {
+                            "topic_name": "Friss hírek RSS",
+                            "topic_id": "9",
+                            "url": "http://www.napi.hu/feed/mindencikk.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Népszabadság",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Belföld",
+                            "topic_id": "1",
+                            "url": "http://nol.hu/feed/belfold.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Külföld",
+                            "topic_id": "2",
+                            "url": "http://nol.hu/feed/kulfold.rss"
+                        },
+                        {
+                            "topic_name": "Gazdaság",
+                            "topic_id": "3",
+                            "url": "http://nol.hu/feed/gazdasag.rss"
+                        },
+                        {
+                            "topic_name": "Vélemény",
+                            "topic_id": "4",
+                            "url": "http://nol.hu/feed/velemeny.rss"
+                        },
+                        {
+                            "topic_name": "Kultúra",
+                            "topic_id": "5",
+                            "url": "http://nol.hu/feed/kult.rss"
+                        },
+                        {
+                            "topic_name": "Tud-tech",
+                            "topic_id": "6",
+                            "url": "http://nol.hu/feed/tud-tech.rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://nol.hu/feed/sport.rss"
+                        },
+                        {
+                            "topic_name": "Mozaik",
+                            "topic_id": "8",
+                            "url": "http://nol.hu/feed/mozaik.rss"
+                        },
+                        {
+                            "topic_name": "Utazás",
+                            "topic_id": "9",
+                            "url": "http://nol.hu/feed/utazas.rss"
+                        },
+                        {
+                            "topic_name": "Autó",
+                            "topic_id": "10",
+                            "url": "http://nol.hu/feed/auto.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Népszava",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Népszava",
+                            "topic_id": "1",
+                            "url": "http://nepszava.com/category/magyarorszag/feed/",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

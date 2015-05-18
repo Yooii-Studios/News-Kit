@@ -1,0 +1,50 @@
+{
+    "lang_name_english": "Kazakh",
+    "lang_name_regional": "Қазақ",
+    "lang_code": "kk",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Қазақстан",
+            "country_code": "KZ",
+            "news_providers": [
+                {
+                    "provider_name": "Time",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Time",
+                            "topic_id": "1",
+                            "url": "http://www.time.kz/rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Караван",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Караван",
+                            "topic_id": "1",
+                            "url": "http://www.caravan.kz/rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Zakon",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Все новости",
+                            "topic_id": "1",
+                            "url": "http://st.zakon.kz/rss/rss_all.xml",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

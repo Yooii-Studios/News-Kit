@@ -89,18 +89,18 @@ public class MainBottomItemLayout extends RatioFrameLayout {
         int displayWidth = displaySize.x;
 
         // main_bottom_margin_small : item padding = recyclerView margin
-        float recyclerViewMargin = context.getResources().
-                getDimension(R.dimen.main_bottom_margin_small);
+        int recyclerViewMargin = context.getResources().
+                getDimensionPixelSize(R.dimen.main_bottom_margin_small);
 
         float rowWidth = (displayWidth - (recyclerViewMargin * 2)) / columnCount;
-        float rowHeight = getRowHeight(rowWidth);
+        int rowHeight = (int) getRowHeight(rowWidth);
 
         int rowCount = itemCount / columnCount;
         if (itemCount % columnCount != 0) {
             rowCount += 1;
         }
 
-        return Math.round(rowHeight * rowCount);
+        return rowHeight * rowCount;
     }
 
     public static int measureParentHeightOnLandscape(ViewGroup parent) {

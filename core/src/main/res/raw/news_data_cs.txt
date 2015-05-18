@@ -1,0 +1,135 @@
+{
+    "lang_name_english": "Czech",
+    "lang_name_regional": "Čeština",
+    "lang_code": "cs",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Česká republika",
+            "country_code": "CZ",
+            "news_providers": [
+                {
+                    "provider_name": "Google Zprávy",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Hlavní události",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Svět",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Domov",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Podnikání",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Věda/technika",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Kultura a šoubyznys",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Život",
+                            "topic_id": "8",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=l&output=rss"
+                        },
+                        {
+                            "topic_name": "Další hlavní události",
+                            "topic_id": "9",
+                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=h&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Deník",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Z domova",
+                            "topic_id": "1",
+                            "url": "http://www.denik.cz/rss/z_domova.html",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Ekonomika",
+                            "topic_id": "2",
+                            "url": "http://www.denik.cz/rss/ekonomika.html"
+                        },
+                        {
+                            "topic_name": "Zahraničí",
+                            "topic_id": "3",
+                            "url": "http://www.denik.cz/rss/ze_sveta.html"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "4",
+                            "url": "http://www.denik.cz/rss/sport.html"
+                        },
+                        {
+                            "topic_name": "Kultura",
+                            "topic_id": "5",
+                            "url": "http://www.denik.cz/rss/kultura.html"
+                        },
+                        {
+                            "topic_name": "Bydlení",
+                            "topic_id": "6",
+                            "url": "http://www.denik.cz/rss/bydleni.html"
+                        },
+                        {
+                            "topic_name": "Cestování",
+                            "topic_id": "7",
+                            "url": "http://www.denik.cz/rss/cestovani.html"
+                        },
+                        {
+                            "topic_name": "Auto",
+                            "topic_id": "8",
+                            "url": "http://www.denik.cz/rss/auto.html"
+                        },
+                        {
+                            "topic_name": "Zdraví",
+                            "topic_id": "9",
+                            "url": "http://www.denik.cz/rss/zdravi.html"
+                        },
+                        {
+                            "topic_name": "Hry",
+                            "topic_id": "10",
+                            "url": "http://www.denik.cz/rss/hry.html"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Blesk",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Blesk",
+                            "topic_id": "1",
+                            "url": "http://www.blesk.cz/rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

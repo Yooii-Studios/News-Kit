@@ -9,7 +9,7 @@
             "country_code": "JP",
             "news_providers": [
                 {
-                    "provider_name": "アサヒ",
+                    "provider_name": "アサヒ新聞",
             	    "provider_id": "1",
             	    "topics": [
                         {
@@ -207,106 +207,96 @@
                     ]
                 },
                 {
-                    "provider_name": "MSN ニュース",
+                    "provider_name": "CNET",
             	    "provider_id": "5",
             	    "topics": [
                         {
-                            "topic_name": "注目ニュース",
+                            "topic_name": "総合",
                             "topic_id": "1",
-                            "url": "http://sankei.jp.msn.com/rss/news/points.xml",
+                            "url": "http://feed.japan.cnet.com/rss/index.rdf",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "事件",
+                            "topic_name": "プレスリリース",
                             "topic_id": "2",
-                            "url": "http://sankei.jp.msn.com/rss/news/affairs.xml"
+                            "url": "http://feed.japan.cnet.com/rss/release/index.rdf"
                         },
                         {
-                            "topic_name": "政治",
+                            "topic_name": "ブログネットワーク",
                             "topic_id": "3",
-                            "url": "http://sankei.jp.msn.com/rss/news/politics.xml"
+                            "url": "http://feed.japan.cnet.com/rss/blog/index.rdf"
                         },
                         {
-                            "topic_name": "経済・IT",
+                            "topic_name": "デジタル製品",
                             "topic_id": "4",
-                            "url": "http://sankei.jp.msn.com/rss/news/economy.xml"
-                        },
-                        {
-                            "topic_name": "国際",
-                            "topic_id": "5",
-                            "url": "http://sankei.jp.msn.com/rss/news/world.xml"
-                        },
-                        {
-                            "topic_name": "スポーツ",
-                            "topic_id": "6",
-                            "url": "http://sankei.jp.msn.com/rss/news/sports.xml"
-                        },
-                        {
-                            "topic_name": "エンタメ",
-                            "topic_id": "7",
-                            "url": "http://sankei.jp.msn.com/rss/news/entertainments.xml"
-                        },
-                        {
-                            "topic_name": "文化",
-                            "topic_id": "8",
-                            "url": "http://sankei.jp.msn.com/rss/news/culture.xml"
+                            "url": "http://feed.japan.cnet.com/rss/digital/index.rdf"
                         }
                     ]
                 },
                 {
-                    "provider_name": "産経ビズ",
+                    "provider_name": "マイナビニュース",
             	    "provider_id": "6",
             	    "topics": [
                         {
-                            "topic_name": "ビジネスライブ",
+                            "topic_name": "総合",
                             "topic_id": "1",
-                            "url": "http://live.sankeibiz.jp/live/rss/schedules/latest/LatestRSS.xml",
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/index",
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "注目の経済ニュース",
+                            "topic_name": "パソコン",
                             "topic_id": "2",
-                            "url": "http://www.sankeibiz.jp/rss/news/points.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/pc"
                         },
                         {
-                            "topic_name": "経済ニュース速報",
+                            "topic_name": "携帯",
                             "topic_id": "3",
-                            "url": "http://www.sankeibiz.jp/rss/news/flash.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/keitai"
                         },
                         {
-                            "topic_name": "企業ニュース",
+                            "topic_name": "家電",
                             "topic_id": "4",
-                            "url": "http://www.sankeibiz.jp/rss/news/business.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/kaden"
                         },
                         {
-                            "topic_name": "自動車ニュース",
+                            "topic_name": "ライフ",
                             "topic_id": "5",
-                            "url": "http://www.sankeibiz.jp/rss/news/automotive.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/life"
                         },
                         {
-                            "topic_name": "情報通信ニュース",
+                            "topic_name": "ヘルスケア",
                             "topic_id": "6",
-                            "url": "http://www.sankeibiz.jp/rss/news/infotech.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/healthcare"
                         },
                         {
-                            "topic_name": "金融ニュース",
+                            "topic_name": "旅行",
                             "topic_id": "7",
-                            "url": "http://www.sankeibiz.jp/rss/news/financials.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/travel"
                         },
                         {
-                            "topic_name": "経営ニュース",
+                            "topic_name": "住まい・インテリア",
                             "topic_id": "8",
-                            "url": "http://www.sankeibiz.jp/rss/news/management.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/sumai"
                         },
                         {
-                            "topic_name": "海外企業ニュース",
+                            "topic_name": "恋愛・結婚",
                             "topic_id": "9",
-                            "url": "http://www.sankeibiz.jp/rss/news/oversea.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/love"
                         },
                         {
-                            "topic_name": "中小企業ニュース",
+                            "topic_name": "エンタメ",
                             "topic_id": "10",
-                            "url": "http://www.sankeibiz.jp/rss/news/company.xml"
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/entertainment"
+                        },
+                        {
+                            "topic_name": "ホビー",
+                            "topic_id": "11",
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/hobby"
+                        },
+                        {
+                            "topic_name": "テクノロジー",
+                            "topic_id": "12",
+                            "url": "http://feeds.journal.mycom.co.jp/haishin/rss/technology"
                         }
                     ]
                 }

@@ -19,9 +19,9 @@ package com.yooiistudios.newskit.core.ui;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 
 import com.yooiistudios.newskit.core.BuildConfig;
+import com.yooiistudios.newskit.core.util.NLLog;
 
 /**
  * A BitmapDrawable that keeps track of whether it is being displayed or cached.
@@ -92,7 +92,7 @@ public class RecyclingBitmapDrawable extends BitmapDrawable {
         if (mCacheRefCount <= 0 && mDisplayRefCount <= 0 && mHasBeenDisplayed
                 && hasValidBitmap()) {
             if (BuildConfig.DEBUG) {
-                Log.d(TAG, "No longer being used or cached so recycling. "
+                NLLog.d(TAG, "No longer being used or cached so recycling. "
                         + toString());
             }
 

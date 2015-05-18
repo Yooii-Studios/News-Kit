@@ -16,7 +16,7 @@
     </style>
 
     <!-- NewsFeed Detail -->
-    <style name="Base.NewsAppTheme.NewsFeedDetail" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="Base.NewsAppTheme.NewsFeedDetail" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- ripple touch feedback color 를 변경 -->
         <item name="colorControlHighlight">@color/newsfeed_detail_highlight_color</item>
 

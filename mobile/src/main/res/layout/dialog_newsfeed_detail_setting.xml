@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/newsfeed_detail_setting_auto_scroll_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:theme="@style/SettingTheme"/>
+
+        <TextView
+            android:id="@+id/newsfeed_detail_setting_auto_scroll_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/newsfeed_detail_setting_auto_scroll_switch"
+            android:padding="@dimen/base_margin_middle"
+            android:text="@string/newsfeed_auto_scroll"
+            android:textColor="@color/material_black_primary_text"
+            android:textSize="@dimen/setting_item_title_text_size"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin_small">
+
+        <TextView
+            android:id="@+id/newsfeed_detail_setting_delay_sec_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/newsfeed_detail_setting_delay_edittext"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/base_margin_small"
+            android:text="@string/second"
+            android:textColor="@color/material_black_primary_text"
+            android:textSize="@dimen/setting_item_description_text_size"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/newsfeed_detail_setting_delay_edittext"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/newsfeed_detail_setting_delay_sec_textview"
+            android:layout_marginBottom="@dimen/base_margin_small"
+            android:layout_centerVertical="true"
+            android:inputType="numberSigned"
+            android:imeOptions="actionDone"
+            android:minEms="@integer/setting_auto_refresh_dialog_edit_text_min_ems"
+            android:gravity="center"
+            android:hint="0"
+            android:theme="@style/SettingTheme"
+            android:textColorHint="@color/material_black_secondary_text"
+            android:textColor="@color/material_black_primary_text"
+            android:textSize="@dimen/setting_item_title_text_size"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/newsfeed_detail_setting_delay_edittext"
+            android:padding="@dimen/base_margin_middle"
+            android:labelFor="@+id/auto_scroll_duration_edit_text"
+            android:text="@string/setting_news_feed_auto_scroll_start_offset"
+            android:textColor="@color/material_black_primary_text"
+            android:textSize="@dimen/setting_item_title_text_size"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/base_margin_small">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/newsfeed_detail_setting_speed_textview"
+                android:padding="@dimen/base_margin_middle"
+                android:text="@string/setting_news_feed_auto_scroll_speed"
+                android:textColor="@color/material_black_primary_text"
+                android:textSize="@dimen/setting_item_title_text_size"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+            <TextView
+                android:id="@+id/newsfeed_detail_setting_speed_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/base_margin_middle"
+                android:text="@string/setting_news_feed_auto_scroll_very_slow"
+                android:textColor="@color/material_black_secondary_text"
+                android:textSize="@dimen/setting_item_description_text_size"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/newsfeed_detail_setting_speed_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin_half"
+            android:theme="@style/SettingTheme"/>
+    </LinearLayout>
+</LinearLayout>

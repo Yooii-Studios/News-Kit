@@ -1,37 +1,65 @@
 <resources>
     <!-- 폰에서 1.5배를 하자 -->
-    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
-         (such as screen margins) for screens with more than 820dp of available width. This
-         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
-    <dimen name="activity_horizontal_margin">64dp</dimen>
-
     <!-- General -->
-    <dimen name="admob_smart_banner_height">90dp</dimen>                <!--Done-->
     <dimen name="admob_upper_divider_height">1.5dp</dimen>
     <dimen name="margin_inner">4.5dp</dimen>
     <dimen name="margin_outer">9dp</dimen>
 
+    <dimen name="base_margin">24dp</dimen>
+    <dimen name="base_margin_double">48dp</dimen>
+    <dimen name="base_margin_middle">18dp</dimen>
+    <dimen name="base_margin_half">12dp</dimen>
+    <dimen name="base_margin_small">6dp</dimen>
+
+    <dimen name="edit_text_cursor_width">3dp</dimen>
+
+    <!-- Main Network Unavailable -->
+    <dimen name="main_network_unavailable_image_size">165dp</dimen>
+    <dimen name="main_network_unavailable_text_size">27sp</dimen>
+    <dimen name="main_network_unavailable_margin_small">27dp</dimen>
+    <dimen name="main_network_unavailable_margin_large">85dp</dimen>
+
     <!-- Main General -->
-    <dimen name="main_newsfeed_title_text_size">15sp</dimen>
+    <dimen name="main_edit_button_size">58dp</dimen>
+    <dimen name="main_edit_button_margin">6dp</dimen>
+    <dimen name="main_edit_button_margin_large">12dp</dimen>
 
     <!-- Main Top -->
-    <dimen name="main_top_view_pager_height">400dp</dimen>      <!-- 64 * 7 - 32 - 16 -->
+    <dimen name="main_top_view_pager_height">448dp</dimen>      <!-- 64 * 7 -->
     <dimen name="main_top_view_pager_title_padding">45dp</dimen>
-    <dimen name="main_top_view_pager_page_margin">6dp</dimen>
+    <dimen name="main_top_view_pager_page_margin">@dimen/base_margin_small</dimen>
+    <dimen name="main_top_view_pager_indicator_width">127.5dp</dimen>
     <dimen name="main_top_news_feed_title_padding">15dp</dimen>
+    <dimen name="main_top_news_status_icon_image_view_size">165dp</dimen>
+    <dimen name="main_top_news_status_msg_text_size">28sp</dimen>
 
     <!-- Main Bottom -->
     <dimen name="main_bottom_margin_small">3dp</dimen>
     <dimen name="main_bottom_card_view_elevation">1.5dp</dimen>
-    <dimen name="main_bottom_card_view_title_size">30sp</dimen>
-    <dimen name="main_bottom_title_text_size">27sp</dimen> <!-- 나중에 머티리얼에서 사이즈 찾자 -->
-    <dimen name="main_bottom_text_padding">24dp</dimen>
+    <dimen name="main_bottom_text_padding">28dp</dimen>
+    <dimen name="main_bottom_title_text_size">27sp</dimen>
+    <dimen name="main_bottom_title_margin_bottom">@dimen/base_margin_half</dimen>
     <dimen name="main_bottom_news_feed_title_padding">12dp</dimen>
+    <dimen name="main_bottom_news_feed_title_text_size">15sp</dimen>
+    <dimen name="main_bottom_status_image_view_size_portrait">82.5dp</dimen>
+    <dimen name="main_bottom_status_image_view_size_landscape">63dp</dimen>
+    <dimen name="main_bottom_status_msg_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="main_add_more_panel_icon_size">@dimen/base_margin_double</dimen>
+    <dimen name="main_add_more_panel_text_size">@dimen/text_size_headline_material</dimen>
+
+    <!-- Loading Animation -->
+    <dimen name="loading_anim_padding">6dp</dimen>
+    <dimen name="loading_anim_top_view_width">75dp</dimen> <!-- bottom * 2 + padding -->
+    <dimen name="loading_anim_bottom_view_width">34.5dp</dimen> <!-- 4:3 비율 -->
+    <dimen name="loading_anim_view_height">27dp</dimen>
+
+    <dimen name="loading_circle_view_size">159dp</dimen> <!-- 100dp + 1/2 stroke * 2(양쪽)-->
+    <dimen name="loading_circle_stroke_width">9dp</dimen>
 
     <!-- Newsfeed Detail -->
-    <dimen name="detail_text_padding">24dp</dimen>
-    <dimen name="detail_text_inner_padding">6dp</dimen>
-    <dimen name="detail_text_wide_padding">30dp</dimen>
+    <dimen name="detail_text_padding">@dimen/base_margin_middle</dimen>
+    <dimen name="detail_text_inner_padding">4.5dp</dimen>
+    <dimen name="news_feed_detail_shadow_gradient_height">150dp</dimen>
 
     <!-- Detail Top -->
     <dimen name="detail_top_image_view_height_port">512dp</dimen> <!-- 64 * 8 -->
@@ -40,30 +68,83 @@
 
     <!-- Detail Bottom -->
     <dimen name="detail_bottom_divider_height">1.5dp</dimen>
-    <dimen name="detail_bottom_divider_margin">10dp</dimen>
 
     <!-- News Detail -->
-    <dimen name="progress_margin_offset">6dp</dimen>
-    <dimen name="fab_elevation">3dp</dimen>
-    <dimen name="fab_press_translation_z">3dp</dimen>
-    <dimen name="fab_size">84dp</dimen>
-    <dimen name="fab_size_small">60dp</dimen>
-    <dimen name="fab_icon_size">36dp</dimen>
-    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="progress_bar_height">15dp</dimen>
+    <dimen name="progress_bar_margin_top">-6dp</dimen>
 
     <!-- News Select -->
-    <dimen name="news_select_row_padding">15dp</dimen>
-    <!--<dimen name="custom_news_feed_dialog_clear_btn_size">45dp</dimen>-->
+    <dimen name="news_select_sliding_tab_height">48dp</dimen>
+    <dimen name="news_select_elevation">3dp</dimen>
+    <dimen name="news_select_sliding_tab_horizontal_margin">8dp</dimen>
+
+    <dimen name="custom_news_feed_dialog_edit_text_size">18sp</dimen>
+
+    <dimen name="news_select_item_height">62dp</dimen>
+    <dimen name="news_select_item_text_size">18sp</dimen>
+
+    <!-- Store -->
+    <dimen name="store_toolbar_elevation">4.5dp</dimen>
+    <dimen name="store_bg_banner_height">256.8dp</dimen>
+    <dimen name="store_title_margin_top">14.4dp</dimen>
+    <dimen name="store_title_margin_left">19.2dp</dimen>
+    <dimen name="store_title_margin_mid">0dp</dimen>
+    <dimen name="store_title_margin_bottom">0dp</dimen>
+    <dimen name="store_title_font_size">40.8sp</dimen>
+    <dimen name="store_description_margin_mid">-1.2dp</dimen>
+    <dimen name="store_description_font_size">14.4sp</dimen>
+    <dimen name="store_icon_banner_margin_left">19.2dp</dimen>
+    <dimen name="store_icon_banner_margin_bottom">48dp</dimen>
+    <dimen name="store_icon_banner_size">48dp</dimen>
+    <dimen name="store_icon_discount_banner_size">57.6dp</dimen>
+    <dimen name="store_icon_discount_banner_margin_bottom">43.2dp</dimen>
+    <dimen name="store_icon_banner_margin_mid">4.8dp</dimen>
+    <dimen name="store_price_button_width">100.8dp</dimen>
+    <dimen name="store_price_button_height">87.6dp</dimen>
+    <dimen name="store_price_discounted_price_text_margin_bottom">15.6dp</dimen>
+    <dimen name="store_price_discounted_price_text_margin_right">9.6dp</dimen>
+    <dimen name="store_price_discounted_price_width">80.4dp</dimen>
+    <dimen name="store_price_discounted_price_font_size">28.8sp</dimen>
+    <dimen name="store_price_original_price_width">48dp</dimen>
+    <dimen name="store_price_original_price_margin_bottom">-3.6dp</dimen>
+    <dimen name="store_price_original_price_font_size">16.8sp</dimen>
+    <dimen name="store_price_purchased_width">85.2dp</dimen>
+    <dimen name="store_price_purchased_margin_right">7.2dp</dimen>
+    <dimen name="store_price_purchased_margin_bottom">19.2dp</dimen>
+    <dimen name="store_price_purchased_font_size">16.8sp</dimen>
+    <dimen name="store_price_thank_you_width">75.6dp</dimen>
+    <dimen name="store_price_thank_you_font_size">14.4sp</dimen>
+    <dimen name="store_item_list_view_margin_top">9.6dp</dimen>
+    <dimen name="store_item_height">67.2dp</dimen>
+    <dimen name="store_item_height_with_description">129.6dp</dimen>
+    <dimen name="store_item_base_margin">19.2dp</dimen>
+    <dimen name="store_item_text_margin">16.8dp</dimen>
+    <dimen name="store_item_text_margin_mid">2.4dp</dimen>
+    <dimen name="store_item_title_text_size">19.2sp</dimen>
+    <dimen name="store_item_description_text_size">16.8sp</dimen>
+    <dimen name="store_item_price_button_width">110.4dp</dimen>
+    <dimen name="store_item_price_button_height">43.2dp</dimen>
+    <dimen name="store_item_price_button_elevation">2.4dp</dimen>
 
     <!-- Setting -->
-    <dimen name="setting_item_imageview_size">45dp</dimen>
-    <dimen name="setting_item_imageview_end_margin">15dp</dimen>
+    <dimen name="setting_item_pair_tv_edittext_height">60dp</dimen>
+    <dimen name="setting_item_auto_refresh_item_horizontal_spacing">@dimen/base_margin_half</dimen>
+    <dimen name="setting_item_auto_refresh_text_size">@dimen/text_size_title_material</dimen>
+
+    <dimen name="setting_item_title_text_size">@dimen/text_size_title_material</dimen>
+    <dimen name="setting_item_description_text_size">@dimen/text_size_subhead_material</dimen>
+
+    <!-- Info -->
 
     <!-- Credit -->
-    <dimen name="info_credit_title_font_size">17sp</dimen>          <!--Done-->
-    <dimen name="info_credit_name_font_size">24sp</dimen>           <!--Done-->
+    <dimen name="info_credit_title_font_size">@dimen/text_size_title_material</dimen>
+    <dimen name="info_credit_name_font_size">@dimen/text_size_headline_material</dimen>
     <dimen name="info_credit_name_left_margin">18dp</dimen>
     <dimen name="info_credit_padding">15dp</dimen>
+
+    <!-- License -->
+    <dimen name="more_info_license_title_text_size">@dimen/text_size_display_1_material</dimen>
+    <dimen name="more_info_license_description_text_size">@dimen/text_size_title_material</dimen>
 
     <!-- Store Ad Dialog * 1.5 -->
     <dimen name="store_ad_dialog_layout_width">448.5dp</dimen>
@@ -82,4 +163,12 @@
     <dimen name="store_ad_dialog_icon_img_width">66dp</dimen>
     <dimen name="store_ad_dialog_button_layout_height">65.5dp</dimen>
     <dimen name="store_ad_dialog_button_text_size">22.5sp</dimen>
+
+    <!-- Morning Kit Ad -->
+    <!-- 기기 크기별 -->
+    <dimen name="morningkit_ad_title_text_size">@dimen/text_size_headline_material</dimen>
+    <dimen name="morningkit_ad_description_text_size">@dimen/text_size_caption_material</dimen>
+    <dimen name="morningkit_ad_guide_text_size">@dimen/text_size_subhead_material</dimen>
+    <dimen name="morningkit_ad_text_margin">27dp</dimen>
+    <dimen name="morningkit_ad_dialog_radius">4.5dp</dimen>
 </resources>

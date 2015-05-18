@@ -19,92 +19,50 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Sugerido para si",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "Mundo",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Portugal",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Negócios",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Ciência",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Entretenimento",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Desporto",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Saúde",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Mais notícias principais",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://news.google.com/news?cf=all&ned=pt-PT_pt&hl=pt-PT&topic=h&output=rss"
                         }
                     ]
                 },
                 {
-                    "provider_name": "Expresso",
-            	    "provider_id": "2",
-            	    "topics": [
-                        {
-                            "topic_name": "Atualidade / Arquivo",
-                            "topic_id": "1",
-                            "url": "http://expresso.sapo.pt/static/rss/atualidade--arquivo_23412.xml",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "Economia",
-                            "topic_id": "2",
-                            "url": "http://expresso.sapo.pt/static/rss/economia_23413.xml"
-                        },
-                        {
-                            "topic_name": "Desporto",
-                            "topic_id": "3",
-                            "url": "http://expresso.sapo.pt/static/rss/desporto_23414.xml"
-                        },
-                        {
-                            "topic_name": "Opinião",
-                            "topic_id": "4",
-                            "url": "http://expresso.sapo.pt/static/rss/opiniao_23424.xml"
-                        },
-                        {
-                            "topic_name": "Iniciativas e Produtos",
-                            "topic_id": "5",
-                            "url": "http://expresso.sapo.pt/static/rss/iniciativas-e-produtos_23436.xml"
-                        },
-                        {
-                            "topic_name": "Sociedade",
-                            "topic_id": "6",
-                            "url": "http://expresso.sapo.pt/static/rss/sociedade_25194.xml"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "Jornal de Notícias",
-            	    "provider_id": "3",
+            	    "provider_id": "2",
             	    "topics": [
                         {
                             "topic_name": "Últimas Notícias",
@@ -173,11 +131,6 @@
                             "url": "http://feeds.jn.pt/JN-Palops"
                         },
                         {
-                            "topic_name": "Mundo Insólito",
-                            "topic_id": "14",
-                            "url": "http://feeds.jn.pt/JN-MundoInsolito"
-                        },
-                        {
                             "topic_name": "Desporto",
                             "topic_id": "15",
                             "url": "http://feeds.jn.pt/JN-Desporto"
@@ -191,16 +144,18 @@
                             "topic_name": "Gente",
                             "topic_id": "17",
                             "url": "http://feeds.jn.pt/JN-Gente"
-                        },
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Expresso",
+            	    "provider_id": "3",
+            	    "topics": [
                         {
-                            "topic_name": "Tecnologia",
-                            "topic_id": "18",
-                            "url": "http://feeds.jn.pt/JN-Tecnologia"
-                        },
-                        {
-                            "topic_name": "Tendências",
-                            "topic_id": "19",
-                            "url": "http://feeds.jn.pt/JN-Tendencias"
+                            "topic_name": "Expresso",
+                            "topic_id": "1",
+                            "url": "http://feeds.feedburner.com/expresso-geral",
+                            "isDefault": "true"
                         }
                     ]
                 },
@@ -233,48 +188,43 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Sugerido para você",
-                            "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=sfy&output=rss"
-                        },
-                        {
                             "topic_name": "Mundo",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Brasil",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Negócios",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Ciência/Tecnologia",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Entretenimento",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Esportes",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Saúde",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Mais notícias principais",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://news.google.com/news?cf=all&ned=pt-BR_br&hl=pt-BR&topic=h&output=rss"
                         }
                     ]

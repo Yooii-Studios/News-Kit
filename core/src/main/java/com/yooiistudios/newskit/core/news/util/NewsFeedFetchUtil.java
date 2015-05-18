@@ -11,13 +11,17 @@ import com.yooiistudios.newskit.core.news.RssFetchable;
 
 import org.xml.sax.SAXException;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.UnknownHostException;
+import java.nio.charset.Charset;
+import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -49,7 +53,7 @@ public class NewsFeedFetchUtil {
         try {
             NewsFeedUrl newsFeedUrl = fetchable.getNewsFeedUrl();
 
-            newsFeed = getNewsFeedFromUrl(newsFeedUrl);
+            newsFeed = getNewsFeedFromUrl(newsFeedUrl, fetchLimit);
 
             if (newsFeed.containsNews()) {
                 newsFeed.setNewsFeedFetchState(NewsFeedFetchState.SUCCESS);
@@ -69,13 +73,17 @@ public class NewsFeedFetchUtil {
             } else {
                 newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_NO_NEWS);
             }
-        } catch(MalformedURLException | UnknownHostException e) {
+        } catch(MalformedURLException e) {
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_INVALID_URL);
         } catch(SocketTimeoutException e) {
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_TIMEOUT);
         } catch(IOException | SAXException e) {
+            // 기존에는 UnknownHostException 을 MalformedURLException 과 함께 잡았지만
+            // 인터넷이 안되는 상황에서도 UnknownHostException 이 발생, ERROR_INVALID_URL 로 처리되어
+            // 부정확한 데이터를 저장하고 있었음.
+            // UnknownHostException 의 경우 IOException 의 sub class 이므로 자동적으로 이 곳에서 처리되게 됨.
             newsFeed = new NewsFeed(fetchable);
             newsFeed.setNewsFeedFetchState(NewsFeedFetchState.ERROR_UNKNOWN);
         }
@@ -83,16 +91,24 @@ public class NewsFeedFetchUtil {
         return newsFeed;
     }
 
-    private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl) throws IOException, SAXException {
-        InputStream inputStream = null;
+    private static NewsFeed getNewsFeedFromUrl(NewsFeedUrl newsFeedUrl, int fetchLimit)
+            throws IOException, SAXException {
+        BufferedInputStream inputStream = null;
         URL url = new URL(newsFeedUrl.getUrl());
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         try {
             conn.setConnectTimeout(TIMEOUT_MILLI);
             conn.setReadTimeout(TIMEOUT_MILLI);
-            inputStream = conn.getInputStream();
-//            inputStream = getInputStreamFromNewsFeedUrl(newsFeedUrl);
-            NewsFeed feed = NewsFeedParser.read(inputStream);
+            // 모바일에서는 메인 페이지로 리다이렉트 시켜버리는 페이지(ex. http://www.jpnn.com/index.php?mib=rss&id=215) 대응
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A");
+            inputStream = new BufferedInputStream(conn.getInputStream());
+
+            inputStream.mark(Integer.MAX_VALUE);
+            String encoding = getEncoding(inputStream);
+            inputStream.reset();
+            inputStream.mark(0);
+
+            NewsFeed feed = NewsFeedParser.read(inputStream, encoding, fetchLimit);
             feed.setNewsFeedUrl(newsFeedUrl);
 
             return feed;
@@ -104,6 +120,97 @@ public class NewsFeedFetchUtil {
                 conn.disconnect();
             }
         }
+    }
+
+    // TODO: refactor
+    private static String getEncoding(InputStream inputStream) {
+        // read encoding(Presume that the xml prolog is in the first line)
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream), 80);
+        String prolog = null;
+        try {
+            char[] buffer = new char[300];
+            bufferedReader.read(buffer, 0, 300);
+            prolog = new String(buffer);
+        } catch (Exception ignored) {}
+        String encoding = "";
+        if (prolog != null) {
+            int prologEndIdx = prolog.indexOf("?>");
+            if (prologEndIdx > 0) {
+                prolog = prolog.substring(0, prologEndIdx);
+            }
+            String encodingKey = "encoding";
+            int encodingPosition = prolog.indexOf(encodingKey);
+            if (encodingPosition >= 0) {
+                final char singleQuote = '\'';
+                final char doubleQuote = '\"';
+                int singleQuoteStartIdx = prolog.indexOf(singleQuote, encodingPosition);
+                int doubleQuoteStartIdx = prolog.indexOf(doubleQuote, encodingPosition);
+
+                if (singleQuoteStartIdx != -1 || doubleQuoteStartIdx != -1) {
+                    boolean useSingleQuote;
+                    if (singleQuoteStartIdx != -1 && doubleQuoteStartIdx != -1) {
+                        useSingleQuote = singleQuoteStartIdx < doubleQuoteStartIdx;
+                    } else {
+                        useSingleQuote = doubleQuoteStartIdx == -1;
+                    }
+                    int quoteStartIdx = useSingleQuote ? singleQuoteStartIdx : doubleQuoteStartIdx;
+                    char quoteToUse = useSingleQuote ? singleQuote : doubleQuote;
+                    int quoteEndIdx = prolog.indexOf(quoteToUse, quoteStartIdx + 1);
+
+                    if (isValidIndex(quoteStartIdx, quoteEndIdx)) {
+                        encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+                    }
+                }
+
+//                int quoteStartIdx = prolog.indexOf('\"', encodingPosition);
+//                int quoteEndIdx = prolog.indexOf('\"', quoteStartIdx + 1);
+//
+//                if (!isValidIndex(quoteStartIdx, quoteEndIdx)) {
+//                    quoteStartIdx = prolog.indexOf('\'', encodingPosition);
+//                    quoteEndIdx = prolog.indexOf('\'', quoteStartIdx + 1);
+//                }
+//                if (isValidIndex(quoteStartIdx, quoteEndIdx)) {
+//                    encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+//                }
+            }
+        }
+
+        if (!isValidEncoding(encoding)) {
+            encoding = "";
+        }
+
+        return encoding;
+    }
+
+    private static boolean isValidEncoding(String encoding) {
+        boolean isValidEncoding = false;
+        try {
+            Charset.forName(encoding).newDecoder().onMalformedInput(
+                    CodingErrorAction.REPLACE).onUnmappableCharacter(
+                    CodingErrorAction.REPLACE);
+            isValidEncoding = true;
+        } catch (IllegalArgumentException ignored) {}
+        return isValidEncoding;
+    }
+
+    private static boolean isValidIndex(int quoteStartIdx, int quoteEndIdx) {
+        return quoteStartIdx != -1 && quoteEndIdx != -1 && quoteEndIdx > quoteStartIdx;
+    }
+
+    private static String getContent(InputStream inputStream, String encoding) throws IOException {
+        BufferedReader reader;
+        if (encoding.length() > 0) {
+            reader = new BufferedReader(new InputStreamReader(inputStream, encoding));
+        } else {
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            // TODO: .append("\n") 코드는 테스트시 어느 라인에서 문제가 생긴 건지 체크하기 위한 코드. 지워야 함.
+            stringBuilder.append(line).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     private static void cleanUpNewsContents(NewsFeed newsFeed) {
@@ -148,12 +255,4 @@ public class NewsFeedFetchUtil {
             news.setDescription(refinedDesc);
         }
     }
-
-//    private static InputStream getInputStreamFromNewsFeedUrl(NewsFeedUrl newsFeedUrl) throws IOException {
-//        URL url = new URL(newsFeedUrl.getUrl());
-//        URLConnection conn = url.openConnection();
-//        conn.setConnectTimeout(TIMEOUT_MILLI);
-//        conn.setReadTimeout(TIMEOUT_MILLI);
-//        return conn.getInputStream();
-//    }
 }

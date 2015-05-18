@@ -26,5 +26,5 @@
         android:text="63522"
         android:inputType="number"
         android:maxLength="9"
-        android:hint="Insert code"/>
+        android:hint="@string/setting_pair_tv_insert_code"/>
 </LinearLayout>

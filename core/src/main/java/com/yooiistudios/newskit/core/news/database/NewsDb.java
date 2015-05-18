@@ -625,9 +625,25 @@ public class NewsDb {
         mDatabase.execSQL("DELETE FROM " + NewsContentEntry.TABLE_NAME);
     }
 
+    public static void copyDbToExternalStorageWithPostfix(Context context, String postfix)
+            throws ExternalStorage.ExternalStorageException {
+        copyDbToExternalStorage(context, postfix);
+    }
+
     public static void copyDbToExternalStorage(Context context) throws ExternalStorage.ExternalStorageException {
-        String dbFilePath = context.getDatabasePath(NewsDbHelper.DB_NAME).toString();
-        File outputFile = ExternalStorage.createFileInExternalDirectory(NewsDbHelper.DB_NAME);
+        copyDbToExternalStorage(context, "");
+    }
+
+    private static void copyDbToExternalStorage(Context context, String postfix) throws ExternalStorage.ExternalStorageException {
+        String dbFilePath = context.getDatabasePath(NewsDbHelper.DB_NAME_WITH_EXTENSION).toString();
+        String outputFileName;
+        if (postfix.length() > 0) {
+            outputFileName = NewsDbHelper.DB_NAME + " " + postfix + NewsDbHelper.DB_EXTENSION;
+        } else {
+            outputFileName = NewsDbHelper.DB_NAME_WITH_EXTENSION;
+        }
+
+        File outputFile = ExternalStorage.createFileInExternalDirectory(outputFileName);
 
         InputStream in = null;
         OutputStream out = null;

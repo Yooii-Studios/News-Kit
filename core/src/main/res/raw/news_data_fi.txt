@@ -136,18 +136,13 @@
                             "url": "http://www.hs.fi/rss/?osastot=tekniikka"
                         },
                         {
-                            "topic_name": "Työelämä:",
-                            "topic_id": "15",
-                            "url": "http://www.hs.fi/rss/?osastot=työelämä"
-                        },
-                        {
                             "topic_name": "Sunnuntai:",
-                            "topic_id": "16",
+                            "topic_id": "15",
                             "url": "http://www.hs.fi/rss/?osastot=sunnuntai"
                         },
                         {
                             "topic_name": "Kuukausiliite:",
-                            "topic_id": "17",
+                            "topic_id": "16",
                             "url": "http://www.hs.fi/rss/?osastot=kuukausiliite"
                         }
                     ]

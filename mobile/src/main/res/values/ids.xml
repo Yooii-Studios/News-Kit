@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main -->
     <item name="main_banner" type="id"/>
+    <item name="action_store" type="id"/>
+    <item name="action_edition" type="id"/>
+    <item name="action_info" type="id"/>
+    <item name="action_settings" type="id"/>
+    <item name="action_rate_app" type="id"/>
+    <item name="action_facebook_like" type="id"/>
+    <item name="action_remove_archive" type="id"/>
+    <item name="action_copy_db" type="id"/>
+    <item name="action_slow_anim" type="id"/>
+    <item name="action_service_log" type="id"/>
+    <item name="action_trigger_notification" type="id"/>
 
     <!-- NewsFeed Detail -->
     <item name="action_newsfeed_overflow" type="id"/>
     <item name="action_select_topic" type="id"/>
-    <item name="action_auto_scroll_setting_debug" type="id"/>
+    <item name="action_newsfeed_detail_setting" type="id"/>
     <item name="action_auto_scroll" type="id"/>
+
+    <!-- News Select -->
+    <item name="action_custom_news_feed" type="id"/>
 </resources>

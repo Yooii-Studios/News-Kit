@@ -173,13 +173,8 @@
                             "url": "http://www.posta.com.tr/xml/rss/rss_7_0.xml"
                         },
                         {
-                            "topic_name": "Türkiye",
-                            "topic_id": "13",
-                            "url": "http://www.posta.com.tr/xml/rss/rss_3_0.xml"
-                        },
-                        {
                             "topic_name": "Yaşam",
-                            "topic_id": "14",
+                            "topic_id": "13",
                             "url": "http://www.posta.com.tr/xml/rss/rss_10_0.xml"
                         }
                     ]
@@ -198,11 +193,6 @@
                             "topic_name": "Ekonomi",
                             "topic_id": "2",
                             "url": "http://rss.hurriyet.com.tr/rss.aspx?sectionId=4"
-                        },
-                        {
-                            "topic_name": "Magazin",
-                            "topic_id": "3",
-                            "url": "http://rss.hurriyet.com.tr/rss.aspx?sectionId=2035"
                         },
                         {
                             "topic_name": "Spor",

@@ -178,10 +178,12 @@ public class BackgroundCacheUtils implements
     private void notifyImageFetched(News news, int newsFeedPosition) {
         HashMap<String, NewsImageUrlFetchTask> imageFetchMap
                 = mNewsImageUrlFetchTasks.get(newsFeedPosition);
-        imageFetchMap.remove(news.getGuid());
-        NLLog.now("News image left at " + newsFeedPosition + ": " + imageFetchMap.size());
-        if (imageFetchMap.size() == 0) {
-            mNewsImageUrlFetchTasks.remove(newsFeedPosition);
+        if (imageFetchMap != null) {
+            imageFetchMap.remove(news.getGuid());
+            NLLog.now("News image left at " + newsFeedPosition + ": " + imageFetchMap.size());
+            if (imageFetchMap.size() == 0) {
+                mNewsImageUrlFetchTasks.remove(newsFeedPosition);
+            }
         }
         checkAllImagesFetched();
     }
@@ -194,12 +196,13 @@ public class BackgroundCacheUtils implements
     }
 
     private void notifyCacheDone() {
-        NLLog.now("notifyCacheDone");
         NewsFeedArchiveUtils.saveCacheUnread(mContext);
         if (BackgroundServiceUtils.CacheTime.isTimeToIssueNotification(mCacheTime)
                 && Settings.isNotificationOn(mContext)) {
-            NLLog.now("isNotificationOn");
             NotificationUtils.issueAsync(mContext);
+            BackgroundServiceUtils.saveMessageAndPrintLogDebug(mContext, "Notified.");
+        } else {
+            BackgroundServiceUtils.saveMessageAndPrintLogDebug(mContext, "Notification Off.");
         }
         if (mOnCacheDoneListener != null) {
             mOnCacheDoneListener.onDone();

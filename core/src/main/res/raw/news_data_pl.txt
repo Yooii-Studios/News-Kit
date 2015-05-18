@@ -1,0 +1,187 @@
+{
+    "lang_name_english": "Polish",
+    "lang_name_regional": "Język polski",
+    "lang_code": "pl",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Polska",
+            "country_code": "PL",
+            "news_providers": [
+                {
+                    "provider_name": "Google Wiadomości",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Najważniejsze artykuły",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Świat",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Polska",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Gospodarka",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Nauka i technika",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Sport",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=s&output=rss"
+                        },
+                        {
+                            "topic_name": "Rozrywka",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=e&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Gazeta",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Najnowsze Artykuły",
+                            "topic_id": "1",
+                            "url": "http://rss.gazeta.pl/pub/rss/najnowsze_wyborcza.xml",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Gospodarka",
+                            "topic_id": "2",
+                            "url": "http://rss.gazeta.pl/pub/rss/gospodarkatest.xml"
+                        },
+                        {
+                            "topic_name": "Edukacja",
+                            "topic_id": "3",
+                            "url": "http://rss.gazeta.pl/pub/rss/edukacja.htm"
+                        },
+                        {
+                            "topic_name": "RSS ŻYCIE I STYL",
+                            "topic_id": "4",
+                            "url": "http://rss.gazeta.pl/pub/rss/lata_leca.xml"
+                        },
+                        {
+                            "topic_name": "Technologie",
+                            "topic_id": "5",
+                            "url": "http://rss.gazeta.pl/pub/rss/technologie.xml"
+                        },
+                        {
+                            "topic_name": "Sportowe",
+                            "topic_id": "6",
+                            "url": "http://rss.gazeta.pl/pub/rss/sport.xml"
+                        },
+                        {
+                            "topic_name": "Agora",
+                            "topic_id": "7",
+                            "url": "http://rss.gazeta.pl/pub/rss/agora_aktualnosci.xml"
+                        },
+                        {
+                            "topic_name": "Warszawa",
+                            "topic_id": "8",
+                            "url": "http://rss.gazeta.pl/pub/rss/warszawa.xml"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Gazeta Wyborcza",
+            	    "provider_id": "3",
+            	    "topics": [
+                        {
+                            "topic_name": "Najnowsze teksty Wyborcza.pl",
+                            "topic_id": "1",
+                            "url": "http://gazeta.pl.feedsportal.com/c/32739/f/532601/index.rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Komentarze i opinie",
+                            "topic_id": "2",
+                            "url": "http://gazeta.pl.feedsportal.com/c/32739/f/667480/index.rss"
+                        },
+                        {
+                            "topic_name": "Nauka",
+                            "topic_id": "3",
+                            "url": "http://rss.feedsportal.com/c/32739/f/530269/index.rss"
+                        },
+                        {
+                            "topic_name": "Najnowsze wydarzenia z kraju",
+                            "topic_id": "4",
+                            "url": "http://rss.feedsportal.com/c/32739/f/530266/index.rss"
+                        },
+                        {
+                            "topic_name": "Najnowsze wydarzenia ze świata",
+                            "topic_id": "5",
+                            "url": "http://rss.feedsportal.com/c/32739/f/530270/index.rss"
+                        },
+                        {
+                            "topic_name": "Nekrologi",
+                            "topic_id": "6",
+                            "url": "http://rss.feedsportal.com/c/32739/f/530358/index.rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Rzeczpospolita",
+            	    "provider_id": "4",
+            	    "topics": [
+                        {
+                            "topic_name": "Wiadomości dnia:",
+                            "topic_id": "1",
+                            "url": "http://www.rp.pl/rss/2.html",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Kraj:",
+                            "topic_id": "2",
+                            "url": "http://www.rp.pl/rss/10.html"
+                        },
+                        {
+                            "topic_name": "Świat:",
+                            "topic_id": "3",
+                            "url": "http://www.rp.pl/rss/11.html"
+                        },
+                        {
+                            "topic_name": "Sport:",
+                            "topic_id": "4",
+                            "url": "http://www.rp.pl/rss/12.html"
+                        },
+                        {
+                            "topic_name": "Prawo:",
+                            "topic_id": "5",
+                            "url": "http://www.rp.pl/rss/4.html"
+                        },
+                        {
+                            "topic_name": "Ekonomia:",
+                            "topic_id": "6",
+                            "url": "http://www.rp.pl/rss/5.html"
+                        },
+                        {
+                            "topic_name": "Firma:",
+                            "topic_id": "7",
+                            "url": "http://www.rp.pl/rss/6.html"
+                        },
+                        {
+                            "topic_name": "Pieniądze:",
+                            "topic_id": "8",
+                            "url": "http://www.rp.pl/rss/7.html"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

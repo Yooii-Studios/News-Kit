@@ -24,8 +24,8 @@ import com.yooiistudios.newskit.R;
 public class AdDialogFactory {
     private AdDialogFactory() { throw new AssertionError("Must not create this class!"); }
 
-    public static final String AD_UNIT_ID_PORT = "ca-app-pub-2310680050309555/2431407023";
-    public static final String AD_UNIT_ID_LAND = "ca-app-pub-2310680050309555/9247583428";
+    public static final String AD_UNIT_ID_PORT = "ca-app-pub-2310680050309555/2724870625";
+    public static final String AD_UNIT_ID_LAND = "ca-app-pub-2310680050309555/1248137420";
 
     public static AdView initAdView(Context context, AdSize adSize, String adUnitId,
                                     final AdRequest adRequest) {

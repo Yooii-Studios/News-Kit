@@ -17,9 +17,8 @@ import com.yooiistudios.newskit.R;
 public class Settings {
     private static final String SETTINGS_SHARED_PREFERENCES = "settings_shared_preferences";
     private static final String IS_FIRST_AUTO_REFRESH = "is_first_auto_refresh";
-    private static final String NEWS_FEED_AUTO_SCROLL_KEY = "news_feed_auto_scroll_key";
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
-    private static final int AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 6;
+    private static final int AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 5;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
     private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
     private static final String KEEP_SCREEN_ON_KEY = "keep_screen_on_key";
@@ -27,16 +26,6 @@ public class Settings {
     private static final int AUTO_REFRESH_HANDLER_FIRST_DELAY_SECONDS = 1;
 
     private Settings() { throw new AssertionError("You can't create this class!"); }
-
-    public static void setNewsFeedAutoScroll(Context context, boolean isAutoScroll) {
-        context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .edit().putBoolean(NEWS_FEED_AUTO_SCROLL_KEY, isAutoScroll).apply();
-    }
-
-    public static boolean isNewsFeedAutoScroll(Context context) {
-        return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getBoolean(NEWS_FEED_AUTO_SCROLL_KEY, true);
-    }
 
     public static void setAutoRefreshInterval(Context context, int interval) {
         context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)

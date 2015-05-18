@@ -76,109 +76,29 @@
                             "url": "http://www.kp.ru/rss/msk-politics.xml"
                         },
                         {
-                            "topic_name": "Экономика",
-                            "topic_id": "3",
-                            "url": "http://www.kp.ru/rss/msk-economics.xml"
-                        },
-                        {
-                            "topic_name": "Происшествия",
-                            "topic_id": "4",
-                            "url": "http://www.kp.ru/rss/msk-incedent.xml"
-                        },
-                        {
                             "topic_name": "Общество",
-                            "topic_id": "5",
+                            "topic_id": "3",
                             "url": "http://www.kp.ru/rss/msk-life.xml"
                         },
                         {
                             "topic_name": "Спорт (kp.ru)",
-                            "topic_id": "6",
+                            "topic_id": "4",
                             "url": "http://kp.ru/rss/msk-sport.xml"
                         },
                         {
                             "topic_name": "Спорт (Сов.спорт)",
-                            "topic_id": "7",
+                            "topic_id": "5",
                             "url": "http://www.sovsport.ru/gazeta_rss"
                         },
                         {
-                            "topic_name": "Культура",
-                            "topic_id": "8",
-                            "url": "http://www.kp.ru/rss/msk-culture.xml"
-                        },
-                        {
                             "topic_name": "Звезды",
-                            "topic_id": "9",
+                            "topic_id": "6",
                             "url": "http://www.kp.ru/rss/msk-stars.xml"
                         },
                         {
-                            "topic_name": "Телевизор",
-                            "topic_id": "10",
-                            "url": "http://www.kp.ru/rss/msk-tv.xml"
-                        },
-                        {
-                            "topic_name": "Наука",
-                            "topic_id": "11",
-                            "url": "http://www.kp.ru/rss/msk-science.xml"
-                        },
-                        {
-                            "topic_name": "Умные вещи",
-                            "topic_id": "12",
-                            "url": "http://www.kp.ru/rss/msk-digital.xml"
-                        },
-                        {
-                            "topic_name": "Образование и работа",
-                            "topic_id": "13",
-                            "url": "http://www.kp.ru/rss/msk-education.xml"
-                        },
-                        {
-                            "topic_name": "Мужчина и женщина",
-                            "topic_id": "14",
-                            "url": "http://www.kp.ru/rss/msk-sex.xml"
-                        },
-                        {
-                            "topic_name": "МамыПапы",
-                            "topic_id": "15",
-                            "url": "http://www.kp.ru/rss/msk-kids.xml"
-                        },
-                        {
                             "topic_name": "Здоровье",
-                            "topic_id": "16",
+                            "topic_id": "7",
                             "url": "http://www.kp.ru/rss/msk-health.xml"
-                        },
-                        {
-                            "topic_name": "Дача",
-                            "topic_id": "17",
-                            "url": "http://www.kp.ru/rss/msk-dacha.xml"
-                        },
-                        {
-                            "topic_name": "Шоппинг",
-                            "topic_id": "18",
-                            "url": "http://www.kp.ru/rss/msk-shop.xml"
-                        },
-                        {
-                            "topic_name": "Туризм",
-                            "topic_id": "19",
-                            "url": "http://www.kp.ru/rss/msk-tour.xml"
-                        },
-                        {
-                            "topic_name": "Ваши права",
-                            "topic_id": "20",
-                            "url": "http://www.kp.ru/rss/msk-urist.xml"
-                        },
-                        {
-                            "topic_name": "Живой уголок",
-                            "topic_id": "21",
-                            "url": "http://www.kp.ru/rss/msk-animal.xml"
-                        },
-                        {
-                            "topic_name": "Приятного аппетита",
-                            "topic_id": "22",
-                            "url": "http://www.kp.ru/rss/msk-gurman.xml"
-                        },
-                        {
-                            "topic_name": "Недвижимость",
-                            "topic_id": "23",
-                            "url": "http://www.kp.ru/rss/msk-home.xml"
                         }
                     ]
                 },
@@ -193,48 +113,43 @@
                             "isDefault": "true"
                         },
                         {
-                            "topic_name": "Новостная лента",
-                            "topic_id": "2",
-                            "url": "http://www.mk.ru/rss/news/index.xml"
-                        },
-                        {
                             "topic_name": "Свежий МК",
-                            "topic_id": "3",
+                            "topic_id": "2",
                             "url": "http://www.mk.ru/rss/daily/index.xml"
                         },
                         {
                             "topic_name": "Экономика",
-                            "topic_id": "4",
+                            "topic_id": "3",
                             "url": "http://www.mk.ru/rss/economics/index.xml"
                         },
                         {
                             "topic_name": "Политика",
-                            "topic_id": "5",
+                            "topic_id": "4",
                             "url": "http://www.mk.ru/rss/politics/index.xml"
                         },
                         {
                             "topic_name": "Происшествия",
-                            "topic_id": "6",
+                            "topic_id": "5",
                             "url": "http://www.mk.ru/rss/incident/index.xml"
                         },
                         {
                             "topic_name": "Общество",
-                            "topic_id": "7",
+                            "topic_id": "6",
                             "url": "http://www.mk.ru/rss/social/index.xml"
                         },
                         {
                             "topic_name": "Культура",
-                            "topic_id": "8",
+                            "topic_id": "7",
                             "url": "http://www.mk.ru/rss/culture/index.xml"
                         },
                         {
                             "topic_name": "Наука",
-                            "topic_id": "9",
+                            "topic_id": "8",
                             "url": "http://www.mk.ru/rss/science/index.xml"
                         },
                         {
                             "topic_name": "Спорт",
-                            "topic_id": "10",
+                            "topic_id": "9",
                             "url": "http://www.mk.ru/rss/sport/index.xml"
                         }
                     ]
@@ -320,18 +235,13 @@
                             "url": "http://izvestia.ru/xml/rss/culture.xml"
                         },
                         {
-                            "topic_name": "Стиль",
-                            "topic_id": "16",
-                            "url": "http://izvestia.ru/xml/rss/67.xml"
-                        },
-                        {
                             "topic_name": "Спорт",
-                            "topic_id": "17",
+                            "topic_id": "16",
                             "url": "http://izvestia.ru/xml/rss/sports.xml"
                         },
                         {
                             "topic_name": "IT",
-                            "topic_id": "18",
+                            "topic_id": "17",
                             "url": "http://izvestia.ru/xml/rss/37.xml"
                         }
                     ]
@@ -400,6 +310,187 @@
                             "topic_name": "Спорт",
                             "topic_id": "12",
                             "url": "http://www.rg.ru/tema/sport/rss.xml"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Украина",
+            "country_code": "UA",
+            "news_providers": [
+                {
+                    "provider_name": "Google Новости",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Главные новости",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "В мире",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Украина",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Бизнес",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Наука и техника",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=s&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Ukrainianwall",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "все новости",
+                            "topic_id": "1",
+                            "url": "http://ukrainianwall.com/feed",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Украина",
+                            "topic_id": "2",
+                            "url": "http://ukrainianwall.com/category/ukraine/feed/"
+                        },
+                        {
+                            "topic_name": "Бизнес",
+                            "topic_id": "3",
+                            "url": "http://ukrainianwall.com/category/business/feed/"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "4",
+                            "url": "http://ukrainianwall.com/category/sport/feed/"
+                        },
+                        {
+                            "topic_name": "Наука",
+                            "topic_id": "5",
+                            "url": "http://ukrainianwall.com/category/tech/feed/"
+                        },
+                        {
+                            "topic_name": "мир",
+                            "topic_id": "6",
+                            "url": "http://ukrainianwall.com/category/world/feed/"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "7",
+                            "url": "http://ukrainianwall.com/category/politics/feed/"
+                        },
+                        {
+                            "topic_name": "Украина",
+                            "topic_id": "1",
+                            "url": "http://fakty.ua/rss_feed/ukraina"
+                        },
+                        {
+                            "topic_name": "Мир",
+                            "topic_id": "2",
+                            "url": "http://fakty.ua/rss_feed/world"
+                        },
+                        {
+                            "topic_name": "Политика",
+                            "topic_id": "3",
+                            "url": "http://fakty.ua/rss_feed/politics"
+                        },
+                        {
+                            "topic_name": "Происшествия",
+                            "topic_id": "4",
+                            "url": "http://fakty.ua/rss_feed/crime"
+                        },
+                        {
+                            "topic_name": "Здоровье",
+                            "topic_id": "5",
+                            "url": "http://fakty.ua/rss_feed/health"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "6",
+                            "url": "http://fakty.ua/rss_feed/sport"
+                        },
+                        {
+                            "topic_name": "Культура",
+                            "topic_id": "7",
+                            "url": "http://fakty.ua/rss_feed/culture"
+                        },
+                        {
+                            "topic_name": "История современности",
+                            "topic_id": "8",
+                            "url": "http://fakty.ua/rss_feed/stories"
+                        },
+                        {
+                            "topic_name": "Житейские истории",
+                            "topic_id": "9",
+                            "url": "http://fakty.ua/rss_feed/life-stories"
+                        },
+                        {
+                            "topic_name": "Наука и технологии",
+                            "topic_id": "10",
+                            "url": "http://fakty.ua/rss_feed/science"
+                        },
+                        {
+                            "topic_name": "Все новости",
+                            "topic_id": "11",
+                            "url": "http://fakty.ua/rss_feed/all"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Қазақстан",
+            "country_code": "KZ",
+            "news_providers": [
+                {
+                    "provider_name": "Караван",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Караван",
+                            "topic_id": "1",
+                            "url": "http://www.caravan.kz/rss",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "country_name": "Беларусь",
+            "country_code": "BY",
+            "news_providers": [
+                {
+                    "provider_name": "Наро́дная во́ля",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Наро́дная во́ля",
+                            "topic_id": "1",
+                            "url": "http://www.nv-online.info/feed/index.rss",
+                            "isDefault": "true"
                         }
                     ]
                 }

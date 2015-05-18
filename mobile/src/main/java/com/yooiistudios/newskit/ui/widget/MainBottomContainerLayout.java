@@ -273,6 +273,7 @@ public class MainBottomContainerLayout extends FrameLayout
     }
 
     public void autoRefreshBottomNewsFeeds() {
+        mAutoAnimator.setIntervalInMillisec(AnimationFactory.getBottomDuration(getContext()));
         mAutoAnimator.animate();
     }
 
@@ -341,11 +342,14 @@ public class MainBottomContainerLayout extends FrameLayout
                         public void onBottomImageUrlFetchSuccess(News news, String url, int newsFeedPosition, int newsPosition, int taskType) {
                             NewsDb.getInstance(getContext()).saveBottomNewsImageUrlWithGuid(url, newsFeedPosition,
                                     news.getGuid());
+                            if (url == null) {
+                                mAdapter.notifyItemChanged(newsFeedPosition);
+                            }
                         }
 
                         @Override
                         public void onFetchImage(News news, int newsFeedPosition, int newsPosition, int taskType) {
-
+                            mAdapter.notifyItemChanged(newsFeedPosition);
                         }
                     }).execute();
         }

@@ -26,9 +26,33 @@ public class NLLog {
         }
     }
 
+    public static void v(String TAG, String message) {
+        if (DebugSettings.debugLog()) {
+            Log.v(TAG, message);
+        }
+    }
+
     public static void d(String TAG, String message) {
         if (DebugSettings.debugLog()) {
             Log.d(TAG, message);
+        }
+    }
+
+    public static void d(String TAG, String message, Throwable tr) {
+        if (DebugSettings.debugLog()) {
+            Log.d(TAG, message, tr);
+        }
+    }
+
+    public static void w(String TAG, String message) {
+        if (DebugSettings.debugLog()) {
+            Log.w(TAG, message);
+        }
+    }
+
+    public static void w(String TAG, String message, Throwable tr) {
+        if (DebugSettings.debugLog()) {
+            Log.w(TAG, message, tr);
         }
     }
 

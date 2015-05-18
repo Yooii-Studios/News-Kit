@@ -302,10 +302,6 @@ public class ImageCache implements ImageLoader.ImageCache {
             memValue = mMemoryCache.get(data);
         }
 
-        if (memValue != null) {
-            NLLog.d(TAG, "Memory cache hit");
-        }
-
         return memValue;
         //END_INCLUDE(get_bitmap_from_mem_cache)
     }
@@ -332,9 +328,6 @@ public class ImageCache implements ImageLoader.ImageCache {
                 try {
                     final DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key);
                     if (snapshot != null) {
-                        if (DebugSettings.debugLog()) {
-                            NLLog.d(TAG, "Disk cache hit");
-                        }
                         inputStream = snapshot.getInputStream(DISK_CACHE_INDEX);
                         if (inputStream != null) {
                             FileDescriptor fd = ((FileInputStream) inputStream).getFD();
@@ -475,7 +468,7 @@ public class ImageCache implements ImageLoader.ImageCache {
     }
 
     @Override
-    public void putBitmap(String url, Bitmap bitmap) {
+    public void putBitmap(final String url, final Bitmap bitmap) {
         BitmapDrawable drawable;
         if (Device.hasHoneycomb()) {
             // Running on Honeycomb or newer, so wrap in a standard BitmapDrawable

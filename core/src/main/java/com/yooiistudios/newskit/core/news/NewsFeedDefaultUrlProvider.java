@@ -45,6 +45,9 @@ public class NewsFeedDefaultUrlProvider {
         } else if (locale.getLanguage().equals("zh") && locale.getCountry().equals("TW")){
             makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), "TW",
                     locale.getCountry(), "en", null, "US");
+//        } else if (locale.getLanguage().equals("zh") && locale.getCountry().equals("HK")){
+//            makeDefaultNewsTopics(newsContentProvider, locale.getLanguage(), "HK",
+//                    locale.getCountry(), "en", null, "US");
         } else {
             // 기본은 Default Locale 값 + 영어
             // regionCode 는 중국어를 위해 null 을 넣지 않고 country 로 대체

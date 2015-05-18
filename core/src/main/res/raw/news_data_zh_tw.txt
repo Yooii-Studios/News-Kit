@@ -153,115 +153,8 @@
                     ]
                 },
                 {
-                    "provider_name": "蘋果日報",
-            	    "provider_id": "3",
-            	    "topics": [
-                        {
-                            "topic_name": "最新",
-                            "topic_id": "1",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/new",
-                            "isDefault": "true"
-                        },
-                        {
-                            "topic_name": "推薦",
-                            "topic_id": "2",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/recommend"
-                        },
-                        {
-                            "topic_name": "熱門",
-                            "topic_id": "3",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/hot"
-                        },
-                        {
-                            "topic_name": "動物",
-                            "topic_id": "4",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/116"
-                        },
-                        {
-                            "topic_name": "FUN",
-                            "topic_id": "5",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/117"
-                        },
-                        {
-                            "topic_name": "瘋啥",
-                            "topic_id": "6",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/111"
-                        },
-                        {
-                            "topic_name": "搜奇",
-                            "topic_id": "7",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/118"
-                        },
-                        {
-                            "topic_name": "影片",
-                            "topic_id": "8",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/video"
-                        },
-                        {
-                            "topic_name": "正妹",
-                            "topic_id": "9",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/114"
-                        },
-                        {
-                            "topic_name": "體育",
-                            "topic_id": "10",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/107"
-                        },
-                        {
-                            "topic_name": "臉團",
-                            "topic_id": "11",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/115"
-                        },
-                        {
-                            "topic_name": "娛樂",
-                            "topic_id": "12",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/106"
-                        },
-                        {
-                            "topic_name": "時尚",
-                            "topic_id": "13",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/112"
-                        },
-                        {
-                            "topic_name": "生活",
-                            "topic_id": "14",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/105"
-                        },
-                        {
-                            "topic_name": "社會",
-                            "topic_id": "15",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/102"
-                        },
-                        {
-                            "topic_name": "國際",
-                            "topic_id": "16",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/103"
-                        },
-                        {
-                            "topic_name": "財經",
-                            "topic_id": "17",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/104"
-                        },
-                        {
-                            "topic_name": "地產",
-                            "topic_id": "18",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/119"
-                        },
-                        {
-                            "topic_name": "政治",
-                            "topic_id": "19",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/101"
-                        },
-                        {
-                            "topic_name": "論壇",
-                            "topic_id": "20",
-                            "url": "http://www.appledaily.com.tw/rss/create/kind/rnews/type/113"
-                        }
-                    ]
-                },
-                {
                     "provider_name": "聯合報",
-            	    "provider_id": "4",
+            	    "provider_id": "3",
             	    "topics": [
                         {
                             "topic_name": "要聞",
@@ -313,7 +206,7 @@
                 },
                 {
                     "provider_name": "中國時報",
-            	    "provider_id": "5",
+            	    "provider_id": "4",
             	    "topics": [
                         {
                             "topic_name": "總覽",
@@ -372,7 +265,13 @@
                             "url": "http://feeds.feedburner.com/chinatimes/realtimenews-technology"
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "country_name": "香港",
+            "country_code": "HK",
+            "news_providers": [
                 {
                     "provider_name": "Google 新聞",
             	    "provider_id": "1",

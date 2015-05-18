@@ -123,7 +123,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-2310680050309555/8477940628"/>
+        ads:adUnitId="ca-app-pub-2310680050309555/5817937829"/>
 
     <View
         android:id="@+id/newsfeed_detail_loading_cover"

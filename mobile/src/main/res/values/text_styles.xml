@@ -69,23 +69,26 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_gravity">bottom</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
-        <item name="android:textSize">@dimen/main_newsfeed_title_text_size</item>
+        <item name="android:textSize">@dimen/main_bottom_news_feed_title_text_size</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <!-- Detail -->
-    <style name="NewsFeedDetailTitle">
+    <style name="NewsFeedDetailTitleBase">
         <item name="android:paddingTop">@dimen/detail_text_padding</item>
         <item name="android:paddingLeft">@dimen/detail_text_padding</item>
         <item name="android:paddingRight">@dimen/detail_text_padding</item>
         <item name="android:gravity">start</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">@integer/news_feed_detail_title_max_line</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:text">U.S. Weighs Military Action Against ISIS in Syria</item>
     </style>
 
-    <style name="NewsFeedDetailDescription">
+    <style name="NewsFeedDetailTitle" parent="NewsFeedDetailTitleBase">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <style name="NewsFeedDetailDescriptionBase">
         <item name="android:paddingTop">@dimen/detail_text_inner_padding</item>
         <item name="android:paddingLeft">@dimen/detail_text_padding</item>
         <item name="android:paddingRight">@dimen/detail_text_padding</item>
@@ -93,27 +96,18 @@
         <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">@integer/news_feed_detail_description_text_max_line</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-        <item name="android:textSize">@dimen/text_size_body_1_material</item>
         <item name="android:text">The United States is open to the possibility of military action against Islamist militants in Syria, a top Obama Administration official said Friday, warning that the U.S. will do what is necessary to protect Americans</item>
     </style>
 
-    <!-- Debug -->
-    <style name="AutoScrollSettingDialogEditText" >
-        <item name="android:layout_width">0px</item>
-        <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:inputType">numberDecimal</item>
-        <item name="android:gravity">center</item>
-        <item name="android:selectAllOnFocus">true</item>
-        <item name="android:imeOptions">actionNext</item>
-        <item name="android:padding">@dimen/main_top_view_pager_page_margin</item>
+    <style name="NewsFeedDetailDescription" parent="NewsFeedDetailDescriptionBase">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textSize">@dimen/text_size_body_1_material</item>
     </style>
 
     <!-- Debug -->
     <style name="BezierDialogEditText" >
         <item name="android:layout_width">0px</item>
-        <item name="android:layout_height">@dimen/dialog_bezier_row_height</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:inputType">numberDecimal</item>
         <item name="android:selectAllOnFocus">true</item>

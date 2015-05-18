@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +34,7 @@ import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.newskit.ui.adapter.NewsSelectRecyclerAdapter;
-import com.yooiistudios.newskit.ui.fragment.CustomRssDialogFragment;
+import com.yooiistudios.newskit.ui.fragment.dialog.CustomRssDialogFragment;
 import com.yooiistudios.newskit.ui.widget.viewpager.SlidingTabLayout;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 
@@ -53,6 +54,7 @@ public class NewsSelectActivity extends ActionBarActivity
     @InjectView(R.id.news_select_adView)            AdView mAdView;
 
     private NewsFeed mCurrentNewsFeed;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,10 +123,20 @@ public class NewsSelectActivity extends ActionBarActivity
         }
     }
 
+    private void makeMenu() {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if (mMenu != null) {
+            mMenu.removeItem(R.id.action_custom_news_feed);
+            MenuItem item = mMenu.add(Menu.NONE, R.id.action_custom_news_feed, 0, R.string.custom_news_feed_menu_item_title);
+            item.setIcon(R.drawable.ic_rss_normal);
+            MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.news_select, menu);
+        mMenu = menu;
+        makeMenu();
         return true;
     }
 
@@ -165,6 +177,12 @@ public class NewsSelectActivity extends ActionBarActivity
         // Activity no longer visible
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        makeMenu();
     }
 
     @Override

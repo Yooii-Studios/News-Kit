@@ -24,6 +24,7 @@ import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.RssFetchable;
 import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.core.news.util.NewsFeedArchiveUtils;
+import com.yooiistudios.newskit.core.news.util.NewsFeedValidator;
 import com.yooiistudios.newskit.core.ui.animation.activitytransition.ActivityTransitionHelper;
 import com.yooiistudios.newskit.core.util.Device;
 import com.yooiistudios.newskit.core.util.Display;
@@ -213,12 +214,14 @@ public class MainTopContainerLayout extends FrameLayout
             mIsReady = false;
             fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
         } else {
-            if (mTopNewsFeedPagerAdapter.getNewsFeed().isDisplayable()) {
-                notifyNewTopNewsFeedSet();
-                fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
-            } else {
+            boolean shouldFetch =
+                    NewsFeedValidator.shouldTryToFetch(mTopNewsFeedPagerAdapter.getNewsFeed());
+            if (shouldFetch) {
                 mIsReady = false;
                 fetchTopNewsFeed(TopNewsFeedFetchTask.TaskType.INITIALIZE);
+            } else {
+                notifyNewTopNewsFeedSet();
+                fetchFirstNewsImage(TopFeedNewsImageUrlFetchTask.TaskType.INITIALIZE);
             }
         }
 

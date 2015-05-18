@@ -44,6 +44,58 @@
                             "url": "http://www.bharian.com.my/kolumnis.xml"
                         }
                     ]
+                },
+                {
+                    "provider_name": "Harian Metro",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Berita Utama",
+                            "topic_id": "1",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=BeritaUtama",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Mutakhir",
+                            "topic_id": "2",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=Mutakhir"
+                        },
+                        {
+                            "topic_name": "Setempat",
+                            "topic_id": "3",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=Setempat"
+                        },
+                        {
+                            "topic_name": "Bisnes",
+                            "topic_id": "4",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=Bisnes"
+                        },
+                        {
+                            "topic_name": "Arena",
+                            "topic_id": "5",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=Arena"
+                        },
+                        {
+                            "topic_name": "Gen Y",
+                            "topic_id": "6",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=GenY"
+                        },
+                        {
+                            "topic_name": "Rap",
+                            "topic_id": "7",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=Rap"
+                        },
+                        {
+                            "topic_name": "Hati",
+                            "topic_id": "8",
+                            "url": "http://www2.hmetro.com.my/myMetro/rss/rss_html?section=Hati"
+                        },
+                        {
+                            "topic_name": "Vroom",
+                            "topic_id": "9",
+                            "url": "http://www.hmetro.com.my/myMetro/rss/rssc_html?category=varVroom"
+                        }
+                    ]
                 }
             ]
         }

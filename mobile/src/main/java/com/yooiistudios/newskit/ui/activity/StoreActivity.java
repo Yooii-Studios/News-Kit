@@ -1,5 +1,6 @@
 package com.yooiistudios.newskit.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,13 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,32 +27,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrix;
 import com.yooiistudios.newskit.core.panelmatrix.PanelMatrixUtils;
-import com.yooiistudios.newskit.core.util.Md5Utils;
+import com.yooiistudios.newskit.iab.GoogleIabManager;
+import com.yooiistudios.newskit.iab.IabListener;
 import com.yooiistudios.newskit.iab.IabManager;
-import com.yooiistudios.newskit.iab.IabManagerListener;
 import com.yooiistudios.newskit.iab.IabProducts;
-import com.yooiistudios.newskit.iab.util.IabHelper;
-import com.yooiistudios.newskit.iab.util.IabResult;
-import com.yooiistudios.newskit.iab.util.Inventory;
-import com.yooiistudios.newskit.iab.util.Purchase;
+import com.yooiistudios.newskit.iab.NaverIabManager;
 import com.yooiistudios.newskit.ui.adapter.StoreProductItemAdapter;
 import com.yooiistudios.newskit.ui.widget.AutoResizeTextView;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 import com.yooiistudios.newskit.util.StoreDebugCheckUtils;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class StoreActivity extends ActionBarActivity implements IabManagerListener,
-        StoreProductItemAdapter.StoreItemOnClickListener, IabHelper.OnIabPurchaseFinishedListener {
+public class StoreActivity extends ActionBarActivity implements IabListener,
+        StoreProductItemAdapter.StoreItemOnClickListener {
     private static final String TAG = StoreActivity.class.getName();
     private IabManager mIabManager;
 
@@ -107,13 +107,19 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     }
 
     private void initIab() {
-        mIabManager = new IabManager(this, this);
-        mIabManager.loadWithAllItems();
+        if (isUsingGoogleStore()) {
+            mIabManager = new GoogleIabManager(this, this);
+        } else if (isUsingNaverStore()) {
+            mIabManager = new NaverIabManager(this, this);
+        }
+        mIabManager.setup();
     }
 
     private void initToolbar() {
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mToolbar.setElevation(getResources().getDimension(R.dimen.store_toolbar_elevation));
         }
@@ -187,6 +193,14 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
         }
     }
 
+    private boolean isUsingGoogleStore() {
+        return IabInfo.STORE_TYPE == IabProducts.StoreType.GOOGLE;
+    }
+
+    private boolean isUsingNaverStore() {
+        return IabInfo.STORE_TYPE == IabProducts.StoreType.NAVER;
+    }
+
     /**
      * Loading
      */
@@ -220,17 +234,15 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        boolean handled = false;
         if (mIabManager != null) {
-            if (mIabManager.getHelper() == null) return;
-
-            // Pass on the activity result to the helper for handling
-            if (!mIabManager.getHelper().handleActivityResult(requestCode, resultCode, data)) {
-                // not handled, so handle it ourselves (here's where you'd
-                // perform any handling of activity results not related to in-app
-                // billing...
-                super.onActivityResult(requestCode, resultCode, data);
-            }
+            handled = !mIabManager.isHelperDisposed()
+                    && mIabManager.handleActivityResult(requestCode, resultCode, data);
         } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+        if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -245,7 +257,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
 
     public void onPriceButtonClicked(View view) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            mIabManager.processPurchase(IabProducts.SKU_PRO_VERSION, this);
+            purchase(IabProducts.SKU_PRO_VERSION);
         } else {
             IabProducts.saveIabProduct(IabProducts.SKU_PRO_VERSION, this);
             initUI();
@@ -256,13 +268,17 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     }
 
     @Override
-    public void onItemPriceButtonClicked(String sku) {
+    public void onItemPriceButtonClicked(String googleSku) {
         if (StoreDebugCheckUtils.isUsingStore(this)) {
-            mIabManager.processPurchase(sku, this);
+            purchase(googleSku);
         } else {
-            IabProducts.saveIabProduct(sku, this);
+            IabProducts.saveIabProduct(googleSku, this);
             initUI();
         }
+    }
+
+    private void purchase(String googleSku) {
+        mIabManager.purchase(googleSku);
     }
 
     /**
@@ -288,7 +304,7 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
         // 디버그 상태에서 구매했던 아이템들을 리셋
         if (StoreDebugCheckUtils.isUsingStore(this)) {
             if (mIabManager != null) {
-                mIabManager.loadWithAllItems();
+                mIabManager.setup();
             }
             initUI();
         } else {
@@ -309,14 +325,24 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     }
 
     @Override
-    public void onIabSetupFinished(IabResult result) {
+    public void onIabSetupFinished() {}
 
+    @Override
+    public void onIabSetupFailed(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        hideStoreLoading();
     }
 
     @Override
-    public void onIabSetupFailed(IabResult result) {
+    public void onQueryFinished(Map<String, String> googleSkuToPriceMap) {
+        initUIOnQueryFinished(googleSkuToPriceMap);
+        hideStoreLoading();
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
         try {
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -324,140 +350,91 @@ public class StoreActivity extends ActionBarActivity implements IabManagerListen
     }
 
     @Override
-    public void onQueryFinished(Inventory inventory) {
-        initUIOnQueryFinished(inventory);
-        hideStoreLoading();
+    public void onIabPurchaseFinished(String googleSku) {
+        updateUIOnPurchase(googleSku);
     }
 
     @Override
-    public void onQueryFailed(IabResult result) {
-        try {
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        hideStoreLoading();
+    public void onIabPurchaseFailed(String message) {
+        showComplain("Purchase Failed: " + message);
     }
 
-    @Override
-    public void onIabPurchaseFinished(IabResult result, Purchase info) {
-        // 구매된 리스트를 확인해 SharedPreferences 에 적용하기
-        if (result.isSuccess()) {
-            Toast.makeText(this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-            // 창하님 조언으로 수정: payload 는 sku 의 md5해시값으로 비교해 해킹을 방지
-            if (info != null && info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
-                // 프레퍼런스에 저장
-                IabProducts.saveIabProduct(info.getSku(), this);
-                updateUIOnPurchase(info);
-            } else if (info == null) {
-                showComplain("No purchase info");
-            } else {
-                showComplain("Payload problem");
-                if (!info.getDeveloperPayload().equals(Md5Utils.getMd5String(info.getSku()))) {
-                    Log.e("StoreActivity", "payload not equals to md5 hash of sku");
-                }
-            }
-
-            /*
-            if (info != null && info.getDeveloperPayload().equals(MNMd5Utils.getMd5String(info.getSku())) &&
-                    info.getOrderId().length() == 37) {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(MNFlurry.PURCHASE_ANALYSIS, MNFlurry.NORMAL_PURCHASE);
-                FlurryAgent.logEvent(MNFlurry.STORE, params);
-            } else if (info != null && info.getDeveloperPayload().equals(MNMd5Utils.getMd5String(info.getSku())) &&
-                    info.getOrderId().length() != 37) {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(MNFlurry.PURCHASE_ANALYSIS, MNFlurry.ORDER_ID_LENGTH_NOT_37);
-                FlurryAgent.logEvent(MNFlurry.STORE, params);
-            } else if (info != null && !info.getDeveloperPayload().equals(MNMd5Utils.getMd5String(info.getSku())) &&
-                    info.getOrderId().length() == 37) {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(MNFlurry.PURCHASE_ANALYSIS, MNFlurry.MD5_ERROR);
-                FlurryAgent.logEvent(MNFlurry.STORE, params);
-            }
-            */
-        } else {
-            showComplain("Purchase Failed: " + result.getMessage());
-        }
+    private void showComplain(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void showComplain(String string) {
-        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
-    }
-
-    private void initUIOnQueryFinished(Inventory inventory) {
-        if (inventory.hasDetails(IabProducts.SKU_PRO_VERSION)) {
-            if (StoreDebugCheckUtils.isUsingStore(this)) {
-                // Full version
-                if (inventory.hasPurchase(IabProducts.SKU_PRO_VERSION)) {
-                    mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-                    mOriginalPriceTextView.setVisibility(View.INVISIBLE);
-                    mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
-                    mPurchasedTextView.setVisibility(View.VISIBLE);
-                    mThankYouTextView.setVisibility(View.VISIBLE);
-                    mBannerImageView.setClickable(false);
-                    mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
-                    mPriceImageView.setClickable(false);
-                } else {
-                    if (inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL) != null) {
-                        mOriginalPriceTextView.setText(
-                                inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL).getPrice());
-                    } else {
-                        mOriginalPriceTextView.setText("$4.99");
-                    }
-                    mDiscountedPriceTextView.setText(
-                            inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION).getPrice());
-
-                    mBannerImageView.setClickable(true);
-                    mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);
-                    mPriceImageView.setClickable(true);
-                }
-                mProductListView.setAdapter(new StoreProductItemAdapter(this, inventory, this));
-            } else {
-                initUIOnQueryFinishedDebug();
-            }
-        }
-    }
-
-    private void updateUIOnPurchase(Purchase info) {
-        if (info.getSku().equals(IabProducts.SKU_PRO_VERSION)) {
+    private void initUIOnQueryFinished(Map<String, String> googleSkuToPriceMap) {
+        if (StoreDebugCheckUtils.isUsingStore(this)) {
+            Context context = getApplicationContext();
+            List<String> ownedProducts = IabProducts.loadOwnedIabProducts(context);
             // Full version
-            mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-            mOriginalPriceTextView.setVisibility(View.INVISIBLE);
-            mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
-            mPurchasedTextView.setVisibility(View.VISIBLE);
-            mThankYouTextView.setVisibility(View.VISIBLE);
-            mBannerImageView.setClickable(false);
-            mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
-            mPriceImageView.setClickable(false);
-            // 풀버전 구매시 2X3으로 변경해줌
+            if (ownedProducts.contains(IabProducts.SKU_PRO_VERSION)) {
+                disableProVersion();
+            } else {
+//                if (inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL) != null) {
+                mOriginalPriceTextView.setText(
+                        googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION_ORIGINAL));
+                // IabManager 에서 inventory 가 모든 sku 의 정보를 가지고 있는지 체크하므로 필요 없을 것이라 예상
+//                } else {
+//                    mOriginalPriceTextView.setText("$4.99");
+//                }
+                mDiscountedPriceTextView.setText(
+                        googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION));
+
+                mBannerImageView.setClickable(true);
+                mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);
+                mPriceImageView.setClickable(true);
+            }
+            mProductListView.setAdapter(new StoreProductItemAdapter(context, googleSkuToPriceMap, this));
+        } else {
+            initUIOnQueryFinishedDebug();
+        }
+    }
+
+    private void updateUIOnPurchase(String sku) {
+        if (sku.equals(IabProducts.SKU_PRO_VERSION)) {
+            // Full version
+            disableProVersion();
+        }
+
+        if (sku.equals(IabProducts.SKU_PRO_VERSION) || sku.equals(IabProducts.SKU_MORE_PANELS)) {
+            // 패널 관련 구매시 2X3으로 변경해줌
             PanelMatrixUtils.setCurrentPanelMatrix(PanelMatrix.THREE_BY_TWO, this);
         }
-        ((StoreProductItemAdapter)mProductListView.getAdapter()).updateOnPurchase();
+
+        HeaderViewListAdapter adapter = (HeaderViewListAdapter)mProductListView.getAdapter();
+        ((StoreProductItemAdapter)adapter.getWrappedAdapter()).updateOnPurchase();
     }
 
     private void initUIOnQueryFinishedDebug() {
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(this);
         if (ownedSkus.contains(IabProducts.SKU_PRO_VERSION)) {
-            mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
-            mOriginalPriceTextView.setVisibility(View.INVISIBLE);
-            mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
-            mPurchasedTextView.setVisibility(View.VISIBLE);
-            mThankYouTextView.setVisibility(View.VISIBLE);
-            mBannerImageView.setClickable(false);
-            mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
-            mPriceImageView.setClickable(false);
+            disableProVersion();
         } else {
-            mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_price_selector);
-            mOriginalPriceTextView.setVisibility(View.VISIBLE);
-            mDiscountedPriceTextView.setVisibility(View.VISIBLE);
-            mPurchasedTextView.setVisibility(View.INVISIBLE);
-            mThankYouTextView.setVisibility(View.INVISIBLE);
-            mBannerImageView.setClickable(true);
-            mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);
-            mPriceImageView.setClickable(true);
+            enableProVersion();
         }
+    }
+
+    private void enableProVersion() {
+        mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_price_selector);
+        mOriginalPriceTextView.setVisibility(View.VISIBLE);
+        mDiscountedPriceTextView.setVisibility(View.VISIBLE);
+        mPurchasedTextView.setVisibility(View.INVISIBLE);
+        mThankYouTextView.setVisibility(View.INVISIBLE);
+        mBannerImageView.setClickable(true);
+        mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);
+        mPriceImageView.setClickable(true);
+    }
+
+    private void disableProVersion() {
+        mPriceImageView.setBackgroundResource(R.drawable.store_btn_banner_purchased);
+        mOriginalPriceTextView.setVisibility(View.INVISIBLE);
+        mDiscountedPriceTextView.setVisibility(View.INVISIBLE);
+        mPurchasedTextView.setVisibility(View.VISIBLE);
+        mThankYouTextView.setVisibility(View.VISIBLE);
+        mBannerImageView.setClickable(false);
+        mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner);
+        mPriceImageView.setClickable(false);
     }
 
     @Override

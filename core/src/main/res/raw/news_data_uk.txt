@@ -1,0 +1,68 @@
+{
+    "lang_name_english": "Ukrainian",
+    "lang_name_regional": "Украї́нська",
+    "lang_code": "uk",
+    "region_code": "",
+    "countries": [
+        {
+            "country_name": "Україна",
+            "country_code": "UA",
+            "news_providers": [
+                {
+                    "provider_name": "Google Новини",
+            	    "provider_id": "1",
+            	    "topics": [
+                        {
+                            "topic_name": "Головні новини",
+                            "topic_id": "1",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&output=rss",
+                            "isDefault": "true"
+                        },
+                        {
+                            "topic_name": "Світ",
+                            "topic_id": "2",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&topic=w&output=rss"
+                        },
+                        {
+                            "topic_name": "Україна",
+                            "topic_id": "3",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&topic=n&output=rss"
+                        },
+                        {
+                            "topic_name": "Бізнес",
+                            "topic_id": "4",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&topic=b&output=rss"
+                        },
+                        {
+                            "topic_name": "Наука та техніка",
+                            "topic_id": "5",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&topic=t&output=rss"
+                        },
+                        {
+                            "topic_name": "Розваги / Культура",
+                            "topic_id": "6",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&topic=e&output=rss"
+                        },
+                        {
+                            "topic_name": "Спорт",
+                            "topic_id": "7",
+                            "url": "http://news.google.com/news?cf=all&ned=uk_ua&hl=uk&topic=s&output=rss"
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "Ekspres",
+            	    "provider_id": "2",
+            	    "topics": [
+                        {
+                            "topic_name": "Ekspres",
+                            "topic_id": "1",
+                            "url": "http://expres.ua/rss.xml",
+                            "isDefault": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

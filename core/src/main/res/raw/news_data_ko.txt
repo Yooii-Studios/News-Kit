@@ -67,13 +67,13 @@
                         {
                             "topic_name": "전체기사",
                             "topic_id": "1",
-                            "url": "http://www.hani.co.kr/rss/"
+                            "url": "http://www.hani.co.kr/rss/",
+                            "isDefault": "true"
                         },
                         {
                             "topic_name": "주요기사",
                             "topic_id": "2",
-                            "url": "http://www.hani.co.kr/rss/lead/",
-                            "isDefault": "true"
+                            "url": "http://www.hani.co.kr/rss/lead/"
                         },
                         {
                             "topic_name": "인기기사",
@@ -124,13 +124,13 @@
                         {
                             "topic_name": "속보",
                             "topic_id": "1",
-                            "url": "http://www.chosun.com/site/data/rss/rss.xml"
+                            "url": "http://www.chosun.com/site/data/rss/rss.xml",
+                            "isDefault": "true"
                         },
                         {
                             "topic_name": "오늘의 주요뉴스",
                             "topic_id": "2",
-                            "url": "http://myhome.chosun.com/rss/www_section_rss.xml",
-                            "isDefault": "true"
+                            "url": "http://myhome.chosun.com/rss/www_section_rss.xml"
                         },
                         {
                             "topic_name": "정치",
@@ -181,13 +181,13 @@
                         {
                             "topic_name": "전체기사",
                             "topic_id": "1",
-                            "url": "http://rss.joins.com/joins_news_list.xml"
+                            "url": "http://rss.joins.com/joins_news_list.xml",
+                            "isDefault": "true"
                         },
                         {
                             "topic_name": "주요기사",
                             "topic_id": "2",
-                            "url": "http://rss.joins.com/joins_homenews_list.xml",
-                            "isDefault": "true"
+                            "url": "http://rss.joins.com/joins_homenews_list.xml"
                         },
                         {
                             "topic_name": "경제",
@@ -461,11 +461,18 @@
                             "topic_name": "연예",
                             "topic_id": "9",
                             "url": "http://rss.hankyung.com/new/news_enter.xml"
-                        },
+                        }
+                    ]
+                },
+                {
+                    "provider_name": "씨넷",
+            	    "provider_id": "9",
+            	    "topics": [
                         {
-                            "topic_name": "한경 칼럼",
-                            "topic_id": "10",
-                            "url": "http://rss.hankyung.com/new/column_all.xml"
+                            "topic_name": "씨넷",
+                            "topic_id": "1",
+                            "url": "http://feeds.feedburner.com/CNETKorea",
+                            "isDefault": "true"
                         }
                     ]
                 }
