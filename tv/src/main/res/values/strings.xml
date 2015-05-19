@@ -3,6 +3,8 @@
 
     <!-- Main -->
     <string name="all_news">All News</string>
+    <string name="copy_db">Copy DB</string>
+    <string name="remove_db">Remove DB</string>
 
     <!-- Details -->
     <string name="open_link">Open Link</string>
