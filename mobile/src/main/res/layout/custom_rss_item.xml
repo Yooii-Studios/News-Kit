@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_rss_item_title_textview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/base_margin"
+    android:text="http://naver.com"
+    android:textColor="@color/material_black_secondary_text"
+    android:textSize="@dimen/setting_item_title_text_size"
+    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+    android:includeFontPadding="false"/>

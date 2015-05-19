@@ -1,5 +1,6 @@
 package com.yooiistudios.newskit.ui.activity;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -10,12 +11,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
+import com.yooiistudios.newskit.model.news.CustomRssHistoryUtils;
 import com.yooiistudios.newskit.ui.adapter.CustomRssAdapter;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 
@@ -28,7 +33,7 @@ import butterknife.InjectView;
  * CustomRssActivity
  *  뉴스 선택 - 커스텀 RSS 전용 액티비티
  */
-public class CustomRssActivity extends AppCompatActivity {
+public class CustomRssActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = CustomRssActivity.class.getName();
 
     @InjectView(R.id.custom_rss_toolbar) Toolbar mToolbar;
@@ -50,7 +55,7 @@ public class CustomRssActivity extends AppCompatActivity {
 
         initToolbar();
         initEditLayout();
-        initRssList();
+        initListView();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
@@ -78,7 +83,8 @@ public class CustomRssActivity extends AppCompatActivity {
         mEditLayout.bringToFront();
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -90,12 +96,15 @@ public class CustomRssActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
+        mEditText.requestFocus();
     }
 
-    private void initRssList() {
+    private void initListView() {
         mListView.setAdapter(new CustomRssAdapter(this));
+        mListView.setOnItemClickListener(this);
     }
 
     @Override
@@ -118,7 +127,6 @@ public class CustomRssActivity extends AppCompatActivity {
                 R.string.ok);
         item.setIcon(R.drawable.ic_check_black_28dp);
         mDoneItem = item;
-//        mDoneItem.setEnabled(false);
         mDoneItem.setVisible(false);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
         return super.onCreateOptionsMenu(menu);
@@ -128,7 +136,58 @@ public class CustomRssActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+        } else if (item.getItemId() == R.id.action_custom_news_feed_ok){
+            String url = makeUrlString();
+            if (url != null) {
+                CustomRssHistoryUtils.addUrlToHistory(this, url);
+                getIntent().putExtra(NewsSelectActivity.KEY_CUSTOM_URL, url);
+                setResult(Activity.RESULT_OK, getIntent());
+            }
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private String makeUrlString() {
+        String url = mEditText.getText()
+                .toString().replaceAll("\\s+", "");
+
+        // add "http://" if it's not entered.
+        if (!url.toLowerCase().matches("^\\w+://.*")) {
+            url = "http://" + url;
+        }
+        return url;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (position != 0) {
+            String url = ((TextView) view.findViewById(R.id.custom_rss_item_title_textview))
+                    .getText().toString();
+            CustomRssHistoryUtils.addUrlToHistory(this, url);
+            getIntent().putExtra(NewsSelectActivity.KEY_CUSTOM_URL, url);
+            setResult(Activity.RESULT_OK, getIntent());
+            finish();
+        }
+    }
+
+    /*
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setTitle(R.string.custom_rss_remove_rss);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // -1 은 헤더 위치를 빼고 삭제하는 것
+                CustomRssHistoryUtils.removeUrlAtIndex(CustomRssActivity.this, position - 1);
+                initListView();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.create().show();
+        return true;
+    }
+    */
 }

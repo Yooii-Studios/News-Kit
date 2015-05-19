@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:paddingRight="@dimen/base_margin_half"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/app_color_primary"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
@@ -54,8 +55,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/custom_rss_edit_layout"
-        android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginBottom="@dimen/base_margin"/>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        tools:listitem="@layout/setting_item_single"/>
 
     <View
         android:layout_width="match_parent"
