@@ -35,10 +35,12 @@ import android.util.DisplayMetrics;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.yooiistudios.newskit.core.debug.DebugSettings;
 import com.yooiistudios.newskit.core.news.News;
 import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.core.ui.animation.activitytransition.ActivityTransitionProperty;
+import com.yooiistudios.newskit.core.util.ExternalStorage;
 import com.yooiistudios.newskit.tv.R;
 import com.yooiistudios.newskit.tv.PicassoBackgroundManagerTarget;
 import com.yooiistudios.newskit.tv.ui.activity.MainActivity;
@@ -108,7 +110,7 @@ public class MainFragment extends NewsBrowseFragment {
             rowsAdapter.add(makeListRow(newsFeed, i + 1));
         }
 
-        HeaderItem SettingHeader = new HeaderItem(bottomNewsFeeds.size(),
+        HeaderItem settingHeader = new HeaderItem(bottomNewsFeeds.size(),
                 getString(R.string.settings), null);
 
         SettingItemPresenter settingItemPresenter = new SettingItemPresenter();
@@ -119,12 +121,15 @@ public class MainFragment extends NewsBrowseFragment {
                 R.drawable.ic_tv_link_white_48dp);
         settingRowAdapter.add(pairObject);
 
-        /*
-        SettingItemPresenter.SettingObject removeDbObject = new SettingItemPresenter.SettingObject(
-                R.string.remove_db);
-        settingRowAdapter.add(removeDbObject);
-        */
-        rowsAdapter.add(new ListRow(SettingHeader, settingRowAdapter));
+        if (DebugSettings.isDebugBuild()) {
+            SettingItemPresenter.SettingObject removeDbObject = new SettingItemPresenter.SettingObject(
+                    R.string.remove_db);
+            settingRowAdapter.add(removeDbObject);
+            SettingItemPresenter.SettingObject copyDbObject = new SettingItemPresenter.SettingObject(
+                    R.string.copy_db);
+            settingRowAdapter.add(copyDbObject);
+        }
+        rowsAdapter.add(new ListRow(settingHeader, settingRowAdapter));
 
         setAdapter(rowsAdapter);
     }
@@ -285,10 +290,14 @@ public class MainFragment extends NewsBrowseFragment {
                 if (titleId == R.string.pair_title) {
                     clearBackground();
                     startPairActivity(itemViewHolder);
-//                } else if (titleId == R.string.copy_db) {
-//                    NewsDb.copyDbToExternalStorage(getActivity());
-//                } else if (titleId == R.string.remove_db) {
-//                    NewsDb.getInstance(getActivity()).clearArchive();
+                } else if (titleId == R.string.copy_db) {
+                    try {
+                        NewsDb.copyDbToExternalStorage(getActivity());
+                    } catch (ExternalStorage.ExternalStorageException e) {
+                        e.printStackTrace();
+                    }
+                } else if (titleId == R.string.remove_db) {
+                    NewsDb.getInstance(getActivity()).clearArchiveDebug();
                 }
             }
         }
