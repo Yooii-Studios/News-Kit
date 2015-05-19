@@ -2,12 +2,21 @@ package com.yooiistudios.newskit.ui.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
+import com.yooiistudios.newskit.ui.adapter.CustomRssAdapter;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 
 import butterknife.ButterKnife;
@@ -23,7 +32,11 @@ public class CustomRssActivity extends AppCompatActivity {
     private static final String TAG = CustomRssActivity.class.getName();
 
     @InjectView(R.id.custom_rss_toolbar) Toolbar mToolbar;
+    @InjectView(R.id.custom_rss_edittext) AppCompatEditText mEditText;
+    @InjectView(R.id.custom_rss_edit_layout) RelativeLayout mEditLayout;
+    @InjectView(R.id.custom_rss_listview) ListView mListView;
 
+    private MenuItem mDoneItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +48,9 @@ public class CustomRssActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom_rss);
         ButterKnife.inject(this);
 
-//        initNewsFeed();
-//        initViewPager();
         initToolbar();
-//        initSlidingTab();
-//        initAdView();
+        initEditLayout();
+        initRssList();
         AnalyticsUtils.startAnalytics((NewsApplication) getApplication(), TAG);
     }
 
@@ -47,11 +58,44 @@ public class CustomRssActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mToolbar.setElevation(getResources()
                     .getDimensionPixelSize(R.dimen.news_select_elevation));
+            mEditLayout.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
         }
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         // sans-serif-medium, 20sp
         mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
+    }
+
+    private void initEditLayout() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mEditLayout.setElevation(getResources()
+                    .getDimensionPixelSize(R.dimen.news_select_elevation));
+        }
+        mEditLayout.bringToFront();
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    mDoneItem.setVisible(true);
+                } else {
+                    mDoneItem.setVisible(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void initRssList() {
+        mListView.setAdapter(new CustomRssAdapter(this));
     }
 
     @Override
@@ -66,5 +110,25 @@ public class CustomRssActivity extends AppCompatActivity {
         // Activity no longer visible
         super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item = menu.add(Menu.NONE, R.id.action_custom_news_feed_ok, 0,
+                R.string.ok);
+        item.setIcon(R.drawable.ic_check_black_28dp);
+        mDoneItem = item;
+//        mDoneItem.setEnabled(false);
+        mDoneItem.setVisible(false);
+        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

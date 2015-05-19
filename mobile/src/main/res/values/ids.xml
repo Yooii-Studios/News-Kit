@@ -22,4 +22,5 @@
 
     <!-- News Select -->
     <item name="action_custom_news_feed" type="id"/>
+    <item name="action_custom_news_feed_ok" type="id"/>
 </resources>

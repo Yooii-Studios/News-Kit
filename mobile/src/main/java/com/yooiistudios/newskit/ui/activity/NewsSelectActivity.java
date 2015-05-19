@@ -1,9 +1,6 @@
 package com.yooiistudios.newskit.ui.activity;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -150,16 +147,8 @@ public class NewsSelectActivity extends ActionBarActivity
                     Toast.makeText(this, R.string.store_buy_pro_version, Toast.LENGTH_LONG).show();
                     return true;
                 }
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
 
-                // Create and show the dialog.
-                DialogFragment newFragment = CustomRssDialogFragment.newInstance();
-                newFragment.show(ft, "dialog");
+                startActivity(new Intent(this, CustomRssActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
