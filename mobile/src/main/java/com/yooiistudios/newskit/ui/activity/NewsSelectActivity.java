@@ -1,16 +1,13 @@
 package com.yooiistudios.newskit.ui.activity;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +22,7 @@ import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.NewsFeedUrl;
+import com.yooiistudios.newskit.core.news.NewsFeedUrlType;
 import com.yooiistudios.newskit.core.news.NewsTopic;
 import com.yooiistudios.newskit.core.news.RssFetchable;
 import com.yooiistudios.newskit.core.news.curation.NewsContentProvider;
@@ -34,18 +32,18 @@ import com.yooiistudios.newskit.core.news.database.NewsDb;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.ui.adapter.NewsSelectPagerAdapter;
 import com.yooiistudios.newskit.ui.adapter.NewsSelectRecyclerAdapter;
-import com.yooiistudios.newskit.ui.fragment.dialog.CustomRssDialogFragment;
 import com.yooiistudios.newskit.ui.widget.viewpager.SlidingTabLayout;
 import com.yooiistudios.newskit.util.AnalyticsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class NewsSelectActivity extends ActionBarActivity
-        implements CustomRssDialogFragment.OnActionListener,
-        NewsSelectRecyclerAdapter.OnSelectionListener {
+public class NewsSelectActivity extends AppCompatActivity
+        implements NewsSelectRecyclerAdapter.OnSelectionListener {
     public static final int RC_NEWS_SELECT_DETAIL = 38451;
+    public static final int RC_NEWS_SELECT_CUSTOM_RSS = 58136;
     public static final String KEY_RSS_FETCHABLE = "key_selected_rss_fetchable";
+    public static final String KEY_CUSTOM_URL = "key_custom_url";
     private static final String TAG = NewsSelectActivity.class.getName();
 
     @InjectView(R.id.news_select_toolbar)           Toolbar mToolbar;
@@ -150,16 +148,9 @@ public class NewsSelectActivity extends ActionBarActivity
                     Toast.makeText(this, R.string.store_buy_pro_version, Toast.LENGTH_LONG).show();
                     return true;
                 }
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
 
-                // Create and show the dialog.
-                DialogFragment newFragment = CustomRssDialogFragment.newInstance();
-                newFragment.show(ft, "dialog");
+                startActivityForResult(new Intent(this, CustomRssActivity.class),
+                        RC_NEWS_SELECT_CUSTOM_RSS);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -211,7 +202,6 @@ public class NewsSelectActivity extends ActionBarActivity
         startActivityForResult(intent, RC_NEWS_SELECT_DETAIL);
     }
 
-    @Override
     public void onEnterCustomRss(NewsFeedUrl feedUrl) {
 //        getIntent().putExtra(KEY_RSS_FETCHABLE, feedUrl);
 //        setResult(Activity.RESULT_OK, getIntent());
@@ -238,6 +228,10 @@ public class NewsSelectActivity extends ActionBarActivity
                     archive(newsTopic);
                     setResult(Activity.RESULT_OK, getIntent());
                     finish();
+                    break;
+                case RC_NEWS_SELECT_CUSTOM_RSS:
+                    onEnterCustomRss(new NewsFeedUrl(extras.getString(KEY_CUSTOM_URL),
+                            NewsFeedUrlType.CUSTOM));
                     break;
             }
         }

@@ -147,4 +147,7 @@
 	<string name="setting_general_sub_header">Allgemein</string>
 	<string name="setting_notification">Benachrichtigungen</string>
 	<string name="setting_pair_tv_insert_code">Insert Code</string>
+
+	<!-- Custom RSS -->
+	<string name="custom_rss_recent_list">Recently used RSS</string>
 </resources>

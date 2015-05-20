@@ -68,7 +68,9 @@ public class NewsSelectDetailActivity extends ActionBarActivity {
 
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // sans-serif-medium, 20sp
         mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Title);
