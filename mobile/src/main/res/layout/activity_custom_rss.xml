@@ -31,6 +31,7 @@
             android:paddingLeft="@dimen/base_margin_small"
             android:textColor="@color/material_black_secondary_text"
             android:text="@string/custom_news_feed_url"
+            android:textSize="@dimen/morningkit_ad_guide_text_size"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"/>
         <!--android:background="@color/material_amber_500"-->
 
