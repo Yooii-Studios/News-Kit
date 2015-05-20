@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yooiistudios.newskit.R;
@@ -55,7 +56,7 @@ public class CustomRssAdapter extends BaseAdapter {
 
     @SuppressLint("ViewHolder")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
 
         switch (position) {
@@ -74,6 +75,15 @@ public class CustomRssAdapter extends BaseAdapter {
                 TextView titleTextView = (TextView) view.findViewById(R.id.custom_rss_item_title_textview);
                 titleTextView.setText(mRssHistoryList.get(position - 1));
                 titleTextView.setPaintFlags(titleTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+                ImageView removeImageView = (ImageView) view.findViewById(R.id.custom_rss_item_remove_imageview);
+                removeImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomRssHistoryUtils.removeUrlAtIndex(mContext, position - 1);
+                        notifyDataSetChanged();
+                    }
+                });
                 break;
             }
         }

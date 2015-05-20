@@ -7,7 +7,7 @@ package com.yooiistudios.newskit.core.debug;
  *  개발자 세팅을 켜고 끌 수 있도록 함
  */
 public class DebugSettings {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private static final boolean DEBUG_LOG = true;
     private static final boolean DEBUG_STRICT_MODE = true;
 
