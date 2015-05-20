@@ -4,12 +4,15 @@
 
     <ImageView
         android:id="@+id/custom_rss_item_remove_imageview"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/custom_news_feed_remove_image_size"
+        android:layout_height="@dimen/custom_news_feed_remove_image_size"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/base_margin_middle"
-        android:src="@drawable/ic_close_grey600_24dp"/>
+        android:padding="@dimen/base_margin_small"
+        android:src="@drawable/ic_close_grey600_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/content_description"/>
 
     <TextView
         android:id="@+id/custom_rss_item_title_textview"
