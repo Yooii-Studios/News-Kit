@@ -79,13 +79,14 @@
     <dimen name="news_select_sliding_tab_horizontal_margin">13.6dp</dimen>
 
     <dimen name="custom_news_feed_dialog_edit_text_size">30.6sp</dimen>
+    <dimen name="custom_news_feed_remove_image_size">47.6dp</dimen>
 
     <dimen name="news_select_item_height">72dp</dimen>
     <dimen name="news_select_item_text_size">@dimen/text_size_title_material</dimen>
 
     <!-- Store -->
     <dimen name="store_toolbar_elevation">5.1dp</dimen>
-    <dimen name="store_bg_banner_height">363.8dp</dimen>
+    <dimen name="store_bg_banner_height">380dp</dimen>
     <dimen name="store_title_margin_top">18dp</dimen>
     <dimen name="store_title_margin_left">24dp</dimen>
     <dimen name="store_title_margin_mid">0dp</dimen>

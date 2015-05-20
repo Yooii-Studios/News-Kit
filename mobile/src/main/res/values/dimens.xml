@@ -79,6 +79,7 @@
     <dimen name="news_select_sliding_tab_horizontal_margin">8dp</dimen>
 
     <dimen name="custom_news_feed_dialog_edit_text_size">18sp</dimen>
+    <dimen name="custom_news_feed_remove_image_size">32dp</dimen>
 
     <dimen name="news_select_item_height">56dp</dimen>
     <dimen name="news_select_item_text_size">@dimen/text_size_subhead_material</dimen>

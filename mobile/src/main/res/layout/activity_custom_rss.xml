@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yooiistudios.newskit.ui.activity.CustomRssActivity"
+    android:background="@android:color/white">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/custom_rss_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingRight="@dimen/base_margin_half"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/app_color_primary"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+    <RelativeLayout
+        android:id="@+id/custom_rss_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/custom_rss_toolbar"
+        android:background="@color/app_color_primary"
+        android:padding="@dimen/base_margin">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/custom_rss_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/base_margin_small"
+            android:textColor="@color/material_black_secondary_text"
+            android:text="@string/custom_news_feed_url"
+            android:textSize="@dimen/morningkit_ad_guide_text_size"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"/>
+        <!--android:background="@color/material_amber_500"-->
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/custom_rss_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/custom_rss_description"
+            android:singleLine="true"
+            android:inputType="textUri"
+            android:hint="http://news.com/rss"
+            android:textCursorDrawable="@drawable/custom_rss_edit_text_cursor_drawable"
+            android:textColorHint="@color/material_grey_500"
+            android:textSize="@dimen/custom_news_feed_dialog_edit_text_size"
+            android:textColor="@android:color/black"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat"/>
+    </RelativeLayout>
+    <!--android:background="@color/material_light_blue_500"-->
+
+    <ListView
+        android:id="@+id/custom_rss_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/custom_rss_edit_layout"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        tools:listitem="@layout/setting_item_single"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_rss_edit_layout"
+        android:background="@drawable/header_shadow"/>
+</RelativeLayout>

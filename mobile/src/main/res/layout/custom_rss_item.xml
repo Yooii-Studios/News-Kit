@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/custom_rss_item_remove_imageview"
+        android:layout_width="@dimen/custom_news_feed_remove_image_size"
+        android:layout_height="@dimen/custom_news_feed_remove_image_size"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/base_margin_middle"
+        android:padding="@dimen/base_margin_small"
+        android:src="@drawable/ic_close_grey600_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/content_description"/>
+
+    <TextView
+        android:id="@+id/custom_rss_item_title_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/custom_rss_item_remove_imageview"
+        android:padding="@dimen/base_margin"
+        android:text="http://naver.com"
+        android:textColor="@color/material_black_secondary_text"
+        android:textSize="@dimen/setting_item_title_text_size"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:includeFontPadding="false"/>
+</RelativeLayout>
