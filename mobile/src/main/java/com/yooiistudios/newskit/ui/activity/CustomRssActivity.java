@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,6 +100,17 @@ public class CustomRssActivity extends AppCompatActivity implements AdapterView.
             public void afterTextChanged(Editable s) {
             }
         });
+        mEditText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    useCustomUrlFromEditText();
+                    return true;
+                }
+                return false;
+            }
+        });
         mEditText.requestFocus();
     }
 
@@ -137,15 +149,19 @@ public class CustomRssActivity extends AppCompatActivity implements AdapterView.
         if (item.getItemId() == android.R.id.home) {
             finish();
         } else if (item.getItemId() == R.id.action_custom_news_feed_ok){
-            String url = makeUrlString();
-            if (url != null) {
-                CustomRssHistoryUtils.addUrlToHistory(this, url);
-                getIntent().putExtra(NewsSelectActivity.KEY_CUSTOM_URL, url);
-                setResult(Activity.RESULT_OK, getIntent());
-            }
-            finish();
+            useCustomUrlFromEditText();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void useCustomUrlFromEditText() {
+        String url = makeUrlString();
+        if (url != null) {
+            CustomRssHistoryUtils.addUrlToHistory(this, url);
+            getIntent().putExtra(NewsSelectActivity.KEY_CUSTOM_URL, url);
+            setResult(Activity.RESULT_OK, getIntent());
+        }
+        finish();
     }
 
     private String makeUrlString() {
