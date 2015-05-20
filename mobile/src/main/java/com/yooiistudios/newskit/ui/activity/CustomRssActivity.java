@@ -180,30 +180,8 @@ public class CustomRssActivity extends AppCompatActivity implements AdapterView.
         if (position != 0) {
             String url = ((TextView) view.findViewById(R.id.custom_rss_item_title_textview))
                     .getText().toString();
-            CustomRssHistoryUtils.addUrlToHistory(this, url);
-            getIntent().putExtra(NewsSelectActivity.KEY_CUSTOM_URL, url);
-            setResult(Activity.RESULT_OK, getIntent());
-            finish();
+            mEditText.setText(url);
+            mEditText.setSelection(url.length());
         }
     }
-
-    /*
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(this);
-        builder.setTitle(R.string.custom_rss_remove_rss);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // -1 은 헤더 위치를 빼고 삭제하는 것
-                CustomRssHistoryUtils.removeUrlAtIndex(CustomRssActivity.this, position - 1);
-                initListView();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.create().show();
-        return true;
-    }
-    */
 }

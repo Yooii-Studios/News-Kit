@@ -44,7 +44,7 @@
             android:inputType="textUri"
             android:hint="http://news.com/rss"
             android:textCursorDrawable="@drawable/custom_rss_edit_text_cursor_drawable"
-            android:textColorHint="@color/material_black_secondary_text"
+            android:textColorHint="@color/material_grey_500"
             android:textSize="@dimen/custom_news_feed_dialog_edit_text_size"
             android:textColor="@android:color/black"
             android:textAppearance="@style/Base.TextAppearance.AppCompat"/>
