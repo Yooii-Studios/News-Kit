@@ -162,6 +162,7 @@ public class CreditListAdapter extends BaseAdapter {
                 viewHolder.getTitleTextView().setText("Localization");
                 viewHolder.getNameTextView().setText(
                         "Angela Choi\n" +
+                        "Boris Yang\n" +
                         "Moritz Will\n" +
                         "Taft Love\n" +
                         "Yu Wang\n" +
@@ -172,6 +173,7 @@ public class CreditListAdapter extends BaseAdapter {
             case 8:
                 viewHolder.getTitleTextView().setText("Special Thanks to");
                 viewHolder.getNameTextView().setText("Andrew Ryu\n" +
+                        "Aotter\n" +
                         "HyoSang Lim\n" +
                         "JongHwa Kim\n" +
                         "KwanSoo Choi\n" +
