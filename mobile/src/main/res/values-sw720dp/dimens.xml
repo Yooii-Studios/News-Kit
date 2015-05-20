@@ -86,7 +86,7 @@
 
     <!-- Store -->
     <dimen name="store_toolbar_elevation">5.1dp</dimen>
-    <dimen name="store_bg_banner_height">363.8dp</dimen>
+    <dimen name="store_bg_banner_height">380dp</dimen>
     <dimen name="store_title_margin_top">18dp</dimen>
     <dimen name="store_title_margin_left">24dp</dimen>
     <dimen name="store_title_margin_mid">0dp</dimen>
