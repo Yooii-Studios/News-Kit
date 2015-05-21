@@ -79,6 +79,7 @@ public class SettingAdapter extends BaseAdapter {
                     break;
 
                 case MAIN_AUTO_REFRESH_SPEED:
+                case MAIN_HEADLINE_FONT_SIZE:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_seekbar, parent, false);
                     initSeekBarItem(context, item, view);
                     break;
@@ -157,6 +158,8 @@ public class SettingAdapter extends BaseAdapter {
     private static void initSeekBarItem(final Context context, SettingItem item, final View view) {
         if (item == SettingItem.MAIN_AUTO_REFRESH_SPEED) {
             initAutoRefreshSpeedItem(context, view);
+        } else if (item == SettingItem.MAIN_HEADLINE_FONT_SIZE) {
+            initHeadlineFontSizeItem(context, view);
         }
     }
 
@@ -183,13 +186,36 @@ public class SettingAdapter extends BaseAdapter {
         });
     }
 
+    private static void initHeadlineFontSizeItem(final Context context, View view) {
+        TextView titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
+        final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
+        SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
+
+        titleTextView.setText(R.string.setting_main_headline_font_size);
+        int oldFontSizeProgress = Settings.getHeadlineFontSizeProgress(context);
+        setHeadlineFontSizeTextView(statusTextView, -1, oldFontSizeProgress);
+        seekBar.setProgress(oldFontSizeProgress);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int oldFontSizeProgress = Settings.getHeadlineFontSizeProgress(context);
+                setHeadlineFontSizeTextView(statusTextView, oldFontSizeProgress, progress);
+                Settings.setHeadlineFontSizeProgress(context, progress);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+
     // 텍스트를 한 번만 바꿔주게 예외처리
     private static void setAutoRefreshSpeedTextView(TextView textView, int oldSpeed, int newSpeed) {
         boolean isFirstLoad = false;
         if (oldSpeed == -1) {
             isFirstLoad = true;
         }
-        // very slow 를 제외하고는 전부 oldSpeed 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad를 확인하면 됨
+        // very slow 를 제외하고는 전부 oldSpeed 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad 를 확인하면 됨
         if (newSpeed < 20) {
             if (oldSpeed >= 20 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_slow);
@@ -209,6 +235,36 @@ public class SettingAdapter extends BaseAdapter {
         } else if (newSpeed >= 80){
             if (oldSpeed < 80) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_fast);
+            }
+        }
+    }
+
+    // 텍스트를 한 번만 바꿔주게 예외처리
+    private static void setHeadlineFontSizeTextView(TextView textView, int oldSize, int newSize) {
+        boolean isFirstLoad = false;
+        if (oldSize == -1) {
+            isFirstLoad = true;
+        }
+        // very slow 를 제외하고는 전부 oldSize 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad 를 확인하면 됨
+        if (newSize < 20) {
+            if (oldSize >= 20 || isFirstLoad) {
+                textView.setText(R.string.setting_main_headline_font_size_very_small);
+            }
+        } else if (newSize >= 20 && newSize < 40) {
+            if (oldSize < 20 || oldSize >= 40) {
+                textView.setText(R.string.setting_main_headline_font_size_small);
+            }
+        } else if (newSize >= 40 && newSize < 60) {
+            if (oldSize < 40 || oldSize >= 60) {
+                textView.setText(R.string.setting_news_feed_auto_scroll_normal);
+            }
+        } else if (newSize >= 60 && newSize < 80) {
+            if (oldSize < 60 || oldSize >= 80) {
+                textView.setText(R.string.setting_main_headline_font_size_large);
+            }
+        } else if (newSize >= 80){
+            if (oldSize < 80) {
+                textView.setText(R.string.setting_main_headline_font_size_very_large);
             }
         }
     }
