@@ -116,10 +116,11 @@ public class Settings {
 
     public static float getHeadlineFontSize(Context context) {
         // available speed value is between 1/2 of normal and 5 times of normal
-        // 정상 속도의 1/2값부터 2배값만큼이 범위
+        // 정상 속도의 0.65값부터 1.65배값만큼이 범위
         float fontSizeProgress = getHeadlineFontSizeProgress(context);
 
-        return 3.f / 200.f * fontSizeProgress + .5f;
+//        return 17.f / 2000.f * fontSizeProgress + .65f;
+        return fontSizeProgress * .01f + .65f;
     }
 
     public static int getHeadlineFontSizeProgress(Context context) {
