@@ -3,6 +3,7 @@ package com.yooiistudios.newskit.ui.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.SwitchCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import static com.yooiistudios.newskit.ui.fragment.SettingFragment.SettingItem;
  */
 public class SettingAdapter extends BaseAdapter {
     private Context mContext;
+    private static float mOriginalFontSize = -1;
 
     public SettingAdapter(Context context) {
         mContext = context;
@@ -191,16 +193,18 @@ public class SettingAdapter extends BaseAdapter {
         final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
 
-        titleTextView.setText(R.string.setting_main_headline_font_size);
+        statusTextView.setText("A");
+        if (mOriginalFontSize == -1) {
+            mOriginalFontSize = titleTextView.getTextSize();
+        }
         int oldFontSizeProgress = Settings.getHeadlineFontSizeProgress(context);
-        setHeadlineFontSizeTextView(statusTextView, -1, oldFontSizeProgress);
+        setHeadlineFontSizeTextView(statusTextView);
         seekBar.setProgress(oldFontSizeProgress);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int oldFontSizeProgress = Settings.getHeadlineFontSizeProgress(context);
-                setHeadlineFontSizeTextView(statusTextView, oldFontSizeProgress, progress);
                 Settings.setHeadlineFontSizeProgress(context, progress);
+                setHeadlineFontSizeTextView(statusTextView);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -240,32 +244,9 @@ public class SettingAdapter extends BaseAdapter {
     }
 
     // 텍스트를 한 번만 바꿔주게 예외처리
-    private static void setHeadlineFontSizeTextView(TextView textView, int oldSize, int newSize) {
-        boolean isFirstLoad = false;
-        if (oldSize == -1) {
-            isFirstLoad = true;
-        }
-        // very slow 를 제외하고는 전부 oldSize 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad 를 확인하면 됨
-        if (newSize < 20) {
-            if (oldSize >= 20 || isFirstLoad) {
-                textView.setText(R.string.setting_main_headline_font_size_very_small);
-            }
-        } else if (newSize >= 20 && newSize < 40) {
-            if (oldSize < 20 || oldSize >= 40) {
-                textView.setText(R.string.setting_main_headline_font_size_small);
-            }
-        } else if (newSize >= 40 && newSize < 60) {
-            if (oldSize < 40 || oldSize >= 60) {
-                textView.setText(R.string.setting_news_feed_auto_scroll_normal);
-            }
-        } else if (newSize >= 60 && newSize < 80) {
-            if (oldSize < 60 || oldSize >= 80) {
-                textView.setText(R.string.setting_main_headline_font_size_large);
-            }
-        } else if (newSize >= 80){
-            if (oldSize < 80) {
-                textView.setText(R.string.setting_main_headline_font_size_very_large);
-            }
-        }
+    private static void setHeadlineFontSizeTextView(TextView textView) {
+        // 프로그레스에 따라서 A 텍스트의 폰트 크기를 조절해주자.
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                mOriginalFontSize * Settings.getHeadlineFontSize(textView.getContext()));
     }
 }
