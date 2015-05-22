@@ -20,6 +20,7 @@ public class Settings {
     private static final String AUTO_REFRESH_INTERVAL_KEY = "auto_refresh_interval_key";
     private static final int AUTO_REFRESH_INTERVAL_DEFAULT_SECONDS = 5;
     private static final String AUTO_REFRESH_SPEED_KEY = "auto_refresh_speed_key";
+    private static final String HEADLINE_FONT_SIZE = "headline_font_size";
     private static final String IS_NOTIFICATION_ON_KEY = "is_notification_on_key";
     private static final String KEEP_SCREEN_ON_KEY = "keep_screen_on_key";
 
@@ -105,6 +106,29 @@ public class Settings {
             // y = - 1/100x + 1.5
             return (float) (-1.f / 100.f * speedProgress + 1.5);
         }
+    }
+
+    public static void setHeadlineFontSizeProgress(Context context, int speed) {
+        // available speed value is between 0 and 100(SeekBar)
+        context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .edit().putInt(HEADLINE_FONT_SIZE, speed).apply();
+    }
+
+    public static float getHeadlineFontSize(Context context) {
+        // available speed value is between 1/2 of normal and 5 times of normal
+        // 정상 속도의 0.65값부터 1.65배값만큼이 범위
+        float fontSizeProgress = getHeadlineFontSizeProgress(context);
+
+        if (fontSizeProgress < 50) {
+            return .3f * fontSizeProgress / 50.f + .7f;
+        } else {
+            return .3f * fontSizeProgress / 50.f + .7f;
+        }
+    }
+
+    public static int getHeadlineFontSizeProgress(Context context) {
+        return context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getInt(HEADLINE_FONT_SIZE, 50);
     }
 
     public static void setNotification(Context context, boolean isNotificationOn) {

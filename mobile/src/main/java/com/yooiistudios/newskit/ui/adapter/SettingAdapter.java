@@ -3,6 +3,7 @@ package com.yooiistudios.newskit.ui.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.SwitchCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import static com.yooiistudios.newskit.ui.fragment.SettingFragment.SettingItem;
  */
 public class SettingAdapter extends BaseAdapter {
     private Context mContext;
+    private static float mOriginalFontSize = -1;
 
     public SettingAdapter(Context context) {
         mContext = context;
@@ -79,6 +81,7 @@ public class SettingAdapter extends BaseAdapter {
                     break;
 
                 case MAIN_AUTO_REFRESH_SPEED:
+                case MAIN_HEADLINE_FONT_SIZE:
                     view = LayoutInflater.from(context).inflate(R.layout.setting_item_seekbar, parent, false);
                     initSeekBarItem(context, item, view);
                     break;
@@ -157,6 +160,8 @@ public class SettingAdapter extends BaseAdapter {
     private static void initSeekBarItem(final Context context, SettingItem item, final View view) {
         if (item == SettingItem.MAIN_AUTO_REFRESH_SPEED) {
             initAutoRefreshSpeedItem(context, view);
+        } else if (item == SettingItem.MAIN_HEADLINE_FONT_SIZE) {
+            initHeadlineFontSizeItem(context, view);
         }
     }
 
@@ -183,13 +188,38 @@ public class SettingAdapter extends BaseAdapter {
         });
     }
 
+    private static void initHeadlineFontSizeItem(final Context context, View view) {
+        TextView titleTextView = (TextView) view.findViewById(R.id.setting_item_title_textview);
+        final TextView statusTextView = (TextView) view.findViewById(R.id.setting_item_status_textview);
+        SeekBar seekBar = (SeekBar) view.findViewById(R.id.setting_item_seekbar);
+
+        statusTextView.setText("A");
+        if (mOriginalFontSize == -1) {
+            mOriginalFontSize = titleTextView.getTextSize();
+        }
+        int oldFontSizeProgress = Settings.getHeadlineFontSizeProgress(context);
+        setHeadlineFontSizeTextView(statusTextView);
+        seekBar.setProgress(oldFontSizeProgress);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Settings.setHeadlineFontSizeProgress(context, progress);
+                setHeadlineFontSizeTextView(statusTextView);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+
     // 텍스트를 한 번만 바꿔주게 예외처리
     private static void setAutoRefreshSpeedTextView(TextView textView, int oldSpeed, int newSpeed) {
         boolean isFirstLoad = false;
         if (oldSpeed == -1) {
             isFirstLoad = true;
         }
-        // very slow 를 제외하고는 전부 oldSpeed 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad를 확인하면 됨
+        // very slow 를 제외하고는 전부 oldSpeed 가 -1 보다 작을 경우를 체크하므로 이 경우만 isFirstLoad 를 확인하면 됨
         if (newSpeed < 20) {
             if (oldSpeed >= 20 || isFirstLoad) {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_slow);
@@ -211,5 +241,12 @@ public class SettingAdapter extends BaseAdapter {
                 textView.setText(R.string.setting_news_feed_auto_scroll_very_fast);
             }
         }
+    }
+
+    // 텍스트를 한 번만 바꿔주게 예외처리
+    private static void setHeadlineFontSizeTextView(TextView textView) {
+        // 프로그레스에 따라서 A 텍스트의 폰트 크기를 조절해주자.
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                mOriginalFontSize * Settings.getHeadlineFontSize(textView.getContext()));
     }
 }

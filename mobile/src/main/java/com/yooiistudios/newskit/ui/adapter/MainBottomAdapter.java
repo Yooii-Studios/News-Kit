@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,9 @@ import com.yooiistudios.newskit.core.news.News;
 import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.NewsFeedFetchState;
 import com.yooiistudios.newskit.core.util.Device;
+import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.model.PanelEditMode;
+import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
 import com.yooiistudios.newskit.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newskit.model.news.NewsFeedFetchStateMessage;
@@ -74,6 +77,9 @@ public class MainBottomAdapter extends
     @IntDef(value = {PORTRAIT, LANDSCAPE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {}
+
+    private float mOriginalHeadlineTextSize = -1;
+    private float mOriginalNewsFeedTextSize = -1;
 
     public MainBottomAdapter(Context context, NewsImageLoader imageLoader,
                              OnItemClickListener listener) {
@@ -376,6 +382,13 @@ public class MainBottomAdapter extends
             viewHolder.newsFeedTitleTextView.setGravity(Gravity.START);
         }
         viewHolder.newsFeedTitleTextView.setText(getNewsFeedAt(position).getTitle());
+
+        // 폰트 크기 설정에 따라 텍스트 크기 변경
+        if (mOriginalNewsFeedTextSize == -1) {
+            mOriginalNewsFeedTextSize = viewHolder.newsFeedTitleTextView.getTextSize();
+        }
+        viewHolder.newsFeedTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                mOriginalNewsFeedTextSize * Settings.getHeadlineFontSize(mContext));
     }
 
     private void setCurrentNewsTitle(BottomNewsFeedViewHolder viewHolder, int position) {
@@ -386,6 +399,16 @@ public class MainBottomAdapter extends
             viewHolder.newsTitleTextView.setGravity(Gravity.START);
         }
         viewHolder.newsTitleTextView.setText(displayingNews.getTitle());
+
+        // 폰트 크기 설정에 따라 텍스트 크기 변경
+        if (mOriginalHeadlineTextSize == -1) {
+            mOriginalHeadlineTextSize = viewHolder.newsTitleTextView.getTextSize();
+//            NLLog.now("mOriginalHeadlineTextSize: " + mOriginalHeadlineTextSize);
+        }
+        viewHolder.newsTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                mOriginalHeadlineTextSize * Settings.getHeadlineFontSize(mContext));
+//        NLLog.now("newsTitleTextView textSize: " + mOriginalHeadlineTextSize * Settings.getHeadlineFontSize(mContext));
+        NLLog.now("headlineFontSize: " + Settings.getHeadlineFontSize(mContext));
     }
 
     private void initOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position,
