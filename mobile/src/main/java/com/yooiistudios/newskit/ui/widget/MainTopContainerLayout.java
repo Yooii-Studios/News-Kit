@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.yooiistudios.newskit.core.util.Device;
 import com.yooiistudios.newskit.core.util.Display;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.model.PanelEditMode;
+import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
 import com.yooiistudios.newskit.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newskit.model.news.NewsFeedFetchStateMessage;
@@ -95,6 +97,8 @@ public class MainTopContainerLayout extends FrameLayout
 
     // flags for initializing
     private boolean mIsReady = false;
+
+    private float mOriginalNewsFeedTextSize = -1;
 
     // interface
     public interface OnMainTopLayoutEventListener {
@@ -506,6 +510,8 @@ public class MainTopContainerLayout extends FrameLayout
         }
         initViewPagerIndicator();
         invalidate();
+
+        adjustNewsFeedTextSize();
     }
 
     private void configOnPortraitOrientation() {
@@ -575,6 +581,14 @@ public class MainTopContainerLayout extends FrameLayout
             int adViewHeight = AdSize.SMART_BANNER.getHeightInPixels(context);
             contentWrapperLp.height -= adViewHeight;
         }
+    }
+
+    private void adjustNewsFeedTextSize() {
+        if (mOriginalNewsFeedTextSize == -1) {
+            mOriginalNewsFeedTextSize = mNewsFeedTitleTextView.getTextSize();
+        }
+        mNewsFeedTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                mOriginalNewsFeedTextSize * Settings.getHeadlineFontSize(getContext()));
     }
 
     /**

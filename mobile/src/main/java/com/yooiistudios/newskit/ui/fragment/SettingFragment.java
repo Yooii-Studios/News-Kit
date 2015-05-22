@@ -63,6 +63,7 @@ public class SettingFragment extends Fragment implements AdapterView.OnItemClick
         MAIN_SUB_HEADER(R.string.setting_main_sub_header),
         MAIN_AUTO_REFRESH_INTERVAL(R.string.setting_main_auto_refresh_interval),
         MAIN_AUTO_REFRESH_SPEED(R.string.setting_main_auto_refresh_speed),
+        MAIN_HEADLINE_FONT_SIZE(R.string.setting_main_headline_font_size),
 
         GENERAL_SUB_HEADER(R.string.setting_general_sub_header),
         NOTIFICATION(R.string.setting_notification),

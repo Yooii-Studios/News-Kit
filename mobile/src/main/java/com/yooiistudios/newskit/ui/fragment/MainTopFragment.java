@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.core.cache.volley.CacheImageLoader;
 import com.yooiistudios.newskit.core.news.News;
 import com.yooiistudios.newskit.core.news.NewsFeed;
+import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
 import com.yooiistudios.newskit.model.cache.NewsUrlSupplier;
 import com.yooiistudios.newskit.ui.PanelDecoration;
@@ -44,6 +46,7 @@ public class MainTopFragment extends Fragment {
     private News mNews;
     private int mPosition;
     private boolean mRecycled;
+    private float mOriginalTitleTextSize = -1;
 
     public static MainTopFragment newInstance(NewsFeed newsFeed, News news, int position) {
         MainTopFragment f = new MainTopFragment();
@@ -100,6 +103,12 @@ public class MainTopFragment extends Fragment {
         String newsName = mNews.getTitle();
         if (newsName != null) {
             holder.titleTextView.setText(newsName);
+
+            if (mOriginalTitleTextSize == -1) {
+                mOriginalTitleTextSize = holder.titleTextView.getTextSize();
+            }
+            holder.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    mOriginalTitleTextSize * Settings.getHeadlineFontSize(getActivity()));
         }
 
         holder.rippleView.setOnClickListener(new View.OnClickListener() {
