@@ -66,7 +66,7 @@ public class NewsFeedFetchUtil {
                     trimNewsList(newsFeed, fetchLimit);
                 }
                 for(News news : newsFeed.getNewsList()) {
-                    if (news.getGuid() == null) {
+                    if (news.getGuid() == null || news.getGuid().length() == 0) {
                         news.setGuid(news.getLink());
                     }
                 }
@@ -220,6 +220,7 @@ public class NewsFeedFetchUtil {
             cleanUpNewsDescription(news);
 
             news.setLink(news.getLink().replaceAll("(\\r|\\n|\\t)", "").trim());
+            news.setGuid(news.getGuid().replaceAll("(\\r|\\n|\\t)", "").trim());
         }
     }
 
