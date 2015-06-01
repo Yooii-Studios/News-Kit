@@ -44,10 +44,6 @@
     <string name="setting_main_auto_refresh_interval_caption">Interval</string>
     <string name="setting_main_auto_refresh_speed">Flip Animation Speed</string>
     <string name="setting_main_headline_font_size">Headline Font Size</string>
-    <string name="setting_main_headline_font_size_very_small">Very Small</string>
-    <string name="setting_main_headline_font_size_small">Small</string>
-    <string name="setting_main_headline_font_size_large">Large</string>
-    <string name="setting_main_headline_font_size_very_large">Very Large</string>
     <string name="setting_main_panel_matrix">News Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s Panels</string>
     <string name="setting_news_feed_sub_header">News Feed Screen</string>
