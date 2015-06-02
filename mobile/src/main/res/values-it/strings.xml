@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- General -->
+	<string name="app_name">News Kit</string>
+	<string name="news">Ok</string>
+	<string name="action_info">Su News Kit</string>
+	<string name="action_settings">Impostazioni</string>
+	<string name="action_rate_app">Valuta News Kit</string>
+	<string name="action_facebook_like">Metti mi piace su Facebook</string>
+	<string name="action_send_feedback">Invia a Facebook</string>
+	<string name="content_description">Caricamento…</string>
+	<string name="ok">Ok</string>
+	<string name="cancel">Cancella</string>
+	<string name="confirm">Conferma</string>
+	<string name="share">Condividi</string>
+	<string name="yes">Sì</string>
+	<string name="no">No</string>
+
+	<!-- Main -->
+	<string name="action_edition">Seleziona news</string>
+
+	<!-- Newsfeed Detail -->
+	<string name="newsfeed_select_news_section">Sezione news</string>
+	<string name="newsfeed_auto_scroll">Scorrimento automatico</string>
+	<string name="on">On</string>
+	<string name="off">Off</string>
+
+	<!-- News Detail -->
+	<string name="news_detail_share_message">News Kit: per favore leggi!</string>
+	<string name="news_detail_link_copied">Il link è stato copiato</string>
+
+	<!-- News Select -->
+	<string name="select_newsfeed_title">Lista news</string>
+	<string name="custom_news_feed_dialog_title">Aggiungi un feed RSS</string>
+	<string name="custom_news_feed_menu_item_title">RSS</string>
+	<string name="custom_news_feed_url">URL</string>
+
+	<!-- Setting -->
+	<string name="setting_language">Lingua</string>
+	<string name="setting_keep_screen_on">Mantieni schermo acceso</string>
+	<string name="setting_tutorial">Tutorial</string>
+	<string name="setting_main_sub_header">Schermo principale</string>
+	<string name="setting_main_auto_refresh_interval">Frequenza aggiornamento news</string>
+	<string name="setting_main_auto_refresh_interval_caption">Intervallo</string>
+	<string name="setting_main_auto_refresh_speed">Velocità cambio animazione</string>
+	<string name="setting_main_headline_font_size">Dimensione titolo</string>
+	<string name="setting_item_sec_description">%1$s sec</string>
+	<string name="setting_main_panel_matrix">Matrice news</string>
+	<string name="setting_main_panel_matrix_description">%1$s pannelli</string>
+	<string name="setting_news_feed_sub_header">Schermo news feed</string>
+	<string name="setting_news_feed_auto_scroll_start_offset">Attiva scorrimento automatico</string>
+	<string name="setting_news_feed_auto_scroll_speed">Velocità scorrimento automatico</string>
+	<string name="setting_news_feed_auto_scroll_very_slow">Molto lento</string>
+	<string name="setting_news_feed_auto_scroll_slow">Lento</string>
+	<string name="setting_news_feed_auto_scroll_normal">Normale</string>
+	<string name="setting_news_feed_auto_scroll_fast">Veloce</string>
+	<string name="setting_news_feed_auto_scroll_very_fast">Molto veloce</string>
+
+	<!-- Pair -->
+	<string name="setting_pair_tv">Associa TV Android</string>
+	<string name="setting_pair_tv_description">Sincronizza le impostazioni del tuo telefono con la tua TV Android</string>
+	<string name="setting_pair_tv_dialog_description">Scrivi i 5 numeri mostrati nella pagina ”Associa adesso” della tua TV Android e premi Conferma</string>
+	<string name="setting_pair_tv_code_invalidate">Codice non valido. Controlla i 5 numeri mostrati nella pagina ”Associa adesso” della tua TV Android</string>
+	<string name="setting_pair_tv_data_sent">Associazione con TV Android con successo</string>
+	<string name="setting_pair_tv_error_msg">Associazione fallita. Per favore riprova.</string>
+
+	<!-- Recommend -->
+	<string name="recommend_to_friends">Consiglia ad un amico</string>
+	<string name="recommend_title">Dai un\'occhiata a questa app, è fantastica!</string>
+	<string name="recommend_description">Clicca il link e dacci un\'occhiata!</string>
+
+	<!-- Feedback -->
+	<string name="feedback_description">Come possiamo migliorare News Kit?</string>
+
+	<!-- Ad -->
+	<string name="quit_ad_dialog_title_text">Sei sicuro di voler uscire?</string>
+
+	<!-- Store -->
+	<string name="store">Store (caratteristiche pro)</string>
+	<string name="store_title_text_1">Compra</string>
+	<string name="store_title_text_2">la versione pro!</string>
+	<string name="store_description_text_1">Aggiorna per sbloccare tutte le funzioni e caratteristiche</string>
+	<string name="store_description_text_2">No pubblicità!</string>
+	<string name="store_description_text_2_highlight">No pubblicità!</string>
+	<string name="store_pro_version_original_price">$4.99</string>
+	<string name="store_pro_version_discounted_price">$2.99</string>
+	<string name="store_purchased">Acquistato</string>
+	<string name="store_thank_you">Grazie!</string>
+	<string name="store_item_price">$0.99</string>
+	<string name="store_no_ads_title">No pubblicità</string>
+	<string name="store_no_ads_description">Rimuovi tutta la pubblicità</string>
+	<string name="store_more_panel_title">Aggiungi Pannelli Notizie</string>
+	<string name="store_more_panel_description">Usa altri 4 Pannelli Notizie</string>
+	<string name="store_custom_rss_feed_title">Personalizza RSS Feeds</string>
+	<string name="store_custom_rss_feed_description">Aggiungi altri RSS Feeds</string>
+
+	<!-- Main Network Unavailable Cover -->
+	<string name="main_network_unavailable_cant_connect">Connessione internet non disponibile</string>
+	<string name="main_network_unavailable_retry">Tocca lo schermo per riprovare</string>
+
+	<!-- Info -->
+	<string name="info_news_info">Info News Kit</string>
+	<string name="info_credit">Ringraziamenti</string>
+
+	<!-- More Info -->
+	<string name="more_info_yooii_studios">Yooii Studios</string>
+	<string name="more_info_news_help">Aiuto News Kit</string>
+	<string name="more_info_version">Versione</string>
+	<string name="more_info_license">Licenza</string>
+
+	<!-- Store Ad -->
+	<string name="store_buy_pro_version">Compra la versione pro!</string>
+	<string name="store_sub_description">Tutte le funzioni e caratteristiche + no pubblicità</string>
+
+	<!-- Notification -->
+	<string name="notification_title">Buongiorno!</string>
+	<string name="notification_description">Le tue notizie del mattino sono pronte.</string>
+	<string name="notification_ask_description">Vuoi ricevere le notifiche sulle news ogni mattina?</string>
+
+	<!-- Error Message -->
+	<string name="news_feed_fetch_error_invalid_topic_url">Al momento non disponibile</string>
+	<string name="news_feed_fetch_error_invalid_custom_url">URL RSS non valido</string>
+	<string name="news_feed_fetch_error_timeout">Tempo scaduto. Controlla la tua connessione internet</string>
+
+	<!-- Morning Kit Ad -->
+	<string name="morningkit_ad_app_name">Morning Kit</string>
+	<string name="morningkit_ad_description">Sveglia + Pannelli informazioni</string>
+	<string name="morningkit_ad_guide_text">Tutto ciò di cui hai bisogno alla mattina in una sola occhiata!</string>
+	<string name="download">Scarica</string>
+	<string name="close">Chiudi</string>
+
+	<!-- General -->
+	<string name="add_more_panels">Aggiungi altri pannelli news</string>
+	<string name="app_name_full">News Kit</string>
+	<string name="minute">m</string>
+	<string name="second">s</string>
+
+	<!-- Rate it -->
+	<string name="rate_it_contents">Valutaci con 5 stelle\nSenza il tuo supporto non potremmo esistere :)</string>
+	<string name="rate_it_rate">Valuta l\'app</string>
+	<string name="rate_it_no_thanks">Più tardi</string>
+	<string name="rate_news_kit_title">Valuta News Kit</string>
+
+	<!-- Error Message -->
+	<string name="news_feed_fetch_error_unknown">Al momento non disponibile. Riprova più tardi.</string>
+
+	<!-- Setting -->
+	<string name="setting_general_sub_header">Generale</string>
+	<string name="setting_notification">Notifiche</string>
+	<string name="setting_pair_tv_insert_code">Inserisci codice</string>
+
+	<!-- Custom RSS -->
+	<string name="custom_rss_recent_list">RECENTE</string>
+</resources>
