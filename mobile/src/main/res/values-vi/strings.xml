@@ -43,6 +43,7 @@
 	<string name="setting_main_auto_refresh_interval">Thời gian tự động đổi mới</string>
 	<string name="setting_main_auto_refresh_interval_caption">Thời gian</string>
 	<string name="setting_main_auto_refresh_speed">Tốc độ tự động đổi mới</string>
+	<string name="setting_main_headline_font_size">cỡ chữ tiêu đề</string>
 	<string name="setting_main_panel_matrix">Ma trận tin tức</string>
 	<string name="setting_main_panel_matrix_description">%1$s khung</string>
 	<string name="setting_news_feed_sub_header">Màn hình tin tức</string>

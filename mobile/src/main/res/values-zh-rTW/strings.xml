@@ -43,6 +43,7 @@
 	<string name="setting_main_auto_refresh_interval">自動刷新間隔</string>
 	<string name="setting_main_auto_refresh_interval_caption">間隔</string>
 	<string name="setting_main_auto_refresh_speed">翻轉速度</string>
+	<string name="setting_main_headline_font_size">標題字體大小</string>
 	<string name="setting_main_panel_matrix">新聞匯總</string>
 	<string name="setting_main_panel_matrix_description">%1$s 版面</string>
 	<string name="setting_news_feed_sub_header">推送新聞屏幕</string>

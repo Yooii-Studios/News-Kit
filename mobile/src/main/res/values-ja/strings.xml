@@ -43,6 +43,7 @@
 	<string name="setting_main_auto_refresh_interval">自動リフレッシュ間隔</string>
 	<string name="setting_main_auto_refresh_interval_caption">間隔</string>
 	<string name="setting_main_auto_refresh_speed">フリップの速度</string>
+	<string name="setting_main_headline_font_size">ヘッドラインフォントサイズ</string>
 	<string name="setting_main_panel_matrix">ニュースパネルマトリックス</string>
 	<string name="setting_main_panel_matrix_description">%1$sのパネル</string>
 	<string name="setting_news_feed_sub_header">ニュースフィード画面</string>
