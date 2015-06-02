@@ -17,7 +17,7 @@ public class NewsFeedDetailSettings {
     private static final String DURATION_FOR_EACH_ITEM_KEY = "duration_for_each_item_key";
     private static final String SPEED_KEY = "speed_item_key"; // 0 ~ 100(SeekBar)
 
-    private static final int DEFAULT_START_DELAY_SECOND = 3;
+    private static final int DEFAULT_START_DELAY_SECOND = 2;
     private static final int DEFAULT_MIDDLE_DELAY = 1500;
     private static final int DEFAULT_DURATION_FOR_EACH_ITEM = 3000;
     private static final int DEFAULT_SPEED = 50;

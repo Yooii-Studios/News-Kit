@@ -20,7 +20,8 @@ public enum Language {
     SPANISH(6, 6, "es", "", "Spanish", R.string.setting_language_spanish),
 //    RUSSIAN(7, 7, "ru", "", "Russian", R.string.setting_language_russian),
     // TODO 다른 언어들이 추가되면 인덱스만 수정할 것
-    VIETNAM(7, 8, "vi", "", "Vietnam", R.string.setting_language_vietnam);
+    VIETNAM(8, 8, "vi", "", "Vietnam", R.string.setting_language_vietnam),
+    ITALIAN(7, 9, "it", "", "Italian", R.string.setting_language_italian);
 
     private final int index; // 리스트뷰에 표시할 용도의 index
     private final int uniqueId; // SharedPreferences 에 저장될 용도의 unique id

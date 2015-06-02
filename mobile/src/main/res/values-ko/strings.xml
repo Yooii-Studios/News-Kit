@@ -121,9 +121,9 @@
     <string name="news_feed_fetch_error_timeout">시간 초과. 인터넷 연결을 확인해 주세요.</string>
 
     <!-- Morning Kit Ad -->
-    <string name="ad_morning_kit_app_name">모닝키트</string>
-    <string name="ad_morning_kit_description">알람 + 정보 패널</string>
-    <string name="ad_morning_kit_guide_text">아침에 필요한 모든 정보를 한 눈에!</string>
+    <string name="morningkit_ad_app_name">모닝키트</string>
+    <string name="morningkit_ad_description">알람 + 정보 패널</string>
+    <string name="morningkit_ad_guide_text">아침에 필요한 모든 정보를 한 눈에!</string>
     <string name="download">다운로드</string>
     <string name="close">닫기</string>
 
@@ -150,4 +150,5 @@
 
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">최근 사용 RSS</string>
+    <string name="setting_main_headline_font_size">헤드라인 폰트 크기</string>
 </resources>

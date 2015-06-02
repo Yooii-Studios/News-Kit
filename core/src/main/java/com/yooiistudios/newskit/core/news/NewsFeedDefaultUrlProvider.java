@@ -79,8 +79,13 @@ public class NewsFeedDefaultUrlProvider {
                         defaultRegionCode, defaultCountryCode, i % 4 + 1, i / 4 + 1));
             } else {
                 // E1, E2 (Sub Language)
-                mBottomNewsTopicList.add(newsContentProvider.getNewsTopic(
-                        subLanguageCode, subRegionCode, subCountryCode, 1, i / 4));
+                if (defaultLanguageCode.equals("zh") && defaultCountryCode.equals("CN")) {
+                    mBottomNewsTopicList.add(newsContentProvider.getNewsTopic(
+                            subLanguageCode, subRegionCode, subCountryCode, 2, i / 4));
+                } else {
+                    mBottomNewsTopicList.add(newsContentProvider.getNewsTopic(
+                            subLanguageCode, subRegionCode, subCountryCode, 1, i / 4));
+                }
             }
         }
     }

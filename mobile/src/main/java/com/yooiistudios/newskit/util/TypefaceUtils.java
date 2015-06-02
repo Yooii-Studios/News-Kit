@@ -1,6 +1,5 @@
 package com.yooiistudios.newskit.util;
 
-import android.content.Context;
 import android.graphics.Typeface;
 
 /**
@@ -29,6 +28,7 @@ public class TypefaceUtils {
         return instance;
     }
 
+    /*
     public static Typeface getMediumTypeface(Context context) {
         if (getInstance().mNotoSansMediumTypeface == null) {
             instance.mNotoSansMediumTypeface = Typeface.createFromAsset(context.getAssets(),
@@ -44,4 +44,5 @@ public class TypefaceUtils {
         }
         return instance.mNotoSansRegularTypeface;
     }
+    */
 }
