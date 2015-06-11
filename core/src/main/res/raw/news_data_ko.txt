@@ -471,7 +471,7 @@
                         {
                             "topic_name": "씨넷",
                             "topic_id": "1",
-                            "url": "http://feeds.feedburner.com/CNETKorea",
+                            "url": "http://www.cnet.co.kr/feed",
                             "isDefault": "true"
                         }
                     ]
