@@ -554,14 +554,14 @@ public class MainActivity extends ActionBarActivity
         AdUtils.showPopupAdIfSatisfied(this);
         if (AppLaunchCount.isFirstAppLaunch(this)) {
             NotificationAskUtils.showAskNotificationDialog(this);
-            trackDefulatLocale();
+            trackDefaultLocale();
         }
         if (AppLaunchCount.isTimeToShowReviewRequestDialog(this)) {
             ReviewRequest.showDialog(this);
         }
     }
 
-    private void trackDefulatLocale() {
+    private void trackDefaultLocale() {
         // 첫 실행 시 디바이스 언어와 나라를 트래킹
         Locale defaultLocale = DefaultLocale.loadDefaultLocale(this);
         AnalyticsUtils.trackDefaultLanguage((NewsApplication) getApplication(),
