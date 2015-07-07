@@ -901,11 +901,7 @@ public class MainActivity extends ActionBarActivity
         if (isShowingEditLayout()) {
             mToolbar.setVisibility(View.INVISIBLE);
         } else {
-            if (Device.isLandscape(getApplicationContext())) {
-                mToolbar.setVisibility(View.INVISIBLE);
-            } else {
-                mToolbar.setVisibility(View.VISIBLE);
-            }
+            mToolbar.setVisibility(View.VISIBLE);
         }
     }
 
