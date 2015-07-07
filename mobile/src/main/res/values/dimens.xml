@@ -105,7 +105,7 @@
     <dimen name="store_price_discounted_price_text_margin_bottom">13dp</dimen>
     <dimen name="store_price_discounted_price_text_margin_right">8dp</dimen>
     <dimen name="store_price_discounted_price_width">67dp</dimen>
-    <dimen name="store_price_discounted_price_font_size">24sp</dimen>
+    <dimen name="store_price_discounted_price_font_size">21sp</dimen>
     <dimen name="store_price_original_price_width">40dp</dimen>
     <dimen name="store_price_original_price_margin_bottom">-3dp</dimen>
     <dimen name="store_price_original_price_font_size">14sp</dimen>
