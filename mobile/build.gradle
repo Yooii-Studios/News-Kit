@@ -1,7 +1,7 @@
 repositories {
     jcenter()
-    maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+//    maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
+//    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
 }
 
@@ -12,15 +12,15 @@ repositories {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.yooiistudios.newskit"
         minSdkVersion 16
-        targetSdkVersion 21
-        versionCode 16
-        versionName "1.4.0"
+        targetSdkVersion 22
+        versionCode 17
+        versionName "1.4.1"
     }
     buildTypes {
         release {
@@ -91,11 +91,11 @@ dependencies {
     compile project(':libraries:OrientationAdView')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
-    compile "com.android.support:cardview-v7:21.0.0"
+    // TODO: 가능하면 버전 올려서 애니메이션, NewsFeedDetail 스크롤 문제 생기는 부분 수정.
     compile "com.android.support:recyclerview-v7:21.0.0"
 
     // view pager 에 쓰임
-    compile "com.android.support:support-v13:20.0.0"
+    compile "com.android.support:support-v13:22.2.0"
 //    compile project(':libraries:view-pager-indicator-library')
 
     // 위치 서비스, 구글 플레이, 애드몹
@@ -105,10 +105,12 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
 
     // Lollipop style Dialog at pre-Lollipop device
-    compile 'com.afollestad:material-dialogs:0.7.6.0'
+    compile ('com.afollestad:material-dialogs:0.7.6.0') {
+        exclude module: 'recyclerview-v7'
+    }
 
     // Floating Action Button
     compile 'com.melnykov:floatingactionbutton:1.2.0'
