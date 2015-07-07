@@ -44,7 +44,6 @@
 	<string name="setting_main_auto_refresh_interval_caption">Intervallo</string>
 	<string name="setting_main_auto_refresh_speed">Velocità cambio animazione</string>
 	<string name="setting_main_headline_font_size">Dimensione titolo</string>
-	<string name="setting_item_sec_description">%1$s sec</string>
 	<string name="setting_main_panel_matrix">Matrice news</string>
 	<string name="setting_main_panel_matrix_description">%1$s pannelli</string>
 	<string name="setting_news_feed_sub_header">Schermo news feed</string>
@@ -95,7 +94,7 @@
 	<string name="store_custom_rss_feed_description">Aggiungi altri RSS Feeds</string>
 
 	<!-- Main Network Unavailable Cover -->
-	<string name="main_network_unavailable_cant_connect">Connessione internet non disponibile</string>
+	<string name="main_network_unavailable_cant_connect">If you have any issue about News RSS, please feel free to email us. We will take prompt action for you.</string>
 	<string name="main_network_unavailable_retry">Tocca lo schermo per riprovare</string>
 
 	<!-- Info -->
@@ -151,4 +150,5 @@
 
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">RECENTE</string>
+	<string name="license_rss_description">Nếu các bạn có vấn đề gì với RSS mới, xin hãy gửi email cho chúng tôi. Chúng tôi sẽ hỗ trợ nhanh chóng.</string>
 </resources>

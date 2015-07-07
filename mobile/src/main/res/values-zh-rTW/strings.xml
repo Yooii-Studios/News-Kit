@@ -151,4 +151,5 @@
 
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">最近使用 RSS</string>
+	<string name="license_rss_description">如果對新聞RSS有任何疑問，請email我們，我們會盡快回覆您。</string>
 </resources>

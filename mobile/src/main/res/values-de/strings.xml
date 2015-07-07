@@ -43,6 +43,7 @@
 	<string name="setting_main_auto_refresh_interval">Aktualisierungs-Intervall</string>
 	<string name="setting_main_auto_refresh_interval_caption">Intervall</string>
 	<string name="setting_main_auto_refresh_speed">Flip-Geschwindigkeit</string>
+	<string name="setting_main_headline_font_size">Größe der Überschriften</string>
 	<string name="setting_main_panel_matrix">Nachrichten Matrix</string>
 	<string name="setting_main_panel_matrix_description">%1$s Kacheln</string>
 	<string name="setting_news_feed_sub_header">Nachrichten Feed - Bildschirm</string>
@@ -146,8 +147,9 @@
 	<!-- Setting -->
 	<string name="setting_general_sub_header">Allgemein</string>
 	<string name="setting_notification">Benachrichtigungen</string>
-	<string name="setting_pair_tv_insert_code">Insert Code</string>
+	<string name="setting_pair_tv_insert_code">Zuletzt</string>
 
 	<!-- Custom RSS -->
-	<string name="custom_rss_recent_list">Recently used RSS</string>
+	<string name="custom_rss_recent_list">Zuletzt</string>
+	<string name="license_rss_description">Falls es Probleme mit dem News-RSS gibt, dann schicke uns bitte eine Mail und wir kümmern uns darum.</string>
 </resources>
