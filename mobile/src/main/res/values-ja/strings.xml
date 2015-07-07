@@ -151,4 +151,5 @@
 
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">最近使用 RSS</string>
+	<string name="license_rss_description">ニュースRSSについて問題がある場合、help@yooiistudios.comにメールを送ってくれればすぐ処置するようにします。</string>
 </resources>

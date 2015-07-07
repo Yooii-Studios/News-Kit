@@ -41,7 +41,8 @@ public class LicenseListAdapter extends BaseAdapter {
         // Circular Reveal
         // nineoldandroids
         // guava
-        return 11;
+        // RSS
+        return 12;
     }
 
     @Override
@@ -202,6 +203,12 @@ public class LicenseListAdapter extends BaseAdapter {
                 viewHolder.getTitleTextView().setText("Guava");
                 viewHolder.getLinkTextView().setText("https://code.google.com/p/guava-libraries/");
                 viewHolder.getDetailTextView().setText("Apache License 2.0");
+                break;
+            case 11:
+                viewHolder.getTitleTextView().setText(R.string.custom_news_feed_menu_item_title);
+                viewHolder.getLinkTextView().setText("");
+                viewHolder.getLinkTextView().setVisibility(View.GONE);
+                viewHolder.getDetailTextView().setText(R.string.license_rss_description);
                 break;
         }
         return convertView;

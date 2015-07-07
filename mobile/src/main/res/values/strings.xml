@@ -151,4 +151,7 @@
 
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">RECENT</string>
+
+    <!-- License -->
+    <string name="license_rss_description">If you have any issue about News RSS, please feel free to email us. We will take prompt action for you.</string>
 </resources>

@@ -151,4 +151,5 @@
 
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">sử dụng gần đây</string>
+	<string name="license_rss_description">Nếu các bạn có vấn đề gì với RSS mới, xin hãy gửi email cho chúng tôi. Chúng tôi sẽ hỗ trợ nhanh chóng.</string>
 </resources>

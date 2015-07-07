@@ -151,4 +151,7 @@
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">최근 사용 RSS</string>
     <string name="setting_main_headline_font_size">헤드라인 폰트 크기</string>
+
+    <!-- License -->
+    <string name="license_rss_description">뉴스 RSS에 대해 문제가 있는 경우 help@yooiistudios.com으로 이메일 주시면 바로 조처 하도록 하겠습니다.</string>
 </resources>
