@@ -371,15 +371,18 @@ public class StoreActivity extends ActionBarActivity implements IabListener,
             if (ownedProducts.contains(IabProducts.SKU_PRO_VERSION)) {
                 disableProVersion();
             } else {
-//                if (inventory.getSkuDetails(IabProducts.SKU_PRO_VERSION_ORIGINAL) != null) {
-                mOriginalPriceTextView.setText(
-                        googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION_ORIGINAL));
-                // IabManager 에서 inventory 가 모든 sku 의 정보를 가지고 있는지 체크하므로 필요 없을 것이라 예상
-//                } else {
-//                    mOriginalPriceTextView.setText("$4.99");
-//                }
-                mDiscountedPriceTextView.setText(
-                        googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION));
+                // 네이버는 가격 기호가 따로 표시되지 않아 예외처리 필요
+                if (IabInfo.STORE_TYPE == IabProducts.StoreType.GOOGLE) {
+                    mOriginalPriceTextView.setText(
+                            googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION_ORIGINAL));
+                    mDiscountedPriceTextView.setText(
+                            googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION));
+                } else {
+                    mOriginalPriceTextView.setText(
+                            "₩" + googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION_ORIGINAL));
+                    mDiscountedPriceTextView.setText(
+                            "₩" + googleSkuToPriceMap.get(IabProducts.SKU_PRO_VERSION));
+                }
 
                 mBannerImageView.setClickable(true);
                 mBannerImageView.setBackgroundResource(R.drawable.store_bg_banner_selector);

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yooiistudios.newskit.IabInfo;
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.iab.IabProducts;
 import com.yooiistudios.newskit.util.StoreDebugCheckUtils;
@@ -168,7 +169,12 @@ public class StoreProductItemAdapter extends BaseAdapter {
                 viewHolder.getPriceButton().setText(R.string.store_purchased);
                 viewHolder.getPriceButton().setBackgroundResource(R.drawable.store_btn_raised_disable_drawable);
             } else {
-                viewHolder.getPriceButton().setText(mPrices.get(sku));
+                // 네이버는 가격 기호가 따로 표시되지 않아 예외처리 필요
+                if (IabInfo.STORE_TYPE == IabProducts.StoreType.GOOGLE) {
+                    viewHolder.getPriceButton().setText(mPrices.get(sku));
+                } else {
+                    viewHolder.getPriceButton().setText("₩" + mPrices.get(sku));
+                }
             }
         }
 
