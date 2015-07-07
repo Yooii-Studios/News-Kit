@@ -108,7 +108,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
 
     // Lollipop style Dialog at pre-Lollipop device
-    compile 'com.afollestad:material-dialogs:0.7.6.0'
+    compile ('com.afollestad:material-dialogs:0.7.6.0') {
+        exclude module: 'recyclerview-v7'
+    }
 
     // Floating Action Button
     compile 'com.melnykov:floatingactionbutton:1.2.0'
