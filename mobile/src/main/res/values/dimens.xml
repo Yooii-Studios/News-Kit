@@ -100,13 +100,13 @@
     <dimen name="store_icon_discount_banner_size">48dp</dimen>
     <dimen name="store_icon_discount_banner_margin_bottom">36dp</dimen>
     <dimen name="store_icon_banner_margin_mid">4dp</dimen>
-    <dimen name="store_price_button_width">84dp</dimen>
-    <dimen name="store_price_button_height">73dp</dimen>
+    <dimen name="store_price_button_width">88.2dp</dimen>
+    <dimen name="store_price_button_height">76.65dp</dimen>
     <dimen name="store_price_discounted_price_text_margin_bottom">13dp</dimen>
     <dimen name="store_price_discounted_price_text_margin_right">8dp</dimen>
-    <dimen name="store_price_discounted_price_width">67dp</dimen>
+    <dimen name="store_price_discounted_price_width">70dp</dimen>
     <dimen name="store_price_discounted_price_font_size">21sp</dimen>
-    <dimen name="store_price_original_price_width">40dp</dimen>
+    <dimen name="store_price_original_price_width">45dp</dimen>
     <dimen name="store_price_original_price_margin_bottom">-3dp</dimen>
     <dimen name="store_price_original_price_font_size">14sp</dimen>
     <dimen name="store_price_purchased_width">71dp</dimen>
