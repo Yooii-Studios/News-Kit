@@ -45,19 +45,19 @@ public class LanguageSelectDialogFragment extends DialogFragment {
         }
         String[] languages = languageList.toArray(new String[languageList.size()]);
 
-        Language currentLanguageType = LanguageUtils.getCurrentLanguage(getActivity());
+        Language currentLanguage = LanguageUtils.getCurrentLanguage(getActivity());
 
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.setting_language)
                 .items(languages)
-                .itemsCallbackSingleChoice(currentLanguageType.getIndex(), new MaterialDialog.ListCallbackSingleChoice() {
+                .itemsCallbackSingleChoice(currentLanguage.getIndex(), new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         if (mListener != null) {
                             mListener.onSelectLanguage(which);
                         }
                         return true;
-    }
+                    }
                 })
                 .negativeText(R.string.cancel)
                 .build();
