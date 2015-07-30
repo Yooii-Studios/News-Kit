@@ -37,7 +37,7 @@ public class NaverIabManager extends IabManager {
     private NIAPHelperErrorType mInitializeErrorType = null;
 
     private boolean mProductDetailsLoaded = false;
-    private boolean mPurchaseInfoLoaded = false;
+    private boolean mPurchaseInfoLoadFinished = false;
     private boolean mFailedDuringQuery = false;
 
     private NaverIabManager() {}
@@ -95,7 +95,7 @@ public class NaverIabManager extends IabManager {
 
                     // 구매 목록 콜백이 이미 진행이 되었으면 완료 후 바로 업데이트
                     mProductDetailsLoaded = true;
-                    checkQuerySucceed();
+                    checkAllQuerySucceed();
                 } catch (IabDetailNotFoundException e) {
                     configOnQueryFailed(e.getMessage());
                 }
@@ -123,8 +123,8 @@ public class NaverIabManager extends IabManager {
                 IabProducts.saveIabProducts(mActivity.getApplicationContext(), purchases);
 
                 // 전체 목록 콜백이 이미 진행이 되었으면 완료 후 바로 업데이트
-                mPurchaseInfoLoaded = true;
-                checkQuerySucceed();
+                mPurchaseInfoLoadFinished = true;
+                checkAllQuerySucceed();
             }
 
             @Override
@@ -132,12 +132,17 @@ public class NaverIabManager extends IabManager {
                 if (isHelperDisposed()) {
                     return;
                 }
-                configOnQueryFailed(niapHelperErrorType.getErrorDetails());
+                if (niapHelperErrorType.equals(NIAPHelperErrorType.USER_NOT_LOGGED_IN)) {
+                    mPurchaseInfoLoadFinished = true;
+                    checkAllQuerySucceed();
+                } else {
+                    configOnQueryFailed(niapHelperErrorType.getErrorDetails());
+                }
             }
         });
     }
 
-    private void checkQuerySucceed() {
+    private void checkAllQuerySucceed() {
         if (isQueryDone()) {
             mIapManagerListener.onQueryFinished(mPrices);
         }
@@ -171,7 +176,7 @@ public class NaverIabManager extends IabManager {
     }
 
     private boolean isQueryDone() {
-        return mProductDetailsLoaded && mPurchaseInfoLoaded;
+        return mProductDetailsLoaded && mPurchaseInfoLoadFinished;
     }
 
     public void dispose() {
