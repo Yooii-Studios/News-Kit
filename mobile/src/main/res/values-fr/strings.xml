@@ -15,6 +15,10 @@
 	<string name="share">Partager</string>
 	<string name="yes">Oui</string>
 	<string name="no">Non</string>
+	<string name="add_more_panels">Ajouter d\'autres panneaux de nouvelles</string>
+	<string name="app_name_full">News Kit</string>
+	<string name="minute">m</string>
+	<string name="second">s</string>
 
 	<!-- Main -->
 	<string name="action_edition">Sélectionner Nouvelles</string>
@@ -53,6 +57,10 @@
 	<string name="setting_news_feed_auto_scroll_normal">Normal</string>
 	<string name="setting_news_feed_auto_scroll_fast">Rapide</string>
 	<string name="setting_news_feed_auto_scroll_very_fast">Très Rapide</string>
+	<string name="setting_general_sub_header">Général</string>
+	<string name="setting_notification">Notifications</string>
+	<string name="setting_pair_tv_insert_code">Insérer code</string>
+	<string name="setting_main_headline_font_size">Taille des Caractères du Titre</string>
 
 	<!-- Pair -->
 	<string name="setting_pair_tv">Jumeler à Android TV</string>
@@ -119,6 +127,7 @@
 	<string name="news_feed_fetch_error_invalid_topic_url">Présentement Indisponible</string>
 	<string name="news_feed_fetch_error_invalid_custom_url">URL de RSS Invalide</string>
 	<string name="news_feed_fetch_error_timeout">Expiration de session. SVP vérifier la connectivité internet</string>
+	<string name="news_feed_fetch_error_unknown">Indisponible temporairement, SVP réessayer plus tard.</string>
 
 	<!-- Morning Kit Ad -->
 	<string name="morningkit_ad_app_name">Kit de Matin change to french equivalent of Kit?</string>
@@ -127,32 +136,14 @@
 	<string name="download">Télécharger</string>
 	<string name="close">Fermer</string>
 
-	<!-- 출시시 정렬 다시할 추가 스트링-->
-	<!-- General -->
-	<string name="add_more_panels">Ajouter d\'autres panneaux de nouvelles</string>
-	<string name="app_name_full">News Kit</string>
-	<string name="minute">m</string>
-	<string name="second">s</string>
-
 	<!-- Rate it -->
 	<string name="rate_it_contents">SVP donnez nous 5 étoiles!\nSans votre soutien, nous ne pouvons pas exister :)</string>
 	<string name="rate_it_rate">Donnez une évaluation</string>
 	<string name="rate_it_no_thanks">Plus tard</string>
 	<string name="rate_news_kit_title">Évaluez News Kit</string>
 
-	<!-- Error Message -->
-	<string name="news_feed_fetch_error_unknown">Indisponible temporairement, SVP réessayer plus tard.</string>
-
-	<!-- Setting -->
-	<string name="setting_general_sub_header">Général</string>
-	<string name="setting_notification">Notifications</string>
-	<string name="setting_pair_tv_insert_code">Insérer code</string>
-
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">RÉCENT</string>
-
-	<!-- Setting -->
-	<string name="setting_main_headline_font_size">Taille des Caractères du Titre</string>
 
 	<!-- License -->
 	<string name="license_rss_description">Si vous avez des difficultés aves les Nouvelles RSS, SVP nous envoyer un courriel. Nous agirons rapidement pour vous.</string>

@@ -15,6 +15,10 @@
     <string name="share">Share</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="add_more_panels">Add more news panels</string>
+    <string name="app_name_full">News Kit</string>
+    <string name="minute">m</string>
+    <string name="second">s</string>
 
     <!-- Main -->
     <string name="action_edition">Select News</string>
@@ -53,6 +57,10 @@
     <string name="setting_news_feed_auto_scroll_normal">Normal</string>
     <string name="setting_news_feed_auto_scroll_fast">Fast</string>
     <string name="setting_news_feed_auto_scroll_very_fast">Very Fast</string>
+    <string name="setting_general_sub_header">General</string>
+    <string name="setting_notification">Notifications</string>
+    <string name="setting_pair_tv_insert_code">Insert Code</string>
+    <string name="setting_main_headline_font_size">Headline Font Size</string>
 
     <!-- Pair -->
     <string name="setting_pair_tv">Pair Android TV</string>
@@ -119,6 +127,7 @@
     <string name="news_feed_fetch_error_invalid_topic_url">Currently Unavailable.</string>
     <string name="news_feed_fetch_error_invalid_custom_url">Invalid RSS URL</string>
     <string name="news_feed_fetch_error_timeout">Timeout. Please check your internet connectivity</string>
+    <string name="news_feed_fetch_error_unknown">Temporarily unavailable, Please try later.</string>
 
     <!-- Morning Kit Ad -->
     <string name="morningkit_ad_app_name">Morning Kit</string>
@@ -127,32 +136,14 @@
     <string name="download">Download</string>
     <string name="close">Close</string>
 
-    <!-- 출시시 정렬 다시할 추가 스트링-->
-    <!-- General -->
-    <string name="add_more_panels">Add more news panels</string>
-    <string name="app_name_full">News Kit</string>
-    <string name="minute">m</string>
-    <string name="second">s</string>
-
     <!-- Rate it -->
     <string name="rate_it_contents">Please rate us 5 stars!\nWithout your support, we don\'t exist :)</string>
     <string name="rate_it_rate">Rate it</string>
     <string name="rate_it_no_thanks">Later</string>
     <string name="rate_news_kit_title">Rate News Kit</string>
 
-    <!-- Error Message -->
-    <string name="news_feed_fetch_error_unknown">Temporarily unavailable, Please try later.</string>
-
-    <!-- Setting -->
-    <string name="setting_general_sub_header">General</string>
-    <string name="setting_notification">Notifications</string>
-    <string name="setting_pair_tv_insert_code">Insert Code</string>
-
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">RECENT</string>
-
-    <!-- Setting -->
-    <string name="setting_main_headline_font_size">Headline Font Size</string>
 
     <!-- License -->
     <string name="license_rss_description">If you have any issue about News RSS, please feel free to email us. We will take prompt action for you.</string>

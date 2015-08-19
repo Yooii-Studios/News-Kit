@@ -15,6 +15,10 @@
 	<string name="share">Chia sẻ</string>
 	<string name="yes">đồng ý</string>
 	<string name="no">không</string>
+	<string name="add_more_panels">Thêm khung tin tức</string>
+	<string name="app_name_full">News Kit</string>
+	<string name="minute">p</string>
+	<string name="second">g</string>
 
 	<!-- Main -->
 	<string name="action_edition">Chọn tin tức</string>
@@ -43,7 +47,6 @@
 	<string name="setting_main_auto_refresh_interval">Thời gian tự động đổi mới</string>
 	<string name="setting_main_auto_refresh_interval_caption">Thời gian</string>
 	<string name="setting_main_auto_refresh_speed">Tốc độ tự động đổi mới</string>
-	<string name="setting_main_headline_font_size">cỡ chữ tiêu đề</string>
 	<string name="setting_main_panel_matrix">Ma trận tin tức</string>
 	<string name="setting_main_panel_matrix_description">%1$s khung</string>
 	<string name="setting_news_feed_sub_header">Màn hình tin tức</string>
@@ -54,6 +57,10 @@
 	<string name="setting_news_feed_auto_scroll_normal">Bình thường</string>
 	<string name="setting_news_feed_auto_scroll_fast">Nhanh</string>
 	<string name="setting_news_feed_auto_scroll_very_fast">Rất nhanh</string>
+	<string name="setting_general_sub_header">Tổng quan</string>
+	<string name="setting_notification">Thông báo</string>
+	<string name="setting_pair_tv_insert_code">Nhập mã số</string>
+	<string name="setting_main_headline_font_size">cỡ chữ tiêu đề</string>
 
 	<!-- Pair -->
 	<string name="setting_pair_tv">Ghép đôi Android TV</string>
@@ -120,6 +127,7 @@
 	<string name="news_feed_fetch_error_invalid_topic_url">Hiện không có</string>
 	<string name="news_feed_fetch_error_invalid_custom_url">Đường dẫn RSS không hợp lệ</string>
 	<string name="news_feed_fetch_error_timeout">Hết thời gian. Xin hãy kiểm tra kết nối Internet</string>
+	<string name="news_feed_fetch_error_unknown">Tạm thời không có sẵn, xin hãy thử lại sau</string>
 
 	<!-- Morning Kit Ad -->
 	<string name="morningkit_ad_app_name">Morning Kit</string>
@@ -128,28 +136,15 @@
 	<string name="download">Tải xuống</string>
 	<string name="close">Đóng</string>
 
-	<!-- 출시시 정렬 다시할 추가 스트링-->
-	<!-- General -->
-	<string name="add_more_panels">Thêm khung tin tức</string>
-	<string name="app_name_full">News Kit</string>
-	<string name="minute">p</string>
-	<string name="second">g</string>
-
 	<!-- Rate it -->
 	<string name="rate_it_contents">Xin hãy xếp hạng chúng tôi 5 sao!\n Không có sự ủng hộ của các bạn, chúng tôi không tồn tại :)</string>
 	<string name="rate_it_rate">Xếp hạng</string>
 	<string name="rate_it_no_thanks">Để sau</string>
 	<string name="rate_news_kit_title">Rate News Kit</string>
 
-	<!-- Error Message -->
-	<string name="news_feed_fetch_error_unknown">Tạm thời không có sẵn, xin hãy thử lại sau</string>
-
-	<!-- Setting -->
-	<string name="setting_general_sub_header">Tổng quan</string>
-	<string name="setting_notification">Thông báo</string>
-	<string name="setting_pair_tv_insert_code">Nhập mã số</string>
-
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">sử dụng gần đây</string>
+
+	<!-- License -->
 	<string name="license_rss_description">Nếu các bạn có vấn đề gì với RSS mới, xin hãy gửi email cho chúng tôi. Chúng tôi sẽ hỗ trợ nhanh chóng.</string>
 </resources>

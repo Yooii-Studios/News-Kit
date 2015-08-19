@@ -15,6 +15,10 @@
 	<string name="share">Condividi</string>
 	<string name="yes">Sì</string>
 	<string name="no">No</string>
+	<string name="add_more_panels">Aggiungi altri pannelli news</string>
+	<string name="app_name_full">News Kit</string>
+	<string name="minute">m</string>
+	<string name="second">s</string>
 
 	<!-- Main -->
 	<string name="action_edition">Seleziona news</string>
@@ -53,6 +57,10 @@
 	<string name="setting_news_feed_auto_scroll_normal">Normale</string>
 	<string name="setting_news_feed_auto_scroll_fast">Veloce</string>
 	<string name="setting_news_feed_auto_scroll_very_fast">Molto veloce</string>
+	<string name="setting_general_sub_header">Generale</string>
+	<string name="setting_notification">Notifiche</string>
+	<string name="setting_pair_tv_insert_code">Inserisci codice</string>
+	<string name="setting_main_headline_font_size">Dimensione titolo</string>
 
 	<!-- Pair -->
 	<string name="setting_pair_tv">Associa TV Android</string>
@@ -119,6 +127,7 @@
 	<string name="news_feed_fetch_error_invalid_topic_url">Al momento non disponibile</string>
 	<string name="news_feed_fetch_error_invalid_custom_url">URL RSS non valido</string>
 	<string name="news_feed_fetch_error_timeout">Tempo scaduto. Controlla la tua connessione internet</string>
+	<string name="news_feed_fetch_error_unknown">Al momento non disponibile. Riprova più tardi.</string>
 
 	<!-- Morning Kit Ad -->
 	<string name="morningkit_ad_app_name">Morning Kit</string>
@@ -127,32 +136,14 @@
 	<string name="download">Scarica</string>
 	<string name="close">Chiudi</string>
 
-	<!-- 출시시 정렬 다시할 추가 스트링-->
-	<!-- General -->
-	<string name="add_more_panels">Aggiungi altri pannelli news</string>
-	<string name="app_name_full">News Kit</string>
-	<string name="minute">m</string>
-	<string name="second">s</string>
-
 	<!-- Rate it -->
 	<string name="rate_it_contents">Valutaci con 5 stelle\nSenza il tuo supporto non potremmo esistere :)</string>
 	<string name="rate_it_rate">Valuta l\'app</string>
 	<string name="rate_it_no_thanks">Più tardi</string>
 	<string name="rate_news_kit_title">Valuta News Kit</string>
 
-	<!-- Error Message -->
-	<string name="news_feed_fetch_error_unknown">Al momento non disponibile. Riprova più tardi.</string>
-
-	<!-- Setting -->
-	<string name="setting_general_sub_header">Generale</string>
-	<string name="setting_notification">Notifiche</string>
-	<string name="setting_pair_tv_insert_code">Inserisci codice</string>
-
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">RECENTE</string>
-
-	<!-- Setting -->
-	<string name="setting_main_headline_font_size">Dimensione titolo</string>
 
 	<!-- License -->
 	<string name="license_rss_description">Nếu các bạn có vấn đề gì với RSS mới, xin hãy gửi email cho chúng tôi. Chúng tôi sẽ hỗ trợ nhanh chóng.</string>
