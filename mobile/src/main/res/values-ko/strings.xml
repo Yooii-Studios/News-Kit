@@ -150,6 +150,8 @@
 
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">최근 사용 RSS</string>
+
+    <!-- Setting -->
     <string name="setting_main_headline_font_size">헤드라인 폰트 크기</string>
 
     <!-- License -->

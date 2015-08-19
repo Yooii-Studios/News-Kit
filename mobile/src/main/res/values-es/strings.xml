@@ -150,6 +150,10 @@
 
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">Reciente</string>
+
+    <!-- Setting -->
     <string name="setting_main_headline_font_size">Tamaño de Letra en Encabezado</string>
+
+    <!-- License -->
     <string name="license_rss_description">Si tienes cualquier problema acerca del News RSS, no dudes en enviarnos un correo electrónico. Tomaremos medidas rápidas.</string>
 </resources>

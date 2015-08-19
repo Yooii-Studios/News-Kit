@@ -43,7 +43,6 @@
     <string name="setting_main_auto_refresh_interval">News Refresh Rate</string>
     <string name="setting_main_auto_refresh_interval_caption">Interval</string>
     <string name="setting_main_auto_refresh_speed">Flip Animation Speed</string>
-    <string name="setting_main_headline_font_size">Headline Font Size</string>
     <string name="setting_main_panel_matrix">News Matrix</string>
     <string name="setting_main_panel_matrix_description">%1$s Panels</string>
     <string name="setting_news_feed_sub_header">News Feed Screen</string>
@@ -151,6 +150,9 @@
 
     <!-- Custom RSS -->
     <string name="custom_rss_recent_list">RECENT</string>
+
+    <!-- Setting -->
+    <string name="setting_main_headline_font_size">Headline Font Size</string>
 
     <!-- License -->
     <string name="license_rss_description">If you have any issue about News RSS, please feel free to email us. We will take prompt action for you.</string>
