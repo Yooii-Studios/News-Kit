@@ -51,7 +51,8 @@ public class RecommendUtils {
 //            모닝은 37676
 //            return "http://nstore.naver.com/appstore/web/detail.nhn?originalProductId=37676";
 //        } else {
-            return "https://play.google.com/store/apps/details?id=" + context.getPackageName();
+            return "https://play.google.com/store/apps/details?id=" + context.getPackageName() +
+                    "&hl=en";
 //        }
     }
 }
