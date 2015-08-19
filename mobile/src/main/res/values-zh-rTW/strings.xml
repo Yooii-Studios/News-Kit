@@ -15,6 +15,10 @@
 	<string name="share">分享</string>
 	<string name="yes">是</string>
 	<string name="no">否</string>
+	<string name="add_more_panels">添加更多新聞版面</string>
+	<string name="app_name_full">新聞匯</string>
+	<string name="minute">分</string>
+	<string name="second">秒</string>
 
 	<!-- Main -->
 	<string name="action_edition">選擇新聞源</string>
@@ -43,7 +47,6 @@
 	<string name="setting_main_auto_refresh_interval">自動刷新間隔</string>
 	<string name="setting_main_auto_refresh_interval_caption">間隔</string>
 	<string name="setting_main_auto_refresh_speed">翻轉速度</string>
-	<string name="setting_main_headline_font_size">標題字體大小</string>
 	<string name="setting_main_panel_matrix">新聞匯總</string>
 	<string name="setting_main_panel_matrix_description">%1$s 版面</string>
 	<string name="setting_news_feed_sub_header">推送新聞屏幕</string>
@@ -54,6 +57,10 @@
 	<string name="setting_news_feed_auto_scroll_normal">正常</string>
 	<string name="setting_news_feed_auto_scroll_fast">快</string>
 	<string name="setting_news_feed_auto_scroll_very_fast">非常快</string>
+	<string name="setting_general_sub_header">通用</string>
+	<string name="setting_notification">通知</string>
+	<string name="setting_pair_tv_insert_code">輸入同步碼</string>
+	<string name="setting_main_headline_font_size">標題字體大小</string>
 
 	<!-- Pair -->
 	<string name="setting_pair_tv">和Android電視配對</string>
@@ -120,6 +127,7 @@
 	<string name="news_feed_fetch_error_invalid_topic_url">當前不可用</string>
 	<string name="news_feed_fetch_error_invalid_custom_url">錯誤RSS URL</string>
 	<string name="news_feed_fetch_error_timeout">超時。請檢查網絡連接。</string>
+	<string name="news_feed_fetch_error_unknown">暫不可用，請稍後再試。</string>
 
 	<!-- Morning Kit Ad -->
 	<string name="morningkit_ad_app_name">早安工具</string>
@@ -128,28 +136,15 @@
 	<string name="download">下載</string>
 	<string name="close">關閉</string>
 
-	<!-- 출시시 정렬 다시할 추가 스트링-->
-	<!-- General -->
-	<string name="add_more_panels">添加更多新聞版面</string>
-	<string name="app_name_full">新聞匯</string>
-	<string name="minute">分</string>
-	<string name="second">秒</string>
-
 	<!-- Rate it -->
 	<string name="rate_it_contents">給個好評吧！\n您的鼓勵會讓我們做出更好的產品！</string>
 	<string name="rate_it_rate">評論</string>
 	<string name="rate_it_no_thanks">稍後 </string>
 	<string name="rate_news_kit_title">為新聞匯評分</string>
 
-	<!-- Error Message -->
-	<string name="news_feed_fetch_error_unknown">暫不可用，請稍後再試。</string>
-
-	<!-- Setting -->
-	<string name="setting_general_sub_header">通用</string>
-	<string name="setting_notification">通知</string>
-	<string name="setting_pair_tv_insert_code">Insert Code</string>
-
 	<!-- Custom RSS -->
 	<string name="custom_rss_recent_list">最近使用 RSS</string>
+
+	<!-- License -->
 	<string name="license_rss_description">如果對新聞RSS有任何疑問，請email我們，我們會盡快回覆您。</string>
 </resources>
