@@ -19,9 +19,10 @@ public enum Language {
     GERMAN(5, 5, "de", "", "German", R.string.setting_language_german),
     SPANISH(6, 6, "es", "", "Spanish", R.string.setting_language_spanish),
 //    RUSSIAN(7, 7, "ru", "", "Russian", R.string.setting_language_russian),
-    VIETNAM(9, 8, "vi", "", "Vietnam", R.string.setting_language_vietnam),
-    ITALIAN(8, 9, "it", "", "Italian", R.string.setting_language_italian),
-    FRENCH(7, 10, "fr", "", "French", R.string.setting_language_french);
+    VIETNAM(10, 8, "vi", "", "Vietnam", R.string.setting_language_vietnam),
+    ITALIAN(9, 9, "it", "", "Italian", R.string.setting_language_italian),
+    FRENCH(8, 10, "fr", "", "French", R.string.setting_language_french),
+    PORTUGUESE(7, 11, "pt", "", "Portuguese", R.string.setting_language_portuguese);
     // 다른 언어들이 추가되면 인덱스만 수정할 것, uniqueId 는 계속 증가시킬 것
 
     private final int index; // 리스트뷰에 표시할 용도의 index
