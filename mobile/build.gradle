@@ -13,7 +13,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.yooiistudios.newskit"
@@ -89,6 +89,7 @@ dependencies {
     compile project(':libraries:GridLayoutManager')
     compile project(':libraries:SerialAnimator')
     compile project(':libraries:OrientationAdView')
+    compile project(':libraries:FullscreenAd')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     // TODO: 가능하면 버전 올려서 애니메이션, NewsFeedDetail 스크롤 문제 생기는 부분 수정.
@@ -105,7 +106,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
 
     // Lollipop style Dialog at pre-Lollipop device
     compile ('com.afollestad:material-dialogs:0.7.6.0') {
