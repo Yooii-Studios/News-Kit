@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -25,7 +26,7 @@ import com.yooiistudios.newskit.ui.fragment.NewsSelectProviderFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class NewsSelectDetailActivity extends ActionBarActivity {
+public class NewsSelectDetailActivity extends AppCompatActivity {
     public static final String KEY_IS_COUNTRY_SELECTED = "key_is_country_selected";
     public static final String KEY_NEWS_PROVIDER_COUNTRY = "key_news_provider_country";
     public static final String KEY_NEWS_PROVIDER = "key_news_provider";

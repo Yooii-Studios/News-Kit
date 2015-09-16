@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -73,7 +74,7 @@ import java.util.Locale;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener,
         OnMainPanelEditModeEventListener, LoadingAnimationView.LoadingAnimListener {

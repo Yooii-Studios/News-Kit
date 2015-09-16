@@ -1,10 +1,10 @@
 package com.yooiistudios.newskit.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class NewsDetailActivity extends Activity implements HTML5WebView.HTML5WebViewCallback {
+public class NewsDetailActivity extends AppCompatActivity implements HTML5WebView.HTML5WebViewCallback {
     private static final String TAG = NewsDetailActivity.class.getName();
 
     @InjectView(R.id.news_detail_content_layout) RelativeLayout mContentContainer;

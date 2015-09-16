@@ -3,7 +3,7 @@ package com.yooiistudios.newskit.ui.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -26,7 +26,7 @@ import com.yooiistudios.newskit.util.RecommendUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class InfoActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class InfoActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "InfoActivity";
 
     public enum InfoItem {

@@ -3,6 +3,7 @@ package com.yooiistudios.newskit.ui.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -28,7 +29,7 @@ import butterknife.InjectView;
  * SettingActivity
  *  설정화면 액티비티
  */
-public class SettingActivity extends ActionBarActivity {
+public class SettingActivity extends AppCompatActivity {
     private static final String TAG = SettingActivity.class.getName();
 
     @InjectView(R.id.setting_toolbar) Toolbar mToolbar;
