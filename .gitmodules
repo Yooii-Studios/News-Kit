@@ -12,3 +12,6 @@
 [submodule "libraries/Volley"]
 	path = libraries/Volley
 	url = https://android.googlesource.com/platform/frameworks/volley
+[submodule "libraries/FullscreenAd"]
+	path = libraries/FullscreenAd
+	url = https://github.com/Yooii-Studios/FullscreenAd
