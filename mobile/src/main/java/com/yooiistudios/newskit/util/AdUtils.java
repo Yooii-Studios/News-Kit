@@ -1,5 +1,6 @@
 package com.yooiistudios.newskit.util;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yooiistudios.fullscreenad.FullscreenAdUtils;
 import com.yooiistudios.newskit.NewsApplication;
 import com.yooiistudios.newskit.R;
 import com.yooiistudios.newskit.iab.IabProducts;
@@ -90,7 +92,7 @@ public class AdUtils {
     private static boolean shouldShowAd(SharedPreferences prefs, final int launchCount) {
         // 일정 카운트(40) 이상부터는 launchCount 는 더 증가시킬 필요가 없음. 실행 횟수만 체크
         if (launchCount >= 41) {
-            int threshold = 20;
+            int threshold = 15;
 
             int eachLaunchCount = prefs.getInt(EACH_LAUNCH_COUNT, 1);
             if (eachLaunchCount >= threshold) {
@@ -130,6 +132,7 @@ public class AdUtils {
     }
     */
 
+    @SuppressLint("SetTextI18n")
     private static void showInHouseStoreAd(final Context context) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -187,6 +190,9 @@ public class AdUtils {
     private static void showMorningKitAd(final Context context) {
         // 모닝키트가 깔려 있으면 보여주지 말기
         if (!isPackageExisted(context, "com.yooiistudios.morningkit")) {
+            FullscreenAdUtils.showMorningKitAd(context);
+
+            /*
             final Dialog dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.morningkit_ad_dialog_layout);
@@ -224,6 +230,7 @@ public class AdUtils {
             dialog.setCanceledOnTouchOutside(false);
             dialog.setCancelable(false);
             dialog.show();
+            */
         }
     }
 
