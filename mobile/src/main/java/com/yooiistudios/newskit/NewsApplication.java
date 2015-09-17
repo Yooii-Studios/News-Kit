@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.yooiistudios.newskit.core.debug.DebugSettings;
@@ -11,6 +12,7 @@ import com.yooiistudios.newskit.core.language.Language;
 import com.yooiistudios.newskit.core.language.LanguageUtils;
 import com.yooiistudios.newskit.util.InterpolatorHelper;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -65,6 +67,7 @@ public class NewsApplication extends Application {
     public void onCreate() {
         enableStrictMode();
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         InterpolatorHelper.saveDefaultSetting(getApplicationContext());
 

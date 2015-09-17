@@ -1,8 +1,18 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 repositories {
     jcenter()
 //    maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
 //    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 // jcenter 는 JFrog 에서 개발하는 maven 의 superset. 다른 artifact 를 더 포함한다고 함
@@ -10,6 +20,7 @@ repositories {
 //    mavenLocal()
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 22
@@ -119,6 +130,9 @@ dependencies {
     // pre-lollipop 에서 CircularReveal 지원
     compile 'com.github.ozodrukh:CircularReveal:1.0.4@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+        transitive = true;
+    }
 }
 
 /*
