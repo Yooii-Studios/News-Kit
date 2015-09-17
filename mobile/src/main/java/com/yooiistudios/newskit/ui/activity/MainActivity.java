@@ -1,5 +1,6 @@
 package com.yooiistudios.newskit.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -10,7 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -73,7 +74,7 @@ import java.util.Locale;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
         implements MainTopContainerLayout.OnMainTopLayoutEventListener,
         MainBottomContainerLayout.OnMainBottomLayoutEventListener,
         OnMainPanelEditModeEventListener, LoadingAnimationView.LoadingAnimListener {
@@ -235,7 +236,9 @@ public class MainActivity extends ActionBarActivity
     private void initToolbar() {
         mToolbar.bringToFront();
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         adjustToolbarTopMargin();
     }
@@ -254,8 +257,6 @@ public class MainActivity extends ActionBarActivity
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                if (mMainTopContainerLayout.isReady() &&
-//                        !mMainBottomContainerLayout.isRefreshingBottomNewsFeeds()) {
                 if (mMainTopContainerLayout.isReady() &&
                         mMainBottomContainerLayout.isAllImagesReady()) {
                     stopNewsAutoRefresh();
@@ -276,6 +277,7 @@ public class MainActivity extends ActionBarActivity
         mLoadingAnimationView.bringToFront();
     }
 
+    @SuppressLint("InflateParams")
     private void initNetworkUnavailableCoverLayout() {
         mNetworkUnavailableCover = LayoutInflater.from(getApplicationContext())
                 .inflate(R.layout.network_unavailable_cover, null);

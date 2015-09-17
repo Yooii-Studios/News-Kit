@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -20,7 +21,7 @@ import com.yooiistudios.newskit.util.AnalyticsUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CreditActivity extends ActionBarActivity {
+public class CreditActivity extends AppCompatActivity {
     private static final String TAG = "CreditActivity";
     @InjectView(R.id.info_credit_list_view) ListView mListView;
     @InjectView(R.id.info_credit_toolbar) Toolbar mToolbar;

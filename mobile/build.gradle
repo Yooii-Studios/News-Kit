@@ -1,8 +1,18 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 repositories {
     jcenter()
 //    maven { url 'https://github.com/karussell/mvnrepo/raw/master/releases/' }
 //    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 // jcenter 는 JFrog 에서 개발하는 maven 의 superset. 다른 artifact 를 더 포함한다고 함
@@ -10,17 +20,18 @@ repositories {
 //    mavenLocal()
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.yooiistudios.newskit"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 20
-        versionName "1.6.0"
+        versionCode 21
+        versionName "1.7.0"
     }
     buildTypes {
         release {
@@ -89,6 +100,7 @@ dependencies {
     compile project(':libraries:GridLayoutManager')
     compile project(':libraries:SerialAnimator')
     compile project(':libraries:OrientationAdView')
+    compile project(':libraries:FullscreenAd')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
     // TODO: 가능하면 버전 올려서 애니메이션, NewsFeedDetail 스크롤 문제 생기는 부분 수정.
@@ -105,7 +117,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
 
     // Lollipop style Dialog at pre-Lollipop device
     compile ('com.afollestad:material-dialogs:0.7.6.0') {
@@ -118,6 +130,9 @@ dependencies {
     // pre-lollipop 에서 CircularReveal 지원
     compile 'com.github.ozodrukh:CircularReveal:1.0.4@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+        transitive = true;
+    }
 }
 
 /*

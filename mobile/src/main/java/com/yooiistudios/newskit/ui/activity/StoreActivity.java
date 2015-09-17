@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -50,7 +50,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class StoreActivity extends ActionBarActivity implements IabListener,
+public class StoreActivity extends AppCompatActivity implements IabListener,
         StoreProductItemAdapter.StoreItemOnClickListener {
     private static final String TAG = StoreActivity.class.getName();
     private IabManager mIabManager;

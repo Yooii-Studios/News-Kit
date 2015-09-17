@@ -3,6 +3,7 @@ package com.yooiistudios.newskit.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -14,7 +15,7 @@ import com.yooiistudios.newskit.util.AnalyticsUtils;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class LicenseActivity extends Activity {
+public class LicenseActivity extends AppCompatActivity {
     private static final String TAG = "LicenseActivity";
     @InjectView(R.id.more_info_license_listview) ListView mListView;
 

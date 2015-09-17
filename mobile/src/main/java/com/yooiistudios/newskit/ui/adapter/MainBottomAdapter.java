@@ -25,7 +25,6 @@ import com.yooiistudios.newskit.core.news.News;
 import com.yooiistudios.newskit.core.news.NewsFeed;
 import com.yooiistudios.newskit.core.news.NewsFeedFetchState;
 import com.yooiistudios.newskit.core.util.Device;
-import com.yooiistudios.newskit.core.util.NLLog;
 import com.yooiistudios.newskit.model.PanelEditMode;
 import com.yooiistudios.newskit.model.Settings;
 import com.yooiistudios.newskit.model.cache.NewsImageLoader;
@@ -408,7 +407,7 @@ public class MainBottomAdapter extends
         viewHolder.newsTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 mOriginalHeadlineTextSize * Settings.getHeadlineFontSize(mContext));
 //        NLLog.now("newsTitleTextView textSize: " + mOriginalHeadlineTextSize * Settings.getHeadlineFontSize(mContext));
-        NLLog.now("headlineFontSize: " + Settings.getHeadlineFontSize(mContext));
+//        NLLog.now("headlineFontSize: " + Settings.getHeadlineFontSize(mContext));
     }
 
     private void initOnClickListener(final BottomNewsFeedViewHolder viewHolder, final int position,
