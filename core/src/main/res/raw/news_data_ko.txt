@@ -463,18 +463,6 @@
                             "url": "http://rss.hankyung.com/new/news_enter.xml"
                         }
                     ]
-                },
-                {
-                    "provider_name": "씨넷",
-            	    "provider_id": "9",
-            	    "topics": [
-                        {
-                            "topic_name": "씨넷",
-                            "topic_id": "1",
-                            "url": "http://www.cnet.co.kr/feed",
-                            "isDefault": "true"
-                        }
-                    ]
                 }
             ]
         }
