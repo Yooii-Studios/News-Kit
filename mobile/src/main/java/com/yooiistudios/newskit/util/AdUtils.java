@@ -2,7 +2,6 @@ package com.yooiistudios.newskit.util;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +9,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yooiistudios.fullscreenad.FullscreenAdUtils;
 import com.yooiistudios.newskit.NewsApplication;
@@ -38,6 +35,9 @@ import java.util.List;
  *  80 120 160 200 ~ : 모닝키트 다운 요청
  *
  *  20에 뉴스키트 광고, 60부터 시작해서 20번마다 뉴스키트, 모닝키트 번갈아 광고
+ *
+ *  -> 2015. 9. 17 수정(with 이사님)
+ *  5회도 뉴스키트 광고가 뜨게 수정, 5-20 뉴스 / 40 모닝 / 이후 60회부터 뉴스 뉴스 모닝 방식
  */
 public class AdUtils {
     private AdUtils() { throw new AssertionError("You MUST not create this class!"); }
@@ -49,6 +49,19 @@ public class AdUtils {
 
     // 전면 광고 아이디는 각자의 앱에 맞는 전면 광고 ID를 추가
 //    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/4341204620";
+
+    /*
+    // 원하는 카운트에 실행이 되는지 테스트 용도
+    public static void resetCounts(Context context) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences prefs = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        prefs.edit().remove(LAUNCH_COUNT).apply();
+        prefs.edit().remove(EACH_AD_COUNT).apply();
+        prefs.edit().remove(EACH_LAUNCH_COUNT).apply();
+    }
+    */
 
     public static void showPopupAdIfSatisfied(Context context) {
         if (context == null) {
@@ -64,19 +77,16 @@ public class AdUtils {
             if (shouldShowAd(prefs, launchCount)) {
 
                 // 풀버전이 나올 때 아이템들을 체크
-                AnalyticsUtils.trackInterstitialAd(
-                        (NewsApplication) context.getApplicationContext(),
+                AnalyticsUtils.trackInterstitialAd((NewsApplication) context.getApplicationContext(),
                         MainActivity.TAG);
 
                 // 3번째 마다 인하우스 스토어 광고를 보여주게 로직 수정
-                int eachAdCount = prefs.getInt(EACH_AD_COUNT, 1);
+                int eachAdCount = prefs.getInt(EACH_AD_COUNT, 0);
                 if (eachAdCount >= 2) {
                     prefs.edit().remove(EACH_AD_COUNT).apply();
                     showMorningKitAd(context);
-                } else if (eachAdCount < 2 || launchCount == 20) {
-                    if (launchCount > 20) {
-                        prefs.edit().putInt(EACH_AD_COUNT, ++eachAdCount).apply();
-                    }
+                } else if (eachAdCount < 2 || launchCount == 5 || launchCount == 20) {
+                    prefs.edit().putInt(EACH_AD_COUNT, ++eachAdCount).apply();
                     showInHouseStoreAd(context);
                 }
             }
@@ -88,11 +98,10 @@ public class AdUtils {
         }
     }
 
-
     private static boolean shouldShowAd(SharedPreferences prefs, final int launchCount) {
         // 일정 카운트(40) 이상부터는 launchCount 는 더 증가시킬 필요가 없음. 실행 횟수만 체크
         if (launchCount >= 41) {
-            int threshold = 15;
+            int threshold = 20;
 
             int eachLaunchCount = prefs.getInt(EACH_LAUNCH_COUNT, 1);
             if (eachLaunchCount >= threshold) {
@@ -103,13 +112,11 @@ public class AdUtils {
                 eachLaunchCount++;
                 prefs.edit().putInt(EACH_LAUNCH_COUNT, eachLaunchCount).apply();
             }
-        } else if (launchCount == 20) {
+        } else if (launchCount == 20 || launchCount == 5) {
             return true;
         }
         return false;
     }
-
-
 
     /*
     private static void showInterstitialAd(Context context) {
@@ -245,6 +252,7 @@ public class AdUtils {
         return false;
     }
 
+    /*
     private static void goToPlayStoreForMorningKit(Context context) {
         Uri uri = Uri.parse("market://details?id=" + MORNING_KIT_PACKAGE_NAME);
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -254,4 +262,5 @@ public class AdUtils {
             Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
         }
     }
+    */
 }
