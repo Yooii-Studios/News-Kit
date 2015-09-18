@@ -47,9 +47,6 @@ public class AdUtils {
     private static final String EACH_AD_COUNT = "each_ad_count";
     private static final String MORNING_KIT_PACKAGE_NAME = "com.yooiistudios.morningkit";
 
-    // 전면 광고 아이디는 각자의 앱에 맞는 전면 광고 ID를 추가
-//    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/4341204620";
-
     /*
     // 원하는 카운트에 실행이 되는지 테스트 용도
     public static void resetCounts(Context context) {
@@ -118,27 +115,6 @@ public class AdUtils {
         return false;
     }
 
-    /*
-    private static void showInterstitialAd(Context context) {
-        // 전체 광고 표시
-        final InterstitialAd interstitialAdView = new InterstitialAd(context);
-        interstitialAdView.setAdUnitId(INTERSTITIAL_ID);
-        interstitialAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                if (interstitialAdView.isLoaded()) {
-                    interstitialAdView.show();
-                }
-            }
-        });
-        AdRequest fullAdRequest = new AdRequest.Builder()
-//                            .addTestDevice("D9XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-                .build();
-        interstitialAdView.loadAd(fullAdRequest);
-    }
-    */
-
     @SuppressLint("SetTextI18n")
     private static void showInHouseStoreAd(final Context context) {
         final Dialog dialog = new Dialog(context);
@@ -195,49 +171,9 @@ public class AdUtils {
     }
 
     private static void showMorningKitAd(final Context context) {
-        // 모닝키트가 깔려 있으면 보여주지 말기
-        if (!isPackageExisted(context, "com.yooiistudios.morningkit")) {
+        // 모닝키트가 설치되지 않은 경우만 보여주기
+        if (!isPackageExisted(context, MORNING_KIT_PACKAGE_NAME)) {
             FullscreenAdUtils.showMorningKitAd(context);
-
-            /*
-            final Dialog dialog = new Dialog(context);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.morningkit_ad_dialog_layout);
-
-            Window window = dialog.getWindow();
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            ImageView imageView = (ImageView) dialog.findViewById(R.id.morningkit_ad_dialog_image_view);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    goToPlayStoreForMorningKit(context);
-                }
-            });
-
-            TextView downloadButtonView = (TextView) dialog.findViewById(R.id.morningkit_ad_dialog_download_button);
-            downloadButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    goToPlayStoreForMorningKit(context);
-                }
-            });
-
-            TextView closeButtonView = (TextView) dialog.findViewById(R.id.morningkit_ad_dialog_close_button);
-            closeButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-            // 기타 필요한 설정
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setCancelable(false);
-            dialog.show();
-            */
         }
     }
 
@@ -251,16 +187,4 @@ public class AdUtils {
         }
         return false;
     }
-
-    /*
-    private static void goToPlayStoreForMorningKit(Context context) {
-        Uri uri = Uri.parse("market://details?id=" + MORNING_KIT_PACKAGE_NAME);
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        try {
-            context.startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
 }
