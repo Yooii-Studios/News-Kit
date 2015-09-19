@@ -47,11 +47,8 @@ public class AdUtils {
     private static final String EACH_AD_COUNT = "each_ad_count";
     private static final String MORNING_KIT_PACKAGE_NAME = "com.yooiistudios.morningkit";
 
-    // 전면 광고 아이디는 각자의 앱에 맞는 전면 광고 ID를 추가
-//    private static final String INTERSTITIAL_ID = "ca-app-pub-2310680050309555/4341204620";
-
+    // 원하는 카운트에 실행이 되는지 테스트 용도. 필요할 때 풀고 사용하자
     /*
-    // 원하는 카운트에 실행이 되는지 테스트 용도
     public static void resetCounts(Context context) {
         if (context == null) {
             return;
@@ -70,8 +67,8 @@ public class AdUtils {
 
         List<String> ownedSkus = IabProducts.loadOwnedIabProducts(context);
 
-        // 풀버전 구매 아이템이 없을 경우만 진행
-        if (!ownedSkus.contains(IabProducts.SKU_PRO_VERSION)) {
+        // 기존 풀버전 외에 보여주는 것에서 광고+풀버전 둘 다 광고를 안 보여주게 변경
+        if (!ownedSkus.contains(IabProducts.SKU_NO_ADS)) {
             SharedPreferences prefs = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
             int launchCount = prefs.getInt(LAUNCH_COUNT, 1);
             if (shouldShowAd(prefs, launchCount)) {
@@ -90,8 +87,8 @@ public class AdUtils {
                     showInHouseStoreAd(context);
                 }
             }
-            // 40회 부터 시작해서 20번 실행마다 광고를 보여주면 되기에 더이상 체크 X
-            if (launchCount < 41) {
+            // 20회부터 20번 실행마다 광고를 보여주면 되기에 더이상 체크 X
+            if (launchCount <= 20) {
                 launchCount++;
                 prefs.edit().putInt(LAUNCH_COUNT, launchCount).apply();
             }
@@ -100,7 +97,7 @@ public class AdUtils {
 
     private static boolean shouldShowAd(SharedPreferences prefs, final int launchCount) {
         // 일정 카운트(40) 이상부터는 launchCount 는 더 증가시킬 필요가 없음. 실행 횟수만 체크
-        if (launchCount >= 41) {
+        if (launchCount > 20) {
             int threshold = 20;
 
             int eachLaunchCount = prefs.getInt(EACH_LAUNCH_COUNT, 1);
@@ -117,27 +114,6 @@ public class AdUtils {
         }
         return false;
     }
-
-    /*
-    private static void showInterstitialAd(Context context) {
-        // 전체 광고 표시
-        final InterstitialAd interstitialAdView = new InterstitialAd(context);
-        interstitialAdView.setAdUnitId(INTERSTITIAL_ID);
-        interstitialAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                if (interstitialAdView.isLoaded()) {
-                    interstitialAdView.show();
-                }
-            }
-        });
-        AdRequest fullAdRequest = new AdRequest.Builder()
-//                            .addTestDevice("D9XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-                .build();
-        interstitialAdView.loadAd(fullAdRequest);
-    }
-    */
 
     @SuppressLint("SetTextI18n")
     private static void showInHouseStoreAd(final Context context) {
@@ -195,49 +171,9 @@ public class AdUtils {
     }
 
     private static void showMorningKitAd(final Context context) {
-        // 모닝키트가 깔려 있으면 보여주지 말기
-        if (!isPackageExisted(context, "com.yooiistudios.morningkit")) {
+        // 모닝키트가 설치되지 않은 경우만 보여주기
+        if (!isPackageExisted(context, MORNING_KIT_PACKAGE_NAME)) {
             FullscreenAdUtils.showMorningKitAd(context);
-
-            /*
-            final Dialog dialog = new Dialog(context);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.morningkit_ad_dialog_layout);
-
-            Window window = dialog.getWindow();
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            ImageView imageView = (ImageView) dialog.findViewById(R.id.morningkit_ad_dialog_image_view);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    goToPlayStoreForMorningKit(context);
-                }
-            });
-
-            TextView downloadButtonView = (TextView) dialog.findViewById(R.id.morningkit_ad_dialog_download_button);
-            downloadButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    goToPlayStoreForMorningKit(context);
-                }
-            });
-
-            TextView closeButtonView = (TextView) dialog.findViewById(R.id.morningkit_ad_dialog_close_button);
-            closeButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-            // 기타 필요한 설정
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setCancelable(false);
-            dialog.show();
-            */
         }
     }
 
@@ -251,16 +187,4 @@ public class AdUtils {
         }
         return false;
     }
-
-    /*
-    private static void goToPlayStoreForMorningKit(Context context) {
-        Uri uri = Uri.parse("market://details?id=" + MORNING_KIT_PACKAGE_NAME);
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        try {
-            context.startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
 }

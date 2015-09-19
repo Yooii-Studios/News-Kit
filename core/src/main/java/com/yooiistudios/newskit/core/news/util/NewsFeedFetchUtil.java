@@ -124,27 +124,27 @@ public class NewsFeedFetchUtil {
 
     // TODO: refactor
     private static String getEncoding(InputStream inputStream) {
-        // read encoding(Presume that the xml prolog is in the first line)
+        // read encoding(Presume that the xml prologue is in the first line)
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream), 80);
-        String prolog = null;
+        String prologue = null;
         try {
             char[] buffer = new char[300];
             bufferedReader.read(buffer, 0, 300);
-            prolog = new String(buffer);
+            prologue = new String(buffer);
         } catch (Exception ignored) {}
         String encoding = "";
-        if (prolog != null) {
-            int prologEndIdx = prolog.indexOf("?>");
+        if (prologue != null) {
+            int prologEndIdx = prologue.indexOf("?>");
             if (prologEndIdx > 0) {
-                prolog = prolog.substring(0, prologEndIdx);
+                prologue = prologue.substring(0, prologEndIdx);
             }
             String encodingKey = "encoding";
-            int encodingPosition = prolog.indexOf(encodingKey);
+            int encodingPosition = prologue.indexOf(encodingKey);
             if (encodingPosition >= 0) {
                 final char singleQuote = '\'';
                 final char doubleQuote = '\"';
-                int singleQuoteStartIdx = prolog.indexOf(singleQuote, encodingPosition);
-                int doubleQuoteStartIdx = prolog.indexOf(doubleQuote, encodingPosition);
+                int singleQuoteStartIdx = prologue.indexOf(singleQuote, encodingPosition);
+                int doubleQuoteStartIdx = prologue.indexOf(doubleQuote, encodingPosition);
 
                 if (singleQuoteStartIdx != -1 || doubleQuoteStartIdx != -1) {
                     boolean useSingleQuote;
@@ -155,22 +155,22 @@ public class NewsFeedFetchUtil {
                     }
                     int quoteStartIdx = useSingleQuote ? singleQuoteStartIdx : doubleQuoteStartIdx;
                     char quoteToUse = useSingleQuote ? singleQuote : doubleQuote;
-                    int quoteEndIdx = prolog.indexOf(quoteToUse, quoteStartIdx + 1);
+                    int quoteEndIdx = prologue.indexOf(quoteToUse, quoteStartIdx + 1);
 
                     if (isValidIndex(quoteStartIdx, quoteEndIdx)) {
-                        encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+                        encoding = prologue.substring(quoteStartIdx + 1, quoteEndIdx);
                     }
                 }
 
-//                int quoteStartIdx = prolog.indexOf('\"', encodingPosition);
-//                int quoteEndIdx = prolog.indexOf('\"', quoteStartIdx + 1);
+//                int quoteStartIdx = prologue.indexOf('\"', encodingPosition);
+//                int quoteEndIdx = prologue.indexOf('\"', quoteStartIdx + 1);
 //
 //                if (!isValidIndex(quoteStartIdx, quoteEndIdx)) {
-//                    quoteStartIdx = prolog.indexOf('\'', encodingPosition);
-//                    quoteEndIdx = prolog.indexOf('\'', quoteStartIdx + 1);
+//                    quoteStartIdx = prologue.indexOf('\'', encodingPosition);
+//                    quoteEndIdx = prologue.indexOf('\'', quoteStartIdx + 1);
 //                }
 //                if (isValidIndex(quoteStartIdx, quoteEndIdx)) {
-//                    encoding = prolog.substring(quoteStartIdx + 1, quoteEndIdx);
+//                    encoding = prologue.substring(quoteStartIdx + 1, quoteEndIdx);
 //                }
             }
         }
@@ -197,6 +197,7 @@ public class NewsFeedFetchUtil {
         return quoteStartIdx != -1 && quoteEndIdx != -1 && quoteEndIdx > quoteStartIdx;
     }
 
+    /*
     private static String getContent(InputStream inputStream, String encoding) throws IOException {
         BufferedReader reader;
         if (encoding.length() > 0) {
@@ -212,6 +213,7 @@ public class NewsFeedFetchUtil {
         }
         return stringBuilder.toString();
     }
+    */
 
     private static void cleanUpNewsContents(NewsFeed newsFeed) {
         for (News news : newsFeed.getNewsList()) {

@@ -163,6 +163,14 @@ public class MainActivity extends AppCompatActivity
             AppValidationChecker.validationCheck(this);
         }
 
+        // AdUtils 테스트. 로직이 바뀔 경우 이걸로 테스트하자
+        /*
+        AdUtils.resetCounts(this);
+        for (int i = 0; i < 230; i++) {
+            AdUtils.showPopupAdIfSatisfied(this);
+        }
+        */
+
         // 큐레이팅된 news topic 들이 제대로 파싱되는지 테스트하는 코드
         // 나중에 사용될 가능성이 있어 주석으로 남김
         /*
