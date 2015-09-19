@@ -47,8 +47,8 @@ public class AdUtils {
     private static final String EACH_AD_COUNT = "each_ad_count";
     private static final String MORNING_KIT_PACKAGE_NAME = "com.yooiistudios.morningkit";
 
+    // 원하는 카운트에 실행이 되는지 테스트 용도. 필요할 때 풀고 사용하자
     /*
-    // 원하는 카운트에 실행이 되는지 테스트 용도
     public static void resetCounts(Context context) {
         if (context == null) {
             return;
@@ -87,8 +87,8 @@ public class AdUtils {
                     showInHouseStoreAd(context);
                 }
             }
-            // 40회 부터 시작해서 20번 실행마다 광고를 보여주면 되기에 더이상 체크 X
-            if (launchCount < 41) {
+            // 20회부터 20번 실행마다 광고를 보여주면 되기에 더이상 체크 X
+            if (launchCount <= 20) {
                 launchCount++;
                 prefs.edit().putInt(LAUNCH_COUNT, launchCount).apply();
             }
@@ -97,7 +97,7 @@ public class AdUtils {
 
     private static boolean shouldShowAd(SharedPreferences prefs, final int launchCount) {
         // 일정 카운트(40) 이상부터는 launchCount 는 더 증가시킬 필요가 없음. 실행 횟수만 체크
-        if (launchCount >= 41) {
+        if (launchCount > 20) {
             int threshold = 20;
 
             int eachLaunchCount = prefs.getInt(EACH_LAUNCH_COUNT, 1);
