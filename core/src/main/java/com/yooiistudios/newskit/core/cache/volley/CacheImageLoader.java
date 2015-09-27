@@ -210,23 +210,25 @@ public abstract class CacheImageLoader<T extends CacheImageLoader.UrlSupplier> {
         if (paletteColor != null) {
             listener.onSuccess(paletteColor);
         } else {
-            Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(Palette palette) {
-                    final int darkVibrantColor = palette.getDarkVibrantColor(
-                            PaletteColor.FALLBACK_COLOR);
-                    PaletteColor paletteColor;
-                    if (darkVibrantColor != PaletteColor.FALLBACK_COLOR) {
-                        paletteColor = new PaletteColor(darkVibrantColor, PaletteColor.TYPE.GENERATED);
-                    } else {
-                        // 팔레트가 안 뽑힐 경우 랜덤 팔레트 컬러를 만들어 넣어주게 기획을 변경
-                        paletteColor = new PaletteColor(
-                                RandomMaterialColors.get(getContext()), PaletteColor.TYPE.CUSTOM);
+            if (!bitmap.isRecycled()) {
+                Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        final int darkVibrantColor = palette.getDarkVibrantColor(
+                                PaletteColor.FALLBACK_COLOR);
+                        PaletteColor paletteColor;
+                        if (darkVibrantColor != PaletteColor.FALLBACK_COLOR) {
+                            paletteColor = new PaletteColor(darkVibrantColor, PaletteColor.TYPE.GENERATED);
+                        } else {
+                            // 팔레트가 안 뽑힐 경우 랜덤 팔레트 컬러를 만들어 넣어주게 기획을 변경
+                            paletteColor = new PaletteColor(
+                                    RandomMaterialColors.get(getContext()), PaletteColor.TYPE.CUSTOM);
+                        }
+                        savePaletteColor(urlSupplier, paletteColor);
+                        listener.onSuccess(paletteColor);
                     }
-                    savePaletteColor(urlSupplier, paletteColor);
-                    listener.onSuccess(paletteColor);
-                }
-            });
+                });
+            }
         }
     }
 

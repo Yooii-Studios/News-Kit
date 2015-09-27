@@ -77,7 +77,7 @@ public class AdUtils {
                 AnalyticsUtils.trackInterstitialAd((NewsApplication) context.getApplicationContext(),
                         MainActivity.TAG);
 
-                // 3번째 마다 인하우스 스토어 광고를 보여주게 로직 수정
+                // 3번째 마다 모닝키트 광고를 보여주게 로직 수정
                 int eachAdCount = prefs.getInt(EACH_AD_COUNT, 0);
                 if (eachAdCount >= 2) {
                     prefs.edit().remove(EACH_AD_COUNT).apply();
@@ -171,9 +171,11 @@ public class AdUtils {
     }
 
     private static void showMorningKitAd(final Context context) {
-        // 모닝키트가 설치되지 않은 경우만 보여주기
+        // 모닝키트가 설치되지 않은 경우만 띄우고, 설치된 경우 인하우스 광고 보여주기
         if (!isPackageExisted(context, MORNING_KIT_PACKAGE_NAME)) {
             FullscreenAdUtils.showMorningKitAd(context);
+        } else {
+            showInHouseStoreAd(context);
         }
     }
 

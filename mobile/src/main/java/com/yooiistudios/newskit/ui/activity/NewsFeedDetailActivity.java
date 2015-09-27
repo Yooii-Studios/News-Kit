@@ -25,7 +25,6 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +48,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -995,25 +995,34 @@ public class NewsFeedDetailActivity extends AppCompatActivity
             downScrollDuration = (int) (downScrollDuration * (((float)maxY - mScrollView.getScrollY()) / maxY));
         }
 
-        mAutoScrollDownAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", mScrollView.getScrollY(), maxY);
-        mAutoScrollDownAnimator.setStartDelay(startDelay);
-        mAutoScrollDownAnimator.setDuration(downScrollDuration);
-        mAutoScrollDownAnimator.setInterpolator(new LinearInterpolator(this, null));
-        mAutoScrollDownAnimator.start();
+        try {
+            mAutoScrollDownAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", mScrollView.getScrollY(), maxY);
+            mAutoScrollDownAnimator.setStartDelay(startDelay);
+            mAutoScrollDownAnimator.setDuration(downScrollDuration);
+            mAutoScrollDownAnimator.setInterpolator(new LinearInterpolator(this, null));
+            mAutoScrollDownAnimator.start();
 
-        mAutoScrollDownAnimator.addListener(new AnimatorListenerAdapter() {
+            mAutoScrollDownAnimator.addListener(new AnimatorListenerAdapter() {
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mAutoScrollUpAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", maxY, 0);
-                mAutoScrollUpAnimator.setStartDelay(middleDelay);
-                mAutoScrollUpAnimator.setDuration(defaultDuration);
-                mAutoScrollUpAnimator.setInterpolator(
-                        new LinearInterpolator(NewsFeedDetailActivity.this, null));
-                mAutoScrollUpAnimator.start();
-            }
-        });
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mAutoScrollUpAnimator = ObjectAnimator.ofInt(mScrollView, "scrollY", maxY, 0);
+                    mAutoScrollUpAnimator.setStartDelay(middleDelay);
+                    mAutoScrollUpAnimator.setDuration(defaultDuration);
+                    mAutoScrollUpAnimator.setInterpolator(
+                            new LinearInterpolator(NewsFeedDetailActivity.this, null));
+                    mAutoScrollUpAnimator.start();
+                }
+            });
+        } catch (IllegalArgumentException e) {
+            Crashlytics.logException(e);
+            Crashlytics.log("mBottomRecyclerView.getChildCount(): " + mBottomRecyclerView.getChildCount());
+            Crashlytics.log("durationForOneItem: " + durationForOneItem);
+            Crashlytics.log("defaultDuration: " + defaultDuration);
+            Crashlytics.log("maxY: " + maxY);
+            Crashlytics.log("mScrollView.getScrollY(): " + mScrollView.getScrollY());
+        }
     }
 
     private void stopAutoScroll() {
