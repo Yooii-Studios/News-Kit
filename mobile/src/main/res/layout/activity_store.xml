@@ -274,7 +274,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/store_loading_view_color"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <ProgressBar
         android:id="@+id/store_progressBar"
