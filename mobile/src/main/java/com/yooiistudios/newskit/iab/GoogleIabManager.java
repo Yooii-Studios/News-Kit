@@ -58,6 +58,7 @@ public class GoogleIabManager extends IabManager {
         mHelper = new IabHelper(mActivity, key);
         mHelper.enableDebugLogging(true); // You should off this when you publish
 
+        mHelper.flagEndAsync();
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {
@@ -82,6 +83,7 @@ public class GoogleIabManager extends IabManager {
     }
 
     private void queryAllItemsInformation() {
+        mHelper.flagEndAsync();
         mHelper.queryInventoryAsync(true, IabProducts.makeProductKeyList(),
                 new IabHelper.QueryInventoryFinishedListener() {
                     @Override
@@ -154,7 +156,7 @@ public class GoogleIabManager extends IabManager {
     @Override
     public void purchase(String sku) {
         try {
-            // 페이로드를 특정 스트링으로 했었는데, 창하님의 조언으로는 sku의 md5 값과 맞추는 것이 그나마 해킹 확률이 줄어 들 것이라고 말하심
+            // 페이로드를 특정 스트링으로 했었는데, 창하님의 조언으로는 sku 의 md5 값과 맞추는 것이 그나마 해킹 확률이 줄어 들 것이라고 말하심
             mHelper.launchPurchaseFlow(mActivity, sku, IabHelper.ITEM_TYPE_INAPP, IAB_REQUEST_CODE,
                     new IabHelper.OnIabPurchaseFinishedListener() {
                         @Override
