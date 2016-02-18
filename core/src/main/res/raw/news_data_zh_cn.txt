@@ -15,38 +15,38 @@
                         {
                             "topic_name": "焦点新闻",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "国际/港台",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=w&output=rss"
                         },
                         {
                             "topic_name": "内地",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=n&output=rss"
                         },
                         {
                             "topic_name": "财经",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=b&output=rss"
                         },
                         {
                             "topic_name": "娱乐",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=e&output=rss"
                         },
                         {
                             "topic_name": "科技",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=t&output=rss"
                         },
                         {
                             "topic_name": "体育",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cn&hl=zh-CN&topic=s&output=rss"
                         }
                     ]
                 },

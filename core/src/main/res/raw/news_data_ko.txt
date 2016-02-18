@@ -15,48 +15,48 @@
                         {
                             "topic_name": "주요뉴스",
                             "topic_id": "1",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "연예",
                             "topic_id": "2",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=e"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=e"
                         },
                         {
                             "topic_name": "스포츠",
                             "topic_id": "3",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=s"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=s"
                         },
                         {
                             "topic_name": "문화/생활",
                             "topic_id": "4",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=l"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=l"
                         },
                         {
                             "topic_name": "경제",
                             "topic_id": "5",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=b"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=b"
                         },
                         {
                             "topic_name": "사회",
                             "topic_id": "6",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=y"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=y"
                         },
                         {
                             "topic_name": "국제",
                             "topic_id": "7",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=w"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=w"
                         },
                         {
                             "topic_name": "과학기술",
                             "topic_id": "8",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=t"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=t"
                         },
                         {
                             "topic_name": "정치",
                             "topic_id": "9",
-                            "url": "http://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=p"
+                            "url": "https://news.google.co.kr/news?pz=1&cf=all&ned=kr&hl=ko&output=rss&topic=p"
                         }
                     ]
                 },

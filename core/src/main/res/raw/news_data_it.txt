@@ -15,48 +15,48 @@
                         {
                             "topic_name": "Prima pagina",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Esteri",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Italia",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Economia",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Scienza e tecnologia",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Intrattenimento",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Salute",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=m&output=rss"
                         },
                         {
                             "topic_name": "In evidenza",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=it&hl=it&topic=ir&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=it&hl=it&topic=ir&output=rss"
                         }
                     ]
                 },
