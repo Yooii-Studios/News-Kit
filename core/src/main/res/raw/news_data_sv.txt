@@ -15,48 +15,48 @@
                         {
                             "topic_name": "Huvudnyheter",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Världen",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Sverige",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Ekonomi",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Vetenskap & teknik",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Nöje",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Hälsa",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Fler huvudnyheter",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=sv_se&hl=sv&topic=h&output=rss"
                         }
                     ]
                 },

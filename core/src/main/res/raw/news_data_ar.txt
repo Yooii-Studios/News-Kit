@@ -15,43 +15,43 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -62,48 +62,48 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "أخبار محلية",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=awkl&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=awkl&output=rss"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_eg&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -311,43 +311,43 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -400,43 +400,43 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -447,48 +447,48 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "أخبار محلية",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=awkl&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=awkl&output=rss"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_sa&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -621,43 +621,43 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -716,43 +716,43 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -781,43 +781,43 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_me&hl=ar&topic=m&output=rss"
                         }
                     ]
                 },
@@ -828,48 +828,48 @@
                         {
                             "topic_name": "أهم الأخبار",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "أخبار محلية",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=n&output=rss"
                         },
                         {
                             "topic_name": "العالم العربي",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=awkl&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=awkl&output=rss"
                         },
                         {
                             "topic_name": "العالم",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=w&output=rss"
                         },
                         {
                             "topic_name": "أعمال",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=b&output=rss"
                         },
                         {
                             "topic_name": "علوم/تكنولوجيا",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=t&output=rss"
                         },
                         {
                             "topic_name": "ترفيه",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=e&output=rss"
                         },
                         {
                             "topic_name": "رياضة",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=s&output=rss"
                         },
                         {
                             "topic_name": "صحة",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ar_lb&hl=ar&topic=m&output=rss"
                         }
                     ]
                 }

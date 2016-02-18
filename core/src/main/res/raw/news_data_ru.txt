@@ -15,48 +15,48 @@
                         {
                             "topic_name": "Главные новости",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "В мире",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Россия",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Бизнес",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Наука и техника",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Культура",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Спорт",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Здоровье",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Другие новости",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ru&hl=ru&topic=h&output=rss"
                         }
                     ]
                 },
@@ -326,38 +326,38 @@
                         {
                             "topic_name": "Главные новости",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "В мире",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Украина",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Бизнес",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Наука и техника",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Культура",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Спорт",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=ru_ua&hl=ru&topic=s&output=rss"
                         }
                     ]
                 },

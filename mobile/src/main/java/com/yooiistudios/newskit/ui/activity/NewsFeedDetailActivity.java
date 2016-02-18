@@ -1016,12 +1016,12 @@ public class NewsFeedDetailActivity extends AppCompatActivity
                 }
             });
         } catch (IllegalArgumentException e) {
-            Crashlytics.getInstance().core.logException(e);
             Crashlytics.getInstance().core.log("mBottomRecyclerView.getChildCount(): " + mBottomRecyclerView.getChildCount());
             Crashlytics.getInstance().core.log("durationForOneItem: " + durationForOneItem);
             Crashlytics.getInstance().core.log("defaultDuration: " + defaultDuration);
             Crashlytics.getInstance().core.log("maxY: " + maxY);
             Crashlytics.getInstance().core.log("mScrollView.getScrollY(): " + mScrollView.getScrollY());
+            Crashlytics.getInstance().core.logException(e);
         }
     }
 

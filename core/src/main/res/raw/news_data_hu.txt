@@ -15,38 +15,38 @@
                         {
                             "topic_name": "Vezető hírek",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Nemzetközi",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Magyarország",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Üzleti élet",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Tudomány/technológia",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Kultúra/szórakozás",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hu_hu&hl=hu&topic=e&output=rss"
                         }
                     ]
                 },

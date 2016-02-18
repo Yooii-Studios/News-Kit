@@ -15,43 +15,43 @@
                         {
                             "topic_name": "En Çok Okunan Haberler",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Dünya",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Türkiye",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Ekonomi",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Bilim/Teknoloji",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Magazin",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Spor",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Sağlık",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tr_tr&hl=tr&topic=m&output=rss"
                         }
                     ]
                 },

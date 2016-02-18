@@ -15,43 +15,43 @@
                         {
                             "topic_name": "À la une",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "France",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=n&output=rss"
                         },
                         {
                             "topic_name": "International",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Économie",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Science/High-Tech",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Culture",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Santé",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=fr&hl=fr&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr&hl=fr&topic=m&output=rss"
                         }
                     ]
                 },
@@ -224,38 +224,38 @@
                         {
                             "topic_name": "À la une",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Canada",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Économie",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Science/High-Tech",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Culture",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Santé",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ca&hl=fr&topic=m&output=rss"
                         }
                     ]
                 },
@@ -376,48 +376,48 @@
                         {
                             "topic_name": "À la une",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&output=rss",
+                            "url": "https://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "International",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=w&output=rss"
+                            "url": "https://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Belgique",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=n&output=rss"
+                            "url": "https://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Économie",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=b&output=rss"
+                            "url": "https://news.google.com/news?pz=1&cf=all&ned=fr_be&hl=fr&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Science/High-Tech",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Culture",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Santé",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=m&output=rss"
                         },
                         {
                             "topic_name": "À la une (suite)",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_be&hl=fr&topic=h&output=rss"
                         }
                     ]
                 },
@@ -523,48 +523,48 @@
                         {
                             "topic_name": "À la une",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "International",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Suisse",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Économie",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Science/High-Tech",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Culture",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Santé",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=m&output=rss"
                         },
                         {
                             "topic_name": "À la une (suite)",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=fr_ch&hl=fr&topic=h&output=rss"
                         }
                     ]
                 },

@@ -15,48 +15,48 @@
                         {
                             "topic_name": "Voorpaginanieuws",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Buitenland",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Nederland",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Economie",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Wetenschap/techniek",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Entertainment",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Gezondheid",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Meer voorpaginanieuws",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_nl&hl=nl&topic=h&output=rss"
                         }
                     ]
                 },
@@ -284,43 +284,43 @@
                         {
                             "topic_name": "Voorpaginanieuws",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Buitenland",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=w&output=rss"
                         },
                         {
                             "topic_name": "België",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Economie",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Wetenschap/techniek",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Entertainment",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Meer voorpaginanieuws",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=nl_be&hl=nl&topic=h&output=rss"
                         }
                     ]
                 },
