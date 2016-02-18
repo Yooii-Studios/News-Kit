@@ -15,38 +15,38 @@
                         {
                             "topic_name": "Najważniejsze artykuły",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Świat",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Polska",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Gospodarka",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Nauka i technika",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Rozrywka",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=pl_pl&hl=pl&topic=e&output=rss"
                         }
                     ]
                 },

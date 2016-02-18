@@ -15,53 +15,53 @@
                         {
                             "topic_name": "焦點新聞",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "國際",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=w&output=rss"
                         },
                         {
                             "topic_name": "台灣",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=n&output=rss"
                         },
                         {
                             "topic_name": "財經",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=b&output=rss"
                         },
                         {
                             "topic_name": "科技",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=t&output=rss"
                         },
                         {
                             "topic_name": "體育",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=s&output=rss"
                         },
                         {
                             "topic_name": "娛樂",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=e&output=rss"
                         },
                         {
                             "topic_name": "兩岸",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=c&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=c&output=rss"
                         },
                         {
                             "topic_name": "社會",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=y&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=y&output=rss"
                         },
                         {
                             "topic_name": "健康",
                             "topic_id": "10",
-                            "url": "http://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=tw&hl=zh-TW&topic=m&output=rss"
                         }
                     ]
                 },
@@ -279,43 +279,43 @@
                         {
                             "topic_name": "焦點新聞",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "國際",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=w&output=rss"
                         },
                         {
                             "topic_name": "香港",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=n&output=rss"
                         },
                         {
                             "topic_name": "兩岸",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=c&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=c&output=rss"
                         },
                         {
                             "topic_name": "財經",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=b&output=rss"
                         },
                         {
                             "topic_name": "體育",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=s&output=rss"
                         },
                         {
                             "topic_name": "娛樂",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=e&output=rss"
                         },
                         {
                             "topic_name": "科技",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=hk&hl=zh-TW&topic=t&output=rss"
                         }
                     ]
                 }

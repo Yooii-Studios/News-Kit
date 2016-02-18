@@ -15,48 +15,48 @@
                         {
                             "topic_name": "Hlavní události",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Svět",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Domov",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Podnikání",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Věda/technika",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Kultura a šoubyznys",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Život",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=l&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=l&output=rss"
                         },
                         {
                             "topic_name": "Další hlavní události",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=cs_cz&hl=cs&topic=h&output=rss"
                         }
                     ]
                 },

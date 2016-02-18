@@ -15,43 +15,43 @@
                         {
                             "topic_name": "Schlagzeilen",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "International",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Deutschland",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Wirtschaft",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Wissen/Technik",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Unterhaltung",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Gesundheit",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=de&hl=de&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de&hl=de&topic=m&output=rss"
                         }
                     ]
                 },
@@ -371,48 +371,48 @@
                         {
                             "topic_name": "Schlagzeilen",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "International",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Österreich",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Wirtschaft",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Wissen/Technik",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=t&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=t&output=rss"
                         },
                         {
                             "topic_name": "Unterhaltung",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Sport",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Gesundheit",
                             "topic_id": "8",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=m&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=m&output=rss"
                         },
                         {
                             "topic_name": "Weitere Schlagzeilen",
                             "topic_id": "9",
-                            "url": "http://news.google.com/news?cf=all&ned=de_at&hl=de&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=de_at&hl=de&topic=h&output=rss"
                         }
                     ]
                 },

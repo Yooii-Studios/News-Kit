@@ -15,38 +15,38 @@
                         {
                             "topic_name": "Tin bài hàng đầu",
                             "topic_id": "1",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&output=rss",
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&output=rss",
                             "isDefault": "true"
                         },
                         {
                             "topic_name": "Thế giới",
                             "topic_id": "2",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=w&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=w&output=rss"
                         },
                         {
                             "topic_name": "Việt Nam",
                             "topic_id": "3",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=n&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=n&output=rss"
                         },
                         {
                             "topic_name": "Kinh doanh",
                             "topic_id": "4",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=b&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=b&output=rss"
                         },
                         {
                             "topic_name": "Giải trí",
                             "topic_id": "5",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=e&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=e&output=rss"
                         },
                         {
                             "topic_name": "Thể thao",
                             "topic_id": "6",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=s&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=s&output=rss"
                         },
                         {
                             "topic_name": "Tin bài hàng đầu khác",
                             "topic_id": "7",
-                            "url": "http://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=h&output=rss"
+                            "url": "https://news.google.com/news?cf=all&ned=vi_vn&hl=vi&topic=h&output=rss"
                         }
                     ]
                 },
