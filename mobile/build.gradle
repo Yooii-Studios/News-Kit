@@ -23,13 +23,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.yooiistudios.newskit"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 25
         versionName "1.7.4"
     }
@@ -95,11 +95,19 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':core')
+    compile(project(':core')) {
+        exclude module: 'joda-time'
+    }
     compile project(':libraries:Volley')
-    compile project(':libraries:GridLayoutManager')
-    compile project(':libraries:SerialAnimator')
-    compile project(':libraries:OrientationAdView')
+    compile(project(':libraries:GridLayoutManager')) {
+        exclude module: 'com.android.support'
+    }
+    compile(project(':libraries:SerialAnimator')) {
+        exclude module: 'com.android.support'
+    }
+    compile(project(':libraries:OrientationAdView')) {
+        exclude module: 'com.google.android.gms'
+    }
     compile project(':libraries:FullscreenAd')
 
     // If you need to use the new views (CardView, RecyclerView, and Palette), the following should work:
@@ -107,7 +115,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:21.0.0"
 
     // view pager 에 쓰임
-    compile "com.android.support:support-v13:22.2.0"
+    compile "com.android.support:support-v13:23.3.0"
 //    compile project(':libraries:view-pager-indicator-library')
 
     // 위치 서비스, 구글 플레이, 애드몹
@@ -117,7 +125,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
 
     // 상점에 사용되는 Toolbar 를 위해 사용
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
 
     // Lollipop style Dialog at pre-Lollipop device
     compile ('com.afollestad:material-dialogs:0.7.6.0') {
