@@ -28,7 +28,6 @@ public class NotificationAskUtils {
                 })
                 .build();
 
-        dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
